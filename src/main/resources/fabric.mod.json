@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "miskatonicmysteries",
+  "version": "${version}",
+
+  "name": "Miskatonic Mysteries",
+  "description": "Dive into the darkest swirls of insanity with this Lovecraft-themed mod. Summon ancient horrors, form a cult, interact with eldritch beings and more!",
+  "authors": [
+    "cybercat5555", "Aelpecyem", "MoriyaShiine"
+  ],
+  "license": "MIT",
+  "icon": "assets/miskatonicmysteries/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.miskatonicmysteries.common.CommonProxy"
+    ],
+    "client": [
+      "com.miskatonicmysteries.client.ClientProxy"
+    ]
+  },
+  "mixins": [
+    "miskatonicmysteries.mixins.json",
+    "miskatonicmysteries.mixins_client.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x",
+    "patchouli": ">=1.16-37.20-FABRIC",
+    "cotton": ">=1.0.5"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}
