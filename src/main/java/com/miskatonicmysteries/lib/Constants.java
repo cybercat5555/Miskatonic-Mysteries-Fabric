@@ -12,5 +12,6 @@ public class Constants {
         public static final String RECEIVED_STACK = "Received Stack";
         public static final String REALIZED_STACK = "Realized Stack";
         public static final String POTENTIAL_ITEMS = "Potential Items";
+        public static final String LOADED = "Loaded";
     }
 }

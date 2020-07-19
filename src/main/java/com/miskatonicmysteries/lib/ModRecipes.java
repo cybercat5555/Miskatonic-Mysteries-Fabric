@@ -11,7 +11,6 @@ public class ModRecipes {
     public static final Map<Identifier, ChemistryRecipe> CHEMISTRY_RECIPES = new ConcurrentHashMap<>();
 
     public static void init(){
-
     }
 
     public static ChemistryRecipe getRecipe(BlockEntityChemistrySet chemSet){

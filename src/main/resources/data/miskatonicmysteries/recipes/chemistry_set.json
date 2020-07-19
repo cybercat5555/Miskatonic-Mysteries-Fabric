@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "IGI",
+    "INI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "N": {
+      "item": "minecraft:iron_nugget"
+    }
+  },
+  "result": {
+    "item": "miskatonicmysteries:chemistry_set",
+    "count": 1
+  }
+}
