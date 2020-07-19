@@ -1,11 +1,13 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
+import com.miskatonicmysteries.common.feature.PotentialItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.CampfireBlockEntity;
+import net.minecraft.client.particle.FireSmokeParticle;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
@@ -13,8 +15,10 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.FlintAndSteelItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateManager;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
@@ -26,6 +30,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
+import java.util.List;
 import java.util.Random;
 
 import static net.minecraft.state.property.Properties.*;
@@ -79,24 +84,27 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack stack = player.getStackInHand(hand);
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        Inventory inv = (Inventory) blockEntity;
+        BlockEntityChemistrySet blockEntity = (BlockEntityChemistrySet) world.getBlockEntity(pos);
         if (stack.getItem() instanceof FlintAndSteelItem && !state.get(LIT) && !state.get(WATERLOGGED)) {
             stack.damage(1, player, (p) -> p.sendToolBreakStatus(hand));
-            world.setBlockState(pos, state.with(LIT, true));
+            world.setBlockState(pos, state.with(LIT, blockEntity.canBeLit(player)));
+            return ActionResult.SUCCESS;
         } else if (!stack.isEmpty()) {
-            for (int i = 0; i < inv.size(); i++) {
-                if (inv.getStack(i).isEmpty() && inv.isValid(i, stack)) {
-                    inv.setStack(i, stack.split(1));
+            if (blockEntity.containsPotentialItems()) {
+                blockEntity.markDirty();
+                if(blockEntity.convertPotentialItem(player, hand)) return ActionResult.SUCCESS;
+            }
+            for (int i = 0; i < blockEntity.size(); i++) {
+                if (blockEntity.getStack(i).isEmpty() && blockEntity.isValid(i, stack) && blockEntity.canPlayerUse(player)) {
+                    blockEntity.setStack(i, stack.split(1));
                     blockEntity.markDirty();
                     return ActionResult.CONSUME;
                 }
             }
         } else {
             for (int i = 4; i >= 0; i--) {
-                if (!inv.getStack(i).isEmpty() && inv.canPlayerUse(player)) {
-                    world.spawnEntity(new ItemEntity(world, player.getX(), player.getY(), player.getZ(), inv.removeStack(i)));
-                    //player.setStackInHand(hand, inv.removeStack(i)); //todo i'll just replace that with something else lul
+                if (!blockEntity.getStack(i).isEmpty() && blockEntity.canPlayerUse(player)) {
+                    world.spawnEntity(new ItemEntity(world, player.getX(), player.getY() + 0.5, player.getZ(), blockEntity.removeStack(i))); //might spawn those more efficiently
                     blockEntity.markDirty();
                     return ActionResult.SUCCESS;
                 }
@@ -114,7 +122,13 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
         if (state.get(LIT)) {
-            world.addParticle(ParticleTypes.SMOKE, pos.getX() + 0.5F + random.nextGaussian() / 2F, pos.getY() + 0.5F + random.nextGaussian() / 2F, pos.getZ() + 0.5F + random.nextGaussian() / 2F, 0, 0, 0);
+            world.addParticle(ParticleTypes.SMOKE, pos.getX() + 0.5F + random.nextGaussian() / 3F, pos.getY() + 0.5F + random.nextGaussian() / 4F, pos.getZ() + 0.5F + random.nextGaussian() / 3F, 0, 0, 0);
+        }else if (world.getBlockEntity(pos) instanceof BlockEntityChemistrySet){
+            BlockEntityChemistrySet cheemset = (BlockEntityChemistrySet)world.getBlockEntity(pos);
+            cheemset.getPotentialItems().forEach(p -> {
+                if (!p.isEmpty() && random.nextBoolean())
+                    world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5F + random.nextGaussian() / 4F, pos.getY() + 0.5F + random.nextGaussian() / 3F, pos.getZ() + 0.5F + random.nextGaussian() / 4F, cheemset.smokeColor[0], cheemset.smokeColor[1], cheemset.smokeColor[2]);
+            });
         }
     }
 

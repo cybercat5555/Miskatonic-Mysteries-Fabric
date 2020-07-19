@@ -5,5 +5,9 @@
   "block.miskatonicmysteries.chemistry_set": "Chemistry Set",
 
   "comment2": "ITEMS",
-  "item.miskatonicmysteries.oceanic_gold": "Oceanic Gold"
+  "item.miskatonicmysteries.oceanic_gold": "Oceanic Gold",
+
+  "comment3": "MESSAGES",
+  "message.chemistry_set.contains_items": "This Chemistry Set still contains potential items",
+  "message.chemistry_set.invalid_recipe": "This recipe is not familiar to you"
 }

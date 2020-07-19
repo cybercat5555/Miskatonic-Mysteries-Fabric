@@ -426,6 +426,45 @@
 				"up": {"uv": [2, 14.5, 1, 13.5], "texture": "#particle"},
 				"down": {"uv": [3, 13.5, 2, 14.5], "texture": "#particle"}
 			}
+		},
+		{
+			"name": "cisternBase",
+			"from": [5, 6, 5],
+			"to": [11, 6, 11],
+			"faces": {
+				"north": {"uv": [10, 0, 10.5, 0.5], "texture": "#particle"},
+				"east": {"uv": [0, 0, 0.5, 0.5], "texture": "#particle"},
+				"south": {"uv": [0, 0, 0.5, 0.5], "texture": "#particle"},
+				"west": {"uv": [0, 0, 0.5, 0.5], "texture": "#particle"},
+				"up": {"uv": [10, 0, 13, 3], "texture": "#particle"},
+				"down": {"uv": [0, 0, 0.5, 0.5], "texture": "#particle"}
+			}
+		},
+		{
+			"name": "vessel03Base",
+			"from": [-1, 11, 5.5],
+			"to": [3, 11, 9.5],
+			"faces": {
+				"north": {"uv": [10, 0, 10.5, 0.5], "texture": "#particle"},
+				"east": {"uv": [0, 0, 0.5, 0.5], "texture": "#particle"},
+				"south": {"uv": [0, 0, 0.5, 0.5], "texture": "#particle"},
+				"west": {"uv": [0, 0, 0.5, 0.5], "texture": "#particle"},
+				"up": {"uv": [10, 0, 13, 3], "texture": "#particle"},
+				"down": {"uv": [0, 0, 0.5, 0.5], "texture": "#particle"}
+			}
+		},
+		{
+			"name": "vessel01Base",
+			"from": [11, 12, 5.5],
+			"to": [15, 12, 9.5],
+			"faces": {
+				"north": {"uv": [10, 0, 10.5, 0.5], "texture": "#particle"},
+				"east": {"uv": [0, 0, 0.5, 0.5], "texture": "#particle"},
+				"south": {"uv": [0, 0, 0.5, 0.5], "texture": "#particle"},
+				"west": {"uv": [0, 0, 0.5, 0.5], "texture": "#particle"},
+				"up": {"uv": [10, 0, 13, 3], "texture": "#particle"},
+				"down": {"uv": [0, 0, 0.5, 0.5], "texture": "#particle"}
+			}
 		}
 	]
 }
