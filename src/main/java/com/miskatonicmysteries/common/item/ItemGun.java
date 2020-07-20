@@ -1,6 +1,9 @@
 package com.miskatonicmysteries.common.item;
 
 import com.miskatonicmysteries.lib.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,6 +13,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.text.TextColor;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -19,6 +25,8 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RayTraceContext;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public abstract class ItemGun extends Item {
     public ItemGun() {
@@ -41,6 +49,13 @@ public abstract class ItemGun extends Item {
         return TypedActionResult.fail(stack);
     }
 
+    @Environment(EnvType.CLIENT)
+    @Override
+    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+        tooltip.add(new TranslatableText(isLoaded(stack) ? "tooltip.gun_loaded" : "tooltip.gun_not_loaded", stack.getTag().getInt(Constants.NBT.SHOTS), getMaxShots()).setStyle(Style.EMPTY.withColor(isLoaded(stack) ? TextColor.fromRgb(0x00FF00) : TextColor.fromRgb(0xFF0000))));
+        super.appendTooltip(stack, world, tooltip, context);
+    }
+
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         return !isLoaded(stack) ? loadGun(stack, world, user) : stack;
@@ -60,7 +75,6 @@ public abstract class ItemGun extends Item {
         stack.getTag().putBoolean(Constants.NBT.LOADING, loading);
         return stack;
     }
-//todo fix the thing sometimes now being in loading mode
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
@@ -70,10 +84,9 @@ public abstract class ItemGun extends Item {
 
     private ItemStack loadGun(ItemStack stack, World world, LivingEntity user) {
         if (!stack.hasTag()) stack.setTag(new CompoundTag());
-
         stack.getTag().putInt(Constants.NBT.SHOTS, getMaxShots());
         setLoading(stack, false);
-        if (user instanceof PlayerEntity) ((PlayerEntity) user).getItemCooldownManager().set(this, getCooldown() / 2);
+        if (user instanceof PlayerEntity) ((PlayerEntity) user).getItemCooldownManager().set(this, getLoadingTime());
         return stack;
     }
 
@@ -106,13 +119,9 @@ public abstract class ItemGun extends Item {
     }
 
     public static boolean isLoaded(ItemStack stack) {
-        return stack.hasTag() && stack.getTag().getInt(Constants.NBT.SHOTS) > 0;
+        if (!stack.hasTag()) stack.setTag(new CompoundTag());
+        return stack.getTag().getInt(Constants.NBT.SHOTS) > 0;
     }
-
-  /*  @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return isLoading(stack) ? UseAction.NONE : UseAction.BOW;
-    }*/
 
     public abstract boolean isHeavy();
 

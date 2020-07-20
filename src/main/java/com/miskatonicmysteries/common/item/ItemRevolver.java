@@ -1,14 +1,14 @@
 package com.miskatonicmysteries.common.item;
 
-public class ItemRifle extends ItemGun {
-    public ItemRifle() {
+public class ItemRevolver extends ItemGun {
+    public ItemRevolver() {
         super();
         //ModelPredicateProviderRegistry
     }
 
     @Override
     public boolean isHeavy() {
-        return true;
+        return false;
     }
 
     @Override
@@ -18,21 +18,21 @@ public class ItemRifle extends ItemGun {
 
     @Override
     public int getCooldown() {
-        return 20;
+        return 10;
     }
 
     @Override
     public int getMaxDistance() {
-        return 64;
+        return 24;
     }
 
     @Override
     public int getDamage() {
-        return 15;
+        return 5;
     }
 
     @Override
     public int getMaxShots() {
-        return 1;
+        return 6;
     }
 }

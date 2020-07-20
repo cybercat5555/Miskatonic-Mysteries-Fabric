@@ -26,11 +26,13 @@ public abstract class PlayerModelMixin{
     private void setGunAnglesLeft(LivingEntity entity, CallbackInfo info){
         if (entity.getActiveItem().getItem() instanceof ItemGun){
             ItemGun gun = (ItemGun) entity.getActiveItem().getItem();
-            if (gun.isHeavy() && !ItemGun.isLoading(entity.getActiveItem())) {
+            if (!ItemGun.isLoading(entity.getActiveItem())) {
                 this.rightArm.yaw = -0.1F + this.head.yaw - 0.4F;
-                this.leftArm.yaw = 0.1F + this.head.yaw;
                 this.rightArm.pitch = -1.5707964F + this.head.pitch;
-                this.leftArm.pitch = -1.5707964F + this.head.pitch;
+                if (gun.isHeavy()) {
+                    this.leftArm.yaw = 0.1F + this.head.yaw;
+                    this.leftArm.pitch = -1.5707964F + this.head.pitch;
+                }
             }else{
                 //todo set angles on both sides here
             }
@@ -42,11 +44,13 @@ public abstract class PlayerModelMixin{
     private void setGunAnglesRight(LivingEntity entity, CallbackInfo info){
         if (entity.getActiveItem().getItem() instanceof ItemGun){
             ItemGun gun = (ItemGun) entity.getActiveItem().getItem();
-            if (gun.isHeavy() && !ItemGun.isLoading(entity.getActiveItem())){
+            if (!ItemGun.isLoading(entity.getActiveItem())){
                 this.rightArm.yaw = -0.1F + this.head.yaw;
-                this.leftArm.yaw = 0.1F + this.head.yaw + 0.4F;
                 this.rightArm.pitch = -1.5707964F + this.head.pitch;
-                this.leftArm.pitch = -1.5707964F + this.head.pitch;
+                if (gun.isHeavy()) {
+                    this.leftArm.yaw = 0.1F + this.head.yaw + 0.4F;
+                    this.leftArm.pitch = -1.5707964F + this.head.pitch;
+                }
             }else{
 
             }

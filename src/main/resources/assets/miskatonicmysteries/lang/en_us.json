@@ -6,9 +6,14 @@
 
   "comment2": "ITEMS",
   "item.miskatonicmysteries.oceanic_gold": "Oceanic Gold",
+  "item.miskatonicmysteries.rifle": "Rifle",
+  "item.miskatonicmysteries.revolver": "Revolver",
 
-  "comment3": "MESSAGES",
+  "comment3": "TOOLTIPS",
+  "tooltip.gun_loaded": "Loaded (%d/%d)",
+  "tooltip.gun_not_loaded": "Not Loaded (%d/%d)",
+  "comment4": "MESSAGES",
   "message.chemistry_set.contains_items": "This Chemistry Set still contains potential items",
   "message.chemistry_set.invalid_recipe": "This recipe is not familiar to you",
-  "message.heavy_gun.needs_offhand": "Handling such a heavy weapon requires both hands"
+  "message.heavy_gun.needs_offhand": "Handling such a heavy weapon requires both hands",
 }
