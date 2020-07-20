@@ -1,6 +1,9 @@
 package com.miskatonicmysteries.common.item;
 
 import com.miskatonicmysteries.lib.Constants;
+import com.miskatonicmysteries.lib.ModObjects;
+import com.miskatonicmysteries.lib.ModRegistries;
+import io.github.cottonmc.cotton.commons.CommonTags;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
@@ -10,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
@@ -40,9 +44,7 @@ public abstract class ItemGun extends Item {
             user.setCurrentHand(hand);
             if (isLoaded(stack)) {
                 shoot(world, user, stack);
-                return TypedActionResult.consume(stack);
-            }
-            setLoading(stack, true);
+            } else setLoading(stack, true);
             return TypedActionResult.consume(stack);
         }
         if (world.isClient) user.sendMessage(new TranslatableText("message.heavy_gun.needs_offhand"), true);
@@ -61,8 +63,8 @@ public abstract class ItemGun extends Item {
         return !isLoaded(stack) ? loadGun(stack, world, user) : stack;
     }
 
-    public static boolean isLoading(ItemStack stack){
-        if (!stack.hasTag()){
+    public static boolean isLoading(ItemStack stack) {
+        if (!stack.hasTag()) {
             stack.setTag(new CompoundTag());
             stack.getTag().putBoolean(Constants.NBT.LOADING, false);
             return false;
@@ -70,7 +72,7 @@ public abstract class ItemGun extends Item {
         return stack.getTag().getBoolean(Constants.NBT.LOADING);
     }
 
-    public static ItemStack setLoading(ItemStack stack, boolean loading){
+    public static ItemStack setLoading(ItemStack stack, boolean loading) {
         if (!stack.hasTag()) stack.setTag(new CompoundTag());
         stack.getTag().putBoolean(Constants.NBT.LOADING, loading);
         return stack;
@@ -84,19 +86,39 @@ public abstract class ItemGun extends Item {
 
     private ItemStack loadGun(ItemStack stack, World world, LivingEntity user) {
         if (!stack.hasTag()) stack.setTag(new CompoundTag());
-        stack.getTag().putInt(Constants.NBT.SHOTS, getMaxShots());
+
+        int generatedShots = user instanceof PlayerEntity ? loadBullets((PlayerEntity) user, stack.getTag().getInt(Constants.NBT.SHOTS)) : getMaxShots();
+        stack.getTag().putInt(Constants.NBT.SHOTS, generatedShots);
         setLoading(stack, false);
         if (user instanceof PlayerEntity) ((PlayerEntity) user).getItemCooldownManager().set(this, getLoadingTime());
         return stack;
     }
 
+    private int loadBullets(PlayerEntity user, int startCount) {
+        ItemStack stack = new ItemStack(ModObjects.BULLET);
+        int bullets = startCount;
+        for (int i = 0; i < getMaxShots() - startCount; i++) {
+            int slot = user.inventory.getSlotWithStack(stack);
+            if (slot >= 0) {
+                user.inventory.removeStack(slot, 1);
+                bullets++;
+            }
+        }
+        return bullets;
+    }
+
+    @Override
+    public UseAction getUseAction(ItemStack stack) {
+        return UseAction.BOW;
+    }
+
     public abstract int getMaxShots();
 
-    private boolean canUse(PlayerEntity entity){
+    private boolean canUse(PlayerEntity entity) {
         return !isHeavy() || entity.getOffHandStack().isEmpty();
     }
 
-    private void shoot(World world, PlayerEntity player, ItemStack stack) {
+    private void shoot(World world, LivingEntity player, ItemStack stack) {
         Vec3d vec3d = player.getCameraPosVec(1);
         Vec3d vec3d2 = player.getRotationVec(1);
         Vec3d vec3d3 = vec3d.add(vec3d2.x * getMaxDistance(), vec3d2.y * getMaxDistance(), vec3d2.z * getMaxDistance());
@@ -105,17 +127,23 @@ public abstract class ItemGun extends Item {
         EntityHitResult hit = ProjectileUtil.rayTrace(player, vec3d, vec3d3, player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> target instanceof LivingEntity && !target.isSpectator() && target.collides(), distance);
 
         if (hit != null && hit.getEntity() != null && (blockHit.squaredDistanceTo(player) > hit.getEntity().squaredDistanceTo(player))) {
-            hit.getEntity().damage(DamageSource.ANVIL, getDamage()); //create own damageSource
-            //possibly apply enchantments
+            LivingEntity entity = (LivingEntity) hit.getEntity();
+            entity.damage(Constants.DamageSources.GUN, getDamage());
+            entity.setAttacker(player);
+            if (world.isClient) {
+                for (int i = 0; i < 4; i++)
+                    world.addParticle(ParticleTypes.SMOKE, hit.getPos().x + world.random.nextGaussian() / 20F, hit.getPos().y + world.random.nextGaussian() / 20F, hit.getPos().z + world.random.nextGaussian() / 20F, 0, 0, 0);
+            }
         }
 
         stack.getTag().putInt(Constants.NBT.SHOTS, stack.getTag().getInt(Constants.NBT.SHOTS) - 1);
         setLoading(stack, false);
-        //todo actual sounds
-        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (RANDOM.nextFloat() * 0.4F + 1.2F));
+        world.playSound(null, player.getX(), player.getY(), player.getZ(), ModRegistries.GUN_SHOT, SoundCategory.PLAYERS, 0.6F, 1.0F / (RANDOM.nextFloat() * 0.2F + (isHeavy() ? 1F : 0.5F)));
 
-        player.getItemCooldownManager().set(this, getCooldown());
-        player.incrementStat(Stats.USED.getOrCreateStat(this));
+        if (player instanceof PlayerEntity) {
+            ((PlayerEntity) player).getItemCooldownManager().set(this, getCooldown());
+            ((PlayerEntity) player).incrementStat(Stats.USED.getOrCreateStat(this));
+        }
     }
 
     public static boolean isLoaded(ItemStack stack) {

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "GPG",
+    "GPG"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "G": {
+      "item": "minecraft:gold_nugget"
+    },
+    "P": {
+      "item": "minecraft:gun_powder"
+    }
+  },
+  "result": {
+    "item": "miskatonicmysteries:chemistry_set",
+    "count": 1
+  }
+}

@@ -22,9 +22,12 @@ public abstract class PlayerModelMixin{
     @Shadow public ModelPart rightLeg;
     @Shadow public ModelPart leftLeg;
 
+    @Shadow public BipedEntityModel.ArmPose leftArmPose;
+    @Shadow public BipedEntityModel.ArmPose rightArmPose;
+
     @Inject(method = "method_30155(Lnet/minecraft/entity/LivingEntity;)V", at = @At("HEAD"), cancellable = true)
     private void setGunAnglesLeft(LivingEntity entity, CallbackInfo info){
-        if (entity.getActiveItem().getItem() instanceof ItemGun){
+        if (entity.getActiveItem().getItem() instanceof ItemGun && leftArmPose == BipedEntityModel.ArmPose.BOW_AND_ARROW){
             ItemGun gun = (ItemGun) entity.getActiveItem().getItem();
             if (!ItemGun.isLoading(entity.getActiveItem())) {
                 this.leftArm.yaw = 0.1F + this.head.yaw;
@@ -40,7 +43,7 @@ public abstract class PlayerModelMixin{
 
     @Inject(method = "method_30154(Lnet/minecraft/entity/LivingEntity;)V", at = @At("HEAD"), cancellable = true)
     private void setGunAnglesRight(LivingEntity entity, CallbackInfo info){
-        if (entity.getActiveItem().getItem() instanceof ItemGun){
+        if (entity.getActiveItem().getItem() instanceof ItemGun && rightArmPose == BipedEntityModel.ArmPose.BOW_AND_ARROW){
             ItemGun gun = (ItemGun) entity.getActiveItem().getItem();
             if (!ItemGun.isLoading(entity.getActiveItem())){
                 this.rightArm.yaw = -0.1F + this.head.yaw;

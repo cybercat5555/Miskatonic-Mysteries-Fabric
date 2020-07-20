@@ -3,7 +3,6 @@ package com.miskatonicmysteries.common.item;
 public class ItemRevolver extends ItemGun {
     public ItemRevolver() {
         super();
-        //ModelPredicateProviderRegistry
     }
 
     @Override

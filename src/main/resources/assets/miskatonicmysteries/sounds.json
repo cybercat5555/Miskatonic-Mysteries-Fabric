@@ -1,0 +1,9 @@
+{
+  "gun_shot": {
+    "subtitle": "subtitles.miskatonicmysteries.gun_shot",
+    "sounds": [
+      "miskatonicmysteries:shoot0",
+      "miskatonicmysteries:shoot1"
+    ]
+  }
+}

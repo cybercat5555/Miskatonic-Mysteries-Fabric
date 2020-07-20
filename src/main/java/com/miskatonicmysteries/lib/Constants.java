@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.lib;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 
@@ -14,5 +15,13 @@ public class Constants {
         public static final String POTENTIAL_ITEMS = "Potential Items";
         public static final String SHOTS = "Shots";
         public static final String LOADING = "Loading";
+    }
+
+    public static class DamageSources extends DamageSource{
+        protected DamageSources(String name) {
+            super(name);
+        }
+
+        public static final DamageSource GUN = (new DamageSources(Constants.MOD_ID + ".gun")).setProjectile();
     }
 }
