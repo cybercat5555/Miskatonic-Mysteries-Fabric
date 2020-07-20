@@ -31,7 +31,7 @@ public class PotentialItem {
     }
 
     public boolean isEmpty() {
-        return this == EMPTY;
+        return in.isEmpty() && out.isEmpty();
     }
 
     @Override

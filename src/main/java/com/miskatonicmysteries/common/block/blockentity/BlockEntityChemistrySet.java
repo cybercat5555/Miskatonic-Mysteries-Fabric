@@ -5,22 +5,22 @@ import com.miskatonicmysteries.common.feature.PotentialItem;
 import com.miskatonicmysteries.lib.Constants;
 import com.miskatonicmysteries.lib.ModObjects;
 import com.miskatonicmysteries.lib.ModRecipes;
+import net.fabricmc.fabric.mixin.event.lifecycle.client.ClientPlayNetworkHandlerMixin;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
 
-public class BlockEntityChemistrySet extends BlockEntity implements ImplementedInventory, Tickable {
+public class BlockEntityChemistrySet extends BlockEntityBase implements ImplementedInventory, Tickable {
     private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(5, ItemStack.EMPTY);
     private final DefaultedList<PotentialItem> POTENTIAL_ITEMS = DefaultedList.ofSize(3, PotentialItem.EMPTY);
     public int workProgress;
@@ -60,11 +60,13 @@ public class BlockEntityChemistrySet extends BlockEntity implements ImplementedI
         super.fromTag(state, tag);
     }
 
+
     @Override
     public void tick() {
         if (isLit() && canWork()) {
             ChemistryRecipe recipe = ModRecipes.getRecipe(this);
             workProgress++;
+            update();
             if (workProgress >= 100) {
                 for (int i = 0; i < recipe.OUTPUT.size(); i++) {
                     changeSmokeColor(recipe.COLOR);
@@ -73,8 +75,9 @@ public class BlockEntityChemistrySet extends BlockEntity implements ImplementedI
                 clear();
                 finish();
             }
-        } else {
+        } else if (isLit()){
             finish();
+            update();
         }
     }
 

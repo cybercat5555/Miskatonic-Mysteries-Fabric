@@ -4,7 +4,7 @@
   "package": "com.miskatonicmysteries.client.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-
+    "PlayerModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

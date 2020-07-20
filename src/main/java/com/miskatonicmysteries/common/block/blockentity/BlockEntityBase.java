@@ -1,0 +1,35 @@
+package com.miskatonicmysteries.common.block.blockentity;
+
+import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+
+public abstract class BlockEntityBase extends BlockEntity implements BlockEntityClientSerializable {
+    public BlockEntityBase(BlockEntityType<?> type) {
+        super(type);
+    }
+
+    public CompoundTag getDataToSync(CompoundTag tag){
+        return toTag(tag);
+    }
+
+    @Override
+    public void fromClientTag(CompoundTag compoundTag) {
+        fromTag(world.getBlockState(pos), compoundTag);
+    }
+
+    @Override
+    public CompoundTag toClientTag(CompoundTag compoundTag) {
+        toTag(compoundTag);
+        return compoundTag;
+    }
+
+
+    public void update() {
+        //packet
+        this.markDirty();
+        this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(), 3);
+    }
+}

@@ -97,7 +97,7 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
             for (int i = 0; i < blockEntity.size(); i++) {
                 if (blockEntity.getStack(i).isEmpty() && blockEntity.isValid(i, stack) && blockEntity.canPlayerUse(player)) {
                     blockEntity.setStack(i, stack.split(1));
-                    blockEntity.markDirty();
+                    blockEntity.update();
                     return ActionResult.CONSUME;
                 }
             }
@@ -105,7 +105,7 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
             for (int i = 4; i >= 0; i--) {
                 if (!blockEntity.getStack(i).isEmpty() && blockEntity.canPlayerUse(player)) {
                     world.spawnEntity(new ItemEntity(world, player.getX(), player.getY() + 0.5, player.getZ(), blockEntity.removeStack(i))); //might spawn those more efficiently
-                    blockEntity.markDirty();
+                    blockEntity.update();
                     return ActionResult.SUCCESS;
                 }
             }
@@ -125,10 +125,12 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
             world.addParticle(ParticleTypes.SMOKE, pos.getX() + 0.5F + random.nextGaussian() / 3F, pos.getY() + 0.5F + random.nextGaussian() / 4F, pos.getZ() + 0.5F + random.nextGaussian() / 3F, 0, 0, 0);
         }else if (world.getBlockEntity(pos) instanceof BlockEntityChemistrySet){
             BlockEntityChemistrySet cheemset = (BlockEntityChemistrySet)world.getBlockEntity(pos);
-            cheemset.getPotentialItems().forEach(p -> {
-                if (!p.isEmpty() && random.nextBoolean())
-                    world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5F + random.nextGaussian() / 4F, pos.getY() + 0.5F + random.nextGaussian() / 3F, pos.getZ() + 0.5F + random.nextGaussian() / 4F, cheemset.smokeColor[0], cheemset.smokeColor[1], cheemset.smokeColor[2]);
-            });
+            if (cheemset.containsPotentialItems()) {
+                cheemset.getPotentialItems().forEach(p -> {
+                    if (!p.isEmpty() && random.nextBoolean())
+                        world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5F + random.nextGaussian() / 4F, pos.getY() + 0.5F + random.nextGaussian() / 3F, pos.getZ() + 0.5F + random.nextGaussian() / 4F, cheemset.smokeColor[0], cheemset.smokeColor[1], cheemset.smokeColor[2]);
+                });
+            }
         }
     }
 

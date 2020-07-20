@@ -9,5 +9,6 @@
 
   "comment3": "MESSAGES",
   "message.chemistry_set.contains_items": "This Chemistry Set still contains potential items",
-  "message.chemistry_set.invalid_recipe": "This recipe is not familiar to you"
+  "message.chemistry_set.invalid_recipe": "This recipe is not familiar to you",
+  "message.heavy_gun.needs_offhand": "Handling such a heavy weapon requires both hands"
 }
