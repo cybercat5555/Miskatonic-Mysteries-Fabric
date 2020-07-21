@@ -18,11 +18,18 @@ public class Constants {
         public static final String POTENTIAL_ITEMS = "Potential Items";
         public static final String SHOTS = "Shots";
         public static final String LOADING = "Loading";
+
+        public static final String MISK_DATA = "MiskMyst Data";
+        public static final String SANITY = "Sanity";
+        public static final String SHOCKED = "Shocked";
+        public static final String SANITY_EXPANSIONS = "Sanity Expansions";
     }
 
     public static class DataTrackers {
         public static final int SANITY_CAP = 1000;
         public static final TrackedData<Integer> SANITY = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+        public static final TrackedData<Boolean> SHOCKED = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+
     }
     public static class DamageSources extends DamageSource{
         protected DamageSources(String name) {
