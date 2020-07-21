@@ -124,12 +124,13 @@ public abstract class ItemGun extends Item {
         Vec3d vec3d3 = vec3d.add(vec3d2.x * getMaxDistance(), vec3d2.y * getMaxDistance(), vec3d2.z * getMaxDistance());
         HitResult blockHit = world.rayTrace(new RayTraceContext(vec3d, vec3d3, RayTraceContext.ShapeType.COLLIDER, RayTraceContext.FluidHandling.NONE, player));
         double distance = Math.pow(getMaxDistance(), 2);
-        EntityHitResult hit = ProjectileUtil.rayTrace(player, vec3d, vec3d3, player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> target instanceof LivingEntity && !target.isSpectator() && target.collides(), distance);
+        EntityHitResult hit = ProjectileUtil.rayTrace(player, vec3d, vec3d3, player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) ->!target.isSpectator() && target.collides(), distance);
 
         if (hit != null && hit.getEntity() != null && (blockHit.squaredDistanceTo(player) > hit.getEntity().squaredDistanceTo(player))) {
-            LivingEntity entity = (LivingEntity) hit.getEntity();
-            entity.damage(Constants.DamageSources.GUN, getDamage());
-            entity.setAttacker(player);
+            hit.getEntity().damage(Constants.DamageSources.GUN, getDamage());
+            if (hit.getEntity() instanceof LivingEntity)
+                ((LivingEntity) hit.getEntity()).setAttacker(player);
+
             if (world.isClient) {
                 for (int i = 0; i < 4; i++)
                     world.addParticle(ParticleTypes.SMOKE, hit.getPos().x + world.random.nextGaussian() / 20F, hit.getPos().y + world.random.nextGaussian() / 20F, hit.getPos().z + world.random.nextGaussian() / 20F, 0, 0, 0);
