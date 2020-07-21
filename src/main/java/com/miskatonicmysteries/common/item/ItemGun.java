@@ -21,6 +21,7 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -40,21 +41,28 @@ public abstract class ItemGun extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
-        if (canUse(user)) {
+        if(!canUse(user)){
+            if (world.isClient) user.sendMessage(new TranslatableText("message.heavy_gun.needs_offhand"), true);
+            return TypedActionResult.fail(stack);
+        }
+        if (user.isSneaking()) {
+            setLoading(stack, true);
             user.setCurrentHand(hand);
-            if (isLoaded(stack)) {
-                shoot(world, user, stack);
-            } else setLoading(stack, true);
             return TypedActionResult.consume(stack);
         }
-        if (world.isClient) user.sendMessage(new TranslatableText("message.heavy_gun.needs_offhand"), true);
-        return TypedActionResult.fail(stack);
+        else if (isLoaded(stack)) {
+            shoot(world, user, stack);
+            user.setCurrentHand(hand);
+            return TypedActionResult.consume(stack);
+        }
+        return TypedActionResult.pass(stack);
     }
 
     @Environment(EnvType.CLIENT)
     @Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
         tooltip.add(new TranslatableText(isLoaded(stack) ? "tooltip.gun_loaded" : "tooltip.gun_not_loaded", stack.getTag().getInt(Constants.NBT.SHOTS), getMaxShots()).setStyle(Style.EMPTY.withColor(isLoaded(stack) ? TextColor.fromRgb(0x00FF00) : TextColor.fromRgb(0xFF0000))));
+        tooltip.add(new TranslatableText("tooltip.gun_tip_load").setStyle(Style.EMPTY.withItalic(true).withColor(Formatting.GRAY)));
         super.appendTooltip(stack, world, tooltip, context);
     }
 

@@ -13,6 +13,7 @@
   "comment3": "TOOLTIPS",
   "tooltip.gun_loaded": "Loaded (%d/%d)",
   "tooltip.gun_not_loaded": "Not Loaded (%d/%d)",
+  "tooltip.gun_tip_load": "Use while sneaking to load",
 
   "comment4": "MESSAGES",
   "message.chemistry_set.contains_items": "This Chemistry Set still contains potential items",
