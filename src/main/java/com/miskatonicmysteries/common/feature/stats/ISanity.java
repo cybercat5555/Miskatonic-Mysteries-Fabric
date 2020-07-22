@@ -12,7 +12,7 @@ public interface ISanity {
     void addSanityCapExpansion(String name, int amount);
     void removeSanityCapExpansion(String name);
     Map<String, Integer> getSanityCapExpansions();
-
+    void syncSanityData();
     int getMaxSanity();
 
 }

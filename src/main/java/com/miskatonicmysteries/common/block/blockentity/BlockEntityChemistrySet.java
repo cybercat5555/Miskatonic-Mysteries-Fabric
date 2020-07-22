@@ -113,10 +113,10 @@ public class BlockEntityChemistrySet extends BlockEntityBase implements Implemen
 
     public boolean canBeLit(PlayerEntity playerEntity) {
         if (containsPotentialItems()) {
-            playerEntity.sendMessage(new TranslatableText("message.chemistry_set.contains_items"), true);
+            playerEntity.sendMessage(new TranslatableText("message.miskatonicmysteries.chemistry_set.contains_items"), true);
             return false;
         } else if (!canWork()) {
-            playerEntity.sendMessage(new TranslatableText("message.chemistry_set.invalid_recipe"), true);
+            playerEntity.sendMessage(new TranslatableText("message.miskatonicmysteries.chemistry_set.invalid_recipe"), true);
             return false;
         }
         return true;

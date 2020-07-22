@@ -14,7 +14,7 @@ public class CommonProxy implements ModInitializer {
         ModObjects.init();
         ModRegistries.init();
         ModRecipes.init();
-
+        //todo add commands
         PacketHandler.registerC2S();
     }
 }

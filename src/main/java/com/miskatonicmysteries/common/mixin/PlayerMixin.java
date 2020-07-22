@@ -3,11 +3,8 @@ package com.miskatonicmysteries.common.mixin;
 import com.miskatonicmysteries.common.CommonProxy;
 import com.miskatonicmysteries.common.feature.stats.ISanity;
 import com.miskatonicmysteries.common.handler.PacketHandler;
-import com.miskatonicmysteries.common.item.ItemGun;
 import com.miskatonicmysteries.lib.Constants;
-import io.github.cottonmc.libcd.api.util.nbt.NbtUtils;
 import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,26 +20,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.miskatonicmysteries.lib.Constants.DataTrackers.*;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerMixin extends LivingEntity implements ISanity {
-    public final Map<String, Integer> SANITY_CAP_OVERRIDES = new HashMap<>();
+    public final Map<String, Integer> SANITY_CAP_OVERRIDES = new ConcurrentHashMap<>();
 
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Inject(method = "tick()V", at = @At("TAIL"))
-    private void handleMiskStats(CallbackInfo info){
-        if (age % CommonProxy.CONFIG.modUpdateInterval == 0){
+    private void handleMiskStats(CallbackInfo info) {
+        if (age % CommonProxy.CONFIG.modUpdateInterval == 0) {
             if (isShocked() && random.nextFloat() < CommonProxy.CONFIG.shockRemoveChance) setShocked(false);
         }
+        System.out.println(getSanityCapExpansions());
     }
 
     @Inject(method = "initDataTracker()V", at = @At("TAIL"))
-    private void addMiskStats(CallbackInfo info){
+    private void addMiskStats(CallbackInfo info) {
         dataTracker.startTracking(SANITY, SANITY_CAP);
         dataTracker.startTracking(SHOCKED, false);
     }
@@ -80,23 +79,22 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
     //using normal packets since i don't feel like adding a new data tracker type for something that's updated so little lol
     @Override
     public void addSanityCapExpansion(String name, int amount) {
-        if (!world.isClient) {
-            SANITY_CAP_OVERRIDES.put(name, amount);
+        SANITY_CAP_OVERRIDES.put(name, amount);
+        if(!world.isClient) {
             PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
             data.writeString(name);
             data.writeInt(amount);
-            ClientSidePacketRegistry.INSTANCE.sendToServer(PacketHandler.SANITY_EXPAND_PACKET, data);
+            PacketHandler.sendToPlayer((PlayerEntity) (Object) this, data, PacketHandler.SANITY_EXPAND_PACKET);
         }
-
     }
 
     @Override
     public void removeSanityCapExpansion(String name) {
-        if (!world.isClient && SANITY_CAP_OVERRIDES.containsKey(name)){
-            SANITY_CAP_OVERRIDES.remove(name);
+        SANITY_CAP_OVERRIDES.remove(name);
+        if (!world.isClient && SANITY_CAP_OVERRIDES.containsKey(name)) {
             PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
             data.writeString(name);
-            ClientSidePacketRegistry.INSTANCE.sendToServer(PacketHandler.SANITY_REMOVE_EXPAND_PACKET, data);
+            PacketHandler.sendToPlayer((PlayerEntity) (Object) this, data, PacketHandler.SANITY_REMOVE_EXPAND_PACKET);
         }
     }
 
@@ -105,12 +103,23 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
         return SANITY_CAP_OVERRIDES;
     }
 
+    @Override
+    public void syncSanityData() {
+        SANITY_CAP_OVERRIDES.forEach((s, i) -> {
+            PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+            data.writeString(s);
+            data.writeInt(i);
+            PacketHandler.sendToPlayer((PlayerEntity) (Object) this, data, PacketHandler.SANITY_EXPAND_PACKET);
+        });
+    }
+
     @Inject(method = "writeCustomDataToTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
-    private void writeMiskData(CompoundTag compoundTag, CallbackInfo info){
+    private void writeMiskData(CompoundTag compoundTag, CallbackInfo info) {
         CompoundTag tag = new CompoundTag();
         tag.putInt(Constants.NBT.SANITY, getSanity());
         tag.putBoolean(Constants.NBT.SHOCKED, isShocked());
         ListTag expansions = new ListTag();
+        syncSanityData();
         getSanityCapExpansions().forEach((s, i) -> {
             CompoundTag expansionTag = new CompoundTag();
             expansionTag.putString("Name", s);
@@ -128,6 +137,7 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
         if (tag != null) {
             setSanity(tag.getInt(Constants.NBT.SANITY));
             setShocked(tag.getBoolean(Constants.NBT.SHOCKED));
+            syncSanityData();
             getSanityCapExpansions().clear();
             ((ListTag) tag.get(Constants.NBT.SANITY_EXPANSIONS)).forEach(s -> addSanityCapExpansion(((CompoundTag) s).getString("Name"), ((CompoundTag) s).getInt("Amount")));
         }
