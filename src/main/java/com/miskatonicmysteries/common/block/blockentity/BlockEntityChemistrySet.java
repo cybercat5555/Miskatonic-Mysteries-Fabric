@@ -1,11 +1,10 @@
 package com.miskatonicmysteries.common.block.blockentity;
 
-import com.miskatonicmysteries.common.feature.ChemistryRecipe;
+import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.common.feature.PotentialItem;
 import com.miskatonicmysteries.lib.Constants;
 import com.miskatonicmysteries.lib.ModObjects;
 import com.miskatonicmysteries.lib.ModRecipes;
-import net.fabricmc.fabric.mixin.event.lifecycle.client.ClientPlayNetworkHandlerMixin;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,7 +12,6 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;

@@ -1,8 +1,14 @@
 package com.miskatonicmysteries.common.feature;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.miskatonicmysteries.lib.Constants;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.recipe.ShapedRecipe;
+import net.minecraft.util.JsonHelper;
 
 public class PotentialItem {
     public static final PotentialItem EMPTY = new PotentialItem(ItemStack.EMPTY, ItemStack.EMPTY);
@@ -14,16 +20,11 @@ public class PotentialItem {
         this.out = out;
     }
 
+
+
     public boolean canRealize(ItemStack stack){
         return stack.getItem().equals(in.getItem());
     }
-
-    public CompoundTag toTag(CompoundTag tag){
-        tag.put(Constants.NBT.RECEIVED_STACK, in.toTag(new CompoundTag()));
-        tag.put(Constants.NBT.REALIZED_STACK, out.toTag(new CompoundTag()));
-        return tag;
-    }
-
 
     public ItemStack realize(ItemStack stack){
         stack.decrement(1);
@@ -41,6 +42,28 @@ public class PotentialItem {
                 .append("out", out)
                 .toString();
     }
+
+    public void write(PacketByteBuf buf){
+        buf.writeItemStack(in);
+        buf.writeItemStack(out);
+    }
+
+    public static PotentialItem fromPacket(PacketByteBuf buf){
+        return new PotentialItem(buf.readItemStack(), buf.readItemStack());
+    }
+
+    public static PotentialItem fromJson(JsonObject jsonElement) {
+        JsonObject in = JsonHelper.getObject(jsonElement, "in");
+        JsonObject out = JsonHelper.getObject(jsonElement, "out");
+        return new PotentialItem(ShapedRecipe.getItemStack(in), ShapedRecipe.getItemStack(out));
+    }
+
+    public CompoundTag toTag(CompoundTag tag) {
+        tag.put(Constants.NBT.RECEIVED_STACK, in.toTag(new CompoundTag()));
+        tag.put(Constants.NBT.REALIZED_STACK, out.toTag(new CompoundTag()));
+        return tag;
+    }
+
 
     public static PotentialItem fromTag(CompoundTag tag){
         return new PotentialItem(ItemStack.fromTag((CompoundTag) tag.get(Constants.NBT.RECEIVED_STACK)), ItemStack.fromTag((CompoundTag) tag.get(Constants.NBT.REALIZED_STACK)));

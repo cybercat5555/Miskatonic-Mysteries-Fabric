@@ -37,7 +37,6 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
         if (age % CommonProxy.CONFIG.modUpdateInterval == 0) {
             if (isShocked() && random.nextFloat() < CommonProxy.CONFIG.shockRemoveChance) setShocked(false);
         }
-        System.out.println(getSanityCapExpansions());
     }
 
     @Inject(method = "initDataTracker()V", at = @At("TAIL"))

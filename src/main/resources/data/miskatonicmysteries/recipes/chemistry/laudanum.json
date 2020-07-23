@@ -1,0 +1,19 @@
+{
+  "type": "miskatonicmysteries:chemistry_recipe",
+  "ingredients": [
+    {
+      "item": "minecraft:dirt"
+    }
+  ],
+  "color": 16750336,
+  "output": [
+    {
+      "in": {
+        "item": "minecraft:glass_bottle"
+      },
+      "out": {
+        "item": "miskatonicmysteries:laudanum"
+      }
+    }
+  ]
+}
