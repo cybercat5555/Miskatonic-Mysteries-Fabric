@@ -72,17 +72,17 @@ public class BlockEntityChemistrySet extends BlockEntityBase implements Implemen
                 clear();
                 finish();
             }
-            update();
+            markDirty();
         } else if (isLit()){
             finish();
-            update();
+            markDirty();
         }
     }
 
     private void changeSmokeColor(int color) {
-        smokeColor[0] = 255 - (color >> 16) & 0xff;
-        smokeColor[1] = 255 - (color >> 8) & 0xff;
-        smokeColor[2] = 255 - color & 0xff;
+        smokeColor[0] = 255 - ((color >> 16) & 0xff);
+        smokeColor[1] = 255 - ((color >> 8) & 0xff);
+        smokeColor[2] = 255 - (color & 0xff);
     }
 
     public boolean convertPotentialItem(PlayerEntity player, Hand hand) {

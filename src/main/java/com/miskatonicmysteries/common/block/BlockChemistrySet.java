@@ -97,7 +97,7 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
             for (int i = 0; i < blockEntity.size(); i++) {
                 if (blockEntity.getStack(i).isEmpty() && blockEntity.isValid(i, stack) && blockEntity.canPlayerUse(player)) {
                     blockEntity.setStack(i, stack.split(1));
-                    blockEntity.update();
+                    blockEntity.markDirty();
                     return ActionResult.CONSUME;
                 }
             }
@@ -105,7 +105,7 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
             for (int i = 4; i >= 0; i--) {
                 if (!blockEntity.getStack(i).isEmpty() && blockEntity.canPlayerUse(player)) {
                     world.spawnEntity(new ItemEntity(world, player.getX(), player.getY() + 0.5, player.getZ(), blockEntity.removeStack(i))); //might spawn those more efficiently
-                    blockEntity.update();
+                    blockEntity.markDirty();
                     return ActionResult.SUCCESS;
                 }
             }
