@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.block.blockentity;
 
-import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.common.feature.PotentialItem;
+import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.lib.Constants;
 import com.miskatonicmysteries.lib.ModObjects;
 import com.miskatonicmysteries.lib.ModRecipes;
@@ -64,7 +64,6 @@ public class BlockEntityChemistrySet extends BlockEntityBase implements Implemen
         if (isLit() && canWork()) {
             ChemistryRecipe recipe = ModRecipes.getRecipe(this);
             workProgress++;
-            update();
             if (workProgress >= 100) {
                 for (int i = 0; i < recipe.OUTPUT.size(); i++) {
                     changeSmokeColor(recipe.COLOR);
@@ -73,6 +72,7 @@ public class BlockEntityChemistrySet extends BlockEntityBase implements Implemen
                 clear();
                 finish();
             }
+            update();
         } else if (isLit()){
             finish();
             update();
@@ -80,9 +80,9 @@ public class BlockEntityChemistrySet extends BlockEntityBase implements Implemen
     }
 
     private void changeSmokeColor(int color) {
-        smokeColor[0] = (color >> 16) & 0xff;
-        smokeColor[1] = (color >> 8) & 0xff;
-        smokeColor[2] = color & 0xff;
+        smokeColor[0] = 255 - (color >> 16) & 0xff;
+        smokeColor[1] = 255 - (color >> 8) & 0xff;
+        smokeColor[2] = 255 - color & 0xff;
     }
 
     public boolean convertPotentialItem(PlayerEntity player, Hand hand) {

@@ -1,19 +1,21 @@
 {
   "type": "miskatonicmysteries:chemistry_recipe",
   "ingredients": [
-    {
-      "item": "minecraft:dirt"
-    }
+    {"item": "minecraft:poppy"},
+    {"item": "minecraft:poppy"},
+    {"item": "minecraft:sugar"},
+    {"item": "minecraft:sugar"},
+    {"item": "minecraft:wheat"}
   ],
   "color": 16750336,
   "output": [
     {
-      "in": {
-        "item": "minecraft:glass_bottle"
-      },
-      "out": {
-        "item": "miskatonicmysteries:laudanum"
-      }
+      "in": {"item": "minecraft:glass_bottle"},
+      "out": {"item": "miskatonicmysteries:laudanum"}
+    },
+    {
+      "in": {"item": "minecraft:glass_bottle"},
+      "out": {"item": "miskatonicmysteries:laudanum"}
     }
   ]
 }

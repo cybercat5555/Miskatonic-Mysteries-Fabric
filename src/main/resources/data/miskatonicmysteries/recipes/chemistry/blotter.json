@@ -1,0 +1,20 @@
+{
+  "type": "miskatonicmysteries:chemistry_recipe",
+  "ingredients": [
+    {"item": "miskatonicmysteries:infested_wheat"},
+    {"item": "minecraft:nether_wart"},
+    {"item": "minecraft:crimson_fungus"},
+    {"item": "minecraft:sugar"},
+    {"item": "minecraft:warped_fungus"}
+  ],
+  "color": 13631743,
+  "output": [
+    {
+      "in": {"item": "minecraft:paper"},
+      "out": {
+        "item": "miskatonicmysteries:blotter",
+        "count": 3
+      }
+    }
+  ]
+}

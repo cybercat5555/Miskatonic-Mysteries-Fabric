@@ -77,7 +77,8 @@ public interface ImplementedInventory extends Inventory {
      */
     @Override
     default void clear() {
-        getItems().clear();
+        for (int i = 0; i < size(); i++)
+            setStack(i, ItemStack.EMPTY);
     }
 
     @Override

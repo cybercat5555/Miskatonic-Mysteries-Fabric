@@ -23,12 +23,6 @@ public class ModRecipes {
     public static void init(){
         Util.register(Registry.RECIPE_TYPE, "chemistry_recipe", CHEMISTRY_RECIPE);
         Util.register(Registry.RECIPE_SERIALIZER, "chemistry_recipe", CHEMISTRY_SERIALIZER);
-
-      /*  addChemistryRecipe(new ChemistryRecipe(new Identifier(Constants.MOD_ID, "laudanum"),
-                new Ingredient[]{Ingredient.ofItems(Items.POPPY), Ingredient.ofItems(Items.POPPY), Ingredient.ofItems(Items.SUGAR),  Ingredient.ofItems(Items.SUGAR),  Ingredient.ofItems(Items.WHEAT)}, 16740608,
-                new PotentialItem(new ItemStack(Items.GLASS_BOTTLE), new ItemStack(ModObjects.LAUDANUM)), new PotentialItem(new ItemStack(Items.GLASS_BOTTLE), new ItemStack(ModObjects.LAUDANUM))));
-        ///recipes will be data-driven oop/*/
-
     }
 
     public static ChemistryRecipe getRecipe(BlockEntityChemistrySet chemSet){

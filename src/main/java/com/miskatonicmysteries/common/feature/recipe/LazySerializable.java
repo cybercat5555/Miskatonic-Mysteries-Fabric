@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.feature.recipe;
 
+import com.miskatonicmysteries.lib.Constants;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Recipe;
@@ -25,5 +26,10 @@ public interface LazySerializable extends Recipe<Inventory> {
     @Override
     default boolean fits(int width, int height) {
         return true;
+    }
+
+    @Override
+    default String getGroup() {
+        return getId().toString();
     }
 }

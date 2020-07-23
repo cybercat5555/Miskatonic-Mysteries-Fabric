@@ -29,7 +29,7 @@ public abstract class BlockEntityBase extends BlockEntity implements BlockEntity
 
     public void update() {
         //packet
-        this.markDirty();
         this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(), 3);
+        this.markDirty();
     }
 }
