@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "PlayerMixin",
-    "DataLoadMixin"
+    "DataLoadMixin",
+    "ItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1
