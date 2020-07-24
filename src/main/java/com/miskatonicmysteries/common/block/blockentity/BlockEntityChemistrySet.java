@@ -65,9 +65,9 @@ public class BlockEntityChemistrySet extends BlockEntityBase implements Implemen
             ChemistryRecipe recipe = ModRecipes.getRecipe(this);
             workProgress++;
             if (workProgress >= 100) {
-                for (int i = 0; i < recipe.OUTPUT.size(); i++) {
-                    changeSmokeColor(recipe.COLOR);
-                    POTENTIAL_ITEMS.set(i, recipe.OUTPUT.get(i));
+                for (int i = 0; i < recipe.output.size(); i++) {
+                    changeSmokeColor(recipe.color);
+                    POTENTIAL_ITEMS.set(i, recipe.output.get(i));
                 }
                 clear();
                 finish();

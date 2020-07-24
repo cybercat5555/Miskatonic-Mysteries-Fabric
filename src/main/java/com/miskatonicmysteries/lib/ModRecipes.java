@@ -2,19 +2,12 @@ package com.miskatonicmysteries.lib;
 
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
-import com.miskatonicmysteries.common.feature.PotentialItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class ModRecipes {
   // private static final Map<Identifier, ChemistryRecipe> CHEMISTRY_RECIPES = new ConcurrentHashMap<>();
@@ -26,7 +19,7 @@ public class ModRecipes {
     }
 
     public static ChemistryRecipe getRecipe(BlockEntityChemistrySet chemSet){
-        return chemSet.getWorld().getRecipeManager().method_30027(CHEMISTRY_RECIPE).stream().filter(r -> Util.areItemStackListsExactlyEqual(r.INGREDIENTS, chemSet)).findFirst().orElse(null);
+        return chemSet.getWorld().getRecipeManager().method_30027(CHEMISTRY_RECIPE).stream().filter(r -> Util.areItemStackListsExactlyEqual(r.ingredients, chemSet)).findFirst().orElse(null);
     }
 
     private static class DummyRecipeType<T extends Recipe<?>> implements RecipeType<T> {

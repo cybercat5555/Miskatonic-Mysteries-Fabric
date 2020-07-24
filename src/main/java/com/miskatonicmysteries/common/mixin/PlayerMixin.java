@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.mixin;
 
 import com.miskatonicmysteries.common.CommonProxy;
 import com.miskatonicmysteries.common.feature.stats.ISanity;
+import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.lib.Constants;
 import io.netty.buffer.Unpooled;
@@ -36,6 +37,10 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
     private void handleMiskStats(CallbackInfo info) {
         if (age % CommonProxy.CONFIG.modUpdateInterval == 0) {
             if (isShocked() && random.nextFloat() < CommonProxy.CONFIG.shockRemoveChance) setShocked(false);
+
+        }
+        if (!world.isClient && age % CommonProxy.CONFIG.insanityInterval == 0){
+            InsanityHandler.handleInsanityEvents((PlayerEntity) (Object) this, getSanity(), 1F - (getSanity() / (float) SANITY_CAP));
         }
     }
 

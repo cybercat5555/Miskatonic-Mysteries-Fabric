@@ -4,7 +4,8 @@
   "package": "com.miskatonicmysteries.common.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "PlayerMixin"
+    "PlayerMixin",
+    "DataLoadMixin"
   ],
   "injectors": {
     "defaultRequire": 1

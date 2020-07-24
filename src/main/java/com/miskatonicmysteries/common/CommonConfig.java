@@ -11,4 +11,7 @@ public class CommonConfig {
 
     @Comment(value = "The chance for players to be un-shocked after each update interval")
     public float shockRemoveChance = 0.01F;
+
+    @Comment(value = "Determines the intervals in ticks after which insanity events may occur")
+    public int insanityInterval = 1200;
 }

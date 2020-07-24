@@ -1,46 +1,39 @@
 package com.miskatonicmysteries.common.feature.recipe;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.miskatonicmysteries.common.feature.PotentialItem;
 import com.miskatonicmysteries.lib.ModRecipes;
-import com.miskatonicmysteries.lib.Util;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChemistryRecipe implements LazySerializable{
-    public final List<Ingredient> INGREDIENTS = DefaultedList.ofSize(5, Ingredient.EMPTY);
-    public final int COLOR;
-    public final List<PotentialItem> OUTPUT = DefaultedList.ofSize(3, PotentialItem.EMPTY);
-    public final Identifier ID;
+    public final List<Ingredient> ingredients = DefaultedList.ofSize(5, Ingredient.EMPTY);
+    public final int color;
+    public final List<PotentialItem> output = DefaultedList.ofSize(3, PotentialItem.EMPTY);
+    public final Identifier id;
     public ChemistryRecipe(Identifier id, Ingredient[] ingredients, int color, PotentialItem... output) {
-        this.ID = id;
+        this.id = id;
         for (int i = 0; i < ingredients.length; i++) {
-            INGREDIENTS.set(i, ingredients[i]);
+            this.ingredients.set(i, ingredients[i]);
         }
         for (int i = 0; i < output.length; i++) {
-            OUTPUT.set(i, output[i]);
+            this.output.set(i, output[i]);
         }
-        COLOR = color;
+        this.color = color;
     }
 
     @Override
     public Identifier getId() {
-        return ID;
+        return id;
     }
 
     @Override
@@ -92,11 +85,11 @@ public class ChemistryRecipe implements LazySerializable{
 
         @Override
         public void write(PacketByteBuf buf, ChemistryRecipe recipe) {
-            buf.writeInt(recipe.INGREDIENTS.size());
-            buf.writeInt(recipe.OUTPUT.size());
-            recipe.INGREDIENTS.forEach(i -> i.write(buf));
-            recipe.OUTPUT.forEach(p -> p.write(buf));
-            buf.writeInt(recipe.COLOR);
+            buf.writeInt(recipe.ingredients.size());
+            buf.writeInt(recipe.output.size());
+            recipe.ingredients.forEach(i -> i.write(buf));
+            recipe.output.forEach(p -> p.write(buf));
+            buf.writeInt(recipe.color);
         }
     }
 }

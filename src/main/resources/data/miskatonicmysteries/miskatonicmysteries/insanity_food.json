@@ -1,0 +1,9 @@
+{
+  "type": "miskatonicmysteries:insanity_inducer",
+  "sanityPenalty": 10,
+  "decreasesSanityCap": false,
+  "withShock": false,
+  "inducer": {
+      "item": "minecraft:apple"
+  }
+}
