@@ -22,12 +22,13 @@ public class ModObjects {
 
     public static final Item SYRINGE = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
-    //todo infested wheat does also not drop yet, got to somehow add it to the loot table
     public static final Item INFESTED_WHEAT = new Item(new Item.Settings().group(Constants.MM_GROUP));
     //all these have no effect yet, but need one
     public static final Item BLOTTER = new Item(new Item.Settings().group(Constants.MM_GROUP));
     public static final Item LAUDANUM = new Item(new Item.Settings().group(Constants.MM_GROUP).recipeRemainder(Items.GLASS_BOTTLE));
     public static final Item RE_AGENT_SYRINGE = new Item(new Item.Settings().group(Constants.MM_GROUP).recipeRemainder(SYRINGE));
+
+    public static final Item TALLOW = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static final BlockEntityType<BlockEntityChemistrySet> CHEMISTRY_SET_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityChemistrySet::new, CHEMISTRY_SET).build(null);
 
@@ -47,5 +48,6 @@ public class ModObjects {
         Util.register(Registry.ITEM, "laudanum", LAUDANUM);
         Util.register(Registry.ITEM, "re_agent_syringe", RE_AGENT_SYRINGE);
 
+        Util.register(Registry.ITEM, "tallow", TALLOW);
     }
 }

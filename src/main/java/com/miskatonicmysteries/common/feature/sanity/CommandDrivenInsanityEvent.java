@@ -42,7 +42,6 @@ public class CommandDrivenInsanityEvent extends InsanityEvent implements DataSer
     public static class Serializer extends DataSerializable.DataReader<InsanityEvent> {
         @Override
         public InsanityEvent readFromJson(Identifier id, JsonObject json) {
-            System.out.println("nice");
             return new CommandDrivenInsanityEvent(id, JsonHelper.getFloat(json, "baseChance"), JsonHelper.getInt(json, "insanityThreshold"), new Identifier(JsonHelper.getString(json, "function")));
         }
 

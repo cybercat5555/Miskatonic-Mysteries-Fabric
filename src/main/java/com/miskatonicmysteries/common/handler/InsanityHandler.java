@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import static com.miskatonicmysteries.lib.Constants.DataTrackers.SANITY_CAP;
 
 public class InsanityHandler {
+
     public static void init(){
         //currently empty lol
     }
@@ -30,7 +31,6 @@ public class InsanityHandler {
     private static InsanityEvent findInsanityEvent(PlayerEntity player, ISanity sanity, float insanityFactor) {
         List<InsanityEvent> events = InsanityEvent.INSANITY_EVENTS.values().parallelStream().filter(event -> event.test(player, sanity, insanityFactor)).collect(Collectors.toList());
         for (int i = 0; i < CommonProxy.CONFIG.insanityEventAttempts; i++) {
-            System.out.println("checking for insanity events");
             if (events.isEmpty()) return null;
             InsanityEvent event = events.get(player.getRandom().nextInt(events.size()));
             if (player.getRandom().nextFloat() < event.baseChance) return event;

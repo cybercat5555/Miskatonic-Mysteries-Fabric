@@ -9,6 +9,13 @@
   "item.miskatonicmysteries.rifle": "Rifle",
   "item.miskatonicmysteries.revolver": "Revolver",
   "item.miskatonicmysteries.bullet": "Bullet",
+  "item.miskatonicmysteries.tallow": "Tallow",
+  "item.miskatonicmysteries.re_agent_syringe": "ReAgent™",
+  "item.miskatonicmysteries.laudanum": "Laudanum",
+  "item.miskatonicmysteries.blotter": "Blotter",
+  "item.miskatonicmysteries.infested_wheat": "Infested Wheat",
+  "item.miskatonicmysteries.syringe": "Syringe",
+
 
   "comment3": "TOOLTIPS",
   "tooltip.miskatonicmysteries.gun_loaded": "Loaded (%d/%d)",
