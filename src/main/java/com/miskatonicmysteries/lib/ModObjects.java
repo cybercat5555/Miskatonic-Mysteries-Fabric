@@ -6,13 +6,27 @@ import com.miskatonicmysteries.common.item.ItemRevolver;
 import com.miskatonicmysteries.common.item.ItemRifle;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 
 public class ModObjects {
     public static final Block CHEMISTRY_SET = new BlockChemistrySet();
+
+
+    public static final Block OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
+    public static final Block WARDED_OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD.strength(2.5F, 12));
+    public static final Block OCEANIC_GOLD_TILES = new Block(Constants.BlockSettings.OCEANIC_GOLD);
+
+    public static final Block OCEANIC_GOLD_PILLAR = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
+    public static final Block OCEANIC_GOLD_PILLAR_ORNATE = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
+    public static final Block OCEANIC_GOLD_PILLAR_SPLIT = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
 
     public static final Item OCEANIC_GOLD = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
@@ -36,6 +50,14 @@ public class ModObjects {
         Util.register(Registry.BLOCK_ENTITY_TYPE, "chemistry_set", CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
 
         Util.registerBlock(CHEMISTRY_SET, "chemistry_set");
+
+        Util.registerBlock(OCEANIC_GOLD_BLOCK, "oceanic_gold_block");
+        Util.registerBlock(WARDED_OCEANIC_GOLD_BLOCK, "oceanic_gold_block_warded");
+        Util.registerBlock(OCEANIC_GOLD_TILES, "oceanic_gold_tiles");
+        Util.registerBlock(OCEANIC_GOLD_PILLAR, "oceanic_gold_pillar");
+        Util.registerBlock(OCEANIC_GOLD_PILLAR_ORNATE, "oceanic_gold_pillar_ornate");
+        Util.registerBlock(OCEANIC_GOLD_PILLAR_SPLIT, "oceanic_gold_pillar_split");
+
         Util.register(Registry.ITEM, "oceanic_gold", OCEANIC_GOLD);
 
         Util.register(Registry.ITEM, "rifle", RIFLE);

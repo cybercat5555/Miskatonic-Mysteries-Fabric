@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G",
+    "G"
+  ],
+  "key": {
+    "G": {
+      "item": "miskatonicmysteries:oceanic_gold_tiles"
+    }
+  },
+  "result": {
+    "item": "miskatonicmysteries:oceanic_gold_pillar_split",
+    "count": 2
+  }
+}

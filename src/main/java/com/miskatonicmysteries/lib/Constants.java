@@ -1,6 +1,8 @@
 package com.miskatonicmysteries.lib;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Material;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -37,5 +39,9 @@ public class Constants {
         }
 
         public static final DamageSource GUN = (new DamageSources(Constants.MOD_ID + ".gun")).setProjectile();
+    }
+
+    public static class BlockSettings {
+        public static final AbstractBlock.Settings OCEANIC_GOLD = AbstractBlock.Settings.of(Material.METAL).strength(1F, 5F).requiresTool();
     }
 }

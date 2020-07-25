@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "miskatonicmysteries:oceanic_gold_blocks"
+    }
+  ],
+  "result": {
+    "item": "miskatonicmysteries:oceanic_gold",
+    "count": 9
+  }
+}

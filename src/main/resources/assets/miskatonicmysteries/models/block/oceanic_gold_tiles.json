@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "miskatonicmysteries:blocks/oceanic_gold_tiles"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "miskatonicmysteries:blocks/oceanic_gold_pillar_top",
+    "side": "miskatonicmysteries:blocks/oceanic_gold_pillar_ornate"
+  }
+}
