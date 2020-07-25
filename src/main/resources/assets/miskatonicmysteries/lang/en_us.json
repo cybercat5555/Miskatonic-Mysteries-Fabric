@@ -38,6 +38,8 @@
   "miskatonicmysteries.command.remove_sanity_expansion.failure": "%s does not exist as sanity expansion for %s",
   "miskatonicmysteries.command.remove_sanity_expansion": "Removed sanity expansion %s from %s",
   "miskatonicmysteries.command.clear_expansions.none_failure": "Couldn't clear %s's sanity expansions, as they don't have any",
+  "miskatonicmysteries.command.execute_insanity_event": "Executed insanity event %s",
+  "miskatonicmysteries.command.execute_insanity_event.failure": "Failed to execute insanity event %s, as it does not exist",
 
   "comment7": "SOUNDS",
   "subtitles.miskatonicmysteries.gun_shot": "Gunshot"

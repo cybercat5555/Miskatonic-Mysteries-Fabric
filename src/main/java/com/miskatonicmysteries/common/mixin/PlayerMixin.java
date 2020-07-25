@@ -1,16 +1,14 @@
 package com.miskatonicmysteries.common.mixin;
 
 import com.miskatonicmysteries.common.CommonProxy;
-import com.miskatonicmysteries.common.feature.stats.ISanity;
+import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.lib.Constants;
-import io.github.cottonmc.cotton.datapack.CottonDatapack;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.PacketByteBuf;
@@ -21,7 +19,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -42,7 +39,7 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
 
         }
         if (!world.isClient && age % CommonProxy.CONFIG.insanityInterval == 0){
-            InsanityHandler.handleInsanityEvents((PlayerEntity) (Object) this, getSanity(), 1F - (getSanity() / (float) SANITY_CAP));
+            InsanityHandler.handleInsanityEvents((PlayerEntity) (Object) this);
         }
     }
 

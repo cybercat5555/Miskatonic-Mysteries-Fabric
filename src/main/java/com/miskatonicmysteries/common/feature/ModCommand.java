@@ -1,19 +1,28 @@
 package com.miskatonicmysteries.common.feature;
 
-import com.miskatonicmysteries.common.feature.stats.ISanity;
+import com.miskatonicmysteries.common.feature.sanity.ISanity;
+import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
 import com.miskatonicmysteries.lib.Constants;
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.command.arguments.EntityArgumentType;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.command.arguments.ItemStackArgument;
+import net.minecraft.server.command.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
+
+import java.util.concurrent.CompletableFuture;
 
 public class ModCommand {
     public static void setup() {
@@ -24,10 +33,16 @@ public class ModCommand {
         builder.then(CommandManager.literal("sanity")
                 .then(CommandManager.literal("get").executes(context -> giveSanityFeedback(context, context.getSource().getPlayer()))
                         .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> giveSanityFeedback(context, EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[EntityArgumentType.getPlayers(context, "player").size()])))))
+
                 .then(CommandManager.literal("getMax").executes(context -> giveMaxSanityFeedback(context, context.getSource().getPlayer()))
                         .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> giveMaxSanityFeedback(context, EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[EntityArgumentType.getPlayers(context, "player").size()])))))
+
                 .then(CommandManager.literal("set").then(CommandManager.argument("value", IntegerArgumentType.integer(0, Constants.DataTrackers.SANITY_CAP)).executes(context -> setSanity(context, IntegerArgumentType.getInteger(context, "value"), context.getSource().getPlayer()))
                         .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> setSanity(context, IntegerArgumentType.getInteger(context, "value"), EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[EntityArgumentType.getPlayers(context, "player").size()]))))))
+
+                .then(CommandManager.literal("playInsanityEvent").then(CommandManager.argument("id", InsanityEventArgumentType.insanityEvent()).executes(context -> playInsanityEvent(context, InsanityEventArgumentType.getInsanityEvent(context, "id"), context.getSource().getPlayer()))
+                        .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> playInsanityEvent(context, InsanityEventArgumentType.getInsanityEvent(context, "id"), EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[EntityArgumentType.getPlayers(context, "player").size()]))))))
+
                 .then(CommandManager.literal("sanityExpansion")
                         .then(CommandManager.literal("add")
                                 .then(CommandManager.argument("name", StringArgumentType.string()).then(CommandManager.argument("value", IntegerArgumentType.integer()).executes(context -> addSanityExpansion(context, StringArgumentType.getString(context, "name"), IntegerArgumentType.getInteger(context, "value"), context.getSource().getPlayer()))
@@ -45,10 +60,24 @@ public class ModCommand {
         CommandRegistrationCallback.EVENT.register((displatcher, b) -> displatcher.register(builder));
     }
 
+    private static int playInsanityEvent(CommandContext<ServerCommandSource> context, Identifier id, ServerPlayerEntity... players) {
+        InsanityEvent event = InsanityEvent.INSANITY_EVENTS.get(id);
+        if (event != null) {
+            for (ServerPlayerEntity player : players) {
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.execute_insanity_event", id.toString()), false);
+                event.execute(player, (ISanity) player);
+            }
+            return 10;
+        }else context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.execute_insanity_event.failure", id.toString()));
+        return 0;
+    }
+
     private static int clearSanityExpansions(CommandContext<ServerCommandSource> context, ServerPlayerEntity... players) {
         for (ServerPlayerEntity player : players) {
-            if (((ISanity) player).getSanityCapExpansions().isEmpty()) context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.clear_expansions.none_failure", player.getDisplayName()));
-            else ((ISanity) player).getSanityCapExpansions().forEach((s, i) -> removeSanityExpansion(context, s, player));
+            if (((ISanity) player).getSanityCapExpansions().isEmpty())
+                context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.clear_expansions.none_failure", player.getDisplayName()));
+            else
+                ((ISanity) player).getSanityCapExpansions().forEach((s, i) -> removeSanityExpansion(context, s, player));
         }
         return 0;
     }
@@ -128,5 +157,28 @@ public class ModCommand {
             if (value > returnValue) returnValue = value;
         }
         return Math.round(15 * (returnValue / (float) Constants.DataTrackers.SANITY_CAP));
+    }
+
+    public static class InsanityEventArgumentType implements ArgumentType<Identifier>{
+        public static InsanityEventArgumentType insanityEvent(){
+            return new InsanityEventArgumentType();
+        }
+
+        public static <S> Identifier getInsanityEvent(CommandContext<S> context, String name) {
+            return context.getArgument(name, Identifier.class);
+        }
+
+        @Override
+        public Identifier parse(StringReader reader) throws CommandSyntaxException{
+            return Identifier.fromCommandInput(reader);
+        }
+
+        @Override
+        public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
+            InsanityEvent.INSANITY_EVENTS.keySet().forEach(id -> {
+                if (id.toString().startsWith(builder.getRemaining().toLowerCase())) builder.suggest(id.toString());
+            });
+            return builder.buildFuture();
+        }
     }
 }

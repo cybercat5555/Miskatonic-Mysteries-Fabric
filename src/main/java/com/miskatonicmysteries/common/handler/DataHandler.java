@@ -2,7 +2,9 @@ package com.miskatonicmysteries.common.handler;
 
 import com.google.gson.*;
 import com.miskatonicmysteries.common.feature.DataSerializable;
-import com.miskatonicmysteries.common.feature.InsanityInducer;
+import com.miskatonicmysteries.common.feature.sanity.CommandDrivenInsanityEvent;
+import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
+import com.miskatonicmysteries.common.feature.sanity.InsanityInducer;
 import com.miskatonicmysteries.lib.Constants;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
@@ -22,6 +24,7 @@ public class DataHandler extends JsonDataLoader {
     public DataHandler() {
         super(GSON, Constants.MOD_ID);
         DATA_READERS.put(new Identifier(Constants.MOD_ID, "insanity_inducer"), new InsanityInducer.Serializer());
+        DATA_READERS.put(new Identifier(Constants.MOD_ID, "insanity_event"), new CommandDrivenInsanityEvent.Serializer());
     }
 
     @Override

@@ -2,6 +2,9 @@ package com.miskatonicmysteries.lib;
 
 import com.miskatonicmysteries.common.feature.ModCommand;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
+import com.miskatonicmysteries.common.feature.sanity.ISanity;
+import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.sound.SoundEvent;

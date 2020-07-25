@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.common.feature.stats;
+package com.miskatonicmysteries.common.feature.sanity;
 
 import java.util.Map;
 

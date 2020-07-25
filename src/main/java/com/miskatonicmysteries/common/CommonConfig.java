@@ -13,5 +13,8 @@ public class CommonConfig {
     public float shockRemoveChance = 0.01F;
 
     @Comment(value = "Determines the intervals in ticks after which insanity events may occur")
-    public int insanityInterval = 1200;
+    public int insanityInterval = 2000;
+
+    @Comment(value = "Determines how often another insanity event is looked for, if the currently selected one fails")
+    public int insanityEventAttempts = 3;
 }

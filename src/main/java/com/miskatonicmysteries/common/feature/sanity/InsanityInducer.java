@@ -1,7 +1,7 @@
-package com.miskatonicmysteries.common.feature;
+package com.miskatonicmysteries.common.feature.sanity;
 
 import com.google.gson.JsonObject;
-import com.miskatonicmysteries.common.feature.stats.ISanity;
+import com.miskatonicmysteries.common.feature.DataSerializable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InsanityInducer extends DataSerializable{
+public class InsanityInducer implements DataSerializable<InsanityInducer> {
     public static final Map<Identifier, InsanityInducer> INSANITY_INDUCERS = new HashMap<>();
     public final Identifier id;
     public final int sanityPenalty;
