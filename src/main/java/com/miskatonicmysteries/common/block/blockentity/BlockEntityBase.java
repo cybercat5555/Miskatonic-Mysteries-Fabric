@@ -7,7 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 
 import javax.annotation.Nullable;
-
 public abstract class BlockEntityBase extends BlockEntity implements BlockEntityClientSerializable {
     public BlockEntityBase(BlockEntityType<?> type) {
         super(type);
