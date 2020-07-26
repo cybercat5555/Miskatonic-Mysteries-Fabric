@@ -48,7 +48,6 @@ public class ModObjects {
 
     public static void init(){
         Util.register(Registry.BLOCK_ENTITY_TYPE, "chemistry_set", CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
-
         Util.registerBlock(CHEMISTRY_SET, "chemistry_set");
 
         Util.registerBlock(OCEANIC_GOLD_BLOCK, "oceanic_gold_block");

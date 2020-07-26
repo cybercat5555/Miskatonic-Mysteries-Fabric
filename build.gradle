@@ -13,6 +13,9 @@ group = project.maven_group
 repositories {
 	jcenter()
 	maven {
+		url =  "https://jitpack.io"
+	}
+	maven {
 		name = "Cotton"
 		url = 'http://server.bbkr.space:8081/artifactory/libs-release'
 	}
@@ -31,7 +34,9 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "vazkii.patchouli:Patchouli_1.16-fabric:${project.patchouli_version}"
 	modImplementation "io.github.cottonmc.cotton:cotton:${project.cotton_version}"
-	//modImplementation "io.github.ladysnake:Satin:${project.satin_version}" add later
+	modCompile "io.github.ladysnake:Satin:${project.satin_version}"
+	include "io.github.ladysnake:Satin:${project.satin_version}"
+	//add later
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 
