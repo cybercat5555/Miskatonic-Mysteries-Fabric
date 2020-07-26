@@ -37,6 +37,15 @@
   "death.attack.miskatonicmysteries.gun": "%s was filled with lead",
   "death.attack.miskatonicmysteries.gun.player": "%s was shot by %s",
 
+  "death.attack.miskatonicmysteries.insanity.0": "%s died in a fit of Mania",
+  "death.attack.miskatonicmysteries.insanity.1": "%s's mind was at last overwhelmed by the madness of things man should not know",
+  "death.attack.miskatonicmysteries.insanity.2": "%s's mind could no longer contain their madness",
+
+  "death.attack.miskatonicmysteries.protagonist.0": "%s was slain by the local Hero and the world is safe again",
+  "death.attack.miskatonicmysteries.protagonist.1": "The local Grizzled Protagonist has brought %s to justice",
+  "death.attack.miskatonicmysteries.protagonist.2": "%s was defeated by the Protagonist and their reign of madness is over",
+  "death.attack.miskatonicmysteries.protagonist.3": "%s awakens from a fit of madness and delirium, and turned normal again, with the help of a sharp blow to the head",
+
   "comment5": "COMMANDS",
   "miskatonicmysteries.command.stats": "Showing Miskatonic Mysteries statistics for player %s:",
   "miskatonicmysteries.command.miskatonicmysteries.get_sanity": "%s's sanity level is %d",
@@ -55,6 +64,8 @@
   "miskatonicmysteries.command.execute_insanity_event": "Executed insanity event %s",
   "miskatonicmysteries.command.execute_insanity_event.failure": "Failed to execute insanity event %s, as it does not exist",
 
+  "comment6": "STATUS EFFECTS",
+  "effect.miskatonicmysteries.mania": "Mania",
   "comment7": "SOUNDS",
   "subtitles.miskatonicmysteries.gun_shot": "Gunshot"
 }

@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.lib;
 
 import com.miskatonicmysteries.common.feature.ModCommand;
+import com.miskatonicmysteries.common.feature.effect.StatusEffectMania;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
@@ -9,6 +10,7 @@ import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.loot.LootManager;
 import net.minecraft.loot.LootPool;
@@ -29,6 +31,7 @@ import java.util.function.Function;
 public class ModRegistries {
     public static final SoundEvent GUN_SHOT = new SoundEvent(new Identifier(Constants.MOD_ID, "gun_shot"));
 
+    public static final StatusEffect MANIA = new StatusEffectMania();
     public static final Identifier INFESTED_WHEAT_LOOT_TABLE = new Identifier(Constants.MOD_ID, "injects/infested_wheat");
     public static final Identifier TALLOW_LOOT_TABLE = new Identifier(Constants.MOD_ID, "injects/tallow");
 
@@ -38,6 +41,8 @@ public class ModRegistries {
         initLootTableEdits();
         ModCommand.setup();
         Util.register(Registry.SOUND_EVENT, "gun_shot", GUN_SHOT);
+
+        Util.register(Registry.STATUS_EFFECT, "mania", MANIA);
     }
 
     private static void initLootTableEdits() {

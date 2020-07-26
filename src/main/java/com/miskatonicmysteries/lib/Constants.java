@@ -3,12 +3,15 @@ package com.miskatonicmysteries.lib;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Material;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 public class Constants {
@@ -35,10 +38,22 @@ public class Constants {
     }
     public static class DamageSources extends DamageSource{
         protected DamageSources(String name) {
-            super(name);
+            super(Constants.MOD_ID + "." + name);
         }
 
-        public static final DamageSource GUN = (new DamageSources(Constants.MOD_ID + ".gun")).setProjectile();
+        public static final DamageSource GUN = new DamageSources("gun").setProjectile();
+        public static final DamageSource INSANITY = new DamageSources("insanity"){
+            @Override
+            public Text getDeathMessage(LivingEntity entity) {
+                return  new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(3)), entity.getDisplayName());
+            }
+        }.setBypassesArmor();
+        public static final DamageSource PROTAGONIST = new DamageSources("protagonist"){
+            @Override
+            public Text getDeathMessage(LivingEntity entity) {
+                return  new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(4)), entity.getDisplayName());
+            }
+        }.setBypassesArmor();
     }
 
     public static class BlockSettings {

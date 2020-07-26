@@ -21,7 +21,7 @@ public class InsanityHandler {
 
     public static void handleInsanityEvents(PlayerEntity player){
         ISanity sanity = (ISanity) player;
-        float insanityFactor = 1F - (sanity.getSanity() / (float) SANITY_CAP);
+        float insanityFactor = 1F - calculateSanityFactor(sanity);
         if (player.getRandom().nextFloat() < (0.1F + (0.1F * insanityFactor))){
             InsanityEvent event = findInsanityEvent(player,  sanity, insanityFactor);
             if (event != null) event.execute(player, (ISanity) player);
@@ -37,5 +37,9 @@ public class InsanityHandler {
             events.remove(event);
         }
         return null;
+    }
+
+    public static float calculateSanityFactor(ISanity sanity){
+        return sanity.getSanity() / (float) SANITY_CAP;
     }
 }

@@ -17,4 +17,7 @@ public class CommonConfig {
 
     @Comment(value = "Determines how often another insanity event is looked for, if the currently selected one fails")
     public int insanityEventAttempts = 3;
+
+    @Comment(value = "Once the player has a sanity value lower than this, Mania can be very deadly")
+    public int deadlyInsanityThreshold = 50;
 }

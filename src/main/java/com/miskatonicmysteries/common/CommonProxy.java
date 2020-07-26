@@ -8,6 +8,8 @@ import com.miskatonicmysteries.lib.*;
 import io.github.cottonmc.cotton.config.ConfigManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.server.ServerStartCallback;
+import net.minecraft.entity.mob.WitchEntity;
+import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.server.MinecraftServer;
 
 public class CommonProxy implements ModInitializer {
