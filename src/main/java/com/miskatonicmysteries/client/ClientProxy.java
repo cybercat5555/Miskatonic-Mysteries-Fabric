@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.client;
 
+import com.miskatonicmysteries.client.render.ShaderHandler;
 import com.miskatonicmysteries.client.render.blockentity.BlockRenderChemistrySet;
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.item.ItemGun;
@@ -20,5 +21,6 @@ public class ClientProxy implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());
         BlockEntityRendererRegistry.INSTANCE.register(ModObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE, BlockRenderChemistrySet::new);
         PacketHandler.registerS2C();
+        ShaderHandler.init();
     }
 }
