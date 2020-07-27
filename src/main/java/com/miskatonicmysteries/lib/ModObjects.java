@@ -34,7 +34,7 @@ public class ModObjects {
     public static final Item BLOTTER = new ItemBlotter();
     public static final Item LAUDANUM = new ItemLaudanum();
     public static final Item TRANQUILIZER = new ItemTranquilizer();
-    public static final Item RE_AGENT_SYRINGE = new Item(new Item.Settings().group(Constants.MM_GROUP).recipeRemainder(SYRINGE));
+    public static final Item RE_AGENT_SYRINGE = new Item(new Item.Settings().group(Constants.MM_GROUP).recipeRemainder(SYRINGE).maxCount(1));
 
     public static final Item TALLOW = new Item(new Item.Settings().group(Constants.MM_GROUP));
 

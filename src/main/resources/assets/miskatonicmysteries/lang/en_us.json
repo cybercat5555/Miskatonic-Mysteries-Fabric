@@ -10,6 +10,7 @@
   "block.miskatonicmysteries.oceanic_gold_pillar": "Oceanic Gold Pillar",
   "block.miskatonicmysteries.oceanic_gold_pillar_split": "Split Oceanic Gold Pillar",
   "block.miskatonicmysteries.oceanic_gold_pillar_ornate": "Ornate Oceanic Gold Pillar",
+
   "comment2": "ITEMS",
   "item.miskatonicmysteries.oceanic_gold": "Oceanic Gold",
   "item.miskatonicmysteries.rifle": "Rifle",
@@ -61,6 +62,8 @@
   "comment6": "STATUS EFFECTS",
   "effect.miskatonicmysteries.mania": "Mania",
   "effect.miskatonicmysteries.tranquilized": "Tranquilized",
+  "effect.miskatonicmysteries.lazarus": "Lazarus",
+  "effect.miskatonicmysteries.overmedicated": "Overmedicated",
   "comment7": "SOUNDS",
   "subtitles.miskatonicmysteries.gun_shot": "Gunshot"
 }

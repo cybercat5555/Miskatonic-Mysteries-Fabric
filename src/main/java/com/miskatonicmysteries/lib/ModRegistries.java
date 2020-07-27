@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.lib;
 
 import com.miskatonicmysteries.common.feature.ModCommand;
+import com.miskatonicmysteries.common.feature.effect.StatusEffectLazarus;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectMania;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectOvermedicated;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectTranquilized;
@@ -23,13 +24,14 @@ public class ModRegistries {
 
     public static final StatusEffect MANIA = new StatusEffectMania();
     public static final StatusEffect TRANQUILIZED = new StatusEffectTranquilized();
+    public static final StatusEffect OVERMEDICATED = new StatusEffectOvermedicated();
+    public static final StatusEffect LAZARUS = new StatusEffectLazarus();
 
     public static final Identifier INFESTED_WHEAT_LOOT_TABLE = new Identifier(Constants.MOD_ID, "injects/infested_wheat");
     public static final Identifier TALLOW_LOOT_TABLE = new Identifier(Constants.MOD_ID, "injects/tallow");
     public static final Identifier TRANQ_TABLE = new Identifier(Constants.MOD_ID, "injects/tranquilizer");
 
     public static final Map<Identifier, Identifier> LOOT_TABLE_INJECTS = new HashMap<>();
-    public static final StatusEffect OVERMEDICATED = new StatusEffectOvermedicated();
 
 
     public static void init() {

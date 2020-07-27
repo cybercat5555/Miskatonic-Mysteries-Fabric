@@ -1,14 +1,18 @@
 package com.miskatonicmysteries.common.mixin;
 
 import com.miskatonicmysteries.common.CommonProxy;
+import com.miskatonicmysteries.common.feature.effect.StatusEffectLazarus;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.lib.Constants;
+import com.miskatonicmysteries.lib.ModObjects;
 import com.miskatonicmysteries.lib.ModRegistries;
+import com.miskatonicmysteries.lib.Util;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -19,6 +23,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,6 +52,21 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
     private void addMiskStats(CallbackInfo info) {
         dataTracker.startTracking(SANITY, SANITY_CAP);
         dataTracker.startTracking(SHOCKED, false);
+    }
+
+
+    @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("RETURN"), cancellable = true)
+    private void preventDeath(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
+        if (amount >= getHealth() && !source.isOutOfWorld()) {
+            PlayerEntity entity = (PlayerEntity) (Object) this;
+            if (Util.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE) >= 0) {
+                entity.inventory.removeStack(Util.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE), 1);
+                if (StatusEffectLazarus.revive(entity)) {
+                    infoReturnable.setReturnValue(false);
+                    infoReturnable.cancel();
+                }
+            }
+        }
     }
 
     @Override

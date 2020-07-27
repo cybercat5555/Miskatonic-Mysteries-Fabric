@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.lib;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -62,5 +63,12 @@ public class Util {
             if (!found) return false;
         }
         return true;
+    }
+
+    public static int getSlotForItemInHotbar(PlayerEntity player, Item item) {
+        for (int i = 0; i < 9; i++) {
+            if (player.inventory.getStack(i).getItem().equals(item)) return i;
+        }
+        return -1;
     }
 }
