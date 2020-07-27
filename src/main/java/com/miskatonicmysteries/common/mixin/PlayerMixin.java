@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.lib.Constants;
+import com.miskatonicmysteries.lib.ModRegistries;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -55,7 +56,7 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
 
     @Override
     public void setSanity(int sanity) {
-        if (!isShocked())
+        if (!isShocked() && hasStatusEffect(ModRegistries.TRANQUILIZED))
             dataTracker.set(SANITY, MathHelper.clamp(sanity, 0, getMaxSanity()));
     }
 
@@ -81,7 +82,7 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
     //using normal packets since i don't feel like adding a new data tracker type for something that's updated so little lol
     @Override
     public void addSanityCapExpansion(String name, int amount) {
-        SANITY_CAP_OVERRIDES.put(name, amount);
+        SANITY_CAP_OVERRIDES.putIfAbsent(name, amount);
         if(!world.isClient) {
             PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
             data.writeString(name);

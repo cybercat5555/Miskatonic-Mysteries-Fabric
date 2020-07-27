@@ -10,7 +10,6 @@
   "block.miskatonicmysteries.oceanic_gold_pillar": "Oceanic Gold Pillar",
   "block.miskatonicmysteries.oceanic_gold_pillar_split": "Split Oceanic Gold Pillar",
   "block.miskatonicmysteries.oceanic_gold_pillar_ornate": "Ornate Oceanic Gold Pillar",
-
   "comment2": "ITEMS",
   "item.miskatonicmysteries.oceanic_gold": "Oceanic Gold",
   "item.miskatonicmysteries.rifle": "Rifle",
@@ -20,15 +19,13 @@
   "item.miskatonicmysteries.re_agent_syringe": "ReAgent™",
   "item.miskatonicmysteries.laudanum": "Laudanum",
   "item.miskatonicmysteries.blotter": "Blotter",
+  "item.miskatonicmysteries.tranquilizer": "Tranquilizer",
   "item.miskatonicmysteries.infested_wheat": "Infested Wheat",
   "item.miskatonicmysteries.syringe": "Syringe",
-
-
   "comment3": "TOOLTIPS",
   "tooltip.miskatonicmysteries.gun_loaded": "Loaded (%d/%d)",
   "tooltip.miskatonicmysteries.gun_not_loaded": "Not Loaded (%d/%d)",
   "tooltip.miskatonicmysteries.gun_tip_load": "Use while sneaking to load",
-
   "comment4": "MESSAGES",
   "message.miskatonicmysteries.chemistry_set.contains_items": "This Chemistry Set still contains potential items",
   "message.miskatonicmysteries.chemistry_set.invalid_recipe": "This recipe is not familiar to you",
@@ -36,16 +33,14 @@
 
   "death.attack.miskatonicmysteries.gun": "%s was filled with lead",
   "death.attack.miskatonicmysteries.gun.player": "%s was shot by %s",
-
   "death.attack.miskatonicmysteries.insanity.0": "%s died in a fit of Mania",
   "death.attack.miskatonicmysteries.insanity.1": "%s's mind was at last overwhelmed by the madness of things man should not know",
   "death.attack.miskatonicmysteries.insanity.2": "%s's mind could no longer contain their madness",
-
   "death.attack.miskatonicmysteries.protagonist.0": "%s was slain by the local Hero and the world is safe again",
   "death.attack.miskatonicmysteries.protagonist.1": "The local Grizzled Protagonist has brought %s to justice",
   "death.attack.miskatonicmysteries.protagonist.2": "%s was defeated by the Protagonist and their reign of madness is over",
   "death.attack.miskatonicmysteries.protagonist.3": "%s awakens from a fit of madness and delirium, and turned normal again, with the help of a sharp blow to the head",
-
+  "death.attack.miskatonicmysteries.sleep": "%s did not wake up",
   "comment5": "COMMANDS",
   "miskatonicmysteries.command.stats": "Showing Miskatonic Mysteries statistics for player %s:",
   "miskatonicmysteries.command.miskatonicmysteries.get_sanity": "%s's sanity level is %d",
@@ -63,9 +58,9 @@
   "miskatonicmysteries.command.clear_expansions.none_failure": "Couldn't clear %s's sanity expansions, as they don't have any",
   "miskatonicmysteries.command.execute_insanity_event": "Executed insanity event %s",
   "miskatonicmysteries.command.execute_insanity_event.failure": "Failed to execute insanity event %s, as it does not exist",
-
   "comment6": "STATUS EFFECTS",
   "effect.miskatonicmysteries.mania": "Mania",
+  "effect.miskatonicmysteries.tranquilized": "Tranquilized",
   "comment7": "SOUNDS",
   "subtitles.miskatonicmysteries.gun_shot": "Gunshot"
 }

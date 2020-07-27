@@ -42,18 +42,19 @@ public class Constants {
         }
 
         public static final DamageSource GUN = new DamageSources("gun").setProjectile();
-        public static final DamageSource INSANITY = new DamageSources("insanity"){
+        public static final DamageSource SLEEP = new DamageSources("sleep").setBypassesArmor();
+        public static final DamageSource INSANITY = new DamageSources("insanity") {
             @Override
             public Text getDeathMessage(LivingEntity entity) {
-                return  new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(3)), entity.getDisplayName());
+                return new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(3)), entity.getDisplayName());
             }
         }.setBypassesArmor();
-        public static final DamageSource PROTAGONIST = new DamageSources("protagonist"){
+        public static final DamageSource PROTAGONIST = new DamageSources("protagonist") {
             @Override
             public Text getDeathMessage(LivingEntity entity) {
-                return  new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(4)), entity.getDisplayName());
+                return new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(4)), entity.getDisplayName());
             }
-        }.setBypassesArmor();
+        };
     }
 
     public static class BlockSettings {

@@ -5,7 +5,9 @@
     {"item": "minecraft:poppy"},
     {"item": "minecraft:sugar"},
     {"item": "minecraft:sugar"},
-    {"item": "minecraft:wheat"}
+    {
+      "item": "minecraft:nether_wart"
+    }
   ],
   "color": 16750336,
   "output": [

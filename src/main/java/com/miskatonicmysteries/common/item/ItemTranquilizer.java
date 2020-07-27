@@ -13,9 +13,9 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class ItemBlotter extends Item {
-    public ItemBlotter() {
-        super(new Item.Settings().group(Constants.MM_GROUP));
+public class ItemTranquilizer extends Item {
+    public ItemTranquilizer() {
+        super(new Settings().group(Constants.MM_GROUP));
     }
 
     @Override
@@ -25,7 +25,7 @@ public class ItemBlotter extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        user.applyStatusEffect(new StatusEffectInstance(ModRegistries.MANIA, 2400, 0));
+        user.applyStatusEffect(new StatusEffectInstance(ModRegistries.TRANQUILIZED, 18000, 1));
         return stack;
     }
 
@@ -36,6 +36,6 @@ public class ItemBlotter extends Item {
 
     @Override
     public int getMaxUseTime(ItemStack stack) {
-        return 30;
+        return 20;
     }
 }

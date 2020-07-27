@@ -5,11 +5,8 @@ import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
 import net.minecraft.entity.player.PlayerEntity;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.miskatonicmysteries.lib.Constants.DataTrackers.SANITY_CAP;
 

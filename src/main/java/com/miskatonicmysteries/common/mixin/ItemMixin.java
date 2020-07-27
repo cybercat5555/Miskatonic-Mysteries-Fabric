@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.mixin;
 
-import com.miskatonicmysteries.common.feature.sanity.InsanityInducer;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
+import com.miskatonicmysteries.common.feature.sanity.InsanityInducer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,7 +19,6 @@ public abstract class ItemMixin {
     private void induceSanityAfterUse(ItemStack stack, World world, LivingEntity entity, CallbackInfoReturnable<ItemStack> info){
         if (entity instanceof ISanity && (getUseAction(stack) == UseAction.BLOCK || getUseAction(stack) == UseAction.DRINK || getUseAction(stack) == UseAction.EAT)){
             InsanityInducer.INSANITY_INDUCERS.forEach((id, inducer) -> {
-                System.out.println(id);
                 if (inducer.ingredient.test(stack)) {
                    inducer.induceInsanity(world, entity, (ISanity) entity);
                 }

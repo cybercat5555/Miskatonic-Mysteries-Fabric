@@ -1,12 +1,9 @@
 package com.miskatonicmysteries.common.feature.effect;
 
-import com.miskatonicmysteries.client.ClientProxy;
-import com.miskatonicmysteries.client.render.ShaderHandler;
 import com.miskatonicmysteries.common.CommonProxy;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
+import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.lib.Constants;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
@@ -24,11 +21,14 @@ public class StatusEffectMania extends StatusEffect {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        if (entity instanceof MobEntity && ((MobEntity) entity).getTarget() == null && entity.age % 60 == 0){
-            if (entity.getRandom().nextFloat() < (0.1 * amplifier)) onApplied(entity, entity.getAttributes(), amplifier);
+        if (entity instanceof MobEntity && ((MobEntity) entity).getTarget() == null && entity.age % 60 == 0) {
+            if (entity.getRandom().nextFloat() < (0.1 * amplifier))
+                onApplied(entity, entity.getAttributes(), amplifier);
         }
-        if (entity instanceof ISanity){
+        if (entity instanceof PlayerEntity) {
             insanityDeath(entity, (ISanity) entity, amplifier);
+            if (entity.age % 120 == 20 && entity.getRandom().nextFloat() < 0.05 * (amplifier + 1))
+                InsanityHandler.handleInsanityEvents((PlayerEntity) entity);
         }
     }
 

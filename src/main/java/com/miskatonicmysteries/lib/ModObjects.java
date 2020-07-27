@@ -2,20 +2,12 @@ package com.miskatonicmysteries.lib;
 
 import com.miskatonicmysteries.common.block.BlockChemistrySet;
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
-import com.miskatonicmysteries.common.item.ItemBlotter;
-import com.miskatonicmysteries.common.item.ItemRevolver;
-import com.miskatonicmysteries.common.item.ItemRifle;
-import net.minecraft.block.*;
+import com.miskatonicmysteries.common.item.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.PillarBlock;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
 
 public class ModObjects {
     public static final Block CHEMISTRY_SET = new BlockChemistrySet();
@@ -40,14 +32,15 @@ public class ModObjects {
     public static final Item INFESTED_WHEAT = new Item(new Item.Settings().group(Constants.MM_GROUP));
     //all these have no effect yet, but need one
     public static final Item BLOTTER = new ItemBlotter();
-    public static final Item LAUDANUM = new Item(new Item.Settings().group(Constants.MM_GROUP).recipeRemainder(Items.GLASS_BOTTLE));
+    public static final Item LAUDANUM = new ItemLaudanum();
+    public static final Item TRANQUILIZER = new ItemTranquilizer();
     public static final Item RE_AGENT_SYRINGE = new Item(new Item.Settings().group(Constants.MM_GROUP).recipeRemainder(SYRINGE));
 
     public static final Item TALLOW = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static final BlockEntityType<BlockEntityChemistrySet> CHEMISTRY_SET_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityChemistrySet::new, CHEMISTRY_SET).build(null);
 
-    public static void init(){
+    public static void init() {
         Util.register(Registry.BLOCK_ENTITY_TYPE, "chemistry_set", CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
         Util.registerBlock(CHEMISTRY_SET, "chemistry_set");
 
@@ -68,6 +61,7 @@ public class ModObjects {
         Util.register(Registry.ITEM, "infested_wheat", INFESTED_WHEAT);
         Util.register(Registry.ITEM, "blotter", BLOTTER);
         Util.register(Registry.ITEM, "laudanum", LAUDANUM);
+        Util.register(Registry.ITEM, "tranquilizer", TRANQUILIZER);
         Util.register(Registry.ITEM, "re_agent_syringe", RE_AGENT_SYRINGE);
 
         Util.register(Registry.ITEM, "tallow", TALLOW);
