@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "W",
+    "W"
+  ],
+  "key": {
+    "W": {
+      "tag": "minecraft:wax"
+    },
+    "S": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "item": "miskatonicmysteries:candle",
+    "count": 3
+  }
+}

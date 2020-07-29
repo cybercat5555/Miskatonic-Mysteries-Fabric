@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.lib;
 
+import com.miskatonicmysteries.common.block.BlockCandle;
 import com.miskatonicmysteries.common.block.BlockChemistrySet;
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
 import com.miskatonicmysteries.common.item.*;
@@ -21,6 +22,8 @@ public class ModObjects {
     public static final Block OCEANIC_GOLD_PILLAR_ORNATE = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
     public static final Block OCEANIC_GOLD_PILLAR_SPLIT = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
 
+    public static final Block CANDLE = new BlockCandle();
+
     public static final Item OCEANIC_GOLD = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static final Item RIFLE = new ItemRifle();
@@ -36,7 +39,7 @@ public class ModObjects {
     public static final Item TRANQUILIZER = new ItemTranquilizer();
     public static final Item RE_AGENT_SYRINGE = new Item(new Item.Settings().group(Constants.MM_GROUP).recipeRemainder(SYRINGE).maxCount(1));
 
-    public static final Item TALLOW = new Item(new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item WAX = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static final BlockEntityType<BlockEntityChemistrySet> CHEMISTRY_SET_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityChemistrySet::new, CHEMISTRY_SET).build(null);
 
@@ -51,6 +54,7 @@ public class ModObjects {
         Util.registerBlock(OCEANIC_GOLD_PILLAR_ORNATE, "oceanic_gold_pillar_ornate");
         Util.registerBlock(OCEANIC_GOLD_PILLAR_SPLIT, "oceanic_gold_pillar_split");
 
+        Util.registerBlock(CANDLE, "candle");
         Util.register(Registry.ITEM, "oceanic_gold", OCEANIC_GOLD);
 
         Util.register(Registry.ITEM, "rifle", RIFLE);
@@ -64,6 +68,7 @@ public class ModObjects {
         Util.register(Registry.ITEM, "tranquilizer", TRANQUILIZER);
         Util.register(Registry.ITEM, "re_agent_syringe", RE_AGENT_SYRINGE);
 
-        Util.register(Registry.ITEM, "tallow", TALLOW);
+        Util.register(Registry.ITEM, "wax", WAX);
+
     }
 }

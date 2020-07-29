@@ -12,6 +12,8 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
@@ -65,6 +67,7 @@ public class BlockEntityChemistrySet extends BlockEntityBase implements Implemen
             ChemistryRecipe recipe = ModRecipes.getRecipe(this);
             workProgress++;
             if (workProgress >= 100) {
+                world.playSound(null, pos, SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.6F, world.random.nextFloat() * 0.4F + 0.8F);
                 for (int i = 0; i < recipe.output.size(); i++) {
                     changeSmokeColor(recipe.color);
                     POTENTIAL_ITEMS.set(i, recipe.output.get(i));

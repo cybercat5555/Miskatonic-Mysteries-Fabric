@@ -1,0 +1,143 @@
+package com.miskatonicmysteries.common.block;
+
+import com.miskatonicmysteries.lib.Util;
+import net.minecraft.block.*;
+import net.minecraft.entity.ai.pathing.NavigationType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.FlintAndSteelItem;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.IntProperty;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
+
+import javax.annotation.Nullable;
+import java.util.Random;
+
+import static net.minecraft.state.property.Properties.LIT;
+
+//this is in many ways just an enhanced sea pickle
+public class BlockCandle extends Block {
+    public static IntProperty COUNT = IntProperty.of("count", 1, 4);
+    public static final VoxelShape SHAPE_1 = Block.createCuboidShape(6.0D, 0.0D, 6.0D, 10.0D, 6.0D, 10.0D);
+    public static final VoxelShape SHAPE_2 = Block.createCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 6.0D, 13.0D);
+    ;
+    public static final VoxelShape SHAPE_3 = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 6.0D, 14.0D);
+    ;
+    public static final VoxelShape SHAPE_4 = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 7.0D, 14.0D);
+    ;
+
+    public BlockCandle() {
+        super(Settings.of(Material.WOOL).strength(0.2F, 0.1F).nonOpaque().lightLevel(state -> state.get(LIT) ? 10 : 0).sounds(BlockSoundGroup.WOOL));
+        this.setDefaultState(getDefaultState().with(COUNT, 1).with(LIT, false));
+    }
+
+    @Nullable
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        BlockState blockState = ctx.getWorld().getBlockState(ctx.getBlockPos());
+        if (blockState.isOf(this)) {
+            return blockState.with(COUNT, Math.min(4, blockState.get(COUNT) + 1));
+        }
+        return super.getPlacementState(ctx);
+    }
+
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        ItemStack stack = player.getStackInHand(hand);
+        if (stack.getItem() instanceof FlintAndSteelItem && !state.get(LIT)) {
+            world.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.4F + 0.8F);
+            stack.damage(1, player, (p) -> p.sendToolBreakStatus(hand));
+            world.setBlockState(pos, state.with(LIT, true));
+            return ActionResult.SUCCESS;
+        } else if (stack.isEmpty() && player.isSneaking()) {
+            if (state.get(LIT))
+                world.setBlockState(pos, state.with(LIT, false));
+            else {
+                Util.giveItem(world, player, new ItemStack(this));
+                world.setBlockState(pos, state.get(COUNT) > 1 ? state.with(COUNT, state.get(COUNT) - 1) : Blocks.AIR.getDefaultState());
+            }
+            return ActionResult.SUCCESS;
+        }
+        return super.onUse(state, world, pos, player, hand, hit);
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(COUNT, LIT);
+        super.appendProperties(builder);
+    }
+
+    @Override
+    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+        return !world.getBlockState(pos.down()).getCollisionShape(world, pos.down()).getFace(Direction.UP).isEmpty();
+    }
+
+    @Override
+    public boolean canReplace(BlockState state, ItemPlacementContext context) {
+        return context.getStack().getItem() == this.asItem() && state.get(COUNT) < 4 || super.canReplace(state, context);
+    }
+
+    @Override
+    public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
+        return false;
+    }
+
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        if (state.get(LIT)) {
+            float blockPart = 1F / 16F;
+            int candles = state.get(COUNT);
+            double x = (double) pos.getX() + 0.5D;
+            double y = (double) pos.getY() + 0.55D;
+            double z = (double) pos.getZ() + 0.5D;
+            switch (candles) {
+                case 1:
+                    world.addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
+                    break;
+                case 2:
+                    world.addParticle(ParticleTypes.FLAME, x - 3 * blockPart, y, z - 3 * blockPart, 0, 0, 0);
+                    world.addParticle(ParticleTypes.FLAME, x + 2 * blockPart, y - 2 * blockPart, z + 2 * blockPart, 0, 0, 0);
+                    break;
+                case 3:
+                    world.addParticle(ParticleTypes.FLAME, x, y, z + 3 * blockPart, 0, 0, 0);
+                    world.addParticle(ParticleTypes.FLAME, x - 4 * blockPart, y - 2 * blockPart, z - 4 * blockPart, 0, 0, 0);
+                    world.addParticle(ParticleTypes.FLAME, x + 2 * blockPart, y, z - 2 * blockPart, 0, 0, 0);
+                    break;
+                case 4:
+                    world.addParticle(ParticleTypes.FLAME, x - 4 * blockPart, y, z - 4 * blockPart, 0, 0, 0);
+                    world.addParticle(ParticleTypes.FLAME, x + 3 * blockPart, y - 2 * blockPart, z + 4 * blockPart, 0, 0, 0);
+                    world.addParticle(ParticleTypes.FLAME, x - 4 * blockPart, y, z + 2 * blockPart, 0, 0, 0);
+                    world.addParticle(ParticleTypes.FLAME, x + 3 * blockPart, y, z - 4 * blockPart, 0, 0, 0);
+                    break;
+            }
+        }
+        super.randomDisplayTick(state, world, pos, random);
+    }
+
+    @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        switch (state.get(COUNT)) {
+            case 1:
+            default:
+                return SHAPE_1;
+            case 2:
+                return SHAPE_2;
+            case 3:
+                return SHAPE_3;
+            case 4:
+                return SHAPE_4;
+        }
+    }
+}

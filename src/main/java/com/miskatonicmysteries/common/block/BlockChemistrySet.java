@@ -1,24 +1,19 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
-import com.miskatonicmysteries.common.feature.PotentialItem;
+import com.miskatonicmysteries.lib.Util;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.CampfireBlockEntity;
-import net.minecraft.client.particle.FireSmokeParticle;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.FlintAndSteelItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
@@ -30,10 +25,10 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-import java.util.List;
 import java.util.Random;
 
-import static net.minecraft.state.property.Properties.*;
+import static net.minecraft.state.property.Properties.LIT;
+import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEntityProvider {
     public BlockChemistrySet() {
@@ -87,6 +82,7 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
         BlockEntityChemistrySet blockEntity = (BlockEntityChemistrySet) world.getBlockEntity(pos);
         if (stack.getItem() instanceof FlintAndSteelItem && !state.get(LIT) && !state.get(WATERLOGGED)) {
             stack.damage(1, player, (p) -> p.sendToolBreakStatus(hand));
+            world.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.4F + 0.8F);
             world.setBlockState(pos, state.with(LIT, blockEntity.canBeLit(player)));
             return ActionResult.SUCCESS;
         } else if (!stack.isEmpty()) {
@@ -104,7 +100,7 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
         } else {
             for (int i = 4; i >= 0; i--) {
                 if (!blockEntity.getStack(i).isEmpty() && blockEntity.canPlayerUse(player)) {
-                    world.spawnEntity(new ItemEntity(world, player.getX(), player.getY() + 0.5, player.getZ(), blockEntity.removeStack(i))); //might spawn those more efficiently
+                    Util.giveItem(world, player, blockEntity.removeStack(i));
                     blockEntity.markDirty();
                     return ActionResult.SUCCESS;
                 }

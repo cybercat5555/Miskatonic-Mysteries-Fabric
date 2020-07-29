@@ -1,22 +1,20 @@
 {
   "itemGroup.miskatonicmysteries.group": "Miskatonic Mysteries",
-
   "comment1": "BLOCKS",
   "block.miskatonicmysteries.chemistry_set": "Chemistry Set",
   "block.miskatonicmysteries.oceanic_gold_block": "Oceanic Gold Block",
   "block.miskatonicmysteries.oceanic_gold_tiles": "Oceanic Gold Tiles",
   "block.miskatonicmysteries.oceanic_gold_block_warded": "Warded Oceanic Gold Block",
-
   "block.miskatonicmysteries.oceanic_gold_pillar": "Oceanic Gold Pillar",
   "block.miskatonicmysteries.oceanic_gold_pillar_split": "Split Oceanic Gold Pillar",
   "block.miskatonicmysteries.oceanic_gold_pillar_ornate": "Ornate Oceanic Gold Pillar",
-
+  "block.miskatonicmysteries.candle": "Candle",
   "comment2": "ITEMS",
   "item.miskatonicmysteries.oceanic_gold": "Oceanic Gold",
   "item.miskatonicmysteries.rifle": "Rifle",
   "item.miskatonicmysteries.revolver": "Revolver",
   "item.miskatonicmysteries.bullet": "Bullet",
-  "item.miskatonicmysteries.tallow": "Tallow",
+  "item.miskatonicmysteries.wax": "Wax",
   "item.miskatonicmysteries.re_agent_syringe": "ReAgent™",
   "item.miskatonicmysteries.laudanum": "Laudanum",
   "item.miskatonicmysteries.blotter": "Blotter",

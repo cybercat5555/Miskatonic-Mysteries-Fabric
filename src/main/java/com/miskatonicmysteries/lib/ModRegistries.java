@@ -9,7 +9,6 @@ import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.loot.LootTables;
 import net.minecraft.sound.SoundEvent;
@@ -28,7 +27,6 @@ public class ModRegistries {
     public static final StatusEffect LAZARUS = new StatusEffectLazarus();
 
     public static final Identifier INFESTED_WHEAT_LOOT_TABLE = new Identifier(Constants.MOD_ID, "injects/infested_wheat");
-    public static final Identifier TALLOW_LOOT_TABLE = new Identifier(Constants.MOD_ID, "injects/tallow");
     public static final Identifier TRANQ_TABLE = new Identifier(Constants.MOD_ID, "injects/tranquilizer");
 
     public static final Map<Identifier, Identifier> LOOT_TABLE_INJECTS = new HashMap<>();
@@ -42,14 +40,12 @@ public class ModRegistries {
         Util.register(Registry.STATUS_EFFECT, "mania", MANIA);
         Util.register(Registry.STATUS_EFFECT, "tranquilized", TRANQUILIZED);
         Util.register(Registry.STATUS_EFFECT, "overmedicated", OVERMEDICATED);
+        ;
+        Util.register(Registry.STATUS_EFFECT, "lazarus", LAZARUS);
     }
 
     private static void initLootTableEdits() {
         LOOT_TABLE_INJECTS.put(Blocks.WHEAT.getLootTableId(), INFESTED_WHEAT_LOOT_TABLE);
-        LOOT_TABLE_INJECTS.put(EntityType.PIG.getLootTableId(), TALLOW_LOOT_TABLE);
-        LOOT_TABLE_INJECTS.put(EntityType.VILLAGER.getLootTableId(), TALLOW_LOOT_TABLE);
-        LOOT_TABLE_INJECTS.put(EntityType.PLAYER.getLootTableId(), TALLOW_LOOT_TABLE);
-        LOOT_TABLE_INJECTS.put(EntityType.PIGLIN.getLootTableId(), TALLOW_LOOT_TABLE);
 
         LOOT_TABLE_INJECTS.put(LootTables.VILLAGE_BUTCHER_CHEST, TRANQ_TABLE);
         LOOT_TABLE_INJECTS.put(LootTables.VILLAGE_CARTOGRAPHER_CHEST, TRANQ_TABLE);

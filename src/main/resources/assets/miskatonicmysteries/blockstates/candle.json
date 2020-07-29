@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "count=1,lit=false": {
+      "model": "miskatonicmysteries:block/candles/candle_1"
+    },
+    "count=2,lit=false": {
+      "model": "miskatonicmysteries:block/candles/candle_2"
+    },
+    "count=3,lit=false": {
+      "model": "miskatonicmysteries:block/candles/candle_3"
+    },
+    "count=4,lit=false": {
+      "model": "miskatonicmysteries:block/candles/candle_4"
+    },
+    "count=1,lit=true": {
+      "model": "miskatonicmysteries:block/candles/candle_1_lit"
+    },
+    "count=2,lit=true": {
+      "model": "miskatonicmysteries:block/candles/candle_2_lit"
+    },
+    "count=3,lit=true": {
+      "model": "miskatonicmysteries:block/candles/candle_3_lit"
+    },
+    "count=4,lit=true": {
+      "model": "miskatonicmysteries:block/candles/candle_4_lit"
+    }
+  }
+}

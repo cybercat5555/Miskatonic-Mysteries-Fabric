@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.lib;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BlockItem;
@@ -9,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,5 +72,10 @@ public class Util {
             if (player.inventory.getStack(i).getItem().equals(item)) return i;
         }
         return -1;
+    }
+
+    public static void giveItem(World world, PlayerEntity player, ItemStack item) {
+        if (!world.isClient)
+            world.spawnEntity(new ItemEntity(world, player.getX(), player.getY() + 0.5, player.getZ(), item)); //might spawn those more efficiently
     }
 }
