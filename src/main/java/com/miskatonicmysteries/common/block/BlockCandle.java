@@ -4,6 +4,8 @@ import com.miskatonicmysteries.lib.Util;
 import net.minecraft.block.*;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.FlintAndSteelItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -13,6 +15,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.Properties;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -21,42 +25,71 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
 import static net.minecraft.state.property.Properties.LIT;
+import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 //this is in many ways just an enhanced sea pickle
-public class BlockCandle extends Block {
+public class BlockCandle extends Block implements Waterloggable {
     public static IntProperty COUNT = IntProperty.of("count", 1, 4);
     public static final VoxelShape SHAPE_1 = Block.createCuboidShape(6.0D, 0.0D, 6.0D, 10.0D, 6.0D, 10.0D);
     public static final VoxelShape SHAPE_2 = Block.createCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 6.0D, 13.0D);
-    ;
     public static final VoxelShape SHAPE_3 = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 6.0D, 14.0D);
-    ;
     public static final VoxelShape SHAPE_4 = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 7.0D, 14.0D);
-    ;
 
     public BlockCandle() {
         super(Settings.of(Material.WOOL).strength(0.2F, 0.1F).nonOpaque().lightLevel(state -> state.get(LIT) ? 10 : 0).sounds(BlockSoundGroup.WOOL));
-        this.setDefaultState(getDefaultState().with(COUNT, 1).with(LIT, false));
+        this.setDefaultState(getDefaultState().with(COUNT, 1).with(LIT, false).with(WATERLOGGED, false));
+    }
+
+    @Override
+    public boolean tryFillWithFluid(WorldAccess world, BlockPos pos, BlockState state, FluidState fluidState) {
+        if (!state.get(Properties.WATERLOGGED) && fluidState.getFluid() == Fluids.WATER) {
+            if (!world.isClient()) {
+                world.setBlockState(pos, state.with(Properties.WATERLOGGED, true).with(LIT, false), 3);
+                world.getFluidTickScheduler().schedule(pos, fluidState.getFluid(), fluidState.getFluid().getTickRate(world));
+            }
+            return true;
+        }
+        return false;
     }
 
     @Nullable
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockState blockState = ctx.getWorld().getBlockState(ctx.getBlockPos());
+
         if (blockState.isOf(this)) {
             return blockState.with(COUNT, Math.min(4, blockState.get(COUNT) + 1));
+        } else {
+            final BlockState state = super.getPlacementState(ctx);
+            if (state.contains(Properties.WATERLOGGED)) {
+                final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
+                final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() >= 1;
+                return state.with(Properties.WATERLOGGED, source);
+            }
+            return state;
         }
-        return super.getPlacementState(ctx);
+    }
+
+
+    @Override
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
+        if (state.contains(Properties.WATERLOGGED) && state.get(Properties.WATERLOGGED)) {
+            world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+
+        return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
     }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack stack = player.getStackInHand(hand);
-        if (stack.getItem() instanceof FlintAndSteelItem && !state.get(LIT)) {
+        if (stack.getItem() instanceof FlintAndSteelItem && !state.get(LIT) && !state.get(WATERLOGGED)) {
             world.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.4F + 0.8F);
             stack.damage(1, player, (p) -> p.sendToolBreakStatus(hand));
             world.setBlockState(pos, state.with(LIT, true));
@@ -75,7 +108,7 @@ public class BlockCandle extends Block {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(COUNT, LIT);
+        builder.add(COUNT, LIT, WATERLOGGED);
         super.appendProperties(builder);
     }
 
@@ -139,5 +172,10 @@ public class BlockCandle extends Block {
             case 4:
                 return SHAPE_4;
         }
+    }
+
+    @Override
+    public FluidState getFluidState(BlockState state) {
+        return state.contains(Properties.WATERLOGGED) && state.get(Properties.WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 }

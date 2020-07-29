@@ -7,6 +7,8 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.FlintAndSteelItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
@@ -14,6 +16,8 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.Properties;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
@@ -24,13 +28,14 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 
 import java.util.Random;
 
 import static net.minecraft.state.property.Properties.LIT;
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
-public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEntityProvider {
+public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEntityProvider, Waterloggable {
     public BlockChemistrySet() {
         super(Settings.of(Material.METAL).nonOpaque().requiresTool().strength(1F, 4F)
                 .allowsSpawning((state, world, pos, type) -> false).solidBlock((state, world, pos) -> false)
@@ -111,7 +116,22 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getPlayerFacing());
+        final BlockState state = this.getDefaultState().with(FACING, ctx.getPlayerFacing());
+        if (state.contains(WATERLOGGED)) {
+            final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
+            final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() >= 1;
+            return state.with(WATERLOGGED, source);
+        }
+        return state;
+    }
+
+    @Override
+    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
+        if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
+            world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+
+        return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
     }
 
     @Override
@@ -119,8 +139,8 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
         super.randomDisplayTick(state, world, pos, random);
         if (state.get(LIT)) {
             world.addParticle(ParticleTypes.SMOKE, pos.getX() + 0.5F + random.nextGaussian() / 3F, pos.getY() + 0.5F + random.nextGaussian() / 4F, pos.getZ() + 0.5F + random.nextGaussian() / 3F, 0, 0, 0);
-        }else if (world.getBlockEntity(pos) instanceof BlockEntityChemistrySet){
-            BlockEntityChemistrySet cheemset = (BlockEntityChemistrySet)world.getBlockEntity(pos);
+        } else if (world.getBlockEntity(pos) instanceof BlockEntityChemistrySet) {
+            BlockEntityChemistrySet cheemset = (BlockEntityChemistrySet) world.getBlockEntity(pos);
             if (cheemset.containsPotentialItems()) {
                 cheemset.getPotentialItems().forEach(p -> {
                     if (!p.isEmpty() && random.nextBoolean())
@@ -128,6 +148,23 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
                 });
             }
         }
+    }
+
+    @Override
+    public FluidState getFluidState(BlockState state) {
+        return state.contains(WATERLOGGED) && state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+    }
+
+    @Override
+    public boolean tryFillWithFluid(WorldAccess world, BlockPos pos, BlockState state, FluidState fluidState) {
+        if (!state.get(Properties.WATERLOGGED) && fluidState.getFluid() == Fluids.WATER) {
+            if (!world.isClient()) {
+                world.setBlockState(pos, state.with(Properties.WATERLOGGED, true).with(LIT, false), 3);
+                world.getFluidTickScheduler().schedule(pos, fluidState.getFluid(), fluidState.getFluid().getTickRate(world));
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
