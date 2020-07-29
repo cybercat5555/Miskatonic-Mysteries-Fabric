@@ -5,6 +5,7 @@ import com.miskatonicmysteries.client.render.blockentity.BlockRenderChemistrySet
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.item.ItemGun;
 import com.miskatonicmysteries.lib.ModObjects;
+import com.miskatonicmysteries.lib.ModParticles;
 import io.github.cottonmc.cotton.config.ConfigManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -17,6 +18,7 @@ public class ClientProxy implements ClientModInitializer {
     public static final ClientConfig CONFIG = ConfigManager.loadConfig(ClientConfig.class);
     @Override
     public void onInitializeClient() {
+        ModParticles.init();
         FabricModelPredicateProviderRegistry.register(ModObjects.RIFLE, new Identifier("loading"), (stack, world, entity) -> ItemGun.isLoading(stack) ? 1 : 0);
         BlockRenderLayerMap.INSTANCE.putBlock(ModObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(ModObjects.CANDLE, RenderLayer.getCutout());

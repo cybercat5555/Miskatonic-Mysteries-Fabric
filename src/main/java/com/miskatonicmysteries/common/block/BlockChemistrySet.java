@@ -119,7 +119,7 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
         final BlockState state = this.getDefaultState().with(FACING, ctx.getPlayerFacing());
         if (state.contains(WATERLOGGED)) {
             final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
-            final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() >= 1;
+            final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
             return state.with(WATERLOGGED, source);
         }
         return state;

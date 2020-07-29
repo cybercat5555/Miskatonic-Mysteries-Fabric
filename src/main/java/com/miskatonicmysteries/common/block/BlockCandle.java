@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.block;
 
+import com.miskatonicmysteries.lib.ModParticles;
 import com.miskatonicmysteries.lib.Util;
 import net.minecraft.block.*;
 import net.minecraft.entity.ai.pathing.NavigationType;
@@ -9,7 +10,6 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.FlintAndSteelItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -43,7 +43,7 @@ public class BlockCandle extends Block implements Waterloggable {
     public static final VoxelShape SHAPE_4 = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 7.0D, 14.0D);
 
     public BlockCandle() {
-        super(Settings.of(Material.WOOL).strength(0.2F, 0.1F).nonOpaque().lightLevel(state -> state.get(LIT) ? 10 : 0).sounds(BlockSoundGroup.WOOL));
+        super(Settings.of(Material.WOOL).strength(0.2F, 0.1F).nonOpaque().lightLevel(state -> state.get(LIT) ? (int) (Math.sqrt(state.get(COUNT)) * 8) : 0).sounds(BlockSoundGroup.WOOL));
         this.setDefaultState(getDefaultState().with(COUNT, 1).with(LIT, false).with(WATERLOGGED, false));
     }
 
@@ -69,7 +69,7 @@ public class BlockCandle extends Block implements Waterloggable {
             final BlockState state = super.getPlacementState(ctx);
             if (state.contains(Properties.WATERLOGGED)) {
                 final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
-                final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() >= 1;
+                final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
                 return state.with(Properties.WATERLOGGED, source);
             }
             return state;
@@ -137,22 +137,22 @@ public class BlockCandle extends Block implements Waterloggable {
             double z = (double) pos.getZ() + 0.5D;
             switch (candles) {
                 case 1:
-                    world.addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
+                    world.addParticle(ModParticles.FLAME, x, y, z, 1, 0, 0);
                     break;
                 case 2:
-                    world.addParticle(ParticleTypes.FLAME, x - 3 * blockPart, y, z - 3 * blockPart, 0, 0, 0);
-                    world.addParticle(ParticleTypes.FLAME, x + 2 * blockPart, y - 2 * blockPart, z + 2 * blockPart, 0, 0, 0);
+                    world.addParticle(ModParticles.FLAME, x - 3 * blockPart, y, z - 3 * blockPart, 1, 0, 0);
+                    world.addParticle(ModParticles.FLAME, x + 2 * blockPart, y - 2 * blockPart, z + 2 * blockPart, 1, 0, 0);
                     break;
                 case 3:
-                    world.addParticle(ParticleTypes.FLAME, x, y, z + 3 * blockPart, 0, 0, 0);
-                    world.addParticle(ParticleTypes.FLAME, x - 4 * blockPart, y - 2 * blockPart, z - 4 * blockPart, 0, 0, 0);
-                    world.addParticle(ParticleTypes.FLAME, x + 2 * blockPart, y, z - 2 * blockPart, 0, 0, 0);
+                    world.addParticle(ModParticles.FLAME, x, y, z + 3 * blockPart, 1, 0, 0);
+                    world.addParticle(ModParticles.FLAME, x - 4 * blockPart, y - 2 * blockPart, z - 4 * blockPart, 1, 0, 0);
+                    world.addParticle(ModParticles.FLAME, x + 2 * blockPart, y, z - 2 * blockPart, 1, 0, 0);
                     break;
                 case 4:
-                    world.addParticle(ParticleTypes.FLAME, x - 4 * blockPart, y, z - 4 * blockPart, 0, 0, 0);
-                    world.addParticle(ParticleTypes.FLAME, x + 3 * blockPart, y - 2 * blockPart, z + 4 * blockPart, 0, 0, 0);
-                    world.addParticle(ParticleTypes.FLAME, x - 4 * blockPart, y, z + 2 * blockPart, 0, 0, 0);
-                    world.addParticle(ParticleTypes.FLAME, x + 3 * blockPart, y, z - 4 * blockPart, 0, 0, 0);
+                    world.addParticle(ModParticles.FLAME, x - 4 * blockPart, y, z - 4 * blockPart, 1, 0, 0);
+                    world.addParticle(ModParticles.FLAME, x + 3 * blockPart, y - 2 * blockPart, z + 4 * blockPart, 1, 0, 0);
+                    world.addParticle(ModParticles.FLAME, x - 4 * blockPart, y, z + 2 * blockPart, 1, 0, 0);
+                    world.addParticle(ModParticles.FLAME, x + 3 * blockPart, y, z - 4 * blockPart, 1, 0, 0);
                     break;
             }
         }
