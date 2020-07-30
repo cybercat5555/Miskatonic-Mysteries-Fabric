@@ -34,6 +34,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "vazkii.patchouli:Patchouli_1.16-fabric:${project.patchouli_version}"
 	modImplementation "io.github.cottonmc.cotton:cotton:${project.cotton_version}"
+	modApi "me.shedaniel:RoughlyEnoughItems:${project.rei_version}"
 	modCompile "io.github.ladysnake:Satin:${project.satin_version}"
 	include "io.github.ladysnake:Satin:${project.satin_version}"
 	//add later

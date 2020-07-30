@@ -22,6 +22,14 @@ public class ModObjects {
     public static final BlockEntityType<BlockEntityChemistrySet> CHEMISTRY_SET_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityChemistrySet::new, CHEMISTRY_SET).build(null);
 
     public static final Block BLACKSTONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.BLACKSTONE).lightLevel(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+    public static final Block CORAL_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.DEAD_BRAIN_CORAL_BLOCK).lightLevel(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+    public static final Block FUNKY_ALTAR = new BlockAltar(false, AbstractBlock.Settings.copy(Blocks.PURPUR_BLOCK).lightLevel(state -> 12));
+    public static final Block MOSSY_STONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE).lightLevel(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+    public static final Block NETHER_BRICK_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.NETHER_BRICKS).lightLevel(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+    public static final Block PRISMARINE_ALTAR = new BlockAltar(false, AbstractBlock.Settings.copy(Blocks.PRISMARINE).lightLevel(state -> 8));
+    public static final Block SANDSTONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.SANDSTONE).lightLevel(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+    public static final Block STONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.STONE).lightLevel(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+
     public static final BlockEntityType<BlockEntityAltar> ALTAR_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityAltar::new, BlockAltar.ALTARS.toArray(new BlockAltar[BlockAltar.ALTARS.size()])).build(null);
 
     public static final Block OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
@@ -61,6 +69,13 @@ public class ModObjects {
 
         Util.register(Registry.BLOCK_ENTITY_TYPE, "altar", ALTAR_BLOCK_ENTITY_TYPE);
         Util.registerBlock(BLACKSTONE_ALTAR, "blackstone_altar");
+        Util.registerBlock(CORAL_ALTAR, "coral_altar");
+        Util.registerBlock(FUNKY_ALTAR, "funky_altar");
+        Util.registerBlock(MOSSY_STONE_ALTAR, "mossy_stone_altar");
+        Util.registerBlock(NETHER_BRICK_ALTAR, "nether_brick_altar");
+        Util.registerBlock(PRISMARINE_ALTAR, "prismarine_altar");
+        Util.registerBlock(SANDSTONE_ALTAR, "sandstone_altar");
+        Util.registerBlock(STONE_ALTAR, "stone_altar");
 
         Util.registerBlock(OCEANIC_GOLD_BLOCK, "oceanic_gold_block");
         Util.registerBlock(WARDED_OCEANIC_GOLD_BLOCK, "oceanic_gold_block_warded");

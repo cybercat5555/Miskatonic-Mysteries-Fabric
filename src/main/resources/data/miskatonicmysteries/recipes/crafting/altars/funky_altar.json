@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CSC",
+    "MGM",
+    "MGM"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:purpur_slab"
+    },
+    "M": {
+      "item": "minecraft:purpur_block"
+    },
+    "C": {
+      "item": "minecraft:end_rod"
+    },
+    "G": {
+      "item": "miskatonicmysteries:oceanic_gold"
+    }
+  },
+  "result": {
+    "item": "miskatonicmysteries:funky_altar",
+    "count": 1
+  }
+}

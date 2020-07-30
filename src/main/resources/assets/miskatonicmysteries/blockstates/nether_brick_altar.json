@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=south": {
+      "model": "miskatonicmysteries:block/nether_brick_altar"
+    },
+    "facing=west": {
+      "model": "miskatonicmysteries:block/nether_brick_altar",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "miskatonicmysteries:block/nether_brick_altar",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "miskatonicmysteries:block/nether_brick_altar",
+      "y": 270
+    }
+  }
+}

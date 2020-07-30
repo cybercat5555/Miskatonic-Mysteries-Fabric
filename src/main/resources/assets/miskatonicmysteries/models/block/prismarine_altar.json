@@ -1,0 +1,7 @@
+{
+  "parent": "miskatonicmysteries:block/eldritch_altar",
+  "textures": {
+    "all": "miskatonicmysteries:blocks/prismarine_altar",
+    "particle": "miskatonicmysteries:blocks/prismarine_altar"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "miskatonicmysteries:block/eldritch_altar",
+  "textures": {
+    "all": "miskatonicmysteries:blocks/sandstone_altar",
+    "particle": "miskatonicmysteries:blocks/sandstone_altar"
+  }
+}
