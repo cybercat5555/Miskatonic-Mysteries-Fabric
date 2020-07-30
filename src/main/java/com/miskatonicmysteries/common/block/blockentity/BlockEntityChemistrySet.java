@@ -42,6 +42,7 @@ public class BlockEntityChemistrySet extends BlockEntityBase implements Implemen
             potentialItemTag.add(compoundTag);
         }
         tag.put(Constants.NBT.POTENTIAL_ITEMS, potentialItemTag);
+        tag.putInt(Constants.NBT.WORK_PROGRESS, workProgress);
         return super.toTag(tag);
     }
 
@@ -57,6 +58,7 @@ public class BlockEntityChemistrySet extends BlockEntityBase implements Implemen
                 POTENTIAL_ITEMS.set(j, PotentialItem.fromTag(compoundTag));
             }
         }
+        workProgress = tag.getInt(Constants.NBT.WORK_PROGRESS);
         super.fromTag(state, tag);
     }
 

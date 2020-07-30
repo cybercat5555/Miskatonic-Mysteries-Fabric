@@ -1,0 +1,6 @@
+{
+  "name": "item.miskatonicmysteries.necronomicon",
+  "landing_text": "miskatonicmysteries.necronomicon.landing",
+  "dont_generate_book": true,
+  "custom_book_item": "miskatonicmysteries:necronomicon"
+}

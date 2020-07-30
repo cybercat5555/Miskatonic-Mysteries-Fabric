@@ -10,6 +10,8 @@
   "block.miskatonicmysteries.oceanic_gold_pillar_ornate": "Ornate Oceanic Gold Pillar",
   "block.miskatonicmysteries.candle": "Candle",
   "comment2": "ITEMS",
+  "item.miskatonicmysteries.necronomicon": "Necronomicon",
+  "item.miskatonicmysteries.science_journal": "Miskatonic Science Journal",
   "item.miskatonicmysteries.oceanic_gold": "Oceanic Gold",
   "item.miskatonicmysteries.rifle": "Rifle",
   "item.miskatonicmysteries.revolver": "Revolver",
@@ -29,7 +31,6 @@
   "message.miskatonicmysteries.chemistry_set.contains_items": "This Chemistry Set still contains potential items",
   "message.miskatonicmysteries.chemistry_set.invalid_recipe": "This recipe is not familiar to you",
   "message.miskatonicmysteries.heavy_gun.needs_offhand": "Handling such a heavy weapon requires both hands",
-
   "death.attack.miskatonicmysteries.gun": "%s was filled with lead",
   "death.attack.miskatonicmysteries.gun.player": "%s was shot by %s",
   "death.attack.miskatonicmysteries.insanity.0": "%s died in a fit of Mania",
@@ -63,5 +64,6 @@
   "effect.miskatonicmysteries.lazarus": "Lazarus",
   "effect.miskatonicmysteries.overmedicated": "Overmedicated",
   "comment7": "SOUNDS",
-  "subtitles.miskatonicmysteries.gun_shot": "Gunshot"
+  "subtitles.miskatonicmysteries.gun_shot": "Gunshot",
+  "comment8": "BOOK STUFF"
 }

@@ -1,0 +1,6 @@
+{
+  "name": "item.miskatonicmysteries.science_journal",
+  "landing_text": "miskatonicmysteries.science_journal.landing",
+  "dont_generate_book": true,
+  "custom_book_item": "miskatonicmysteries:science_journal"
+}

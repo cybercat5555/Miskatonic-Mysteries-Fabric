@@ -25,7 +25,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
@@ -36,6 +35,9 @@ import static net.minecraft.state.property.Properties.LIT;
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEntityProvider, Waterloggable {
+    public static final VoxelShape SHAPE_S_N = createCuboidShape(0, 0, 2, 16, 14, 14);
+    public static final VoxelShape SHAPE_W_E = createCuboidShape(2, 0, 0, 14, 14, 16);
+
     public BlockChemistrySet() {
         super(Settings.of(Material.METAL).nonOpaque().requiresTool().strength(1F, 4F)
                 .allowsSpawning((state, world, pos, type) -> false).solidBlock((state, world, pos) -> false)
@@ -46,13 +48,10 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
     }
 
     @Override
-    public VoxelShape getSidesShape(BlockState state, BlockView world, BlockPos pos) {
-        return VoxelShapes.empty();
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return (state.get(FACING) == Direction.NORTH || state.get(FACING) == Direction.SOUTH) ? SHAPE_S_N : SHAPE_W_E;
     }
 
-    public VoxelShape getVisualShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.empty();
-    }
 
     @Environment(EnvType.CLIENT)
     public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {

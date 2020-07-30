@@ -35,12 +35,12 @@ public class ModRegistries {
     public static void init() {
         initLootTableEdits();
         ModCommand.setup();
+
         Util.register(Registry.SOUND_EVENT, "gun_shot", GUN_SHOT);
 
         Util.register(Registry.STATUS_EFFECT, "mania", MANIA);
         Util.register(Registry.STATUS_EFFECT, "tranquilized", TRANQUILIZED);
         Util.register(Registry.STATUS_EFFECT, "overmedicated", OVERMEDICATED);
-        ;
         Util.register(Registry.STATUS_EFFECT, "lazarus", LAZARUS);
     }
 

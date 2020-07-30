@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.block;
 
+import com.miskatonicmysteries.lib.Constants;
 import com.miskatonicmysteries.lib.ModParticles;
 import com.miskatonicmysteries.lib.Util;
 import net.minecraft.block.*;
@@ -43,7 +44,7 @@ public class BlockCandle extends Block implements Waterloggable {
     public static final VoxelShape SHAPE_4 = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 7.0D, 14.0D);
 
     public BlockCandle() {
-        super(Settings.of(Material.WOOL).strength(0.2F, 0.1F).nonOpaque().lightLevel(state -> state.get(LIT) ? (int) (Math.sqrt(state.get(COUNT)) * 8) : 0).sounds(BlockSoundGroup.WOOL));
+        super(Settings.of(Material.WOOL).strength(0.2F, 0.1F).nonOpaque().lightLevel(state -> state.get(LIT) ? Math.min((int) (Math.sqrt(state.get(COUNT)) * 8), 15) : 0).sounds(BlockSoundGroup.WOOL));
         this.setDefaultState(getDefaultState().with(COUNT, 1).with(LIT, false).with(WATERLOGGED, false));
     }
 
@@ -62,7 +63,6 @@ public class BlockCandle extends Block implements Waterloggable {
     @Nullable
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockState blockState = ctx.getWorld().getBlockState(ctx.getBlockPos());
-
         if (blockState.isOf(this)) {
             return blockState.with(COUNT, Math.min(4, blockState.get(COUNT) + 1));
         } else {
@@ -130,29 +130,28 @@ public class BlockCandle extends Block implements Waterloggable {
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         if (state.get(LIT)) {
-            float blockPart = 1F / 16F;
             int candles = state.get(COUNT);
             double x = (double) pos.getX() + 0.5D;
             double y = (double) pos.getY() + 0.55D;
             double z = (double) pos.getZ() + 0.5D;
             switch (candles) {
                 case 1:
-                    world.addParticle(ModParticles.FLAME, x, y, z, 1, 0, 0);
+                    ModParticles.spawnCandleParticle(world, x, y, z, 1, false);
                     break;
                 case 2:
-                    world.addParticle(ModParticles.FLAME, x - 3 * blockPart, y, z - 3 * blockPart, 1, 0, 0);
-                    world.addParticle(ModParticles.FLAME, x + 2 * blockPart, y - 2 * blockPart, z + 2 * blockPart, 1, 0, 0);
+                    ModParticles.spawnCandleParticle(world, x - 3 * Constants.BLOCK_BIT, y, z - 3 * Constants.BLOCK_BIT, 1, false);
+                    ModParticles.spawnCandleParticle(world, x + 2 * Constants.BLOCK_BIT, y - 2 * Constants.BLOCK_BIT, z + 2 * Constants.BLOCK_BIT, 1, false);
                     break;
                 case 3:
-                    world.addParticle(ModParticles.FLAME, x, y, z + 3 * blockPart, 1, 0, 0);
-                    world.addParticle(ModParticles.FLAME, x - 4 * blockPart, y - 2 * blockPart, z - 4 * blockPart, 1, 0, 0);
-                    world.addParticle(ModParticles.FLAME, x + 2 * blockPart, y, z - 2 * blockPart, 1, 0, 0);
+                    ModParticles.spawnCandleParticle(world, x, y, z + 3 * Constants.BLOCK_BIT, 1, false);
+                    ModParticles.spawnCandleParticle(world, x - 4 * Constants.BLOCK_BIT, y - 2 * Constants.BLOCK_BIT, z - 4 * Constants.BLOCK_BIT, 1, false);
+                    ModParticles.spawnCandleParticle(world, x + 2 * Constants.BLOCK_BIT, y, z - 2 * Constants.BLOCK_BIT, 1, false);
                     break;
                 case 4:
-                    world.addParticle(ModParticles.FLAME, x - 4 * blockPart, y, z - 4 * blockPart, 1, 0, 0);
-                    world.addParticle(ModParticles.FLAME, x + 3 * blockPart, y - 2 * blockPart, z + 4 * blockPart, 1, 0, 0);
-                    world.addParticle(ModParticles.FLAME, x - 4 * blockPart, y, z + 2 * blockPart, 1, 0, 0);
-                    world.addParticle(ModParticles.FLAME, x + 3 * blockPart, y, z - 4 * blockPart, 1, 0, 0);
+                    ModParticles.spawnCandleParticle(world, x - 4 * Constants.BLOCK_BIT, y, z - 4 * Constants.BLOCK_BIT, 1, false);
+                    ModParticles.spawnCandleParticle(world, x + 3 * Constants.BLOCK_BIT, y - 2 * Constants.BLOCK_BIT, z + 4 * Constants.BLOCK_BIT, 1, false);
+                    ModParticles.spawnCandleParticle(world, x - 4 * Constants.BLOCK_BIT, y, z + 2 * Constants.BLOCK_BIT, 1, false);
+                    ModParticles.spawnCandleParticle(world, x + 3 * Constants.BLOCK_BIT, y, z - 4 * Constants.BLOCK_BIT, 1, false);
                     break;
             }
         }

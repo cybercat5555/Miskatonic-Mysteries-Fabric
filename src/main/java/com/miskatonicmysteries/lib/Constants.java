@@ -1,7 +1,9 @@
 package com.miskatonicmysteries.lib;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -9,7 +11,9 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.tag.Tag;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -17,7 +21,22 @@ import net.minecraft.util.Identifier;
 public class Constants {
     public static final String MOD_ID = "miskatonicmysteries";
     public static final ItemGroup MM_GROUP = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "group"), () -> ModObjects.OCEANIC_GOLD.getStackForRender());
-    public static class NBT{
+    public static final float BLOCK_BIT = 0.0625F;
+
+    public static class Affiliation {
+        public static final Identifier NONE = new Identifier(MOD_ID, "none");
+        public static final Identifier HASTUR = new Identifier(MOD_ID, "hastur");
+    }
+
+    public static class Tags {
+        public static final Tag<Item> ALTAR_BOOKS = TagRegistry.item(new Identifier(MOD_ID, "altar_books"));
+        public static final Tag<Item> OCEANIC_GOLD_BLOCKS_ITEM = TagRegistry.item(new Identifier(MOD_ID, "oceanic_gold_blocks"));
+        public static final Tag<Block> OCEANIC_GOLD_BLOCKS = TagRegistry.block(new Identifier(MOD_ID, "oceanic_gold_blocks"));
+
+        public static final Tag<Item> RED_MEAT = TagRegistry.item(new Identifier(MOD_ID, "red_meat"));
+    }
+
+    public static class NBT {
         public static final String RECEIVED_STACK = "Received Stack";
         public static final String REALIZED_STACK = "Realized Stack";
         public static final String POTENTIAL_ITEMS = "Potential Items";
@@ -28,6 +47,7 @@ public class Constants {
         public static final String SANITY = "Sanity";
         public static final String SHOCKED = "Shocked";
         public static final String SANITY_EXPANSIONS = "Sanity Expansions";
+        public static final String WORK_PROGRESS = "Work Progress";
     }
 
     public static class DataTrackers {
