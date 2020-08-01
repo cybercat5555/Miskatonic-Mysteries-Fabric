@@ -1,12 +1,10 @@
 package com.miskatonicmysteries.lib;
 
-import com.miskatonicmysteries.common.block.BlockAltar;
-import com.miskatonicmysteries.common.block.BlockCandle;
-import com.miskatonicmysteries.common.block.BlockChemistrySet;
-import com.miskatonicmysteries.common.block.BlockOctagram;
+import com.miskatonicmysteries.common.block.*;
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityAltar;
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityOctagram;
+import com.miskatonicmysteries.common.block.blockentity.BlockEntityStatue;
 import com.miskatonicmysteries.common.item.*;
 import com.miskatonicmysteries.common.item.books.ItemMMBook;
 import com.miskatonicmysteries.lib.util.Constants;
@@ -39,8 +37,24 @@ public class ModObjects {
     public static final BlockOctagram CTHULHU_OCTAGRAM = new BlockOctagram(Constants.Affiliation.CTHULHU);
     public static final BlockOctagram HASTUR_OCTAGRAM = new BlockOctagram(Constants.Affiliation.HASTUR);
     public static final BlockOctagram SHUB_OCTAGRAM = new BlockOctagram(Constants.Affiliation.SHUB);
-
     public static final BlockEntityType<BlockEntityOctagram> OCTAGRAM_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityOctagram::new, BlockOctagram.OCTAGRAMS.toArray(new BlockOctagram[BlockOctagram.OCTAGRAMS.size()])).build(null);
+
+    public static final BlockStatue CTHULHU_STATUE_GOLD = new BlockStatue(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+    public static final BlockStatue CTHULHU_STATUE_MOSSY = new BlockStatue(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final BlockStatue CTHULHU_STATUE_PRISMARINE = new BlockStatue(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.PRISMARINE));
+    public static final BlockStatue CTHULHU_STATUE_STONE = new BlockStatue(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));
+
+    public static final BlockStatue HASTUR_STATUE_GOLD = new BlockStatue(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+    public static final BlockStatue HASTUR_STATUE_MOSSY = new BlockStatue(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final BlockStatue HASTUR_STATUE_TERRACOTTA = new BlockStatue(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
+    public static final BlockStatue HASTUR_STATUE_STONE = new BlockStatue(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.STONE));
+
+    public static final BlockStatue SHUB_STATUE_GOLD = new BlockStatue(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+    public static final BlockStatue SHUB_STATUE_MOSSY = new BlockStatue(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final BlockStatue SHUB_STATUE_BLACKSTONE = new BlockStatue(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
+    public static final BlockStatue SHUB_STATUE_STONE = new BlockStatue(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.STONE));
+
+    public static final BlockEntityType<BlockEntityStatue> STATUE_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityStatue::new, BlockStatue.STATUES.toArray(new BlockStatue[BlockStatue.STATUES.size()])).build(null);
 
 
     public static final Block OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
@@ -92,6 +106,20 @@ public class ModObjects {
         Util.registerBlock(CTHULHU_OCTAGRAM, "cthulhu_octagram");
         Util.registerBlock(HASTUR_OCTAGRAM, "hastur_octagram");
         Util.registerBlock(SHUB_OCTAGRAM, "shub_octagram");
+
+        Util.register(Registry.BLOCK_ENTITY_TYPE, "statue", STATUE_BLOCK_ENTITY_TYPE);
+        Util.registerBlock(CTHULHU_STATUE_GOLD, "cthulhu_statue_gold");
+        Util.registerBlock(CTHULHU_STATUE_MOSSY, "cthulhu_statue_mossy");
+        Util.registerBlock(CTHULHU_STATUE_PRISMARINE, "cthulhu_statue_prismarine");
+        Util.registerBlock(CTHULHU_STATUE_STONE, "cthulhu_statue_stone");
+        Util.registerBlock(HASTUR_STATUE_GOLD, "hastur_statue_gold");
+        Util.registerBlock(HASTUR_STATUE_MOSSY, "hastur_statue_mossy");
+        Util.registerBlock(HASTUR_STATUE_TERRACOTTA, "hastur_statue_terracotta");
+        Util.registerBlock(HASTUR_STATUE_STONE, "hastur_statue_stone");
+        Util.registerBlock(SHUB_STATUE_GOLD, "shub_statue_gold");
+        Util.registerBlock(SHUB_STATUE_MOSSY, "shub_statue_mossy");
+        Util.registerBlock(SHUB_STATUE_BLACKSTONE, "shub_statue_blackstone");
+        Util.registerBlock(SHUB_STATUE_STONE, "shub_statue_stone");
 
         Util.registerBlock(OCEANIC_GOLD_BLOCK, "oceanic_gold_block");
         Util.registerBlock(WARDED_OCEANIC_GOLD_BLOCK, "oceanic_gold_block_warded");

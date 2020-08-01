@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.client.render.blockentity;
 
-import com.miskatonicmysteries.client.ClientProxy;
+import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityAltar;
 import com.miskatonicmysteries.lib.util.Constants;
 import net.minecraft.block.LecternBlock;
@@ -31,7 +31,7 @@ public class BlockRenderAltar extends BlockEntityRenderer<BlockEntityAltar> {
             matrixStack.translate(0.0D, -2 * Constants.BLOCK_BIT, -Constants.BLOCK_BIT);
             matrixStack.scale(0.75F, 0.75F, 0.75F);
             this.book.setPageAngles(0.0F, 0.01F, 0.99F, 1.2F);
-            VertexConsumer vertexConsumer = ClientProxy.getBookTextureFor(entity.getStack(0)).getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid);
+            VertexConsumer vertexConsumer = ResourceHandler.getBookTextureFor(entity.getStack(0)).getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid);
             this.book.method_24184(matrixStack, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
             matrixStack.pop();
         }
