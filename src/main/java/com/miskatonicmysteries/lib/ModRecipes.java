@@ -2,6 +2,7 @@ package com.miskatonicmysteries.lib;
 
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
+import com.miskatonicmysteries.lib.util.Util;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;

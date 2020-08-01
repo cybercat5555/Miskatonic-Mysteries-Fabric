@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.lib;
 
 import com.miskatonicmysteries.client.particle.CandleFlameParticle;
+import com.miskatonicmysteries.lib.util.Util;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;

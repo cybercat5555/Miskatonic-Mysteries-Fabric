@@ -1,10 +1,8 @@
 package com.miskatonicmysteries.common.feature.recipe;
 
-import com.miskatonicmysteries.lib.Constants;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeType;
 import net.minecraft.world.World;
 
 public interface LazySerializable extends Recipe<Inventory> {

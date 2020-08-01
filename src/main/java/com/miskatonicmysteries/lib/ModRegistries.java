@@ -5,6 +5,8 @@ import com.miskatonicmysteries.common.feature.effect.StatusEffectLazarus;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectMania;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectOvermedicated;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectTranquilized;
+import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.lib.util.Util;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;

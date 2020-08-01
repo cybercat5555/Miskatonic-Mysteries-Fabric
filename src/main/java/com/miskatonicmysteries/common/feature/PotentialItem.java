@@ -1,9 +1,7 @@
 package com.miskatonicmysteries.common.feature;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.miskatonicmysteries.lib.Constants;
-import io.netty.buffer.ByteBuf;
+import com.miskatonicmysteries.lib.util.Constants;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketByteBuf;

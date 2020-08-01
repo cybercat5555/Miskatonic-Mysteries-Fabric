@@ -5,10 +5,10 @@ import com.miskatonicmysteries.common.feature.effect.StatusEffectLazarus;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
-import com.miskatonicmysteries.lib.Constants;
 import com.miskatonicmysteries.lib.ModObjects;
 import com.miskatonicmysteries.lib.ModRegistries;
-import com.miskatonicmysteries.lib.Util;
+import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.lib.util.Util;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.miskatonicmysteries.lib.Constants.DataTrackers.*;
+import static com.miskatonicmysteries.lib.util.Constants.DataTrackers.*;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerMixin extends LivingEntity implements ISanity {

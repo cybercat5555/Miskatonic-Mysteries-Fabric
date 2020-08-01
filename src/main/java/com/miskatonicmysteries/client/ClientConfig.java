@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client;
 
 import blue.endless.jankson.Comment;
-import com.miskatonicmysteries.lib.Constants;
+import com.miskatonicmysteries.lib.util.Constants;
 import io.github.cottonmc.cotton.config.annotations.ConfigFile;
 
 @ConfigFile(name = Constants.MOD_ID + "/client")

@@ -1,6 +1,9 @@
 {
   "name": "item.miskatonicmysteries.science_journal",
+  "subtitle": "miskatonicmysteries.science_journal.subtitle",
   "landing_text": "miskatonicmysteries.science_journal.landing",
+  "book_texture": "miskatonicmysteries:textures/gui/science_journal.png",
   "dont_generate_book": true,
-  "custom_book_item": "miskatonicmysteries:science_journal"
+  "custom_book_item": "miskatonicmysteries:science_journal",
+  "show_progress": false
 }

@@ -17,9 +17,12 @@
   "block.miskatonicmysteries.oceanic_gold_pillar_split": "Split Oceanic Gold Pillar",
   "block.miskatonicmysteries.oceanic_gold_pillar_ornate": "Ornate Oceanic Gold Pillar",
   "block.miskatonicmysteries.candle": "Candle",
+  "block.miskatonicmysteries.cthulhu_octagram": "Profane Chalk",
+  "block.miskatonicmysteries.hastur_octagram": "Profane Chalk",
+  "block.miskatonicmysteries.shub_octagram": "Profane Chalk",
   "comment2": "ITEMS",
   "item.miskatonicmysteries.necronomicon": "Necronomicon",
-  "item.miskatonicmysteries.science_journal": "Miskatonic Science Journal",
+  "item.miskatonicmysteries.science_journal": "Science Journal",
   "item.miskatonicmysteries.oceanic_gold": "Oceanic Gold",
   "item.miskatonicmysteries.rifle": "Rifle",
   "item.miskatonicmysteries.revolver": "Revolver",
@@ -73,5 +76,7 @@
   "effect.miskatonicmysteries.overmedicated": "Overmedicated",
   "comment7": "SOUNDS",
   "subtitles.miskatonicmysteries.gun_shot": "Gunshot",
-  "comment8": "BOOK STUFF"
+  "comment8": "BOOK STUFF",
+  "miskatonicmysteries.science_journal.subtitle": "of Miskatonic University",
+  "miskatonicmysteries.science_journal.landing": "Property of Miskatonic University, affiliated universities, companies etc.$(br2)Possession of this report by a non-affiliated  individual is punishable by law"
 }

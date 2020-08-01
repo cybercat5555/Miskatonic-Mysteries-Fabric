@@ -1,5 +1,6 @@
-package com.miskatonicmysteries.lib;
+package com.miskatonicmysteries.lib.util;
 
+import com.miskatonicmysteries.lib.ModObjects;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.AbstractBlock;
@@ -25,7 +26,9 @@ public class Constants {
 
     public static class Affiliation {
         public static final Identifier NONE = new Identifier(MOD_ID, "none");
+        public static final Identifier CTHULHU = new Identifier(MOD_ID, "cthulhu");
         public static final Identifier HASTUR = new Identifier(MOD_ID, "hastur");
+        public static final Identifier SHUB = new Identifier(MOD_ID, "shub");
     }
 
     public static class Tags {

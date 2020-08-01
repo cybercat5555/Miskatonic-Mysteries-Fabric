@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.block;
 
-import com.miskatonicmysteries.lib.Constants;
 import com.miskatonicmysteries.lib.ModParticles;
-import com.miskatonicmysteries.lib.Util;
+import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.lib.util.Util;
 import net.minecraft.block.*;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;

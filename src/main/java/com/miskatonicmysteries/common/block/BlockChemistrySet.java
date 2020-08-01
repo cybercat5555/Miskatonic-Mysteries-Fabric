@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
-import com.miskatonicmysteries.lib.Util;
+import com.miskatonicmysteries.lib.util.Util;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
@@ -75,7 +75,6 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
             if (blockEntity instanceof BlockEntityChemistrySet) {
                 ItemScatterer.spawn(world, pos, ((BlockEntityChemistrySet) blockEntity).getItems());
             }
-
             super.onStateReplaced(state, world, pos, newState, moved);
         }
     }

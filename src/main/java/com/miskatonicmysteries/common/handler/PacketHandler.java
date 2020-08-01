@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.handler;
 
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
-import com.miskatonicmysteries.lib.Constants;
+import com.miskatonicmysteries.lib.util.Constants;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.entity.player.PlayerEntity;

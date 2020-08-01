@@ -3,7 +3,9 @@ package com.miskatonicmysteries.client.render.blockentity;
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.model.json.ModelTransformation;
@@ -22,7 +24,7 @@ public class BlockRenderChemistrySet extends BlockEntityRenderer<BlockEntityChem
             matrices.push();
             Direction direction = entity.getWorld().getBlockState(entity.getPos()).get(HorizontalFacingBlock.FACING);
             matrices.translate(0.5, 0.5, 0.5); //subtract 0.5 from everything below i guess
-            matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion((direction == Direction.NORTH ? 2 : direction == Direction.EAST ? 1 : direction == Direction.WEST ? 3 : 0) * 90));
+            matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(direction.getOpposite().asRotation()));//; (direction == Direction.SOUTH ? 2 : direction == Direction.EAST ? 1 : direction == Direction.WEST ? 3 : 0) * 90));
             //bottom center
             matrices.push();
             matrices.translate(-0.05, -0.10, -0.05);

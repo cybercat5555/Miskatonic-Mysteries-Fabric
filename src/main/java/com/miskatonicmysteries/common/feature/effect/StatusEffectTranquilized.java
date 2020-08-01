@@ -2,8 +2,8 @@ package com.miskatonicmysteries.common.feature.effect;
 
 import com.miskatonicmysteries.common.CommonProxy;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
-import com.miskatonicmysteries.lib.Constants;
 import com.miskatonicmysteries.lib.ModRegistries;
+import com.miskatonicmysteries.lib.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;

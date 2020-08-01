@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityAltar;
-import com.miskatonicmysteries.lib.Constants;
 import com.miskatonicmysteries.lib.ModParticles;
-import com.miskatonicmysteries.lib.Util;
+import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.lib.util.Util;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
@@ -17,6 +17,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -45,11 +46,22 @@ public class BlockAltar extends HorizontalFacingBlock implements Waterloggable, 
     }
 
     @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!state.isOf(newState.getBlock())) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof BlockEntityAltar) {
+                ItemScatterer.spawn(world, pos, ((BlockEntityAltar) blockEntity).getItems());
+            }
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
+    }
+
+    @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack stack = player.getStackInHand(hand);
         BlockEntityAltar altar = (BlockEntityAltar) world.getBlockEntity(pos);
         if (altar != null) {
-            if (!stack.isEmpty() && altar.isValid(0, stack)) {
+            if (!stack.isEmpty() && altar.isValid(0, stack) && altar.getStack(0).isEmpty()) {
                 altar.setStack(0, stack);
                 altar.markDirty();
                 return ActionResult.CONSUME;

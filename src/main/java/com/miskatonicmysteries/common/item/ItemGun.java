@@ -1,21 +1,19 @@
 package com.miskatonicmysteries.common.item;
 
-import com.miskatonicmysteries.lib.Constants;
 import com.miskatonicmysteries.lib.ModObjects;
 import com.miskatonicmysteries.lib.ModRegistries;
-import io.github.cottonmc.cotton.commons.CommonTags;
+import com.miskatonicmysteries.lib.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;

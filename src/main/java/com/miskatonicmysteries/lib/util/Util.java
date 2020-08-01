@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.lib;
+package com.miskatonicmysteries.lib.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.ItemEntity;

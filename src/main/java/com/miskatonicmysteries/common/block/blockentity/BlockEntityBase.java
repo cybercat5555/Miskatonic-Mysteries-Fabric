@@ -12,10 +12,6 @@ public abstract class BlockEntityBase extends BlockEntity implements BlockEntity
         super(type);
     }
 
-    public CompoundTag getDataToSync(CompoundTag tag){
-        return toTag(tag);
-    }
-
     @Override
     public void fromClientTag(CompoundTag compoundTag) {
         fromTag(world.getBlockState(pos), compoundTag);

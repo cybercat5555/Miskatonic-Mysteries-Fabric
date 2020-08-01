@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.item;
 
-import com.miskatonicmysteries.lib.Constants;
 import com.miskatonicmysteries.lib.ModRegistries;
+import com.miskatonicmysteries.lib.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;

@@ -2,9 +2,9 @@ package com.miskatonicmysteries.common.block.blockentity;
 
 import com.miskatonicmysteries.common.feature.PotentialItem;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
-import com.miskatonicmysteries.lib.Constants;
 import com.miskatonicmysteries.lib.ModObjects;
 import com.miskatonicmysteries.lib.ModRecipes;
+import com.miskatonicmysteries.lib.util.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
