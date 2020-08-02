@@ -53,9 +53,20 @@ public class ModObjects {
     public static final BlockStatue SHUB_STATUE_MOSSY = new BlockStatue(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
     public static final BlockStatue SHUB_STATUE_BLACKSTONE = new BlockStatue(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
     public static final BlockStatue SHUB_STATUE_STONE = new BlockStatue(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.STONE));
-
     public static final BlockEntityType<BlockEntityStatue> STATUE_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityStatue::new, BlockStatue.STATUES.toArray(new BlockStatue[BlockStatue.STATUES.size()])).build(null);
 
+    public static final Block STONE_CTHULHU_MURAL = new BlockMural(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final Block MOSSY_CTHULHU_MURAL = new BlockMural(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final Block CORAL_CTHULHU_MURAL = new BlockMural(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.DEAD_BRAIN_CORAL_BLOCK));
+    public static final Block PRISMARINE_CTHULHU_MURAL = new BlockMural(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.PRISMARINE));
+
+    public static final Block STONE_HASTUR_MURAL = new BlockMural(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final Block MOSSY_HASTUR_MURAL = new BlockMural(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final Block TERRACOTTA_HASTUR_MURAL = new BlockMural(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
+    public static final Block YELLOW_TERRACOTTA_HASTUR_MURAL = new BlockMural(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.YELLOW_TERRACOTTA));
+
+    public static final Block STONE_SHUB_MURAL = new BlockMural(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final Block MOSSY_SHUB_MURAL = new BlockMural(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
 
     public static final Block OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
     public static final Block WARDED_OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD.strength(2.5F, 12));
@@ -120,6 +131,20 @@ public class ModObjects {
         Util.registerBlock(SHUB_STATUE_MOSSY, "shub_statue_mossy");
         Util.registerBlock(SHUB_STATUE_BLACKSTONE, "shub_statue_blackstone");
         Util.registerBlock(SHUB_STATUE_STONE, "shub_statue_stone");
+
+        Util.registerBlock(STONE_CTHULHU_MURAL, "stone_cthulhu_mural");
+        Util.registerBlock(MOSSY_CTHULHU_MURAL, "mossy_cthulhu_mural");
+        Util.registerBlock(CORAL_CTHULHU_MURAL, "coral_cthulhu_mural");
+        Util.registerBlock(PRISMARINE_CTHULHU_MURAL, "prismarine_cthulhu_mural");
+
+        Util.registerBlock(STONE_HASTUR_MURAL, "stone_hastur_mural");
+        Util.registerBlock(MOSSY_HASTUR_MURAL, "mossy_hastur_mural");
+        Util.registerBlock(TERRACOTTA_HASTUR_MURAL, "terracotta_hastur_mural");
+        Util.registerBlock(YELLOW_TERRACOTTA_HASTUR_MURAL, "yellow_terracotta_hastur_mural");
+
+        Util.registerBlock(STONE_SHUB_MURAL, "stone_shub_mural");
+        Util.registerBlock(MOSSY_SHUB_MURAL, "mossy_shub_mural");
+
 
         Util.registerBlock(OCEANIC_GOLD_BLOCK, "oceanic_gold_block");
         Util.registerBlock(WARDED_OCEANIC_GOLD_BLOCK, "oceanic_gold_block_warded");

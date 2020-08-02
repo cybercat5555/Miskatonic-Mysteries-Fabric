@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "miskatonicmysteries:blocks/yellow_terracotta_hastur_mural"
+  }
+}

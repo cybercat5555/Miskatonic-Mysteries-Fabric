@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "miskatonicmysteries:blocks/stone_cthulhu_mural"
+  }
+}

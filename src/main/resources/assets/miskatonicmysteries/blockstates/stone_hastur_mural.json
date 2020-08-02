@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "miskatonicmysteries:block/stone_hastur_mural"
+    },
+    "facing=east": {
+      "model": "miskatonicmysteries:block/stone_hastur_mural",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "miskatonicmysteries:block/stone_hastur_mural",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "miskatonicmysteries:block/stone_hastur_mural",
+      "y": 270
+    }
+  }
+}
