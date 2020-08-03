@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "miskatonicmysteries:items/chalk_shub"
+    "layer0": "miskatonicmysteries:item/chalk_shub"
   }
 }

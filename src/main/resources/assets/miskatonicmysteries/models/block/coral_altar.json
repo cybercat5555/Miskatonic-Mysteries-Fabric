@@ -1,7 +1,7 @@
 {
   "parent": "miskatonicmysteries:block/eldritch_altar",
   "textures": {
-    "all": "miskatonicmysteries:blocks/coral_altar",
-    "particle": "miskatonicmysteries:blocks/coral_altar"
+    "all": "miskatonicmysteries:block/coral_altar",
+    "particle": "miskatonicmysteries:block/coral_altar"
   }
 }

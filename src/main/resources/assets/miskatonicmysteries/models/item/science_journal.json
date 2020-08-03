@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "miskatonicmysteries:items/science_journal"
+    "layer0": "miskatonicmysteries:item/science_journal"
   }
 }

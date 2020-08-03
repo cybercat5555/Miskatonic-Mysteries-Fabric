@@ -4,7 +4,7 @@
 	"ambientocclusion": false,
 	"texture_size": [32, 32],
 	"textures": {
-		"particle": "miskatonicmysteries:blocks/chemistry_set_active"
+		"particle": "miskatonicmysteries:block/chemistry_set_active"
 	},
 	"elements": [
 		{

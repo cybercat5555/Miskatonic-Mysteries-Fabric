@@ -1,7 +1,7 @@
 {
   "parent": "miskatonicmysteries:block/eldritch_altar",
   "textures": {
-    "all": "miskatonicmysteries:blocks/stone_altar",
-    "particle": "miskatonicmysteries:blocks/stone_altar"
+    "all": "miskatonicmysteries:block/stone_altar",
+    "particle": "miskatonicmysteries:block/stone_altar"
   }
 }

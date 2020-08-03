@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "miskatonicmysteries:blocks/terracotta_hastur_mural"
+    "all": "miskatonicmysteries:block/terracotta_hastur_mural"
   }
 }

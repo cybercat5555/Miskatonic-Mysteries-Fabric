@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "all": "miskatonicmysteries:blocks/candle_unlit",
-    "particle": "miskatonicmysteries:blocks/candle_unlit"
+    "all": "miskatonicmysteries:block/candle_unlit",
+    "particle": "miskatonicmysteries:block/candle_unlit"
   },
   "elements": [
     {

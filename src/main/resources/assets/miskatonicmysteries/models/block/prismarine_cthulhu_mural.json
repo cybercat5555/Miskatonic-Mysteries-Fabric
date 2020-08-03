@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "miskatonicmysteries:blocks/prismarine_cthulhu_mural"
+    "all": "miskatonicmysteries:block/prismarine_cthulhu_mural"
   }
 }
