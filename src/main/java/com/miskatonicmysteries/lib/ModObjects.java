@@ -78,6 +78,10 @@ public class ModObjects {
 
     public static final Block CANDLE = new BlockCandle();
 
+    public static final Block DUMMY_RESONATOR_ON = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
+    public static final Block DUMMY_RESONATOR_OFF = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
+    public static final Block POWERCELL = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
+
     public static final ItemMMBook SCIENCE_JOURNAL = new ItemMMBook(new Identifier(Constants.MOD_ID, "science_journal"), Constants.Affiliation.NONE, false);
     public static final ItemMMBook NECRONOMICON = new ItemMMBook(new Identifier(Constants.MOD_ID, "necronomicon"), Constants.Affiliation.NONE, true);
 
@@ -100,6 +104,10 @@ public class ModObjects {
 
 
     public static void init() {
+        Util.registerBlock(DUMMY_RESONATOR_OFF, "resonator_off");
+        Util.registerBlock(DUMMY_RESONATOR_ON, "resonator_on");
+        Util.registerBlock(POWERCELL, "powercell");
+
         Util.register(Registry.BLOCK_ENTITY_TYPE, "chemistry_set", CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
         Util.registerBlock(CHEMISTRY_SET, "chemistry_set");
 

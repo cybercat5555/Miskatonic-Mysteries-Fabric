@@ -1,0 +1,4850 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "texture_size": [
+    64,
+    64
+  ],
+  "textures": {
+    "particle": "miskatonicmysteries:block/powercell"
+  },
+  "elements": [
+    {
+      "name": "jar01B",
+      "from": [
+        2,
+        1,
+        2
+      ],
+      "to": [
+        7,
+        2,
+        7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          2,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.75,
+            2.5,
+            7,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            4.5,
+            2.5,
+            5.75,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            2.5,
+            9.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            2.5,
+            8.25,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            2.5,
+            5.75,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            1.25,
+            7,
+            2.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03B",
+      "from": [
+        9,
+        1,
+        2
+      ],
+      "to": [
+        14,
+        2,
+        7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          2,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.75,
+            2.5,
+            7,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            4.5,
+            2.5,
+            5.75,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            2.5,
+            9.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            2.5,
+            8.25,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            2.5,
+            5.75,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            1.25,
+            7,
+            2.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04B",
+      "from": [
+        9,
+        1,
+        9
+      ],
+      "to": [
+        14,
+        2,
+        14
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          2,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.75,
+            2.5,
+            7,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            4.5,
+            2.5,
+            5.75,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            2.5,
+            9.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            2.5,
+            8.25,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            2.5,
+            5.75,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            1.25,
+            7,
+            2.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02B",
+      "from": [
+        2,
+        1,
+        9
+      ],
+      "to": [
+        7,
+        2,
+        14
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          2,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.75,
+            2.5,
+            7,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            4.5,
+            2.5,
+            5.75,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            2.5,
+            9.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            2.5,
+            8.25,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            2.5,
+            5.75,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            1.25,
+            7,
+            2.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar01T",
+      "from": [
+        2,
+        8,
+        2
+      ],
+      "to": [
+        7,
+        9,
+        7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.75,
+            2.5,
+            7,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            4.5,
+            2.5,
+            5.75,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            2.5,
+            9.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            2.5,
+            8.25,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            2.5,
+            5.75,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            1.25,
+            7,
+            2.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03T",
+      "from": [
+        9,
+        8,
+        2
+      ],
+      "to": [
+        14,
+        9,
+        7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.75,
+            2.5,
+            7,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            4.5,
+            2.5,
+            5.75,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            2.5,
+            9.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            2.5,
+            8.25,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            2.5,
+            5.75,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            1.25,
+            7,
+            2.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04T",
+      "from": [
+        9,
+        8,
+        9
+      ],
+      "to": [
+        14,
+        9,
+        14
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.75,
+            2.5,
+            7,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            4.5,
+            2.5,
+            5.75,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            2.5,
+            9.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            2.5,
+            8.25,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            2.5,
+            5.75,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            1.25,
+            7,
+            2.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02T",
+      "from": [
+        2,
+        8,
+        9
+      ],
+      "to": [
+        7,
+        9,
+        14
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.75,
+            2.5,
+            7,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            4.5,
+            2.5,
+            5.75,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            2.5,
+            9.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            2.5,
+            8.25,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            2.5,
+            5.75,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            1.25,
+            7,
+            2.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "frameE",
+      "from": [
+        15,
+        0,
+        1
+      ],
+      "to": [
+        16,
+        3,
+        15
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          3,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            3.5,
+            4.75,
+            3.75,
+            5.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            4.75,
+            3.5,
+            5.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            7.25,
+            4.75,
+            7.5,
+            5.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            3.75,
+            4.75,
+            7.25,
+            5.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            3.75,
+            4.75,
+            3.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            4,
+            1.25,
+            3.75,
+            4.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar01Cap",
+      "from": [
+        3,
+        9,
+        3
+      ],
+      "to": [
+        6,
+        11,
+        6
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          10,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.75,
+            11,
+            1.5,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            11,
+            0.75,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            2.25,
+            11,
+            3,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            1.5,
+            11,
+            2.25,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            1.5,
+            11,
+            0.75,
+            10.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            10.25,
+            1.5,
+            11
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03Cap",
+      "from": [
+        10,
+        9,
+        3
+      ],
+      "to": [
+        13,
+        11,
+        6
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          10,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.75,
+            11,
+            1.5,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            11,
+            0.75,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            2.25,
+            11,
+            3,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            1.5,
+            11,
+            2.25,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            1.5,
+            11,
+            0.75,
+            10.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            10.25,
+            1.5,
+            11
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04Cap",
+      "from": [
+        10,
+        9,
+        10
+      ],
+      "to": [
+        13,
+        11,
+        13
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          10,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.75,
+            11,
+            1.5,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            11,
+            0.75,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            2.25,
+            11,
+            3,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            1.5,
+            11,
+            2.25,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            1.5,
+            11,
+            0.75,
+            10.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            10.25,
+            1.5,
+            11
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02Cap",
+      "from": [
+        3,
+        9,
+        10
+      ],
+      "to": [
+        6,
+        11,
+        13
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          10,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.75,
+            11,
+            1.5,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            11,
+            0.75,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            2.25,
+            11,
+            3,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            1.5,
+            11,
+            2.25,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            1.5,
+            11,
+            0.75,
+            10.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            10.25,
+            1.5,
+            11
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "frameN",
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        3,
+        1
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          3,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            0.25,
+            4.25,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            0.25,
+            0.25,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            4.5,
+            0.25,
+            8.5,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            4.5,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            0.25,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0,
+            4.25,
+            0.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "frameS",
+      "from": [
+        0,
+        0,
+        15
+      ],
+      "to": [
+        16,
+        3,
+        16
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          3,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            0.25,
+            4.25,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            0.25,
+            0.25,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            4.5,
+            0.25,
+            8.5,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            4.25,
+            0.25,
+            4.5,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            4.25,
+            0.25,
+            0.25,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            0,
+            4.25,
+            0.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "connector01",
+      "from": [
+        4,
+        12,
+        5
+      ],
+      "to": [
+        5,
+        13,
+        11
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          12,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            1.75,
+            15,
+            2,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            15,
+            1.5,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            3.75,
+            15,
+            4,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            2,
+            15,
+            3.5,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2,
+            15,
+            1.75,
+            13.5
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            13.25,
+            2,
+            14.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "connector02",
+      "from": [
+        11,
+        12,
+        5
+      ],
+      "to": [
+        12,
+        13,
+        11
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          12,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            1.75,
+            15,
+            2,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            15,
+            1.5,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            3.75,
+            15,
+            4,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            2,
+            15,
+            3.5,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2,
+            15,
+            1.75,
+            13.5
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            13.25,
+            2,
+            14.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "orb",
+      "from": [
+        6.5,
+        12,
+        6.5
+      ],
+      "to": [
+        9.5,
+        15,
+        9.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          12,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            1.75,
+            15,
+            2.5,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0.75,
+            10.25,
+            1.5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            0.75,
+            10.25,
+            1.5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            0.75,
+            10.25,
+            1.5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2,
+            15,
+            1.75,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            13.25,
+            2,
+            14
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "connector03",
+      "from": [
+        4,
+        13,
+        7.5
+      ],
+      "to": [
+        7,
+        14,
+        8.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          12,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            1.75,
+            15,
+            2.5,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0.75,
+            10.25,
+            1,
+            10.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            0.75,
+            15,
+            1.5,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            0.75,
+            10.25,
+            1,
+            10.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2,
+            15,
+            2.75,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            15,
+            3,
+            15.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "connector04",
+      "from": [
+        9,
+        13,
+        7.5
+      ],
+      "to": [
+        12,
+        14,
+        8.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          12,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            1.75,
+            15,
+            2.5,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0.75,
+            10.25,
+            1,
+            10.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            0.75,
+            15,
+            1.5,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            0.75,
+            10.25,
+            1,
+            10.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2,
+            15,
+            2.75,
+            15.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.25,
+            15,
+            3,
+            15.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar01N",
+      "from": [
+        2,
+        1,
+        1.5
+      ],
+      "to": [
+        7,
+        8,
+        2
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            11.5,
+            3,
+            12.75,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            11.25,
+            3,
+            11.5,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            13,
+            3,
+            14.25,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.75,
+            3,
+            13,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.75,
+            3,
+            11.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14,
+            2.75,
+            12.75,
+            3
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03N",
+      "from": [
+        9,
+        1,
+        1.5
+      ],
+      "to": [
+        14,
+        8,
+        2
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            11.5,
+            3,
+            12.75,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            11.25,
+            3,
+            11.5,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            13,
+            3,
+            14.25,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.75,
+            3,
+            13,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.75,
+            3,
+            11.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14,
+            2.75,
+            12.75,
+            3
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04N",
+      "from": [
+        9,
+        1,
+        8.5
+      ],
+      "to": [
+        14,
+        8,
+        9
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            11.5,
+            3,
+            12.75,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            11.25,
+            3,
+            11.5,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            13,
+            3,
+            14.25,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.75,
+            3,
+            13,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.75,
+            3,
+            11.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14,
+            2.75,
+            12.75,
+            3
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02N",
+      "from": [
+        2,
+        1,
+        8.5
+      ],
+      "to": [
+        7,
+        8,
+        9
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            11.5,
+            3,
+            12.75,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            11.25,
+            3,
+            11.5,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            13,
+            3,
+            14.25,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.75,
+            3,
+            13,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.75,
+            3,
+            11.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14,
+            2.75,
+            12.75,
+            3
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "frameB",
+      "from": [
+        1,
+        0,
+        1
+      ],
+      "to": [
+        15,
+        1,
+        15
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          1,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            3.5,
+            9.5,
+            7,
+            9.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            9.5,
+            3.5,
+            9.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            10.5,
+            9.5,
+            14,
+            9.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            9.5,
+            10.5,
+            9.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            9.5,
+            3.5,
+            6
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            10.5,
+            6,
+            7,
+            9.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "frameW",
+      "from": [
+        0,
+        0,
+        1
+      ],
+      "to": [
+        1,
+        3,
+        15
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          3,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            3.5,
+            4.75,
+            3.75,
+            5.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            4.75,
+            3.5,
+            5.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            7.25,
+            4.75,
+            7.5,
+            5.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            3.75,
+            4.75,
+            7.25,
+            5.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            3.75,
+            4.75,
+            3.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            4,
+            1.25,
+            3.75,
+            4.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar01WFoil",
+      "from": [
+        2.01,
+        2,
+        2
+      ],
+      "to": [
+        2.01,
+        5,
+        7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            6.25,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03WFoil",
+      "from": [
+        9.01,
+        2,
+        2
+      ],
+      "to": [
+        9.01,
+        5,
+        7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            6.25,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04WFoil",
+      "from": [
+        9.01,
+        2,
+        9
+      ],
+      "to": [
+        9.01,
+        5,
+        14
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            6.25,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02WFoil",
+      "from": [
+        2.01,
+        2,
+        9
+      ],
+      "to": [
+        2.01,
+        5,
+        14
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            6.25,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar01SFoil",
+      "from": [
+        2.01,
+        2,
+        6.99
+      ],
+      "to": [
+        7.01,
+        5,
+        6.99
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03SFoil",
+      "from": [
+        9.01,
+        2,
+        6.99
+      ],
+      "to": [
+        14.01,
+        5,
+        6.99
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04SFoil",
+      "from": [
+        9.01,
+        2,
+        13.99
+      ],
+      "to": [
+        14.01,
+        5,
+        13.99
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02SFoil",
+      "from": [
+        2.01,
+        2,
+        13.99
+      ],
+      "to": [
+        7.01,
+        5,
+        13.99
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar01NFoil",
+      "from": [
+        2.01,
+        2,
+        1.99
+      ],
+      "to": [
+        7.01,
+        5,
+        1.99
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03NFoil",
+      "from": [
+        9.01,
+        2,
+        1.99
+      ],
+      "to": [
+        14.01,
+        5,
+        1.99
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04NFoil",
+      "from": [
+        9.01,
+        2,
+        8.99
+      ],
+      "to": [
+        14.01,
+        5,
+        8.99
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02NFoil",
+      "from": [
+        2.01,
+        2,
+        8.99
+      ],
+      "to": [
+        7.01,
+        5,
+        8.99
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar01EFoil",
+      "from": [
+        6.99,
+        2,
+        2
+      ],
+      "to": [
+        6.99,
+        5,
+        7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            6.25,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03EFoil",
+      "from": [
+        13.99,
+        2,
+        2
+      ],
+      "to": [
+        13.99,
+        5,
+        7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            6.25,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04EFoil",
+      "from": [
+        13.99,
+        2,
+        9
+      ],
+      "to": [
+        13.99,
+        5,
+        14
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            6.25,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02EFoil",
+      "from": [
+        6.99,
+        2,
+        9
+      ],
+      "to": [
+        6.99,
+        5,
+        14
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            3.75,
+            10.25,
+            5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            6.25,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            10.25,
+            6.25,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            10.25,
+            5,
+            9
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            5,
+            9,
+            5,
+            10.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar01W",
+      "from": [
+        1.5,
+        1,
+        2
+      ],
+      "to": [
+        2,
+        8,
+        7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            9,
+            4,
+            9.25,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            7.75,
+            4,
+            9,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            10.5,
+            4,
+            10.75,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            9.25,
+            4,
+            10.5,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            9.25,
+            4,
+            9,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            9.5,
+            2.75,
+            9.25,
+            4
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03W",
+      "from": [
+        8.5,
+        1,
+        2
+      ],
+      "to": [
+        9,
+        8,
+        7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            9,
+            4,
+            9.25,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            7.75,
+            4,
+            9,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            10.5,
+            4,
+            10.75,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            9.25,
+            4,
+            10.5,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            9.25,
+            4,
+            9,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            9.5,
+            2.75,
+            9.25,
+            4
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04W",
+      "from": [
+        8.5,
+        1,
+        9
+      ],
+      "to": [
+        9,
+        8,
+        14
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            9,
+            4,
+            9.25,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            7.75,
+            4,
+            9,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            10.5,
+            4,
+            10.75,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            9.25,
+            4,
+            10.5,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            9.25,
+            4,
+            9,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            9.5,
+            2.75,
+            9.25,
+            4
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02W",
+      "from": [
+        1.5,
+        1,
+        9
+      ],
+      "to": [
+        2,
+        8,
+        14
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            9,
+            4,
+            9.25,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            7.75,
+            4,
+            9,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            10.5,
+            4,
+            10.75,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            9.25,
+            4,
+            10.5,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            9.25,
+            4,
+            9,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            9.5,
+            2.75,
+            9.25,
+            4
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar01S",
+      "from": [
+        2,
+        1,
+        7
+      ],
+      "to": [
+        7,
+        8,
+        7.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            11.5,
+            3,
+            12.75,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            11.25,
+            3,
+            11.5,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            13,
+            3,
+            14.25,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.75,
+            3,
+            13,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.75,
+            3,
+            11.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14,
+            2.75,
+            12.75,
+            3
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03S",
+      "from": [
+        9,
+        1,
+        7
+      ],
+      "to": [
+        14,
+        8,
+        7.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            11.5,
+            3,
+            12.75,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            11.25,
+            3,
+            11.5,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            13,
+            3,
+            14.25,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.75,
+            3,
+            13,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.75,
+            3,
+            11.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14,
+            2.75,
+            12.75,
+            3
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04S",
+      "from": [
+        9,
+        1,
+        14
+      ],
+      "to": [
+        14,
+        8,
+        14.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            11.5,
+            3,
+            12.75,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            11.25,
+            3,
+            11.5,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            13,
+            3,
+            14.25,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.75,
+            3,
+            13,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.75,
+            3,
+            11.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14,
+            2.75,
+            12.75,
+            3
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02S",
+      "from": [
+        2,
+        1,
+        14
+      ],
+      "to": [
+        7,
+        8,
+        14.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            11.5,
+            3,
+            12.75,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            11.25,
+            3,
+            11.5,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            13,
+            3,
+            14.25,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.75,
+            3,
+            13,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.75,
+            3,
+            11.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14,
+            2.75,
+            12.75,
+            3
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar01E",
+      "from": [
+        7,
+        1,
+        2
+      ],
+      "to": [
+        7.5,
+        8,
+        7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            9,
+            4,
+            9.25,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            7.75,
+            4,
+            9,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            10.5,
+            4,
+            10.75,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            9.25,
+            4,
+            10.5,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            9.25,
+            4,
+            9,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            9.5,
+            2.75,
+            9.25,
+            4
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03E",
+      "from": [
+        14,
+        1,
+        2
+      ],
+      "to": [
+        14.5,
+        8,
+        7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            9,
+            4,
+            9.25,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            7.75,
+            4,
+            9,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            10.5,
+            4,
+            10.75,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            9.25,
+            4,
+            10.5,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            9.25,
+            4,
+            9,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            9.5,
+            2.75,
+            9.25,
+            4
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04E",
+      "from": [
+        14,
+        1,
+        9
+      ],
+      "to": [
+        14.5,
+        8,
+        14
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            9,
+            4,
+            9.25,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            7.75,
+            4,
+            9,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            10.5,
+            4,
+            10.75,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            9.25,
+            4,
+            10.5,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            9.25,
+            4,
+            9,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            9.5,
+            2.75,
+            9.25,
+            4
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02E",
+      "from": [
+        7,
+        1,
+        9
+      ],
+      "to": [
+        7.5,
+        8,
+        14
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          8,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            9,
+            4,
+            9.25,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            7.75,
+            4,
+            9,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            10.5,
+            4,
+            10.75,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            9.25,
+            4,
+            10.5,
+            5.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            9.25,
+            4,
+            9,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            9.5,
+            2.75,
+            9.25,
+            4
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar01Fluid",
+      "from": [
+        2.09,
+        2.09,
+        2.09
+      ],
+      "to": [
+        6.91,
+        3.91,
+        6.91
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.75,
+            13.75,
+            7,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            4.5,
+            13.75,
+            5.75,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            13.75,
+            9.5,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            13.75,
+            8.25,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            13.75,
+            5.75,
+            12.5
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            12.5,
+            7,
+            13.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03Fluid",
+      "from": [
+        9.09,
+        2.09,
+        2.09
+      ],
+      "to": [
+        13.91,
+        3.91,
+        6.91
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.75,
+            13.75,
+            7,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            4.5,
+            13.75,
+            5.75,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            13.75,
+            9.5,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            13.75,
+            8.25,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            13.75,
+            5.75,
+            12.5
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            12.5,
+            7,
+            13.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04Fluid",
+      "from": [
+        9.09,
+        2.09,
+        9.09
+      ],
+      "to": [
+        13.91,
+        3.91,
+        13.91
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.75,
+            13.75,
+            7,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            4.5,
+            13.75,
+            5.75,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            13.75,
+            9.5,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            13.75,
+            8.25,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            13.75,
+            5.75,
+            12.5
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            12.5,
+            7,
+            13.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02Fluid",
+      "from": [
+        2.09,
+        2.09,
+        9.09
+      ],
+      "to": [
+        6.91,
+        3.91,
+        13.91
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            5.75,
+            13.75,
+            7,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            4.5,
+            13.75,
+            5.75,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            8.25,
+            13.75,
+            9.5,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            7,
+            13.75,
+            8.25,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            7,
+            13.75,
+            5.75,
+            12.5
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            8.25,
+            12.5,
+            7,
+            13.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar01Terminal",
+      "from": [
+        4,
+        3,
+        4
+      ],
+      "to": [
+        5,
+        13,
+        5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          12,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            12.25,
+            0.5,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            12.25,
+            0.25,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            0.75,
+            12.25,
+            1,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            0.5,
+            12.25,
+            0.75,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            0.5,
+            12.25,
+            0.25,
+            12
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            0.75,
+            12,
+            0.5,
+            12.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar03Terminal",
+      "from": [
+        11,
+        3,
+        4
+      ],
+      "to": [
+        12,
+        13,
+        5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          12,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            12.25,
+            0.5,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            12.25,
+            0.25,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            0.75,
+            12.25,
+            1,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            0.5,
+            12.25,
+            0.75,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            0.5,
+            12.25,
+            0.25,
+            12
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            0.75,
+            12,
+            0.5,
+            12.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar04Terminal",
+      "from": [
+        11,
+        3,
+        11
+      ],
+      "to": [
+        12,
+        13,
+        12
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          12,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            12.25,
+            0.5,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            12.25,
+            0.25,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            0.75,
+            12.25,
+            1,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            0.5,
+            12.25,
+            0.75,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            0.5,
+            12.25,
+            0.25,
+            12
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            0.75,
+            12,
+            0.5,
+            12.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "jar02Terminal",
+      "from": [
+        4,
+        3,
+        11
+      ],
+      "to": [
+        5,
+        13,
+        12
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          12,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.25,
+            12.25,
+            0.5,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            12.25,
+            0.25,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            0.75,
+            12.25,
+            1,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            0.5,
+            12.25,
+            0.75,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            0.5,
+            12.25,
+            0.25,
+            12
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            0.75,
+            12,
+            0.5,
+            12.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    }
+  ]
+}

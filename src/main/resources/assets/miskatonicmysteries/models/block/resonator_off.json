@@ -1,0 +1,3446 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "texture_size": [
+    64,
+    64
+  ],
+  "textures": {
+    "particle": "miskatonicmysteries:block/resonator"
+  },
+  "elements": [
+    {
+      "name": "bracket03b",
+      "from": [
+        17.69,
+        29.49,
+        7.59
+      ],
+      "to": [
+        18.51,
+        31.31,
+        8.41
+      ],
+      "rotation": {
+        "angle": -45,
+        "axis": "z",
+        "origin": [
+          0,
+          31,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            14.25,
+            12.5,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            12,
+            14.25,
+            12.25,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            12.75,
+            14.25,
+            13,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.5,
+            14.25,
+            12.75,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.5,
+            14.25,
+            12.25,
+            14
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            12.75,
+            14,
+            12.5,
+            14.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "base",
+      "from": [
+        1.5,
+        0,
+        1.5
+      ],
+      "to": [
+        14.5,
+        6,
+        14.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          6,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            3.25,
+            3.25,
+            6.5,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            3.25,
+            3.25,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            9.75,
+            3.25,
+            13,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            6.5,
+            3.25,
+            9.75,
+            4.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            6.5,
+            3.25,
+            3.25,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            9.75,
+            0,
+            6.5,
+            3.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "bracket02b",
+      "from": [
+        7.59,
+        29.79,
+        18.39
+      ],
+      "to": [
+        8.41,
+        31.61,
+        19.21
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "x",
+        "origin": [
+          0,
+          32,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            10.25,
+            14.25,
+            10.5,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            10,
+            14.25,
+            10.25,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            10.75,
+            14.25,
+            11,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            10.5,
+            14.25,
+            10.75,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            10.5,
+            14.25,
+            10.25,
+            14
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            10.75,
+            14,
+            10.5,
+            14.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "switch",
+      "from": [
+        7.5,
+        6,
+        1
+      ],
+      "to": [
+        8.5,
+        7,
+        3
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "x",
+        "origin": [
+          7.5,
+          6.5,
+          2.5
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            10.25,
+            14.25,
+            10.5,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            10,
+            14.25,
+            10.25,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            10.75,
+            14.25,
+            11,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            10.5,
+            14.25,
+            10.75,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            10.5,
+            14.25,
+            10.25,
+            14
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            10.75,
+            14,
+            10.5,
+            14.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightETop",
+      "from": [
+        11,
+        22.8,
+        7.5
+      ],
+      "to": [
+        12,
+        23.8,
+        8.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          24,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.25,
+            0.25,
+            2.5,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            2,
+            0.25,
+            2.25,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            2.75,
+            0.25,
+            3,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            2.5,
+            0.25,
+            2.75,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2.5,
+            0.25,
+            2.25,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.75,
+            0,
+            2.5,
+            0.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightNETop",
+      "from": [
+        3,
+        22.8,
+        10.8
+      ],
+      "to": [
+        4,
+        23.8,
+        11.8
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          0,
+          24,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.25,
+            0.25,
+            2.5,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            2,
+            0.25,
+            2.25,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            2.75,
+            0.25,
+            3,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            2.5,
+            0.25,
+            2.75,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2.5,
+            0.25,
+            2.25,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.75,
+            0,
+            2.5,
+            0.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightSETop",
+      "from": [
+        -0.5,
+        22.8,
+        14.2
+      ],
+      "to": [
+        0.5,
+        23.8,
+        15.2
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          0,
+          24,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.25,
+            0.25,
+            2.5,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            2,
+            0.25,
+            2.25,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            2.75,
+            0.25,
+            3,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            2.5,
+            0.25,
+            2.75,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2.5,
+            0.25,
+            2.25,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.75,
+            0,
+            2.5,
+            0.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightSWTop",
+      "from": [
+        -4,
+        22.8,
+        10.8
+      ],
+      "to": [
+        -3,
+        23.8,
+        11.8
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          0,
+          24,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.25,
+            0.25,
+            2.5,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            2,
+            0.25,
+            2.25,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            2.75,
+            0.25,
+            3,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            2.5,
+            0.25,
+            2.75,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2.5,
+            0.25,
+            2.25,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.75,
+            0,
+            2.5,
+            0.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightNWTop",
+      "from": [
+        -0.5,
+        22.8,
+        7.2
+      ],
+      "to": [
+        0.5,
+        23.8,
+        8.2
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          0,
+          24,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.25,
+            0.25,
+            2.5,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            2,
+            0.25,
+            2.25,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            2.75,
+            0.25,
+            3,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            2.5,
+            0.25,
+            2.75,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2.5,
+            0.25,
+            2.25,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.75,
+            0,
+            2.5,
+            0.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightNE",
+      "from": [
+        10.39,
+        19.99,
+        -4.41
+      ],
+      "to": [
+        12.21,
+        22.81,
+        -2.59
+      ],
+      "rotation": {
+        "angle": -45,
+        "axis": "y",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.5,
+            0.5,
+            1,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            0.5,
+            0.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            1.5,
+            0.5,
+            2,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            1,
+            0.5,
+            1.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            1.5,
+            0,
+            1,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightNW",
+      "from": [
+        6.69,
+        19.99,
+        -0.91
+      ],
+      "to": [
+        8.51,
+        22.81,
+        0.91
+      ],
+      "rotation": {
+        "angle": -45,
+        "axis": "y",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.5,
+            0.5,
+            1,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            0.5,
+            0.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            1.5,
+            0.5,
+            2,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            1,
+            0.5,
+            1.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            1.5,
+            0,
+            1,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "slope01",
+      "from": [
+        6,
+        2.3,
+        2
+      ],
+      "to": [
+        10,
+        4.3,
+        4
+      ],
+      "rotation": {
+        "angle": -45,
+        "axis": "x",
+        "origin": [
+          0,
+          5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            10.5,
+            0.5,
+            11.5,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            10,
+            0.5,
+            10.5,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            12,
+            0.5,
+            13,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            11.5,
+            0.5,
+            12,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            11.5,
+            0.5,
+            10.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            12.5,
+            0,
+            11.5,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "coil",
+      "from": [
+        4.5,
+        10,
+        4.5
+      ],
+      "to": [
+        11.5,
+        18,
+        11.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          18,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            10.75,
+            8.75,
+            12.5,
+            10.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            9,
+            8.75,
+            10.75,
+            10.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            14.25,
+            8.75,
+            16,
+            10.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.5,
+            8.75,
+            14.25,
+            10.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.5,
+            8.75,
+            10.75,
+            7
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14.25,
+            7,
+            12.5,
+            8.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightSE",
+      "from": [
+        13.79,
+        19.99,
+        -0.91
+      ],
+      "to": [
+        15.61,
+        22.81,
+        0.91
+      ],
+      "rotation": {
+        "angle": -45,
+        "axis": "y",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.5,
+            0.5,
+            1,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            0.5,
+            0.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            1.5,
+            0.5,
+            2,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            1,
+            0.5,
+            1.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            1.5,
+            0,
+            1,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightW",
+      "from": [
+        3.59,
+        19.99,
+        7.09
+      ],
+      "to": [
+        5.41,
+        22.81,
+        8.91
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.5,
+            0.5,
+            1,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            0.5,
+            0.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            1.5,
+            0.5,
+            2,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            1,
+            0.5,
+            1.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            1.5,
+            0,
+            1,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "coilTop01",
+      "from": [
+        3,
+        18.01,
+        6
+      ],
+      "to": [
+        13,
+        20.01,
+        10
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          20,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            1,
+            10.5,
+            3.5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            10.5,
+            1,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            4.5,
+            10.5,
+            7,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            3.5,
+            10.5,
+            4.5,
+            11
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            3.5,
+            10.5,
+            1,
+            9.5
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            6,
+            9.5,
+            3.5,
+            10.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightWTop",
+      "from": [
+        4,
+        22.8,
+        7.5
+      ],
+      "to": [
+        5,
+        23.8,
+        8.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          24,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.25,
+            0.25,
+            2.5,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            2,
+            0.25,
+            2.25,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            2.75,
+            0.25,
+            3,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            2.5,
+            0.25,
+            2.75,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2.5,
+            0.25,
+            2.25,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.75,
+            0,
+            2.5,
+            0.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightE",
+      "from": [
+        10.59,
+        19.99,
+        7.09
+      ],
+      "to": [
+        12.41,
+        22.81,
+        8.91
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.5,
+            0.5,
+            1,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            0.5,
+            0.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            1.5,
+            0.5,
+            2,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            1,
+            0.5,
+            1.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            1.5,
+            0,
+            1,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "coilTop02",
+      "from": [
+        6,
+        18.02,
+        3
+      ],
+      "to": [
+        10,
+        20.02,
+        13
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          20,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.5,
+            13.75,
+            3.5,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            13.75,
+            2.5,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            6,
+            13.75,
+            7,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            3.5,
+            13.75,
+            6,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            3.5,
+            13.75,
+            2.5,
+            11.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            4.5,
+            11.25,
+            3.5,
+            13.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightSTop",
+      "from": [
+        7.5,
+        22.8,
+        11
+      ],
+      "to": [
+        8.5,
+        23.8,
+        12
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          24,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.25,
+            0.25,
+            2.5,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            2,
+            0.25,
+            2.25,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            2.75,
+            0.25,
+            3,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            2.5,
+            0.25,
+            2.75,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2.5,
+            0.25,
+            2.25,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.75,
+            0,
+            2.5,
+            0.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "bracket03a",
+      "from": [
+        10.7,
+        10,
+        7.5
+      ],
+      "to": [
+        12.7,
+        18,
+        8.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          18,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            11.75,
+            12.75,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            12,
+            11.75,
+            12.25,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            13,
+            11.75,
+            13.5,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.75,
+            11.75,
+            13,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.75,
+            11.75,
+            12.25,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            13.25,
+            11.5,
+            12.75,
+            11.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "filamentE",
+      "from": [
+        11,
+        19.8,
+        7.5
+      ],
+      "to": [
+        12,
+        22.8,
+        8.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            14,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            14.75,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            14.5,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14.5,
+            0,
+            14.5,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "filamentW",
+      "from": [
+        4,
+        19.8,
+        7.5
+      ],
+      "to": [
+        5,
+        22.8,
+        8.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            14,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            14.75,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            14.5,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14.5,
+            0,
+            14.5,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "filamentN",
+      "from": [
+        7.5,
+        19.8,
+        4
+      ],
+      "to": [
+        8.5,
+        22.8,
+        5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            14,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            14.75,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            14.5,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14.5,
+            0,
+            14.5,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "filamentNE",
+      "from": [
+        3,
+        19.8,
+        10.8
+      ],
+      "to": [
+        4,
+        22.8,
+        11.8
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            14,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            14.75,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            14.5,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14.5,
+            0,
+            14.5,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "filamentSE",
+      "from": [
+        -0.5,
+        19.8,
+        14.2
+      ],
+      "to": [
+        0.5,
+        22.8,
+        15.2
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            14,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            14.75,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            14.5,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14.5,
+            0,
+            14.5,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "filamentSW",
+      "from": [
+        -4,
+        19.8,
+        10.8
+      ],
+      "to": [
+        -3,
+        22.8,
+        11.8
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            14,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            14.75,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            14.5,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14.5,
+            0,
+            14.5,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "filamentNW",
+      "from": [
+        -0.5,
+        19.8,
+        7.2
+      ],
+      "to": [
+        0.5,
+        22.8,
+        8.2
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            14,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            14.75,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            14.5,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14.5,
+            0,
+            14.5,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "filamentS",
+      "from": [
+        7.5,
+        19.8,
+        11
+      ],
+      "to": [
+        8.5,
+        22.8,
+        12
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            14,
+            0.5,
+            14.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            14.75,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            14.5,
+            0.5,
+            15,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            14.5,
+            0.5,
+            14.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            14.5,
+            0,
+            14.5,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "slope03",
+      "from": [
+        15.7,
+        -7.1,
+        6
+      ],
+      "to": [
+        17.7,
+        -5.1,
+        10
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "z",
+        "origin": [
+          0,
+          -5,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            11,
+            2.25,
+            11.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            10,
+            2.25,
+            11,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            12.5,
+            2.25,
+            13,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            11.5,
+            2.25,
+            12.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            11.5,
+            2.25,
+            11,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            12,
+            1.25,
+            11.5,
+            2.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightNTop",
+      "from": [
+        7.5,
+        22.8,
+        4
+      ],
+      "to": [
+        8.5,
+        23.8,
+        5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          24,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.25,
+            0.25,
+            2.5,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            2,
+            0.25,
+            2.25,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            2.75,
+            0.25,
+            3,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            2.5,
+            0.25,
+            2.75,
+            0.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            2.5,
+            0.25,
+            2.25,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            2.75,
+            0,
+            2.5,
+            0.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "bracket02a",
+      "from": [
+        7.5,
+        10,
+        10.7
+      ],
+      "to": [
+        8.5,
+        18,
+        12.7
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          18,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            10.5,
+            11.75,
+            10.75,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            10,
+            11.75,
+            10.5,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            11.25,
+            11.75,
+            11.5,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            10.75,
+            11.75,
+            11.25,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            10.75,
+            11.75,
+            10.5,
+            11.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            11,
+            11.25,
+            10.75,
+            11.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "coilBase",
+      "from": [
+        3,
+        6,
+        3
+      ],
+      "to": [
+        13,
+        10,
+        13
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          10,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.5,
+            7.5,
+            5,
+            8.5
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            7.5,
+            2.5,
+            8.5
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            7.5,
+            7.5,
+            10,
+            8.5
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            5,
+            7.5,
+            7.5,
+            8.5
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            5,
+            7.5,
+            2.5,
+            5
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            7.5,
+            5,
+            5,
+            7.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightSW",
+      "from": [
+        10.39,
+        19.99,
+        2.59
+      ],
+      "to": [
+        12.21,
+        22.81,
+        4.41
+      ],
+      "rotation": {
+        "angle": -45,
+        "axis": "y",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.5,
+            0.5,
+            1,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            0.5,
+            0.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            1.5,
+            0.5,
+            2,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            1,
+            0.5,
+            1.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            1.5,
+            0,
+            1,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "slope04",
+      "from": [
+        5,
+        8.7,
+        6
+      ],
+      "to": [
+        7,
+        10.7,
+        10
+      ],
+      "rotation": {
+        "angle": -45,
+        "axis": "z",
+        "origin": [
+          0,
+          11,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            11,
+            2.25,
+            11.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            10,
+            2.25,
+            11,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            12.5,
+            2.25,
+            13,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            11.5,
+            2.25,
+            12.5,
+            2.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            11.5,
+            2.25,
+            11,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            12,
+            1.25,
+            11.5,
+            2.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "coilTop04",
+      "from": [
+        -2,
+        18,
+        6.3
+      ],
+      "to": [
+        2,
+        20,
+        16.3
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          0,
+          20,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.5,
+            13.75,
+            3.5,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            13.75,
+            2.5,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            6,
+            13.75,
+            7,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            3.5,
+            13.75,
+            6,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            3.5,
+            13.75,
+            2.5,
+            11.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            4.5,
+            11.25,
+            3.5,
+            13.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "bracket01b",
+      "from": [
+        7.59,
+        13.79,
+        3.49
+      ],
+      "to": [
+        8.41,
+        15.61,
+        4.31
+      ],
+      "rotation": {
+        "angle": -45,
+        "axis": "x",
+        "origin": [
+          0,
+          16,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            10.25,
+            14.25,
+            10.5,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            10,
+            14.25,
+            10.25,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            10.75,
+            14.25,
+            11,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            10.5,
+            14.25,
+            10.75,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            10.5,
+            14.25,
+            10.25,
+            14
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            10.75,
+            14,
+            10.5,
+            14.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "bracket04a",
+      "from": [
+        3.3,
+        10,
+        7.5
+      ],
+      "to": [
+        5.3,
+        18,
+        8.5
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          18,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            11.75,
+            12.75,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            12,
+            11.75,
+            12.25,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            13,
+            11.75,
+            13.5,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.75,
+            11.75,
+            13,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.75,
+            11.75,
+            12.25,
+            11.5
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            13.25,
+            11.5,
+            12.75,
+            11.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "bracket04b",
+      "from": [
+        2.59,
+        14.09,
+        7.59
+      ],
+      "to": [
+        3.41,
+        15.91,
+        8.41
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "z",
+        "origin": [
+          0,
+          17,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            12.25,
+            14.25,
+            12.5,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            12,
+            14.25,
+            12.25,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            12.75,
+            14.25,
+            13,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            12.5,
+            14.25,
+            12.75,
+            14.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            12.5,
+            14.25,
+            12.25,
+            14
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            12.75,
+            14,
+            12.5,
+            14.25
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightS",
+      "from": [
+        7.09,
+        19.99,
+        10.59
+      ],
+      "to": [
+        8.91,
+        22.81,
+        12.41
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.5,
+            0.5,
+            1,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            0.5,
+            0.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            1.5,
+            0.5,
+            2,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            1,
+            0.5,
+            1.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            1.5,
+            0,
+            1,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "coilTop03",
+      "from": [
+        9.3,
+        18,
+        -5
+      ],
+      "to": [
+        13.3,
+        20,
+        5
+      ],
+      "rotation": {
+        "angle": -45,
+        "axis": "y",
+        "origin": [
+          0,
+          20,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            2.5,
+            13.75,
+            3.5,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            13.75,
+            2.5,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            6,
+            13.75,
+            7,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            3.5,
+            13.75,
+            6,
+            14.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            3.5,
+            13.75,
+            2.5,
+            11.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            4.5,
+            11.25,
+            3.5,
+            13.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "bracket01a",
+      "from": [
+        7.5,
+        10,
+        3.3
+      ],
+      "to": [
+        8.5,
+        18,
+        5.3
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          18,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            10.5,
+            11.75,
+            10.75,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            10,
+            11.75,
+            10.5,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            11.25,
+            11.75,
+            11.5,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            10.75,
+            11.75,
+            11.25,
+            13.75
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            10.75,
+            11.75,
+            10.5,
+            11.25
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            11,
+            11.25,
+            10.75,
+            11.75
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "lightN",
+      "from": [
+        7.09,
+        19.99,
+        3.59
+      ],
+      "to": [
+        8.91,
+        22.81,
+        5.41
+      ],
+      "rotation": {
+        "angle": 0,
+        "axis": "z",
+        "origin": [
+          0,
+          23,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            0.5,
+            0.5,
+            1,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            0,
+            0.5,
+            0.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            1.5,
+            0.5,
+            2,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            1,
+            0.5,
+            1.5,
+            1.25
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            1,
+            0.5,
+            0.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            1.5,
+            0,
+            1,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    },
+    {
+      "name": "slope02",
+      "from": [
+        6,
+        18.4,
+        18.5
+      ],
+      "to": [
+        10,
+        20.4,
+        20.5
+      ],
+      "rotation": {
+        "angle": 45,
+        "axis": "x",
+        "origin": [
+          0,
+          21,
+          0
+        ]
+      },
+      "faces": {
+        "north": {
+          "uv": [
+            10.5,
+            0.5,
+            11.5,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "east": {
+          "uv": [
+            10,
+            0.5,
+            10.5,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "south": {
+          "uv": [
+            12,
+            0.5,
+            13,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "west": {
+          "uv": [
+            11.5,
+            0.5,
+            12,
+            1
+          ],
+          "texture": "#particle"
+        },
+        "up": {
+          "uv": [
+            11.5,
+            0.5,
+            10.5,
+            0
+          ],
+          "texture": "#particle"
+        },
+        "down": {
+          "uv": [
+            12.5,
+            0,
+            11.5,
+            0.5
+          ],
+          "texture": "#particle"
+        }
+      }
+    }
+  ]
+}
