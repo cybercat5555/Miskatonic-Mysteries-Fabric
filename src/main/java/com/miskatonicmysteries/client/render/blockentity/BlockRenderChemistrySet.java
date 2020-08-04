@@ -24,7 +24,7 @@ public class BlockRenderChemistrySet extends BlockEntityRenderer<BlockEntityChem
             matrices.push();
             Direction direction = entity.getWorld().getBlockState(entity.getPos()).get(HorizontalFacingBlock.FACING);
             matrices.translate(0.5, 0.5, 0.5); //subtract 0.5 from everything below i guess
-            matrices.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(direction.getOpposite().asRotation()));//; (direction == Direction.SOUTH ? 2 : direction == Direction.EAST ? 1 : direction == Direction.WEST ? 3 : 0) * 90));
+            matrices.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(direction.asRotation()));
             //bottom center
             matrices.push();
             matrices.translate(-0.05, -0.10, -0.05);
