@@ -1,22 +1,20 @@
 package com.miskatonicmysteries.common;
 
-import com.miskatonicmysteries.client.ClientConfig;
-import com.miskatonicmysteries.common.handler.DataHandler;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
-import com.miskatonicmysteries.lib.*;
+import com.miskatonicmysteries.lib.ModEntities;
+import com.miskatonicmysteries.lib.ModObjects;
+import com.miskatonicmysteries.lib.ModRecipes;
+import com.miskatonicmysteries.lib.ModRegistries;
 import io.github.cottonmc.cotton.config.ConfigManager;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.server.ServerStartCallback;
-import net.minecraft.entity.mob.WitchEntity;
-import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.server.MinecraftServer;
 
 public class CommonProxy implements ModInitializer {
     public static final CommonConfig CONFIG = ConfigManager.loadConfig(CommonConfig.class);
     @Override
     public void onInitialize() {
         ModObjects.init();
+        ModEntities.init();
         ModRegistries.init();
         ModRecipes.init();
         InsanityHandler.init();

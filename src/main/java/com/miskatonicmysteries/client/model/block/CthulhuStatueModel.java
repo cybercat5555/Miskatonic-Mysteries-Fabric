@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.client.model;
+package com.miskatonicmysteries.client.model.block;
 
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;

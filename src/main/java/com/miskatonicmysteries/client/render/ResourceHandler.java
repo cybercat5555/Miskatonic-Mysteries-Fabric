@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.client.render;
 
-import com.miskatonicmysteries.client.model.CthulhuStatueModel;
-import com.miskatonicmysteries.client.model.HasturStatueModel;
-import com.miskatonicmysteries.client.model.ShubStatueModel;
+import com.miskatonicmysteries.client.model.block.CthulhuStatueModel;
+import com.miskatonicmysteries.client.model.block.HasturStatueModel;
+import com.miskatonicmysteries.client.model.block.ShubStatueModel;
 import com.miskatonicmysteries.common.block.BlockOctagram;
 import com.miskatonicmysteries.common.block.BlockStatue;
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityOctagram;

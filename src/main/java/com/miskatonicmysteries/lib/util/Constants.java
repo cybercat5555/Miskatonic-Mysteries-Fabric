@@ -11,6 +11,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.MobEntityWithAi;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -51,13 +52,14 @@ public class Constants {
         public static final String SHOCKED = "Shocked";
         public static final String SANITY_EXPANSIONS = "Sanity Expansions";
         public static final String WORK_PROGRESS = "Work Progress";
+        public static final String VARIANT = "Variant";
     }
 
     public static class DataTrackers {
         public static final int SANITY_CAP = 1000;
+        public static final TrackedData<Integer> VARIANT = DataTracker.registerData(MobEntityWithAi.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Integer> SANITY = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Boolean> SHOCKED = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-
     }
     public static class DamageSources extends DamageSource{
         protected DamageSources(String name) {

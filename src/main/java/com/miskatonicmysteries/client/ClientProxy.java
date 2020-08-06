@@ -6,17 +6,20 @@ import com.miskatonicmysteries.client.render.blockentity.BlockRenderAltar;
 import com.miskatonicmysteries.client.render.blockentity.BlockRenderChemistrySet;
 import com.miskatonicmysteries.client.render.blockentity.BlockRenderOctagram;
 import com.miskatonicmysteries.client.render.blockentity.BlockRenderStatue;
+import com.miskatonicmysteries.client.render.entity.RenderProtagonist;
 import com.miskatonicmysteries.common.block.BlockAltar;
 import com.miskatonicmysteries.common.block.BlockOctagram;
 import com.miskatonicmysteries.common.block.BlockStatue;
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.item.ItemGun;
+import com.miskatonicmysteries.lib.ModEntities;
 import com.miskatonicmysteries.lib.ModObjects;
 import com.miskatonicmysteries.lib.ModParticles;
 import io.github.cottonmc.cotton.config.ConfigManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
@@ -44,6 +47,8 @@ public class ClientProxy implements ClientModInitializer {
         BlockEntityRendererRegistry.INSTANCE.register(ModObjects.ALTAR_BLOCK_ENTITY_TYPE, BlockRenderAltar::new);
         BlockEntityRendererRegistry.INSTANCE.register(ModObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, BlockRenderOctagram::new);
         BlockEntityRendererRegistry.INSTANCE.register(ModObjects.STATUE_BLOCK_ENTITY_TYPE, BlockRenderStatue::new);
+
+        EntityRendererRegistry.INSTANCE.register(ModEntities.PROTAGONIST, (entityRenderDispatcher, context) -> new RenderProtagonist(entityRenderDispatcher));
 
         PacketHandler.registerS2C();
         ShaderHandler.init();
