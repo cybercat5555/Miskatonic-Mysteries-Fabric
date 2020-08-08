@@ -26,7 +26,7 @@ public class StatusEffectTranquilized extends StatusEffect {
             if (isLethal(entity, amplifier)) entity.damage(Constants.DamageSources.SLEEP, 4000);
             else {
                 ISanity sanity = (ISanity) entity;
-                sanity.setSanity((int) (((ISanity) entity).getSanity() + CommonProxy.CONFIG.tranquilizedSanityBonus * Math.min((amplifier + 2) / 2F, 3F)));
+                sanity.setSanity((int) (((ISanity) entity).getSanity() + CommonProxy.CONFIG.tranquilizedSanityBonus * Math.min((amplifier + 2) / 2F, 3F)), true);
                 entity.damage(Constants.DamageSources.SLEEP, 2);
                 if (entity.getRandom().nextFloat() < CommonProxy.CONFIG.tranquilizedSanityCapRegainChance) {
                     for (String s : sanity.getSanityCapExpansions().keySet()) {

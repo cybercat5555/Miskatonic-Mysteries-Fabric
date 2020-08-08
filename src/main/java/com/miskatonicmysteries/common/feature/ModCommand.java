@@ -128,7 +128,7 @@ public class ModCommand {
 
     private static int setSanity(CommandContext<ServerCommandSource> context, int value, ServerPlayerEntity... players) throws CommandSyntaxException {
         for (ServerPlayerEntity player : players) {
-            ((ISanity) player).setSanity(value);
+            ((ISanity) player).setSanity(value, true);
             if (player.equals(context.getSource().getPlayer())) {
                 context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.set_sanity.self", value), true);
             } else

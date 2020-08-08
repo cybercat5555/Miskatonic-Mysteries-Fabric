@@ -3,7 +3,8 @@
   "sanityPenalty": 20,
   "decreasesSanityCap": false,
   "withShock": true,
+  "ignoresFactors": true,
   "inducer": {
-      "item": "miskatonicmysteries:blotter"
+    "item": "miskatonicmysteries:blotter"
   }
 }

@@ -12,15 +12,23 @@ import static com.miskatonicmysteries.lib.util.Constants.DataTrackers.SANITY_CAP
 
 public class InsanityHandler {
 
-    public static void init(){
+    public static void init() {
         //currently empty lol
     }
 
-    public static void handleInsanityEvents(PlayerEntity player){
+    public static void resetProgress(PlayerEntity player) {
+        ISanity sanity = (ISanity) player;
+        sanity.getSanityCapExpansions().keySet().forEach(sanity::removeSanityCapExpansion);
+        sanity.setSanity(sanity.getMaxSanity(), true);
+        sanity.setShocked(true);
+        //remove other stuff
+    }
+
+    public static void handleInsanityEvents(PlayerEntity player) {
         ISanity sanity = (ISanity) player;
         float insanityFactor = 1F - calculateSanityFactor(sanity);
-        if (player.getRandom().nextFloat() < (0.1F + (0.1F * insanityFactor))){
-            InsanityEvent event = findInsanityEvent(player,  sanity, insanityFactor);
+        if (player.getRandom().nextFloat() < (0.1F + (0.1F * insanityFactor))) {
+            InsanityEvent event = findInsanityEvent(player, sanity, insanityFactor);
             if (event != null) event.execute(player, (ISanity) player);
         }
     }

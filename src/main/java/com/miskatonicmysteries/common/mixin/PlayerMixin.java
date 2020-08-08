@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.mixin;
 
 import com.miskatonicmysteries.common.CommonProxy;
+import com.miskatonicmysteries.common.entity.EntityProtagonist;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectLazarus;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
@@ -48,15 +49,14 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
         }
     }
 
-    @Inject(method = "initDataTracker()V", at = @At("TAIL"))
-    private void addMiskStats(CallbackInfo info) {
-        dataTracker.startTracking(SANITY, SANITY_CAP);
-        dataTracker.startTracking(SHOCKED, false);
+    @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"))
+    private void manipulateProtagonistDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
+        if (source.getAttacker() instanceof EntityProtagonist && source != Constants.DamageSources.PROTAGONIST)
+            ((PlayerEntity) (Object) this).damage(Constants.DamageSources.PROTAGONIST, amount);
     }
 
-
     @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("RETURN"), cancellable = true)
-    private void preventDeath(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
+    private void manipulateDeath(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
         if (amount >= getHealth() && !source.isOutOfWorld()) {
             PlayerEntity entity = (PlayerEntity) (Object) this;
             if (Util.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE) >= 0) {
@@ -65,8 +65,15 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
                     infoReturnable.setReturnValue(false);
                     infoReturnable.cancel();
                 }
-            }
+            } else if (source == Constants.DamageSources.PROTAGONIST)
+                InsanityHandler.resetProgress((PlayerEntity) (Object) this);
         }
+    }
+
+    @Inject(method = "initDataTracker()V", at = @At("TAIL"))
+    private void addMiskStats(CallbackInfo info) {
+        dataTracker.startTracking(SANITY, SANITY_CAP);
+        dataTracker.startTracking(SHOCKED, false);
     }
 
     @Override
@@ -75,8 +82,8 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
     }
 
     @Override
-    public void setSanity(int sanity) {
-        if (!isShocked() && hasStatusEffect(ModRegistries.TRANQUILIZED))
+    public void setSanity(int sanity, boolean ignoreFactors) {
+        if (ignoreFactors || (!isShocked() && !hasStatusEffect(ModRegistries.TRANQUILIZED)))
             dataTracker.set(SANITY, MathHelper.clamp(sanity, 0, getMaxSanity()));
     }
 
@@ -103,12 +110,13 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
     @Override
     public void addSanityCapExpansion(String name, int amount) {
         SANITY_CAP_OVERRIDES.putIfAbsent(name, amount);
-        if(!world.isClient) {
+        if (!world.isClient) {
             PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
             data.writeString(name);
             data.writeInt(amount);
             PacketHandler.sendToPlayer((PlayerEntity) (Object) this, data, PacketHandler.SANITY_EXPAND_PACKET);
         }
+        if (getSanity() > getMaxSanity()) setSanity(getMaxSanity(), true);
     }
 
     @Override
@@ -153,12 +161,11 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
         compoundTag.put(Constants.NBT.MISK_DATA, tag);
     }
 
-    //save in another data tag to prevent conflicts
     @Inject(method = "readCustomDataFromTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
     public void readMiskData(CompoundTag compoundTag, CallbackInfo info) {
         CompoundTag tag = (CompoundTag) compoundTag.get(Constants.NBT.MISK_DATA);
         if (tag != null) {
-            setSanity(tag.getInt(Constants.NBT.SANITY));
+            setSanity(tag.getInt(Constants.NBT.SANITY), true);
             setShocked(tag.getBoolean(Constants.NBT.SHOCKED));
             syncSanityData();
             getSanityCapExpansions().clear();

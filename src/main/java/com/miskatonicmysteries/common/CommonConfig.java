@@ -26,4 +26,7 @@ public class CommonConfig {
 
     @Comment(value = "The chance of regaining a bit of normally permanently lost sanity after sleeping while tranquilized")
     public float tranquilizedSanityCapRegainChance = 0.1F;
+
+    @Comment(value = "Every player with a sanity level equal or below this will be attacked by Protagonists")
+    public int protagonistAggressionThreshold = 700;
 }

@@ -53,15 +53,20 @@ public class Constants {
         public static final String SANITY_EXPANSIONS = "Sanity Expansions";
         public static final String WORK_PROGRESS = "Work Progress";
         public static final String VARIANT = "Variant";
+        public static final String STAGE = "Stage";
+        public static final String ALTERNATE_WEAPON = "Alternate Weapon";
     }
 
     public static class DataTrackers {
         public static final int SANITY_CAP = 1000;
         public static final TrackedData<Integer> VARIANT = DataTracker.registerData(MobEntityWithAi.class, TrackedDataHandlerRegistry.INTEGER);
+        public static final TrackedData<Integer> STAGE = DataTracker.registerData(MobEntityWithAi.class, TrackedDataHandlerRegistry.INTEGER);
+
         public static final TrackedData<Integer> SANITY = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Boolean> SHOCKED = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     }
-    public static class DamageSources extends DamageSource{
+
+    public static class DamageSources extends DamageSource {
         protected DamageSources(String name) {
             super(Constants.MOD_ID + "." + name);
         }

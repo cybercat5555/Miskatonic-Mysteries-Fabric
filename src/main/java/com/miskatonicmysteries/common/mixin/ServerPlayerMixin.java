@@ -19,7 +19,7 @@ public abstract class ServerPlayerMixin extends PlayerEntity {
 
     @Inject(method = "copyFrom(Lnet/minecraft/server/network/ServerPlayerEntity;Z)V", at = @At("TAIL"))
     private void copyStats(ServerPlayerEntity oldPlayer, boolean isDead, CallbackInfo info) {
-        ((ISanity) this).setSanity(((ISanity) oldPlayer).getSanity());
+        ((ISanity) this).setSanity(((ISanity) oldPlayer).getSanity(), true);
         ((ISanity) this).getSanityCapExpansions().putAll(((ISanity) oldPlayer).getSanityCapExpansions());
     }
 }

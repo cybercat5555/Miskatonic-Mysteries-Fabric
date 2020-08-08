@@ -35,7 +35,7 @@ public class StatusEffectMania extends StatusEffect {
     private void insanityDeath(LivingEntity entity, ISanity sanity, int amplifier) {
         if (sanity.getSanity() < CommonProxy.CONFIG.deadlyInsanityThreshold && entity.age % Math.min(60 - amplifier * 3, 20) == 0 && entity.getRandom().nextFloat() > (sanity.getSanity() / (float) CommonProxy.CONFIG.deadlyInsanityThreshold)){
             entity.damage(Constants.DamageSources.INSANITY, 666);
-            sanity.setSanity(CommonProxy.CONFIG.deadlyInsanityThreshold + 50);
+            sanity.setSanity(CommonProxy.CONFIG.deadlyInsanityThreshold + 50, true);
         }
     }
 

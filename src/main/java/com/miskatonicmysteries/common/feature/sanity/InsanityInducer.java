@@ -18,18 +18,20 @@ public class InsanityInducer implements DataSerializable<InsanityInducer> {
     public final boolean decreasesSanityCap;
     public final boolean withShockFactor;
     public final Ingredient ingredient;
+    public final boolean ignoreFactors;
 
-    public InsanityInducer(Identifier id, int sanityPenalty, boolean decreasesSanityCap, boolean withShockFactor, Ingredient ingredient) {
+    public InsanityInducer(Identifier id, int sanityPenalty, boolean decreasesSanityCap, boolean withShockFactor, boolean ignoreFactors, Ingredient ingredient) {
         this.id = id;
         this.sanityPenalty = sanityPenalty;
         this.decreasesSanityCap = decreasesSanityCap;
         this.withShockFactor = withShockFactor;
+        this.ignoreFactors = ignoreFactors;
         this.ingredient = ingredient;
     }
 
     public void induceInsanity(World world, LivingEntity entity, ISanity sanity){
         if (!world.isClient){
-            sanity.setSanity(sanity.getSanity() - sanityPenalty);
+            sanity.setSanity(sanity.getSanity() - sanityPenalty, ignoreFactors);
             if (decreasesSanityCap) sanity.addSanityCapExpansion(id.toString(), -sanityPenalty);
             if (withShockFactor) sanity.setShocked(true);
             sanity.syncSanityData();
@@ -44,7 +46,7 @@ public class InsanityInducer implements DataSerializable<InsanityInducer> {
     public static class Serializer extends DataSerializable.DataReader<InsanityInducer> {
         @Override
         public InsanityInducer readFromJson(Identifier id, JsonObject json) {
-            return new InsanityInducer(id, JsonHelper.getInt(json, "sanityPenalty"), JsonHelper.getBoolean(json, "decreasesSanityCap", false), JsonHelper.getBoolean(json, "withShock", false), Ingredient.fromJson(JsonHelper.getObject(json, "inducer")));
+            return new InsanityInducer(id, JsonHelper.getInt(json, "sanityPenalty"), JsonHelper.getBoolean(json, "decreasesSanityCap", false), JsonHelper.getBoolean(json, "withShock", false), JsonHelper.getBoolean(json, "ignoreFactors", false), Ingredient.fromJson(JsonHelper.getObject(json, "inducer")));
         }
 
         @Override

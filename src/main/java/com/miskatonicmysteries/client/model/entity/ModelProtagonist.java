@@ -8,6 +8,10 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.Arm;
+import net.minecraft.util.Hand;
 
 /**
  * investigator - CyberCat5555
@@ -83,6 +87,22 @@ public class ModelProtagonist extends BipedEntityModel<EntityProtagonist> {
         this.torso.addChild(this.coat);
         this.head.addChild(this.cigar);
         helmet.visible = false;
+    }
+
+    @Override
+    public void animateModel(EntityProtagonist livingEntity, float f, float g, float h) {
+        this.rightArmPose = BipedEntityModel.ArmPose.EMPTY;
+        this.leftArmPose = BipedEntityModel.ArmPose.EMPTY;
+        ItemStack itemStack = livingEntity.getStackInHand(Hand.MAIN_HAND);
+        if (itemStack.getItem() == Items.BOW && livingEntity.isAttacking()) {
+            if (livingEntity.getMainArm() == Arm.RIGHT) {
+                this.rightArmPose = BipedEntityModel.ArmPose.BOW_AND_ARROW;
+            } else {
+                this.leftArmPose = BipedEntityModel.ArmPose.BOW_AND_ARROW;
+            }
+        }
+
+        super.animateModel(livingEntity, f, g, h);
     }
 
     @Override
