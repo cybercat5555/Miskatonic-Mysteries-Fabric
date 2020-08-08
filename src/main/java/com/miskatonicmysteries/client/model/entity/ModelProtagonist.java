@@ -96,9 +96,15 @@ public class ModelProtagonist extends BipedEntityModel<EntityProtagonist> {
         ItemStack itemStack = livingEntity.getStackInHand(Hand.MAIN_HAND);
         if (itemStack.getItem() == Items.BOW && livingEntity.isAttacking()) {
             if (livingEntity.getMainArm() == Arm.RIGHT) {
-                this.rightArmPose = BipedEntityModel.ArmPose.BOW_AND_ARROW;
+                this.rightArmPose = ArmPose.BOW_AND_ARROW;
             } else {
-                this.leftArmPose = BipedEntityModel.ArmPose.BOW_AND_ARROW;
+                this.leftArmPose = ArmPose.BOW_AND_ARROW;
+            }
+        } else if (itemStack.getItem() == Items.CROSSBOW) {
+            if (livingEntity.getMainArm() == Arm.RIGHT) {
+                this.rightArmPose = livingEntity.isCharging() ? ArmPose.CROSSBOW_CHARGE : ArmPose.CROSSBOW_HOLD;
+            } else {
+                this.leftArmPose = livingEntity.isCharging() ? ArmPose.CROSSBOW_CHARGE : ArmPose.CROSSBOW_HOLD;
             }
         }
 

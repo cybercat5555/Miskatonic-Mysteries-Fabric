@@ -55,6 +55,7 @@ public class Constants {
         public static final String VARIANT = "Variant";
         public static final String STAGE = "Stage";
         public static final String ALTERNATE_WEAPON = "Alternate Weapon";
+        public static final String CHARGING = "Charging";
     }
 
     public static class DataTrackers {
