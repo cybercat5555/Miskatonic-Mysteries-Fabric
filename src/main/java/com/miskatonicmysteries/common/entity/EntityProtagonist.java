@@ -9,6 +9,7 @@ import com.miskatonicmysteries.lib.util.Constants;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -27,11 +28,15 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import javax.annotation.Nullable;
-import java.util.EnumSet;
+import java.util.*;
 
 import static com.miskatonicmysteries.lib.util.Constants.NBT.ALTERNATE_WEAPON;
 
 public class EntityProtagonist extends HostileEntity implements RangedAttackMob, CrossbowUser {
+    private static final Map<AbstractMap.SimpleEntry<EquipmentSlot, ItemStack>, Integer> ARMOR_MAP = new HashMap<>();
+    private static final Map<ItemStack, Integer> WEAPON_MAP = new HashMap<>();
+    private static final Map<ItemStack, Integer> ALT_WEAPON_MAP = new HashMap<>();
+
     private static final TrackedData<Boolean> LOADING = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Integer> VARIANT = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Integer> STAGE = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.INTEGER);
@@ -98,10 +103,24 @@ public class EntityProtagonist extends HostileEntity implements RangedAttackMob,
     }
 
     @Override
+    protected void dropEquipment(DamageSource source, int lootingMultiplier, boolean allowDrops) {
+
+    }
+
+    @Override
     protected void initEquipment(LocalDifficulty difficulty) {
         super.initEquipment(difficulty);
-        alternateWeapon = new ItemStack(ModObjects.RIFLE);
-        setStackInHand(Hand.MAIN_HAND, new ItemStack(Items.NETHERITE_SWORD));
+        ARMOR_MAP.keySet().stream().filter(e -> getStage() >= ARMOR_MAP.get(e)).sorted(Comparator.comparingInt(e -> ARMOR_MAP.get(e)).reversed()).forEachOrdered(entry -> {
+            if (random.nextBoolean()) equipStack(entry.getKey(), entry.getValue());
+        });
+        WEAPON_MAP.keySet().stream().filter(stack -> getStage() == WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(stack -> WEAPON_MAP.get(stack)).reversed()).forEachOrdered(stack -> {
+            if (random.nextFloat() < 0.75F) setStackInHand(Hand.MAIN_HAND, stack);
+        });
+        if (getStackInHand(Hand.MAIN_HAND).isEmpty()) setStackInHand(Hand.MAIN_HAND, new ItemStack(Items.IRON_SWORD));
+
+        ALT_WEAPON_MAP.keySet().stream().filter(stack -> getStage() == ALT_WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(stack -> ALT_WEAPON_MAP.get(stack)).reversed()).forEachOrdered(stack -> {
+            if (random.nextFloat() < 0.75F) alternateWeapon = stack;
+        });
     }
 
     @Override
@@ -193,6 +212,29 @@ public class EntityProtagonist extends HostileEntity implements RangedAttackMob,
     @Override
     public boolean cannotDespawn() {
         return true;
+    }
+
+    static {
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.CHAINMAIL_CHESTPLATE)), 0);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.LEGS, new ItemStack(Items.CHAINMAIL_LEGGINGS)), 0);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.IRON_CHESTPLATE)), 1);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.LEGS, new ItemStack(Items.IRON_LEGGINGS)), 1);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE)), 2);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.LEGS, new ItemStack(Items.DIAMOND_LEGGINGS)), 2);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.NETHERITE_CHESTPLATE)), 3);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.LEGS, new ItemStack(Items.NETHERITE_LEGGINGS)), 3);
+
+        WEAPON_MAP.put(new ItemStack(Items.IRON_SWORD), 0);
+        WEAPON_MAP.put(new ItemStack(Items.IRON_AXE), 0);
+        WEAPON_MAP.put(new ItemStack(Items.DIAMOND_SWORD), 2);
+        WEAPON_MAP.put(new ItemStack(Items.DIAMOND_AXE), 2);
+        WEAPON_MAP.put(new ItemStack(Items.NETHERITE_SWORD), 3);
+        WEAPON_MAP.put(new ItemStack(Items.NETHERITE_AXE), 3);
+
+        ALT_WEAPON_MAP.put(new ItemStack(Items.BOW), 0);
+        ALT_WEAPON_MAP.put(new ItemStack(Items.CROSSBOW), 1);
+        ALT_WEAPON_MAP.put(new ItemStack(ModObjects.REVOLVER), 2);
+        ALT_WEAPON_MAP.put(new ItemStack(ModObjects.RIFLE), 3);
     }
 
     public static class SwitchWeaponsGoal extends Goal {
