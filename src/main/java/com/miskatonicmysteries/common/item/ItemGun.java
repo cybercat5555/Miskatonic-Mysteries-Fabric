@@ -90,7 +90,7 @@ public abstract class ItemGun extends Item {
         super.onStoppedUsing(stack, world, user, remainingUseTicks);
     }
 
-    private ItemStack loadGun(ItemStack stack, World world, LivingEntity user) {
+    public ItemStack loadGun(ItemStack stack, World world, LivingEntity user) {
         if (!stack.hasTag()) stack.setTag(new CompoundTag());
 
         int generatedShots = user instanceof PlayerEntity ? loadBullets((PlayerEntity) user, stack.getTag().getInt(Constants.NBT.SHOTS)) : getMaxShots();
@@ -124,13 +124,13 @@ public abstract class ItemGun extends Item {
         return !isHeavy() || entity.getOffHandStack().isEmpty();
     }
 
-    private void shoot(World world, LivingEntity player, ItemStack stack) {
+    public void shoot(World world, LivingEntity player, ItemStack stack) {
         Vec3d vec3d = player.getCameraPosVec(1);
         Vec3d vec3d2 = player.getRotationVec(1);
         Vec3d vec3d3 = vec3d.add(vec3d2.x * getMaxDistance(), vec3d2.y * getMaxDistance(), vec3d2.z * getMaxDistance());
         HitResult blockHit = world.rayTrace(new RayTraceContext(vec3d, vec3d3, RayTraceContext.ShapeType.COLLIDER, RayTraceContext.FluidHandling.NONE, player));
         double distance = Math.pow(getMaxDistance(), 2);
-        EntityHitResult hit = ProjectileUtil.rayTrace(player, vec3d, vec3d3, player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) ->!target.isSpectator() && target.collides(), distance);
+        EntityHitResult hit = ProjectileUtil.rayTrace(player, vec3d, vec3d3, player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides(), distance);
 
         if (hit != null && hit.getEntity() != null && (blockHit.squaredDistanceTo(player) > hit.getEntity().squaredDistanceTo(player))) {
             hit.getEntity().damage(Constants.DamageSources.GUN, getDamage());
@@ -143,8 +143,8 @@ public abstract class ItemGun extends Item {
             }
         }
 
-        stack.getTag().putInt(Constants.NBT.SHOTS, stack.getTag().getInt(Constants.NBT.SHOTS) - 1);
         setLoading(stack, false);
+        stack.getTag().putInt(Constants.NBT.SHOTS, stack.getTag().getInt(Constants.NBT.SHOTS) - 1);
         world.playSound(null, player.getX(), player.getY(), player.getZ(), ModRegistries.GUN_SHOT, SoundCategory.PLAYERS, 0.6F, 1.0F / (RANDOM.nextFloat() * 0.2F + (isHeavy() ? 1F : 0.5F)));
 
         if (player instanceof PlayerEntity) {

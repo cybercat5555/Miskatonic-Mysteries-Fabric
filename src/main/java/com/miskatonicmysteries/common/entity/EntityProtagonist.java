@@ -4,6 +4,7 @@ import com.miskatonicmysteries.common.CommonProxy;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.item.ItemGun;
+import com.miskatonicmysteries.lib.ModObjects;
 import com.miskatonicmysteries.lib.util.Constants;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
@@ -20,7 +21,6 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.IntRange;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.World;
@@ -29,12 +29,12 @@ import net.minecraft.world.WorldAccess;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
-import static com.miskatonicmysteries.lib.util.Constants.DataTrackers.STAGE;
-import static com.miskatonicmysteries.lib.util.Constants.DataTrackers.VARIANT;
 import static com.miskatonicmysteries.lib.util.Constants.NBT.ALTERNATE_WEAPON;
 
 public class EntityProtagonist extends HostileEntity implements RangedAttackMob, CrossbowUser {
     private static final TrackedData<Boolean> LOADING = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Integer> VARIANT = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final TrackedData<Integer> STAGE = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.INTEGER);
     public ItemStack alternateWeapon = ItemStack.EMPTY;
 
     public EntityProtagonist(EntityType<? extends HostileEntity> entityType, World world) {
@@ -43,10 +43,10 @@ public class EntityProtagonist extends HostileEntity implements RangedAttackMob,
 
     @Override
     protected void initDataTracker() {
+        super.initDataTracker();
         dataTracker.startTracking(VARIANT, 0);
         dataTracker.startTracking(STAGE, 0);
         dataTracker.startTracking(LOADING, false);
-        super.initDataTracker();
     }
 
     @Override
@@ -54,6 +54,7 @@ public class EntityProtagonist extends HostileEntity implements RangedAttackMob,
         this.goalSelector.add(0, new SwimGoal(this));
         //ai to switch to more convenient weapon if needed
         this.goalSelector.add(1, new SwitchWeaponsGoal(this));
+        this.goalSelector.add(2, new ProtagonistGunAttackGoal(this));
         this.goalSelector.add(2, new ProtagonistBowAttackGoal(this, 1.2F, 20, 24));
         this.goalSelector.add(2, new CrossbowAttackGoal<>(this, 1.4F, 8F));
         this.goalSelector.add(3, new MeleeAttackGoal(this, 1.2D, false));
@@ -86,21 +87,20 @@ public class EntityProtagonist extends HostileEntity implements RangedAttackMob,
     public EntityData initialize(WorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
         setCanPickUpLoot(true);
         dataTracker.set(VARIANT, random.nextInt(4));
+        dataTracker.set(STAGE, random.nextInt(4));
         initEquipment(difficulty);
         return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
     }
 
     @Override
     protected boolean prefersNewEquipment(ItemStack newStack, ItemStack oldStack) {
-        //override etc.
-        return super.prefersNewEquipment(newStack, oldStack);
+        return oldStack.isEmpty() && (isValidRangedItem(newStack.getItem()) || newStack.getItem() instanceof SwordItem);
     }
 
     @Override
     protected void initEquipment(LocalDifficulty difficulty) {
-        //select based on stage
         super.initEquipment(difficulty);
-        alternateWeapon = new ItemStack(Items.CROSSBOW);
+        alternateWeapon = new ItemStack(ModObjects.RIFLE);
         setStackInHand(Hand.MAIN_HAND, new ItemStack(Items.NETHERITE_SWORD));
     }
 
@@ -220,136 +220,104 @@ public class EntityProtagonist extends HostileEntity implements RangedAttackMob,
         }
 
         private boolean shouldSwitchWeapon() {
+            if (protagonist.getMainHandStack().isEmpty()) return true;
+
             if (protagonist.isValidRangedItem(protagonist.getMainHandStack().getItem())) {
-                return protagonist.alternateWeapon.getItem() instanceof SwordItem && protagonist.distanceTo(protagonist.getTarget()) < 5;
+                return protagonist.alternateWeapon.getItem() instanceof SwordItem && protagonist.distanceTo(protagonist.getTarget()) < 4;
             }
-            return protagonist.distanceTo(protagonist.getTarget()) > 8 && protagonist.isValidRangedItem(protagonist.alternateWeapon.getItem());
+            return protagonist.distanceTo(protagonist.getTarget()) > 6 && protagonist.isValidRangedItem(protagonist.alternateWeapon.getItem());
         }
     }
 
-    public static class ProtagonistCrossbowAttackGoal extends Goal {
-        public static final IntRange field_25696 = new IntRange(20, 40);
-        private final EntityProtagonist actor;
-        private Stage stage;
-        private final double speed;
-        private final float squaredRange;
-        private int seeingTargetTicker;
-        private int chargedTicksLeft;
-        private int field_25697;
+    public static class ProtagonistGunAttackGoal extends Goal {
+        public static final int RANGE = 10;
+        private final EntityProtagonist protagonist;
+        private int ticksToLockIn, ticksSeen;
+        private boolean movingToLeft;
+        private boolean backward;
+        private int combatTicks = -1;
 
-        public ProtagonistCrossbowAttackGoal(EntityProtagonist actor, double speed, float range) {
-            this.stage = Stage.UNCHARGED;
-            this.actor = actor;
-            this.speed = speed;
-            this.squaredRange = range * range;
-            this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+        public ProtagonistGunAttackGoal(EntityProtagonist protagonist) {
+            this.protagonist = protagonist;
+            this.setControls(EnumSet.of(Goal.Control.LOOK, Control.MOVE));
         }
 
+        @Override
         public boolean canStart() {
-            return this.hasAliveTarget() && this.isEntityHoldingCrossbow();
+            return protagonist.getTarget() != null && protagonist.isHolding(item -> item instanceof ItemGun);
         }
 
-        private boolean isEntityHoldingCrossbow() {
-            return this.actor.isHolding(Items.CROSSBOW);
-        }
-
+        @Override
         public boolean shouldContinue() {
-            return this.hasAliveTarget() && (this.canStart() || !this.actor.getNavigation().isIdle()) && this.isEntityHoldingCrossbow();
+            return canStart();
         }
 
-        private boolean hasAliveTarget() {
-            return this.actor.getTarget() != null && this.actor.getTarget().isAlive();
+        @Override
+        public void start() {
+            protagonist.setAttacking(true);
         }
 
+        @Override
         public void stop() {
-            super.stop();
-            this.actor.setAttacking(false);
-            this.actor.setTarget(null);
-            this.seeingTargetTicker = 0;
-            if (this.actor.isUsingItem()) {
-                this.actor.clearActiveItem();
-                ((CrossbowUser) this.actor).setCharging(false);
-                CrossbowItem.setCharged(this.actor.getActiveItem(), false);
-            }
-
+            protagonist.setAttacking(false);
+            protagonist.clearActiveItem();
         }
 
+        @Override
         public void tick() {
-            LivingEntity livingEntity = this.actor.getTarget();
-            if (livingEntity != null) {
-                boolean bl = this.actor.getVisibilityCache().canSee(livingEntity);
-                boolean bl2 = this.seeingTargetTicker > 0;
-                if (bl != bl2) {
-                    this.seeingTargetTicker = 0;
-                }
-
-                if (bl) {
-                    ++this.seeingTargetTicker;
-                } else {
-                    --this.seeingTargetTicker;
-                }
-
-                double d = this.actor.squaredDistanceTo(livingEntity);
-                boolean bl3 = (d > (double) this.squaredRange || this.seeingTargetTicker < 5) && this.chargedTicksLeft == 0;
-                if (bl3) {
-                    --this.field_25697;
-                    if (this.field_25697 <= 0) {
-                        this.actor.getNavigation().startMovingTo(livingEntity, this.isUncharged() ? this.speed : this.speed * 0.5D);
-                        this.field_25697 = field_25696.choose(this.actor.getRandom());
-                    }
-                } else {
-                    this.field_25697 = 0;
-                    this.actor.getNavigation().stop();
-                }
-
-                this.actor.getLookControl().lookAt(livingEntity, 30.0F, 30.0F);
-                if (this.stage == Stage.UNCHARGED) {
-                    if (!bl3) {
-                        this.actor.setCurrentHand(ProjectileUtil.getHandPossiblyHolding(this.actor, Items.CROSSBOW));
-                        this.stage = Stage.CHARGING;
-                        ((CrossbowUser) this.actor).setCharging(true);
-                    }
-                } else if (this.stage == Stage.CHARGING) {
-                    if (!this.actor.isUsingItem()) {
-                        this.stage = Stage.UNCHARGED;
-                    }
-
-                    int i = this.actor.getItemUseTime();
-                    ItemStack itemStack = this.actor.getActiveItem();
-                    if (i >= CrossbowItem.getPullTime(itemStack)) {
-                        this.actor.stopUsingItem();
-                        this.stage = Stage.CHARGED;
-                        this.chargedTicksLeft = 20 + this.actor.getRandom().nextInt(20);
-                        ((CrossbowUser) this.actor).setCharging(false);
-                    }
-                } else if (this.stage == Stage.CHARGED) {
-                    --this.chargedTicksLeft;
-                    if (this.chargedTicksLeft == 0) {
-                        this.stage = Stage.READY_TO_ATTACK;
-                    }
-                } else if (this.stage == Stage.READY_TO_ATTACK && bl) {
-                    ((RangedAttackMob) this.actor).attack(livingEntity, 1.0F);
-                    ItemStack itemStack2 = this.actor.getStackInHand(ProjectileUtil.getHandPossiblyHolding(this.actor, Items.CROSSBOW));
-                    CrossbowItem.setCharged(itemStack2, false);
-                    this.stage = Stage.UNCHARGED;
-                }
-
+            ItemStack gun = protagonist.getMainHandStack();
+            LivingEntity target = protagonist.getTarget();
+            double distanceToTarget = this.protagonist.distanceTo(target);
+            double range = 10;
+            float speed = 1.2F;
+            protagonist.lookAtEntity(target, 45F, 45F);
+            if (protagonist.canSee(target)) ticksSeen++;
+            if (distanceToTarget <= range && this.ticksSeen >= 20) {
+                this.protagonist.getNavigation().stop();
+                ++this.combatTicks;
+            } else {
+                this.protagonist.getNavigation().startMovingTo(target, speed);
+                this.combatTicks = -1;
             }
-        }
 
-        private boolean isUncharged() {
-            return this.stage == Stage.UNCHARGED;
-        }
+            if (this.combatTicks >= 20) {
+                if ((double) this.protagonist.getRandom().nextFloat() < 0.3D) {
+                    this.movingToLeft = !this.movingToLeft;
+                }
 
-        static enum Stage {
-            UNCHARGED,
-            CHARGING,
-            CHARGED,
-            READY_TO_ATTACK;
+                if ((double) this.protagonist.getRandom().nextFloat() < 0.3D) {
+                    this.backward = !this.backward;
+                }
+
+                this.combatTicks = 0;
+            }
+
+            if (this.combatTicks > -1) {
+                if (distanceToTarget > RANGE * 0.75F) {
+                    this.backward = false;
+                } else if (distanceToTarget < RANGE * 0.25F) {
+                    this.backward = true;
+                }
+                this.protagonist.getMoveControl().strafeTo(this.backward ? -0.5F : 0.5F, this.movingToLeft ? 0.5F : -0.5F);
+
+
+                if (!gun.isEmpty() && gun.getItem() instanceof ItemGun && protagonist.getTarget() != null) {
+                    if (ItemGun.isLoaded(gun)) {
+                        ticksToLockIn++;
+                        if (ticksToLockIn >= 20) {
+                            protagonist.clearActiveItem();
+                            ((ItemGun) gun.getItem()).shoot(protagonist.world, protagonist, gun);
+                            ticksToLockIn = 0;
+                        }
+                    } else {
+                        ItemGun.setLoading(gun, true);
+                        protagonist.setCurrentHand(Hand.MAIN_HAND);
+                    }
+                }
+            }
         }
     }
 
-    //todo, also crossbow
     public static class ProtagonistBowAttackGoal extends BowAttackGoal {
         private final EntityProtagonist actor;
 

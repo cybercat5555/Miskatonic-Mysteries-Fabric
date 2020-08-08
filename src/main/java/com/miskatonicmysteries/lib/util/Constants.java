@@ -11,7 +11,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.MobEntityWithAi;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -60,8 +59,6 @@ public class Constants {
 
     public static class DataTrackers {
         public static final int SANITY_CAP = 1000;
-        public static final TrackedData<Integer> VARIANT = DataTracker.registerData(MobEntityWithAi.class, TrackedDataHandlerRegistry.INTEGER);
-        public static final TrackedData<Integer> STAGE = DataTracker.registerData(MobEntityWithAi.class, TrackedDataHandlerRegistry.INTEGER);
 
         public static final TrackedData<Integer> SANITY = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Boolean> SHOCKED = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);

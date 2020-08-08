@@ -2,12 +2,14 @@ package com.miskatonicmysteries.client.model.entity;
 
 import com.google.common.collect.ImmutableList;
 import com.miskatonicmysteries.common.entity.EntityProtagonist;
+import com.miskatonicmysteries.common.item.ItemGun;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Arm;
@@ -94,7 +96,7 @@ public class ModelProtagonist extends BipedEntityModel<EntityProtagonist> {
         this.rightArmPose = BipedEntityModel.ArmPose.EMPTY;
         this.leftArmPose = BipedEntityModel.ArmPose.EMPTY;
         ItemStack itemStack = livingEntity.getStackInHand(Hand.MAIN_HAND);
-        if (itemStack.getItem() == Items.BOW && livingEntity.isAttacking()) {
+        if ((itemStack.getItem() instanceof BowItem || itemStack.getItem() instanceof ItemGun) && livingEntity.isAttacking()) {
             if (livingEntity.getMainArm() == Arm.RIGHT) {
                 this.rightArmPose = ArmPose.BOW_AND_ARROW;
             } else {
