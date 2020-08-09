@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityAltar;
-import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.lib.ModParticles;
 import com.miskatonicmysteries.lib.util.Constants;
 import com.miskatonicmysteries.lib.util.Util;
@@ -59,8 +58,6 @@ public class BlockAltar extends HorizontalFacingBlock implements Waterloggable, 
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!world.isClient)
-            ProtagonistHandler.spawnProtagonist(world, player);
         ItemStack stack = player.getStackInHand(hand);
         BlockEntityAltar altar = (BlockEntityAltar) world.getBlockEntity(pos);
         if (altar != null) {
