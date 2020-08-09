@@ -7,6 +7,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
@@ -133,7 +135,7 @@ public abstract class ItemGun extends Item {
         EntityHitResult hit = ProjectileUtil.rayTrace(player, vec3d, vec3d3, player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides(), distance);
 
         if (hit != null && hit.getEntity() != null && (blockHit.squaredDistanceTo(player) > hit.getEntity().squaredDistanceTo(player))) {
-            hit.getEntity().damage(Constants.DamageSources.GUN, getDamage());
+            hit.getEntity().damage(new EntityDamageSource(Constants.MOD_ID + ".gun", player), getDamage());
             if (hit.getEntity() instanceof LivingEntity)
                 ((LivingEntity) hit.getEntity()).setAttacker(player);
 

@@ -15,6 +15,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.PacketByteBuf;
@@ -65,7 +66,7 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
                     infoReturnable.setReturnValue(false);
                     infoReturnable.cancel();
                 }
-            } else if (source == Constants.DamageSources.PROTAGONIST)
+            } else if (source == Constants.DamageSources.PROTAGONIST && getSanity() <= CommonProxy.CONFIG.protagonistAggressionThreshold)
                 InsanityHandler.resetProgress((PlayerEntity) (Object) this);
         }
     }

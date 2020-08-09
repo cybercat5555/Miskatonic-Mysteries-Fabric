@@ -15,6 +15,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -94,7 +96,7 @@ public class ModObjects {
     public static final Item SYRINGE = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static final Item INFESTED_WHEAT = new Item(new Item.Settings().group(Constants.MM_GROUP));
-    //all these have no effect yet, but need one
+
     public static final Item BLOTTER = new ItemBlotter();
     public static final Item LAUDANUM = new ItemLaudanum();
     public static final Item TRANQUILIZER = new ItemTranquilizer();
@@ -102,6 +104,7 @@ public class ModObjects {
 
     public static final Item WAX = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
+    public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(ModEntities.PROTAGONIST, 4137472, 14592, new Item.Settings().group(ItemGroup.MISC));
 
     public static void init() {
         Util.registerBlock(DUMMY_RESONATOR_OFF, "resonator_off");
@@ -180,6 +183,8 @@ public class ModObjects {
         Util.register(Registry.ITEM, "re_agent_syringe", RE_AGENT_SYRINGE);
 
         Util.register(Registry.ITEM, "wax", WAX);
+
+        Util.register(Registry.ITEM, "protagonist_spawn_egg", PROTAGONIST_SPAWN_EGG);
 
     }
 }

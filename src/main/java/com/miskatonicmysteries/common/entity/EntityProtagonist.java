@@ -1,6 +1,8 @@
 package com.miskatonicmysteries.common.entity;
 
 import com.miskatonicmysteries.common.CommonProxy;
+import com.miskatonicmysteries.common.entity.ai.MobBowAttackGoal;
+import com.miskatonicmysteries.common.entity.ai.MobCrossbowAttackGoal;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.item.ItemGun;
@@ -13,7 +15,10 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntityWithAi;
+import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -32,7 +37,7 @@ import java.util.*;
 
 import static com.miskatonicmysteries.lib.util.Constants.NBT.ALTERNATE_WEAPON;
 
-public class EntityProtagonist extends HostileEntity implements RangedAttackMob, CrossbowUser {
+public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMob, CrossbowUser {
     private static final Map<AbstractMap.SimpleEntry<EquipmentSlot, ItemStack>, Integer> ARMOR_MAP = new HashMap<>();
     private static final Map<ItemStack, Integer> WEAPON_MAP = new HashMap<>();
     private static final Map<ItemStack, Integer> ALT_WEAPON_MAP = new HashMap<>();
@@ -42,8 +47,9 @@ public class EntityProtagonist extends HostileEntity implements RangedAttackMob,
     private static final TrackedData<Integer> STAGE = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.INTEGER);
     public ItemStack alternateWeapon = ItemStack.EMPTY;
 
-    public EntityProtagonist(EntityType<? extends HostileEntity> entityType, World world) {
+    public EntityProtagonist(EntityType<? extends MobEntityWithAi> entityType, World world) {
         super(entityType, world);
+        experiencePoints = 0;
     }
 
     @Override
@@ -60,8 +66,8 @@ public class EntityProtagonist extends HostileEntity implements RangedAttackMob,
         //ai to switch to more convenient weapon if needed
         this.goalSelector.add(1, new SwitchWeaponsGoal(this));
         this.goalSelector.add(2, new ProtagonistGunAttackGoal(this));
-        this.goalSelector.add(2, new ProtagonistBowAttackGoal(this, 1.2F, 20, 24));
-        this.goalSelector.add(2, new CrossbowAttackGoal<>(this, 1.4F, 8F));
+        this.goalSelector.add(2, new MobBowAttackGoal<>(this, 1.2F, 20, 24));
+        this.goalSelector.add(2, new MobCrossbowAttackGoal<>(this, 1.4F, 8F));
         this.goalSelector.add(3, new MeleeAttackGoal(this, 1.2D, false));
         this.goalSelector.add(4, new LookAroundGoal(this));
         this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 12));
@@ -69,6 +75,7 @@ public class EntityProtagonist extends HostileEntity implements RangedAttackMob,
         this.targetSelector.add(0, new RevengeGoal(this, EntityProtagonist.class));
         this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> living instanceof Affiliated && ((Affiliated) living).getAffiliation() != Constants.Affiliation.NONE));
         this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, true, player -> player instanceof ISanity && ((ISanity) player).getSanity() <= CommonProxy.CONFIG.protagonistAggressionThreshold));
+        this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true, mob -> !(mob instanceof EntityProtagonist) && !(mob instanceof CreeperEntity)));
         super.initGoals();
     }
 
@@ -357,19 +364,6 @@ public class EntityProtagonist extends HostileEntity implements RangedAttackMob,
                     }
                 }
             }
-        }
-    }
-
-    public static class ProtagonistBowAttackGoal extends BowAttackGoal {
-        private final EntityProtagonist actor;
-
-        public ProtagonistBowAttackGoal(EntityProtagonist actor, double speed, int attackInterval, float range) {
-            super(actor, speed, attackInterval, range);
-            this.actor = actor;
-        }
-
-        public boolean shouldContinue() {
-            return (this.canStart() || !this.actor.getNavigation().isIdle()) && this.isHoldingBow();
         }
     }
 }
