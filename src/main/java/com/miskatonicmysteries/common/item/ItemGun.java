@@ -93,7 +93,7 @@ public abstract class ItemGun extends Item {
     public ItemStack loadGun(ItemStack stack, World world, LivingEntity user) {
         if (!stack.hasTag()) stack.setTag(new CompoundTag());
 
-        int generatedShots = user instanceof PlayerEntity ? loadBullets((PlayerEntity) user, stack.getTag().getInt(Constants.NBT.SHOTS)) : getMaxShots();
+        int generatedShots = user instanceof PlayerEntity && !((PlayerEntity) user).isCreative() ? loadBullets((PlayerEntity) user, stack.getTag().getInt(Constants.NBT.SHOTS)) : getMaxShots();
         stack.getTag().putInt(Constants.NBT.SHOTS, generatedShots);
         setLoading(stack, false);
         if (user instanceof PlayerEntity) ((PlayerEntity) user).getItemCooldownManager().set(this, getLoadingTime());
