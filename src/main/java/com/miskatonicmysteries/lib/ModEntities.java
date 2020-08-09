@@ -12,7 +12,7 @@ import net.minecraft.entity.mob.MobEntityWithAi;
 import net.minecraft.util.registry.Registry;
 
 public class ModEntities {
-    public static final EntityType<EntityProtagonist> PROTAGONIST = FabricEntityTypeBuilder.create(SpawnGroup.MISC, EntityProtagonist::new).dimensions(EntityDimensions.fixed(0.6F, 1.95F)).trackable(48, 6).build();
+    public static final EntityType<EntityProtagonist> PROTAGONIST = FabricEntityTypeBuilder.create(SpawnGroup.MISC, EntityProtagonist::new).spawnableFarFromPlayer().dimensions(EntityDimensions.fixed(0.6F, 1.95F)).trackable(48, 6).build();
 
     public static void init() {
         Util.register(Registry.ENTITY_TYPE, "protagonist", PROTAGONIST);

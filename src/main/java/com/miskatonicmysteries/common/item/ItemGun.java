@@ -7,7 +7,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -41,7 +40,7 @@ public abstract class ItemGun extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
-        if(!canUse(user)){
+        if (!canUse(user)) {
             if (world.isClient) user.sendMessage(new TranslatableText("message.heavy_gun.needs_offhand"), true);
             return TypedActionResult.fail(stack);
         }
@@ -49,8 +48,7 @@ public abstract class ItemGun extends Item {
             setLoading(stack, true);
             user.setCurrentHand(hand);
             return TypedActionResult.consume(stack);
-        }
-        else if (isLoaded(stack)) {
+        } else if (isLoaded(stack)) {
             shoot(world, user, stack);
             user.setCurrentHand(hand);
             return TypedActionResult.consume(stack);
