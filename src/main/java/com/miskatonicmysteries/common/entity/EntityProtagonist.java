@@ -1,12 +1,15 @@
 package com.miskatonicmysteries.common.entity;
 
 import com.miskatonicmysteries.common.CommonProxy;
+import com.miskatonicmysteries.common.entity.ai.GunAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobBowAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobCrossbowAttackGoal;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
+import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.item.ItemGun;
 import com.miskatonicmysteries.lib.ModObjects;
+import com.miskatonicmysteries.lib.ModParticles;
 import com.miskatonicmysteries.lib.util.Constants;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
@@ -18,13 +21,14 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntityWithAi;
-import net.minecraft.entity.passive.IronGolemEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
@@ -38,13 +42,15 @@ import java.util.*;
 import static com.miskatonicmysteries.lib.util.Constants.NBT.ALTERNATE_WEAPON;
 
 public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMob, CrossbowUser {
-    private static final Map<AbstractMap.SimpleEntry<EquipmentSlot, ItemStack>, Integer> ARMOR_MAP = new HashMap<>();
-    private static final Map<ItemStack, Integer> WEAPON_MAP = new HashMap<>();
-    private static final Map<ItemStack, Integer> ALT_WEAPON_MAP = new HashMap<>();
+    protected static final Map<AbstractMap.SimpleEntry<EquipmentSlot, ItemStack>, Integer> ARMOR_MAP = new HashMap<>();
+    protected static final Map<ItemStack, Integer> WEAPON_MAP = new HashMap<>();
+    protected static final Map<ItemStack, Integer> ALT_WEAPON_MAP = new HashMap<>();
 
-    private static final TrackedData<Boolean> LOADING = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final TrackedData<Integer> VARIANT = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.INTEGER);
-    private static final TrackedData<Integer> STAGE = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Boolean> LOADING = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.BOOLEAN);
+    protected static final TrackedData<Integer> VARIANT = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> STAGE = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Optional<UUID>> TARGET_UUID = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+
     public ItemStack alternateWeapon = ItemStack.EMPTY;
 
     public EntityProtagonist(EntityType<? extends MobEntityWithAi> entityType, World world) {
@@ -58,14 +64,16 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
         dataTracker.startTracking(VARIANT, 0);
         dataTracker.startTracking(STAGE, 0);
         dataTracker.startTracking(LOADING, false);
+        dataTracker.startTracking(TARGET_UUID, Optional.empty());
     }
+
 
     @Override
     protected void initGoals() {
         this.goalSelector.add(0, new SwimGoal(this));
         //ai to switch to more convenient weapon if needed
         this.goalSelector.add(1, new SwitchWeaponsGoal(this));
-        this.goalSelector.add(2, new ProtagonistGunAttackGoal(this));
+        this.goalSelector.add(2, new GunAttackGoal(this));
         this.goalSelector.add(2, new MobBowAttackGoal<>(this, 1.2F, 20, 24));
         this.goalSelector.add(2, new MobCrossbowAttackGoal<>(this, 1.4F, 8F));
         this.goalSelector.add(3, new MeleeAttackGoal(this, 1.2D, false));
@@ -74,7 +82,7 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
         this.goalSelector.add(6, new WanderAroundGoal(this, 1.0D));
         this.targetSelector.add(0, new RevengeGoal(this, EntityProtagonist.class));
         this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> living instanceof Affiliated && ((Affiliated) living).getAffiliation() != Constants.Affiliation.NONE));
-        this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, true, player -> player instanceof ISanity && ((ISanity) player).getSanity() <= CommonProxy.CONFIG.protagonistAggressionThreshold));
+        this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, 10, false, true, player -> (getTargetUUID().isPresent() && player.equals(getTarget())) || (player instanceof ISanity && ((ISanity) player).getSanity() <= CommonProxy.CONFIG.protagonistAggressionThreshold)));
         this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true, mob -> !(mob instanceof EntityProtagonist) && !(mob instanceof CreeperEntity)));
         super.initGoals();
     }
@@ -98,10 +106,42 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
     @Override
     public EntityData initialize(WorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
         setCanPickUpLoot(true);
-        dataTracker.set(VARIANT, random.nextInt(4));
-        dataTracker.set(STAGE, random.nextInt(4));
+        if (spawnReason != SpawnReason.EVENT) {
+            dataTracker.set(VARIANT, random.nextInt(4));
+            dataTracker.set(STAGE, random.nextInt(4));
+        }
         initEquipment(difficulty);
         return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
+    }
+
+    @Override
+    protected void updatePostDeath() {
+        if (getTargetUUID().isPresent() && getStage() < Constants.DataTrackers.PROTAGONIST_MAX_LEVEL) {
+            int amount = 10 + random.nextInt(10);
+            if (getAttacker() instanceof PlayerEntity || (getAttacker() instanceof TameableEntity && getTargetUUID().isPresent() && getTargetUUID().get().equals(((TameableEntity) getAttacker()).getOwnerUuid()))) {
+                if (!world.isClient)
+                    ProtagonistHandler.levelProtagonist(world, this);
+            }
+            for (int i = 0; i < amount / 2; i++)
+                world.addParticle(ModParticles.FLAME, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 1, 0, 0);
+            for (int i = 0; i < amount; i++)
+                world.addParticle(ParticleTypes.LARGE_SMOKE, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 0, 0, 0);
+            remove();
+        } else {
+            if (!world.isClient)
+                ProtagonistHandler.removeProtagonist(world, this);
+            ++this.deathTime;
+            if (this.deathTime == 40) {
+                this.remove();
+
+                for (int i = 0; i < 20; ++i) {
+                    double d = this.random.nextGaussian() * 0.02D;
+                    double e = this.random.nextGaussian() * 0.02D;
+                    double f = this.random.nextGaussian() * 0.02D;
+                    this.world.addParticle(ParticleTypes.POOF, this.getParticleX(1.0D), this.getRandomBodyY(), this.getParticleZ(1.0D), d, e, f);
+                }
+            }
+        }
     }
 
     @Override
@@ -118,15 +158,17 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
     protected void initEquipment(LocalDifficulty difficulty) {
         super.initEquipment(difficulty);
         ARMOR_MAP.keySet().stream().filter(e -> getStage() >= ARMOR_MAP.get(e)).sorted(Comparator.comparingInt(e -> ARMOR_MAP.get(e)).reversed()).forEachOrdered(entry -> {
-            if (random.nextBoolean()) equipStack(entry.getKey(), entry.getValue());
+            if (!hasStackEquipped(entry.getKey()) && random.nextFloat() < 0.75F)
+                equipStack(entry.getKey(), entry.getValue());
         });
-        WEAPON_MAP.keySet().stream().filter(stack -> getStage() == WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(stack -> WEAPON_MAP.get(stack)).reversed()).forEachOrdered(stack -> {
-            if (random.nextFloat() < 0.75F) setStackInHand(Hand.MAIN_HAND, stack);
+        WEAPON_MAP.keySet().stream().filter(stack -> getStage() == WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(stack -> WEAPON_MAP.get(stack))).forEachOrdered(stack -> {
+            if (getStackInHand(Hand.MAIN_HAND).isEmpty() && random.nextFloat() < 0.7F)
+                setStackInHand(Hand.MAIN_HAND, stack);
         });
         if (getStackInHand(Hand.MAIN_HAND).isEmpty()) setStackInHand(Hand.MAIN_HAND, new ItemStack(Items.IRON_SWORD));
 
-        ALT_WEAPON_MAP.keySet().stream().filter(stack -> getStage() == ALT_WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(stack -> ALT_WEAPON_MAP.get(stack)).reversed()).forEachOrdered(stack -> {
-            if (random.nextFloat() < 0.75F) alternateWeapon = stack;
+        ALT_WEAPON_MAP.keySet().stream().filter(stack -> getStage() == ALT_WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(stack -> ALT_WEAPON_MAP.get(stack))).forEachOrdered(stack -> {
+            if (alternateWeapon.isEmpty() && random.nextFloat() < 0.6F) alternateWeapon = stack;
         });
     }
 
@@ -136,8 +178,10 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
     }
 
     @Override
-    public boolean canImmediatelyDespawn(double distanceSquared) {
-        return false;
+    public void remove() {
+        if (!world.isClient && getTargetUUID().isPresent())
+            ProtagonistHandler.setSpawnState(this, false);
+        super.remove();
     }
 
     public int getVariant() {
@@ -152,6 +196,19 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
         dataTracker.set(STAGE, stage);
     }
 
+    @Nullable
+    public PlayerEntity getTargetPlayer() {
+        return getTargetUUID().isPresent() ? world.getPlayerByUuid(getTargetUUID().get()) : null;
+    }
+
+    public void setTargetUUID(UUID targetUUID) {
+        dataTracker.set(TARGET_UUID, Optional.of(targetUUID));
+    }
+
+    public Optional<UUID> getTargetUUID() {
+        return dataTracker.get(TARGET_UUID);
+    }
+
     @Override
     public void writeCustomDataToTag(CompoundTag tag) {
         super.writeCustomDataToTag(tag);
@@ -161,6 +218,8 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
         alternateWeapon.toTag(alternateWeaponTag);
         tag.put(ALTERNATE_WEAPON, alternateWeaponTag);
         tag.putBoolean(Constants.NBT.CHARGING, dataTracker.get(LOADING));
+        if (getTargetUUID().isPresent())
+            tag.putUuid(Constants.NBT.PLAYER_UUID, getTargetUUID().get());
     }
 
     @Override
@@ -170,6 +229,8 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
         setStage(tag.getInt(Constants.NBT.STAGE));
         alternateWeapon = ItemStack.fromTag((CompoundTag) tag.get(Constants.NBT.ALTERNATE_WEAPON));
         setCharging(tag.getBoolean(Constants.NBT.CHARGING));
+        if (tag.contains(Constants.NBT.PLAYER_UUID))
+            setTargetUUID(tag.getUuid(Constants.NBT.PLAYER_UUID));
     }
 
     public void switchWeapons() {
@@ -244,6 +305,11 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
         ALT_WEAPON_MAP.put(new ItemStack(ModObjects.RIFLE), 3);
     }
 
+    public void setData(ProtagonistData data) {
+        setStage(data.level);
+        dataTracker.set(VARIANT, data.skin);
+    }
+
     public static class SwitchWeaponsGoal extends Goal {
         private final EntityProtagonist protagonist;
 
@@ -278,92 +344,24 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
         }
     }
 
-    public static class ProtagonistGunAttackGoal extends Goal {
-        public static final int RANGE = 10;
-        private final EntityProtagonist protagonist;
-        private int ticksToLockIn, ticksSeen;
-        private boolean movingToLeft;
-        private boolean backward;
-        private int combatTicks = -1;
+    public static class ProtagonistData {
+        public int level, skin;
+        public boolean spawned;
 
-        public ProtagonistGunAttackGoal(EntityProtagonist protagonist) {
-            this.protagonist = protagonist;
-            this.setControls(EnumSet.of(Goal.Control.LOOK, Control.MOVE));
+        public ProtagonistData(int level, int skin, boolean spawned) {
+            this.level = level;
+            this.skin = skin;
+            this.spawned = spawned;
         }
 
-        @Override
-        public boolean canStart() {
-            return protagonist.getTarget() != null && protagonist.isHolding(item -> item instanceof ItemGun);
+        public void toTag(CompoundTag compoundTag) {
+            compoundTag.putInt(Constants.NBT.STAGE, level);
+            compoundTag.putInt(Constants.NBT.VARIANT, skin);
+            compoundTag.putBoolean(Constants.NBT.SPAWNED, spawned);
         }
 
-        @Override
-        public boolean shouldContinue() {
-            return canStart();
-        }
-
-        @Override
-        public void start() {
-            protagonist.setAttacking(true);
-        }
-
-        @Override
-        public void stop() {
-            protagonist.setAttacking(false);
-            protagonist.clearActiveItem();
-        }
-
-        @Override
-        public void tick() {
-            ItemStack gun = protagonist.getMainHandStack();
-            LivingEntity target = protagonist.getTarget();
-            double distanceToTarget = this.protagonist.distanceTo(target);
-            double range = 10;
-            float speed = 1.2F;
-            protagonist.lookAtEntity(target, 45F, 45F);
-            if (protagonist.canSee(target)) ticksSeen++;
-            if (distanceToTarget <= range && this.ticksSeen >= 20) {
-                this.protagonist.getNavigation().stop();
-                ++this.combatTicks;
-            } else {
-                this.protagonist.getNavigation().startMovingTo(target, speed);
-                this.combatTicks = -1;
-            }
-
-            if (this.combatTicks >= 20) {
-                if ((double) this.protagonist.getRandom().nextFloat() < 0.3D) {
-                    this.movingToLeft = !this.movingToLeft;
-                }
-
-                if ((double) this.protagonist.getRandom().nextFloat() < 0.3D) {
-                    this.backward = !this.backward;
-                }
-
-                this.combatTicks = 0;
-            }
-
-            if (this.combatTicks > -1) {
-                if (distanceToTarget > RANGE * 0.75F) {
-                    this.backward = false;
-                } else if (distanceToTarget < RANGE * 0.25F) {
-                    this.backward = true;
-                }
-                this.protagonist.getMoveControl().strafeTo(this.backward ? -0.5F : 0.5F, this.movingToLeft ? 0.5F : -0.5F);
-
-
-                if (!gun.isEmpty() && gun.getItem() instanceof ItemGun && protagonist.getTarget() != null) {
-                    if (ItemGun.isLoaded(gun)) {
-                        ticksToLockIn++;
-                        if (ticksToLockIn >= 20) {
-                            protagonist.clearActiveItem();
-                            ((ItemGun) gun.getItem()).shoot(protagonist.world, protagonist, gun);
-                            ticksToLockIn = 0;
-                        }
-                    } else {
-                        ItemGun.setLoading(gun, true);
-                        protagonist.setCurrentHand(Hand.MAIN_HAND);
-                    }
-                }
-            }
+        public static ProtagonistData fromTag(CompoundTag compoundTag) {
+            return new ProtagonistData(compoundTag.getInt(Constants.NBT.STAGE), compoundTag.getInt(Constants.NBT.VARIANT), compoundTag.getBoolean(Constants.NBT.SPAWNED));
         }
     }
 }

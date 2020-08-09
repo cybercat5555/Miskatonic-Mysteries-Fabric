@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.feature;
 
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
+import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.lib.util.Constants;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -14,6 +15,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.command.arguments.EntityArgumentType;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -54,9 +56,15 @@ public class ModCommand {
                                 .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> clearSanityExpansions(context, EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[EntityArgumentType.getPlayers(context, "player").size()])))))));
 
         //       .then(CommandManager.literal("mutations"))); for later
-        //builder.then(CommandManager.literal("world").executes()); for world data once it's in
+        builder.then(CommandManager.literal("world")
+                .then(CommandManager.literal("getNBT").executes(context -> giveWorldNBT(context))));
 
         CommandRegistrationCallback.EVENT.register((displatcher, b) -> displatcher.register(builder));
+    }
+
+    private static int giveWorldNBT(CommandContext<ServerCommandSource> context) {
+        context.getSource().sendFeedback(MMWorldState.get(context.getSource().getWorld()).toTag(new CompoundTag()).toText(), false);
+        return 0;
     }
 
     private static int playInsanityEvent(CommandContext<ServerCommandSource> context, Identifier id, ServerPlayerEntity... players) {
@@ -67,7 +75,8 @@ public class ModCommand {
                 event.execute(player, (ISanity) player);
             }
             return 10;
-        }else context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.execute_insanity_event.failure", id.toString()));
+        } else
+            context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.execute_insanity_event.failure", id.toString()));
         return 0;
     }
 
@@ -158,8 +167,8 @@ public class ModCommand {
         return Math.round(15 * (returnValue / (float) Constants.DataTrackers.SANITY_CAP));
     }
 
-    public static class InsanityEventArgumentType implements ArgumentType<Identifier>{
-        public static InsanityEventArgumentType insanityEvent(){
+    public static class InsanityEventArgumentType implements ArgumentType<Identifier> {
+        public static InsanityEventArgumentType insanityEvent() {
             return new InsanityEventArgumentType();
         }
 
@@ -168,7 +177,7 @@ public class ModCommand {
         }
 
         @Override
-        public Identifier parse(StringReader reader) throws CommandSyntaxException{
+        public Identifier parse(StringReader reader) throws CommandSyntaxException {
             return Identifier.fromCommandInput(reader);
         }
 

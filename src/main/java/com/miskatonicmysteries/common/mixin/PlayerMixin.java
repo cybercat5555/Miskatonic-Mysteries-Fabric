@@ -15,7 +15,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.PacketByteBuf;
@@ -52,8 +51,8 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
 
     @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"))
     private void manipulateProtagonistDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
-        if (source.getAttacker() instanceof EntityProtagonist && source != Constants.DamageSources.PROTAGONIST)
-            ((PlayerEntity) (Object) this).damage(Constants.DamageSources.PROTAGONIST, amount);
+        if (source.getAttacker() instanceof EntityProtagonist && !(source instanceof Constants.DamageSources.ProtagonistDamageSource))
+            ((PlayerEntity) (Object) this).damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount);
     }
 
     @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("RETURN"), cancellable = true)
@@ -66,7 +65,7 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
                     infoReturnable.setReturnValue(false);
                     infoReturnable.cancel();
                 }
-            } else if (source == Constants.DamageSources.PROTAGONIST && getSanity() <= CommonProxy.CONFIG.protagonistAggressionThreshold)
+            } else if (source instanceof Constants.DamageSources.ProtagonistDamageSource && getSanity() <= CommonProxy.CONFIG.protagonistAggressionThreshold)
                 InsanityHandler.resetProgress((PlayerEntity) (Object) this);
         }
     }

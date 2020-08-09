@@ -6,8 +6,10 @@ import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -19,11 +21,12 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
+import javax.annotation.Nullable;
+
 public class Constants {
     public static final String MOD_ID = "miskatonicmysteries";
     public static final ItemGroup MM_GROUP = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "group"), () -> ModObjects.OCEANIC_GOLD.getStackForRender());
     public static final float BLOCK_BIT = 0.0625F;
-
     public static class Affiliation {
         public static final Identifier NONE = new Identifier(MOD_ID, "none");
         public static final Identifier CTHULHU = new Identifier(MOD_ID, "cthulhu");
@@ -55,10 +58,15 @@ public class Constants {
         public static final String STAGE = "Stage";
         public static final String ALTERNATE_WEAPON = "Alternate Weapon";
         public static final String CHARGING = "Charging";
+        public static final String PLAYER_UUID = "Player UUID";
+        public static final String IS_READY = "Ready";
+        public static final String PROTAGONISTS = "Protagonists";
+        public static final String SPAWNED = "Spawned";
     }
 
     public static class DataTrackers {
         public static final int SANITY_CAP = 1000;
+        public static final int PROTAGONIST_MAX_LEVEL = 3;
 
         public static final TrackedData<Integer> SANITY = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Boolean> SHOCKED = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -69,7 +77,6 @@ public class Constants {
             super(Constants.MOD_ID + "." + name);
         }
 
-        public static final DamageSource GUN = new DamageSources("gun").setProjectile();
         public static final DamageSource SLEEP = new DamageSources("sleep").setBypassesArmor();
         public static final DamageSource INSANITY = new DamageSources("insanity") {
             @Override
@@ -77,12 +84,17 @@ public class Constants {
                 return new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(3)), entity.getDisplayName());
             }
         }.setBypassesArmor();
-        public static final DamageSource PROTAGONIST = new DamageSources("protagonist") {
+
+        public static class ProtagonistDamageSource extends EntityDamageSource {
+            public ProtagonistDamageSource(@Nullable Entity source) {
+                super(Constants.MOD_ID + ".protagonist", source);
+            }
+
             @Override
             public Text getDeathMessage(LivingEntity entity) {
                 return new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(4)), entity.getDisplayName());
             }
-        };
+        }
     }
 
     public static class BlockSettings {
