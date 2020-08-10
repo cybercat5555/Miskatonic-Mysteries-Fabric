@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.feature;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
+import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.lib.util.Constants;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -15,6 +16,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.command.arguments.EntityArgumentType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -59,7 +61,21 @@ public class ModCommand {
         builder.then(CommandManager.literal("world")
                 .then(CommandManager.literal("getNBT").executes(context -> giveWorldNBT(context))));
 
+        builder.then(CommandManager.literal("summonInvestigator")
+                .executes(context -> spawnProtagonist(context, context.getSource().getPlayer()))
+                .then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(context -> spawnProtagonist(context, EntityArgumentType.getPlayer(context, "player")))));
+
         CommandRegistrationCallback.EVENT.register((displatcher, b) -> displatcher.register(builder));
+    }
+
+    private static int spawnProtagonist(CommandContext<ServerCommandSource> context, PlayerEntity player) {
+        boolean spawned = ProtagonistHandler.spawnProtagonist(player.world, player);
+        if (spawned)
+            context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.summon_investigator", player.getDisplayName()), true);
+        else
+            context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.summon_investigator.failure"));
+        return spawned ? 15 : 0;
     }
 
     private static int giveWorldNBT(CommandContext<ServerCommandSource> context) {

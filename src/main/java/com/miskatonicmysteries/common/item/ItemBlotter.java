@@ -26,6 +26,7 @@ public class ItemBlotter extends Item {
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         user.applyStatusEffect(new StatusEffectInstance(ModRegistries.MANIA, 2400, 0));
+        stack.decrement(1);
         return stack;
     }
 

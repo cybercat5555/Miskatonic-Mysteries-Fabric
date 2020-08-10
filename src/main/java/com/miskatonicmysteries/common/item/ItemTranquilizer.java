@@ -26,6 +26,7 @@ public class ItemTranquilizer extends Item {
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         user.applyStatusEffect(new StatusEffectInstance(ModRegistries.TRANQUILIZED, 18000, 1));
+        stack.decrement(1);
         return stack;
     }
 

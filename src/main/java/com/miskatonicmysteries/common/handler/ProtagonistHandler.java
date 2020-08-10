@@ -46,8 +46,8 @@ public class ProtagonistHandler {
 
         for (int j = 0; j < tries; ++j) {
             float f = world.random.nextFloat() * 6.2831855F;
-            int k = (int) player.getX() + MathHelper.floor(MathHelper.cos(f) * 15) + world.random.nextInt(10);
-            int l = (int) player.getZ() + MathHelper.floor(MathHelper.sin(f) * 15) + world.random.nextInt(10);
+            int k = (int) player.getX() + MathHelper.floor(MathHelper.cos(f) * 16) + world.random.nextInt(14);
+            int l = (int) player.getZ() + MathHelper.floor(MathHelper.sin(f) * 16) + world.random.nextInt(14);
             int m = world.getTopY(Heightmap.Type.WORLD_SURFACE, k, l);
             mutable.set(k, m, l);
             if (!world.isNearOccupiedPointOfInterest(mutable) && world.isRegionLoaded(mutable.getX() - 10, mutable.getY() - 10, mutable.getZ() - 10, mutable.getX() + 10, mutable.getY() + 10, mutable.getZ() + 10) && world.getChunkManager().shouldTickChunk(new ChunkPos(mutable)) && (SpawnHelper.canSpawn(SpawnRestriction.Location.ON_GROUND, world, mutable, ModEntities.PROTAGONIST) || world.getBlockState(mutable.down()).isOf(Blocks.SNOW) && world.getBlockState(mutable).isAir())) {

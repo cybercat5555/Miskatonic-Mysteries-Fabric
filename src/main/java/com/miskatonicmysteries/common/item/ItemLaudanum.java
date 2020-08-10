@@ -28,6 +28,7 @@ public class ItemLaudanum extends Item {
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         user.applyStatusEffect(new StatusEffectInstance(ModRegistries.TRANQUILIZED, 2400, 0));
         user.applyStatusEffect(new StatusEffectInstance(ModRegistries.OVERMEDICATED, 24000, user.getStatusEffect(ModRegistries.OVERMEDICATED) != null ? user.getStatusEffect(ModRegistries.OVERMEDICATED).getAmplifier() + 1 : 0, false, false, false));
+        stack.decrement(1);
         if (stack.isEmpty()) {
             return new ItemStack(Items.GLASS_BOTTLE);
         } else {

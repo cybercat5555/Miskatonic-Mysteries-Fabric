@@ -14,6 +14,7 @@ import com.miskatonicmysteries.lib.util.Constants;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.pathing.MobNavigation;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -56,6 +57,8 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
     public EntityProtagonist(EntityType<? extends MobEntityWithAi> entityType, World world) {
         super(entityType, world);
         experiencePoints = 0;
+        ((MobNavigation) this.getNavigation()).setCanPathThroughDoors(true);
+        this.getNavigation().setCanSwim(true);
     }
 
     @Override
@@ -70,36 +73,36 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(0, new SwimGoal(this));
+        this.goalSelector.add(0, new LongDoorInteractGoal(this, false));
+        this.goalSelector.add(1, new SwimGoal(this));
         //ai to switch to more convenient weapon if needed
-        this.goalSelector.add(1, new SwitchWeaponsGoal(this));
-        this.goalSelector.add(2, new GunAttackGoal(this));
-        this.goalSelector.add(2, new MobBowAttackGoal<>(this, 1.2F, 20, 24));
-        this.goalSelector.add(2, new MobCrossbowAttackGoal<>(this, 1.4F, 8F));
-        this.goalSelector.add(3, new MeleeAttackGoal(this, 1.2D, false));
-        this.goalSelector.add(4, new LookAroundGoal(this));
-        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 12));
-        this.goalSelector.add(6, new WanderAroundGoal(this, 1.0D));
+        this.goalSelector.add(2, new SwitchWeaponsGoal(this));
+        this.goalSelector.add(3, new GunAttackGoal(this));
+        this.goalSelector.add(3, new MobBowAttackGoal<>(this, 1.2F, 20, 24));
+        this.goalSelector.add(3, new MobCrossbowAttackGoal<>(this, 1.4F, 8F));
+        this.goalSelector.add(4, new MeleeAttackGoal(this, 1.2D, false));
+        this.goalSelector.add(5, new LookAroundGoal(this));
+        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 12));
+        this.goalSelector.add(7, new WanderAroundGoal(this, 1.0D));
         this.targetSelector.add(0, new RevengeGoal(this, EntityProtagonist.class));
         this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> living instanceof Affiliated && ((Affiliated) living).getAffiliation() != Constants.Affiliation.NONE));
-        this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, 10, false, true, player -> (getTargetUUID().isPresent() && player.equals(getTarget())) || (player instanceof ISanity && ((ISanity) player).getSanity() <= CommonProxy.CONFIG.protagonistAggressionThreshold)));
+        this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, true, player -> (getTargetUUID().isPresent() && player.getUuid().equals(getTargetUUID().get())) || (player instanceof ISanity && ((ISanity) player).getSanity() <= CommonProxy.CONFIG.protagonistAggressionThreshold)));
         this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true, mob -> !(mob instanceof EntityProtagonist) && !(mob instanceof CreeperEntity)));
         super.initGoals();
+    }
+
+    public void removeAfterTargetKill() {
+        for (int i = 0; i < 10; i++)
+            world.addParticle(ModParticles.FLAME, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 1, 0, 0);
+        for (int i = 0; i < 15; i++)
+            world.addParticle(ParticleTypes.LARGE_SMOKE, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 0, 0, 0);
+        ProtagonistHandler.removeProtagonist(world, this);
+        remove();
     }
 
     @Override
     public boolean canBeLeashedBy(PlayerEntity player) {
         return false;
-    }
-
-    @Override
-    public boolean canPickUp(ItemStack stack) {
-        return super.canPickUp(stack);
-    }
-
-    @Override
-    public boolean tryAttack(Entity target) {
-        return super.tryAttack(target);
     }
 
     @Nullable
@@ -117,14 +120,13 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
     @Override
     protected void updatePostDeath() {
         if (getTargetUUID().isPresent() && getStage() < Constants.DataTrackers.PROTAGONIST_MAX_LEVEL) {
-            int amount = 10 + random.nextInt(10);
             if (getAttacker() instanceof PlayerEntity || (getAttacker() instanceof TameableEntity && getTargetUUID().isPresent() && getTargetUUID().get().equals(((TameableEntity) getAttacker()).getOwnerUuid()))) {
                 if (!world.isClient)
                     ProtagonistHandler.levelProtagonist(world, this);
             }
-            for (int i = 0; i < amount / 2; i++)
+            for (int i = 0; i < 10; i++)
                 world.addParticle(ModParticles.FLAME, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 1, 0, 0);
-            for (int i = 0; i < amount; i++)
+            for (int i = 0; i < 15; i++)
                 world.addParticle(ParticleTypes.LARGE_SMOKE, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 0, 0, 0);
             remove();
         } else {
@@ -161,13 +163,13 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
             if (!hasStackEquipped(entry.getKey()) && random.nextFloat() < 0.75F)
                 equipStack(entry.getKey(), entry.getValue());
         });
-        WEAPON_MAP.keySet().stream().filter(stack -> getStage() == WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(stack -> WEAPON_MAP.get(stack))).forEachOrdered(stack -> {
+        WEAPON_MAP.keySet().stream().filter(stack -> getStage() >= WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(stack -> WEAPON_MAP.get(stack))).forEachOrdered(stack -> {
             if (getStackInHand(Hand.MAIN_HAND).isEmpty() && random.nextFloat() < 0.7F)
                 setStackInHand(Hand.MAIN_HAND, stack);
         });
         if (getStackInHand(Hand.MAIN_HAND).isEmpty()) setStackInHand(Hand.MAIN_HAND, new ItemStack(Items.IRON_SWORD));
 
-        ALT_WEAPON_MAP.keySet().stream().filter(stack -> getStage() == ALT_WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(stack -> ALT_WEAPON_MAP.get(stack))).forEachOrdered(stack -> {
+        ALT_WEAPON_MAP.keySet().stream().filter(stack -> getStage() >= ALT_WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(stack -> ALT_WEAPON_MAP.get(stack))).forEachOrdered(stack -> {
             if (alternateWeapon.isEmpty() && random.nextFloat() < 0.6F) alternateWeapon = stack;
         });
     }
@@ -315,7 +317,6 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
 
         public SwitchWeaponsGoal(EntityProtagonist protagonist) {
             this.protagonist = protagonist;
-            this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
         }
 
         @Override
@@ -340,7 +341,7 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
             if (protagonist.isValidRangedItem(protagonist.getMainHandStack().getItem())) {
                 return protagonist.alternateWeapon.getItem() instanceof SwordItem && protagonist.distanceTo(protagonist.getTarget()) < 4;
             }
-            return protagonist.distanceTo(protagonist.getTarget()) > 6 && protagonist.isValidRangedItem(protagonist.alternateWeapon.getItem());
+            return protagonist.distanceTo(protagonist.getTarget()) > 4 && protagonist.isValidRangedItem(protagonist.alternateWeapon.getItem());
         }
     }
 

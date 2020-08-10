@@ -94,6 +94,8 @@
   "miskatonicmysteries.command.clear_expansions.none_failure": "Couldn't clear %s's sanity expansions, as they don't have any",
   "miskatonicmysteries.command.execute_insanity_event": "Executed insanity event %s",
   "miskatonicmysteries.command.execute_insanity_event.failure": "Failed to execute insanity event %s, as it does not exist",
+  "miskatonicmysteries.command.summon_investigator": "Successfully summoned Investigator for %s",
+  "miskatonicmysteries.command.summon_investigator.failure": "Failed to summon Investigator",
   "comment7": "STATUS EFFECTS",
   "effect.miskatonicmysteries.mania": "Mania",
   "effect.miskatonicmysteries.tranquilized": "Tranquilized",
