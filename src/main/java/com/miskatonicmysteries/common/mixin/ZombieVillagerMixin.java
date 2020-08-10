@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Mixin(ZombieVillagerEntity.class)
 public interface ZombieVillagerMixin {
-    @Invoker("setConverting(Ljava/util/UUID;I)V")
+    @Invoker
     void callSetConverting(@Nullable UUID uuid, int delay);
 }
