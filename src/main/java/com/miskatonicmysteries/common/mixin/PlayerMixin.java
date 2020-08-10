@@ -57,15 +57,17 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
 
     @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("RETURN"), cancellable = true)
     private void manipulateDeath(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
-        if (isDead() && !source.isOutOfWorld()) {
+        if (amount >= getHealth() && !source.isOutOfWorld()) {
             PlayerEntity entity = (PlayerEntity) (Object) this;
             if (Util.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE) >= 0) {
                 entity.inventory.removeStack(Util.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE), 1);
                 if (StatusEffectLazarus.revive(entity)) {
+                    dead = false;
+                    removed = false;
                     infoReturnable.setReturnValue(false);
                     infoReturnable.cancel();
                 }
-            } else if (source instanceof Constants.DamageSources.ProtagonistDamageSource) {
+            } else if (isDead() && source instanceof Constants.DamageSources.ProtagonistDamageSource) {
                 InsanityHandler.resetProgress((PlayerEntity) (Object) this);
                 if (source.getSource() instanceof EntityProtagonist)
                     ((EntityProtagonist) source.getAttacker()).removeAfterTargetKill();

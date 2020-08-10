@@ -101,7 +101,7 @@ public class ModObjects {
     public static final Item LAUDANUM = new ItemLaudanum();
     public static final Item TRANQUILIZER = new ItemTranquilizer();
     //todo actually implement zombie curing property lul
-    public static final Item RE_AGENT_SYRINGE = new Item(new Item.Settings().group(Constants.MM_GROUP).recipeRemainder(SYRINGE).maxCount(1));
+    public static final Item RE_AGENT_SYRINGE = new ItemReAgent();
 
     public static final Item WAX = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
