@@ -29,7 +29,6 @@ public class ModWorld {
     public static final List<StructureProcessor> NORMAL_PROCESSOR = Arrays.asList(new PsychonautHouseProcessor(10091940), new RuleStructureProcessor(ImmutableList.of(new StructureProcessorRule(new RandomBlockMatchRuleTest(Blocks.COBBLESTONE, 0.1F), AlwaysTrueRuleTest.INSTANCE, Blocks.MOSSY_COBBLESTONE.getDefaultState()))));
 
     //Village-gen related code taken from https://github.com/FoundationGames/Sandwichable/tree/master/remappedSrc/io/github/foundationgames/sandwichable (credit goes to Foundationgames and Draylar)
-    //todo add processor for varying candle numbers as well as carpet colors (orange, yellow, purple), add loot table stuff to nbt structure file, also export the file one block higher
     public static void init() {
         WorldUtil.addStructureToPool(new Identifier("village/plains/houses"), new Identifier(Constants.MOD_ID, "village/plains/houses/psychonaut_house"), CommonProxy.CONFIG.psychonautHouseWeight, NORMAL_PROCESSOR);
     }
