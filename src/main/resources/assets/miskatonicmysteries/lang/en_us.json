@@ -59,6 +59,7 @@
   "item.miskatonicmysteries.protagonist_spawn_egg": "Investigator Spawn Egg",
   "comment3": "ENTITIES",
   "entity.miskatonicmysteries.protagonist": "Investigator",
+  "entity.minecraft.villager.psychonaut": "Psychonaut",
   "comment4": "TOOLTIPS",
   "tooltip.miskatonicmysteries.gun_loaded": "Loaded (%d/%d)",
   "tooltip.miskatonicmysteries.gun_not_loaded": "Not Loaded (%d/%d)",

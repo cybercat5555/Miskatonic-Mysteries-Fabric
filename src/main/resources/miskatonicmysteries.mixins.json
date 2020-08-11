@@ -4,10 +4,12 @@
   "package": "com.miskatonicmysteries.common.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "PlayerMixin",
-    "ServerPlayerMixin",
     "DataLoadMixin",
     "ItemMixin",
+    "PlayerMixin",
+    "ServerPlayerMixin",
+    "StructurePoolAccessor",
+    "StructurePoolRegistryMixin",
     "ZombieVillagerMixin"
   ],
   "injectors": {

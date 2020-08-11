@@ -33,6 +33,6 @@ public abstract class BlockEntityBase extends BlockEntity implements BlockEntity
     @Override
     public void markDirty() {
         super.markDirty();
-        if (!world.isClient) sync();
+        if (world != null && !world.isClient) sync();
     }
 }

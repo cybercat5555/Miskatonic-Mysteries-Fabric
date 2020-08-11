@@ -9,7 +9,7 @@ import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.lib.ModObjects;
 import com.miskatonicmysteries.lib.ModRegistries;
 import com.miskatonicmysteries.lib.util.Constants;
-import com.miskatonicmysteries.lib.util.Util;
+import com.miskatonicmysteries.lib.util.MiscUtil;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -59,8 +59,8 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
     private void manipulateDeath(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
         if (amount >= getHealth() && !source.isOutOfWorld()) {
             PlayerEntity entity = (PlayerEntity) (Object) this;
-            if (Util.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE) >= 0) {
-                entity.inventory.removeStack(Util.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE), 1);
+            if (MiscUtil.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE) >= 0) {
+                entity.inventory.removeStack(MiscUtil.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE), 1);
                 if (StatusEffectLazarus.revive(entity)) {
                     dead = false;
                     removed = false;

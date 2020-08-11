@@ -29,4 +29,7 @@ public class CommonConfig {
 
     @Comment(value = "Every player with a sanity level equal or below this will be attacked by Protagonists")
     public int protagonistAggressionThreshold = 700;
+
+    @Comment(value = "The chance for Psychonaut Houses to spawn in villages; the higher the value, the more likely they are to appear")
+    public int psychonautHouseWeight = 3;
 }

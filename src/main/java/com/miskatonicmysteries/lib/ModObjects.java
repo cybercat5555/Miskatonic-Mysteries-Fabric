@@ -8,7 +8,7 @@ import com.miskatonicmysteries.common.block.blockentity.BlockEntityStatue;
 import com.miskatonicmysteries.common.item.*;
 import com.miskatonicmysteries.common.item.books.ItemMMBook;
 import com.miskatonicmysteries.lib.util.Constants;
-import com.miskatonicmysteries.lib.util.Util;
+import com.miskatonicmysteries.lib.util.MiscUtil;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -108,84 +108,84 @@ public class ModObjects {
     public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(ModEntities.PROTAGONIST, 4137472, 14592, new Item.Settings().group(ItemGroup.MISC));
 
     public static void init() {
-        Util.registerBlock(DUMMY_RESONATOR_OFF, "resonator_off");
-        Util.registerBlock(DUMMY_RESONATOR_ON, "resonator_on");
-        Util.registerBlock(POWERCELL, "powercell");
+        MiscUtil.registerBlock(DUMMY_RESONATOR_OFF, "resonator_off");
+        MiscUtil.registerBlock(DUMMY_RESONATOR_ON, "resonator_on");
+        MiscUtil.registerBlock(POWERCELL, "powercell");
 
-        Util.register(Registry.BLOCK_ENTITY_TYPE, "chemistry_set", CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
-        Util.registerBlock(CHEMISTRY_SET, "chemistry_set");
+        MiscUtil.register(Registry.BLOCK_ENTITY_TYPE, "chemistry_set", CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
+        MiscUtil.registerBlock(CHEMISTRY_SET, "chemistry_set");
 
-        Util.register(Registry.BLOCK_ENTITY_TYPE, "altar", ALTAR_BLOCK_ENTITY_TYPE);
-        Util.registerBlock(BLACKSTONE_ALTAR, "blackstone_altar");
-        Util.registerBlock(CORAL_ALTAR, "coral_altar");
-        Util.registerBlock(FUNKY_ALTAR, "funky_altar");
-        Util.registerBlock(MOSSY_STONE_ALTAR, "mossy_stone_altar");
-        Util.registerBlock(NETHER_BRICK_ALTAR, "nether_brick_altar");
-        Util.registerBlock(PRISMARINE_ALTAR, "prismarine_altar");
-        Util.registerBlock(SANDSTONE_ALTAR, "sandstone_altar");
-        Util.registerBlock(STONE_ALTAR, "stone_altar");
+        MiscUtil.register(Registry.BLOCK_ENTITY_TYPE, "altar", ALTAR_BLOCK_ENTITY_TYPE);
+        MiscUtil.registerBlock(BLACKSTONE_ALTAR, "blackstone_altar");
+        MiscUtil.registerBlock(CORAL_ALTAR, "coral_altar");
+        MiscUtil.registerBlock(FUNKY_ALTAR, "funky_altar");
+        MiscUtil.registerBlock(MOSSY_STONE_ALTAR, "mossy_stone_altar");
+        MiscUtil.registerBlock(NETHER_BRICK_ALTAR, "nether_brick_altar");
+        MiscUtil.registerBlock(PRISMARINE_ALTAR, "prismarine_altar");
+        MiscUtil.registerBlock(SANDSTONE_ALTAR, "sandstone_altar");
+        MiscUtil.registerBlock(STONE_ALTAR, "stone_altar");
 
-        Util.register(Registry.BLOCK_ENTITY_TYPE, "octagram", OCTAGRAM_BLOCK_ENTITY_TYPE);
-        Util.registerBlock(CTHULHU_OCTAGRAM, "cthulhu_octagram");
-        Util.registerBlock(HASTUR_OCTAGRAM, "hastur_octagram");
-        Util.registerBlock(SHUB_OCTAGRAM, "shub_octagram");
+        MiscUtil.register(Registry.BLOCK_ENTITY_TYPE, "octagram", OCTAGRAM_BLOCK_ENTITY_TYPE);
+        MiscUtil.registerBlock(CTHULHU_OCTAGRAM, "cthulhu_octagram");
+        MiscUtil.registerBlock(HASTUR_OCTAGRAM, "hastur_octagram");
+        MiscUtil.registerBlock(SHUB_OCTAGRAM, "shub_octagram");
 
-        Util.register(Registry.BLOCK_ENTITY_TYPE, "statue", STATUE_BLOCK_ENTITY_TYPE);
-        Util.registerBlock(CTHULHU_STATUE_GOLD, "cthulhu_statue_gold");
-        Util.registerBlock(CTHULHU_STATUE_MOSSY, "cthulhu_statue_mossy");
-        Util.registerBlock(CTHULHU_STATUE_PRISMARINE, "cthulhu_statue_prismarine");
-        Util.registerBlock(CTHULHU_STATUE_STONE, "cthulhu_statue_stone");
-        Util.registerBlock(HASTUR_STATUE_GOLD, "hastur_statue_gold");
-        Util.registerBlock(HASTUR_STATUE_MOSSY, "hastur_statue_mossy");
-        Util.registerBlock(HASTUR_STATUE_TERRACOTTA, "hastur_statue_terracotta");
-        Util.registerBlock(HASTUR_STATUE_STONE, "hastur_statue_stone");
-        Util.registerBlock(SHUB_STATUE_GOLD, "shub_statue_gold");
-        Util.registerBlock(SHUB_STATUE_MOSSY, "shub_statue_mossy");
-        Util.registerBlock(SHUB_STATUE_BLACKSTONE, "shub_statue_blackstone");
-        Util.registerBlock(SHUB_STATUE_STONE, "shub_statue_stone");
+        MiscUtil.register(Registry.BLOCK_ENTITY_TYPE, "statue", STATUE_BLOCK_ENTITY_TYPE);
+        MiscUtil.registerBlock(CTHULHU_STATUE_GOLD, "cthulhu_statue_gold");
+        MiscUtil.registerBlock(CTHULHU_STATUE_MOSSY, "cthulhu_statue_mossy");
+        MiscUtil.registerBlock(CTHULHU_STATUE_PRISMARINE, "cthulhu_statue_prismarine");
+        MiscUtil.registerBlock(CTHULHU_STATUE_STONE, "cthulhu_statue_stone");
+        MiscUtil.registerBlock(HASTUR_STATUE_GOLD, "hastur_statue_gold");
+        MiscUtil.registerBlock(HASTUR_STATUE_MOSSY, "hastur_statue_mossy");
+        MiscUtil.registerBlock(HASTUR_STATUE_TERRACOTTA, "hastur_statue_terracotta");
+        MiscUtil.registerBlock(HASTUR_STATUE_STONE, "hastur_statue_stone");
+        MiscUtil.registerBlock(SHUB_STATUE_GOLD, "shub_statue_gold");
+        MiscUtil.registerBlock(SHUB_STATUE_MOSSY, "shub_statue_mossy");
+        MiscUtil.registerBlock(SHUB_STATUE_BLACKSTONE, "shub_statue_blackstone");
+        MiscUtil.registerBlock(SHUB_STATUE_STONE, "shub_statue_stone");
 
-        Util.registerBlock(STONE_CTHULHU_MURAL, "stone_cthulhu_mural");
-        Util.registerBlock(MOSSY_CTHULHU_MURAL, "mossy_cthulhu_mural");
-        Util.registerBlock(CORAL_CTHULHU_MURAL, "coral_cthulhu_mural");
-        Util.registerBlock(PRISMARINE_CTHULHU_MURAL, "prismarine_cthulhu_mural");
+        MiscUtil.registerBlock(STONE_CTHULHU_MURAL, "stone_cthulhu_mural");
+        MiscUtil.registerBlock(MOSSY_CTHULHU_MURAL, "mossy_cthulhu_mural");
+        MiscUtil.registerBlock(CORAL_CTHULHU_MURAL, "coral_cthulhu_mural");
+        MiscUtil.registerBlock(PRISMARINE_CTHULHU_MURAL, "prismarine_cthulhu_mural");
 
-        Util.registerBlock(STONE_HASTUR_MURAL, "stone_hastur_mural");
-        Util.registerBlock(MOSSY_HASTUR_MURAL, "mossy_hastur_mural");
-        Util.registerBlock(TERRACOTTA_HASTUR_MURAL, "terracotta_hastur_mural");
-        Util.registerBlock(YELLOW_TERRACOTTA_HASTUR_MURAL, "yellow_terracotta_hastur_mural");
+        MiscUtil.registerBlock(STONE_HASTUR_MURAL, "stone_hastur_mural");
+        MiscUtil.registerBlock(MOSSY_HASTUR_MURAL, "mossy_hastur_mural");
+        MiscUtil.registerBlock(TERRACOTTA_HASTUR_MURAL, "terracotta_hastur_mural");
+        MiscUtil.registerBlock(YELLOW_TERRACOTTA_HASTUR_MURAL, "yellow_terracotta_hastur_mural");
 
-        Util.registerBlock(STONE_SHUB_MURAL, "stone_shub_mural");
-        Util.registerBlock(MOSSY_SHUB_MURAL, "mossy_shub_mural");
+        MiscUtil.registerBlock(STONE_SHUB_MURAL, "stone_shub_mural");
+        MiscUtil.registerBlock(MOSSY_SHUB_MURAL, "mossy_shub_mural");
 
 
-        Util.registerBlock(OCEANIC_GOLD_BLOCK, "oceanic_gold_block");
-        Util.registerBlock(WARDED_OCEANIC_GOLD_BLOCK, "oceanic_gold_block_warded");
-        Util.registerBlock(OCEANIC_GOLD_TILES, "oceanic_gold_tiles");
-        Util.registerBlock(OCEANIC_GOLD_PILLAR, "oceanic_gold_pillar");
-        Util.registerBlock(OCEANIC_GOLD_PILLAR_ORNATE, "oceanic_gold_pillar_ornate");
-        Util.registerBlock(OCEANIC_GOLD_PILLAR_SPLIT, "oceanic_gold_pillar_split");
+        MiscUtil.registerBlock(OCEANIC_GOLD_BLOCK, "oceanic_gold_block");
+        MiscUtil.registerBlock(WARDED_OCEANIC_GOLD_BLOCK, "oceanic_gold_block_warded");
+        MiscUtil.registerBlock(OCEANIC_GOLD_TILES, "oceanic_gold_tiles");
+        MiscUtil.registerBlock(OCEANIC_GOLD_PILLAR, "oceanic_gold_pillar");
+        MiscUtil.registerBlock(OCEANIC_GOLD_PILLAR_ORNATE, "oceanic_gold_pillar_ornate");
+        MiscUtil.registerBlock(OCEANIC_GOLD_PILLAR_SPLIT, "oceanic_gold_pillar_split");
 
-        Util.registerBlock(CANDLE, "candle");
+        MiscUtil.registerBlock(CANDLE, "candle");
 
-        Util.register(Registry.ITEM, "science_journal", SCIENCE_JOURNAL);
-        Util.register(Registry.ITEM, "necronomicon", NECRONOMICON);
+        MiscUtil.register(Registry.ITEM, "science_journal", SCIENCE_JOURNAL);
+        MiscUtil.register(Registry.ITEM, "necronomicon", NECRONOMICON);
 
-        Util.register(Registry.ITEM, "oceanic_gold", OCEANIC_GOLD);
+        MiscUtil.register(Registry.ITEM, "oceanic_gold", OCEANIC_GOLD);
 
-        Util.register(Registry.ITEM, "rifle", RIFLE);
-        Util.register(Registry.ITEM, "revolver", REVOLVER);
-        Util.register(Registry.ITEM, "bullet", BULLET);
+        MiscUtil.register(Registry.ITEM, "rifle", RIFLE);
+        MiscUtil.register(Registry.ITEM, "revolver", REVOLVER);
+        MiscUtil.register(Registry.ITEM, "bullet", BULLET);
 
-        Util.register(Registry.ITEM, "syringe", SYRINGE);
-        Util.register(Registry.ITEM, "infested_wheat", INFESTED_WHEAT);
-        Util.register(Registry.ITEM, "blotter", BLOTTER);
-        Util.register(Registry.ITEM, "laudanum", LAUDANUM);
-        Util.register(Registry.ITEM, "tranquilizer", TRANQUILIZER);
-        Util.register(Registry.ITEM, "re_agent_syringe", RE_AGENT_SYRINGE);
+        MiscUtil.register(Registry.ITEM, "syringe", SYRINGE);
+        MiscUtil.register(Registry.ITEM, "infested_wheat", INFESTED_WHEAT);
+        MiscUtil.register(Registry.ITEM, "blotter", BLOTTER);
+        MiscUtil.register(Registry.ITEM, "laudanum", LAUDANUM);
+        MiscUtil.register(Registry.ITEM, "tranquilizer", TRANQUILIZER);
+        MiscUtil.register(Registry.ITEM, "re_agent_syringe", RE_AGENT_SYRINGE);
 
-        Util.register(Registry.ITEM, "wax", WAX);
+        MiscUtil.register(Registry.ITEM, "wax", WAX);
 
-        Util.register(Registry.ITEM, "protagonist_spawn_egg", PROTAGONIST_SPAWN_EGG);
+        MiscUtil.register(Registry.ITEM, "protagonist_spawn_egg", PROTAGONIST_SPAWN_EGG);
 
     }
 }

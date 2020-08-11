@@ -15,8 +15,8 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Util {
-    public static Block registerBlock(Block block, String name){
+public class MiscUtil {
+    public static Block registerBlock(Block block, String name) {
         Block registeredBlock = register(Registry.BLOCK, name, block);
         register(Registry.ITEM, name, new BlockItem(block, new Item.Settings().group(Constants.MM_GROUP)));
         return registeredBlock;

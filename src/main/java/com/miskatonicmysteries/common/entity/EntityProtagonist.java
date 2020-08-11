@@ -70,12 +70,10 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
         dataTracker.startTracking(TARGET_UUID, Optional.empty());
     }
 
-
     @Override
     protected void initGoals() {
         this.goalSelector.add(0, new LongDoorInteractGoal(this, false));
         this.goalSelector.add(1, new SwimGoal(this));
-        //ai to switch to more convenient weapon if needed
         this.goalSelector.add(2, new SwitchWeaponsGoal(this));
         this.goalSelector.add(3, new GunAttackGoal(this));
         this.goalSelector.add(3, new MobBowAttackGoal<>(this, 1.2F, 20, 24));
@@ -83,7 +81,7 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
         this.goalSelector.add(4, new MeleeAttackGoal(this, 1.2D, false));
         this.goalSelector.add(5, new LookAroundGoal(this));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 12));
-        this.goalSelector.add(7, new WanderAroundGoal(this, 1.0D));
+        this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
         this.targetSelector.add(0, new RevengeGoal(this, EntityProtagonist.class));
         this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> living instanceof Affiliated && ((Affiliated) living).getAffiliation() != Constants.Affiliation.NONE));
         this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, true, player -> (getTargetUUID().isPresent() && player.getUuid().equals(getTargetUUID().get())) || (player instanceof ISanity && ((ISanity) player).getSanity() <= CommonProxy.CONFIG.protagonistAggressionThreshold)));
