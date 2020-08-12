@@ -6,6 +6,7 @@ import com.miskatonicmysteries.client.render.blockentity.BlockRenderAltar;
 import com.miskatonicmysteries.client.render.blockentity.BlockRenderChemistrySet;
 import com.miskatonicmysteries.client.render.blockentity.BlockRenderOctagram;
 import com.miskatonicmysteries.client.render.blockentity.BlockRenderStatue;
+import com.miskatonicmysteries.client.render.entity.RenderHasturCultist;
 import com.miskatonicmysteries.client.render.entity.RenderProtagonist;
 import com.miskatonicmysteries.common.block.BlockAltar;
 import com.miskatonicmysteries.common.block.BlockOctagram;
@@ -49,6 +50,7 @@ public class ClientProxy implements ClientModInitializer {
         BlockEntityRendererRegistry.INSTANCE.register(ModObjects.STATUE_BLOCK_ENTITY_TYPE, BlockRenderStatue::new);
 
         EntityRendererRegistry.INSTANCE.register(ModEntities.PROTAGONIST, (entityRenderDispatcher, context) -> new RenderProtagonist(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(ModEntities.HASTUR_CULTIST, (entityRenderDispatcher, context) -> new RenderHasturCultist(entityRenderDispatcher));
 
         PacketHandler.registerS2C();
         ShaderHandler.init();
