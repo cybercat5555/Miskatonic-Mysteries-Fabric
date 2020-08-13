@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
 
 public class EntityHasturCultist extends MobEntityWithAi {
     protected static final TrackedData<Integer> VARIANT = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Boolean> ASCENDED = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     public EntityHasturCultist(EntityType<? extends MobEntityWithAi> entityType, World world) {
         super(entityType, world);
@@ -51,6 +52,8 @@ public class EntityHasturCultist extends MobEntityWithAi {
     @Override
     public EntityData initialize(WorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
         dataTracker.set(VARIANT, random.nextInt(2));
+        if (spawnReason != SpawnReason.EVENT && spawnReason != SpawnReason.STRUCTURE)
+            dataTracker.set(ASCENDED, random.nextBoolean());
         return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
     }
 
@@ -64,16 +67,26 @@ public class EntityHasturCultist extends MobEntityWithAi {
     protected void initDataTracker() {
         super.initDataTracker();
         dataTracker.startTracking(VARIANT, 0);
+        dataTracker.startTracking(ASCENDED, false);
     }
 
     public int getVariant() {
         return dataTracker.get(VARIANT);
     }
 
+    public boolean isAscended() {
+        return dataTracker.get(ASCENDED);
+    }
+
+    public void ascend(boolean ascend) {
+        dataTracker.set(ASCENDED, ascend);
+    }
+
     @Override
     public void writeCustomDataToTag(CompoundTag tag) {
         super.writeCustomDataToTag(tag);
         tag.putInt(Constants.NBT.VARIANT, getVariant());
+        tag.putBoolean(Constants.NBT.ASCENDED, isAscended());
     }
 
 
@@ -81,5 +94,6 @@ public class EntityHasturCultist extends MobEntityWithAi {
     public void readCustomDataFromTag(CompoundTag tag) {
         super.readCustomDataFromTag(tag);
         dataTracker.set(VARIANT, tag.getInt(Constants.NBT.VARIANT));
+        ascend(tag.getBoolean(Constants.NBT.ASCENDED));
     }
 }

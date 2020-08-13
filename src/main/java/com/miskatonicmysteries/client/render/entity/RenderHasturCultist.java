@@ -19,6 +19,6 @@ public class RenderHasturCultist extends MobEntityRenderer<EntityHasturCultist, 
 
     @Override
     public Identifier getTexture(EntityHasturCultist entity) {
-        return new Identifier(Constants.MOD_ID, String.format("textures/entity/hastur_cultist/cultist_%d.png", entity.getVariant()));
+        return new Identifier(Constants.MOD_ID, String.format("textures/entity/hastur_cultist/%s_%d.png", entity.isAscended() ? "ascended" : "normal", entity.getVariant()));
     }
 }

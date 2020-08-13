@@ -5,10 +5,14 @@ import com.miskatonicmysteries.common.CommonProxy;
 import com.miskatonicmysteries.common.feature.world.processor.PsychonautHouseProcessor;
 import com.miskatonicmysteries.lib.util.Constants;
 import com.miskatonicmysteries.lib.util.WorldUtil;
+import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PaneBlock;
+import net.minecraft.structure.pool.SinglePoolElement;
+import net.minecraft.structure.pool.StructurePool;
+import net.minecraft.structure.pool.StructurePoolBasedGenerator;
 import net.minecraft.structure.processor.RuleStructureProcessor;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorRule;
@@ -31,5 +35,9 @@ public class ModWorld {
     //Village-gen related code taken from https://github.com/FoundationGames/Sandwichable/tree/master/remappedSrc/io/github/foundationgames/sandwichable (credit goes to Foundationgames and Draylar)
     public static void init() {
         WorldUtil.addStructureToPool(new Identifier("village/plains/houses"), new Identifier(Constants.MOD_ID, "village/plains/houses/psychonaut_house"), CommonProxy.CONFIG.psychonautHouseWeight, NORMAL_PROCESSOR);
+        WorldUtil.addStructureToPool(new Identifier("village/savanna/town_centers"), new Identifier(Constants.MOD_ID, "village/savanna/town_centers/savanna_hastur_shrine"), 100, NORMAL_PROCESSOR);
+
+        StructurePoolBasedGenerator.REGISTRY.add(new StructurePool(new Identifier(Constants.MOD_ID, "village/common/hastur_cultist"), new Identifier("empty"), ImmutableList.of(new Pair(new SinglePoolElement(Constants.MOD_ID + ":village/common/hastur_cultist"), 1)), StructurePool.Projection.RIGID));
+        StructurePoolBasedGenerator.REGISTRY.add(new StructurePool(new Identifier(Constants.MOD_ID, "village/common/hastur_cultist_ascended"), new Identifier("empty"), ImmutableList.of(new Pair(new SinglePoolElement(Constants.MOD_ID + ":village/common/hastur_cultist_ascended"), 1)), StructurePool.Projection.RIGID));
     }
 }

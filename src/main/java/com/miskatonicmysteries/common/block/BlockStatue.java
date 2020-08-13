@@ -10,6 +10,8 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -25,7 +27,7 @@ import java.util.List;
 
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
-public class BlockStatue extends HorizontalFacingBlock implements Waterloggable, BlockEntityProvider, Affiliated {
+public class BlockStatue extends Block implements Waterloggable, BlockEntityProvider, Affiliated {
     public static List<BlockStatue> STATUES = new ArrayList<>();
     private Identifier affiliation;
     private static final VoxelShape SHAPE = createCuboidShape(4, 0, 4, 12, 16, 12);
@@ -35,6 +37,14 @@ public class BlockStatue extends HorizontalFacingBlock implements Waterloggable,
         this.affiliation = affiliation;
         setDefaultState(getDefaultState().with(Properties.ROTATION, 0));
         STATUES.add(this);
+    }
+
+    public BlockState rotate(BlockState state, BlockRotation rotation) {
+        return state.with(Properties.ROTATION, rotation.rotate(state.get(Properties.ROTATION), 16));
+    }
+
+    public BlockState mirror(BlockState state, BlockMirror mirror) {
+        return state.with(Properties.ROTATION, mirror.mirror(state.get(Properties.ROTATION), 16));
     }
 
     @Override
