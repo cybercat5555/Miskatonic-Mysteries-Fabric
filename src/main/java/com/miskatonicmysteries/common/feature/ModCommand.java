@@ -2,6 +2,9 @@ package com.miskatonicmysteries.common.feature;
 
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
+import com.miskatonicmysteries.common.feature.spell.Spell;
+import com.miskatonicmysteries.common.feature.spell.SpellEffect;
+import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.lib.util.Constants;
@@ -16,6 +19,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.command.arguments.EntityArgumentType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.command.CommandManager;
@@ -66,7 +70,29 @@ public class ModCommand {
                 .then(CommandManager.argument("player", EntityArgumentType.player())
                         .executes(context -> spawnProtagonist(context, EntityArgumentType.getPlayer(context, "player")))));
 
+        LiteralArgumentBuilder spellBuilder = CommandManager.literal("cast");
+        SpellMedium.SPELL_MEDIUMS.keySet().forEach(mediumId -> {
+            LiteralArgumentBuilder mediumBuilder = CommandManager.literal(mediumId.toString());
+            SpellEffect.SPELL_EFFECTS.keySet().forEach(effectId -> {
+                mediumBuilder.then(CommandManager.literal(effectId.toString())
+                        .executes(context -> castSpell(mediumId, effectId, 0, context.getSource().getPlayer()))
+                        .then(CommandManager.argument("intensity", IntegerArgumentType.integer(0))
+                                .executes(context -> castSpell(mediumId, effectId, IntegerArgumentType.getInteger(context, "intensity"), context.getSource().getPlayer()))
+                                .then(CommandManager.argument("сaster", EntityArgumentType.player())
+                                        .executes(context -> castSpell(mediumId, effectId, IntegerArgumentType.getInteger(context, "intensity"), EntityArgumentType.getPlayer(context, "сaster"))))));
+            });
+            spellBuilder.then(mediumBuilder);
+        });
+        builder.then(spellBuilder);
+
         CommandRegistrationCallback.EVENT.register((displatcher, b) -> displatcher.register(builder));
+    }
+
+    private static int castSpell(Identifier mediumId, Identifier effectId, int intensity, LivingEntity caster) {
+        SpellMedium medium = SpellMedium.SPELL_MEDIUMS.get(mediumId);
+        SpellEffect effect = SpellEffect.SPELL_EFFECTS.get(effectId);
+        Spell spell = new Spell(medium, effect, intensity);
+        return spell.cast(caster) ? 15 : 0;
     }
 
     private static int spawnProtagonist(CommandContext<ServerCommandSource> context, PlayerEntity player) {

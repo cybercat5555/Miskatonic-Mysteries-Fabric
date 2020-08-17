@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.feature.effect.StatusEffectLazarus;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectMania;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectOvermedicated;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectTranquilized;
+import com.miskatonicmysteries.common.feature.spell.*;
 import com.miskatonicmysteries.lib.util.Constants;
 import com.miskatonicmysteries.lib.util.MiscUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
@@ -46,6 +47,12 @@ public class ModRegistries {
 
     public static final Int2ObjectMap<TradeOffers.Factory[]> PSYCHONAUT_TRADES = new Int2ObjectArrayMap();
 
+    public static final SpellMedium MEDIUM_SELF = addSpellMedium(new SpellMediumSelf());
+    public static final SpellMedium MEDIUM_VISION = addSpellMedium(new SpellMediumVision());
+
+    public static final SpellEffect EFFECT_HEAL = addSpellEffect(new SpellEffectHeal());
+    public static final SpellEffect EFFECT_RESISTANCE = addSpellEffect(new SpellEffectResistance());
+
     static {
         PSYCHONAUT_TRADES.put(1, new TradeOffers.Factory[]{BLOTTER_OFFER, SCIENCE_JOURNAL_OFFER, INFESTED_WHEAT_OFFER});
         PSYCHONAUT_TRADES.put(2, new TradeOffers.Factory[]{CHEMISTRY_SET_OFFER, WAX_OFFER, SUSPICIOUS_OFFER});
@@ -69,7 +76,6 @@ public class ModRegistries {
     }
 
     private static void initLootTableEdits() {
-
         LOOT_TABLE_INJECTS.put(Blocks.WHEAT.getLootTableId(), INFESTED_WHEAT_LOOT_TABLE);
 
         LOOT_TABLE_INJECTS.put(LootTables.VILLAGE_BUTCHER_CHEST, TRANQ_TABLE);
@@ -83,6 +89,16 @@ public class ModRegistries {
                 lootTableSetter.set(builder.withPools(lootSupplier.getPools()).build());
             }
         });
+    }
+
+    public static SpellEffect addSpellEffect(SpellEffect effect) {
+        SpellEffect.SPELL_EFFECTS.put(effect.getId(), effect);
+        return effect;
+    }
+
+    public static SpellMedium addSpellMedium(SpellMedium medium) {
+        SpellMedium.SPELL_MEDIUMS.put(medium.getId(), medium);
+        return medium;
     }
 
     public static class ModTradeOffers {

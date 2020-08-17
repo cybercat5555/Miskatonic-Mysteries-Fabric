@@ -63,6 +63,9 @@ public class Constants {
         public static final String IS_READY = "Ready";
         public static final String PROTAGONISTS = "Protagonists";
         public static final String SPAWNED = "Spawned";
+        public static final String SPELL_EFFECT = "Spell Effect";
+        public static final String SPELL_MEDIUM = "Spell Medium";
+        public static final String INTENSITY = "Intensity";
     }
 
     public static class DataTrackers {
