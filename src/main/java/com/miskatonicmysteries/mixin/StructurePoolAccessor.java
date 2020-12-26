@@ -9,11 +9,11 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.List;
 
 @Mixin(StructurePool.class)
-public interface StructurePoolAccessor {//code taken from https://github.com/FoundationGames/Sandwichable/tree/master/remappedSrc/io/github/foundationgames/sandwichable (credit goes to Foundationgames and Draylar)
+public interface StructurePoolAccessor {
 
-    @Accessor
+    @Accessor(value = "elements")
     List<StructurePoolElement> getElements();
 
-    @Accessor
+    @Accessor(value = "elementCounts")
     List<Pair<StructurePoolElement, Integer>> getElementCounts();
 }

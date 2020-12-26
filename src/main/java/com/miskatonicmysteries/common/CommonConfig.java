@@ -33,4 +33,7 @@ public class CommonConfig implements ConfigData {
 
     @Comment(value = "The chance for Psychonaut Houses to spawn in villages; the higher the value, the more likely they are to appear")
     public int psychonautHouseWeight = 3;
+
+    @Comment(value = "The chance for Hastur Shrines to form the center of villages; the higher the value, the more likely they are to appear")
+    public int hasturShrineWeight = 2;
 }
