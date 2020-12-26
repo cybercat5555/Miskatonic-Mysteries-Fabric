@@ -58,7 +58,7 @@ public class BlockRenderOctagram extends BlockEntityRenderer<BlockEntityOctagram
     static {
         RenderLayer.MultiPhaseParameters param = RenderLayer.MultiPhaseParameters.builder()
                 .shadeModel(new RenderPhase.ShadeModel(true))
-                .texture(new RenderPhase.Texture(SpriteAtlasTexture.BLOCK_ATLAS_TEX, false, true))
+                .texture(new RenderPhase.Texture(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, false, true))
                 .diffuseLighting(new RenderPhase.DiffuseLighting(true))
                 .alpha(new RenderPhase.Alpha(0.04F))
                 .lightmap(new RenderPhase.Lightmap(true))

@@ -43,7 +43,7 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
                 .allowsSpawning((state, world, pos, type) -> false).solidBlock((state, world, pos) -> false)
                 .suffocates((state, world, pos) -> false)
                 .blockVision((state, world, pos) -> false)
-                .lightLevel(state -> state.get(LIT) ? 10 : 0));
+                .luminance((state -> state.get(LIT) ? 10 : 0)));
         setDefaultState(getStateManager().getDefaultState().with(FACING, Direction.NORTH).with(LIT, false).with(WATERLOGGED, false));
     }
 

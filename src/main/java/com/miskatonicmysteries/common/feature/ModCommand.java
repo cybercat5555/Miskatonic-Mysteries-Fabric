@@ -18,7 +18,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
-import net.minecraft.command.arguments.EntityArgumentType;
+import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -96,7 +96,7 @@ public class ModCommand {
     }
 
     private static int spawnProtagonist(CommandContext<ServerCommandSource> context, PlayerEntity player) {
-        boolean spawned = ProtagonistHandler.spawnProtagonist(player.world, player);
+        boolean spawned = ProtagonistHandler.spawnProtagonist(context.getSource().getWorld(), player);
         if (spawned)
             context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.summon_investigator", player.getDisplayName()), true);
         else
@@ -169,9 +169,9 @@ public class ModCommand {
             });
             HoverEvent hoverInfo = new HoverEvent(HoverEvent.Action.SHOW_TEXT, expansionText);
             if (player.equals(context.getSource().getPlayer())) {
-                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_max_sanity.self", value).setStyle(Style.EMPTY.setHoverEvent(hoverInfo)), false);
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_max_sanity.self", value).setStyle(Style.EMPTY.withHoverEvent(hoverInfo)), false);
             } else
-                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_max_sanity", player.getDisplayName(), value).setStyle(Style.EMPTY.setHoverEvent(hoverInfo)), false);
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_max_sanity", player.getDisplayName(), value).setStyle(Style.EMPTY.withHoverEvent(hoverInfo)), false);
             if (value < returnValue) returnValue = value;
         }
         return Math.round(15 * (returnValue / (float) Constants.DataTrackers.SANITY_CAP));

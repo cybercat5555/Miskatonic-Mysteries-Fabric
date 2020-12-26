@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.mixin;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,4 +13,7 @@ public interface StructurePoolAccessor {//code taken from https://github.com/Fou
 
     @Accessor
     List<StructurePoolElement> getElements();
+
+    @Accessor
+    List<Pair<StructurePoolElement, Integer>> getElementCounts();
 }

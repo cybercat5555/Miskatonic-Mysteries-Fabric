@@ -2,10 +2,11 @@ package com.miskatonicmysteries.client;
 
 import blue.endless.jankson.Comment;
 import com.miskatonicmysteries.lib.util.Constants;
-import io.github.cottonmc.cotton.config.annotations.ConfigFile;
+import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
+import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
 
-@ConfigFile(name = Constants.MOD_ID + "/client")
-public class ClientConfig {
+@Config(name = Constants.MOD_ID + "_client")
+public class ClientConfig implements ConfigData {
     @Comment(value = "Determines if the mod uses any shaders")
     public boolean useShaders = true;
 }

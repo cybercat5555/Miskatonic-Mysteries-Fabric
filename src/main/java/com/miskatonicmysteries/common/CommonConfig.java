@@ -2,10 +2,11 @@ package com.miskatonicmysteries.common;
 
 import blue.endless.jankson.Comment;
 import com.miskatonicmysteries.lib.util.Constants;
-import io.github.cottonmc.cotton.config.annotations.ConfigFile;
+import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
+import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
 
-@ConfigFile(name = Constants.MOD_ID + "/common")
-public class CommonConfig {
+@Config(name = Constants.MOD_ID)
+public class CommonConfig implements ConfigData {
     @Comment(value = "Determines the intervals in ticks in which values that are not absolutely essential are updated")
     public int modUpdateInterval = 20;
 

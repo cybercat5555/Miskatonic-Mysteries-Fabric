@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.mixin;
 
-import com.miskatonicmysteries.common.CommonProxy;
+import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.EntityProtagonist;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectLazarus;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
@@ -41,10 +41,10 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
 
     @Inject(method = "tick()V", at = @At("TAIL"))
     private void handleMiskStats(CallbackInfo info) {//currently, stats get reset after dying, which is bad, look at ClientPlayNetworkHandler for fixing mixin
-        if (age % CommonProxy.CONFIG.modUpdateInterval == 0) {
-            if (isShocked() && random.nextFloat() < CommonProxy.CONFIG.shockRemoveChance) setShocked(false);
+        if (age % MiskatonicMysteries.config.modUpdateInterval == 0) {
+            if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.shockRemoveChance) setShocked(false);
         }
-        if (!world.isClient && age % CommonProxy.CONFIG.insanityInterval == 0) {
+        if (!world.isClient && age % MiskatonicMysteries.config.insanityInterval == 0) {
             InsanityHandler.handleInsanityEvents((PlayerEntity) (Object) this);
         }
     }

@@ -3,20 +3,18 @@ package com.miskatonicmysteries.common.entity.ai;
 import net.minecraft.entity.CrossbowUser;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.RangedAttackMob;
-import net.minecraft.entity.ai.goal.CrossbowAttackGoal;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntityWithAi;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.item.BowItem;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.IntRange;
 
 import java.util.EnumSet;
+
 //copy-paste vanilla classes to avoid vicious hackery
-public class MobCrossbowAttackGoal<T extends MobEntityWithAi & RangedAttackMob & CrossbowUser> extends Goal {
+public class MobCrossbowAttackGoal<T extends PathAwareEntity & RangedAttackMob & CrossbowUser> extends Goal {
     public static final IntRange field_25696 = new IntRange(20, 40);
     private final T actor;
     private Stage stage;

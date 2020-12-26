@@ -14,15 +14,16 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class ProtagonistHandler {
 
-    public static boolean spawnProtagonist(World world, PlayerEntity player) {
+    public static boolean spawnProtagonist(ServerWorld world, PlayerEntity player) {
         MMWorldState worldState = MMWorldState.get(world);
         EntityProtagonist.ProtagonistData data = worldState.getProtagonistDataFor(player);
         if (!data.spawned) {
-            BlockPos pos = getProtagonistSpawnPos((ServerWorld) world, player, 50);
+            BlockPos pos = getProtagonistSpawnPos(world, player, 50);
             if (pos != null) {
                 EntityProtagonist protagonist = new EntityProtagonist(ModEntities.PROTAGONIST, world);
                 protagonist.updatePosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);

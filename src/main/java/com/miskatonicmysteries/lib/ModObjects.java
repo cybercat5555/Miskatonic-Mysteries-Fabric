@@ -25,14 +25,14 @@ public class ModObjects {
     public static final Block CHEMISTRY_SET = new BlockChemistrySet();
     public static final BlockEntityType<BlockEntityChemistrySet> CHEMISTRY_SET_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityChemistrySet::new, CHEMISTRY_SET).build(null);
 
-    public static final Block BLACKSTONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.BLACKSTONE).lightLevel(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
-    public static final Block CORAL_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.DEAD_BRAIN_CORAL_BLOCK).lightLevel(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
-    public static final Block FUNKY_ALTAR = new BlockAltar(false, AbstractBlock.Settings.copy(Blocks.PURPUR_BLOCK).lightLevel(state -> 12));
-    public static final Block MOSSY_STONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE).lightLevel(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
-    public static final Block NETHER_BRICK_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.NETHER_BRICKS).lightLevel(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
-    public static final Block PRISMARINE_ALTAR = new BlockAltar(false, AbstractBlock.Settings.copy(Blocks.PRISMARINE).lightLevel(state -> 8));
-    public static final Block SANDSTONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.SANDSTONE).lightLevel(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
-    public static final Block STONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.STONE).lightLevel(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+    public static final Block BLACKSTONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.BLACKSTONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+    public static final Block CORAL_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.DEAD_BRAIN_CORAL_BLOCK).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+    public static final Block FUNKY_ALTAR = new BlockAltar(false, AbstractBlock.Settings.copy(Blocks.PURPUR_BLOCK).luminance(state -> 12));
+    public static final Block MOSSY_STONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+    public static final Block NETHER_BRICK_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.NETHER_BRICKS).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+    public static final Block PRISMARINE_ALTAR = new BlockAltar(false, AbstractBlock.Settings.copy(Blocks.PRISMARINE).luminance(state -> 8));
+    public static final Block SANDSTONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.SANDSTONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+    public static final Block STONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.STONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
     public static final BlockEntityType<BlockEntityAltar> ALTAR_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityAltar::new, BlockAltar.ALTARS.toArray(new BlockAltar[BlockAltar.ALTARS.size()])).build(null);
 
     public static final Block OCTAGRAM_SIDES = new BlockOctagram.BlockOuterOctagram();

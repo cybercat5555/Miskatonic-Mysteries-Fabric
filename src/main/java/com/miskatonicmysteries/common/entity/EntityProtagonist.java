@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.entity;
 
-import com.miskatonicmysteries.common.CommonProxy;
+import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.ai.GunAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobBowAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobCrossbowAttackGoal;
@@ -21,7 +21,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntityWithAi;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -34,15 +34,15 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
 import static com.miskatonicmysteries.lib.util.Constants.NBT.ALTERNATE_WEAPON;
 
-public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMob, CrossbowUser {
+public class EntityProtagonist extends PathAwareEntity implements RangedAttackMob, CrossbowUser {
     protected static final Map<AbstractMap.SimpleEntry<EquipmentSlot, ItemStack>, Integer> ARMOR_MAP = new HashMap<>();
     protected static final Map<ItemStack, Integer> WEAPON_MAP = new HashMap<>();
     protected static final Map<ItemStack, Integer> ALT_WEAPON_MAP = new HashMap<>();
@@ -54,7 +54,7 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
 
     public ItemStack alternateWeapon = ItemStack.EMPTY;
 
-    public EntityProtagonist(EntityType<? extends MobEntityWithAi> entityType, World world) {
+    public EntityProtagonist(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
         experiencePoints = 0;
         ((MobNavigation) this.getNavigation()).setCanPathThroughDoors(true);
@@ -84,7 +84,7 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
         this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
         this.targetSelector.add(0, new RevengeGoal(this, EntityProtagonist.class));
         this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> living instanceof Affiliated && ((Affiliated) living).getAffiliation() != Constants.Affiliation.NONE));
-        this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, true, player -> (getTargetUUID().isPresent() && player.getUuid().equals(getTargetUUID().get())) || (player instanceof ISanity && ((ISanity) player).getSanity() <= CommonProxy.CONFIG.protagonistAggressionThreshold)));
+        this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, true, player -> (getTargetUUID().isPresent() && player.getUuid().equals(getTargetUUID().get())) || (player instanceof ISanity && ((ISanity) player).getSanity() <= MiskatonicMysteries.config.protagonistAggressionThreshold)));
         this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true, mob -> !(mob instanceof EntityProtagonist) && !(mob instanceof CreeperEntity)));
         super.initGoals();
     }
@@ -105,7 +105,7 @@ public class EntityProtagonist extends MobEntityWithAi implements RangedAttackMo
 
     @Nullable
     @Override
-    public EntityData initialize(WorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
         setCanPickUpLoot(true);
         if (spawnReason != SpawnReason.EVENT) {
             dataTracker.set(VARIANT, random.nextInt(4));

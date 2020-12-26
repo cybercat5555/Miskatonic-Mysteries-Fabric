@@ -44,7 +44,7 @@ public class BlockCandle extends Block implements Waterloggable {
     public static final VoxelShape SHAPE_4 = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 7.0D, 14.0D);
 
     public BlockCandle() {
-        super(Settings.of(Material.WOOL).strength(0.2F, 0.1F).nonOpaque().lightLevel(state -> state.get(LIT) ? Math.min((int) (Math.sqrt(state.get(COUNT)) * 8), 15) : 0).sounds(BlockSoundGroup.WOOL));
+        super(Settings.of(Material.WOOL).strength(0.2F, 0.1F).nonOpaque().luminance(state -> state.get(LIT) ? Math.min((int) (Math.sqrt(state.get(COUNT)) * 8), 15) : 0).sounds(BlockSoundGroup.WOOL));
         this.setDefaultState(getDefaultState().with(COUNT, 1).with(LIT, false).with(WATERLOGGED, false));
     }
 

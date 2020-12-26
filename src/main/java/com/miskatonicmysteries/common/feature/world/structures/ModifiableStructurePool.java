@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.feature.world.structures;
 
 import com.miskatonicmysteries.common.mixin.StructurePoolAccessor;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
 
@@ -12,14 +13,9 @@ public class ModifiableStructurePool {
         this.pool = pool;
     }
 
-    public void addStructurePoolElement(StructurePoolElement element) {
-        ((StructurePoolAccessor) pool).getElements().add(element);
-    }
-
     public void addStructurePoolElement(StructurePoolElement element, int weight) {
-        for (int i = 0; i < weight; i++) {
-            addStructurePoolElement(element);
-        }
+        ((StructurePoolAccessor) pool).getElements().add(element);
+        ((StructurePoolAccessor) pool).getElementCounts().add(Pair.of(element, weight));
     }
 
     public StructurePool getStructurePool() {

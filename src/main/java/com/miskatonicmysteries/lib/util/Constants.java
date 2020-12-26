@@ -16,6 +16,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tag.Tag;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -25,7 +26,7 @@ import javax.annotation.Nullable;
 
 public class Constants {
     public static final String MOD_ID = "miskatonicmysteries";
-    public static final ItemGroup MM_GROUP = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "group"), () -> ModObjects.OCEANIC_GOLD.getStackForRender());
+    public static final ItemGroup MM_GROUP = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "group"), () -> new ItemStack(ModObjects.NECRONOMICON));
     public static final float BLOCK_BIT = 0.0625F;
     public static class Affiliation {
         public static final Identifier NONE = new Identifier(MOD_ID, "none");

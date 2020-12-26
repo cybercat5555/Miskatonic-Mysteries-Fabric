@@ -20,7 +20,7 @@ public class ModRecipes {
     }
 
     public static ChemistryRecipe getRecipe(BlockEntityChemistrySet chemSet){
-        return chemSet.getWorld().getRecipeManager().method_30027(CHEMISTRY_RECIPE).stream().filter(r -> MiscUtil.areItemStackListsExactlyEqual(r.ingredients, chemSet)).findFirst().orElse(null);
+        return chemSet.getWorld().getRecipeManager().listAllOfType(CHEMISTRY_RECIPE).stream().filter(r -> MiscUtil.areItemStackListsExactlyEqual(r.ingredients, chemSet)).findFirst().orElse(null);
     }
 
     private static class DummyRecipeType<T extends Recipe<?>> implements RecipeType<T> {

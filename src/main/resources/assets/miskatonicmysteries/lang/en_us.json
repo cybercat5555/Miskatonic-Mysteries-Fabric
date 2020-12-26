@@ -76,7 +76,7 @@
   "death.attack.miskatonicmysteries.protagonist.0": "%s was slain by the local Hero and the world is safe again",
   "death.attack.miskatonicmysteries.protagonist.1": "The local Grizzled Investigator has brought %s to justice",
   "death.attack.miskatonicmysteries.protagonist.2": "%s was defeated by a Investigator and their reign of madness is over",
-  "death.attack.miskatonicmysteries.protagonist.3": "%s awakens from a fit of madness and delirium, and turned normal again, with the help of a sharp blow to the head",
+  "death.attack.miskatonicmysteries.protagonist.3": "%s awakens from a fit of madness and delirium, with the help of violence",
   "death.attack.miskatonicmysteries.sleep": "%s did not wake up",
   "comment6": "COMMANDS",
   "miskatonicmysteries.command.stats": "Showing Miskatonic Mysteries statistics for player %s:",

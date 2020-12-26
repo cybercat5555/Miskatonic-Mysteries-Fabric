@@ -3,15 +3,15 @@ package com.miskatonicmysteries.common.entity.ai;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntityWithAi;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.Items;
 
 import java.util.EnumSet;
+
 //copy-paste vanilla classes to avoid vicious hackery
-public class MobBowAttackGoal<T extends MobEntityWithAi & RangedAttackMob> extends Goal{
+public class MobBowAttackGoal<T extends PathAwareEntity & RangedAttackMob> extends Goal {
     private final T actor;
     private final double speed;
     private int attackInterval;

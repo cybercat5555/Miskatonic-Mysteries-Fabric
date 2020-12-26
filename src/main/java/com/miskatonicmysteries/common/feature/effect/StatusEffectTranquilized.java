@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.feature.effect;
 
-import com.miskatonicmysteries.common.CommonProxy;
+import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.lib.ModRegistries;
 import com.miskatonicmysteries.lib.util.Constants;
@@ -26,9 +26,9 @@ public class StatusEffectTranquilized extends StatusEffect {
             if (isLethal(entity, amplifier)) entity.damage(Constants.DamageSources.SLEEP, 4000);
             else {
                 ISanity sanity = (ISanity) entity;
-                sanity.setSanity((int) (((ISanity) entity).getSanity() + CommonProxy.CONFIG.tranquilizedSanityBonus * Math.min((amplifier + 2) / 2F, 3F)), true);
+                sanity.setSanity((int) (((ISanity) entity).getSanity() + MiskatonicMysteries.config.tranquilizedSanityBonus * Math.min((amplifier + 2) / 2F, 3F)), true);
                 entity.damage(Constants.DamageSources.SLEEP, 2);
-                if (entity.getRandom().nextFloat() < CommonProxy.CONFIG.tranquilizedSanityCapRegainChance) {
+                if (entity.getRandom().nextFloat() < MiskatonicMysteries.config.tranquilizedSanityCapRegainChance) {
                     for (String s : sanity.getSanityCapExpansions().keySet()) {
                         if (sanity.getSanityCapExpansions().get(s) < 0) {
                             int value = sanity.getSanityCapExpansions().get(s) + (amplifier * 5);

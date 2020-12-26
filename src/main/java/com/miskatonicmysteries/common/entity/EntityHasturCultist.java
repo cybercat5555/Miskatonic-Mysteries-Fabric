@@ -13,20 +13,20 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntityWithAi;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 
 import javax.annotation.Nullable;
 
-public class EntityHasturCultist extends MobEntityWithAi {
+public class EntityHasturCultist extends PathAwareEntity {
     protected static final TrackedData<Integer> VARIANT = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.INTEGER);
     protected static final TrackedData<Boolean> ASCENDED = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.BOOLEAN);
 
-    public EntityHasturCultist(EntityType<? extends MobEntityWithAi> entityType, World world) {
+    public EntityHasturCultist(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
         ((MobNavigation) this.getNavigation()).setCanPathThroughDoors(true);
         this.getNavigation().setCanSwim(true);
@@ -50,7 +50,7 @@ public class EntityHasturCultist extends MobEntityWithAi {
 
     @Nullable
     @Override
-    public EntityData initialize(WorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
         dataTracker.set(VARIANT, random.nextInt(2));
         if (spawnReason != SpawnReason.EVENT && spawnReason != SpawnReason.STRUCTURE)
             dataTracker.set(ASCENDED, random.nextBoolean());

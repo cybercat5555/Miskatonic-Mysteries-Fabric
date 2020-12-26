@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.feature.effect;
 
-import com.miskatonicmysteries.common.CommonProxy;
+import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.lib.util.Constants;
@@ -33,9 +33,9 @@ public class StatusEffectMania extends StatusEffect {
     }
 
     private void insanityDeath(LivingEntity entity, ISanity sanity, int amplifier) {
-        if (sanity.getSanity() < CommonProxy.CONFIG.deadlyInsanityThreshold && entity.age % Math.min(60 - amplifier * 3, 20) == 0 && entity.getRandom().nextFloat() > (sanity.getSanity() / (float) CommonProxy.CONFIG.deadlyInsanityThreshold)){
+        if (sanity.getSanity() < MiskatonicMysteries.config.deadlyInsanityThreshold && entity.age % Math.min(60 - amplifier * 3, 20) == 0 && entity.getRandom().nextFloat() > (sanity.getSanity() / (float) MiskatonicMysteries.config.deadlyInsanityThreshold)) {
             entity.damage(Constants.DamageSources.INSANITY, 666);
-            sanity.setSanity(CommonProxy.CONFIG.deadlyInsanityThreshold + 50, true);
+            sanity.setSanity(MiskatonicMysteries.config.deadlyInsanityThreshold + 50, true);
         }
     }
 
@@ -47,7 +47,7 @@ public class StatusEffectMania extends StatusEffect {
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
         if (entity instanceof MobEntity) {
-            Optional<Entity> entityOptional = entity.world.getEntities(entity, entity.getBoundingBox().expand(8, 3, 8), target -> target instanceof LivingEntity).stream().findAny();
+            Optional<Entity> entityOptional = entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(8, 3, 8), target -> target instanceof LivingEntity).stream().findAny();
             if (entityOptional.isPresent())
                 ((MobEntity) entity).setTarget((LivingEntity) entityOptional.get());
         }

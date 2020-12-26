@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ResourceHandler {
-    public static final SpriteIdentifier DEFAULT_OCTAGRAM = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, new Identifier(Constants.MOD_ID, "block/octagram/octagram_generic"));
+    public static final SpriteIdentifier DEFAULT_OCTAGRAM = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "block/octagram/octagram_generic"));
     public static final Map<Item, SpriteIdentifier> BOOK_SPRITES = new HashMap<>();
     public static final Map<BlockOctagram, SpriteIdentifier> OCTAGRAM_SPRITES = new HashMap<>();
     public static final Map<Identifier, Model> STATUE_MODELS = new HashMap<>();
@@ -61,11 +61,11 @@ public class ResourceHandler {
     }
 
     public static void addBookTextureFor(Item item, Identifier texture) {
-        BOOK_SPRITES.put(item, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, texture));
+        BOOK_SPRITES.put(item, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, texture));
     }
 
     public static void addOctagramTextureFor(BlockOctagram octagram, Identifier texture) {
-        OCTAGRAM_SPRITES.put(octagram, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, texture));
+        OCTAGRAM_SPRITES.put(octagram, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, texture));
     }
 
     public static void addStatueModelFor(Identifier affiliation, Model model) {
@@ -73,7 +73,7 @@ public class ResourceHandler {
     }
 
     public static void addStatueTextureFor(BlockStatue statue, Identifier texture) {
-        STATUE_SPRITES.put(statue, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, texture));
+        STATUE_SPRITES.put(statue, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, texture));
     }
 
     public static SpriteIdentifier getBookTextureFor(ItemStack stack) {
@@ -89,6 +89,6 @@ public class ResourceHandler {
     }
 
     public static SpriteIdentifier getStatueTextureFor(BlockEntityStatue statue) {
-        return STATUE_SPRITES.getOrDefault(statue.getWorld().getBlockState(statue.getPos()).getBlock(), new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEX, new Identifier("")));
+        return STATUE_SPRITES.getOrDefault(statue.getWorld().getBlockState(statue.getPos()).getBlock(), new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("")));
     }
 }

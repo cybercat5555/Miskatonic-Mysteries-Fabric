@@ -16,7 +16,8 @@ import com.miskatonicmysteries.common.item.ItemGun;
 import com.miskatonicmysteries.lib.ModEntities;
 import com.miskatonicmysteries.lib.ModObjects;
 import com.miskatonicmysteries.lib.ModParticles;
-import io.github.cottonmc.cotton.config.ConfigManager;
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
@@ -26,11 +27,14 @@ import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredica
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 
-public class ClientProxy implements ClientModInitializer {
-    public static final ClientConfig CONFIG = ConfigManager.loadConfig(ClientConfig.class);
+public class MiskatonicMysteriesClient implements ClientModInitializer {
+    public static ClientConfig config;
 
     @Override
     public void onInitializeClient() {
+        AutoConfig.register(ClientConfig.class, GsonConfigSerializer::new);
+        config = AutoConfig.getConfigHolder(ClientConfig.class).getConfig();
+
         ModParticles.init();
         FabricModelPredicateProviderRegistry.register(ModObjects.RIFLE, new Identifier("loading"), (stack, world, entity) -> ItemGun.isLoading(stack) ? 1 : 0);
         BlockRenderLayerMap.INSTANCE.putBlock(ModObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());
