@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.common.mixin;
+package com.miskatonicmysteries.mixin;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.structure.pool.StructurePool;

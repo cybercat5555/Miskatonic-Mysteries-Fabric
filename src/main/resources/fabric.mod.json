@@ -21,8 +21,7 @@
     ]
   },
   "mixins": [
-    "miskatonicmysteries.mixins.json",
-    "miskatonicmysteries.mixins_client.json"
+    "miskatonicmysteries.mixins.json"
   ],
 
   "depends": {
@@ -30,8 +29,5 @@
     "fabric": "*",
     "minecraft": "1.16.x",
     "patchouli": "1.16-40-FABRIC"
-  },
-  "suggests": {
-    "flamingo": "*"
   }
 }

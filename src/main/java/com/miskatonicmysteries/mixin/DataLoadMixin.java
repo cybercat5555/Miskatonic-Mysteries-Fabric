@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.common.mixin;
+package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.common.handler.DataHandler;
 import net.minecraft.resource.ReloadableResourceManager;

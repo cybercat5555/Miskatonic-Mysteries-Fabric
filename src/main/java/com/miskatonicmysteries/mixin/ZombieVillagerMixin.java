@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.common.mixin;
+package com.miskatonicmysteries.mixin;
 
 import net.minecraft.entity.mob.ZombieVillagerEntity;
 import org.spongepowered.asm.mixin.Mixin;

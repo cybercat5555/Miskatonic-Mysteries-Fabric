@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.feature.world.structures;
 
-import com.miskatonicmysteries.common.mixin.StructurePoolAccessor;
+import com.miskatonicmysteries.mixin.StructurePoolAccessor;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;

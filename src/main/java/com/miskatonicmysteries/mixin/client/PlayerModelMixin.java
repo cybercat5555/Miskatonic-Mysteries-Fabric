@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.client.mixin;
+package com.miskatonicmysteries.mixin.client;
 
 import com.miskatonicmysteries.common.item.ItemGun;
 import net.minecraft.client.model.ModelPart;
@@ -11,17 +11,26 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BipedEntityModel.class)
-public abstract class PlayerModelMixin{
-    @Shadow public ModelPart head;
-    @Shadow public ModelPart helmet;
-    @Shadow public ModelPart torso;
-    @Shadow public ModelPart rightArm;
-    @Shadow public ModelPart leftArm;
-    @Shadow public ModelPart rightLeg;
-    @Shadow public ModelPart leftLeg;
+public abstract class PlayerModelMixin {
+    @Shadow
+    public ModelPart head;
+    @Shadow
+    public ModelPart helmet;
+    @Shadow
+    public ModelPart torso;
+    @Shadow
+    public ModelPart rightArm;
+    @Shadow
+    public ModelPart leftArm;
+    @Shadow
+    public ModelPart rightLeg;
+    @Shadow
+    public ModelPart leftLeg;
 
-    @Shadow public BipedEntityModel.ArmPose leftArmPose;
-    @Shadow public BipedEntityModel.ArmPose rightArmPose;
+    @Shadow
+    public BipedEntityModel.ArmPose leftArmPose;
+    @Shadow
+    public BipedEntityModel.ArmPose rightArmPose;
 
     @Inject(method = "method_30155(Lnet/minecraft/entity/LivingEntity;)V", at = @At("HEAD"), cancellable = true)
     private void setGunAnglesLeft(LivingEntity entity, CallbackInfo info){

@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.common.mixin;
+package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.common.feature.world.structures.ModifiableStructurePool;
 import com.miskatonicmysteries.common.handler.callback.StructurePoolRegistryCallback;

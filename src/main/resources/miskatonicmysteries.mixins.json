@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.miskatonicmysteries.common.mixin",
+  "package": "com.miskatonicmysteries.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "DataLoadMixin",
@@ -11,6 +11,9 @@
     "StructurePoolAccessor",
     "StructurePoolRegistryMixin",
     "ZombieVillagerMixin"
+  ],
+  "client": [
+    "client.PlayerModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

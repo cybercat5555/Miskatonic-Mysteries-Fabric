@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.common.mixin;
+package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.EntityProtagonist;

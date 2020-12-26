@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.common.mixin;
+package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.mojang.authlib.GameProfile;
