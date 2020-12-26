@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.item;
 
+import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.common.mixin.ZombieVillagerMixin;
-import com.miskatonicmysteries.lib.ModObjects;
-import com.miskatonicmysteries.lib.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.ZombieVillagerEntity;

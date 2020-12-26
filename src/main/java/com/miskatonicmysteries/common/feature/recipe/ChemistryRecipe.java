@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.feature.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.miskatonicmysteries.common.feature.PotentialItem;
-import com.miskatonicmysteries.lib.ModRecipes;
+import com.miskatonicmysteries.common.lib.ModRecipes;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;

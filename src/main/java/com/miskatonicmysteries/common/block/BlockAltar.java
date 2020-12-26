@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.common.block;
 
+import com.miskatonicmysteries.client.particle.ModParticles;
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityAltar;
-import com.miskatonicmysteries.lib.ModParticles;
-import com.miskatonicmysteries.lib.util.Constants;
-import com.miskatonicmysteries.lib.util.MiscUtil;
+import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
@@ -66,7 +66,7 @@ public class BlockAltar extends HorizontalFacingBlock implements Waterloggable, 
                 altar.markDirty();
                 return ActionResult.CONSUME;
             } else if (stack.isEmpty() && !altar.getItems().isEmpty()) {
-                MiscUtil.giveItem(world, player, altar.removeStack(0));
+                InventoryUtil.giveItem(world, player, altar.removeStack(0));
                 altar.markDirty();
                 return ActionResult.SUCCESS;
             }

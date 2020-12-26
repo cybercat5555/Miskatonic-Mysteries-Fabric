@@ -8,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.miskatonicmysteries.lib.util.Constants.DataTrackers.SANITY_CAP;
+import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.SANITY_CAP;
 
 public class InsanityHandler {
 

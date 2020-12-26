@@ -2,7 +2,7 @@ package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.client.model.entity.ModelHasturCultist;
 import com.miskatonicmysteries.common.entity.EntityHasturCultist;
-import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;

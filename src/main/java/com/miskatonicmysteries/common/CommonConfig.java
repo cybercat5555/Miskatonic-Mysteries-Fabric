@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common;
 
 import blue.endless.jankson.Comment;
-import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.common.lib.Constants;
 import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
 import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
 

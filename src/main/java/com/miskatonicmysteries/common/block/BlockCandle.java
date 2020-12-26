@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.block;
 
-import com.miskatonicmysteries.lib.ModParticles;
-import com.miskatonicmysteries.lib.util.Constants;
-import com.miskatonicmysteries.lib.util.MiscUtil;
+import com.miskatonicmysteries.client.particle.ModParticles;
+import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import net.minecraft.block.*;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -98,7 +98,7 @@ public class BlockCandle extends Block implements Waterloggable {
             if (state.get(LIT))
                 world.setBlockState(pos, state.with(LIT, false));
             else {
-                MiscUtil.giveItem(world, player, new ItemStack(this));
+                InventoryUtil.giveItem(world, player, new ItemStack(this));
                 world.setBlockState(pos, state.get(COUNT) > 1 ? state.with(COUNT, state.get(COUNT) - 1) : Blocks.AIR.getDefaultState());
             }
             return ActionResult.SUCCESS;

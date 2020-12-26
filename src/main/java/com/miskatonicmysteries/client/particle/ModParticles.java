@@ -1,7 +1,6 @@
-package com.miskatonicmysteries.lib;
+package com.miskatonicmysteries.client.particle;
 
-import com.miskatonicmysteries.client.particle.CandleFlameParticle;
-import com.miskatonicmysteries.lib.util.MiscUtil;
+import com.miskatonicmysteries.common.lib.util.RegistryUtil;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
@@ -10,7 +9,7 @@ public class ModParticles {
     public static final DefaultParticleType FLAME = new DefaultParticleType();
 
     public static void init() {
-        MiscUtil.register(Registry.PARTICLE_TYPE, "flame", FLAME);
+        RegistryUtil.register(Registry.PARTICLE_TYPE, "flame", FLAME);
         ParticleFactoryRegistry.getInstance().register(FLAME, CandleFlameParticle.Factory::new);
     }
 

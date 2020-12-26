@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.entity;
 
+import com.miskatonicmysteries.client.particle.ModParticles;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.ai.GunAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobBowAttackGoal;
@@ -8,9 +9,8 @@ import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.item.ItemGun;
-import com.miskatonicmysteries.lib.ModObjects;
-import com.miskatonicmysteries.lib.ModParticles;
-import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.ModObjects;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.*;
@@ -40,7 +40,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static com.miskatonicmysteries.lib.util.Constants.NBT.ALTERNATE_WEAPON;
+import static com.miskatonicmysteries.common.lib.Constants.NBT.ALTERNATE_WEAPON;
 
 public class EntityProtagonist extends PathAwareEntity implements RangedAttackMob, CrossbowUser {
     protected static final Map<AbstractMap.SimpleEntry<EquipmentSlot, ItemStack>, Integer> ARMOR_MAP = new HashMap<>();

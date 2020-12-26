@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.feature.world;
 
 import com.miskatonicmysteries.common.entity.EntityProtagonist;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
-import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-import static com.miskatonicmysteries.lib.util.Constants.NBT.PLAYER_UUID;
-import static com.miskatonicmysteries.lib.util.Constants.NBT.PROTAGONISTS;
+import static com.miskatonicmysteries.common.lib.Constants.NBT.PLAYER_UUID;
+import static com.miskatonicmysteries.common.lib.Constants.NBT.PROTAGONISTS;
 
 public class MMWorldState extends PersistentState {
     private final Map<UUID, EntityProtagonist.ProtagonistData> PROTAGONIST_MAP = new HashMap<>();

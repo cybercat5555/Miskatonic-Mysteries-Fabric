@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.lib.util;
+package com.miskatonicmysteries.common.lib.util;
 
 import com.miskatonicmysteries.common.handler.callback.StructurePoolRegistryCallback;
 import net.minecraft.structure.pool.StructurePool;

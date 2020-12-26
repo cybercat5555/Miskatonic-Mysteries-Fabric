@@ -1,10 +1,9 @@
-package com.miskatonicmysteries.lib;
+package com.miskatonicmysteries.common.lib;
 
 import com.google.common.collect.ImmutableList;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.world.processor.PsychonautHouseProcessor;
-import com.miskatonicmysteries.lib.util.Constants;
-import com.miskatonicmysteries.lib.util.WorldUtil;
+import com.miskatonicmysteries.common.lib.util.WorldUtil;
 import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.minecraft.block.Blocks;

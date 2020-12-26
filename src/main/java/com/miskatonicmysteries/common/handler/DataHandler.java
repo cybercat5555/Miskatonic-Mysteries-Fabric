@@ -4,7 +4,7 @@ import com.google.gson.*;
 import com.miskatonicmysteries.common.feature.DataSerializable;
 import com.miskatonicmysteries.common.feature.sanity.CommandDrivenInsanityEvent;
 import com.miskatonicmysteries.common.feature.sanity.InsanityInducer;
-import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;

@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.item;
 
-import com.miskatonicmysteries.lib.ModObjects;
-import com.miskatonicmysteries.lib.ModRegistries;
-import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.ModRegistries;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;

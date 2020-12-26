@@ -2,10 +2,10 @@ package com.miskatonicmysteries.common;
 
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
-import com.miskatonicmysteries.lib.ModEntities;
-import com.miskatonicmysteries.lib.ModObjects;
-import com.miskatonicmysteries.lib.ModRecipes;
-import com.miskatonicmysteries.lib.ModRegistries;
+import com.miskatonicmysteries.common.lib.ModEntities;
+import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.ModRecipes;
+import com.miskatonicmysteries.common.lib.ModRegistries;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ModInitializer;

@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.feature.spell;
 
-import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;

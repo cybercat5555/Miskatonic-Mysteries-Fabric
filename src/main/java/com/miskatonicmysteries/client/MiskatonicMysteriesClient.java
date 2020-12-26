@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.client;
 
+import com.miskatonicmysteries.client.particle.ModParticles;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.client.render.ShaderHandler;
 import com.miskatonicmysteries.client.render.blockentity.BlockRenderAltar;
@@ -13,9 +14,8 @@ import com.miskatonicmysteries.common.block.BlockOctagram;
 import com.miskatonicmysteries.common.block.BlockStatue;
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.item.ItemGun;
-import com.miskatonicmysteries.lib.ModEntities;
-import com.miskatonicmysteries.lib.ModObjects;
-import com.miskatonicmysteries.lib.ModParticles;
+import com.miskatonicmysteries.common.lib.ModEntities;
+import com.miskatonicmysteries.common.lib.ModObjects;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;

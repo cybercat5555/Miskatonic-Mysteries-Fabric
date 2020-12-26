@@ -2,7 +2,7 @@ package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.client.model.entity.ModelProtagonist;
 import com.miskatonicmysteries.common.entity.EntityProtagonist;
-import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;

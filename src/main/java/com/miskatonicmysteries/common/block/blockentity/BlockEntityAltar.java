@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.block.blockentity;
 
 import com.miskatonicmysteries.common.feature.Affiliated;
-import com.miskatonicmysteries.lib.ModObjects;
-import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.ModObjects;
 import net.minecraft.block.BlockState;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;

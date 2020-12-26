@@ -2,8 +2,8 @@ package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityOctagram;
 import com.miskatonicmysteries.common.feature.Affiliated;
-import com.miskatonicmysteries.lib.ModObjects;
-import com.miskatonicmysteries.lib.util.MiscUtil;
+import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
@@ -150,7 +150,7 @@ public class BlockOctagram extends HorizontalFacingBlock implements BlockEntityP
                     octagram.markDirty();
                     return ActionResult.CONSUME;
                 } else if (stack.isEmpty() && !octagram.getItems().isEmpty()) {
-                    MiscUtil.giveItem(world, player, octagram.removeStack(state.get(NUMBER)));
+                    InventoryUtil.giveItem(world, player, octagram.removeStack(state.get(NUMBER)));
                     octagram.markDirty();
                     return ActionResult.SUCCESS;
                 }

@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.entity;
 
 import com.miskatonicmysteries.common.feature.Affiliated;
-import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

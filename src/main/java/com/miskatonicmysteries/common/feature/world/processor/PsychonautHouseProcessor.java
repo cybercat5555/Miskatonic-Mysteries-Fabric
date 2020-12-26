@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.feature.world.processor;
 
 import com.miskatonicmysteries.common.block.BlockCandle;
-import com.miskatonicmysteries.lib.ModWorld;
+import com.miskatonicmysteries.common.lib.ModWorld;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;

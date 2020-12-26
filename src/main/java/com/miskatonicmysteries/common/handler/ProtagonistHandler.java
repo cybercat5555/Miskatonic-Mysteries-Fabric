@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.handler;
 
 import com.miskatonicmysteries.common.entity.EntityProtagonist;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
-import com.miskatonicmysteries.lib.ModEntities;
+import com.miskatonicmysteries.common.lib.ModEntities;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.SpawnRestriction;

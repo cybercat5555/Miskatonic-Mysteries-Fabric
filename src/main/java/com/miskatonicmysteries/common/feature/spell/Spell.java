@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.feature.spell;
 
 import com.miskatonicmysteries.common.handler.PacketHandler;
-import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.common.lib.Constants;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;

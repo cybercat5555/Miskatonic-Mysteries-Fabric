@@ -6,10 +6,10 @@ import com.miskatonicmysteries.common.feature.effect.StatusEffectLazarus;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
-import com.miskatonicmysteries.lib.ModObjects;
-import com.miskatonicmysteries.lib.ModRegistries;
-import com.miskatonicmysteries.lib.util.Constants;
-import com.miskatonicmysteries.lib.util.MiscUtil;
+import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.ModRegistries;
+import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.miskatonicmysteries.lib.util.Constants.DataTrackers.*;
+import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.*;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerMixin extends LivingEntity implements ISanity {
@@ -59,8 +59,8 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
     private void manipulateDeath(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
         if (amount >= getHealth() && !source.isOutOfWorld()) {
             PlayerEntity entity = (PlayerEntity) (Object) this;
-            if (MiscUtil.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE) >= 0) {
-                entity.inventory.removeStack(MiscUtil.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE), 1);
+            if (InventoryUtil.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE) >= 0) {
+                entity.inventory.removeStack(InventoryUtil.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE), 1);
                 if (StatusEffectLazarus.revive(entity)) {
                     dead = false;
                     removed = false;

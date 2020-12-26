@@ -1,6 +1,5 @@
-package com.miskatonicmysteries.lib.util;
+package com.miskatonicmysteries.common.lib;
 
-import com.miskatonicmysteries.lib.ModObjects;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.AbstractBlock;

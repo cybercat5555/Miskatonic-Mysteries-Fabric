@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.block.blockentity;
 
 import com.miskatonicmysteries.common.block.BlockStatue;
 import com.miskatonicmysteries.common.feature.Affiliated;
-import com.miskatonicmysteries.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.ModObjects;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;

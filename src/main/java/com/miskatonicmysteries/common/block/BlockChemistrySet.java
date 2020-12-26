@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
-import com.miskatonicmysteries.lib.util.MiscUtil;
+import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
@@ -103,7 +103,7 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
         } else {
             for (int i = 4; i >= 0; i--) {
                 if (!blockEntity.getStack(i).isEmpty() && blockEntity.canPlayerUse(player)) {
-                    MiscUtil.giveItem(world, player, blockEntity.removeStack(i));
+                    InventoryUtil.giveItem(world, player, blockEntity.removeStack(i));
                     blockEntity.markDirty();
                     return ActionResult.SUCCESS;
                 }

@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.lib;
+package com.miskatonicmysteries.common.lib;
 
 import com.miskatonicmysteries.common.feature.ModCommand;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectLazarus;
@@ -6,8 +6,7 @@ import com.miskatonicmysteries.common.feature.effect.StatusEffectMania;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectOvermedicated;
 import com.miskatonicmysteries.common.feature.effect.StatusEffectTranquilized;
 import com.miskatonicmysteries.common.feature.spell.*;
-import com.miskatonicmysteries.lib.util.Constants;
-import com.miskatonicmysteries.lib.util.MiscUtil;
+import com.miskatonicmysteries.common.lib.util.RegistryUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
@@ -30,7 +29,7 @@ import net.minecraft.village.TradeOffers;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static com.miskatonicmysteries.lib.ModRegistries.ModTradeOffers.*;
+import static com.miskatonicmysteries.common.lib.ModRegistries.ModTradeOffers.*;
 
 public class ModRegistries {
     public static final SoundEvent GUN_SHOT = new SoundEvent(new Identifier(Constants.MOD_ID, "gun_shot"));
@@ -65,12 +64,12 @@ public class ModRegistries {
         initLootTableEdits();
         ModCommand.setup();
 
-        MiscUtil.register(Registry.SOUND_EVENT, "gun_shot", GUN_SHOT);
+        RegistryUtil.register(Registry.SOUND_EVENT, "gun_shot", GUN_SHOT);
 
-        MiscUtil.register(Registry.STATUS_EFFECT, "mania", MANIA);
-        MiscUtil.register(Registry.STATUS_EFFECT, "tranquilized", TRANQUILIZED);
-        MiscUtil.register(Registry.STATUS_EFFECT, "overmedicated", OVERMEDICATED);
-        MiscUtil.register(Registry.STATUS_EFFECT, "lazarus", LAZARUS);
+        RegistryUtil.register(Registry.STATUS_EFFECT, "mania", MANIA);
+        RegistryUtil.register(Registry.STATUS_EFFECT, "tranquilized", TRANQUILIZED);
+        RegistryUtil.register(Registry.STATUS_EFFECT, "overmedicated", OVERMEDICATED);
+        RegistryUtil.register(Registry.STATUS_EFFECT, "lazarus", LAZARUS);
 
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(ModEntities.PSYCHONAUT, PSYCHONAUT_TRADES);
     }

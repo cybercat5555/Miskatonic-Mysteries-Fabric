@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.item.books;
 
 import com.miskatonicmysteries.common.feature.Affiliated;
-import com.miskatonicmysteries.lib.util.Constants;
+import com.miskatonicmysteries.common.lib.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
