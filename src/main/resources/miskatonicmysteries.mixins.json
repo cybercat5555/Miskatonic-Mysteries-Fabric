@@ -6,6 +6,7 @@
   "mixins": [
     "DataLoadMixin",
     "ItemMixin",
+    "LivingEntityMixin",
     "PlayerMixin",
     "ServerPlayerMixin",
     "StructurePoolAccessor",

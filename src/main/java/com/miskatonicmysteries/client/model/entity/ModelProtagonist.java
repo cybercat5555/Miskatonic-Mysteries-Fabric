@@ -109,7 +109,11 @@ public class ModelProtagonist extends BipedEntityModel<EntityProtagonist> {
                 this.leftArmPose = livingEntity.isCharging() ? ArmPose.CROSSBOW_CHARGE : ArmPose.CROSSBOW_HOLD;
             }
         }
-
+        if (livingEntity.isLeftHanded()) {
+            ArmPose tempPose = rightArmPose;
+            rightArmPose = leftArmPose;
+            leftArmPose = tempPose;
+        }
         super.animateModel(livingEntity, f, g, h);
     }
 

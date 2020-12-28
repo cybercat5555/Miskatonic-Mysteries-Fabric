@@ -115,7 +115,7 @@ public class MobBowAttackGoal<T extends PathAwareEntity & RangedAttackMob> exten
                     int i = this.actor.getItemUseTime();
                     if (i >= 20) {
                         this.actor.clearActiveItem();
-                        ((RangedAttackMob)this.actor).attack(livingEntity, BowItem.getPullProgress(i));
+                        this.actor.attack(livingEntity, BowItem.getPullProgress(i));
                         this.cooldown = this.attackInterval;
                     }
                 }

@@ -48,6 +48,7 @@ public class ModRegistries {
 
     public static final SpellMedium MEDIUM_SELF = addSpellMedium(new SpellMediumSelf());
     public static final SpellMedium MEDIUM_VISION = addSpellMedium(new SpellMediumVision());
+    public static final SpellMedium MEDIUM_GROUP = addSpellMedium(new SpellMediumGroup());
 
     public static final SpellEffect EFFECT_HEAL = addSpellEffect(new SpellEffectHeal());
     public static final SpellEffect EFFECT_RESISTANCE = addSpellEffect(new SpellEffectResistance());

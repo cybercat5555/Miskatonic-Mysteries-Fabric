@@ -9,6 +9,7 @@ import java.util.Map;
 
 public abstract class SpellMedium {
     public static final Map<Identifier, SpellMedium> SPELL_MEDIUMS = new HashMap<>();
+
     private final Identifier id;
 
     public SpellMedium(Identifier id) {

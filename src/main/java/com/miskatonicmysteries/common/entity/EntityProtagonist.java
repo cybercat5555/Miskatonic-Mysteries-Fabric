@@ -178,6 +178,12 @@ public class EntityProtagonist extends PathAwareEntity implements RangedAttackMo
     }
 
     @Override
+    public void tickMovement() {
+        this.tickHandSwing();
+        super.tickMovement();
+    }
+
+    @Override
     public void remove() {
         if (!world.isClient && getTargetUUID().isPresent())
             ProtagonistHandler.setSpawnState(this, false);

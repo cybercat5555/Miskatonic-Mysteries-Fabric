@@ -8,6 +8,8 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * cultist_Hastur - cybercat5555
@@ -130,13 +132,43 @@ public class ModelHasturCultist extends BipedEntityModel<EntityHasturCultist> {
         helmet.visible = false;
     }
 
+
+    /*
+    why do i have to set these manually? what's up with the swing progress?
+     */
     @Override
-    public void setAngles(EntityHasturCultist livingEntity, float f, float g, float h, float i, float j) {
-        super.setAngles(livingEntity, f, g, h, i, j);
+    public void animateModel(EntityHasturCultist livingEntity, float f, float g, float h) {
+        rightArmPose = livingEntity.getMainHandStack().isEmpty() ? ArmPose.EMPTY : livingEntity.isBlocking() && livingEntity.getMainHandStack().getItem().equals(Items.SHIELD) ? ArmPose.BLOCK : ArmPose.ITEM;
+        leftArmPose = livingEntity.getOffHandStack().isEmpty() ? ArmPose.EMPTY : livingEntity.isBlocking() && livingEntity.getOffHandStack().getItem().equals(Items.SHIELD) ? ArmPose.BLOCK : ArmPose.ITEM;
+        if (livingEntity.isLeftHanded()) {
+            ArmPose tempPose = rightArmPose;
+            rightArmPose = leftArmPose;
+            leftArmPose = tempPose;
+        }
         armsFolded = true;
         livingEntity.getItemsHand().forEach(stack -> {
             if (!stack.isEmpty()) armsFolded = false;
         });
+
+        super.animateModel(livingEntity, f, g, h);
+    }
+
+    @Override
+    public void setAngles(EntityHasturCultist livingEntity, float f, float g, float h, float i, float j) {
+        super.setAngles(livingEntity, f, g, h, i, j);
+
+        if (livingEntity.isCasting()) {
+            this.rightArm.pivotZ = 0.0F;
+            this.rightArm.pivotX = -5.0F;
+            this.leftArm.pivotZ = 0.0F;
+            this.leftArm.pivotX = 5.0F;
+            this.rightArm.pitch = MathHelper.cos(h * 0.6662F) * 0.25F;
+            this.leftArm.pitch = MathHelper.cos(h * 0.6662F) * 0.25F;
+            this.rightArm.roll = 2.3561945F;
+            this.leftArm.roll = -2.3561945F;
+            this.rightArm.yaw = 0.0F;
+            this.leftArm.yaw = 0.0F;
+        }
     }
 
     @Override

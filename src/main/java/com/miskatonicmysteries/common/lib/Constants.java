@@ -66,6 +66,9 @@ public class Constants {
         public static final String SPELL_EFFECT = "Spell Effect";
         public static final String SPELL_MEDIUM = "Spell Medium";
         public static final String INTENSITY = "Intensity";
+        public static final String CASTING = "Casting";
+        public static final String SPELL = "Spell";
+        public static final String SPELL_COOLDOWN = "Spell Cooldown";
     }
 
     public static class DataTrackers {

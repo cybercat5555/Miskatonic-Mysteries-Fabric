@@ -27,6 +27,9 @@ public abstract class SpellEffect {
         return color;
     }
 
+    /**
+     * @return if the spell was successfully cast
+     */
     public abstract boolean effect(World world, LivingEntity caster, @Nullable Entity target, SpellMedium medium, int intensity);
 
     public int getMaxDistance(LivingEntity caster) {

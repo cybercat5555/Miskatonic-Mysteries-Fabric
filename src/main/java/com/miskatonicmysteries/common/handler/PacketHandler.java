@@ -28,6 +28,7 @@ public class PacketHandler {
 
     }
 
+    //todo use the non-depracated implementation
     public static void registerS2C() {
         ClientSidePacketRegistry.INSTANCE.register(SANITY_EXPAND_PACKET, (packetContext, packetByteBuf) -> {
             String name = packetByteBuf.readString();

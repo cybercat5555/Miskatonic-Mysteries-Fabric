@@ -60,6 +60,7 @@
   "comment3": "ENTITIES",
   "entity.miskatonicmysteries.protagonist": "Investigator",
   "entity.minecraft.villager.psychonaut": "Psychonaut",
+  "entity.miskatonicmysteries.hastur_cultist": "Yellow Serf",
   "comment4": "TOOLTIPS",
   "tooltip.miskatonicmysteries.gun_loaded": "Loaded (%d/%d)",
   "tooltip.miskatonicmysteries.gun_not_loaded": "Not Loaded (%d/%d)",
