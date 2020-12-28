@@ -40,7 +40,7 @@ public class EntityHasturCultist extends PathAwareEntity implements Angerable, A
     protected static final TrackedData<Boolean> CASTING = DataTracker.registerData(EntityHasturCultist.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     //anger
-    private static final IntRange ANGER_TIME_RANGE = Durations.betweenSeconds(10, 20);
+    private static final IntRange ANGER_TIME_RANGE = Durations.betweenSeconds(20, 30);
     private int angerTime;
     @Nullable
     private UUID targetUuid;
