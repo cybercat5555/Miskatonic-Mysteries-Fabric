@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.feature.world;
 
-import com.miskatonicmysteries.common.entity.EntityProtagonist;
+import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,29 +18,29 @@ import static com.miskatonicmysteries.common.lib.Constants.NBT.PLAYER_UUID;
 import static com.miskatonicmysteries.common.lib.Constants.NBT.PROTAGONISTS;
 
 public class MMWorldState extends PersistentState {
-    private final Map<UUID, EntityProtagonist.ProtagonistData> PROTAGONIST_MAP = new HashMap<>();
+    private final Map<UUID, ProtagonistEntity.ProtagonistData> PROTAGONIST_MAP = new HashMap<>();
 
     public MMWorldState() {
         super(Constants.MOD_ID);
     }
 
-    public void addProtagonist(PlayerEntity player, EntityProtagonist.ProtagonistData data) {
+    public void addProtagonist(PlayerEntity player, ProtagonistEntity.ProtagonistData data) {
         PROTAGONIST_MAP.put(player.getUuid(), data);
         markDirty();
     }
 
-    public void removeProtagonist(EntityProtagonist protagonist) {
+    public void removeProtagonist(ProtagonistEntity protagonist) {
         if (protagonist.getTargetUUID().isPresent())
             PROTAGONIST_MAP.remove(protagonist.getTargetUUID().get());
         markDirty();
     }
 
-    public EntityProtagonist.ProtagonistData getProtagonistDataFor(PlayerEntity player) {
+    public ProtagonistEntity.ProtagonistData getProtagonistDataFor(PlayerEntity player) {
         if (!PROTAGONIST_MAP.containsKey(player.getUuid())) ProtagonistHandler.createProtagonist(player.world, player);
         return PROTAGONIST_MAP.get(player.getUuid());
     }
 
-    public EntityProtagonist.ProtagonistData getProtagonistDataFor(EntityProtagonist protagonist) {
+    public ProtagonistEntity.ProtagonistData getProtagonistDataFor(ProtagonistEntity protagonist) {
         if (!protagonist.getTargetUUID().isPresent() || !PROTAGONIST_MAP.containsKey(protagonist.getTargetUUID().get()))
             return null;
         return PROTAGONIST_MAP.get(protagonist.getTargetUUID().get());
@@ -51,7 +51,7 @@ public class MMWorldState extends PersistentState {
         ListTag protagonistList = (ListTag) tag.get(PROTAGONISTS);
         protagonistList.forEach(baseTag -> {
             CompoundTag compoundTag = (CompoundTag) baseTag;
-            PROTAGONIST_MAP.put(compoundTag.getUuid(PLAYER_UUID), EntityProtagonist.ProtagonistData.fromTag(compoundTag));
+            PROTAGONIST_MAP.put(compoundTag.getUuid(PLAYER_UUID), ProtagonistEntity.ProtagonistData.fromTag(compoundTag));
         });
     }
 

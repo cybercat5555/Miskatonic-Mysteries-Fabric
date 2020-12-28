@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.block;
 
-import com.miskatonicmysteries.common.block.blockentity.BlockEntityStatue;
+import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -96,7 +96,7 @@ public class BlockStatue extends Block implements Waterloggable, BlockEntityProv
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockView world) {
-        return new BlockEntityStatue();
+        return new StatueBlockEntity();
     }
 
     @Override

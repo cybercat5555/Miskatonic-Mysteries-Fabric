@@ -1,12 +1,12 @@
 package com.miskatonicmysteries.common.lib;
 
 import com.miskatonicmysteries.common.block.*;
-import com.miskatonicmysteries.common.block.blockentity.BlockEntityAltar;
-import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
-import com.miskatonicmysteries.common.block.blockentity.BlockEntityOctagram;
-import com.miskatonicmysteries.common.block.blockentity.BlockEntityStatue;
+import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.item.*;
-import com.miskatonicmysteries.common.item.books.ItemMMBook;
+import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -22,7 +22,7 @@ import net.minecraft.util.registry.Registry;
 
 public class ModObjects {
     public static final Block CHEMISTRY_SET = new BlockChemistrySet();
-    public static final BlockEntityType<BlockEntityChemistrySet> CHEMISTRY_SET_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityChemistrySet::new, CHEMISTRY_SET).build(null);
+    public static final BlockEntityType<ChemistrySetBlockEntity> CHEMISTRY_SET_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(ChemistrySetBlockEntity::new, CHEMISTRY_SET).build(null);
 
     public static final Block BLACKSTONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.BLACKSTONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
     public static final Block CORAL_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.DEAD_BRAIN_CORAL_BLOCK).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
@@ -32,13 +32,13 @@ public class ModObjects {
     public static final Block PRISMARINE_ALTAR = new BlockAltar(false, AbstractBlock.Settings.copy(Blocks.PRISMARINE).luminance(state -> 8));
     public static final Block SANDSTONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.SANDSTONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
     public static final Block STONE_ALTAR = new BlockAltar(true, AbstractBlock.Settings.copy(Blocks.STONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
-    public static final BlockEntityType<BlockEntityAltar> ALTAR_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityAltar::new, BlockAltar.ALTARS.toArray(new BlockAltar[BlockAltar.ALTARS.size()])).build(null);
+    public static final BlockEntityType<AltarBlockEntity> ALTAR_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(AltarBlockEntity::new, BlockAltar.ALTARS.toArray(new BlockAltar[BlockAltar.ALTARS.size()])).build(null);
 
     public static final Block OCTAGRAM_SIDES = new BlockOctagram.BlockOuterOctagram();
     public static final BlockOctagram CTHULHU_OCTAGRAM = new BlockOctagram(Constants.Affiliation.CTHULHU);
     public static final BlockOctagram HASTUR_OCTAGRAM = new BlockOctagram(Constants.Affiliation.HASTUR);
     public static final BlockOctagram SHUB_OCTAGRAM = new BlockOctagram(Constants.Affiliation.SHUB);
-    public static final BlockEntityType<BlockEntityOctagram> OCTAGRAM_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityOctagram::new, BlockOctagram.OCTAGRAMS.toArray(new BlockOctagram[BlockOctagram.OCTAGRAMS.size()])).build(null);
+    public static final BlockEntityType<OctagramBlockEntity> OCTAGRAM_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(OctagramBlockEntity::new, BlockOctagram.OCTAGRAMS.toArray(new BlockOctagram[BlockOctagram.OCTAGRAMS.size()])).build(null);
 
     public static final BlockStatue CTHULHU_STATUE_GOLD = new BlockStatue(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
     public static final BlockStatue CTHULHU_STATUE_MOSSY = new BlockStatue(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
@@ -54,7 +54,7 @@ public class ModObjects {
     public static final BlockStatue SHUB_STATUE_MOSSY = new BlockStatue(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
     public static final BlockStatue SHUB_STATUE_BLACKSTONE = new BlockStatue(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
     public static final BlockStatue SHUB_STATUE_STONE = new BlockStatue(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.STONE));
-    public static final BlockEntityType<BlockEntityStatue> STATUE_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(BlockEntityStatue::new, BlockStatue.STATUES.toArray(new BlockStatue[BlockStatue.STATUES.size()])).build(null);
+    public static final BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(StatueBlockEntity::new, BlockStatue.STATUES.toArray(new BlockStatue[BlockStatue.STATUES.size()])).build(null);
 
     public static final Block STONE_CTHULHU_MURAL = new BlockMural(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));
     public static final Block MOSSY_CTHULHU_MURAL = new BlockMural(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
@@ -83,24 +83,24 @@ public class ModObjects {
     public static final Block DUMMY_RESONATOR_OFF = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
     public static final Block POWERCELL = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
 
-    public static final ItemMMBook SCIENCE_JOURNAL = new ItemMMBook(new Identifier(Constants.MOD_ID, "science_journal"), Constants.Affiliation.NONE, false);
-    public static final ItemMMBook NECRONOMICON = new ItemMMBook(new Identifier(Constants.MOD_ID, "necronomicon"), Constants.Affiliation.NONE, true);
+    public static final MMBookItem SCIENCE_JOURNAL = new MMBookItem(new Identifier(Constants.MOD_ID, "science_journal"), Constants.Affiliation.NONE, false);
+    public static final MMBookItem NECRONOMICON = new MMBookItem(new Identifier(Constants.MOD_ID, "necronomicon"), Constants.Affiliation.NONE, true);
 
     public static final Item OCEANIC_GOLD = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
-    public static final Item RIFLE = new ItemRifle();
-    public static final Item REVOLVER = new ItemRevolver();
+    public static final Item RIFLE = new RifleItem();
+    public static final Item REVOLVER = new RevolverItem();
     public static final Item BULLET = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static final Item SYRINGE = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static final Item INFESTED_WHEAT = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
-    public static final Item BLOTTER = new ItemBlotter();
-    public static final Item LAUDANUM = new ItemLaudanum();
-    public static final Item TRANQUILIZER = new ItemTranquilizer();
+    public static final Item BLOTTER = new BlotterItem();
+    public static final Item LAUDANUM = new LaudanumItem();
+    public static final Item TRANQUILIZER = new TranquilizerItem();
     //todo actually implement zombie curing property lul
-    public static final Item RE_AGENT_SYRINGE = new ItemReAgent();
+    public static final Item RE_AGENT_SYRINGE = new ReAgentItem();
 
     public static final Item WAX = new Item(new Item.Settings().group(Constants.MM_GROUP));
 

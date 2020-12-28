@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.entity.ai;
 
-import com.miskatonicmysteries.common.item.ItemGun;
+import com.miskatonicmysteries.common.item.GunItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.MobEntity;
@@ -24,7 +24,7 @@ public class GunAttackGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        return entity.getTarget() != null && entity.isHolding(item -> item instanceof ItemGun);
+        return entity.getTarget() != null && entity.isHolding(item -> item instanceof GunItem);
     }
 
     @Override
@@ -81,16 +81,16 @@ public class GunAttackGoal extends Goal {
             this.entity.getMoveControl().strafeTo(this.backward ? -0.5F : 0.5F, this.movingToLeft ? 0.5F : -0.5F);
 
 
-            if (!gun.isEmpty() && gun.getItem() instanceof ItemGun && entity.getTarget() != null) {
-                if (ItemGun.isLoaded(gun)) {
+            if (!gun.isEmpty() && gun.getItem() instanceof GunItem && entity.getTarget() != null) {
+                if (GunItem.isLoaded(gun)) {
                     ticksToLockIn++;
                     if (ticksToLockIn >= 20) {
                         entity.clearActiveItem();
-                        ((ItemGun) gun.getItem()).shoot(entity.world, entity, gun);
+                        ((GunItem) gun.getItem()).shoot(entity.world, entity, gun);
                         ticksToLockIn = 0;
                     }
                 } else {
-                    ItemGun.setLoading(gun, true);
+                    GunItem.setLoading(gun, true);
                     entity.setCurrentHand(Hand.MAIN_HAND);
                 }
             }

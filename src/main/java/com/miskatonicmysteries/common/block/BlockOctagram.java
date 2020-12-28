@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.block;
 
-import com.miskatonicmysteries.common.block.blockentity.BlockEntityOctagram;
+import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
@@ -62,8 +62,8 @@ public class BlockOctagram extends HorizontalFacingBlock implements BlockEntityP
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.isOf(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof BlockEntityOctagram) {
-                ItemScatterer.spawn(world, pos, ((BlockEntityOctagram) blockEntity).getItems());
+            if (blockEntity instanceof OctagramBlockEntity) {
+                ItemScatterer.spawn(world, pos, ((OctagramBlockEntity) blockEntity).getItems());
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
@@ -79,7 +79,7 @@ public class BlockOctagram extends HorizontalFacingBlock implements BlockEntityP
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockView world) {
-        return new BlockEntityOctagram();
+        return new OctagramBlockEntity();
     }
 
     @Override
@@ -139,7 +139,7 @@ public class BlockOctagram extends HorizontalFacingBlock implements BlockEntityP
 
         @Override
         public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-            BlockEntityOctagram octagram = getOctagram(world, pos, state);
+            OctagramBlockEntity octagram = getOctagram(world, pos, state);
             if (octagram == null) {
                 world.breakBlock(pos, false);
                 return ActionResult.FAIL;
@@ -173,9 +173,9 @@ public class BlockOctagram extends HorizontalFacingBlock implements BlockEntityP
             super.neighborUpdate(state, world, pos, block, fromPos, notify);
         }
 
-        public static BlockEntityOctagram getOctagram(World world, BlockPos pos, BlockState state) {
+        public static OctagramBlockEntity getOctagram(World world, BlockPos pos, BlockState state) {
             BlockEntity blockEntity = world.getBlockEntity(pos.add(getOffsetToCenterPos(state.get(NUMBER))));
-            return blockEntity instanceof BlockEntityOctagram ? (BlockEntityOctagram) blockEntity : null;
+            return blockEntity instanceof OctagramBlockEntity ? (OctagramBlockEntity) blockEntity : null;
         }
 
         public static BlockPos getOffsetToCenterPos(int index) {

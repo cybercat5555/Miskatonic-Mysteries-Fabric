@@ -1,10 +1,10 @@
 package com.miskatonicmysteries.common.lib;
 
 import com.miskatonicmysteries.common.feature.ModCommand;
-import com.miskatonicmysteries.common.feature.effect.StatusEffectLazarus;
-import com.miskatonicmysteries.common.feature.effect.StatusEffectMania;
-import com.miskatonicmysteries.common.feature.effect.StatusEffectOvermedicated;
-import com.miskatonicmysteries.common.feature.effect.StatusEffectTranquilized;
+import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.ManiaStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.OvermedicalizedStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.TranquilizedStatusEffect;
 import com.miskatonicmysteries.common.feature.spell.*;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
@@ -34,10 +34,10 @@ import static com.miskatonicmysteries.common.lib.ModRegistries.ModTradeOffers.*;
 public class ModRegistries {
     public static final SoundEvent GUN_SHOT = new SoundEvent(new Identifier(Constants.MOD_ID, "gun_shot"));
 
-    public static final StatusEffect MANIA = new StatusEffectMania();
-    public static final StatusEffect TRANQUILIZED = new StatusEffectTranquilized();
-    public static final StatusEffect OVERMEDICATED = new StatusEffectOvermedicated();
-    public static final StatusEffect LAZARUS = new StatusEffectLazarus();
+    public static final StatusEffect MANIA = new ManiaStatusEffect();
+    public static final StatusEffect TRANQUILIZED = new TranquilizedStatusEffect();
+    public static final StatusEffect OVERMEDICATED = new OvermedicalizedStatusEffect();
+    public static final StatusEffect LAZARUS = new LazarusStatusEffect();
 
     public static final Identifier INFESTED_WHEAT_LOOT_TABLE = new Identifier(Constants.MOD_ID, "injects/infested_wheat");
     public static final Identifier TRANQ_TABLE = new Identifier(Constants.MOD_ID, "injects/tranquilizer");
@@ -46,12 +46,12 @@ public class ModRegistries {
 
     public static final Int2ObjectMap<TradeOffers.Factory[]> PSYCHONAUT_TRADES = new Int2ObjectArrayMap();
 
-    public static final SpellMedium MEDIUM_SELF = addSpellMedium(new SpellMediumSelf());
-    public static final SpellMedium MEDIUM_VISION = addSpellMedium(new SpellMediumVision());
-    public static final SpellMedium MEDIUM_GROUP = addSpellMedium(new SpellMediumGroup());
+    public static final SpellMedium MEDIUM_SELF = addSpellMedium(new SelfSpellMedium());
+    public static final SpellMedium MEDIUM_VISION = addSpellMedium(new VisionSpellMedium());
+    public static final SpellMedium MEDIUM_GROUP = addSpellMedium(new GroupSpellMedium());
 
-    public static final SpellEffect EFFECT_HEAL = addSpellEffect(new SpellEffectHeal());
-    public static final SpellEffect EFFECT_RESISTANCE = addSpellEffect(new SpellEffectResistance());
+    public static final SpellEffect EFFECT_HEAL = addSpellEffect(new HealSpellEffect());
+    public static final SpellEffect EFFECT_RESISTANCE = addSpellEffect(new ResistanceSpellEffect());
 
     static {
         PSYCHONAUT_TRADES.put(1, new TradeOffers.Factory[]{BLOTTER_OFFER, SCIENCE_JOURNAL_OFFER, INFESTED_WHEAT_OFFER});

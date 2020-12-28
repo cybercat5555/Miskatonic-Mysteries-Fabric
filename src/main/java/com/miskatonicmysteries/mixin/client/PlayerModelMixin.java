@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.mixin.client;
 
-import com.miskatonicmysteries.common.item.ItemGun;
+import com.miskatonicmysteries.common.item.GunItem;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
@@ -33,10 +33,10 @@ public abstract class PlayerModelMixin {
     public BipedEntityModel.ArmPose rightArmPose;
 
     @Inject(method = "method_30155(Lnet/minecraft/entity/LivingEntity;)V", at = @At("HEAD"), cancellable = true)
-    private void setGunAnglesLeft(LivingEntity entity, CallbackInfo info){
-        if (entity.getActiveItem().getItem() instanceof ItemGun && leftArmPose == BipedEntityModel.ArmPose.BOW_AND_ARROW){
-            ItemGun gun = (ItemGun) entity.getActiveItem().getItem();
-            if (!ItemGun.isLoading(entity.getActiveItem())) {
+    private void setGunAnglesLeft(LivingEntity entity, CallbackInfo info) {
+        if (entity.getActiveItem().getItem() instanceof GunItem && leftArmPose == BipedEntityModel.ArmPose.BOW_AND_ARROW) {
+            GunItem gun = (GunItem) entity.getActiveItem().getItem();
+            if (!GunItem.isLoading(entity.getActiveItem())) {
                 this.leftArm.yaw = 0.1F + this.head.yaw;
                 this.leftArm.pitch = -1.5707964F + this.head.pitch;
                 if (gun.isHeavy()) {
@@ -49,10 +49,10 @@ public abstract class PlayerModelMixin {
     }
 
     @Inject(method = "method_30154(Lnet/minecraft/entity/LivingEntity;)V", at = @At("HEAD"), cancellable = true)
-    private void setGunAnglesRight(LivingEntity entity, CallbackInfo info){
-        if (entity.getActiveItem().getItem() instanceof ItemGun && rightArmPose == BipedEntityModel.ArmPose.BOW_AND_ARROW){
-            ItemGun gun = (ItemGun) entity.getActiveItem().getItem();
-            if (!ItemGun.isLoading(entity.getActiveItem())){
+    private void setGunAnglesRight(LivingEntity entity, CallbackInfo info) {
+        if (entity.getActiveItem().getItem() instanceof GunItem && rightArmPose == BipedEntityModel.ArmPose.BOW_AND_ARROW) {
+            GunItem gun = (GunItem) entity.getActiveItem().getItem();
+            if (!GunItem.isLoading(entity.getActiveItem())) {
                 this.rightArm.yaw = -0.1F + this.head.yaw;
                 this.rightArm.pitch = -1.5707964F + this.head.pitch;
                 if (gun.isHeavy()) {

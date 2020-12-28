@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.lib;
 
-import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
+import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
@@ -20,7 +20,7 @@ public class ModRecipes {
         RegistryUtil.register(Registry.RECIPE_SERIALIZER, "chemistry_recipe", CHEMISTRY_SERIALIZER);
     }
 
-    public static ChemistryRecipe getRecipe(BlockEntityChemistrySet chemSet){
+    public static ChemistryRecipe getRecipe(ChemistrySetBlockEntity chemSet) {
         return chemSet.getWorld().getRecipeManager().listAllOfType(CHEMISTRY_RECIPE).stream().filter(r -> InventoryUtil.areItemStackListsExactlyEqual(r.ingredients, chemSet)).findFirst().orElse(null);
     }
 

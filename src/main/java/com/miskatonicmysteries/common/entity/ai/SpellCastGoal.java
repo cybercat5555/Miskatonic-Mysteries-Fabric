@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.entity.ai;
 
-import com.miskatonicmysteries.common.entity.EntityHasturCultist;
+import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.lib.ModRegistries;
@@ -9,7 +9,7 @@ import net.minecraft.entity.effect.StatusEffects;
 
 import java.util.EnumSet;
 
-public class SpellCastGoal<T extends EntityHasturCultist> extends Goal {
+public class SpellCastGoal<T extends HasturCultistEntity> extends Goal {
     private T caster;
     private int progress;
 

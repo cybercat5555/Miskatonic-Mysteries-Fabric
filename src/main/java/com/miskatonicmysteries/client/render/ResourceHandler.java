@@ -5,8 +5,8 @@ import com.miskatonicmysteries.client.model.block.HasturStatueModel;
 import com.miskatonicmysteries.client.model.block.ShubStatueModel;
 import com.miskatonicmysteries.common.block.BlockOctagram;
 import com.miskatonicmysteries.common.block.BlockStatue;
-import com.miskatonicmysteries.common.block.blockentity.BlockEntityOctagram;
-import com.miskatonicmysteries.common.block.blockentity.BlockEntityStatue;
+import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
@@ -80,15 +80,15 @@ public class ResourceHandler {
         return BOOK_SPRITES.getOrDefault(stack.getItem(), EnchantingTableBlockEntityRenderer.BOOK_TEXTURE);
     }
 
-    public static SpriteIdentifier getOctagramTextureFor(BlockEntityOctagram octagram) {
+    public static SpriteIdentifier getOctagramTextureFor(OctagramBlockEntity octagram) {
         return OCTAGRAM_SPRITES.getOrDefault(octagram.getWorld().getBlockState(octagram.getPos()).getBlock(), DEFAULT_OCTAGRAM);
     }
 
-    public static Model getStatueModelFor(BlockEntityStatue statue) {
+    public static Model getStatueModelFor(StatueBlockEntity statue) {
         return STATUE_MODELS.getOrDefault(statue.getAffiliation(), new CreeperEntityModel<>());
     }
 
-    public static SpriteIdentifier getStatueTextureFor(BlockEntityStatue statue) {
+    public static SpriteIdentifier getStatueTextureFor(StatueBlockEntity statue) {
         return STATUE_SPRITES.getOrDefault(statue.getWorld().getBlockState(statue.getPos()).getBlock(), new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("")));
     }
 }

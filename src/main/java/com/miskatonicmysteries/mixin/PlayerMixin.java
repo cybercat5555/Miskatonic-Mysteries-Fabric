@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.entity.EntityProtagonist;
-import com.miskatonicmysteries.common.feature.effect.StatusEffectLazarus;
+import com.miskatonicmysteries.common.entity.ProtagonistEntity;
+import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
@@ -51,7 +51,7 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
 
     @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"))
     private void manipulateProtagonistDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
-        if (source.getAttacker() instanceof EntityProtagonist && !(source instanceof Constants.DamageSources.ProtagonistDamageSource))
+        if (source.getAttacker() instanceof ProtagonistEntity && !(source instanceof Constants.DamageSources.ProtagonistDamageSource))
             ((PlayerEntity) (Object) this).damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount);
     }
 
@@ -61,7 +61,7 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
             PlayerEntity entity = (PlayerEntity) (Object) this;
             if (InventoryUtil.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE) >= 0) {
                 entity.inventory.removeStack(InventoryUtil.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE), 1);
-                if (StatusEffectLazarus.revive(entity)) {
+                if (LazarusStatusEffect.revive(entity)) {
                     dead = false;
                     removed = false;
                     infoReturnable.setReturnValue(false);
@@ -69,8 +69,8 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
                 }
             } else if (isDead() && source instanceof Constants.DamageSources.ProtagonistDamageSource) {
                 InsanityHandler.resetProgress((PlayerEntity) (Object) this);
-                if (source.getSource() instanceof EntityProtagonist)
-                    ((EntityProtagonist) source.getAttacker()).removeAfterTargetKill();
+                if (source.getSource() instanceof ProtagonistEntity)
+                    ((ProtagonistEntity) source.getAttacker()).removeAfterTargetKill();
             }
         }
     }

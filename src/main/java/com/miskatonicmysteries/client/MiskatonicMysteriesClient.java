@@ -3,17 +3,17 @@ package com.miskatonicmysteries.client;
 import com.miskatonicmysteries.client.particle.ModParticles;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.client.render.ShaderHandler;
-import com.miskatonicmysteries.client.render.blockentity.BlockRenderAltar;
-import com.miskatonicmysteries.client.render.blockentity.BlockRenderChemistrySet;
-import com.miskatonicmysteries.client.render.blockentity.BlockRenderOctagram;
-import com.miskatonicmysteries.client.render.blockentity.BlockRenderStatue;
-import com.miskatonicmysteries.client.render.entity.RenderHasturCultist;
-import com.miskatonicmysteries.client.render.entity.RenderProtagonist;
+import com.miskatonicmysteries.client.render.blockentity.AltarBlockRender;
+import com.miskatonicmysteries.client.render.blockentity.ChemistrySetBlockRender;
+import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
+import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
+import com.miskatonicmysteries.client.render.entity.HasturCultistEntityRender;
+import com.miskatonicmysteries.client.render.entity.ProtagonistEntityRender;
 import com.miskatonicmysteries.common.block.BlockAltar;
 import com.miskatonicmysteries.common.block.BlockOctagram;
 import com.miskatonicmysteries.common.block.BlockStatue;
 import com.miskatonicmysteries.common.handler.PacketHandler;
-import com.miskatonicmysteries.common.item.ItemGun;
+import com.miskatonicmysteries.common.item.GunItem;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
@@ -36,7 +36,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         config = AutoConfig.getConfigHolder(ClientConfig.class).getConfig();
 
         ModParticles.init();
-        FabricModelPredicateProviderRegistry.register(ModObjects.RIFLE, new Identifier("loading"), (stack, world, entity) -> ItemGun.isLoading(stack) ? 1 : 0);
+        FabricModelPredicateProviderRegistry.register(ModObjects.RIFLE, new Identifier("loading"), (stack, world, entity) -> GunItem.isLoading(stack) ? 1 : 0);
         BlockRenderLayerMap.INSTANCE.putBlock(ModObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(ModObjects.CANDLE, RenderLayer.getCutout());
 
@@ -48,18 +48,18 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         BlockOctagram.OCTAGRAMS.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
         BlockStatue.STATUES.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
 
-        BlockEntityRendererRegistry.INSTANCE.register(ModObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE, BlockRenderChemistrySet::new);
-        BlockEntityRendererRegistry.INSTANCE.register(ModObjects.ALTAR_BLOCK_ENTITY_TYPE, BlockRenderAltar::new);
-        BlockEntityRendererRegistry.INSTANCE.register(ModObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, BlockRenderOctagram::new);
-        BlockEntityRendererRegistry.INSTANCE.register(ModObjects.STATUE_BLOCK_ENTITY_TYPE, BlockRenderStatue::new);
+        BlockEntityRendererRegistry.INSTANCE.register(ModObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE, ChemistrySetBlockRender::new);
+        BlockEntityRendererRegistry.INSTANCE.register(ModObjects.ALTAR_BLOCK_ENTITY_TYPE, AltarBlockRender::new);
+        BlockEntityRendererRegistry.INSTANCE.register(ModObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, OctagramBlockRender::new);
+        BlockEntityRendererRegistry.INSTANCE.register(ModObjects.STATUE_BLOCK_ENTITY_TYPE, StatueBlockRender::new);
 
-        EntityRendererRegistry.INSTANCE.register(ModEntities.PROTAGONIST, (entityRenderDispatcher, context) -> new RenderProtagonist(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(ModEntities.HASTUR_CULTIST, (entityRenderDispatcher, context) -> new RenderHasturCultist(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(ModEntities.PROTAGONIST, (entityRenderDispatcher, context) -> new ProtagonistEntityRender(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(ModEntities.HASTUR_CULTIST, (entityRenderDispatcher, context) -> new HasturCultistEntityRender(entityRenderDispatcher));
 
         PacketHandler.registerS2C();
         ShaderHandler.init();
 
         ResourceHandler.init();
-        BlockStatue.STATUES.forEach(statue -> BuiltinItemRendererRegistry.INSTANCE.register(statue.asItem(), new BlockRenderStatue.BuiltinItemStatueRenderer()));
+        BlockStatue.STATUES.forEach(statue -> BuiltinItemRendererRegistry.INSTANCE.register(statue.asItem(), new StatueBlockRender.BuiltinItemStatueRenderer()));
     }
 }

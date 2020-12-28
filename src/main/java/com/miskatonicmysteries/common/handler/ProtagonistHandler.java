@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.handler;
 
-import com.miskatonicmysteries.common.entity.EntityProtagonist;
+import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import net.minecraft.block.Blocks;
@@ -21,11 +21,11 @@ public class ProtagonistHandler {
 
     public static boolean spawnProtagonist(ServerWorld world, PlayerEntity player) {
         MMWorldState worldState = MMWorldState.get(world);
-        EntityProtagonist.ProtagonistData data = worldState.getProtagonistDataFor(player);
+        ProtagonistEntity.ProtagonistData data = worldState.getProtagonistDataFor(player);
         if (!data.spawned) {
             BlockPos pos = getProtagonistSpawnPos(world, player, 50);
             if (pos != null) {
-                EntityProtagonist protagonist = new EntityProtagonist(ModEntities.PROTAGONIST, world);
+                ProtagonistEntity protagonist = new ProtagonistEntity(ModEntities.PROTAGONIST, world);
                 protagonist.updatePosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                 protagonist.setTargetUUID(player.getUuid());
                 protagonist.setData(data);
@@ -61,24 +61,24 @@ public class ProtagonistHandler {
 
     public static void createProtagonist(World world, PlayerEntity player) {
         MMWorldState worldState = MMWorldState.get(world);
-        worldState.addProtagonist(player, new EntityProtagonist.ProtagonistData(0, world.random.nextInt(4), false));
+        worldState.addProtagonist(player, new ProtagonistEntity.ProtagonistData(0, world.random.nextInt(4), false));
     }
 
-    public static void levelProtagonist(World world, EntityProtagonist protagonist) {
+    public static void levelProtagonist(World world, ProtagonistEntity protagonist) {
         MMWorldState worldState = MMWorldState.get(world);
-        EntityProtagonist.ProtagonistData data = worldState.getProtagonistDataFor(protagonist);
+        ProtagonistEntity.ProtagonistData data = worldState.getProtagonistDataFor(protagonist);
         data.level++;
         worldState.markDirty();
     }
 
-    public static void removeProtagonist(World world, EntityProtagonist protagonist) {
+    public static void removeProtagonist(World world, ProtagonistEntity protagonist) {
         MMWorldState worldState = MMWorldState.get(world);
         worldState.removeProtagonist(protagonist);
     }
 
-    public static void setSpawnState(EntityProtagonist protagonist, boolean spawnState) {
+    public static void setSpawnState(ProtagonistEntity protagonist, boolean spawnState) {
         MMWorldState worldState = MMWorldState.get(protagonist.world);
-        EntityProtagonist.ProtagonistData data = worldState.getProtagonistDataFor(protagonist);
+        ProtagonistEntity.ProtagonistData data = worldState.getProtagonistDataFor(protagonist);
         if (data != null) data.spawned = spawnState;
         worldState.markDirty();
     }

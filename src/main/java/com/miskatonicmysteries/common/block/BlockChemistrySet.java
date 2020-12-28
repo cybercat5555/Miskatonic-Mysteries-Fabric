@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.block;
 
-import com.miskatonicmysteries.common.block.blockentity.BlockEntityChemistrySet;
+import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -72,8 +72,8 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.isOf(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof BlockEntityChemistrySet) {
-                ItemScatterer.spawn(world, pos, ((BlockEntityChemistrySet) blockEntity).getItems());
+            if (blockEntity instanceof ChemistrySetBlockEntity) {
+                ItemScatterer.spawn(world, pos, ((ChemistrySetBlockEntity) blockEntity).getItems());
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
@@ -82,7 +82,7 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack stack = player.getStackInHand(hand);
-        BlockEntityChemistrySet blockEntity = (BlockEntityChemistrySet) world.getBlockEntity(pos);
+        ChemistrySetBlockEntity blockEntity = (ChemistrySetBlockEntity) world.getBlockEntity(pos);
         if (stack.getItem() instanceof FlintAndSteelItem && !state.get(LIT) && !state.get(WATERLOGGED)) {
             stack.damage(1, player, (p) -> p.sendToolBreakStatus(hand));
             world.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, world.random.nextFloat() * 0.4F + 0.8F);
@@ -137,8 +137,8 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
         super.randomDisplayTick(state, world, pos, random);
         if (state.get(LIT)) {
             world.addParticle(ParticleTypes.SMOKE, pos.getX() + 0.5F + random.nextGaussian() / 3F, pos.getY() + 0.5F + random.nextGaussian() / 4F, pos.getZ() + 0.5F + random.nextGaussian() / 3F, 0, 0, 0);
-        } else if (world.getBlockEntity(pos) instanceof BlockEntityChemistrySet) {
-            BlockEntityChemistrySet cheemset = (BlockEntityChemistrySet) world.getBlockEntity(pos);
+        } else if (world.getBlockEntity(pos) instanceof ChemistrySetBlockEntity) {
+            ChemistrySetBlockEntity cheemset = (ChemistrySetBlockEntity) world.getBlockEntity(pos);
             if (cheemset.containsPotentialItems()) {
                 cheemset.getPotentialItems().forEach(p -> {
                     if (!p.isEmpty() && random.nextBoolean())
@@ -167,6 +167,6 @@ public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEnt
 
     @Override
     public BlockEntity createBlockEntity(BlockView world) {
-        return new BlockEntityChemistrySet();
+        return new ChemistrySetBlockEntity();
     }
 }

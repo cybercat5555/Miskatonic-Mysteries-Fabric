@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.client.particle.ModParticles;
-import com.miskatonicmysteries.common.block.blockentity.BlockEntityAltar;
+import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import net.fabricmc.api.EnvType;
@@ -49,8 +49,8 @@ public class BlockAltar extends HorizontalFacingBlock implements Waterloggable, 
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.isOf(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof BlockEntityAltar) {
-                ItemScatterer.spawn(world, pos, ((BlockEntityAltar) blockEntity).getItems());
+            if (blockEntity instanceof AltarBlockEntity) {
+                ItemScatterer.spawn(world, pos, ((AltarBlockEntity) blockEntity).getItems());
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
@@ -59,7 +59,7 @@ public class BlockAltar extends HorizontalFacingBlock implements Waterloggable, 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack stack = player.getStackInHand(hand);
-        BlockEntityAltar altar = (BlockEntityAltar) world.getBlockEntity(pos);
+        AltarBlockEntity altar = (AltarBlockEntity) world.getBlockEntity(pos);
         if (altar != null) {
             if (!stack.isEmpty() && altar.isValid(0, stack) && altar.getStack(0).isEmpty()) {
                 altar.setStack(0, stack);
@@ -153,6 +153,6 @@ public class BlockAltar extends HorizontalFacingBlock implements Waterloggable, 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockView world) {
-        return new BlockEntityAltar();
+        return new AltarBlockEntity();
     }
 }
