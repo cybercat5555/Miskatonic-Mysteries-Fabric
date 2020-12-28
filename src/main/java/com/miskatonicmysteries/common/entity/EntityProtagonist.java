@@ -15,6 +15,8 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.MobNavigation;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -46,6 +48,8 @@ public class EntityProtagonist extends PathAwareEntity implements RangedAttackMo
     protected static final Map<AbstractMap.SimpleEntry<EquipmentSlot, ItemStack>, Integer> ARMOR_MAP = new HashMap<>();
     protected static final Map<ItemStack, Integer> WEAPON_MAP = new HashMap<>();
     protected static final Map<ItemStack, Integer> ALT_WEAPON_MAP = new HashMap<>();
+    protected static final Map<Integer, EntityAttributeModifier> MODIFIER_MAP = new HashMap<>();
+    private static final EntityAttributeModifier DEFAULT_MOD = new EntityAttributeModifier("210caf3b-c286-4142-98d1-136e8b59b1b1", 0, EntityAttributeModifier.Operation.ADDITION);
 
     protected static final TrackedData<Boolean> LOADING = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<Integer> VARIANT = DataTracker.registerData(EntityProtagonist.class, TrackedDataHandlerRegistry.INTEGER);
@@ -309,11 +313,18 @@ public class EntityProtagonist extends PathAwareEntity implements RangedAttackMo
         ALT_WEAPON_MAP.put(new ItemStack(Items.CROSSBOW), 1);
         ALT_WEAPON_MAP.put(new ItemStack(ModObjects.REVOLVER), 2);
         ALT_WEAPON_MAP.put(new ItemStack(ModObjects.RIFLE), 3);
+
+        MODIFIER_MAP.put(0, DEFAULT_MOD);
+        MODIFIER_MAP.put(1, new EntityAttributeModifier("8dd16ced-6e54-4f36-85a6-2fa9db05f08a", 5, EntityAttributeModifier.Operation.ADDITION));
+        MODIFIER_MAP.put(2, new EntityAttributeModifier("abddf77b-7875-42cb-afd1-a90dd15c6174", 10, EntityAttributeModifier.Operation.ADDITION));
+        MODIFIER_MAP.put(3, new EntityAttributeModifier("4b41f63d-4a31-48be-ac60-cea6e8a4e955", 15, EntityAttributeModifier.Operation.ADDITION));
+
     }
 
     public void setData(ProtagonistData data) {
         setStage(data.level);
         dataTracker.set(VARIANT, data.skin);
+        getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).addPersistentModifier(MODIFIER_MAP.getOrDefault(data.level, DEFAULT_MOD));
     }
 
     public static class SwitchWeaponsGoal extends Goal {
