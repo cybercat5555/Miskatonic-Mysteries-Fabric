@@ -27,7 +27,7 @@ public class SpellCastGoal<T extends EntityHasturCultist> extends Goal {
 
     @Override
     public boolean shouldContinue() {
-        return caster.currentSpell != null && caster.isCasting() && !caster.isDead() && progress <= 100;
+        return caster.currentSpell != null && caster.isCasting() && !caster.isDead() && progress <= 100 && (caster.getTarget() == null || caster.getTarget().distanceTo(caster) > 4);
     }
 
     @Override

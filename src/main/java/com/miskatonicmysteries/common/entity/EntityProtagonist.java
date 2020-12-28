@@ -7,10 +7,12 @@ import com.miskatonicmysteries.common.entity.ai.MobBowAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobCrossbowAttackGoal;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
+import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.item.ItemGun;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
+import io.netty.buffer.Unpooled;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.*;
@@ -31,6 +33,7 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
@@ -126,10 +129,13 @@ public class EntityProtagonist extends PathAwareEntity implements RangedAttackMo
                 if (!world.isClient)
                     ProtagonistHandler.levelProtagonist(world, this);
             }
-            for (int i = 0; i < 10; i++)
-                world.addParticle(ModParticles.FLAME, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 1, 0, 0);
-            for (int i = 0; i < 15; i++)
-                world.addParticle(ParticleTypes.LARGE_SMOKE, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 0, 0, 0);
+            if (!world.isClient) {
+                PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+                data.writeDouble(getX());
+                data.writeDouble(getY());
+                data.writeDouble(getZ());
+                PacketHandler.sendToPlayers(world, data, PacketHandler.PROTAG_PARTICLE_PACKET);
+            }
             remove();
         } else {
             if (!world.isClient)

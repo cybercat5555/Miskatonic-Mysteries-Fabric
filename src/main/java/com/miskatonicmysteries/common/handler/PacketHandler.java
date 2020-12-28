@@ -1,19 +1,23 @@
 package com.miskatonicmysteries.common.handler;
 
+import com.miskatonicmysteries.client.particle.ModParticles;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.lib.Constants;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+import com.miskatonicmysteries.common.lib.ModEntities;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class PacketHandler {
@@ -24,39 +28,55 @@ public class PacketHandler {
 
     public static final Identifier SPELL_PACKET = new Identifier(Constants.MOD_ID, "spell");
 
+    public static final Identifier PROTAG_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "protag_particle");
+
     public static void registerC2S() {
 
     }
 
-    //todo use the non-depracated implementation
     public static void registerS2C() {
-        ClientSidePacketRegistry.INSTANCE.register(SANITY_EXPAND_PACKET, (packetContext, packetByteBuf) -> {
+        ClientPlayNetworking.registerGlobalReceiver(SANITY_EXPAND_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
             String name = packetByteBuf.readString();
             int amount = packetByteBuf.readInt();
-            packetContext.getTaskQueue().execute(() -> ((ISanity) packetContext.getPlayer()).addSanityCapExpansion(name, amount));
+            client.execute(() -> ((ISanity) client.player).addSanityCapExpansion(name, amount));
         });
 
-        ClientSidePacketRegistry.INSTANCE.register(SANITY_REMOVE_EXPAND_PACKET, (packetContext, packetByteBuf) -> {
+        ClientPlayNetworking.registerGlobalReceiver(SANITY_REMOVE_EXPAND_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
             String name = packetByteBuf.readString();
-            packetContext.getTaskQueue().execute(() -> ((ISanity) packetContext.getPlayer()).removeSanityCapExpansion(name));
+            client.execute(() -> ((ISanity) client.player).removeSanityCapExpansion(name));
         });
 
-        ClientSidePacketRegistry.INSTANCE.register(INSANITY_EVENT_PACKET, ((packetContext, packetByteBuf) -> {
+        ClientPlayNetworking.registerGlobalReceiver(INSANITY_EVENT_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
             Identifier id = packetByteBuf.readIdentifier();
-            packetContext.getTaskQueue().execute(() -> InsanityEvent.INSANITY_EVENTS.get(id).execute(packetContext.getPlayer(), (ISanity) packetContext.getPlayer()));
-        }));
+            client.execute(() -> InsanityEvent.INSANITY_EVENTS.get(id).execute(client.player, (ISanity) client.player));
+        });
 
-        ClientSidePacketRegistry.INSTANCE.register(SPELL_PACKET, ((packetContext, packetByteBuf) -> {
+        ClientPlayNetworking.registerGlobalReceiver(SPELL_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
             CompoundTag spellTag = packetByteBuf.readCompoundTag();
-            Entity entity = packetContext.getPlayer().world.getEntityById(packetByteBuf.readInt());
+            Entity entity = client.world.getEntityById(packetByteBuf.readInt());
             if (entity instanceof LivingEntity)
-                packetContext.getTaskQueue().execute(() -> Spell.fromTag(spellTag).cast((LivingEntity) entity));
-        }));
+                client.execute(() -> Spell.fromTag(spellTag).cast((LivingEntity) entity));
+        });
+
+        ClientPlayNetworking.registerGlobalReceiver(INSANITY_EVENT_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
+            Identifier id = packetByteBuf.readIdentifier();
+            client.execute(() -> InsanityEvent.INSANITY_EVENTS.get(id).execute(client.player, (ISanity) client.player));
+        });
+
+        ClientPlayNetworking.registerGlobalReceiver(PROTAG_PARTICLE_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
+            Vec3d pos = new Vec3d(packetByteBuf.readDouble(), packetByteBuf.readDouble(), packetByteBuf.readDouble());
+            client.execute(() -> {
+                for (int i = 0; i < 10; i++)
+                    client.world.addParticle(ModParticles.FLAME, pos.x + client.world.random.nextGaussian() * ModEntities.PROTAGONIST.getWidth(), pos.y + client.world.random.nextFloat() * ModEntities.PROTAGONIST.getHeight(), pos.z + client.world.random.nextGaussian() * ModEntities.PROTAGONIST.getWidth(), 1, 0, 0);
+                for (int i = 0; i < 15; i++)
+                    client.world.addParticle(ParticleTypes.LARGE_SMOKE, pos.x + client.world.random.nextGaussian() * ModEntities.PROTAGONIST.getWidth(), pos.y + client.world.random.nextFloat() * ModEntities.PROTAGONIST.getHeight(), pos.z + client.world.random.nextGaussian() * ModEntities.PROTAGONIST.getWidth(), 0, 0, 0);
+            });
+        });
     }
 
     public static void sendToPlayer(PlayerEntity player, PacketByteBuf data, Identifier packet) {
         if (player instanceof ServerPlayerEntity && ((ServerPlayerEntity) player).networkHandler != null)
-            ServerSidePacketRegistry.INSTANCE.sendToPlayer(player, packet, data);
+            ServerPlayNetworking.send((ServerPlayerEntity) player, packet, data);
     }
 
     public static void sendToPlayers(World world, PacketByteBuf data, Identifier packet) {
