@@ -32,8 +32,6 @@ public class HealthCareTask extends Task<VillagerEntity> {
         Brain<?> brain = entity.getBrain();
         if (brain.getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).isPresent()) {
             LivingEntity recipient = brain.getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).get();
-            if (recipient.distanceTo(entity) > 4)
-                return;
             recipient.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 4800, 1, true, true));
             recipient.heal(recipient.getMaxHealth() / 2F);
             brain.forget(MemoryModuleType.INTERACTION_TARGET);

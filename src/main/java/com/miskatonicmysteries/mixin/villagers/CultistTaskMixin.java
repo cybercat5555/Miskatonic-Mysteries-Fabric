@@ -2,6 +2,7 @@ package com.miskatonicmysteries.mixin.villagers;
 
 import com.google.common.collect.ImmutableList;
 import com.miskatonicmysteries.common.entity.ai.task.HealthCareTask;
+import com.miskatonicmysteries.common.entity.ai.task.RecruitTask;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -21,7 +22,18 @@ public class CultistTaskMixin {
     @Inject(method = "createMeetTasks", at = @At("HEAD"), cancellable = true)
     private static void createMeetTasks(VillagerProfession profession, float f, CallbackInfoReturnable<ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>>> cir) {
         if (profession == ModEntities.YELLOW_SERF) {
-            cir.setReturnValue(ModEntities.createSerfTasks(f));
+            cir.setReturnValue(ImmutableList.of(
+                    Pair.of(2, new RandomTask(ImmutableList.of(
+                            Pair.of(new GoToIfNearbyTask(MemoryModuleType.MEETING_POINT, 0.4F, 40), 2),
+                            Pair.of(new GoToIfNearbyTask(ModEntities.CONGREGATION_POINT, 0.4F, 80), 2),
+                            Pair.of(new MeetVillagerTask(), 2),
+                            Pair.of(new RecruitTask(), 3)))),
+                    Pair.of(2, new MeetVillagerTask()),
+                    Pair.of(3, new RecruitTask()),
+                    Pair.of(2, new VillagerWalkTowardsTask(MemoryModuleType.MEETING_POINT, f, 6, 100, 200)),
+                    Pair.of(3, new ForgetCompletedPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT)),
+                    Pair.of(99, new ScheduleActivityTask())
+            ));
         }
     }
 

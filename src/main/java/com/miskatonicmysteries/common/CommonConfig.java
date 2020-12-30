@@ -36,4 +36,7 @@ public class CommonConfig implements ConfigData {
 
     @Comment(value = "The chance for Hastur Shrines to form the center of villages; the higher the value, the more likely they are to appear")
     public int hasturShrineWeight = 4;
+
+    @Comment(value = "The percentage of Yellow Serfs that according villages will aim for (when recruiting)")
+    public float hasturCultistPercentage = 0.25F;
 }
