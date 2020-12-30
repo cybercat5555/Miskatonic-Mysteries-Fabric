@@ -45,6 +45,7 @@ public class ModRegistries {
     public static final Map<Identifier, Identifier> LOOT_TABLE_INJECTS = new HashMap<>();
 
     public static final Int2ObjectMap<TradeOffers.Factory[]> PSYCHONAUT_TRADES = new Int2ObjectArrayMap();
+    public static final Int2ObjectMap<TradeOffers.Factory[]> YELLOW_SERF_TRADE = new Int2ObjectArrayMap();
 
     public static final SpellMedium MEDIUM_SELF = addSpellMedium(new SelfSpellMedium());
     public static final SpellMedium MEDIUM_VISION = addSpellMedium(new VisionSpellMedium());
@@ -73,6 +74,7 @@ public class ModRegistries {
         RegistryUtil.register(Registry.STATUS_EFFECT, "lazarus", LAZARUS);
 
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(ModEntities.PSYCHONAUT, PSYCHONAUT_TRADES);
+        TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(ModEntities.YELLOW_SERF, PSYCHONAUT_TRADES);
     }
 
     private static void initLootTableEdits() {

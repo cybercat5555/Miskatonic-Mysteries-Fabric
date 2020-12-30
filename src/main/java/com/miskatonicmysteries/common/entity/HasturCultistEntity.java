@@ -5,10 +5,14 @@ import com.miskatonicmysteries.common.entity.ai.TacticalDrawbackGoal;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.ModEntities;
 import com.miskatonicmysteries.mixin.LivingEntityMixin;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.Durations;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.UniversalAngerGoal;
 import net.minecraft.entity.ai.pathing.MobNavigation;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -17,15 +21,19 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.IntRange;
+import net.minecraft.village.VillagerData;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -33,7 +41,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class HasturCultistEntity extends PathAwareEntity implements Angerable, Affiliated {
+public class HasturCultistEntity extends VillagerEntity implements Angerable, Affiliated {
     protected static final TrackedData<Integer> VARIANT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
     protected static final TrackedData<Boolean> ASCENDED = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
@@ -49,55 +57,80 @@ public class HasturCultistEntity extends PathAwareEntity implements Angerable, A
     @Nullable
     public Spell currentSpell;
 
-    //save current spell
+    //todo spawn with appropriate equipment
 
-    /*
-        Ascended: stronger stats and regen, more likely to use supporting spells
-
-        Equipment: 75% chance for any sword, + 50% chance to spawn with a shield
-
-        If a cultist has a sword, they will attack when the player is close enough, now and then
-        If a cultist also has a shield, they will use it to block attacks (if the player is not way to close, and as long as the attack cooldown is active)
-        If a cultist does not have a shield, they will try to cast a spell, usually one to heal or to push the player around
-        They need to be far away enough to cast it though
-
-    */
-    public HasturCultistEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
+    public HasturCultistEntity(EntityType<? extends VillagerEntity> entityType, World world) {
         super(entityType, world);
         ((MobNavigation) this.getNavigation()).setCanPathThroughDoors(true);
         this.getNavigation().setCanSwim(true);
     }
 
     @Override
-    protected void initGoals() {
-        this.goalSelector.add(0, new LongDoorInteractGoal(this, false));
-        this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(2, new WanderAroundPointOfInterestGoal(this, 1D, false));
+    public VillagerData getVillagerData() {
+        return super.getVillagerData().withProfession(ModEntities.YELLOW_SERF); //always the same profession
+    }
 
-        //fight logic will be here
-        this.goalSelector.add(3, new SpellCastGoal<>(this)); //also add a random chance to just not use it in the shouldexecute part
-        //add random draw back ai that gets enforced when hit or randomly, where they'll try to keep a set distance
+    @Override
+    public void setVillagerData(VillagerData villagerData) {
+        if (villagerData.getProfession() != ModEntities.YELLOW_SERF)
+            villagerData.withProfession(ModEntities.YELLOW_SERF);
+        super.setVillagerData(villagerData);
+    }
+
+    @Override
+    public ActionResult interactMob(PlayerEntity player, Hand hand) {
+        System.out.println(getBrain().getFirstPossibleNonCoreActivity().get());
+        return super.interactMob(player, hand);
+    }
+
+    @Override
+    public boolean isReadyToBreed() {
+        return false; //this is a celibate
+    }
+
+    @Override
+    protected Text getDefaultName() {
+        return new TranslatableText(this.getType().getTranslationKey());
+    }
+
+    @Override
+    protected void initGoals() { //also need them to not have some brain stuff
         this.goalSelector.add(3, new TacticalDrawbackGoal<>(this));
-        this.goalSelector.add(4, new MeleeAttackGoal(this, 1.2D, false));
-
-        //also an ai to heal nearby villagers and golems if they're wounded
-
-
-        this.goalSelector.add(5, new LookAroundGoal(this));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 12));
-        this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
-
+        this.goalSelector.add(4, new SpellCastGoal<>(this));
+        this.goalSelector.add(5, new MeleeAttackGoal(this, 1.2D, false));
         this.targetSelector.add(0, new RevengeGoal(this, HasturCultistEntity.class).setGroupRevenge());
-        //only follow if the attack cooldown is low!
         this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> living instanceof Affiliated && ((Affiliated) living).getAffiliation() == Constants.Affiliation.SHUB));
         this.targetSelector.add(2, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true, mob -> !(mob instanceof HasturCultistEntity) && !(mob instanceof CreeperEntity)));
         this.targetSelector.add(3, new UniversalAngerGoal<>(this, true));
+        this.targetSelector.add(4, new FollowTargetGoal<>(this, PlayerEntity.class, 50, true, true, player -> {
+            if (player instanceof PlayerEntity) {
+                return getReputation((PlayerEntity) player) < -200; //you are the bad guy
+            }
+            return false;
+        }));
+
+    }
+
+    @Override
+    public void equipStack(EquipmentSlot slot, ItemStack stack) {
+        if (getEquippedStack(slot).isEmpty()) super.equipStack(slot, stack);
+    }
+
+    @Override
+    public void onStruckByLightning(ServerWorld world, LightningEntity lightning) {
+        //no witches :)
     }
 
     @Override
     public void tickMovement() {
         this.tickHandSwing();
         super.tickMovement();
+    }
+
+    @Override
+    public void tick() {
+        if (age % 100 == 0) heal(1);
+        super.tick();
     }
 
     @Override
@@ -162,6 +195,7 @@ public class HasturCultistEntity extends PathAwareEntity implements Angerable, A
             dataTracker.set(ASCENDED, random.nextBoolean());
         setLeftHanded(random.nextBoolean()); //more left-handedness lol
         initEquipment(difficulty);
+        setVillagerData(getVillagerData().withProfession(ModEntities.YELLOW_SERF));
         return entityData;
     }
 

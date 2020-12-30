@@ -11,7 +11,12 @@
     "ServerPlayerMixin",
     "StructurePoolAccessor",
     "StructurePoolRegistryMixin",
-    "ZombieVillagerMixin"
+    "ZombieVillagerMixin",
+    "villagers.ActivityAccessor",
+    "villagers.CultistTaskMixin",
+    "villagers.MemoryModuleTypeAccessor",
+    "villagers.VillagerEntityAccessor",
+    "villagers.VillagerEntityMixin"
   ],
   "client": [
     "client.PlayerModelMixin"

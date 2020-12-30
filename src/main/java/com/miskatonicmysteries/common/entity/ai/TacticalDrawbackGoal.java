@@ -44,6 +44,7 @@ public class TacticalDrawbackGoal<T extends MobEntity> extends Goal {
     @Override
     public void tick() {
         LivingEntity livingEntity = this.mob.getTarget();
+        boolean shield = mob.isHolding(Items.SHIELD);
         if (livingEntity != null) {
             double distanceTo = this.mob.squaredDistanceTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ());
             boolean canSee = this.mob.getVisibilityCache().canSee(livingEntity);
@@ -66,7 +67,7 @@ public class TacticalDrawbackGoal<T extends MobEntity> extends Goal {
             this.mob.lookAtEntity(livingEntity, 30.0F, 30.0F);
             this.mob.getLookControl().lookAt(livingEntity, 30.0F, 30.0F);
 
-            if (distanceTo < 9 && this.mob.getRandom().nextFloat() < 0.25F) {
+            if (distanceTo < (shield ? 9 : 16) && this.mob.getRandom().nextFloat() < 0.25F) {
                 waitCooldown = 0;
                 this.mob.clearActiveItem();
                 this.mob.swingHand(Hand.MAIN_HAND);
@@ -74,7 +75,7 @@ public class TacticalDrawbackGoal<T extends MobEntity> extends Goal {
             }
             if (this.mob.isUsingItem() && !canSee && this.targetSeeingTicker < -60) {
                 this.mob.clearActiveItem();
-            } else if (--waitCooldown >= 0) {
+            } else if (--waitCooldown >= 0 && shield) {
                 this.mob.setCurrentHand(ProjectileUtil.getHandPossiblyHolding(this.mob, Items.SHIELD));
             }
         }

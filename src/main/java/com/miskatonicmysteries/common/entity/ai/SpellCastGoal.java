@@ -22,12 +22,12 @@ public class SpellCastGoal<T extends HasturCultistEntity> extends Goal {
 
     @Override
     public boolean canStart() {
-        return caster.getRandom().nextFloat() < 0.1F && caster.isAscended() && ((caster.getTarget() != null && caster.distanceTo(caster.getTarget()) >= 4) || caster.getHealth() < caster.getMaxHealth());
+        return caster.isAscended() && caster.getRandom().nextFloat() < 0.1F && (caster.getTarget() != null && caster.distanceTo(caster.getTarget()) >= 4);
     }
 
     @Override
     public boolean shouldContinue() {
-        return caster.currentSpell != null && caster.isCasting() && !caster.isDead() && progress <= 100 && (caster.getTarget() == null || caster.getTarget().distanceTo(caster) > 4);
+        return caster.currentSpell != null && caster.isCasting() && !caster.isDead() && progress <= 100 && (caster.getTarget() == null || caster.getTarget().distanceTo(caster) >= 4);
     }
 
     @Override
