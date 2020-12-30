@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.handler;
 
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
+import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.SpawnReason;
@@ -35,8 +36,25 @@ public class ProtagonistHandler {
                 protagonist.refreshPositionAndAngles(pos, 0, 0);
                 protagonist.getNavigation().startMovingTo(player, 1D);
                 worldState.markDirty();
+                if (data.level >= Constants.DataTrackers.PROTAGONIST_MAX_LEVEL - 1) {
+                    for (int i = 0; i < data.level - 1; i++) spawnProtagonistReinforcements(world, player);
+                }
                 return true;
             }
+        }
+        return false;
+    }
+
+    public static boolean spawnProtagonistReinforcements(ServerWorld world, PlayerEntity player) {
+        BlockPos pos = getProtagonistSpawnPos(world, player, 50);
+        if (pos != null) {
+            ProtagonistEntity protagonist = new ProtagonistEntity(ModEntities.PROTAGONIST, world);
+            protagonist.updatePosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+            protagonist.initialize(world, world.getLocalDifficulty(pos), SpawnReason.REINFORCEMENT, null, null);
+            world.spawnEntity(protagonist);
+            protagonist.refreshPositionAndAngles(pos, 0, 0);
+            protagonist.getNavigation().startMovingTo(player, 1D);
+            return true;
         }
         return false;
     }
