@@ -1,6 +1,8 @@
-package com.miskatonicmysteries.common.feature.spell;
+package com.miskatonicmysteries.common.feature.spell.medium;
 
 import com.miskatonicmysteries.common.feature.Affiliated;
+import com.miskatonicmysteries.common.feature.spell.SpellEffect;
+import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -19,13 +21,15 @@ public class GroupSpellMedium extends SpellMedium {
             for (Entity otherEntity : world.getOtherEntities(null, caster.getBoundingBox()
                             .expand(15 + (5 * intensity), 5 + (5 * intensity), 15 + (5 * intensity)),
                     entity -> entity instanceof Affiliated && ((Affiliated) entity).getAffiliation().equals(((Affiliated) caster).getAffiliation()))) {
-                if (effect.effect(world, caster, otherEntity, this, intensity)) successfulCast = true;
+                if (effect.effect(world, caster, otherEntity, otherEntity.getPos(), this, intensity))
+                    successfulCast = true;
             }
         } else {
             for (Entity otherEntity : world.getOtherEntities(null, caster.getBoundingBox()
                             .expand(15 + (5 * intensity), 5 + (5 * intensity), 15 + (5 * intensity)),
                     entity -> entity.getType().equals(caster.getType()))) {
-                if (effect.effect(world, caster, otherEntity, this, intensity)) successfulCast = true;
+                if (effect.effect(world, caster, otherEntity, otherEntity.getPos(), this, intensity))
+                    successfulCast = true;
             }
         }
         return !caster.isDead() && successfulCast;

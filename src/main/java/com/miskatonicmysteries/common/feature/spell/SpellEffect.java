@@ -1,9 +1,13 @@
 package com.miskatonicmysteries.common.feature.spell;
 
+import com.miskatonicmysteries.common.feature.spell.effect.HealSpellEffect;
+import com.miskatonicmysteries.common.feature.spell.effect.KnockBackSpellEffect;
+import com.miskatonicmysteries.common.feature.spell.effect.ResistanceSpellEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -11,8 +15,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import static com.miskatonicmysteries.common.lib.ModRegistries.addSpellEffect;
+
 public abstract class SpellEffect {
     public static final Map<Identifier, SpellEffect> SPELL_EFFECTS = new HashMap<>();
+
+    public static final SpellEffect HEAL = addSpellEffect(new HealSpellEffect());
+    public static final SpellEffect RESISTANCE = addSpellEffect(new ResistanceSpellEffect());
+    public static final SpellEffect KNOCKBACK = addSpellEffect(new KnockBackSpellEffect());
     private final Identifier id;
     private final Predicate<LivingEntity> castingPredicate;
     private final int color;
@@ -30,7 +40,7 @@ public abstract class SpellEffect {
     /**
      * @return if the spell was successfully cast
      */
-    public abstract boolean effect(World world, LivingEntity caster, @Nullable Entity target, SpellMedium medium, int intensity);
+    public abstract boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity);
 
     public int getMaxDistance(LivingEntity caster) {
         return 16;

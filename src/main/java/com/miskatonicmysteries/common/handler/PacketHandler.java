@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketByteBuf;
@@ -27,6 +28,7 @@ public class PacketHandler {
     public static final Identifier INSANITY_EVENT_PACKET = new Identifier(Constants.MOD_ID, "insanity_event");
 
     public static final Identifier SPELL_PACKET = new Identifier(Constants.MOD_ID, "spell");
+    public static final Identifier TARGET_PACKET = new Identifier(Constants.MOD_ID, "target");
 
     public static final Identifier PROTAG_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "protag_particle");
 
@@ -56,6 +58,13 @@ public class PacketHandler {
             Entity entity = client.world.getEntityById(packetByteBuf.readInt());
             if (entity instanceof LivingEntity)
                 client.execute(() -> Spell.fromTag(spellTag).cast((LivingEntity) entity));
+        });
+
+        ClientPlayNetworking.registerGlobalReceiver(TARGET_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
+            Entity mob = client.world.getEntityById(packetByteBuf.readInt());
+            Entity entity = client.world.getEntityById(packetByteBuf.readInt());
+            if (mob instanceof MobEntity && entity instanceof LivingEntity)
+                client.execute(() -> ((MobEntity) mob).setTarget((LivingEntity) entity));
         });
 
         ClientPlayNetworking.registerGlobalReceiver(INSANITY_EVENT_PACKET, (client, networkHandler, packetByteBuf, sender) -> {

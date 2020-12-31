@@ -5,7 +5,8 @@ import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.ManiaStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.OvermedicalizedStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.TranquilizedStatusEffect;
-import com.miskatonicmysteries.common.feature.spell.*;
+import com.miskatonicmysteries.common.feature.spell.SpellEffect;
+import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -46,13 +47,6 @@ public class ModRegistries {
 
     public static final Int2ObjectMap<TradeOffers.Factory[]> PSYCHONAUT_TRADES = new Int2ObjectArrayMap();
     public static final Int2ObjectMap<TradeOffers.Factory[]> YELLOW_SERF_TRADE = new Int2ObjectArrayMap();
-
-    public static final SpellMedium MEDIUM_SELF = addSpellMedium(new SelfSpellMedium());
-    public static final SpellMedium MEDIUM_VISION = addSpellMedium(new VisionSpellMedium());
-    public static final SpellMedium MEDIUM_GROUP = addSpellMedium(new GroupSpellMedium());
-
-    public static final SpellEffect EFFECT_HEAL = addSpellEffect(new HealSpellEffect());
-    public static final SpellEffect EFFECT_RESISTANCE = addSpellEffect(new ResistanceSpellEffect());
 
     static {
         PSYCHONAUT_TRADES.put(1, new TradeOffers.Factory[]{BLOTTER_OFFER, SCIENCE_JOURNAL_OFFER, INFESTED_WHEAT_OFFER});

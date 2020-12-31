@@ -48,12 +48,11 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     protected static final TrackedData<Boolean> CASTING = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     //anger
-    private static final IntRange ANGER_TIME_RANGE = Durations.betweenSeconds(20, 30);
+    private static final IntRange ANGER_TIME_RANGE = Durations.betweenSeconds(80, 120);
     private int angerTime;
     @Nullable
     private UUID targetUuid;
 
-    //spellcasting
     @Nullable
     public Spell currentSpell;
 
@@ -79,7 +78,8 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
-        System.out.println(getBrain().getFirstPossibleNonCoreActivity().get());
+        if (getTarget() != null)
+            return ActionResult.FAIL;
         return super.interactMob(player, hand);
     }
 
@@ -97,7 +97,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     protected void initGoals() { //also need them to not have some brain stuff
         this.goalSelector.add(3, new TacticalDrawbackGoal<>(this));
         this.goalSelector.add(4, new SpellCastGoal<>(this));
-        this.goalSelector.add(5, new MeleeAttackGoal(this, 1.2D, false));
+        this.goalSelector.add(5, new MeleeAttackGoal(this, 0.6F, false));
         this.targetSelector.add(0, new RevengeGoal(this, HasturCultistEntity.class).setGroupRevenge());
         this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> living instanceof Affiliated && ((Affiliated) living).getAffiliation() == Constants.Affiliation.SHUB));
         this.targetSelector.add(2, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true, mob -> !(mob instanceof HasturCultistEntity) && !(mob instanceof CreeperEntity)));

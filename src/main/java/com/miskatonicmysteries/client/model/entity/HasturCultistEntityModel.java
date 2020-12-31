@@ -132,10 +132,6 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
         helmet.visible = false;
     }
 
-
-    /*
-    why do i have to set these manually? what's up with the swing progress?
-     */
     @Override
     public void animateModel(HasturCultistEntity livingEntity, float f, float g, float h) {
         rightArmPose = livingEntity.getMainHandStack().isEmpty() ? ArmPose.EMPTY : livingEntity.isBlocking() && livingEntity.getMainHandStack().getItem().equals(Items.SHIELD) ? ArmPose.BLOCK : ArmPose.ITEM;
@@ -145,7 +141,7 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
             rightArmPose = leftArmPose;
             leftArmPose = tempPose;
         }
-        armsFolded = true;
+        armsFolded = !livingEntity.isCasting();
         livingEntity.getItemsHand().forEach(stack -> {
             if (!stack.isEmpty()) armsFolded = false;
         });
