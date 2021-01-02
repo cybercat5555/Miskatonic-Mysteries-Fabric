@@ -2,14 +2,20 @@ package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliated;
+import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.ModRecipes;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.ActionResult;
@@ -27,15 +33,35 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockOctagram extends HorizontalFacingBlock implements BlockEntityProvider, Affiliated {
-    public static List<BlockOctagram> OCTAGRAMS = new ArrayList<>();
+public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityProvider, Affiliated {
+    public static List<OctagramBlock> OCTAGRAMS = new ArrayList<>();
     public static final VoxelShape SHAPE = createCuboidShape(0, 0, 0, 16, 1, 16);
     private final Identifier affiliation;
 
-    public BlockOctagram(Identifier affiliation) {
+    public OctagramBlock(Identifier affiliation) {
         super(Settings.of(Material.CARPET).nonOpaque().noCollision());
         OCTAGRAMS.add(this);
         this.affiliation = affiliation;
+    }
+
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        //todo make rites executable
+        if (world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
+            OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(pos);
+            if (octagram.currentRite != null) {
+                return ActionResult.PASS;
+            }
+            Rite rite = ModRecipes.getRite(octagram);
+            if (rite != null) {
+                octagram.currentRite = rite;
+                rite.onStart(octagram);
+                octagram.markDirty();
+                return ActionResult.SUCCESS;
+            }
+        }
+
+        return super.onUse(state, world, pos, player, hand, hit);
     }
 
     @Override
@@ -61,19 +87,19 @@ public class BlockOctagram extends HorizontalFacingBlock implements BlockEntityP
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.isOf(newState.getBlock())) {
+            for (int i = 0; i < 8; i++) {
+                BlockPos partPos = BlockOuterOctagram.getOffsetToCenterPos(i);
+                world.setBlockState(pos.add(-partPos.getX(), 0, -partPos.getZ()), Blocks.AIR.getDefaultState());
+                if (!world.isClient) {
+                    ((ServerWorld) world).spawnParticles(new BlockStateParticleEffect(ParticleTypes.BLOCK, getDefaultState()), partPos.getX(), partPos.getY(), partPos.getZ(), 6, 0.0D, 0.0D, 0.0D, 0.05D);
+                }
+            }
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof OctagramBlockEntity) {
                 ItemScatterer.spawn(world, pos, ((OctagramBlockEntity) blockEntity).getItems());
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
-    }
-
-    @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        if (!world.getBlockState(pos.down()).isSideSolidFullSquare(world, pos.down(), Direction.UP))
-            world.breakBlock(pos, false);
-        super.neighborUpdate(state, world, pos, block, fromPos, notify);
     }
 
     @Nullable
@@ -104,7 +130,7 @@ public class BlockOctagram extends HorizontalFacingBlock implements BlockEntityP
         return null;
     }
 
-    private boolean isPlacementValid(World world, BlockPos pos, ItemPlacementContext ctx) {
+    protected boolean isPlacementValid(World world, BlockPos pos, ItemPlacementContext ctx) {
         return (world.getBlockState(pos).isAir() || world.getBlockState(pos).canReplace(ctx)) && world.getBlockState(pos.down()).isSideSolidFullSquare(world, pos.down(), Direction.UP);
     }
 
@@ -122,6 +148,11 @@ public class BlockOctagram extends HorizontalFacingBlock implements BlockEntityP
     @Override
     public boolean isSupernatural() {
         return true;
+    }
+
+    @Override
+    public PistonBehavior getPistonBehavior(BlockState state) {
+        return PistonBehavior.DESTROY;
     }
 
     public static class BlockOuterOctagram extends Block {
@@ -158,18 +189,24 @@ public class BlockOctagram extends HorizontalFacingBlock implements BlockEntityP
             return super.onUse(state, world, pos, player, hand, hit);
         }
 
+
         @Override
         public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-            if (world.getBlockState(pos.add(getOffsetToCenterPos(state.get(NUMBER)))).getBlock() instanceof BlockOctagram) {
+
+        }
+
+        @Override
+        public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+            if (!state.isOf(newState.getBlock())) {
                 world.breakBlock(pos.add(getOffsetToCenterPos(state.get(NUMBER))), false);
             }
-            super.onBreak(world, pos, state, player);
         }
 
         @Override
         public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-            if ((world.getBlockState(pos.add(getOffsetToCenterPos(state.get(NUMBER)))).isAir()) || !world.getBlockState(pos.down()).isSideSolidFullSquare(world, pos.down(), Direction.UP))
-                world.breakBlock(pos, false);
+            if (!world.getBlockState(pos.down()).isSideSolidFullSquare(world, pos.down(), Direction.UP)) {
+                world.breakBlock(pos.add(getOffsetToCenterPos(state.get(NUMBER))), false);
+            }
             super.neighborUpdate(state, world, pos, block, fromPos, notify);
         }
 
@@ -198,6 +235,11 @@ public class BlockOctagram extends HorizontalFacingBlock implements BlockEntityP
                 case 7:
                     return new BlockPos(1, 0, -1);
             }
+        }
+
+        @Override
+        public PistonBehavior getPistonBehavior(BlockState state) {
+            return PistonBehavior.DESTROY;
         }
 
         @Override

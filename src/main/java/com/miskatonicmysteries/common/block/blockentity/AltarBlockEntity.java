@@ -1,16 +1,15 @@
 package com.miskatonicmysteries.common.block.blockentity;
 
-import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import net.minecraft.block.BlockState;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 
-public class AltarBlockEntity extends BaseBlockEntity implements ImplementedInventory, Affiliated {
+public class AltarBlockEntity extends BaseBlockEntity implements ImplementedInventory {
     private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
     public AltarBlockEntity() {
@@ -44,13 +43,7 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedInve
         return stack.getItem().isIn(Constants.Tags.ALTAR_BOOKS);
     }
 
-    @Override
-    public Identifier getAffiliation() {
-        return getStack(0).getItem() instanceof Affiliated ? ((Affiliated) getStack(0).getItem()).getAffiliation() : null;
-    }
-
-    @Override
-    public boolean isSupernatural() {
-        return getStack(0).getItem() instanceof Affiliated ? ((Affiliated) getStack(0).getItem()).isSupernatural() : false;
+    public Item getBook() {
+        return getStack(0).getItem();
     }
 }

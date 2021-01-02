@@ -8,9 +8,13 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -56,6 +60,22 @@ public class MMBookItem extends Item implements Affiliated {
         if (book != null && book.contents != null) {
             tooltip.add(book.getSubtitle().formatted(Formatting.GRAY));
         }
+        if (stack.getTag() != null && stack.getTag().contains(Constants.NBT.KNOWLEDGE)) {
+            tooltip.add(new TranslatableText("knowledge.contains").formatted(Formatting.GRAY, Formatting.ITALIC));
+            stack.getTag().getList(Constants.NBT.KNOWLEDGE, 8).forEach(s -> tooltip.add(new TranslatableText("knowledge." + s.asString())));
+        }
+    }
+
+    public static ItemStack addKnowledge(String knowledge, ItemStack stack) {
+        if (stack.getTag() == null) stack.setTag(new CompoundTag());
+        if (!stack.getTag().contains(Constants.NBT.KNOWLEDGE))
+            stack.getTag().put(Constants.NBT.KNOWLEDGE, new ListTag());
+        stack.getTag().getList(Constants.NBT.KNOWLEDGE, 8).add(StringTag.of(knowledge));
+        return stack;
+    }
+
+    public static boolean hasKnowledge(String knowledge, ItemStack book) {
+        return book.getTag() != null && book.getTag().contains(Constants.NBT.KNOWLEDGE) && book.getTag().getList(Constants.NBT.KNOWLEDGE, 8).stream().anyMatch(tag -> tag.asString().equals(knowledge));
     }
 
     @Override

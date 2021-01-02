@@ -69,9 +69,7 @@ public interface ImplementedInventory extends Inventory {
     default void setStack(int slot, ItemStack stack) {
         if (isValid(slot, stack))
             getItems().set(slot, stack.split(getMaxCountPerStack()));
-       /* if (stack.getCount() > getMaxCountPerStack()) {
-            stack.setCount(getMaxCountPerStack());
-        }*/
+        markDirty();
     }
     /**
      * Clears {@linkplain #getItems() the item list}}.
@@ -80,6 +78,7 @@ public interface ImplementedInventory extends Inventory {
     default void clear() {
         for (int i = 0; i < size(); i++)
             setStack(i, ItemStack.EMPTY);
+        markDirty();
     }
 
     @Override

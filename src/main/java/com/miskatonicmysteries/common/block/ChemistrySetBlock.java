@@ -34,11 +34,11 @@ import java.util.Random;
 import static net.minecraft.state.property.Properties.LIT;
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
-public class BlockChemistrySet extends HorizontalFacingBlock implements BlockEntityProvider, Waterloggable {
+public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEntityProvider, Waterloggable {
     public static final VoxelShape SHAPE_S_N = createCuboidShape(0, 0, 2, 16, 14, 14);
     public static final VoxelShape SHAPE_W_E = createCuboidShape(2, 0, 0, 14, 14, 16);
 
-    public BlockChemistrySet() {
+    public ChemistrySetBlock() {
         super(Settings.of(Material.METAL).nonOpaque().requiresTool().strength(1F, 4F)
                 .allowsSpawning((state, world, pos, type) -> false).solidBlock((state, world, pos) -> false)
                 .suffocates((state, world, pos) -> false)

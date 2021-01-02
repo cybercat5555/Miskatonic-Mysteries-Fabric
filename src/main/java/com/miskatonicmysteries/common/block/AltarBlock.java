@@ -33,12 +33,12 @@ import java.util.Random;
 
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
-public class BlockAltar extends HorizontalFacingBlock implements Waterloggable, BlockEntityProvider {
+public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, BlockEntityProvider {
     public static VoxelShape SHAPE = createCuboidShape(3, 0, 3, 13, 18, 13);
     private boolean spawnParticles;
-    public static List<BlockAltar> ALTARS = new ArrayList<>();
+    public static List<AltarBlock> ALTARS = new ArrayList<>();
 
-    public BlockAltar(boolean spawnParticles, Settings settings) {
+    public AltarBlock(boolean spawnParticles, Settings settings) {
         super(settings);
         this.spawnParticles = spawnParticles;
         setDefaultState(getDefaultState().with(FACING, Direction.NORTH));

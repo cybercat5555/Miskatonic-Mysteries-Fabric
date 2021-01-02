@@ -9,10 +9,10 @@ import net.minecraft.state.StateManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
-public class BlockMural extends HorizontalFacingBlock implements Affiliated {
+public class MuralBlock extends HorizontalFacingBlock implements Affiliated {
     private final Identifier affiliation;
 
-    public BlockMural(Identifier affiliation, Settings settings) {
+    public MuralBlock(Identifier affiliation, Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(FACING, Direction.NORTH));
         this.affiliation = affiliation;

@@ -3,8 +3,8 @@ package com.miskatonicmysteries.client.render;
 import com.miskatonicmysteries.client.model.block.CthulhuStatueModel;
 import com.miskatonicmysteries.client.model.block.HasturStatueModel;
 import com.miskatonicmysteries.client.model.block.ShubStatueModel;
-import com.miskatonicmysteries.common.block.BlockOctagram;
-import com.miskatonicmysteries.common.block.BlockStatue;
+import com.miskatonicmysteries.common.block.OctagramBlock;
+import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.lib.Constants;
@@ -25,9 +25,9 @@ import java.util.Map;
 public class ResourceHandler {
     public static final SpriteIdentifier DEFAULT_OCTAGRAM = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "block/octagram/octagram_generic"));
     public static final Map<Item, SpriteIdentifier> BOOK_SPRITES = new HashMap<>();
-    public static final Map<BlockOctagram, SpriteIdentifier> OCTAGRAM_SPRITES = new HashMap<>();
+    public static final Map<OctagramBlock, SpriteIdentifier> OCTAGRAM_SPRITES = new HashMap<>();
     public static final Map<Identifier, Model> STATUE_MODELS = new HashMap<>();
-    public static final Map<BlockStatue, SpriteIdentifier> STATUE_SPRITES = new HashMap<>();
+    public static final Map<StatueBlock, SpriteIdentifier> STATUE_SPRITES = new HashMap<>();
 
     public static void init() {
         ClientSpriteRegistryCallback.registerBlockAtlas((spriteAtlasTexture, registry) -> {
@@ -64,7 +64,7 @@ public class ResourceHandler {
         BOOK_SPRITES.put(item, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, texture));
     }
 
-    public static void addOctagramTextureFor(BlockOctagram octagram, Identifier texture) {
+    public static void addOctagramTextureFor(OctagramBlock octagram, Identifier texture) {
         OCTAGRAM_SPRITES.put(octagram, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, texture));
     }
 
@@ -72,7 +72,7 @@ public class ResourceHandler {
         STATUE_MODELS.put(affiliation, model);
     }
 
-    public static void addStatueTextureFor(BlockStatue statue, Identifier texture) {
+    public static void addStatueTextureFor(StatueBlock statue, Identifier texture) {
         STATUE_SPRITES.put(statue, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, texture));
     }
 

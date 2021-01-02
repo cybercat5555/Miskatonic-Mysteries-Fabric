@@ -35,8 +35,6 @@ public class ModEntities {
             Constants.MOD_ID + ":congregation_point",
             GlobalPos.CODEC
     );
-    //todo prevent villagers from acquiring this profession
-    //probably rework this
 
     public static void init() {
         RegistryUtil.register(Registry.ENTITY_TYPE, "protagonist", PROTAGONIST);

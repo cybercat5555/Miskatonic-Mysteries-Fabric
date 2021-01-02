@@ -27,12 +27,12 @@ import java.util.List;
 
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
-public class BlockStatue extends Block implements Waterloggable, BlockEntityProvider, Affiliated {
-    public static List<BlockStatue> STATUES = new ArrayList<>();
+public class StatueBlock extends Block implements Waterloggable, BlockEntityProvider, Affiliated {
+    public static List<StatueBlock> STATUES = new ArrayList<>();
     private Identifier affiliation;
     private static final VoxelShape SHAPE = createCuboidShape(4, 0, 4, 12, 16, 12);
 
-    public BlockStatue(Identifier affiliation, Settings settings) {
+    public StatueBlock(Identifier affiliation, Settings settings) {
         super(settings.nonOpaque());
         this.affiliation = affiliation;
         setDefaultState(getDefaultState().with(Properties.ROTATION, 0));

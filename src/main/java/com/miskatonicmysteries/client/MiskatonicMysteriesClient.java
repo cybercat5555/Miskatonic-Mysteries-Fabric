@@ -9,9 +9,9 @@ import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
 import com.miskatonicmysteries.client.render.entity.HasturCultistEntityRender;
 import com.miskatonicmysteries.client.render.entity.ProtagonistEntityRender;
-import com.miskatonicmysteries.common.block.BlockAltar;
-import com.miskatonicmysteries.common.block.BlockOctagram;
-import com.miskatonicmysteries.common.block.BlockStatue;
+import com.miskatonicmysteries.common.block.AltarBlock;
+import com.miskatonicmysteries.common.block.OctagramBlock;
+import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.item.GunItem;
 import com.miskatonicmysteries.common.lib.ModEntities;
@@ -44,9 +44,9 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModObjects.DUMMY_RESONATOR_ON, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(ModObjects.POWERCELL, RenderLayer.getTranslucent());
 
-        BlockAltar.ALTARS.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
-        BlockOctagram.OCTAGRAMS.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
-        BlockStatue.STATUES.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
+        AltarBlock.ALTARS.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
+        OctagramBlock.OCTAGRAMS.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
+        StatueBlock.STATUES.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
 
         BlockEntityRendererRegistry.INSTANCE.register(ModObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE, ChemistrySetBlockRender::new);
         BlockEntityRendererRegistry.INSTANCE.register(ModObjects.ALTAR_BLOCK_ENTITY_TYPE, AltarBlockRender::new);
@@ -60,6 +60,6 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         ShaderHandler.init();
 
         ResourceHandler.init();
-        BlockStatue.STATUES.forEach(statue -> BuiltinItemRendererRegistry.INSTANCE.register(statue.asItem(), new StatueBlockRender.BuiltinItemStatueRenderer()));
+        StatueBlock.STATUES.forEach(statue -> BuiltinItemRendererRegistry.INSTANCE.register(statue.asItem(), new StatueBlockRender.BuiltinItemStatueRenderer()));
     }
 }

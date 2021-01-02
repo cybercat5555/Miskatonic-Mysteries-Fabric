@@ -4,8 +4,10 @@ import com.miskatonicmysteries.common.entity.ai.SpellCastGoal;
 import com.miskatonicmysteries.common.entity.ai.TacticalDrawbackGoal;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.spell.Spell;
+import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModEntities;
+import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.mixin.LivingEntityMixin;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.Durations;
@@ -27,6 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
@@ -78,9 +81,25 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
-        if (getTarget() != null)
+        if (getTarget() != null) {
             return ActionResult.FAIL;
+        }
+        if (player.getStackInHand(hand).getItem().equals(ModObjects.NECRONOMICON) && getReputation(player) >= 100 && !MMBookItem.hasKnowledge(Constants.Affiliation.HASTUR.getPath(), player.getStackInHand(hand))) {
+            MMBookItem.addKnowledge(Constants.Affiliation.HASTUR.getPath(), player.getStackInHand(hand));
+            if (!this.world.isClient()) {
+                this.playSound(SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
+                world.spawnEntity(new ExperienceOrbEntity(world, getX(), getY(), getZ(), 5));
+            }
+            return ActionResult.SUCCESS;
+        }
         return super.interactMob(player, hand);
+    }
+
+    @Override
+    protected void fillRecipes() {
+        if (isAscended()) {
+            super.fillRecipes();
+        }
     }
 
     @Override
@@ -104,7 +123,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         this.targetSelector.add(3, new UniversalAngerGoal<>(this, true));
         this.targetSelector.add(4, new FollowTargetGoal<>(this, PlayerEntity.class, 50, true, true, player -> {
             if (player instanceof PlayerEntity) {
-                return getReputation((PlayerEntity) player) < -200; //you are the bad guy
+                return getReputation((PlayerEntity) player) <= -100; //you are the bad guy
             }
             return false;
         }));

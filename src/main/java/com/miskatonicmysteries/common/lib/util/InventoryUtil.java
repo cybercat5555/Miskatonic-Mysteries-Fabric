@@ -12,26 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryUtil {
-    public static boolean areItemStackListsEqual(List<Ingredient> ings, Inventory inv) {
-        List<ItemStack> checklist = new ArrayList<>();
-        for (int i = 0; i < inv.size(); i++) {
-            ItemStack stack = inv.getStack(i);
-            if (!stack.isEmpty()) checklist.add(stack);
-        }
-        if (ings.size() != checklist.size()) return false;
-        for (Ingredient ing : ings) {
-            boolean found = false;
-            for (ItemStack stack : checklist) {
-                if (ing.test(stack)) {
-                    found = true;
-                    checklist.remove(stack);
-                    break;
-                }
-            }
-            if (!found) return false;
-        }
-        return true;
-    }
 
     public static boolean areItemStackListsExactlyEqual(List<Ingredient> ings, Inventory inv) {
         List<ItemStack> checklist = new ArrayList<>();

@@ -12,7 +12,6 @@ import net.minecraft.util.Identifier;
 public class ShaderHandler {
     private static final ManagedShaderEffect MANIA = ShaderEffectManager.getInstance().manage(new Identifier(Constants.MOD_ID, "shaders/post/mania.json"));
 
-    //todo re-enable stuff in MMBook, and re-add "patchouli": ">=1.16-38-FABRIC", to mod.json, as well as "cotton": ">=1.0.5" and config stuff
     public static void init() {
         ShaderEffectRenderCallback.EVENT.register(parTick -> {
             if (MiskatonicMysteriesClient.config.useShaders && MinecraftClient.getInstance().player != null && MinecraftClient.getInstance().player.hasStatusEffect(ModRegistries.MANIA)) {

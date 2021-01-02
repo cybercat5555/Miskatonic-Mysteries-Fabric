@@ -54,6 +54,13 @@ public class ModRegistries {
         PSYCHONAUT_TRADES.put(3, new TradeOffers.Factory[]{NETHER_WART_OFFER, LAUDANUM_OFFER});
         PSYCHONAUT_TRADES.put(4, new TradeOffers.Factory[]{WARPED_FUNGUS_OFFER, CRIMSON_FUNGUS_OFFER, TRANQ_OFFER});
         PSYCHONAUT_TRADES.put(5, new TradeOffers.Factory[]{RE_AGENT_OFFER});
+
+        //todo still add all of the trades
+        YELLOW_SERF_TRADE.put(1, new TradeOffers.Factory[]{OCEANIC_GOLD_OFFER});
+        YELLOW_SERF_TRADE.put(2, new TradeOffers.Factory[]{WAX_OFFER});
+        YELLOW_SERF_TRADE.put(3, new TradeOffers.Factory[]{LAUDANUM_OFFER});
+        YELLOW_SERF_TRADE.put(4, new TradeOffers.Factory[]{WARPED_FUNGUS_OFFER, CRIMSON_FUNGUS_OFFER, TRANQ_OFFER});
+        YELLOW_SERF_TRADE.put(5, new TradeOffers.Factory[]{RE_AGENT_OFFER});
     }
 
     public static void init() {
@@ -68,7 +75,7 @@ public class ModRegistries {
         RegistryUtil.register(Registry.STATUS_EFFECT, "lazarus", LAZARUS);
 
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(ModEntities.PSYCHONAUT, PSYCHONAUT_TRADES);
-        TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(ModEntities.YELLOW_SERF, PSYCHONAUT_TRADES);
+        TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(ModEntities.YELLOW_SERF, YELLOW_SERF_TRADE);
     }
 
     private static void initLootTableEdits() {
@@ -120,6 +127,8 @@ public class ModRegistries {
             SuspiciousStewItem.addEffectToStew(itemStack, POSSIBLE_EFFECTS.get(random.nextInt(POSSIBLE_EFFECTS.size())), 600);
             return new TradeOffer(new ItemStack(Items.EMERALD, 3 + random.nextInt(6)), new ItemStack(Items.BOWL), itemStack, 12, 15, 0.4F);
         });
+
+        public static final TradeOffers.Factory OCEANIC_GOLD_OFFER = new ProcessItemOffer(new ItemStack(Items.GOLD_BLOCK), 10, new ItemStack(ModObjects.OCEANIC_GOLD_BLOCK, 1), 16, 2);
 
         public static class EmeraldToItemOffer implements TradeOffers.Factory {
             private final ItemStack sell;

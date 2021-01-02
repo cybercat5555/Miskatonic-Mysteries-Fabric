@@ -37,17 +37,30 @@ public class OctagramBlockRender extends BlockEntityRenderer<OctagramBlockEntity
     public void render(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         PORTAL_LAYERS = IntStream.range(0, 16).mapToObj((i) -> RenderLayerHelper.getPortalLayer(i + 1)).collect(Collectors.toList());
         Sprite sprite = ResourceHandler.getOctagramTextureFor(entity).getSprite();
-        VertexConsumer buffer = sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(OCTAGRAM_RENDER_LAYER));
 
+        VertexConsumer buffer = sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(OCTAGRAM_RENDER_LAYER));
         matrixStack.push();
         Direction direction = entity.getWorld().getBlockState(entity.getPos()).get(HorizontalFacingBlock.FACING);
         matrixStack.push();
         matrixStack.translate(0.5, 0, 0.5);
         matrixStack.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(direction.getOpposite().asRotation()));
         matrixStack.translate(-1.5, 0.001, -1.5);
-        renderOctagram(entity, sprite, matrixStack, buffer, light);
+        byte overrideRender = entity.currentRite != null ? entity.currentRite.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay) : 3;
+        if ((overrideRender & 1) == 1) renderOctagram(entity, sprite, matrixStack, buffer, light);
         matrixStack.pop();
+        if ((overrideRender >> 1 & 1) == 1) renderItems(entity, vertexConsumers, matrixStack, light);
+        matrixStack.pop();
+    }
 
+    public static void renderOctagram(OctagramBlockEntity entity, Sprite sprite, MatrixStack matrices, VertexConsumer buffer, int light) {
+        Matrix4f mat = matrices.peek().getModel();
+        buffer.vertex(mat, 0, 0, 3).color(1F, 1F, 1F, 1F).texture(sprite.getMinU(), sprite.getMaxV()).light(light).next();
+        buffer.vertex(mat, 3, 0, 3).color(1F, 1F, 1F, 1F).texture(sprite.getMaxU(), sprite.getMaxV()).light(light).next();
+        buffer.vertex(mat, 3, 0, 0).color(1F, 1F, 1F, 1F).texture(sprite.getMaxU(), sprite.getMinV()).light(light).next();
+        buffer.vertex(mat, 0, 0, 0).color(1F, 1F, 1F, 1F).texture(sprite.getMinU(), sprite.getMinV()).light(light).next();
+    }
+
+    public static void renderItems(OctagramBlockEntity entity, VertexConsumerProvider vertexConsumers, MatrixStack matrixStack, int light) {
         matrixStack.translate(0.5F, 0, 0.5F);
 
         for (int i = 0; i < entity.size(); i++) {
@@ -58,17 +71,7 @@ public class OctagramBlockRender extends BlockEntityRenderer<OctagramBlockEntity
             MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(i), ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrixStack, vertexConsumers);
             matrixStack.pop();
         }
-        matrixStack.pop();
     }
-
-    private void renderOctagram(OctagramBlockEntity entity, Sprite sprite, MatrixStack matrices, VertexConsumer buffer, int light) {
-        Matrix4f mat = matrices.peek().getModel();
-        buffer.vertex(mat, 0, 0, 3).color(1F, 1F, 1F, 1F).texture(sprite.getMinU(), sprite.getMaxV()).light(light).next();
-        buffer.vertex(mat, 3, 0, 3).color(1F, 1F, 1F, 1F).texture(sprite.getMaxU(), sprite.getMaxV()).light(light).next();
-        buffer.vertex(mat, 3, 0, 0).color(1F, 1F, 1F, 1F).texture(sprite.getMaxU(), sprite.getMinV()).light(light).next();
-        buffer.vertex(mat, 0, 0, 0).color(1F, 1F, 1F, 1F).texture(sprite.getMinU(), sprite.getMinV()).light(light).next();
-    }
-
     private void renderPortal(OctagramBlockEntity entity, BlockPos pos, MatrixStack matrices, VertexConsumerProvider vertexConsumers) {
         double distance = pos.getSquaredDistance(dispatcher.camera.getPos(), true);
         int renderDepth = getDepthFromDistance(distance);

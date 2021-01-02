@@ -60,7 +60,6 @@ public class Constants {
         public static final String ALTERNATE_WEAPON = "Alternate Weapon";
         public static final String CHARGING = "Charging";
         public static final String PLAYER_UUID = "Player UUID";
-        public static final String IS_READY = "Ready";
         public static final String PROTAGONISTS = "Protagonists";
         public static final String SPAWNED = "Spawned";
         public static final String SPELL_EFFECT = "Spell Effect";
@@ -68,7 +67,9 @@ public class Constants {
         public static final String INTENSITY = "Intensity";
         public static final String CASTING = "Casting";
         public static final String SPELL = "Spell";
-        public static final String SPELL_COOLDOWN = "Spell Cooldown";
+        public static final String TICK_COUNT = "Tick Count";
+        public static final String RITE = "Rite";
+        public static final String KNOWLEDGE = "Knowledge";
     }
 
     public static class DataTrackers {

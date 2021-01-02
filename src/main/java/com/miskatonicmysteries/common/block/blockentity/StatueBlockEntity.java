@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.block.blockentity;
 
-import com.miskatonicmysteries.common.block.BlockStatue;
+import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import net.minecraft.block.BlockState;
@@ -24,11 +24,11 @@ public class StatueBlockEntity extends BaseBlockEntity implements Affiliated {
 
     @Override
     public Identifier getAffiliation() {
-        return world.getBlockState(pos).getBlock() instanceof BlockStatue ? ((BlockStatue) world.getBlockState(pos).getBlock()).getAffiliation() : null;
+        return world.getBlockState(pos).getBlock() instanceof StatueBlock ? ((StatueBlock) world.getBlockState(pos).getBlock()).getAffiliation() : null;
     }
 
     @Override
     public boolean isSupernatural() {
-        return world.getBlockState(pos).getBlock() instanceof BlockStatue && ((BlockStatue) world.getBlockState(pos).getBlock()).isSupernatural();
+        return world.getBlockState(pos).getBlock() instanceof StatueBlock && ((StatueBlock) world.getBlockState(pos).getBlock()).isSupernatural();
     }
 }

@@ -107,5 +107,8 @@
   "subtitles.miskatonicmysteries.gun_shot": "Gunshot",
   "comment9": "BOOK STUFF",
   "miskatonicmysteries.science_journal.subtitle": "of Miskatonic University",
-  "miskatonicmysteries.science_journal.landing": "Property of Miskatonic University, affiliated universities, companies etc.$(br2)Possession of this report by a non-affiliated  individual is punishable by law"
+  "miskatonicmysteries.science_journal.landing": "Property of Miskatonic University, affiliated universities, companies etc.$(br2)Possession of this report by a non-affiliated  individual is punishable by law",
+  "comment10": "MISC IDK",
+  "knowledge.contains": "Contains Knowledge of",
+  "knowledge.hastur": "-\u00A76\u00A7oThe Yellow King"
 }

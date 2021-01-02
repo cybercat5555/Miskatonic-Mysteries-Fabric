@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.render.blockentity;
 
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.block.BlockStatue;
+import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRenderer;
 import net.minecraft.block.Block;
@@ -36,13 +36,13 @@ public class StatueBlockRender extends BlockEntityRenderer<StatueBlockEntity> {
         @Override
         public void render(ItemStack itemStack, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int i1) {
             Block block = Block.getBlockFromItem(itemStack.getItem());
-            if (block instanceof BlockStatue) {
+            if (block instanceof StatueBlock) {
                 matrixStack.push();
                 matrixStack.translate(0.5, 1.4, 0.5);
                 matrixStack.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(270));
                 matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180));
                 VertexConsumer vertexConsumer = ResourceHandler.STATUE_SPRITES.get(block).getVertexConsumer(vertexConsumerProvider, RenderLayer::getEntitySolid);
-                ResourceHandler.STATUE_MODELS.get(((BlockStatue) block).getAffiliation()).render(matrixStack, vertexConsumer, i, i1, 1.0F, 1.0F, 1.0F, 1.0F);
+                ResourceHandler.STATUE_MODELS.get(((StatueBlock) block).getAffiliation()).render(matrixStack, vertexConsumer, i, i1, 1.0F, 1.0F, 1.0F, 1.0F);
                 matrixStack.pop();
             }
         }
