@@ -103,4 +103,8 @@ public class Constants {
     public static class BlockSettings {
         public static final AbstractBlock.Settings OCEANIC_GOLD = AbstractBlock.Settings.of(Material.METAL).strength(1F, 5F).requiresTool();
     }
+
+    public static class Misc {
+        public static final String NECRONOMICON_EXTENSION = "readBook";
+    }
 }

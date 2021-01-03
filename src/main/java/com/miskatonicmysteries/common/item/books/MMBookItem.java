@@ -2,6 +2,8 @@ package com.miskatonicmysteries.common.item.books;
 
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
+import com.miskatonicmysteries.common.feature.sanity.ISanity;
+import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.lib.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -48,7 +50,10 @@ public class MMBookItem extends Item implements Affiliated {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         Book book = getBook();
         if (player instanceof ServerPlayerEntity) {
-            PatchouliAPI.instance.openBookGUI((ServerPlayerEntity) player, book.id);
+            if (special && !InsanityHandler.hasSanityCapExpansion(player, Constants.Misc.NECRONOMICON_EXTENSION)) {
+                ((ISanity) player).addSanityCapExpansion(Constants.Misc.NECRONOMICON_EXTENSION, -10);
+            }
+            PatchouliAPI.get().openBookGUI((ServerPlayerEntity) player, book.id);
             SoundEvent sfx = PatchouliSounds.getSound(book.openSound, PatchouliSounds.book_open);
             player.playSound(sfx, 1.0F, (float) (0.7D + Math.random() * 0.4D));
         }

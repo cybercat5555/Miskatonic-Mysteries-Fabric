@@ -24,6 +24,11 @@ public class InsanityHandler {
         //remove other stuff
     }
 
+    public static boolean hasSanityCapExpansion(PlayerEntity player, String expansion) {
+        ISanity sanity = (ISanity) player;
+        return sanity.getSanityCapExpansions().containsKey(expansion);
+    }
+
     public static void handleInsanityEvents(PlayerEntity player) {
         ISanity sanity = (ISanity) player;
         float insanityFactor = 1F - calculateSanityFactor(sanity);

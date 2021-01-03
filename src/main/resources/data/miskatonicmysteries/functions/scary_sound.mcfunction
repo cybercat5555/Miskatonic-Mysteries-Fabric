@@ -1,0 +1,1 @@
+playsound miskatonicmysteries:scary ambient @p

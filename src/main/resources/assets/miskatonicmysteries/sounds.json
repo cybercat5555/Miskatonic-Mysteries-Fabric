@@ -5,5 +5,15 @@
       "miskatonicmysteries:shoot0",
       "miskatonicmysteries:shoot1"
     ]
+  },
+  "scary": {
+    "subtitle": "subtitles.miskatonicmysteries.scary",
+    "sounds": [
+      "ambient/cave/cave10",
+      "ambient/cave/cave3",
+      "ambient/cave/cave5",
+      "random/fuse",
+      "random/burp"
+    ]
   }
 }
