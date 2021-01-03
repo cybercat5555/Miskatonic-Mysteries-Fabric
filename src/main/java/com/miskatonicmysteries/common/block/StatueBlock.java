@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliated;
+import com.miskatonicmysteries.common.feature.Affiliation;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.fluid.FluidState;
@@ -12,7 +13,6 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
@@ -29,10 +29,10 @@ import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class StatueBlock extends Block implements Waterloggable, BlockEntityProvider, Affiliated {
     public static List<StatueBlock> STATUES = new ArrayList<>();
-    private Identifier affiliation;
+    private Affiliation affiliation;
     private static final VoxelShape SHAPE = createCuboidShape(4, 0, 4, 12, 16, 12);
 
-    public StatueBlock(Identifier affiliation, Settings settings) {
+    public StatueBlock(Affiliation affiliation, Settings settings) {
         super(settings.nonOpaque());
         this.affiliation = affiliation;
         setDefaultState(getDefaultState().with(Properties.ROTATION, 0));
@@ -100,7 +100,7 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
     }
 
     @Override
-    public Identifier getAffiliation() {
+    public Affiliation getAffiliation() {
         return affiliation;
     }
 

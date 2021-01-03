@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.block.blockentity;
 
 import com.miskatonicmysteries.common.block.OctagramBlock;
 import com.miskatonicmysteries.common.feature.Affiliated;
+import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
@@ -18,9 +19,9 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     private static final int RANGE = 8;
     private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(8, ItemStack.EMPTY);
     public int tickCount;
+    public boolean permanentRiteActive;
     public Rite currentRite = null;
 
-    //todo focus power stuff
     public OctagramBlockEntity() {
         super(ModObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
     }
@@ -32,6 +33,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
         if (currentRite != null) {
             tag.putString(Constants.NBT.RITE, currentRite.id.toString());
         }
+        tag.putBoolean(Constants.NBT.PERMANENT_RITE, permanentRiteActive);
         return super.toTag(tag);
     }
 
@@ -42,13 +44,14 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
         if (tag.contains(Constants.NBT.RITE)) {
             currentRite = Rite.RITES.getOrDefault(new Identifier(tag.getString(Constants.NBT.RITE)), null);
         }
+        permanentRiteActive = tag.getBoolean(Constants.NBT.PERMANENT_RITE);
         super.fromTag(state, tag);
     }
 
     @Override
     public void markDirty() {
         super.markDirty();
-        if (currentRite != null && !currentRite.canCast(this)) {
+        if (currentRite != null && !permanentRiteActive && !currentRite.canCast(this)) {
             currentRite.onCancelled(this);
             currentRite = null;
         }
@@ -66,33 +69,25 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
 
     @Override
     public void tick() {
-        if (world.getTime() % 20 == 0) {  //scan every second
-            scanSurroundings();
-        }
         if (currentRite != null && currentRite.shouldContinue(this)) {
             currentRite.tick(this);
             if (currentRite.isFinished(this)) {
-                currentRite.onFinished(this);
-                tickCount = 0;
-                currentRite = null;
+                if (currentRite.isPermanent(this)) {
+                    permanentRiteActive = true;
+                    currentRite.onFinished(this);
+                } else {
+                    currentRite.onFinished(this);
+                    tickCount = 0;
+                    currentRite = null;
+                }
                 return;
             }
             markDirty();
         }
     }
 
-    private void scanSurroundings() {
-        // BlockPos.streamOutwards(pos, RANGE, RANGE / 2, RANGE);
-        /*
-        search for placed foci
-        then search for entities
-
-        afterwards iterate thru each to calculte focal power (and instability)
-         */
-    }
-
     @Override
-    public Identifier getAffiliation() {
+    public Affiliation getAffiliation() {
         return world.getBlockState(pos).getBlock() instanceof OctagramBlock ? ((OctagramBlock) world.getBlockState(pos).getBlock()).getAffiliation() : null;
     }
 

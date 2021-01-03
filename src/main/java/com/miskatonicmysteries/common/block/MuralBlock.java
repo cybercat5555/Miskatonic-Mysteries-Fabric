@@ -1,18 +1,18 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.feature.Affiliated;
+import com.miskatonicmysteries.common.feature.Affiliation;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
 public class MuralBlock extends HorizontalFacingBlock implements Affiliated {
-    private final Identifier affiliation;
+    private final Affiliation affiliation;
 
-    public MuralBlock(Identifier affiliation, Settings settings) {
+    public MuralBlock(Affiliation affiliation, Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(FACING, Direction.NORTH));
         this.affiliation = affiliation;
@@ -30,7 +30,7 @@ public class MuralBlock extends HorizontalFacingBlock implements Affiliated {
     }
 
     @Override
-    public Identifier getAffiliation() {
+    public Affiliation getAffiliation() {
         return affiliation;
     }
 

@@ -27,12 +27,6 @@ public class Constants {
     public static final String MOD_ID = "miskatonicmysteries";
     public static final ItemGroup MM_GROUP = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "group"), () -> new ItemStack(ModObjects.NECRONOMICON));
     public static final float BLOCK_BIT = 0.0625F;
-    public static class Affiliation {
-        public static final Identifier NONE = new Identifier(MOD_ID, "none");
-        public static final Identifier CTHULHU = new Identifier(MOD_ID, "cthulhu");
-        public static final Identifier HASTUR = new Identifier(MOD_ID, "hastur");
-        public static final Identifier SHUB = new Identifier(MOD_ID, "shub");
-    }
 
     public static class Tags {
         public static final Tag<Item> ALTAR_BOOKS = TagRegistry.item(new Identifier(MOD_ID, "altar_books"));
@@ -70,6 +64,7 @@ public class Constants {
         public static final String TICK_COUNT = "Tick Count";
         public static final String RITE = "Rite";
         public static final String KNOWLEDGE = "Knowledge";
+        public static final String PERMANENT_RITE = "Permanent Rite";
     }
 
     public static class DataTrackers {

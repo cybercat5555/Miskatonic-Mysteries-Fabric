@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliated;
+import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.common.lib.ModRecipes;
@@ -20,7 +21,6 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -36,9 +36,9 @@ import java.util.List;
 public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityProvider, Affiliated {
     public static List<OctagramBlock> OCTAGRAMS = new ArrayList<>();
     public static final VoxelShape SHAPE = createCuboidShape(0, 0, 0, 16, 1, 16);
-    private final Identifier affiliation;
+    private final Affiliation affiliation;
 
-    public OctagramBlock(Identifier affiliation) {
+    public OctagramBlock(Affiliation affiliation) {
         super(Settings.of(Material.CARPET).nonOpaque().noCollision());
         OCTAGRAMS.add(this);
         this.affiliation = affiliation;
@@ -46,7 +46,6 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        //todo make rites executable
         if (world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
             OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(pos);
             if (octagram.currentRite != null) {
@@ -141,7 +140,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
     }
 
     @Override
-    public Identifier getAffiliation() {
+    public Affiliation getAffiliation() {
         return affiliation;
     }
 
@@ -176,7 +175,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                 return ActionResult.FAIL;
             } else {
                 ItemStack stack = player.getStackInHand(hand);
-                if (!stack.isEmpty() && octagram.isValid(state.get(NUMBER), stack) && octagram.getStack(state.get(NUMBER)).isEmpty()) {
+                if (!stack.isEmpty() && octagram.isValid(state.get(NUMBER), stack) && octagram.getStack(state.get(NUMBER)).isEmpty() && !octagram.permanentRiteActive) {
                     octagram.setStack(state.get(NUMBER), stack);
                     octagram.markDirty();
                     return ActionResult.CONSUME;

@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.block;
 
-import com.miskatonicmysteries.client.particle.ModParticles;
 import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
 import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.ModParticles;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

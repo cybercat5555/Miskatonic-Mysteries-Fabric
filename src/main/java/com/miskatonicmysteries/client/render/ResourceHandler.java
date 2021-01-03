@@ -7,6 +7,7 @@ import com.miskatonicmysteries.common.block.OctagramBlock;
 import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
+import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
@@ -24,24 +25,36 @@ import java.util.Map;
 
 public class ResourceHandler {
     public static final SpriteIdentifier DEFAULT_OCTAGRAM = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "block/octagram/octagram_generic"));
+    public static final SpriteIdentifier DEFAULT_OCTAGRAM_MASK = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "block/octagram/mask/octagram_mask"));
+    public static final SpriteIdentifier AURA_SPRITE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/aura"));
+
     public static final Map<Item, SpriteIdentifier> BOOK_SPRITES = new HashMap<>();
     public static final Map<OctagramBlock, SpriteIdentifier> OCTAGRAM_SPRITES = new HashMap<>();
-    public static final Map<Identifier, Model> STATUE_MODELS = new HashMap<>();
+    public static final Map<OctagramBlock, SpriteIdentifier> OCTAGRAM_MASKS = new HashMap<>();
+
+    public static final Map<Affiliation, Model> STATUE_MODELS = new HashMap<>();
     public static final Map<StatueBlock, SpriteIdentifier> STATUE_SPRITES = new HashMap<>();
 
     public static void init() {
         ClientSpriteRegistryCallback.registerBlockAtlas((spriteAtlasTexture, registry) -> {
             registry.register(new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
+            registry.register(new Identifier(Constants.MOD_ID, "misc/aura"));
+            registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/hastur_octagram_mask"));
+            registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/shub_octagram_mask"));
+            registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/cthulhu_octagram_mask"));
         });
         ResourceHandler.addBookTextureFor(ModObjects.NECRONOMICON, new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
 
-        ResourceHandler.addOctagramTextureFor(ModObjects.CTHULHU_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/cthulhu_octagram"));
-        ResourceHandler.addOctagramTextureFor(ModObjects.HASTUR_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/hastur_octagram"));
-        ResourceHandler.addOctagramTextureFor(ModObjects.SHUB_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/shub_octagram"));
+        ResourceHandler.addOctagramTextureFor(ModObjects.CTHULHU_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/cthulhu_octagram"),
+                new Identifier(Constants.MOD_ID, "block/octagram/mask/cthulhu_octagram_mask"));
+        ResourceHandler.addOctagramTextureFor(ModObjects.HASTUR_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/hastur_octagram"),
+                new Identifier(Constants.MOD_ID, "block/octagram/mask/hastur_octagram_mask"));
+        ResourceHandler.addOctagramTextureFor(ModObjects.SHUB_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/shub_octagram"),
+                new Identifier(Constants.MOD_ID, "block/octagram/mask/shub_octagram_mask"));
 
-        addStatueModelFor(Constants.Affiliation.CTHULHU, new CthulhuStatueModel());
-        addStatueModelFor(Constants.Affiliation.HASTUR, new HasturStatueModel());
-        addStatueModelFor(Constants.Affiliation.SHUB, new ShubStatueModel());
+        addStatueModelFor(Affiliation.CTHULHU, new CthulhuStatueModel());
+        addStatueModelFor(Affiliation.HASTUR, new HasturStatueModel());
+        addStatueModelFor(Affiliation.SHUB, new ShubStatueModel());
 
         addStatueTextureFor(ModObjects.CTHULHU_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_gold"));
         addStatueTextureFor(ModObjects.CTHULHU_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_mossy"));
@@ -57,18 +70,18 @@ public class ResourceHandler {
         addStatueTextureFor(ModObjects.SHUB_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_mossy"));
         addStatueTextureFor(ModObjects.SHUB_STATUE_BLACKSTONE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_blackstone"));
         addStatueTextureFor(ModObjects.SHUB_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_stone"));
-
     }
 
     public static void addBookTextureFor(Item item, Identifier texture) {
         BOOK_SPRITES.put(item, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, texture));
     }
 
-    public static void addOctagramTextureFor(OctagramBlock octagram, Identifier texture) {
+    public static void addOctagramTextureFor(OctagramBlock octagram, Identifier texture, Identifier maskTexture) {
         OCTAGRAM_SPRITES.put(octagram, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, texture));
+        OCTAGRAM_MASKS.put(octagram, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, maskTexture));
     }
 
-    public static void addStatueModelFor(Identifier affiliation, Model model) {
+    public static void addStatueModelFor(Affiliation affiliation, Model model) {
         STATUE_MODELS.put(affiliation, model);
     }
 
@@ -82,6 +95,10 @@ public class ResourceHandler {
 
     public static SpriteIdentifier getOctagramTextureFor(OctagramBlockEntity octagram) {
         return OCTAGRAM_SPRITES.getOrDefault(octagram.getWorld().getBlockState(octagram.getPos()).getBlock(), DEFAULT_OCTAGRAM);
+    }
+
+    public static SpriteIdentifier getOctagramMaskTextureFor(OctagramBlockEntity octagram) {
+        return OCTAGRAM_MASKS.getOrDefault(octagram.getWorld().getBlockState(octagram.getPos()).getBlock(), DEFAULT_OCTAGRAM_MASK);
     }
 
     public static Model getStatueModelFor(StatueBlockEntity statue) {

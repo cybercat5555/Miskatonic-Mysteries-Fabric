@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
@@ -36,9 +37,16 @@ public abstract class Rite {
 
     public abstract boolean isFinished(OctagramBlockEntity octagram);
 
-    public abstract void onFinished(OctagramBlockEntity octagram);
+    public void onFinished(OctagramBlockEntity octagram) {
+        octagram.clear();
+        octagram.markDirty();
+    }
 
     public void onCancelled(OctagramBlockEntity octagram) {
+    }
+
+    public boolean isPermanent(OctagramBlockEntity octagram) {
+        return false;
     }
 
     public boolean shouldContinue(OctagramBlockEntity octagram) {
@@ -49,8 +57,14 @@ public abstract class Rite {
         return InventoryUtil.areItemStackListsExactlyEqual(ingredients, octagram);
     }
 
+
+    @Environment(EnvType.CLIENT)
+    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
+    }
+
     /**
-     * Called in {@link com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender}OctagramBlockRender
+     * Called in {@link com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender}OctagramBlockRender before anything else.
+     * Used to set up very special rendering
      * Flags:
      * 2 - Render Items
      * 1 - Render the Octagram
@@ -59,8 +73,7 @@ public abstract class Rite {
      *
      * @return bitwise flag combination used for rendering, see above
      */
-    @Environment(EnvType.CLIENT)
-    public byte renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+    public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
         return 2 | 1;
     }
 }

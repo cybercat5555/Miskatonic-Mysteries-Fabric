@@ -2,10 +2,10 @@ package com.miskatonicmysteries.common.block.blockentity;
 
 import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.feature.Affiliated;
+import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Identifier;
 
 public class StatueBlockEntity extends BaseBlockEntity implements Affiliated {
     public StatueBlockEntity() {
@@ -23,7 +23,7 @@ public class StatueBlockEntity extends BaseBlockEntity implements Affiliated {
     }
 
     @Override
-    public Identifier getAffiliation() {
+    public Affiliation getAffiliation() {
         return world.getBlockState(pos).getBlock() instanceof StatueBlock ? ((StatueBlock) world.getBlockState(pos).getBlock()).getAffiliation() : null;
     }
 

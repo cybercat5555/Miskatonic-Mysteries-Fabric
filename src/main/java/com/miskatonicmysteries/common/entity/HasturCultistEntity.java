@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.entity;
 import com.miskatonicmysteries.common.entity.ai.SpellCastGoal;
 import com.miskatonicmysteries.common.entity.ai.TacticalDrawbackGoal;
 import com.miskatonicmysteries.common.feature.Affiliated;
+import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.lib.Constants;
@@ -34,7 +35,6 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.IntRange;
 import net.minecraft.village.VillagerData;
 import net.minecraft.world.LocalDifficulty;
@@ -84,8 +84,8 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         if (getTarget() != null) {
             return ActionResult.FAIL;
         }
-        if (player.getStackInHand(hand).getItem().equals(ModObjects.NECRONOMICON) && getReputation(player) >= 100 && !MMBookItem.hasKnowledge(Constants.Affiliation.HASTUR.getPath(), player.getStackInHand(hand))) {
-            MMBookItem.addKnowledge(Constants.Affiliation.HASTUR.getPath(), player.getStackInHand(hand));
+        if (player.getStackInHand(hand).getItem().equals(ModObjects.NECRONOMICON) && getReputation(player) >= 100 && !MMBookItem.hasKnowledge(Affiliation.HASTUR.getId().getPath(), player.getStackInHand(hand))) {
+            MMBookItem.addKnowledge(Affiliation.HASTUR.getId().getPath(), player.getStackInHand(hand));
             if (!this.world.isClient()) {
                 this.playSound(SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
                 world.spawnEntity(new ExperienceOrbEntity(world, getX(), getY(), getZ(), 5));
@@ -118,7 +118,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         this.goalSelector.add(4, new SpellCastGoal<>(this));
         this.goalSelector.add(5, new MeleeAttackGoal(this, 0.6F, false));
         this.targetSelector.add(0, new RevengeGoal(this, HasturCultistEntity.class).setGroupRevenge());
-        this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> living instanceof Affiliated && ((Affiliated) living).getAffiliation() == Constants.Affiliation.SHUB));
+        this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> living instanceof Affiliated && ((Affiliated) living).getAffiliation() == Affiliation.SHUB));
         this.targetSelector.add(2, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true, mob -> !(mob instanceof HasturCultistEntity) && !(mob instanceof CreeperEntity)));
         this.targetSelector.add(3, new UniversalAngerGoal<>(this, true));
         this.targetSelector.add(4, new FollowTargetGoal<>(this, PlayerEntity.class, 50, true, true, player -> {
@@ -304,8 +304,8 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     }
 
     @Override
-    public Identifier getAffiliation() {
-        return Constants.Affiliation.HASTUR;
+    public Affiliation getAffiliation() {
+        return Affiliation.HASTUR;
     }
 
     @Override

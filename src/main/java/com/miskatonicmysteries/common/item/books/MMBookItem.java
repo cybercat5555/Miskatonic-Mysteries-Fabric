@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.item.books;
 
 import com.miskatonicmysteries.common.feature.Affiliated;
+import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.lib.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -28,10 +29,11 @@ import vazkii.patchouli.common.book.BookRegistry;
 import java.util.List;
 
 public class MMBookItem extends Item implements Affiliated {
-    private Identifier id, affiliation;
+    private Identifier id;
+    private Affiliation affiliation;
     private boolean special;
 
-    public MMBookItem(Identifier id, Identifier affiliation, boolean special) {
+    public MMBookItem(Identifier id, Affiliation affiliation, boolean special) {
         super(new Settings().maxCount(1).group(Constants.MM_GROUP));
         this.id = id;
         this.affiliation = affiliation;
@@ -79,7 +81,7 @@ public class MMBookItem extends Item implements Affiliated {
     }
 
     @Override
-    public Identifier getAffiliation() {
+    public Affiliation getAffiliation() {
         return affiliation;
     }
 

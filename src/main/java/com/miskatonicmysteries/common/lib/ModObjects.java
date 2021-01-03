@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
+import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.item.*;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
@@ -13,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
@@ -35,39 +37,39 @@ public class ModObjects {
     public static final BlockEntityType<AltarBlockEntity> ALTAR_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(AltarBlockEntity::new, AltarBlock.ALTARS.toArray(new AltarBlock[AltarBlock.ALTARS.size()])).build(null);
 
     public static final Block OCTAGRAM_SIDES = new OctagramBlock.BlockOuterOctagram();
-    public static final OctagramBlock CTHULHU_OCTAGRAM = new OctagramBlock(Constants.Affiliation.CTHULHU);
-    public static final OctagramBlock HASTUR_OCTAGRAM = new OctagramBlock(Constants.Affiliation.HASTUR);
-    public static final OctagramBlock SHUB_OCTAGRAM = new OctagramBlock(Constants.Affiliation.SHUB);
+    public static final OctagramBlock CTHULHU_OCTAGRAM = new OctagramBlock(Affiliation.CTHULHU);
+    public static final OctagramBlock HASTUR_OCTAGRAM = new OctagramBlock(Affiliation.HASTUR);
+    public static final OctagramBlock SHUB_OCTAGRAM = new OctagramBlock(Affiliation.SHUB);
     public static final BlockEntityType<OctagramBlockEntity> OCTAGRAM_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(OctagramBlockEntity::new, OctagramBlock.OCTAGRAMS.toArray(new OctagramBlock[OctagramBlock.OCTAGRAMS.size()])).build(null);
 
-    public static final StatueBlock CTHULHU_STATUE_GOLD = new StatueBlock(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
-    public static final StatueBlock CTHULHU_STATUE_MOSSY = new StatueBlock(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
-    public static final StatueBlock CTHULHU_STATUE_PRISMARINE = new StatueBlock(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.PRISMARINE));
-    public static final StatueBlock CTHULHU_STATUE_STONE = new StatueBlock(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final StatueBlock CTHULHU_STATUE_GOLD = new StatueBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+    public static final StatueBlock CTHULHU_STATUE_MOSSY = new StatueBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final StatueBlock CTHULHU_STATUE_PRISMARINE = new StatueBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.PRISMARINE));
+    public static final StatueBlock CTHULHU_STATUE_STONE = new StatueBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));
 
-    public static final StatueBlock HASTUR_STATUE_GOLD = new StatueBlock(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
-    public static final StatueBlock HASTUR_STATUE_MOSSY = new StatueBlock(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
-    public static final StatueBlock HASTUR_STATUE_TERRACOTTA = new StatueBlock(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
-    public static final StatueBlock HASTUR_STATUE_STONE = new StatueBlock(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final StatueBlock HASTUR_STATUE_GOLD = new StatueBlock(Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+    public static final StatueBlock HASTUR_STATUE_MOSSY = new StatueBlock(Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final StatueBlock HASTUR_STATUE_TERRACOTTA = new StatueBlock(Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
+    public static final StatueBlock HASTUR_STATUE_STONE = new StatueBlock(Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.STONE));
 
-    public static final StatueBlock SHUB_STATUE_GOLD = new StatueBlock(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
-    public static final StatueBlock SHUB_STATUE_MOSSY = new StatueBlock(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
-    public static final StatueBlock SHUB_STATUE_BLACKSTONE = new StatueBlock(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
-    public static final StatueBlock SHUB_STATUE_STONE = new StatueBlock(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final StatueBlock SHUB_STATUE_GOLD = new StatueBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+    public static final StatueBlock SHUB_STATUE_MOSSY = new StatueBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final StatueBlock SHUB_STATUE_BLACKSTONE = new StatueBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
+    public static final StatueBlock SHUB_STATUE_STONE = new StatueBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.STONE));
     public static final BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(StatueBlockEntity::new, StatueBlock.STATUES.toArray(new StatueBlock[StatueBlock.STATUES.size()])).build(null);
 
-    public static final Block STONE_CTHULHU_MURAL = new MuralBlock(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));
-    public static final Block MOSSY_CTHULHU_MURAL = new MuralBlock(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
-    public static final Block CORAL_CTHULHU_MURAL = new MuralBlock(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.DEAD_BRAIN_CORAL_BLOCK));
-    public static final Block PRISMARINE_CTHULHU_MURAL = new MuralBlock(Constants.Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.PRISMARINE));
+    public static final Block STONE_CTHULHU_MURAL = new MuralBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final Block MOSSY_CTHULHU_MURAL = new MuralBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final Block CORAL_CTHULHU_MURAL = new MuralBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.DEAD_BRAIN_CORAL_BLOCK));
+    public static final Block PRISMARINE_CTHULHU_MURAL = new MuralBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.PRISMARINE));
 
-    public static final Block STONE_HASTUR_MURAL = new MuralBlock(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.STONE));
-    public static final Block MOSSY_HASTUR_MURAL = new MuralBlock(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
-    public static final Block TERRACOTTA_HASTUR_MURAL = new MuralBlock(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
-    public static final Block YELLOW_TERRACOTTA_HASTUR_MURAL = new MuralBlock(Constants.Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.YELLOW_TERRACOTTA));
+    public static final Block STONE_HASTUR_MURAL = new MuralBlock(Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final Block MOSSY_HASTUR_MURAL = new MuralBlock(Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final Block TERRACOTTA_HASTUR_MURAL = new MuralBlock(Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
+    public static final Block YELLOW_TERRACOTTA_HASTUR_MURAL = new MuralBlock(Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.YELLOW_TERRACOTTA));
 
-    public static final Block STONE_SHUB_MURAL = new MuralBlock(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.STONE));
-    public static final Block MOSSY_SHUB_MURAL = new MuralBlock(Constants.Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final Block STONE_SHUB_MURAL = new MuralBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final Block MOSSY_SHUB_MURAL = new MuralBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
 
     public static final Block OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
     public static final Block WARDED_OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD.strength(2.5F, 12));
@@ -83,8 +85,8 @@ public class ModObjects {
     public static final Block DUMMY_RESONATOR_OFF = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
     public static final Block POWERCELL = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
 
-    public static final MMBookItem SCIENCE_JOURNAL = new MMBookItem(new Identifier(Constants.MOD_ID, "science_journal"), Constants.Affiliation.NONE, false);
-    public static final MMBookItem NECRONOMICON = new MMBookItem(new Identifier(Constants.MOD_ID, "necronomicon"), Constants.Affiliation.NONE, true);
+    public static final MMBookItem SCIENCE_JOURNAL = new MMBookItem(new Identifier(Constants.MOD_ID, "science_journal"), Affiliation.NONE, false);
+    public static final MMBookItem NECRONOMICON = new MMBookItem(new Identifier(Constants.MOD_ID, "necronomicon"), Affiliation.NONE, true);
 
     public static final Item OCEANIC_GOLD = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
@@ -125,7 +127,8 @@ public class ModObjects {
         RegistryUtil.registerBlock(STONE_ALTAR, "stone_altar");
 
         RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "octagram", OCTAGRAM_BLOCK_ENTITY_TYPE);
-        RegistryUtil.registerBlock(OCTAGRAM_SIDES, "octagram");
+        RegistryUtil.register(Registry.BLOCK, "octagram_sides", OCTAGRAM_SIDES);
+        RegistryUtil.register(Registry.ITEM, "octagram_sides", new BlockItem(OCTAGRAM_SIDES, new Item.Settings()));
         RegistryUtil.registerBlock(CTHULHU_OCTAGRAM, "cthulhu_octagram");
         RegistryUtil.registerBlock(HASTUR_OCTAGRAM, "hastur_octagram");
         RegistryUtil.registerBlock(SHUB_OCTAGRAM, "shub_octagram");
