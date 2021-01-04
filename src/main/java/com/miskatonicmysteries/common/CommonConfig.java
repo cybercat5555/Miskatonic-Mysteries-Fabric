@@ -5,7 +5,7 @@ import com.miskatonicmysteries.common.lib.Constants;
 import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
 import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
 
-@Config(name = Constants.MOD_ID)
+@Config(name = Constants.MOD_ID + "/common")
 public class CommonConfig implements ConfigData {
     @Comment(value = "Determines the intervals in ticks in which values that are not absolutely essential are updated")
     public int modUpdateInterval = 20;

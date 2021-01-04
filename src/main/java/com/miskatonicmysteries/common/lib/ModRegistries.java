@@ -5,6 +5,9 @@ import com.miskatonicmysteries.common.feature.effect.*;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
+import dev.emi.trinkets.api.SlotGroups;
+import dev.emi.trinkets.api.Slots;
+import dev.emi.trinkets.api.TrinketSlots;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
@@ -63,6 +66,8 @@ public class ModRegistries {
     }
 
     public static void init() {
+        TrinketSlots.addSlot(SlotGroups.HEAD, Slots.MASK, new Identifier("trinkets", "textures/item/empty_trinket_slot_mask.png"));
+
         initLootTableEdits();
         ModCommand.setup();
 

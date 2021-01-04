@@ -16,6 +16,10 @@ repositories {
 		url "https://jitpack.io"
 	}
 	maven {
+		name = "NerdHubMC"
+		url = "https://maven.abusedmaster.xyz/"
+	}
+	maven {
 		name "cotton-config"
 		url "http://server.bbkr.space:8081/artifactory/libs-release"
 	}
@@ -33,7 +37,7 @@ dependencies {
 	modImplementation "me.shedaniel:RoughlyEnoughItems:${project.rei_version}"
 	modImplementation "io.github.ladysnake:Satin:${project.satin_version}"
 	include "io.github.ladysnake:Satin:${project.satin_version}"
-
+	modImplementation "com.github.emilyploszaj:trinkets:${project.trinkets_version}"
 	modApi("me.shedaniel.cloth:config-2:${project.cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}

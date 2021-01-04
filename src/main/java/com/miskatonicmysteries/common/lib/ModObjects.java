@@ -110,16 +110,16 @@ public class ModObjects {
 
     public static final Item WAX = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
-    public static final Item ORNATE_DAGGER = new BlessedSwordItem(Affiliation.HASTUR, 5, 2.3F,
+    public static final Item ORNATE_DAGGER = new BlessedSwordItem(Affiliation.HASTUR, 2, 2.3F,
             (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(ModRegistries.MANIA, 100, 1, true, false, false)),
             new Item.Settings().group(Constants.MM_GROUP));
-    public static final Item GUTTING_DAGGER = new BlessedSwordItem(Affiliation.SHUB, 6, 2.6F,
+    public static final Item GUTTING_DAGGER = new BlessedSwordItem(Affiliation.SHUB, 3, 2.6F,
             (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(ModRegistries.BLEED, 600, 0, false, false, false)),
             new Item.Settings().group(Constants.MM_GROUP));
-    public static final Item HORNED_DAGGER = new BlessedSwordItem(Affiliation.SHUB, 7, 2.3F, (target, attacker) -> {
+    public static final Item HORNED_DAGGER = new BlessedSwordItem(Affiliation.SHUB, 4, 2.3F, (target, attacker) -> {
     },
             new Item.Settings().group(Constants.MM_GROUP));
-    public static final Item FISHY_DAGGER = new BlessedSwordItem(Affiliation.CTHULHU, 6, 2.3F,
+    public static final Item FISHY_DAGGER = new BlessedSwordItem(Affiliation.CTHULHU, 3, 2.3F,
             (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0, false, true, true)),
             new Item.Settings().group(Constants.MM_GROUP));
 
