@@ -35,7 +35,7 @@ public class ModRecipes {
         addRite(TELEPORT_RITE);
     }
 
-    public static Rite getRite(OctagramBlockEntity octagram) {//todo use recipe manager when data driven rites are a thing
+    public static Rite getRite(OctagramBlockEntity octagram) {//todo use recipe manager when function command, data driven rites are a thing (compare insanity effects)
         return Rite.RITES.values().stream().filter(r -> r.canCast(octagram)).findFirst().orElse(null);
     }
 

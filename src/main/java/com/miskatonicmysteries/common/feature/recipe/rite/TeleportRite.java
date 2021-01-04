@@ -48,7 +48,7 @@ public class TeleportRite extends Rite {
     public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
         Sprite sprite = ResourceHandler.getOctagramMaskTextureFor(entity).getSprite();
         float alpha = entity.tickCount / (float) ticksNeeded;
-        float[] origColors = entity.getAffiliation().getColor();
+        float[] origColors = entity.getAffiliation(true).getColor();
         float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
         matrixStack.push();
         matrixStack.translate(0, 0.001F, 0);

@@ -23,8 +23,8 @@ public class StatueBlockEntity extends BaseBlockEntity implements Affiliated {
     }
 
     @Override
-    public Affiliation getAffiliation() {
-        return world.getBlockState(pos).getBlock() instanceof StatueBlock ? ((StatueBlock) world.getBlockState(pos).getBlock()).getAffiliation() : null;
+    public Affiliation getAffiliation(boolean apparent) {
+        return world.getBlockState(pos).getBlock() instanceof StatueBlock ? ((StatueBlock) world.getBlockState(pos).getBlock()).getAffiliation(apparent) : Affiliation.NONE;
     }
 
     @Override

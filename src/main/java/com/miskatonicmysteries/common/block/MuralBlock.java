@@ -30,7 +30,7 @@ public class MuralBlock extends HorizontalFacingBlock implements Affiliated {
     }
 
     @Override
-    public Affiliation getAffiliation() {
+    public Affiliation getAffiliation(boolean apparent) {
         return affiliation;
     }
 

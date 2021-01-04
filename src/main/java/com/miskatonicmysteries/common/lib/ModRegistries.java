@@ -1,10 +1,7 @@
 package com.miskatonicmysteries.common.lib;
 
 import com.miskatonicmysteries.common.feature.ModCommand;
-import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
-import com.miskatonicmysteries.common.feature.effect.ManiaStatusEffect;
-import com.miskatonicmysteries.common.feature.effect.OvermedicalizedStatusEffect;
-import com.miskatonicmysteries.common.feature.effect.TranquilizedStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.*;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
@@ -40,6 +37,7 @@ public class ModRegistries {
     public static final StatusEffect TRANQUILIZED = new TranquilizedStatusEffect();
     public static final StatusEffect OVERMEDICATED = new OvermedicalizedStatusEffect();
     public static final StatusEffect LAZARUS = new LazarusStatusEffect();
+    public static final StatusEffect BLEED = new BleedStatusEffect();
 
     public static final Identifier INFESTED_WHEAT_LOOT_TABLE = new Identifier(Constants.MOD_ID, "injects/infested_wheat");
     public static final Identifier TRANQ_TABLE = new Identifier(Constants.MOD_ID, "injects/tranquilizer");
@@ -75,6 +73,7 @@ public class ModRegistries {
         RegistryUtil.register(Registry.STATUS_EFFECT, "tranquilized", TRANQUILIZED);
         RegistryUtil.register(Registry.STATUS_EFFECT, "overmedicated", OVERMEDICATED);
         RegistryUtil.register(Registry.STATUS_EFFECT, "lazarus", LAZARUS);
+        RegistryUtil.register(Registry.STATUS_EFFECT, "bleed", BLEED);
 
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(ModEntities.PSYCHONAUT, PSYCHONAUT_TRADES);
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(ModEntities.YELLOW_SERF, YELLOW_SERF_TRADE);

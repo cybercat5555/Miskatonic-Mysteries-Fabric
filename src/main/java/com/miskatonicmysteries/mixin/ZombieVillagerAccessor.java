@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 @Mixin(ZombieVillagerEntity.class)
-public interface ZombieVillagerMixin {
+public interface ZombieVillagerAccessor {
     @Invoker
     void callSetConverting(@Nullable UUID uuid, int delay);
 }

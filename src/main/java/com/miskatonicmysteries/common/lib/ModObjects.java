@@ -14,7 +14,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.BlockItem;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
@@ -40,6 +41,10 @@ public class ModObjects {
     public static final OctagramBlock CTHULHU_OCTAGRAM = new OctagramBlock(Affiliation.CTHULHU);
     public static final OctagramBlock HASTUR_OCTAGRAM = new OctagramBlock(Affiliation.HASTUR);
     public static final OctagramBlock SHUB_OCTAGRAM = new OctagramBlock(Affiliation.SHUB);
+
+    public static final ChalkItem CTHULHU_CHALK = new ChalkItem(CTHULHU_OCTAGRAM);
+    public static final ChalkItem HASTUR_CHALK = new ChalkItem(HASTUR_OCTAGRAM);
+    public static final ChalkItem SHUB_CHALK = new ChalkItem(SHUB_OCTAGRAM);
     public static final BlockEntityType<OctagramBlockEntity> OCTAGRAM_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(OctagramBlockEntity::new, OctagramBlock.OCTAGRAMS.toArray(new OctagramBlock[OctagramBlock.OCTAGRAMS.size()])).build(null);
 
     public static final StatueBlock CTHULHU_STATUE_GOLD = new StatueBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
@@ -105,6 +110,19 @@ public class ModObjects {
 
     public static final Item WAX = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
+    public static final Item ORNATE_DAGGER = new BlessedSwordItem(Affiliation.HASTUR, 5, 2.3F,
+            (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(ModRegistries.MANIA, 100, 1, true, false, false)),
+            new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item GUTTING_DAGGER = new BlessedSwordItem(Affiliation.SHUB, 6, 2.6F,
+            (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(ModRegistries.BLEED, 600, 0, false, false, false)),
+            new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item HORNED_DAGGER = new BlessedSwordItem(Affiliation.SHUB, 7, 2.3F, (target, attacker) -> {
+    },
+            new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item FISHY_DAGGER = new BlessedSwordItem(Affiliation.CTHULHU, 6, 2.3F,
+            (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0, false, true, true)),
+            new Item.Settings().group(Constants.MM_GROUP));
+
     public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(ModEntities.PROTAGONIST, 4137472, 14592, new Item.Settings().group(ItemGroup.MISC));
     public static final Item HASTUR_CULTIST_SPAWN_EGG = new SpawnEggItem(ModEntities.HASTUR_CULTIST, 0xEAC800, 0xFFFFFF, new Item.Settings().group(ItemGroup.MISC));
 
@@ -128,10 +146,13 @@ public class ModObjects {
 
         RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "octagram", OCTAGRAM_BLOCK_ENTITY_TYPE);
         RegistryUtil.register(Registry.BLOCK, "octagram_sides", OCTAGRAM_SIDES);
-        RegistryUtil.register(Registry.ITEM, "octagram_sides", new BlockItem(OCTAGRAM_SIDES, new Item.Settings()));
-        RegistryUtil.registerBlock(CTHULHU_OCTAGRAM, "cthulhu_octagram");
-        RegistryUtil.registerBlock(HASTUR_OCTAGRAM, "hastur_octagram");
-        RegistryUtil.registerBlock(SHUB_OCTAGRAM, "shub_octagram");
+
+        RegistryUtil.register(Registry.BLOCK, "cthulhu_octagram", CTHULHU_OCTAGRAM);
+        RegistryUtil.register(Registry.BLOCK, "hastur_octagram", HASTUR_OCTAGRAM);
+        RegistryUtil.register(Registry.BLOCK, "shub_octagram", SHUB_OCTAGRAM);
+        RegistryUtil.register(Registry.ITEM, "cthulhu_chalk", CTHULHU_CHALK);
+        RegistryUtil.register(Registry.ITEM, "hastur_chalk", HASTUR_CHALK);
+        RegistryUtil.register(Registry.ITEM, "shub_chalk", SHUB_CHALK);
 
         RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "statue", STATUE_BLOCK_ENTITY_TYPE);
         RegistryUtil.registerBlock(CTHULHU_STATUE_GOLD, "cthulhu_statue_gold");
@@ -187,6 +208,11 @@ public class ModObjects {
         RegistryUtil.register(Registry.ITEM, "re_agent_syringe", RE_AGENT_SYRINGE);
 
         RegistryUtil.register(Registry.ITEM, "wax", WAX);
+
+        RegistryUtil.register(Registry.ITEM, "ornate_dagger", ORNATE_DAGGER);
+        RegistryUtil.register(Registry.ITEM, "gutting_dagger", GUTTING_DAGGER);
+        RegistryUtil.register(Registry.ITEM, "horned_dagger", HORNED_DAGGER);
+        RegistryUtil.register(Registry.ITEM, "fishy_dagger", FISHY_DAGGER);
 
         RegistryUtil.register(Registry.ITEM, "protagonist_spawn_egg", PROTAGONIST_SPAWN_EGG);
         RegistryUtil.register(Registry.ITEM, "hastur_cultist_spawn_egg", HASTUR_CULTIST_SPAWN_EGG);

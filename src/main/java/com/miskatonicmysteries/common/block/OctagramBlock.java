@@ -140,7 +140,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
     }
 
     @Override
-    public Affiliation getAffiliation() {
+    public Affiliation getAffiliation(boolean apparent) {
         return affiliation;
     }
 

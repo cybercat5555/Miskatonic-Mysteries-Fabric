@@ -42,7 +42,7 @@ public class StatueBlockRender extends BlockEntityRenderer<StatueBlockEntity> {
                 matrixStack.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(270));
                 matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180));
                 VertexConsumer vertexConsumer = ResourceHandler.STATUE_SPRITES.get(block).getVertexConsumer(vertexConsumerProvider, RenderLayer::getEntitySolid);
-                ResourceHandler.STATUE_MODELS.get(((StatueBlock) block).getAffiliation()).render(matrixStack, vertexConsumer, i, i1, 1.0F, 1.0F, 1.0F, 1.0F);
+                ResourceHandler.STATUE_MODELS.get(((StatueBlock) block).getAffiliation(true)).render(matrixStack, vertexConsumer, i, i1, 1.0F, 1.0F, 1.0F, 1.0F);
                 matrixStack.pop();
             }
         }

@@ -9,7 +9,8 @@ import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import com.miskatonicmysteries.common.lib.ModObjects;
-import com.miskatonicmysteries.mixin.LivingEntityMixin;
+import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
+import com.miskatonicmysteries.mixin.LivingEntityAccessor;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.Durations;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
@@ -58,8 +59,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Nullable
     public Spell currentSpell;
-
-    //todo spawn with appropriate equipment
 
     public HasturCultistEntity(EntityType<? extends VillagerEntity> entityType, World world) {
         super(entityType, world);
@@ -118,7 +117,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         this.goalSelector.add(4, new SpellCastGoal<>(this));
         this.goalSelector.add(5, new MeleeAttackGoal(this, 0.6F, false));
         this.targetSelector.add(0, new RevengeGoal(this, HasturCultistEntity.class).setGroupRevenge());
-        this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> living instanceof Affiliated && ((Affiliated) living).getAffiliation() == Affiliation.SHUB));
+        this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> CapabilityUtil.getAffiliation(living, true) == Affiliation.SHUB));
         this.targetSelector.add(2, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true, mob -> !(mob instanceof HasturCultistEntity) && !(mob instanceof CreeperEntity)));
         this.targetSelector.add(3, new UniversalAngerGoal<>(this, true));
         this.targetSelector.add(4, new FollowTargetGoal<>(this, PlayerEntity.class, 50, true, true, player -> {
@@ -161,7 +160,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public boolean damage(DamageSource source, float amount) {
-        if (amount > 0.0F && ((LivingEntityMixin) this).callBlockedByShield(source)) {
+        if (amount > 0.0F && ((LivingEntityAccessor) this).callBlockedByShield(source)) {
             this.damageShield(amount);
             if (!source.isProjectile()) {
                 Entity entity = source.getSource();
@@ -201,8 +200,10 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     protected void initEquipment(LocalDifficulty difficulty) {
         super.initEquipment(difficulty);
 
-        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
-        this.equipStack(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
+        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(world.random.nextBoolean() ? Items.IRON_SWORD : ModObjects.ORNATE_DAGGER));
+        if (!isAscended()) {
+            this.equipStack(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
+        }
     }
 
     @Nullable
@@ -304,7 +305,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     }
 
     @Override
-    public Affiliation getAffiliation() {
+    public Affiliation getAffiliation(boolean apparent) {
         return Affiliation.HASTUR;
     }
 

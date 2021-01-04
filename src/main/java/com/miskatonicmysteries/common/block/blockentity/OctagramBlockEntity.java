@@ -53,6 +53,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
         super.markDirty();
         if (currentRite != null && !permanentRiteActive && !currentRite.canCast(this)) {
             currentRite.onCancelled(this);
+            tickCount = 0;
             currentRite = null;
         }
     }
@@ -87,8 +88,8 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     }
 
     @Override
-    public Affiliation getAffiliation() {
-        return world.getBlockState(pos).getBlock() instanceof OctagramBlock ? ((OctagramBlock) world.getBlockState(pos).getBlock()).getAffiliation() : null;
+    public Affiliation getAffiliation(boolean apparent) {
+        return world.getBlockState(pos).getBlock() instanceof OctagramBlock ? ((OctagramBlock) world.getBlockState(pos).getBlock()).getAffiliation(true) : null;
     }
 
     @Override

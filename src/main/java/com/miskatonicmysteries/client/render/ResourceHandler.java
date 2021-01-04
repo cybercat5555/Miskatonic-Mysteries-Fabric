@@ -102,7 +102,7 @@ public class ResourceHandler {
     }
 
     public static Model getStatueModelFor(StatueBlockEntity statue) {
-        return STATUE_MODELS.getOrDefault(statue.getAffiliation(), new CreeperEntityModel<>());
+        return STATUE_MODELS.getOrDefault(statue.getAffiliation(false), new CreeperEntityModel<>());
     }
 
     public static SpriteIdentifier getStatueTextureFor(StatueBlockEntity statue) {

@@ -2,6 +2,8 @@ package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
+import com.miskatonicmysteries.common.feature.Affiliated;
+import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
@@ -32,7 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.*;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerMixin extends LivingEntity implements ISanity {
+public abstract class PlayerMixin extends LivingEntity implements ISanity, Affiliated {
     public final Map<String, Integer> SANITY_CAP_OVERRIDES = new ConcurrentHashMap<>();
 
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
@@ -176,5 +178,15 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity {
             getSanityCapExpansions().clear();
             ((ListTag) tag.get(Constants.NBT.SANITY_EXPANSIONS)).forEach(s -> addSanityCapExpansion(((CompoundTag) s).getString("Name"), ((CompoundTag) s).getInt("Amount")));
         }
+    }
+
+    @Override
+    public boolean isSupernatural() {
+        return false;
+    }
+
+    @Override
+    public Affiliation getAffiliation(boolean apparent) {
+        return Affiliation.NONE; //todo add mask impact here
     }
 }

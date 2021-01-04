@@ -86,7 +86,7 @@ public class MMBookItem extends Item implements Affiliated {
     }
 
     @Override
-    public Affiliation getAffiliation() {
+    public Affiliation getAffiliation(boolean apparent) {
         return affiliation;
     }
 

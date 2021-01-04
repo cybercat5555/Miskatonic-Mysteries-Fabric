@@ -4,6 +4,7 @@ import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
@@ -20,7 +21,7 @@ public class GroupSpellMedium extends SpellMedium {
         if (caster instanceof Affiliated) {
             for (Entity otherEntity : world.getOtherEntities(null, caster.getBoundingBox()
                             .expand(15 + (5 * intensity), 5 + (5 * intensity), 15 + (5 * intensity)),
-                    entity -> entity instanceof Affiliated && ((Affiliated) entity).getAffiliation().equals(((Affiliated) caster).getAffiliation()))) {
+                    entity -> entity instanceof LivingEntity && CapabilityUtil.getAffiliation(entity, true).equals(CapabilityUtil.getAffiliation(caster, false)))) {
                 if (effect.effect(world, caster, otherEntity, otherEntity.getPos(), this, intensity))
                     successfulCast = true;
             }

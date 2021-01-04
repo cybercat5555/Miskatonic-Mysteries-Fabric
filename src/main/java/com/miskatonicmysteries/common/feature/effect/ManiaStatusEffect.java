@@ -4,15 +4,12 @@ import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.lib.Constants;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectType;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-
-import java.util.Optional;
 
 public class ManiaStatusEffect extends StatusEffect {
     public ManiaStatusEffect() {
@@ -47,9 +44,7 @@ public class ManiaStatusEffect extends StatusEffect {
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
         if (entity instanceof MobEntity) {
-            Optional<Entity> entityOptional = entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(8, 3, 8), target -> target instanceof LivingEntity).stream().findAny();
-            if (entityOptional.isPresent())
-                ((MobEntity) entity).setTarget((LivingEntity) entityOptional.get());
+            entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(8, 3, 8), target -> target instanceof LivingEntity).stream().findAny().ifPresent(value -> ((MobEntity) entity).setTarget((LivingEntity) value));
         }
     }
 }

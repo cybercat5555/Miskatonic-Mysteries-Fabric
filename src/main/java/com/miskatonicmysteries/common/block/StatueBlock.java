@@ -100,7 +100,7 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
     }
 
     @Override
-    public Affiliation getAffiliation() {
+    public Affiliation getAffiliation(boolean apparent) {
         return affiliation;
     }
 

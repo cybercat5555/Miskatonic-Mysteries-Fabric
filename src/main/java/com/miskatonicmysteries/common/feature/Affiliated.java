@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.feature;
 
 public interface Affiliated {
-    Affiliation getAffiliation();
+    Affiliation getAffiliation(boolean apparent);
 
     boolean isSupernatural();
 }

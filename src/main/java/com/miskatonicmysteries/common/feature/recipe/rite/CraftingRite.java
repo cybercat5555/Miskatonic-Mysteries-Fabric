@@ -42,7 +42,7 @@ public class CraftingRite extends Rite {
     @Override
     public void tick(OctagramBlockEntity octagram) {
         super.tick(octagram);
-        float[] color = octagram.getAffiliation().getColor();
+        float[] color = octagram.getAffiliation(true).getColor();
         octagram.getWorld().addParticle(ModParticles.MAGIC, octagram.getSummoningPos().x, octagram.getSummoningPos().y, octagram.getSummoningPos().z, color[0], color[1], color[2]);
     }
 
