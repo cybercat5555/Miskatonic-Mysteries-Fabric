@@ -1,7 +1,9 @@
 package com.miskatonicmysteries.common.handler;
 
+import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
+import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import net.minecraft.block.Blocks;
@@ -21,6 +23,9 @@ import javax.annotation.Nullable;
 public class ProtagonistHandler {
 
     public static boolean spawnProtagonist(ServerWorld world, PlayerEntity player) {
+        if (MiskatonicMysteries.config.maskImpact && !MaskTrinketItem.getMask(player).isEmpty() && world.random.nextBoolean()) {
+            return false;
+        }
         MMWorldState worldState = MMWorldState.get(world);
         ProtagonistEntity.ProtagonistData data = worldState.getProtagonistDataFor(player);
         if (!data.spawned) {

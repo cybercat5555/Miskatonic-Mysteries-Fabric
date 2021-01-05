@@ -1,5 +1,7 @@
 package com.miskatonicmysteries.client.render;
 
+import com.miskatonicmysteries.client.model.armor.HasturMaskModel;
+import com.miskatonicmysteries.client.model.armor.ShubMaskModel;
 import com.miskatonicmysteries.client.model.block.CthulhuStatueModel;
 import com.miskatonicmysteries.client.model.block.HasturStatueModel;
 import com.miskatonicmysteries.client.model.block.ShubStatueModel;
@@ -34,6 +36,9 @@ public class ResourceHandler {
 
     public static final Map<Affiliation, Model> STATUE_MODELS = new HashMap<>();
     public static final Map<StatueBlock, SpriteIdentifier> STATUE_SPRITES = new HashMap<>();
+
+
+    public static final Map<Item, Model> MASK_MODELS = new HashMap<>();
 
     public static void init() {
         ClientSpriteRegistryCallback.registerBlockAtlas((spriteAtlasTexture, registry) -> {
@@ -70,6 +75,9 @@ public class ResourceHandler {
         addStatueTextureFor(ModObjects.SHUB_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_mossy"));
         addStatueTextureFor(ModObjects.SHUB_STATUE_BLACKSTONE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_blackstone"));
         addStatueTextureFor(ModObjects.SHUB_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_stone"));
+
+        addMaskModel(ModObjects.ELEGANT_MASK, new HasturMaskModel());
+        addMaskModel(ModObjects.FERAL_MASK, new ShubMaskModel());
     }
 
     public static void addBookTextureFor(Item item, Identifier texture) {
@@ -87,6 +95,10 @@ public class ResourceHandler {
 
     public static void addStatueTextureFor(StatueBlock statue, Identifier texture) {
         STATUE_SPRITES.put(statue, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, texture));
+    }
+
+    public static void addMaskModel(Item mask, Model model) {
+        MASK_MODELS.put(mask, model);
     }
 
     public static SpriteIdentifier getBookTextureFor(ItemStack stack) {
@@ -107,5 +119,9 @@ public class ResourceHandler {
 
     public static SpriteIdentifier getStatueTextureFor(StatueBlockEntity statue) {
         return STATUE_SPRITES.getOrDefault(statue.getWorld().getBlockState(statue.getPos()).getBlock(), new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("")));
+    }
+
+    public static Model getMaskModel(Item mask) {
+        return MASK_MODELS.getOrDefault(mask, new CreeperEntityModel<>());
     }
 }

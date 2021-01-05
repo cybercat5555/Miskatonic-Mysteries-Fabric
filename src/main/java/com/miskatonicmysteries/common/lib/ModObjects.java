@@ -8,6 +8,7 @@ import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.item.*;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
+import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -126,6 +127,9 @@ public class ModObjects {
     public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(ModEntities.PROTAGONIST, 4137472, 14592, new Item.Settings().group(ItemGroup.MISC));
     public static final Item HASTUR_CULTIST_SPAWN_EGG = new SpawnEggItem(ModEntities.HASTUR_CULTIST, 0xEAC800, 0xFFFFFF, new Item.Settings().group(ItemGroup.MISC));
 
+    public static final Item ELEGANT_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png"), Affiliation.HASTUR, false);
+    public static final Item FERAL_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png"), Affiliation.SHUB, false);
+
     public static void init() {
         RegistryUtil.registerBlock(DUMMY_RESONATOR_OFF, "resonator_off");
         RegistryUtil.registerBlock(DUMMY_RESONATOR_ON, "resonator_on");
@@ -216,6 +220,9 @@ public class ModObjects {
 
         RegistryUtil.register(Registry.ITEM, "protagonist_spawn_egg", PROTAGONIST_SPAWN_EGG);
         RegistryUtil.register(Registry.ITEM, "hastur_cultist_spawn_egg", HASTUR_CULTIST_SPAWN_EGG);
+
+        RegistryUtil.register(Registry.ITEM, "elegant_mask", ELEGANT_MASK);
+        RegistryUtil.register(Registry.ITEM, "feral_mask", FERAL_MASK);
 
     }
 }

@@ -39,4 +39,7 @@ public class CommonConfig implements ConfigData {
 
     @Comment(value = "The percentage of Yellow Serfs that according villages will aim for (when recruiting)")
     public float hasturCultistPercentage = 0.25F;
+
+    @Comment(value = "Determines if masks halve the chance of protagonists spawning")
+    public boolean maskImpact = true;
 }

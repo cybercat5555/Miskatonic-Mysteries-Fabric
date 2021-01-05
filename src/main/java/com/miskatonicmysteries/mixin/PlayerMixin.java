@@ -8,6 +8,7 @@ import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
+import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.common.lib.ModRegistries;
@@ -17,6 +18,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.PacketByteBuf;
@@ -187,6 +189,12 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity, Affil
 
     @Override
     public Affiliation getAffiliation(boolean apparent) {
+        if (apparent) {
+            ItemStack mask = MaskTrinketItem.getMask((PlayerEntity) (Object) this);
+            if (!mask.isEmpty()) {
+                return ((MaskTrinketItem) mask.getItem()).getAffiliation(true);
+            }
+        }
         return Affiliation.NONE; //todo add mask impact here
     }
 }
