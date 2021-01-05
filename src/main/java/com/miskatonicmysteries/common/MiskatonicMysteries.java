@@ -4,14 +4,14 @@ import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.lib.*;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 
 public class MiskatonicMysteries implements ModInitializer {
     public static CommonConfig config;
 
     static {
-        AutoConfig.register(CommonConfig.class, GsonConfigSerializer::new);
+        AutoConfig.register(CommonConfig.class, JanksonConfigSerializer::new);
         config = AutoConfig.getConfigHolder(CommonConfig.class).getConfig(); //is this even a good idea
     }
 

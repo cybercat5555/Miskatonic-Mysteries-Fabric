@@ -44,7 +44,7 @@ public abstract class GunItem extends Item {
             if (world.isClient) user.sendMessage(new TranslatableText("message.heavy_gun.needs_offhand"), true);
             return TypedActionResult.fail(stack);
         }
-        if (user.isSneaking()) {
+        if (user.isSneaking() && !isLoaded(stack)) {
             setLoading(stack, true);
             user.setCurrentHand(hand);
             return TypedActionResult.consume(stack);

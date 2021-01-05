@@ -7,6 +7,8 @@ import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.item.*;
+import com.miskatonicmysteries.common.item.armor.HasturCultistArmor;
+import com.miskatonicmysteries.common.item.armor.ShubCultistArmor;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
@@ -15,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
@@ -130,6 +133,13 @@ public class ModObjects {
     public static final Item ELEGANT_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png"), Affiliation.HASTUR, false);
     public static final Item FERAL_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png"), Affiliation.SHUB, false);
 
+    public static final Item YELLOW_HOOD = new HasturCultistArmor(EquipmentSlot.HEAD);
+    public static final Item YELLOW_ROBE = new HasturCultistArmor(EquipmentSlot.CHEST);
+    public static final Item YELLOW_SKIRT = new HasturCultistArmor(EquipmentSlot.LEGS);
+
+    public static final Item DARK_ROBE = new ShubCultistArmor(EquipmentSlot.CHEST);
+    public static final Item DARK_SKIRT = new ShubCultistArmor(EquipmentSlot.LEGS);
+
     public static void init() {
         RegistryUtil.registerBlock(DUMMY_RESONATOR_OFF, "resonator_off");
         RegistryUtil.registerBlock(DUMMY_RESONATOR_ON, "resonator_on");
@@ -223,6 +233,13 @@ public class ModObjects {
 
         RegistryUtil.register(Registry.ITEM, "elegant_mask", ELEGANT_MASK);
         RegistryUtil.register(Registry.ITEM, "feral_mask", FERAL_MASK);
+
+        RegistryUtil.register(Registry.ITEM, "yellow_hood", YELLOW_HOOD);
+        RegistryUtil.register(Registry.ITEM, "yellow_robe", YELLOW_ROBE);
+        RegistryUtil.register(Registry.ITEM, "yellow_skirt", YELLOW_SKIRT);
+
+        RegistryUtil.register(Registry.ITEM, "dark_robe", DARK_ROBE);
+        RegistryUtil.register(Registry.ITEM, "dark_skirt", DARK_SKIRT);
 
     }
 }

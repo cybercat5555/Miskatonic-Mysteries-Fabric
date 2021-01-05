@@ -17,7 +17,7 @@ import com.miskatonicmysteries.common.lib.ModEntities;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.common.lib.ModParticles;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
@@ -32,7 +32,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        AutoConfig.register(ClientConfig.class, GsonConfigSerializer::new);
+        AutoConfig.register(ClientConfig.class, JanksonConfigSerializer::new);
         config = AutoConfig.getConfigHolder(ClientConfig.class).getConfig();
 
         ModParticles.init();

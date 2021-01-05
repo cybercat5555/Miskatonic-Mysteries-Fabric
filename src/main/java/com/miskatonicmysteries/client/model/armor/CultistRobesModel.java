@@ -8,9 +8,10 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 
-public class CultistRobeModel extends BipedEntityModel<LivingEntity> {
+public class CultistRobesModel extends BipedEntityModel {
     private final ModelPart armorHead;
     private final ModelPart mainHood;
     private final ModelPart hoodFringeL01;
@@ -26,7 +27,7 @@ public class CultistRobeModel extends BipedEntityModel<LivingEntity> {
     private final ModelPart medallionStrapL_r1;
     private final ModelPart armorRightArm;
     private final ModelPart armorLeftArm;
-    private final ModelPart armorLeftLeg;
+    //  private final ModelPart armorLeftLeg;
     private final ModelPart tunicLeftFront;
     private final ModelPart tunicFront;
     private final ModelPart tunicLeft;
@@ -53,8 +54,13 @@ public class CultistRobeModel extends BipedEntityModel<LivingEntity> {
     private final ModelPart tunicRightBack3;
     private final ModelPart tunicRightBack4;
 
-    public CultistRobeModel() {
-        super(1);
+    private EquipmentSlot slot;
+    private boolean wearsBoots;
+
+    public CultistRobesModel(EquipmentSlot slot, boolean wearsBoots) {
+        super(1, 0, 128, 128);
+        this.slot = slot;
+        this.wearsBoots = wearsBoots;
         textureWidth = 128;
         textureHeight = 128;
         armorHead = new ModelPart(this);
@@ -149,14 +155,14 @@ public class CultistRobeModel extends BipedEntityModel<LivingEntity> {
         armorLeftArm.setTextureOffset(47, 82).addCuboid(-0.5F, -2.9F, -2.5F, 5.0F, 12.0F, 5.0F, -0.1F, true);
         armorLeftArm.setTextureOffset(50, 100).addCuboid(0.3F, 5.0F, 2.4F, 4.0F, 4.0F, 2.0F, 0.0F, false);
 
-        armorLeftLeg = new ModelPart(this);
-        armorLeftLeg.setPivot(0.0F, 0.0F, 0.0F);
-        leftLeg.addChild(armorLeftLeg);
+        leftLeg = new ModelPart(this);
+        leftLeg.setPivot(0.0F, 0.0F, 0.0F);
+        //leftLeg.addChild(armorLeftLeg);
 
 
         tunicLeftFront = new ModelPart(this);
         tunicLeftFront.setPivot(1.99F, 0.0F, -2.1F);
-        armorLeftLeg.addChild(tunicLeftFront);
+        leftLeg.addChild(tunicLeftFront);
         setRotationAngle(tunicLeftFront, -3.0194F, 0.0F, 3.1416F);
         tunicLeftFront.setTextureOffset(53, 65).addCuboid(-4.0F, 0.0F, -1.0F, 4.0F, 7.0F, 1.0F, 0.0F, false);
 
@@ -168,7 +174,7 @@ public class CultistRobeModel extends BipedEntityModel<LivingEntity> {
 
         tunicLeft = new ModelPart(this);
         tunicLeft.setPivot(6.01F, 0.0F, -2.1F);
-        armorLeftLeg.addChild(tunicLeft);
+        leftLeg.addChild(tunicLeft);
         setRotationAngle(tunicLeft, 0.1222F, 1.5708F, 0.0F);
         tunicLeft.setTextureOffset(23, 65).addCuboid(-4.0F, 0.0F, -1.0F, 4.0F, 7.0F, 1.0F, 0.0F, false);
 
@@ -180,7 +186,7 @@ public class CultistRobeModel extends BipedEntityModel<LivingEntity> {
 
         tunicLeftBack = new ModelPart(this);
         tunicLeftBack.setPivot(1.99F, 0.0F, 2.1F);
-        armorLeftLeg.addChild(tunicLeftBack);
+        leftLeg.addChild(tunicLeftBack);
         setRotationAngle(tunicLeftBack, 3.0194F, 0.0F, 3.1416F);
         tunicLeftBack.setTextureOffset(53, 65).addCuboid(-4.0F, 0.0F, 0.0F, 4.0F, 7.0F, 1.0F, 0.0F, false);
 
@@ -192,7 +198,7 @@ public class CultistRobeModel extends BipedEntityModel<LivingEntity> {
 
         lowerLeftSkirt = new ModelPart(this);
         lowerLeftSkirt.setPivot(11.0F, 0.0F, 0.0F);
-        armorLeftLeg.addChild(lowerLeftSkirt);
+        leftLeg.addChild(lowerLeftSkirt);
 
 
         tunicLowerFront = new ModelPart(this);
@@ -259,7 +265,6 @@ public class CultistRobeModel extends BipedEntityModel<LivingEntity> {
         tunicRightBack.addChild(tunicRightBack2);
         setRotationAngle(tunicRightBack2, 0.2618F, 0.0F, 0.0F);
 
-
         lowerRightSkirt = new ModelPart(this);
         lowerRightSkirt.setPivot(-4.0F, 0.0F, 0.0F);
         armorRightLeg.addChild(lowerRightSkirt);
@@ -302,6 +307,7 @@ public class CultistRobeModel extends BipedEntityModel<LivingEntity> {
         tunicRightBack4.setTextureOffset(53, 77).addCuboid(-4.0F, 0.0F, 0.0F, 4.0F, 2.0F, 1.0F, 0.0F, false);
     }
 
+
     @Override
     public void setAngles(LivingEntity livingEntity, float f, float g, float h, float i, float j) {
         super.setAngles(livingEntity, f, g, h, i, j);
@@ -309,6 +315,10 @@ public class CultistRobeModel extends BipedEntityModel<LivingEntity> {
 
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+        armorHead.visible = slot == EquipmentSlot.HEAD;
+        armorBody.visible = slot == EquipmentSlot.CHEST;
+        leftLeg.visible = slot == EquipmentSlot.LEGS;
+        armorRightLeg.visible = slot == EquipmentSlot.LEGS;
         super.render(matrices, vertices, light, overlay, red, green, blue, alpha);
     }
 
@@ -317,5 +327,4 @@ public class CultistRobeModel extends BipedEntityModel<LivingEntity> {
         bone.yaw = y;
         bone.roll = z;
     }
-
 }

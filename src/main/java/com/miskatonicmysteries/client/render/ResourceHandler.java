@@ -10,8 +10,10 @@ import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
+import com.miskatonicmysteries.common.item.armor.CultistArmor;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
+import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderingRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.block.entity.EnchantingTableBlockEntityRenderer;
@@ -21,9 +23,12 @@ import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ResourceHandler {
     public static final SpriteIdentifier DEFAULT_OCTAGRAM = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "block/octagram/octagram_generic"));
@@ -78,6 +83,18 @@ public class ResourceHandler {
 
         addMaskModel(ModObjects.ELEGANT_MASK, new HasturMaskModel());
         addMaskModel(ModObjects.FERAL_MASK, new ShubMaskModel());
+
+        //Botania code
+        List<Item> armors = Registry.ITEM.stream()
+                .filter(i -> i instanceof CultistArmor
+                        && Registry.ITEM.getId(i).getNamespace().equals(Constants.MOD_ID))
+                .collect(Collectors.toList());
+
+        ArmorRenderingRegistry.ModelProvider p = (entity, stack, slot, original) -> ((CultistArmor) stack.getItem()).getArmorModel(entity, stack, slot, original);
+        ArmorRenderingRegistry.registerModel(p, armors);
+
+        ArmorRenderingRegistry.TextureProvider t = (entity, stack, slot, secondLayer, suffix, original) -> ((CultistArmor) stack.getItem()).getArmorTexture(stack, slot);
+        ArmorRenderingRegistry.registerTexture(t, armors);
     }
 
     public static void addBookTextureFor(Item item, Identifier texture) {
