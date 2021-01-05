@@ -38,7 +38,7 @@ public class RecruitTask extends Task<VillagerEntity> {
         List<VillagerEntity> villagers = LookTargetUtil.streamSeenVillagers(entity, (villagerEntityx) -> !villagerEntityx.isBaby()).collect(Collectors.toList());
         int cultistCount = (int) villagers.stream().filter(v -> v instanceof HasturCultistEntity).count();
         float actualPercentage = cultistCount / (float) villagers.size();
-        if (actualPercentage < MiskatonicMysteries.config.hasturCultistPercentage && brain.getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).get() instanceof VillagerEntity) {
+        if (actualPercentage < MiskatonicMysteries.config.entities.yellowSerfPercentage && brain.getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).get() instanceof VillagerEntity) {
             VillagerEntity recipient = (VillagerEntity) brain.getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).get();
             HasturCultistEntity cultist = ModEntities.HASTUR_CULTIST.create(world);
             cultist.refreshPositionAndAngles(recipient.getX(), recipient.getY(), recipient.getZ(), recipient.yaw, recipient.pitch);

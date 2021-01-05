@@ -16,8 +16,6 @@ import com.miskatonicmysteries.common.item.GunItem;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.common.lib.ModParticles;
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
@@ -28,13 +26,8 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 
 public class MiskatonicMysteriesClient implements ClientModInitializer {
-    public static ClientConfig config;
-
     @Override
     public void onInitializeClient() {
-        AutoConfig.register(ClientConfig.class, JanksonConfigSerializer::new);
-        config = AutoConfig.getConfigHolder(ClientConfig.class).getConfig();
-
         ModParticles.init();
         FabricModelPredicateProviderRegistry.register(ModObjects.RIFLE, new Identifier("loading"), (stack, world, entity) -> GunItem.isLoading(stack) ? 1 : 0);
         BlockRenderLayerMap.INSTANCE.putBlock(ModObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());

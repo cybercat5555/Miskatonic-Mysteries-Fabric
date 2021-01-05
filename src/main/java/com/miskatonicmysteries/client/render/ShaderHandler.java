@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.client.render;
 
-import com.miskatonicmysteries.client.MiskatonicMysteriesClient;
+import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModRegistries;
 import ladysnake.satin.api.event.ShaderEffectRenderCallback;
@@ -14,7 +14,7 @@ public class ShaderHandler {
 
     public static void init() {
         ShaderEffectRenderCallback.EVENT.register(parTick -> {
-            if (MiskatonicMysteriesClient.config.useShaders && MinecraftClient.getInstance().player != null && MinecraftClient.getInstance().player.hasStatusEffect(ModRegistries.MANIA)) {
+            if (MiskatonicMysteries.config.client.useShaders && MinecraftClient.getInstance().player != null && MinecraftClient.getInstance().player.hasStatusEffect(ModRegistries.MANIA)) {
                 MANIA.render(parTick);
             }
         });

@@ -44,11 +44,12 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity, Affil
     }
 
     @Inject(method = "tick()V", at = @At("TAIL"))
-    private void handleMiskStats(CallbackInfo info) {//currently, stats get reset after dying, which is bad, look at ClientPlayNetworkHandler for fixing mixin
+    private void handleMiskStats(CallbackInfo info) {
         if (age % MiskatonicMysteries.config.modUpdateInterval == 0) {
-            if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.shockRemoveChance) setShocked(false);
+            if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.sanity.shockRemoveChance)
+                setShocked(false);
         }
-        if (!world.isClient && age % MiskatonicMysteries.config.insanityInterval == 0) {
+        if (!world.isClient && age % MiskatonicMysteries.config.sanity.insanityInterval == 0) {
             InsanityHandler.handleInsanityEvents((PlayerEntity) (Object) this);
         }
     }

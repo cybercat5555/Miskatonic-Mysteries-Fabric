@@ -26,9 +26,9 @@ public class TranquilizedStatusEffect extends StatusEffect {
             if (isLethal(entity, amplifier)) entity.damage(Constants.DamageSources.SLEEP, 4000);
             else {
                 ISanity sanity = (ISanity) entity;
-                sanity.setSanity((int) (((ISanity) entity).getSanity() + MiskatonicMysteries.config.tranquilizedSanityBonus * Math.min((amplifier + 2) / 2F, 3F)), true);
+                sanity.setSanity((int) (((ISanity) entity).getSanity() + MiskatonicMysteries.config.sanity.tranquilizedSanityBonus * Math.min((amplifier + 2) / 2F, 3F)), true);
                 entity.damage(Constants.DamageSources.SLEEP, 2);
-                if (entity.getRandom().nextFloat() < MiskatonicMysteries.config.tranquilizedSanityCapRegainChance) {
+                if (entity.getRandom().nextFloat() < MiskatonicMysteries.config.sanity.tranquilizedSanityCapRegainChance) {
                     for (String s : sanity.getSanityCapExpansions().keySet()) {
                         if (sanity.getSanityCapExpansions().get(s) < 0) {
                             int value = sanity.getSanityCapExpansions().get(s) + (amplifier * 5);

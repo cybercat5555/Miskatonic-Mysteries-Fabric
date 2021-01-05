@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 public class ProtagonistHandler {
 
     public static boolean spawnProtagonist(ServerWorld world, PlayerEntity player) {
-        if (MiskatonicMysteries.config.maskImpact && !MaskTrinketItem.getMask(player).isEmpty() && world.random.nextBoolean()) {
+        if (MiskatonicMysteries.config.entities.maskImpact && !MaskTrinketItem.getMask(player).isEmpty() && world.random.nextBoolean()) {
             return false;
         }
         MMWorldState worldState = MMWorldState.get(world);

@@ -30,9 +30,9 @@ public class ManiaStatusEffect extends StatusEffect {
     }
 
     private void insanityDeath(LivingEntity entity, ISanity sanity, int amplifier) {
-        if (sanity.getSanity() < MiskatonicMysteries.config.deadlyInsanityThreshold && entity.age % Math.min(60 - amplifier * 3, 20) == 0 && entity.getRandom().nextFloat() > (sanity.getSanity() / (float) MiskatonicMysteries.config.deadlyInsanityThreshold)) {
+        if (sanity.getSanity() < MiskatonicMysteries.config.sanity.deadlyInsanityThreshold && entity.age % Math.min(60 - amplifier * 3, 20) == 0 && entity.getRandom().nextFloat() > (sanity.getSanity() / (float) MiskatonicMysteries.config.sanity.deadlyInsanityThreshold)) {
             entity.damage(Constants.DamageSources.INSANITY, 666);
-            sanity.setSanity(MiskatonicMysteries.config.deadlyInsanityThreshold + 50, true);
+            sanity.setSanity(MiskatonicMysteries.config.sanity.deadlyInsanityThreshold + 50, true);
         }
     }
 

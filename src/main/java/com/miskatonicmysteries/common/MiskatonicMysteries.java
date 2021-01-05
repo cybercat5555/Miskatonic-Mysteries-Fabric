@@ -8,11 +8,11 @@ import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 
 public class MiskatonicMysteries implements ModInitializer {
-    public static CommonConfig config;
+    public static ModConfig config;
 
     static {
-        AutoConfig.register(CommonConfig.class, JanksonConfigSerializer::new);
-        config = AutoConfig.getConfigHolder(CommonConfig.class).getConfig(); //is this even a good idea
+        AutoConfig.register(ModConfig.class, JanksonConfigSerializer::new);
+        config = AutoConfig.getConfigHolder(ModConfig.class).getConfig(); //is static init even a good idea
     }
 
     @Override

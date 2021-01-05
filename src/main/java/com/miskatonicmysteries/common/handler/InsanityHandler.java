@@ -40,7 +40,7 @@ public class InsanityHandler {
 
     private static InsanityEvent findInsanityEvent(PlayerEntity player, ISanity sanity, float insanityFactor) {
         List<InsanityEvent> events = InsanityEvent.INSANITY_EVENTS.values().parallelStream().filter(event -> event.test(player, sanity, insanityFactor)).collect(Collectors.toList());
-        for (int i = 0; i < MiskatonicMysteries.config.insanityEventAttempts; i++) {
+        for (int i = 0; i < MiskatonicMysteries.config.sanity.insanityEventAttempts; i++) {
             if (events.isEmpty()) return null;
             InsanityEvent event = events.get(player.getRandom().nextInt(events.size()));
             if (player.getRandom().nextFloat() < event.baseChance) return event;
