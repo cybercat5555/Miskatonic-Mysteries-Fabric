@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "miskatonicmysteries:block/gilded_blackstone_shub_mural"
+  }
+}

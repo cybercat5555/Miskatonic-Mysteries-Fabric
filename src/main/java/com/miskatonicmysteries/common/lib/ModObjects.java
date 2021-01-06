@@ -79,6 +79,8 @@ public class ModObjects {
 
     public static final Block STONE_SHUB_MURAL = new MuralBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.STONE));
     public static final Block MOSSY_SHUB_MURAL = new MuralBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final Block BLACKSTONE_SHUB_MURAL = new MuralBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
+    public static final Block GILDED_BLACKSTONE_SHUB_MURAL = new MuralBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.GILDED_BLACKSTONE));
 
     public static final Block OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
     public static final Block WARDED_OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD.strength(2.5F, 12));
@@ -195,6 +197,8 @@ public class ModObjects {
 
         RegistryUtil.registerBlock(STONE_SHUB_MURAL, "stone_shub_mural");
         RegistryUtil.registerBlock(MOSSY_SHUB_MURAL, "mossy_shub_mural");
+        RegistryUtil.registerBlock(BLACKSTONE_SHUB_MURAL, "blackstone_shub_mural");
+        RegistryUtil.registerBlock(GILDED_BLACKSTONE_SHUB_MURAL, "gilded_blackstone_shub_mural");
 
 
         RegistryUtil.registerBlock(OCEANIC_GOLD_BLOCK, "oceanic_gold_block");
