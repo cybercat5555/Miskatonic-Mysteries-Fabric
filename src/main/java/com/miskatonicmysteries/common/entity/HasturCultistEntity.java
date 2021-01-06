@@ -61,7 +61,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     public Spell currentSpell;
 
     public HasturCultistEntity(EntityType<? extends VillagerEntity> entityType, World world) {
-        super(entityType, world);
+        super(ModEntities.HASTUR_CULTIST, world);
         ((MobNavigation) this.getNavigation()).setCanPathThroughDoors(true);
         this.getNavigation().setCanSwim(true);
     }

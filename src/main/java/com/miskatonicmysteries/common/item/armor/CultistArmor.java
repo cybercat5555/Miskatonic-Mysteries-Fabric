@@ -24,8 +24,9 @@ public abstract class CultistArmor extends ArmorItem implements Affiliated {
 
     @Environment(EnvType.CLIENT)
     public BipedEntityModel<LivingEntity> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, BipedEntityModel<LivingEntity> original) {
-        //todo might add a field to check if pants are on, to not render stuff sometimes
-        return new CultistRobesModel(armorSlot, !entityLiving.getEquippedStack(EquipmentSlot.FEET).isEmpty());
+        return new CultistRobesModel(armorSlot, !entityLiving.getEquippedStack(EquipmentSlot.FEET).isEmpty(),
+                entityLiving.getEquippedStack(EquipmentSlot.HEAD).getItem() instanceof CultistArmor,
+                entityLiving.getEquippedStack(EquipmentSlot.LEGS).getItem() instanceof CultistArmor);
     }
 
 }

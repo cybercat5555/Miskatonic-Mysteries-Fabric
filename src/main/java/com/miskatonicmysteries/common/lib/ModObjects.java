@@ -137,6 +137,7 @@ public class ModObjects {
     public static final Item YELLOW_ROBE = new HasturCultistArmor(EquipmentSlot.CHEST);
     public static final Item YELLOW_SKIRT = new HasturCultistArmor(EquipmentSlot.LEGS);
 
+    public static final Item DARK_HOOD = new ShubCultistArmor(EquipmentSlot.HEAD);
     public static final Item DARK_ROBE = new ShubCultistArmor(EquipmentSlot.CHEST);
     public static final Item DARK_SKIRT = new ShubCultistArmor(EquipmentSlot.LEGS);
 
@@ -238,6 +239,7 @@ public class ModObjects {
         RegistryUtil.register(Registry.ITEM, "yellow_robe", YELLOW_ROBE);
         RegistryUtil.register(Registry.ITEM, "yellow_skirt", YELLOW_SKIRT);
 
+        RegistryUtil.register(Registry.ITEM, "dark_hood", DARK_HOOD);
         RegistryUtil.register(Registry.ITEM, "dark_robe", DARK_ROBE);
         RegistryUtil.register(Registry.ITEM, "dark_skirt", DARK_SKIRT);
 
