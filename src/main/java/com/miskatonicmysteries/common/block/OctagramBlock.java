@@ -105,12 +105,6 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
         }
     }
 
-    @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        super.onBreak(world, pos, state, player);
-    }
-
-
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockView world) {

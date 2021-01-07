@@ -6,10 +6,12 @@ import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import com.miskatonicmysteries.common.lib.ModParticles;
+import com.miskatonicmysteries.common.lib.ModRegistries;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -32,8 +34,19 @@ public class PacketHandler {
 
     public static final Identifier PROTAG_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "protag_particle");
 
-    public static void registerC2S() {
 
+    public static final Identifier CLIENT_INVOKE_MANIA_PACKET = new Identifier(Constants.MOD_ID, "invoke_mania");
+
+    public static void registerC2S() {
+        ServerPlayNetworking.registerGlobalReceiver(CLIENT_INVOKE_MANIA_PACKET, (server, player, handler, packetByteBuf, sender) -> {
+            int amplifier = packetByteBuf.readInt();
+            int duration = packetByteBuf.readInt();
+            server.execute(() -> {
+                        player.addStatusEffect(new StatusEffectInstance(ModRegistries.MANIA, duration, amplifier, true, true));
+                        ((ISanity) player).setShocked(true);
+                    }
+            );
+        });
     }
 
     public static void registerS2C() {

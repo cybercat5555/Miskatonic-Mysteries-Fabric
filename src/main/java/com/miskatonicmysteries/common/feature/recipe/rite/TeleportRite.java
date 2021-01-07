@@ -98,6 +98,7 @@ public class TeleportRite extends Rite {
         matrixStack.translate(1.5, 0, 1.5);
         matrixStack.multiply(Vector3f.POSITIVE_Y.getRadialQuaternion(((float) entity.getWorld().getTime() + tickDelta) / 20.0F));
         matrixStack.translate(-1.5F, 0.0025F, -1.5F);
+        //todo custom render layer for this so it does not do alpha fighting
         RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, ResourceHandler.AURA_SPRITE.getSprite().getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getTranslucent())), light, overlay, colors);
         matrixStack.pop();
     }

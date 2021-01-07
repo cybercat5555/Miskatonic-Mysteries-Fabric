@@ -96,6 +96,8 @@ public class ModObjects {
     public static final Block DUMMY_RESONATOR_OFF = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
     public static final Block POWERCELL = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
 
+    public static final Block YELLOW_SIGN = new YellowSignBlock();
+
     public static final MMBookItem SCIENCE_JOURNAL = new MMBookItem(new Identifier(Constants.MOD_ID, "science_journal"), Affiliation.NONE, false);
     public static final MMBookItem NECRONOMICON = new MMBookItem(new Identifier(Constants.MOD_ID, "necronomicon"), Affiliation.NONE, true);
 
@@ -209,6 +211,8 @@ public class ModObjects {
         RegistryUtil.registerBlock(OCEANIC_GOLD_PILLAR_SPLIT, "oceanic_gold_pillar_split");
 
         RegistryUtil.registerBlock(CANDLE, "candle");
+
+        RegistryUtil.registerBlock(YELLOW_SIGN, "yellow_sign");
 
         RegistryUtil.register(Registry.ITEM, "science_journal", SCIENCE_JOURNAL);
         RegistryUtil.register(Registry.ITEM, "necronomicon", NECRONOMICON);
