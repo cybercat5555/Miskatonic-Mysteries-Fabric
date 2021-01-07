@@ -27,7 +27,7 @@ public class OctagramBlockRender extends BlockEntityRenderer<OctagramBlockEntity
     @Override
     public void render(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         Sprite sprite = ResourceHandler.getOctagramTextureFor(entity).getSprite();
-        VertexConsumer buffer = sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutout()));
+        VertexConsumer buffer = sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped()));
         matrixStack.push();
         Direction direction = entity.getWorld().getBlockState(entity.getPos()).get(HorizontalFacingBlock.FACING);
         byte overrideRender = entity.currentRite != null ? entity.currentRite.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher) : 3;
@@ -55,9 +55,9 @@ public class OctagramBlockRender extends BlockEntityRenderer<OctagramBlockEntity
 
         for (int i = 0; i < entity.size(); i++) {
             matrixStack.push();
-            matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(0.125F * i * 360F));
-            matrixStack.translate(0, 0, 1.1);
-            matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(90));
+            matrixStack.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(0.125F * i * 360F));
+            matrixStack.translate(0, 0, -1.1);
+            matrixStack.multiply(Vector3f.NEGATIVE_X.getDegreesQuaternion(90));
             MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(i), ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrixStack, vertexConsumers);
             matrixStack.pop();
         }

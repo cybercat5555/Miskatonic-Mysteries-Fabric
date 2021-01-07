@@ -113,6 +113,7 @@
   "miskatonicmysteries.command.execute_insanity_event.failure": "Failed to execute insanity event %s, as it does not exist",
   "miskatonicmysteries.command.summon_investigator": "Successfully summoned Investigator for %s",
   "miskatonicmysteries.command.summon_investigator.failure": "Failed to summon Investigator",
+  "miskatonicmysteries.command.clear_data": "Cleared world data",
   "comment7": "STATUS EFFECTS",
   "effect.miskatonicmysteries.mania": "Mania",
   "effect.miskatonicmysteries.tranquilized": "Tranquilized",

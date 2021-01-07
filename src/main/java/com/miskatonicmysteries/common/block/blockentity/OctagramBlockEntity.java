@@ -13,17 +13,17 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedInventory, Affiliated, Tickable {
-    private static final int RANGE = 8;
     private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(8, ItemStack.EMPTY);
     public int tickCount;
     public boolean permanentRiteActive;
     public Rite currentRite = null;
-
     public OctagramBlockEntity() {
         super(ModObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
+
     }
 
     @Override
@@ -89,16 +89,20 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
 
     @Override
     public Affiliation getAffiliation(boolean apparent) {
-        return world.getBlockState(pos).getBlock() instanceof OctagramBlock ? ((OctagramBlock) world.getBlockState(pos).getBlock()).getAffiliation(true) : null;
+        return getCachedState().getBlock() instanceof OctagramBlock ? ((OctagramBlock) world.getBlockState(pos).getBlock()).getAffiliation(true) : null;
     }
 
     @Override
     public boolean isSupernatural() {
-        return world.getBlockState(pos).getBlock() instanceof OctagramBlock && ((OctagramBlock) world.getBlockState(pos).getBlock()).isSupernatural();
+        return getCachedState().getBlock() instanceof OctagramBlock && ((OctagramBlock) world.getBlockState(pos).getBlock()).isSupernatural();
     }
 
 
     public Vec3d getSummoningPos() {
         return new Vec3d(pos.getX() + 0.5F, pos.getY() + 0.25F, pos.getZ() + 0.5F);
+    }
+
+    public Box getSelectionBox() {
+        return new Box(pos.add(-1, -1, -1), pos.add(2, 2, 2));
     }
 }

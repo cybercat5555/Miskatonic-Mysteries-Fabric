@@ -65,6 +65,12 @@ public class Constants {
         public static final String RITE = "Rite";
         public static final String KNOWLEDGE = "Knowledge";
         public static final String PERMANENT_RITE = "Permanent Rite";
+        public static final String CHANNEL = "Channel";
+        public static final String LOCATIONS = "Locations";
+        public static final String CHANNELS = "Channels";
+        public static final String AFFILIATION = "Affiliation";
+        public static final String POSITION = "Position";
+        public static final String DIMENSION = "Dimension";
     }
 
     public static class DataTrackers {

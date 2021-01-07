@@ -63,7 +63,8 @@ public class ModCommand {
 
         //       .then(CommandManager.literal("mutations"))); for later
         builder.then(CommandManager.literal("world")
-                .then(CommandManager.literal("getNBT").executes(context -> giveWorldNBT(context))));
+                .then(CommandManager.literal("getNBT").executes(context -> giveWorldNBT(context)))
+                .then(CommandManager.literal("clear").executes(context -> clearWorldNBT(context))));
 
         builder.then(CommandManager.literal("summonInvestigator")
                 .executes(context -> spawnProtagonist(context, context.getSource().getPlayer()))
@@ -106,6 +107,11 @@ public class ModCommand {
 
     private static int giveWorldNBT(CommandContext<ServerCommandSource> context) {
         context.getSource().sendFeedback(MMWorldState.get(context.getSource().getWorld()).toTag(new CompoundTag()).toText(), false);
+        return 0;
+    }
+
+    private static int clearWorldNBT(CommandContext<ServerCommandSource> context) {
+        context.getSource().sendFeedback(MMWorldState.get(context.getSource().getWorld()).clear(), false);
         return 0;
     }
 

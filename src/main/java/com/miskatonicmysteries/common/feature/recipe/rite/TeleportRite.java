@@ -4,6 +4,8 @@ import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.lib.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
@@ -26,12 +28,40 @@ public class TeleportRite extends Rite {
 
     @Override
     public void tick(OctagramBlockEntity octagram) {
-        if (!isFinished(octagram)) super.tick(octagram);
+        if (!isFinished(octagram) && !octagram.permanentRiteActive) {
+            super.tick(octagram);
+        } //teleporting is handled in the Octagram Block
+    }
+
+    @Override
+    public void onFinished(OctagramBlockEntity octagram) {
+        if (!octagram.getWorld().isClient) {
+            octagram.tickCount = 0;
+            //MMWorldState data = MMWorldState.get(octagram.getWorld());
+            // data.addTeleport(octagram.getAffiliation(false).toString(), octagram.getPos(), (ServerWorld) octagram.getWorld());
+        }
+        super.onFinished(octagram);
+    }
+
+
+    @Override
+    public void onCancelled(OctagramBlockEntity octagram) {
+        if (!octagram.getWorld().isClient) {
+            //    MMWorldState data = MMWorldState.get(octagram.getWorld());
+            //    data.removeTeleport(octagram.getPos(), (ServerWorld) octagram.getWorld());
+        }
+        super.onCancelled(octagram);
+    }
+
+
+    @Override
+    public boolean shouldContinue(OctagramBlockEntity octagram) {
+        return super.shouldContinue(octagram);
     }
 
     @Override
     public boolean isFinished(OctagramBlockEntity octagram) {
-        return octagram.permanentRiteActive || octagram.tickCount >= ticksNeeded;
+        return octagram.tickCount >= ticksNeeded;
     }
 
     @Override
@@ -44,10 +74,11 @@ public class TeleportRite extends Rite {
         return super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
     public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
         Sprite sprite = ResourceHandler.getOctagramMaskTextureFor(entity).getSprite();
-        float alpha = entity.tickCount / (float) ticksNeeded;
+        float alpha = entity.permanentRiteActive ? 1 : entity.tickCount / (float) ticksNeeded;
         float[] origColors = entity.getAffiliation(true).getColor();
         float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
         matrixStack.push();
@@ -67,7 +98,7 @@ public class TeleportRite extends Rite {
         matrixStack.translate(1.5, 0, 1.5);
         matrixStack.multiply(Vector3f.POSITIVE_Y.getRadialQuaternion(((float) entity.getWorld().getTime() + tickDelta) / 20.0F));
         matrixStack.translate(-1.5F, 0.0025F, -1.5F);
-        RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, ResourceHandler.AURA_SPRITE.getSprite().getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getTranslucentMovingBlock())), light, overlay, colors);
+        RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, ResourceHandler.AURA_SPRITE.getSprite().getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getTranslucent())), light, overlay, colors);
         matrixStack.pop();
     }
 }

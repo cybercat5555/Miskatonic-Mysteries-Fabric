@@ -95,11 +95,21 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
             }
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof OctagramBlockEntity) {
-                ItemScatterer.spawn(world, pos, ((OctagramBlockEntity) blockEntity).getItems());
+                OctagramBlockEntity octagram = (OctagramBlockEntity) blockEntity;
+                if (octagram.currentRite != null && octagram.currentRite.isPermanent((OctagramBlockEntity) blockEntity)) {
+                    octagram.currentRite.onCancelled(octagram);
+                }
+                ItemScatterer.spawn(world, pos, octagram.getItems());
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
     }
+
+    @Override
+    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        super.onBreak(world, pos, state, player);
+    }
+
 
     @Nullable
     @Override
@@ -179,7 +189,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                     octagram.setStack(state.get(NUMBER), stack);
                     octagram.markDirty();
                     return ActionResult.CONSUME;
-                } else if (stack.isEmpty() && !octagram.getItems().isEmpty()) {
+                } else if (stack.isEmpty() && !octagram.getItems().isEmpty() && !octagram.getItems().get(state.get(NUMBER)).isEmpty()) {
                     InventoryUtil.giveItem(world, player, octagram.removeStack(state.get(NUMBER)));
                     octagram.markDirty();
                     return ActionResult.SUCCESS;
@@ -218,21 +228,21 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
             switch (index) {
                 default:
                 case 0:
-                    return new BlockPos(0, 0, -1);
+                    return new BlockPos(0, 0, 1);
                 case 1:
-                    return new BlockPos(-1, 0, -1);
+                    return new BlockPos(-1, 0, 1);
                 case 2:
                     return new BlockPos(-1, 0, 0);
                 case 3:
-                    return new BlockPos(-1, 0, 1);
+                    return new BlockPos(-1, 0, -1);
                 case 4:
-                    return new BlockPos(0, 0, 1);
+                    return new BlockPos(0, 0, -1);
                 case 5:
-                    return new BlockPos(1, 0, 1);
+                    return new BlockPos(1, 0, -1);
                 case 6:
                     return new BlockPos(1, 0, 0);
                 case 7:
-                    return new BlockPos(1, 0, -1);
+                    return new BlockPos(1, 0, 1);
             }
         }
 
