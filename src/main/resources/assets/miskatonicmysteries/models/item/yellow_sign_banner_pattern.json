@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "miskatonicmysteries:item/yellow_sign_banner_pattern"
+  }
+}

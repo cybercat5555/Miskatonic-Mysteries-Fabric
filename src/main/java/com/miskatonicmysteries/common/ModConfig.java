@@ -7,7 +7,6 @@ import me.sargunvohra.mcmods.autoconfig1u.annotation.ConfigEntry;
 
 @Config(name = Constants.MOD_ID)
 public class ModConfig implements ConfigData {
-    // @Comment(value = "Determines the intervals in ticks in which values that are not absolutely essential are updated")
     public int modUpdateInterval = 20;
 
     @ConfigEntry.Gui.CollapsibleObject

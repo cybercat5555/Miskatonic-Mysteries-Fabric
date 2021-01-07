@@ -4,6 +4,7 @@
   "package": "com.miskatonicmysteries.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "BlockMixin",
     "DataLoadMixin",
     "ItemMixin",
     "LivingEntityAccessor",

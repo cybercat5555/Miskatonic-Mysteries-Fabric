@@ -48,13 +48,15 @@ public class YellowSignBlock extends Block {
     @Override
     @Environment(EnvType.CLIENT)
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        Vec3d posTracked = client.player.raycast(16, client.getTickDelta(), false).getPos();
-        if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F)) {
-            PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-            data.writeInt(0);
-            data.writeInt(200 + random.nextInt(200));
-            ClientPlayNetworking.send(PacketHandler.CLIENT_INVOKE_MANIA_PACKET, data);
+        if (random.nextInt(5) == 0) {
+            MinecraftClient client = MinecraftClient.getInstance();
+            Vec3d posTracked = client.player.raycast(100, client.getTickDelta(), false).getPos();
+            if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F)) {
+                PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+                data.writeInt(1);
+                data.writeInt(200 + random.nextInt(200));
+                ClientPlayNetworking.send(PacketHandler.CLIENT_INVOKE_MANIA_PACKET, data);
+            }
         }
         super.randomDisplayTick(state, world, pos, random);
     }

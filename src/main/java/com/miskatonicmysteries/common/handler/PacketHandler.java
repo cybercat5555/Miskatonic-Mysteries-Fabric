@@ -42,7 +42,8 @@ public class PacketHandler {
             int amplifier = packetByteBuf.readInt();
             int duration = packetByteBuf.readInt();
             server.execute(() -> {
-                        player.addStatusEffect(new StatusEffectInstance(ModRegistries.MANIA, duration, amplifier, true, true));
+                        player.addStatusEffect(new StatusEffectInstance(ModRegistries.MANIA, duration, amplifier, false, true));
+                        ((ISanity) player).setSanity(((ISanity) player).getSanity() - 5, false);
                         ((ISanity) player).setShocked(true);
                     }
             );
