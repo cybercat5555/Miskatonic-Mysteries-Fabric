@@ -83,7 +83,7 @@ public class TeleportRite extends Rite {
         float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
         matrixStack.push();
         matrixStack.translate(0, 0.001F, 0);
-        RenderHelper.renderTexturedPlane(3, sprite, matrixStack, sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(alpha < 1 ? RenderLayer.getTranslucent() : RenderLayer.getCutout())), light, overlay, new float[]{1, 1, 1, alpha});
+        RenderHelper.renderTexturedPlane(3, sprite, matrixStack, sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(alpha < 1 ? RenderHelper.getTransparency() : RenderLayer.getCutout())), light, overlay, new float[]{1, 1, 1, alpha});
         matrixStack.push();
         Matrix4f matrix4f = matrixStack.peek().getModel();
         double distance = entity.getPos().getSquaredDistance(dispatcher.camera.getPos(), true);
@@ -99,7 +99,7 @@ public class TeleportRite extends Rite {
         matrixStack.multiply(Vector3f.POSITIVE_Y.getRadialQuaternion(((float) entity.getWorld().getTime() + tickDelta) / 20.0F));
         matrixStack.translate(-1.5F, 0.0025F, -1.5F);
         //todo custom render layer for this so it does not do alpha fighting
-        RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, ResourceHandler.AURA_SPRITE.getSprite().getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getTranslucent())), light, overlay, colors);
+        RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, vertexConsumers.getBuffer(RenderHelper.getAuraGlowLayer()), light, overlay, colors);
         matrixStack.pop();
     }
 }

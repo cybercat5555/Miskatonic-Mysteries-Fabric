@@ -196,6 +196,6 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity, Affil
                 return ((MaskTrinketItem) mask.getItem()).getAffiliation(true);
             }
         }
-        return Affiliation.NONE; //todo add mask impact here
+        return Affiliation.NONE;
     }
 }

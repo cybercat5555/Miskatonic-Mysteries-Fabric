@@ -1,9 +1,10 @@
 package com.miskatonicmysteries.client.render;
 
 import com.miskatonicmysteries.common.lib.Constants;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.*;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Matrix4f;
@@ -16,20 +17,60 @@ import java.util.stream.IntStream;
 
 public class RenderHelper extends RenderLayer {
     private static final List<RenderLayer> PORTAL_LAYERS = IntStream.range(1, 17).mapToObj(RenderLayer::getEndPortal).collect(Collectors.toList());
+    public static final RenderPhase.Transparency AURA_TRANSPARENCY = new RenderPhase.Transparency(Constants.MOD_ID + ":aura_transparency", () -> {
+        RenderSystem.depthMask(false);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
+        RenderSystem.disableLighting();
+    }, () -> {
+        RenderSystem.depthMask(true);
+        RenderSystem.disableBlend();
+        RenderSystem.defaultBlendFunc();
+    });
+
+    public static final MultiPhaseParameters TRANSPARENCY_PARAMS = RenderLayer.MultiPhaseParameters.builder()
+            .shadeModel(new RenderPhase.ShadeModel(false))
+            .texture(BLOCK_ATLAS_TEXTURE)
+            .diffuseLighting(new RenderPhase.DiffuseLighting(true))
+            .transparency(new RenderPhase.Transparency(Constants.MOD_ID + ":translucency", () -> {
+                RenderSystem.disableDepthTest();
+                RenderSystem.depthMask(false);
+                RenderSystem.enableBlend();
+                RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+
+            }, () -> {
+                RenderSystem.enableDepthTest();
+                RenderSystem.depthMask(true);
+                RenderSystem.disableBlend();
+                RenderSystem.defaultBlendFunc();
+            }))
+            .lightmap(new RenderPhase.Lightmap(true))
+            .build(true);
+
+    public static final RenderLayer.MultiPhaseParameters AURA_PARAMS = RenderLayer.MultiPhaseParameters.builder()
+            .shadeModel(new RenderPhase.ShadeModel(false))
+            .texture(BLOCK_ATLAS_TEXTURE)
+            .diffuseLighting(new RenderPhase.DiffuseLighting(true))
+            .transparency(AURA_TRANSPARENCY)
+            .alpha(RenderPhase.ONE_TENTH_ALPHA)
+            .lightmap(new RenderPhase.Lightmap(true))
+            .build(true);
+
+    public static final RenderLayer AURA_LAYER = RenderLayer.of(Constants.MOD_ID + ":aura_layer", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, AURA_PARAMS);
+    //for when the octagram "fades into" portal mode, still doesn't work perfectly on other transparent blocks
+    public static final RenderLayer TRANSPARENCY_LAYER = RenderLayer.of(Constants.MOD_ID + ":transparent", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, TRANSPARENCY_PARAMS);
+
 
     public RenderHelper(String name, VertexFormat vertexFormat, int drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, Runnable startAction, Runnable endAction) {
         super(name, vertexFormat, drawMode, expectedBufferSize, hasCrumbling, translucent, startAction, endAction);
     }
 
-    public static RenderLayer getOctagramLayer() {
-        RenderLayer.MultiPhaseParameters param = RenderLayer.MultiPhaseParameters.builder()
-                .shadeModel(new RenderPhase.ShadeModel(true))
-                .texture(new RenderPhase.Texture(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, false, true))
-                .diffuseLighting(new RenderPhase.DiffuseLighting(true))
-                .alpha(new RenderPhase.Alpha(0.04F))
-                .lightmap(new RenderPhase.Lightmap(true))
-                .build(true);
-        return RenderLayer.of(Constants.MOD_ID + ":octagram_layer", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, param);
+    public static RenderLayer getAuraGlowLayer() {
+        return AURA_LAYER;
+    }
+
+    public static RenderLayer getTransparency() {
+        return TRANSPARENCY_LAYER;
     }
 
     public static void renderTexturedPlane(float size, Sprite sprite, MatrixStack matrices, VertexConsumer buffer, int light, int overlay, float[] rgba) {
