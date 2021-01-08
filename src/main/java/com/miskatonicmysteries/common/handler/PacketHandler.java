@@ -62,11 +62,6 @@ public class PacketHandler {
             client.execute(() -> ((ISanity) client.player).removeSanityCapExpansion(name));
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(INSANITY_EVENT_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
-            Identifier id = packetByteBuf.readIdentifier();
-            client.execute(() -> InsanityEvent.INSANITY_EVENTS.get(id).execute(client.player, (ISanity) client.player));
-        });
-
         ClientPlayNetworking.registerGlobalReceiver(SPELL_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
             CompoundTag spellTag = packetByteBuf.readCompoundTag();
             Entity entity = client.world.getEntityById(packetByteBuf.readInt());
