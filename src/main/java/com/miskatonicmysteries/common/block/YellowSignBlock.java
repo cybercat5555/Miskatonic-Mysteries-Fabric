@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.handler.PacketHandler;
+import com.miskatonicmysteries.common.lib.util.MiscUtil;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -51,7 +52,7 @@ public class YellowSignBlock extends Block {
         if (random.nextInt(5) == 0) {
             MinecraftClient client = MinecraftClient.getInstance();
             Vec3d posTracked = client.player.raycast(100, client.getTickDelta(), false).getPos();
-            if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F)) {
+            if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F) && !MiscUtil.isImmuneToYellowSign(client.player)) {
                 PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
                 data.writeInt(1);
                 data.writeInt(200 + random.nextInt(200));

@@ -56,7 +56,6 @@ public class RecruitTask extends Task<VillagerEntity> {
             recipient.releaseTicketFor(MemoryModuleType.POTENTIAL_JOB_SITE);
             recipient.releaseTicketFor(MemoryModuleType.MEETING_POINT);
             recipient.remove();
-            cultist.ascend(false);
             brain.forget(MemoryModuleType.INTERACTION_TARGET);
         }
 

@@ -37,7 +37,7 @@ public abstract class BlockMixin extends AbstractBlock {
                 && MiscUtil.isValidYellowSign(world.getBlockEntity(pos).toTag(new CompoundTag()))) {
             MinecraftClient client = MinecraftClient.getInstance();
             Vec3d posTracked = client.player.raycast(100, client.getTickDelta(), false).getPos();
-            if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F)) {
+            if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F) && !MiscUtil.isImmuneToYellowSign(client.player)) {
                 PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
                 data.writeInt(1);
                 data.writeInt(200 + random.nextInt(200));

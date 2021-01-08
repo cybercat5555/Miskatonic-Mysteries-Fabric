@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.lib.util;
 
+import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -23,16 +24,20 @@ public class MiscUtil {
         if (bannerListTag.isEmpty()) return false;
         CompoundTag found = null;
         for (Tag tag : bannerListTag) {
-            if (tag instanceof CompoundTag && ((CompoundTag) tag).getString("Pattern").equals(Constants.MOD_ID + ":yellow_sign")) {
+            if (tag instanceof CompoundTag && ((CompoundTag) tag).getString(Constants.NBT.BANNER_PATTERN).equals(Constants.MOD_ID + ":yellow_sign")) {
                 found = (CompoundTag) tag;
                 break;
             }
         }
-        return found != null && DyeColor.byId(found.getInt("Color")) == DyeColor.YELLOW;
+        return found != null && DyeColor.byId(found.getInt(Constants.NBT.BANNER_COLOR)) == DyeColor.YELLOW;
+    }
+
+    public static boolean isImmuneToYellowSign(LivingEntity entity) {
+        return CapabilityUtil.getAffiliation(entity, false) == Affiliation.HASTUR;
     }
 
     public static boolean isValidYellowSign(CompoundTag compoundTag) {
-        return compoundTag != null && compoundTag.contains("Bannerpp_LoomPatterns", 9) && MiscUtil.isValidYellowSign(compoundTag.getList("Bannerpp_LoomPatterns", 10));
+        return compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) && MiscUtil.isValidYellowSign(compoundTag.getList(Constants.NBT.BANNER_PP_TAG, 10));
     }
 
     public static void teleport(ServerWorld world, Entity target, double x, double y, double z, float yaw, float pitch) {

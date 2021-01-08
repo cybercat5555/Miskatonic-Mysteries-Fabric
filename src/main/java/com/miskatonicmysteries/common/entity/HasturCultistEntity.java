@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.entity;
 
+import com.miskatonicmysteries.common.entity.ai.FarRangeMeleeAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.SpellCastGoal;
 import com.miskatonicmysteries.common.entity.ai.TacticalDrawbackGoal;
 import com.miskatonicmysteries.common.feature.Affiliated;
@@ -14,7 +15,6 @@ import com.miskatonicmysteries.mixin.LivingEntityAccessor;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.Durations;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.UniversalAngerGoal;
 import net.minecraft.entity.ai.pathing.MobNavigation;
@@ -30,11 +30,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.IntRange;
 import net.minecraft.village.VillagerData;
@@ -47,7 +49,6 @@ import java.util.UUID;
 
 public class HasturCultistEntity extends VillagerEntity implements Angerable, Affiliated {
     protected static final TrackedData<Integer> VARIANT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    protected static final TrackedData<Boolean> ASCENDED = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     protected static final TrackedData<Boolean> CASTING = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
@@ -115,7 +116,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     protected void initGoals() { //also need them to not have some brain stuff
         this.goalSelector.add(3, new TacticalDrawbackGoal<>(this));
         this.goalSelector.add(4, new SpellCastGoal<>(this));
-        this.goalSelector.add(5, new MeleeAttackGoal(this, 0.6F, false));
+        this.goalSelector.add(5, new FarRangeMeleeAttackGoal(this, 0.6F, false));
         this.targetSelector.add(0, new RevengeGoal(this, HasturCultistEntity.class).setGroupRevenge());
         this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> CapabilityUtil.getAffiliation(living, true) == Affiliation.SHUB));
         this.targetSelector.add(2, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true, mob -> !(mob instanceof HasturCultistEntity) && !(mob instanceof CreeperEntity)));
@@ -202,8 +203,21 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
         this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(world.random.nextBoolean() ? Items.IRON_SWORD : ModObjects.ORNATE_DAGGER));
         if (!isAscended()) {
-            this.equipStack(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
+            this.equipStack(EquipmentSlot.OFFHAND, createYellowSignShield());
         }
+    }
+
+    public static ItemStack createYellowSignShield() {
+        ItemStack stack = new ItemStack(Items.SHIELD);
+        CompoundTag tag = stack.getOrCreateSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
+        tag.putInt(Constants.NBT.BANNER_BASE, DyeColor.BLACK.getId());
+        ListTag bannerpptag = new ListTag();
+        CompoundTag yellowTag = new CompoundTag();
+        yellowTag.putString(Constants.NBT.BANNER_PATTERN, Constants.MOD_ID + ":yellow_sign");
+        yellowTag.putInt(Constants.NBT.BANNER_COLOR, DyeColor.YELLOW.getId());
+        bannerpptag.add(yellowTag);
+        tag.put(Constants.NBT.BANNER_PP_TAG, bannerpptag);
+        return stack;
     }
 
     @Nullable
@@ -211,9 +225,10 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
         entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
         dataTracker.set(VARIANT, random.nextInt(2));
-        if (spawnReason != SpawnReason.EVENT && spawnReason != SpawnReason.STRUCTURE)
-            dataTracker.set(ASCENDED, random.nextBoolean());
-        setLeftHanded(random.nextBoolean()); //more left-handedness lol
+        if (spawnReason != SpawnReason.EVENT && spawnReason != SpawnReason.STRUCTURE && random.nextFloat() < 0.25F) {
+            dataTracker.set(VARIANT, 2);
+        }
+        setLeftHanded(random.nextBoolean()); //more left-handedness
         initEquipment(difficulty);
         setVillagerData(getVillagerData().withProfession(ModEntities.YELLOW_SERF));
         return entityData;
@@ -228,7 +243,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     protected void initDataTracker() {
         super.initDataTracker();
         dataTracker.startTracking(VARIANT, 0);
-        dataTracker.startTracking(ASCENDED, false);
         dataTracker.startTracking(CASTING, false);
     }
 
@@ -237,18 +251,17 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     }
 
     public boolean isAscended() {
-        return dataTracker.get(ASCENDED);
+        return dataTracker.get(VARIANT) == 2;
     }
 
-    public void ascend(boolean ascend) {
-        dataTracker.set(ASCENDED, ascend);
+    public void ascend() {
+        dataTracker.set(VARIANT, 2);
     }
 
     @Override
     public void writeCustomDataToTag(CompoundTag tag) {
         super.writeCustomDataToTag(tag);
         tag.putInt(Constants.NBT.VARIANT, getVariant());
-        tag.putBoolean(Constants.NBT.ASCENDED, isAscended());
         tag.putBoolean(Constants.NBT.CASTING, isCasting());
         if (currentSpell != null) {
             CompoundTag spell = currentSpell.toTag(new CompoundTag());
@@ -262,7 +275,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     public void readCustomDataFromTag(CompoundTag tag) {
         super.readCustomDataFromTag(tag);
         dataTracker.set(VARIANT, tag.getInt(Constants.NBT.VARIANT));
-        ascend(tag.getBoolean(Constants.NBT.ASCENDED));
         if (tag.contains(Constants.NBT.SPELL)) {
             currentSpell = Spell.fromTag((CompoundTag) tag.get(Constants.NBT.SPELL));
         }
@@ -311,6 +323,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public boolean isSupernatural() {
-        return true;
+        return isAscended();
     }
 }

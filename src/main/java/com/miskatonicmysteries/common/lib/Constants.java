@@ -49,7 +49,6 @@ public class Constants {
         public static final String SANITY_EXPANSIONS = "Sanity Expansions";
         public static final String WORK_PROGRESS = "Work Progress";
         public static final String VARIANT = "Variant";
-        public static final String ASCENDED = "Ascended";
         public static final String STAGE = "Stage";
         public static final String ALTERNATE_WEAPON = "Alternate Weapon";
         public static final String CHARGING = "Charging";
@@ -71,6 +70,12 @@ public class Constants {
         public static final String AFFILIATION = "Affiliation";
         public static final String POSITION = "Position";
         public static final String DIMENSION = "Dimension";
+
+        public static final String BLOCK_ENTITY_TAG = "BlockEntityTag";
+        public static final String BANNER_BASE = "Base";
+        public static final String BANNER_PATTERN = "Pattern";
+        public static final String BANNER_COLOR = "Color";
+        public static final String BANNER_PP_TAG = "Bannerpp_LoomPatterns";
     }
 
     public static class DataTrackers {
