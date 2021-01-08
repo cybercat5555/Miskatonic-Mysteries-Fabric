@@ -13,7 +13,6 @@ import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
 import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPattern;
-import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatternItem;
 import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatterns;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -28,7 +27,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
 public class ModObjects {
@@ -103,7 +101,7 @@ public class ModObjects {
     public static final Block YELLOW_SIGN = new YellowSignBlock();
 
     public static final LoomPattern YELLOW_SIGN_BANNER = new LoomPattern(true);
-    public static final Item YELLOW_SIGN_LOOM_PATTERN = new LoomPatternItem(YELLOW_SIGN_BANNER, new Item.Settings().group(ItemGroup.MISC).maxCount(1).rarity(Rarity.UNCOMMON));
+    public static final Item YELLOW_SIGN_LOOM_PATTERN = new YellowSignPatternItem();
 
     public static final MMBookItem SCIENCE_JOURNAL = new MMBookItem(new Identifier(Constants.MOD_ID, "science_journal"), Affiliation.NONE, false);
     public static final MMBookItem NECRONOMICON = new MMBookItem(new Identifier(Constants.MOD_ID, "necronomicon"), Affiliation.NONE, true);
@@ -219,7 +217,7 @@ public class ModObjects {
 
         RegistryUtil.registerBlock(CANDLE, "candle");
 
-        RegistryUtil.registerBlock(YELLOW_SIGN, "yellow_sign");
+        RegistryUtil.register(Registry.BLOCK, "yellow_sign", YELLOW_SIGN);
 
         RegistryUtil.register(LoomPatterns.REGISTRY, "yellow_sign", YELLOW_SIGN_BANNER);
 
