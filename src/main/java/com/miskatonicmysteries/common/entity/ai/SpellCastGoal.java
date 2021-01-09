@@ -43,13 +43,13 @@ public class SpellCastGoal<T extends HasturCultistEntity> extends Goal {
             intensity++;
         } else if (caster.hasStatusEffect(StatusEffects.RESISTANCE)) effect = SpellEffect.RESISTANCE;
         caster.currentSpell = new Spell(medium, effect, intensity);
-        caster.setCasting(true);
+        caster.setCastTime(castTime);
     }
 
     @Override
     public void stop() {
         progress = 0;
-        caster.setCasting(false);
+        caster.setCastTime(0);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class SpellCastGoal<T extends HasturCultistEntity> extends Goal {
             caster.lookAtEntity(caster.getTarget(), 30, 30);
         }
         progress++;
-        if (++progress >= castTime) {
+        if (++progress >= castTime && caster.currentSpell != null) {
             caster.currentSpell.cast(caster);
             stop();
         }

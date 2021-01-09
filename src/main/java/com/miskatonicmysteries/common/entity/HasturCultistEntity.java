@@ -25,6 +25,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -49,8 +50,7 @@ import java.util.UUID;
 
 public class HasturCultistEntity extends VillagerEntity implements Angerable, Affiliated {
     protected static final TrackedData<Integer> VARIANT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
-
-    protected static final TrackedData<Boolean> CASTING = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    protected static final TrackedData<Integer> CASTING_TIME_LEFT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     //anger
     private static final IntRange ANGER_TIME_RANGE = Durations.betweenSeconds(80, 120);
@@ -61,10 +61,16 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     @Nullable
     public Spell currentSpell;
 
-    public HasturCultistEntity(EntityType<? extends VillagerEntity> entityType, World world) {
-        super(ModEntities.HASTUR_CULTIST, world);
+    public HasturCultistEntity(EntityType<HasturCultistEntity> type, World world) {
+        super(type, world);
         ((MobNavigation) this.getNavigation()).setCanPathThroughDoors(true);
         this.getNavigation().setCanSwim(true);
+    }
+
+
+    @Override
+    public VillagerEntity createChild(ServerWorld serverWorld, PassiveEntity passiveEntity) {
+        return null;
     }
 
     @Override
@@ -155,7 +161,9 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     @Override
     protected void mobTick() {
         super.mobTick();
-        if (currentSpell == null) setCasting(false);
+        if (isCasting()) {
+            setCastTime(getCastTime() - 1);
+        }
     }
 
 
@@ -243,7 +251,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     protected void initDataTracker() {
         super.initDataTracker();
         dataTracker.startTracking(VARIANT, 0);
-        dataTracker.startTracking(CASTING, false);
+        dataTracker.startTracking(CASTING_TIME_LEFT, 0);
     }
 
     public int getVariant() {
@@ -262,7 +270,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     public void writeCustomDataToTag(CompoundTag tag) {
         super.writeCustomDataToTag(tag);
         tag.putInt(Constants.NBT.VARIANT, getVariant());
-        tag.putBoolean(Constants.NBT.CASTING, isCasting());
+        tag.putInt(Constants.NBT.CASTING, getCastTime());
         if (currentSpell != null) {
             CompoundTag spell = currentSpell.toTag(new CompoundTag());
             tag.put(Constants.NBT.SPELL, spell);
@@ -278,6 +286,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         if (tag.contains(Constants.NBT.SPELL)) {
             currentSpell = Spell.fromTag((CompoundTag) tag.get(Constants.NBT.SPELL));
         }
+        setCastTime(tag.getInt(Constants.NBT.CASTING));
         angerFromTag((ServerWorld) world, tag);
     }
 
@@ -307,13 +316,16 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         setAngerTime(ANGER_TIME_RANGE.choose(this.random));
     }
 
-    public void setCasting(boolean casting) {
-        if (!casting) currentSpell = null;
-        dataTracker.set(CASTING, casting);
+    public void setCastTime(int castTime) {
+        dataTracker.set(CASTING_TIME_LEFT, castTime);
+    }
+
+    public int getCastTime() {
+        return dataTracker.get(CASTING_TIME_LEFT);
     }
 
     public boolean isCasting() {
-        return dataTracker.get(CASTING);
+        return dataTracker.get(CASTING_TIME_LEFT) > 0;
     }
 
     @Override

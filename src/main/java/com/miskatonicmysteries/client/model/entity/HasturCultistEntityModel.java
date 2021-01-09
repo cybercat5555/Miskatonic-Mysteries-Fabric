@@ -150,16 +150,23 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
     }
 
     @Override
-    public void setAngles(HasturCultistEntity livingEntity, float f, float g, float h, float i, float j) {
-        super.setAngles(livingEntity, f, g, h, i, j);
+    public void setAngles(HasturCultistEntity livingEntity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+        super.setAngles(livingEntity, limbAngle, limbDistance, animationProgress, headYaw, headPitch);
+
+        if (livingEntity.getHeadRollingTimeLeft() > 0) {
+            this.head.roll = 0.3F * MathHelper.sin(0.45F * animationProgress);
+            this.head.pitch = 0.4F;
+        } else {
+            this.head.roll = 0.0F;
+        }
 
         if (livingEntity.isCasting()) {
             this.rightArm.pivotZ = 0.0F;
             this.rightArm.pivotX = -5.0F;
             this.leftArm.pivotZ = 0.0F;
             this.leftArm.pivotX = 5.0F;
-            this.rightArm.pitch = MathHelper.cos(h * 0.6662F) * 0.25F;
-            this.leftArm.pitch = MathHelper.cos(h * 0.6662F) * 0.25F;
+            this.rightArm.pitch = MathHelper.cos(animationProgress * 0.6662F) * 0.25F;
+            this.leftArm.pitch = MathHelper.cos(animationProgress * 0.6662F) * 0.25F;
             this.rightArm.roll = 2.3561945F;
             this.leftArm.roll = -2.3561945F;
             this.rightArm.yaw = 0.0F;

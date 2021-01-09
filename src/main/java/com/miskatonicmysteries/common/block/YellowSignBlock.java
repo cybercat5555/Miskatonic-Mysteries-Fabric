@@ -35,7 +35,7 @@ public class YellowSignBlock extends Block {
     public static final VoxelShape WEST_SHAPE = createCuboidShape(15, 0, 0, 16, 16, 16);
 
     public YellowSignBlock() {
-        super(FabricBlockSettings.of(Material.CARPET, MaterialColor.YELLOW).noCollision());
+        super(FabricBlockSettings.of(Material.CARPET, MaterialColor.YELLOW).noCollision().hardness(1).resistance(3F));
         setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(IN_WALL, false));
     }
 

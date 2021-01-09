@@ -8,7 +8,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
@@ -21,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class YellowSignPatternItem extends LoomPatternItem {
     public YellowSignPatternItem() {
-        super(ModObjects.YELLOW_SIGN_BANNER, new Item.Settings().group(ItemGroup.MISC).maxCount(1).rarity(Rarity.UNCOMMON));
+        super(ModObjects.YELLOW_SIGN_BANNER, new Item.Settings().group(Constants.MM_GROUP).maxCount(1).rarity(Rarity.UNCOMMON));
     }
 
 

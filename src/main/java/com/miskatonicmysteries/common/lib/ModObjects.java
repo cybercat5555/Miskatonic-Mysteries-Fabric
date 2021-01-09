@@ -23,7 +23,6 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
@@ -136,8 +135,8 @@ public class ModObjects {
             (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0, false, true, true)),
             new Item.Settings().group(Constants.MM_GROUP));
 
-    public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(ModEntities.PROTAGONIST, 4137472, 14592, new Item.Settings().group(ItemGroup.MISC));
-    public static final Item HASTUR_CULTIST_SPAWN_EGG = new SpawnEggItem(ModEntities.HASTUR_CULTIST, 0xEAC800, 0xFFFFFF, new Item.Settings().group(ItemGroup.MISC));
+    public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(ModEntities.PROTAGONIST, 4137472, 14592, new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item HASTUR_CULTIST_SPAWN_EGG = new SpawnEggItem(ModEntities.HASTUR_CULTIST, 0xEAC800, 0xFFFFFF, new Item.Settings().group(Constants.MM_GROUP));
 
     public static final Item ELEGANT_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png"), Affiliation.HASTUR, false);
     public static final Item FERAL_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png"), Affiliation.SHUB, false);
