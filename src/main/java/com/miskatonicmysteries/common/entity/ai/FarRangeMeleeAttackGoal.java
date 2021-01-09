@@ -11,6 +11,6 @@ public class FarRangeMeleeAttackGoal extends MeleeAttackGoal {
 
     @Override
     protected double getSquaredMaxAttackDistance(LivingEntity entity) {
-        return super.getSquaredMaxAttackDistance(entity) + 1; //:)
+        return super.getSquaredMaxAttackDistance(entity) + 6; //:)
     }
 }

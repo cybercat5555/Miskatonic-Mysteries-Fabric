@@ -6,12 +6,14 @@ import com.miskatonicmysteries.common.entity.ai.TacticalDrawbackGoal;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.spell.Spell;
+import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import com.miskatonicmysteries.mixin.LivingEntityAccessor;
+import io.netty.buffer.Unpooled;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.Durations;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
@@ -32,6 +34,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -119,7 +122,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     }
 
     @Override
-    protected void initGoals() { //also need them to not have some brain stuff
+    protected void initGoals() { //probably move this to brain
         this.goalSelector.add(3, new TacticalDrawbackGoal<>(this));
         this.goalSelector.add(4, new SpellCastGoal<>(this));
         this.goalSelector.add(5, new FarRangeMeleeAttackGoal(this, 0.6F, false));
@@ -162,6 +165,14 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     protected void mobTick() {
         super.mobTick();
         if (isCasting()) {
+            if (currentSpell != null && !world.isClient) {
+                PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+                data.writeDouble(getX());
+                data.writeDouble(getY() + 2.3F);
+                data.writeDouble(getZ());
+                data.writeInt(currentSpell.effect.getColor());
+                PacketHandler.sendToPlayers(world, data, PacketHandler.EFFECT_PARTICLE_PACKET);
+            }
             setCastTime(getCastTime() - 1);
         }
     }

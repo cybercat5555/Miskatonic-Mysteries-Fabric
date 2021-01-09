@@ -33,7 +33,7 @@ public class PacketHandler {
     public static final Identifier TARGET_PACKET = new Identifier(Constants.MOD_ID, "target");
 
     public static final Identifier PROTAG_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "protag_particle");
-
+    public static final Identifier EFFECT_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "effect_particle");
 
     public static final Identifier CLIENT_INVOKE_MANIA_PACKET = new Identifier(Constants.MOD_ID, "invoke_mania");
 
@@ -88,6 +88,14 @@ public class PacketHandler {
                     client.world.addParticle(ModParticles.FLAME, pos.x + client.world.random.nextGaussian() * ModEntities.PROTAGONIST.getWidth(), pos.y + client.world.random.nextFloat() * ModEntities.PROTAGONIST.getHeight(), pos.z + client.world.random.nextGaussian() * ModEntities.PROTAGONIST.getWidth(), 1, 0, 0);
                 for (int i = 0; i < 15; i++)
                     client.world.addParticle(ParticleTypes.LARGE_SMOKE, pos.x + client.world.random.nextGaussian() * ModEntities.PROTAGONIST.getWidth(), pos.y + client.world.random.nextFloat() * ModEntities.PROTAGONIST.getHeight(), pos.z + client.world.random.nextGaussian() * ModEntities.PROTAGONIST.getWidth(), 0, 0, 0);
+            });
+        });
+
+        ClientPlayNetworking.registerGlobalReceiver(EFFECT_PARTICLE_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
+            Vec3d pos = new Vec3d(packetByteBuf.readDouble(), packetByteBuf.readDouble(), packetByteBuf.readDouble());
+            Vec3d rgb = Vec3d.unpackRgb(packetByteBuf.readInt());
+            client.execute(() -> {
+                client.world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.x + client.world.random.nextGaussian() * 0.75F, pos.y + client.world.random.nextGaussian(), pos.z + client.world.random.nextGaussian() * 0.75F, rgb.x, rgb.y, rgb.z);
             });
         });
     }
