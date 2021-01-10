@@ -2,7 +2,8 @@ package com.miskatonicmysteries.common.lib;
 
 import com.miskatonicmysteries.client.particle.CandleFlameParticle;
 import com.miskatonicmysteries.client.particle.LeakParticle;
-import com.miskatonicmysteries.client.particle.MagicParticle;
+import com.miskatonicmysteries.client.particle.ShrinkingMagicParticle;
+import com.miskatonicmysteries.client.particle.UpwardsMagicParticle;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
@@ -12,14 +13,17 @@ import net.minecraft.world.World;
 
 public class ModParticles {
     public static final DefaultParticleType FLAME = FabricParticleTypes.simple(true);
-    public static final DefaultParticleType MAGIC = FabricParticleTypes.simple(true);
+    public static final DefaultParticleType UPWARDS_MAGIC = FabricParticleTypes.simple(true);
+    public static final DefaultParticleType SHRINKING_MAGIC = FabricParticleTypes.simple(true);
     public static final DefaultParticleType DRIPPING_BLOOD = FabricParticleTypes.simple(true);
 
     public static void init() {
         RegistryUtil.register(Registry.PARTICLE_TYPE, "flame", FLAME);
         ParticleFactoryRegistry.getInstance().register(FLAME, CandleFlameParticle.Factory::new);
-        RegistryUtil.register(Registry.PARTICLE_TYPE, "magic", MAGIC);
-        ParticleFactoryRegistry.getInstance().register(MAGIC, MagicParticle.Factory::new);
+        RegistryUtil.register(Registry.PARTICLE_TYPE, "magic_upwards", UPWARDS_MAGIC);
+        ParticleFactoryRegistry.getInstance().register(UPWARDS_MAGIC, UpwardsMagicParticle.Factory::new);
+        RegistryUtil.register(Registry.PARTICLE_TYPE, "magic_shrinking", SHRINKING_MAGIC);
+        ParticleFactoryRegistry.getInstance().register(SHRINKING_MAGIC, ShrinkingMagicParticle.Factory::new);
         RegistryUtil.register(Registry.PARTICLE_TYPE, "blood", DRIPPING_BLOOD);
         ParticleFactoryRegistry.getInstance().register(DRIPPING_BLOOD, LeakParticle.BloodFactory::new);
     }

@@ -6,8 +6,10 @@ import com.miskatonicmysteries.client.render.blockentity.AltarBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.ChemistrySetBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
+import com.miskatonicmysteries.client.render.entity.BoltRenderer;
 import com.miskatonicmysteries.client.render.entity.HasturCultistEntityRender;
 import com.miskatonicmysteries.client.render.entity.ProtagonistEntityRender;
+import com.miskatonicmysteries.client.render.entity.SpellProjectileRenderer;
 import com.miskatonicmysteries.common.block.AltarBlock;
 import com.miskatonicmysteries.common.block.OctagramBlock;
 import com.miskatonicmysteries.common.block.StatueBlock;
@@ -49,6 +51,8 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 
         EntityRendererRegistry.INSTANCE.register(ModEntities.PROTAGONIST, (entityRenderDispatcher, context) -> new ProtagonistEntityRender(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(ModEntities.HASTUR_CULTIST, (entityRenderDispatcher, context) -> new HasturCultistEntityRender(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(ModEntities.SPELL_PROJECTILE, (entityRenderDispatcher, context) -> new SpellProjectileRenderer(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(ModEntities.BOLT, (entityRenderDispatcher, context) -> new BoltRenderer(entityRenderDispatcher));
 
         PacketHandler.registerS2C();
         ShaderHandler.init();

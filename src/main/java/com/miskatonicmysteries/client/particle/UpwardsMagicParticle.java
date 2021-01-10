@@ -15,17 +15,15 @@ import org.lwjgl.opengl.GL11;
 
 import static net.minecraft.client.texture.SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE;
 
-public class MagicParticle extends AbstractSlowingParticle {
-    private boolean small;
+public class UpwardsMagicParticle extends AbstractSlowingParticle {
 
-    protected MagicParticle(ClientWorld clientWorld, double x, double y, double z, float r, float g, float b) {
+    protected UpwardsMagicParticle(ClientWorld clientWorld, double x, double y, double z, float r, float g, float b) {
         super(clientWorld, x, y, z, 0, Math.max(0.01F, clientWorld.random.nextFloat() / 50), 0);
         colorAlpha = 0.85F;
         colorRed = r;
         colorGreen = g;
         colorBlue = b;
         maxAge = 60 + clientWorld.random.nextInt(20);
-        small = clientWorld.random.nextBoolean();
     }
 
     public ParticleTextureSheet getType() {
@@ -53,7 +51,7 @@ public class MagicParticle extends AbstractSlowingParticle {
         RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569F);
         RenderSystem.disableLighting();
         super.buildGeometry(vertexConsumer, camera, tickDelta);
-        MinecraftClient.getInstance().getTextureManager().getTexture(PARTICLE_ATLAS_TEXTURE).setFilter(false, false);
+        //  MinecraftClient.getInstance().getTextureManager().getTexture(PARTICLE_ATLAS_TEXTURE).setFilter(false, false);
     }
 
     public int getColorMultiplier(float tint) {
@@ -84,7 +82,7 @@ public class MagicParticle extends AbstractSlowingParticle {
         }
 
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z, double r, double g, double b) {
-            MagicParticle particle = new MagicParticle(clientWorld, x, y, z, (float) r, (float) g, (float) b);
+            UpwardsMagicParticle particle = new UpwardsMagicParticle(clientWorld, x, y, z, (float) r, (float) g, (float) b);
             particle.scale(0.75F + clientWorld.random.nextFloat() / 5F);
             particle.setSpriteForAge(this.spriteProvider);
             return particle;

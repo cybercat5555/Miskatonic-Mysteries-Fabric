@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.feature.spell.medium;
 
+import com.miskatonicmysteries.common.entity.BoltEntity;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.Constants;
@@ -12,9 +13,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
-public class VisionSpellMedium extends SpellMedium {
-    public VisionSpellMedium() {
-        super(new Identifier(Constants.MOD_ID, "vision"));
+public class BoltSpellMedium extends SpellMedium {
+    public BoltSpellMedium() {
+        super(new Identifier(Constants.MOD_ID, "bolt"));
     }
 
     @Override
@@ -25,8 +26,12 @@ public class VisionSpellMedium extends SpellMedium {
         HitResult blockHit = world.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, caster));
         double distance = Math.pow(effect.getMaxDistance(caster), 2);
         EntityHitResult hit = ProjectileUtil.raycast(caster, vec3d, vec3d3, caster.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides(), distance);
+        if (!world.isClient && blockHit.getPos() != null) {
+            BoltEntity bolt = new BoltEntity(caster, hit != null && hit.getEntity() != null ? hit.getEntity().distanceTo(caster) : blockHit.getPos().distanceTo(caster.getPos()), effect.getColor(caster));
+            world.spawnEntity(bolt);
+        }
         if (hit != null && hit.getEntity() != null && (blockHit.squaredDistanceTo(caster) > hit.getEntity().squaredDistanceTo(caster))) {
-            return effect.effect(world, caster, hit.getEntity(), hit.getPos(), this, intensity);
+            return effect.effect(world, caster, hit.getEntity(), hit.getPos(), this, intensity, caster);
         }
         return false;
     }

@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.feature.spell;
 
+import com.miskatonicmysteries.common.feature.spell.effect.DamageSpellEffect;
 import com.miskatonicmysteries.common.feature.spell.effect.HealSpellEffect;
 import com.miskatonicmysteries.common.feature.spell.effect.KnockBackSpellEffect;
 import com.miskatonicmysteries.common.feature.spell.effect.ResistanceSpellEffect;
@@ -20,6 +21,7 @@ import static com.miskatonicmysteries.common.lib.ModRegistries.addSpellEffect;
 public abstract class SpellEffect {
     public static final Map<Identifier, SpellEffect> SPELL_EFFECTS = new HashMap<>();
 
+    public static final SpellEffect DAMAGE = addSpellEffect(new DamageSpellEffect());
     public static final SpellEffect HEAL = addSpellEffect(new HealSpellEffect());
     public static final SpellEffect RESISTANCE = addSpellEffect(new ResistanceSpellEffect());
     public static final SpellEffect KNOCKBACK = addSpellEffect(new KnockBackSpellEffect());
@@ -33,14 +35,14 @@ public abstract class SpellEffect {
         this.color = color;
     }
 
-    public int getColor() {
+    public int getColor(@Nullable LivingEntity caster) {
         return color;
     }
 
     /**
      * @return if the spell was successfully cast
      */
-    public abstract boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity);
+    public abstract boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium);
 
     public int getMaxDistance(LivingEntity caster) {
         return 16;
@@ -54,15 +56,15 @@ public abstract class SpellEffect {
         return id;
     }
 
-    public static void spawnParticleEffectsOnTarget(SpellEffect effect, Entity target) {
+    public static void spawnParticleEffectsOnTarget(LivingEntity caster, SpellEffect effect, Entity target) {
         for (int i = 0; i < 15; i++)
             target.world.addParticle(ParticleTypes.ENTITY_EFFECT,
                     target.getX() + target.world.random.nextGaussian() * target.getWidth(),
                     target.getY() + target.world.random.nextFloat()
                             * target.getHeight(),
                     target.getZ() + target.world.random.nextGaussian() * target.getWidth(),
-                    ((effect.getColor() >> 16) & 255) / 255F,
-                    ((effect.getColor() >> 8) & 255) / 255F,
-                    (effect.getColor() & 255) / 255F);
+                    ((effect.getColor(caster) >> 16) & 255) / 255F,
+                    ((effect.getColor(caster) >> 8) & 255) / 255F,
+                    (effect.getColor(caster) & 255) / 255F);
     }
 }

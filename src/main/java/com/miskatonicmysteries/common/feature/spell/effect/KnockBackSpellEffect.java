@@ -19,15 +19,18 @@ public class KnockBackSpellEffect extends SpellEffect {
     }
 
     @Override
-    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity) {
-        if (world.isClient && target != null) {
-            spawnParticleEffectsOnTarget(this, target);
+    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
+        if (target != null) {
+            if (world.isClient) {
+                spawnParticleEffectsOnTarget(caster, this, target);
+            }
+            applyKnockBack(Math.min(intensity + 1, 20) * 0.75F, secondaryMedium != null ? secondaryMedium : caster, target);
+            return true;
         }
-        applyKnockBack(Math.min(intensity + 1, 20) * 0.75F, caster, target);
-        return true;
+        return false;
     }
 
-    private void applyKnockBack(float strength, LivingEntity caster, Entity target) {
+    private void applyKnockBack(float strength, Entity caster, Entity target) {
         if (target instanceof LivingEntity) {
             strength = (float) ((double) strength * (1.0D - ((LivingEntity) target).getAttributeValue(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE)));
         }

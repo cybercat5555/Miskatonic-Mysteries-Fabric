@@ -19,9 +19,9 @@ public class ResistanceSpellEffect extends SpellEffect {
     }
 
     @Override
-    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity) {
+    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
         if (world.isClient && target != null) {
-            spawnParticleEffectsOnTarget(this, target);
+            spawnParticleEffectsOnTarget(caster, this, target);
         }
         if (!(target instanceof LivingEntity)) return false;
         ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1200 + 200 * intensity, Math.min(intensity, 2), true, true));

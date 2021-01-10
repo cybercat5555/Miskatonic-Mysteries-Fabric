@@ -167,17 +167,17 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
     @Override
     protected void initEquipment(LocalDifficulty difficulty) {
         super.initEquipment(difficulty);
-        ARMOR_MAP.keySet().stream().filter(e -> getStage() >= ARMOR_MAP.get(e)).sorted(Comparator.comparingInt(e -> ARMOR_MAP.get(e)).reversed()).forEachOrdered(entry -> {
+        ARMOR_MAP.keySet().stream().filter(e -> getStage() >= ARMOR_MAP.get(e)).sorted(Comparator.comparingInt(ARMOR_MAP::get).reversed()).forEachOrdered(entry -> {
             if (!hasStackEquipped(entry.getKey()) && random.nextFloat() < 0.75F)
                 equipStack(entry.getKey(), entry.getValue());
         });
-        WEAPON_MAP.keySet().stream().filter(stack -> getStage() >= WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(stack -> WEAPON_MAP.get(stack))).forEachOrdered(stack -> {
+        WEAPON_MAP.keySet().stream().filter(stack -> getStage() >= WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(WEAPON_MAP::get).reversed()).forEachOrdered(stack -> {
             if (getStackInHand(Hand.MAIN_HAND).isEmpty() && random.nextFloat() < 0.7F)
                 setStackInHand(Hand.MAIN_HAND, stack);
         });
         if (getStackInHand(Hand.MAIN_HAND).isEmpty()) setStackInHand(Hand.MAIN_HAND, new ItemStack(Items.IRON_SWORD));
 
-        ALT_WEAPON_MAP.keySet().stream().filter(stack -> getStage() >= ALT_WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(stack -> ALT_WEAPON_MAP.get(stack))).forEachOrdered(stack -> {
+        ALT_WEAPON_MAP.keySet().stream().filter(stack -> getStage() >= ALT_WEAPON_MAP.get(stack)).sorted(Comparator.comparingInt(ALT_WEAPON_MAP::get).reversed()).forEachOrdered(stack -> {
             if (alternateWeapon.isEmpty() && random.nextFloat() < 0.6F) alternateWeapon = stack;
         });
     }

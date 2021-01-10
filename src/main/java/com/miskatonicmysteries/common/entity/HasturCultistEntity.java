@@ -16,6 +16,7 @@ import com.miskatonicmysteries.mixin.LivingEntityAccessor;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.Durations;
+import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.UniversalAngerGoal;
@@ -166,17 +167,25 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         super.mobTick();
         if (isCasting()) {
             if (currentSpell != null && !world.isClient) {
+                if (currentSpell.effect == null) {
+                    setCastTime(0);
+                    return;
+                }
                 PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
                 data.writeDouble(getX());
                 data.writeDouble(getY() + 2.3F);
                 data.writeDouble(getZ());
-                data.writeInt(currentSpell.effect.getColor());
+                data.writeInt(currentSpell.effect.getColor(this));
                 PacketHandler.sendToPlayers(world, data, PacketHandler.EFFECT_PARTICLE_PACKET);
             }
             setCastTime(getCastTime() - 1);
         }
     }
 
+    @Override
+    public Brain<VillagerEntity> getBrain() {
+        return super.getBrain();
+    }
 
     @Override
     public boolean damage(DamageSource source, float amount) {

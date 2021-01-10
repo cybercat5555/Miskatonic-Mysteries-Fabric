@@ -23,12 +23,12 @@ public class SpellCastGoal<T extends HasturCultistEntity> extends Goal {
 
     @Override
     public boolean canStart() {
-        return caster.isAscended() && caster.getRandom().nextFloat() < 0.25F && (caster.getTarget() != null && caster.distanceTo(caster.getTarget()) >= 3);
+        return caster.isAscended() && caster.getRandom().nextFloat() < 0.25F && (caster.getAttacking() != null && caster.distanceTo(caster.getAttacking()) >= 3);
     }
 
     @Override
     public boolean shouldContinue() {
-        return caster.currentSpell != null && caster.isCasting() && !caster.isDead() && progress <= castTime;
+        return caster.currentSpell != null && caster.isCasting() && !caster.isDead();
     }
 
     @Override
@@ -37,11 +37,20 @@ public class SpellCastGoal<T extends HasturCultistEntity> extends Goal {
         SpellEffect effect = SpellEffect.HEAL;
         SpellMedium medium = SpellMedium.GROUP;
         int intensity = 2 + caster.getRandom().nextInt(2);
-        if (caster.getTarget() != null && caster.getTarget().distanceTo(caster) < 6) {
-            effect = SpellEffect.KNOCKBACK;
-            medium = SpellMedium.MOB_TARGET;
-            intensity++;
-        } else if (caster.hasStatusEffect(StatusEffects.RESISTANCE)) effect = SpellEffect.RESISTANCE;
+        if (caster.getAttacking() != null) {
+            if (caster.getAttacking().distanceTo(caster) < 6) {
+                effect = SpellEffect.KNOCKBACK;
+                medium = SpellMedium.MOB_TARGET;
+                intensity++;
+            }
+            if (caster.getAttacking().distanceTo(caster) > 10) {
+                effect = SpellEffect.DAMAGE;
+                medium = SpellMedium.BOLT;
+                intensity++;
+            }
+        } else if (!caster.hasStatusEffect(StatusEffects.RESISTANCE)) {
+            effect = SpellEffect.RESISTANCE;
+        }
         caster.currentSpell = new Spell(medium, effect, intensity);
         caster.setCastTime(castTime);
     }
@@ -54,8 +63,8 @@ public class SpellCastGoal<T extends HasturCultistEntity> extends Goal {
 
     @Override
     public void tick() {
-        if (caster.getTarget() != null && caster.currentSpell != null && caster.currentSpell.medium == SpellMedium.MOB_TARGET) {
-            caster.lookAtEntity(caster.getTarget(), 30, 30);
+        if (caster.getAttacking() != null && caster.currentSpell != null && caster.currentSpell.medium != SpellMedium.GROUP) {
+            caster.lookAtEntity(caster.getAttacking(), 40, 40);
         }
         progress++;
         if (++progress >= castTime && caster.currentSpell != null) {

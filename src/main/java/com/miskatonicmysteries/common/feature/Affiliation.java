@@ -43,6 +43,14 @@ public class Affiliation {
         return color;
     }
 
+    public int getIntColor() {
+        int red = ((int) (color[0] * 255) << 16) & 0x00FF0000; //Shift red 16-bits and mask out other stuff
+        int green = ((int) (color[1] * 255) << 8) & 0x0000FF00; //Shift Green 8-bits and mask out other stuff
+        int blue = (int) (color[2] * 255) & 0x000000FF; //Mask out anything not blue.
+
+        return 0xFF000000 | red | green | blue;
+    }
+
     @Override
     public String toString() {
         return getId().toString();

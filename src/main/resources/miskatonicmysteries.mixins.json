@@ -21,6 +21,7 @@
     "villagers.VillagerEntityMixin"
   ],
   "client": [
+    "client.ClientPlayNetworkHandlerMixin",
     "client.PlayerModelMixin"
   ],
   "injectors": {

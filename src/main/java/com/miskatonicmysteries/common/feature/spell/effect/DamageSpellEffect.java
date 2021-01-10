@@ -1,29 +1,37 @@
 package com.miskatonicmysteries.common.feature.spell.effect;
 
+import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class HealSpellEffect extends SpellEffect {
-    public HealSpellEffect() {
-        super(new Identifier(Constants.MOD_ID, "heal"), null, 0xDC0000);
+public class DamageSpellEffect extends SpellEffect {
+    public DamageSpellEffect() {
+        super(new Identifier(Constants.MOD_ID, "damage"), null, 0xF24700);
+    }
+
+    @Override
+    public int getColor(@Nullable LivingEntity caster) {
+        return caster instanceof Affiliated ? ((Affiliated) caster).getAffiliation(true).getIntColor() : super.getColor(caster);
+    }
+
+    @Override
+    public int getMaxDistance(LivingEntity caster) {
+        return 24;
     }
 
     @Override
     public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
         if (target != null) {
-            if (world.isClient) {
-                spawnParticleEffectsOnTarget(caster, this, target);
-            }
-            if (!(target instanceof LivingEntity)) return false;
-            ((LivingEntity) target).heal(2.5F * (intensity + 1));
+            target.damage(DamageSource.MAGIC, 2.5F * (intensity + 1));
             return true;
         }
         return false;
