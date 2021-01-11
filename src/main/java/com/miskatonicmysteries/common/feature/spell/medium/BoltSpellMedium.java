@@ -22,9 +22,9 @@ public class BoltSpellMedium extends SpellMedium {
     public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
         Vec3d vec3d = caster.getCameraPosVec(1);
         Vec3d vec3d2 = caster.getRotationVec(1);
-        Vec3d vec3d3 = vec3d.add(vec3d2.x * effect.getMaxDistance(caster), vec3d2.y * effect.getMaxDistance(caster), vec3d2.z * effect.getMaxDistance(caster));
+        Vec3d vec3d3 = vec3d.add(vec3d2.x * getMaxDistance(), vec3d2.y * getMaxDistance(), vec3d2.z * getMaxDistance());
         HitResult blockHit = world.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, caster));
-        double distance = Math.pow(effect.getMaxDistance(caster), 2);
+        double distance = Math.pow(getMaxDistance(), 2);
         EntityHitResult hit = ProjectileUtil.raycast(caster, vec3d, vec3d3, caster.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides(), distance);
         if (!world.isClient && blockHit.getPos() != null) {
             BoltEntity bolt = new BoltEntity(caster, hit != null && hit.getEntity() != null ? hit.getEntity().distanceTo(caster) : blockHit.getPos().distanceTo(caster.getPos()), effect.getColor(caster));
@@ -34,5 +34,9 @@ public class BoltSpellMedium extends SpellMedium {
             return effect.effect(world, caster, hit.getEntity(), hit.getPos(), this, intensity, caster);
         }
         return false;
+    }
+
+    private int getMaxDistance() {
+        return 16;
     }
 }

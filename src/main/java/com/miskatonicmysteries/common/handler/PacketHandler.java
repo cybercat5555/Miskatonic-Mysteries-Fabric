@@ -3,6 +3,8 @@ package com.miskatonicmysteries.common.handler;
 import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
 import com.miskatonicmysteries.common.feature.spell.Spell;
+import com.miskatonicmysteries.common.feature.spell.SpellEffect;
+import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import com.miskatonicmysteries.common.lib.ModParticles;
@@ -30,7 +32,7 @@ public class PacketHandler {
     public static final Identifier INSANITY_EVENT_PACKET = new Identifier(Constants.MOD_ID, "insanity_event");
 
     public static final Identifier SPELL_PACKET = new Identifier(Constants.MOD_ID, "spell");
-    public static final Identifier TARGET_PACKET = new Identifier(Constants.MOD_ID, "target");
+    public static final Identifier MOB_SPELL_MEDIUM_PACKET = new Identifier(Constants.MOD_ID, "mob_spell");
 
     public static final Identifier PROTAG_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "protag_particle");
     public static final Identifier EFFECT_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "effect_particle");
@@ -69,11 +71,13 @@ public class PacketHandler {
                 client.execute(() -> Spell.fromTag(spellTag).cast((LivingEntity) entity));
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(TARGET_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(MOB_SPELL_MEDIUM_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
             Entity mob = client.world.getEntityById(packetByteBuf.readInt());
-            Entity entity = client.world.getEntityById(packetByteBuf.readInt());
-            if (mob instanceof MobEntity && entity instanceof LivingEntity)
-                client.execute(() -> ((MobEntity) mob).setTarget((LivingEntity) entity));
+            Entity target = client.world.getEntityById(packetByteBuf.readInt());
+            SpellEffect effect = SpellEffect.SPELL_EFFECTS.get(packetByteBuf.readIdentifier());
+            int intensity = packetByteBuf.readInt();
+            if (mob instanceof MobEntity && target instanceof LivingEntity)
+                client.execute(() -> effect.effect(client.world, (MobEntity) mob, target, target.getPos(), SpellMedium.MOB_TARGET, intensity, mob));
         });
 
         ClientPlayNetworking.registerGlobalReceiver(INSANITY_EVENT_PACKET, (client, networkHandler, packetByteBuf, sender) -> {

@@ -24,11 +24,6 @@ public class DamageSpellEffect extends SpellEffect {
     }
 
     @Override
-    public int getMaxDistance(LivingEntity caster) {
-        return 24;
-    }
-
-    @Override
     public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
         if (target != null) {
             target.damage(DamageSource.MAGIC, 2.5F * (intensity + 1));

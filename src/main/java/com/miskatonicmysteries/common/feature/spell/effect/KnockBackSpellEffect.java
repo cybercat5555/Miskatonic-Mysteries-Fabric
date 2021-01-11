@@ -24,7 +24,7 @@ public class KnockBackSpellEffect extends SpellEffect {
             if (world.isClient) {
                 spawnParticleEffectsOnTarget(caster, this, target);
             }
-            applyKnockBack(Math.min(intensity + 1, 20) * 0.75F, secondaryMedium != null ? secondaryMedium : caster, target);
+            applyKnockBack(Math.min(intensity + 1, 20) * 1.75F, secondaryMedium != null ? secondaryMedium : caster, target);
             return true;
         }
         return false;
@@ -43,10 +43,5 @@ public class KnockBackSpellEffect extends SpellEffect {
 
             target.setVelocity(speed.x / 2.0D - direction.x, speed.y / 2.0D - direction.y, speed.z / 2.0D - direction.z);
         }
-    }
-
-    @Override
-    public int getMaxDistance(LivingEntity caster) {
-        return 48;
     }
 }

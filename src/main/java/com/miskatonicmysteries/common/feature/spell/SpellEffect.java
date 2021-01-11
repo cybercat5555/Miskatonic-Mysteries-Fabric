@@ -44,10 +44,6 @@ public abstract class SpellEffect {
      */
     public abstract boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium);
 
-    public int getMaxDistance(LivingEntity caster) {
-        return 16;
-    }
-
     public boolean canCast(LivingEntity caster, SpellMedium medium) {
         return castingPredicate.test(caster);
     }

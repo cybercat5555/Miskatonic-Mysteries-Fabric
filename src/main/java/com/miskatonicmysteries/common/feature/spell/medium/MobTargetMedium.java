@@ -19,14 +19,14 @@ public class MobTargetMedium extends SpellMedium {
 
     @Override
     public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
-        if (caster instanceof MobEntity && caster.getAttacking() != null) {
-            if (!world.isClient) {
+        if (caster instanceof MobEntity && caster.getAttacking() != null && !world.isClient) {
+            if (caster.canSee(caster.getAttacking())) {
                 PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
                 data.writeInt(caster.getEntityId());
                 data.writeInt(caster.getAttacking().getEntityId());
-                PacketHandler.sendToPlayers(caster.world, data, PacketHandler.TARGET_PACKET);
-            }
-            if (caster.canSee(caster.getAttacking())) {
+                data.writeIdentifier(effect.getId());
+                data.writeInt(intensity);
+                PacketHandler.sendToPlayers(caster.world, data, PacketHandler.MOB_SPELL_MEDIUM_PACKET);
                 ((MobEntity) caster).lookAtEntity(caster.getAttacking(), 60, 60);
                 return !caster.isDead() && effect.effect(caster.world, caster, caster.getAttacking(), caster.getAttacking().getPos(), this, intensity, caster);
             }

@@ -1,8 +1,6 @@
 package com.miskatonicmysteries.common.entity;
 
-import com.miskatonicmysteries.common.entity.ai.FarRangeMeleeAttackGoal;
-import com.miskatonicmysteries.common.entity.ai.SpellCastGoal;
-import com.miskatonicmysteries.common.entity.ai.TacticalDrawbackGoal;
+import com.miskatonicmysteries.common.entity.brain.HasturCultistBrain;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.spell.Spell;
@@ -11,23 +9,19 @@ import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import com.miskatonicmysteries.common.lib.ModObjects;
-import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import com.miskatonicmysteries.mixin.LivingEntityAccessor;
+import com.mojang.serialization.Dynamic;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.Durations;
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.goal.FollowTargetGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.UniversalAngerGoal;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.pathing.MobNavigation;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Angerable;
-import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -55,7 +49,6 @@ import java.util.UUID;
 public class HasturCultistEntity extends VillagerEntity implements Angerable, Affiliated {
     protected static final TrackedData<Integer> VARIANT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
     protected static final TrackedData<Integer> CASTING_TIME_LEFT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
-
     //anger
     private static final IntRange ANGER_TIME_RANGE = Durations.betweenSeconds(80, 120);
     private int angerTime;
@@ -65,12 +58,72 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     @Nullable
     public Spell currentSpell;
 
+
     public HasturCultistEntity(EntityType<HasturCultistEntity> type, World world) {
         super(type, world);
         ((MobNavigation) this.getNavigation()).setCanPathThroughDoors(true);
         this.getNavigation().setCanSwim(true);
     }
 
+
+    @Override
+    protected void initGoals() {
+
+    }
+
+    @Override
+    protected void mobTick() {
+        super.mobTick();
+        HasturCultistBrain.tickActivities(this);
+        if (isCasting()) {
+            if (currentSpell != null && !world.isClient) {
+                PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+                data.writeDouble(getX());
+                data.writeDouble(getY() + 2.3F);
+                data.writeDouble(getZ());
+                data.writeInt(currentSpell.effect.getColor(this));
+                PacketHandler.sendToPlayers(world, data, PacketHandler.EFFECT_PARTICLE_PACKET);
+            }
+            setCastTime(getCastTime() - 1);
+
+        }
+        if (!world.isClient && currentSpell != null && getCastTime() <= 0) {
+            currentSpell.cast(this);
+            currentSpell = null;
+            getBrain().remember(MemoryModuleType.ATTACK_COOLING_DOWN, true, 40);
+        }
+    }
+
+    @Override
+    public @Nullable
+    LivingEntity getAttacking() {
+        return !world.isClient && getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isPresent() ? getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get() : super.getAttacking();
+    }
+
+    @Override
+    protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
+        Brain<VillagerEntity> brain = this.createBrainProfile().deserialize(dynamic);
+        this.initBrain(brain);
+        return brain;
+    }
+
+    @Override
+    public void reinitializeBrain(ServerWorld world) {
+        Brain<VillagerEntity> brain = this.getBrain();
+        brain.stopAllTasks(world, this);
+        this.brain = brain.copy();
+        this.initBrain(this.getBrain());
+    }
+
+
+    private void initBrain(Brain<VillagerEntity> brain) {
+        HasturCultistBrain.init(this, brain);
+    }
+
+    @Override
+    protected Brain.Profile<VillagerEntity> createBrainProfile() {
+        return HasturCultistBrain.createProfile();
+    }
 
     @Override
     public VillagerEntity createChild(ServerWorld serverWorld, PassiveEntity passiveEntity) {
@@ -91,9 +144,10 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
-        if (getTarget() != null) {
+        if (getAttacking() != null) {
             return ActionResult.FAIL;
         }
+
         if (player.getStackInHand(hand).getItem().equals(ModObjects.NECRONOMICON) && getReputation(player) >= 100 && !MMBookItem.hasKnowledge(Affiliation.HASTUR.getId().getPath(), player.getStackInHand(hand))) {
             MMBookItem.addKnowledge(Affiliation.HASTUR.getId().getPath(), player.getStackInHand(hand));
             if (!this.world.isClient()) {
@@ -123,24 +177,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     }
 
     @Override
-    protected void initGoals() { //probably move this to brain
-        this.goalSelector.add(3, new TacticalDrawbackGoal<>(this));
-        this.goalSelector.add(4, new SpellCastGoal<>(this));
-        this.goalSelector.add(5, new FarRangeMeleeAttackGoal(this, 0.6F, false));
-        this.targetSelector.add(0, new RevengeGoal(this, HasturCultistEntity.class).setGroupRevenge());
-        this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, living -> CapabilityUtil.getAffiliation(living, true) == Affiliation.SHUB));
-        this.targetSelector.add(2, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true, mob -> !(mob instanceof HasturCultistEntity) && !(mob instanceof CreeperEntity)));
-        this.targetSelector.add(3, new UniversalAngerGoal<>(this, true));
-        this.targetSelector.add(4, new FollowTargetGoal<>(this, PlayerEntity.class, 50, true, true, player -> {
-            if (player instanceof PlayerEntity) {
-                return getReputation((PlayerEntity) player) <= -100; //you are the bad guy
-            }
-            return false;
-        }));
-
-    }
-
-    @Override
     public void equipStack(EquipmentSlot slot, ItemStack stack) {
         if (getEquippedStack(slot).isEmpty()) super.equipStack(slot, stack);
     }
@@ -162,25 +198,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         super.tick();
     }
 
-    @Override
-    protected void mobTick() {
-        super.mobTick();
-        if (isCasting()) {
-            if (currentSpell != null && !world.isClient) {
-                if (currentSpell.effect == null) {
-                    setCastTime(0);
-                    return;
-                }
-                PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-                data.writeDouble(getX());
-                data.writeDouble(getY() + 2.3F);
-                data.writeDouble(getZ());
-                data.writeInt(currentSpell.effect.getColor(this));
-                PacketHandler.sendToPlayers(world, data, PacketHandler.EFFECT_PARTICLE_PACKET);
-            }
-            setCastTime(getCastTime() - 1);
-        }
-    }
 
     @Override
     public Brain<VillagerEntity> getBrain() {
@@ -199,7 +216,14 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
                 }
             }
         }
-        return super.damage(source, amount);
+        boolean damage = super.damage(source, amount);
+        if (this.world.isClient) {
+            return false;
+        } else if (damage && source.getAttacker() instanceof LivingEntity) {
+            HasturCultistBrain.onAttacked(this, (LivingEntity) source.getAttacker());
+            return true;
+        }
+        return damage;
     }
 
     @Override

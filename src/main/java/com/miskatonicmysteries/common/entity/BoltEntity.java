@@ -19,8 +19,6 @@ public class BoltEntity extends Entity {
     public long seed;
     protected static final TrackedData<Float> LENGTH = DataTracker.registerData(BoltEntity.class, TrackedDataHandlerRegistry.FLOAT);
     protected static final TrackedData<Integer> COLOR = DataTracker.registerData(BoltEntity.class, TrackedDataHandlerRegistry.INTEGER);
-
-    public float length = 10;
     public float[] color = {1, 0, 0, 1};
 
     public BoltEntity(EntityType<BoltEntity> entityType, World world) {

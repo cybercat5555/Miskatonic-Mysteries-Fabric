@@ -26,8 +26,8 @@ public class BoltRenderer extends EntityRenderer<BoltEntity> {
         int segmentNumber = 7;
         Random random = new Random(entity.seed);
         float sizeMod = Math.min((entity.age + tickDelta) / 2, 1);
-        float currentLength = entity.length * sizeMod;
-        float maxDistancePerSegment = entity.length / (float) segmentNumber;
+        float currentLength = entity.getLength() * sizeMod;
+        float maxDistancePerSegment = entity.getLength() / (float) segmentNumber;
 
         int targetNumber = (int) (segmentNumber * sizeMod);
         float size = 0.02F;
