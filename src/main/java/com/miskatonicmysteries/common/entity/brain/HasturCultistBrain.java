@@ -88,8 +88,8 @@ public class HasturCultistBrain {
         return ImmutableList.of(
                 new ForgetAttackTargetTask<>((livingEntity) -> !isPreferredAttackTarget(cultist, livingEntity)),
                 new ConditionalTask<>(HasturCultistBrain::isAscended, new CastSpellTask()),
-                new TacticalApproachTask(f, mob -> mob instanceof HasturCultistEntity && ((HasturCultistEntity) mob).isCasting()), //if attack cooldown, do tactical drawback
-                new MeleeAttackTask(20));
+                new TacticalApproachTask(f, mob -> mob instanceof HasturCultistEntity && ((HasturCultistEntity) mob).isCasting()),
+                new MeleeAttackTask(15));
     }
 
 

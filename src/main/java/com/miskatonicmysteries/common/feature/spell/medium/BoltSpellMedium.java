@@ -37,6 +37,6 @@ public class BoltSpellMedium extends SpellMedium {
     }
 
     private int getMaxDistance() {
-        return 16;
+        return 24;
     }
 }

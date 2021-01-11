@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 
 public class DamageSpellEffect extends SpellEffect {
     public DamageSpellEffect() {
-        super(new Identifier(Constants.MOD_ID, "damage"), null, 0xF24700);
+        super(new Identifier(Constants.MOD_ID, "damage"), null, 0xFFFFFF);
     }
 
     @Override

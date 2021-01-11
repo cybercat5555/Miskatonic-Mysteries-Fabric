@@ -65,12 +65,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         this.getNavigation().setCanSwim(true);
     }
 
-
-    @Override
-    protected void initGoals() {
-
-    }
-
     @Override
     protected void mobTick() {
         super.mobTick();
