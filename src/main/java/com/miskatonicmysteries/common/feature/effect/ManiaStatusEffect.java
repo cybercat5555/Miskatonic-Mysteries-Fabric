@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.feature.effect;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.feature.sanity.ISanity;
+import com.miskatonicmysteries.common.feature.sanity.Sanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.entity.LivingEntity;
@@ -23,13 +23,13 @@ public class ManiaStatusEffect extends StatusEffect {
                 onApplied(entity, entity.getAttributes(), amplifier);
         }
         if (entity instanceof PlayerEntity) {
-            insanityDeath(entity, (ISanity) entity, amplifier);
+            insanityDeath(entity, (Sanity) entity, amplifier);
             if (entity.age % 120 == 20 && entity.getRandom().nextFloat() < 0.05 * (amplifier + 1))
                 InsanityHandler.handleInsanityEvents((PlayerEntity) entity);
         }
     }
 
-    private void insanityDeath(LivingEntity entity, ISanity sanity, int amplifier) {
+    private void insanityDeath(LivingEntity entity, Sanity sanity, int amplifier) {
         if (sanity.getSanity() < MiskatonicMysteries.config.sanity.deadlyInsanityThreshold && entity.age % Math.min(60 - amplifier * 3, 20) == 0 && entity.getRandom().nextFloat() > (sanity.getSanity() / (float) MiskatonicMysteries.config.sanity.deadlyInsanityThreshold)) {
             entity.damage(Constants.DamageSources.INSANITY, 666);
             sanity.setSanity(MiskatonicMysteries.config.sanity.deadlyInsanityThreshold + 50, true);

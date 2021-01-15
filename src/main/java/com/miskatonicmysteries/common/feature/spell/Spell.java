@@ -38,6 +38,6 @@ public class Spell {
     }
 
     public static Spell fromTag(CompoundTag tag) {
-        return new Spell(SpellMedium.SPELL_MEDIUMS.get(new Identifier(tag.getString(Constants.NBT.SPELL_MEDIUM))), SpellEffect.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))), tag.getInt(Constants.NBT.INTENSITY));
+        return tag.isEmpty() ? null : new Spell(SpellMedium.SPELL_MEDIUMS.get(new Identifier(tag.getString(Constants.NBT.SPELL_MEDIUM))), SpellEffect.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))), tag.getInt(Constants.NBT.INTENSITY));
     }
 }

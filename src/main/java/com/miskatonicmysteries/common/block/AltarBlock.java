@@ -1,9 +1,12 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
+import com.miskatonicmysteries.common.feature.spell.SpellCaster;
+import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModParticles;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
+import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
@@ -13,6 +16,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.state.StateManager;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
@@ -65,10 +69,19 @@ public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, 
                 altar.setStack(0, stack);
                 altar.markDirty();
                 return ActionResult.CONSUME;
-            } else if (stack.isEmpty() && !altar.getItems().isEmpty()) {
-                InventoryUtil.giveItem(world, player, altar.removeStack(0));
-                altar.markDirty();
-                return ActionResult.SUCCESS;
+            } else if (!altar.getItems().isEmpty()) {
+                if (!player.isSneaking() && !altar.getStack(0).isEmpty()) {
+                    if (!world.isClient && player instanceof SpellCaster) {
+                        ((SpellCaster) player).syncSpellData();
+                        PacketHandler.sendToPlayer(player, new PacketByteBuf(Unpooled.buffer()), PacketHandler.OPEN_SPELL_EDIT_PACKET);
+                    }
+                    return ActionResult.SUCCESS;
+                } else if (stack.isEmpty()) {
+                    InventoryUtil.giveItem(world, player, altar.removeStack(0));
+                    altar.markDirty();
+                    return ActionResult.SUCCESS;
+                }
+                return ActionResult.FAIL;
             }
         }
         return super.onUse(state, world, pos, player, hand, hit);

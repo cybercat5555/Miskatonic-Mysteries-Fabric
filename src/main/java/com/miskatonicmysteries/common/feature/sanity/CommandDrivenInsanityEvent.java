@@ -2,18 +2,13 @@ package com.miskatonicmysteries.common.feature.sanity;
 
 import com.google.gson.JsonObject;
 import com.miskatonicmysteries.common.feature.DataSerializable;
-import com.miskatonicmysteries.common.handler.PacketHandler;
-import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.function.CommandFunction;
 import net.minecraft.server.function.CommandFunctionManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class CommandDrivenInsanityEvent extends InsanityEvent implements DataSerializable<CommandDrivenInsanityEvent> {
@@ -23,8 +18,8 @@ public class CommandDrivenInsanityEvent extends InsanityEvent implements DataSer
         commandId = function;
     }
 
-    public boolean execute(PlayerEntity playerEntity, ISanity sanity){
-        if (!playerEntity.world.isClient){
+    public boolean execute(PlayerEntity playerEntity, Sanity sanity) {
+        if (!playerEntity.world.isClient) {
             ServerCommandSource source = playerEntity.getCommandSource();
             CommandFunctionManager manager = playerEntity.getServer().getCommandFunctionManager();
             CommandFunction.LazyContainer function = new CommandFunction.LazyContainer(commandId);

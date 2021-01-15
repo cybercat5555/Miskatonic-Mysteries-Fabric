@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.item;
 
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.feature.sanity.ISanity;
+import com.miskatonicmysteries.common.feature.sanity.Sanity;
 import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -28,8 +28,8 @@ public class BlessedSwordItem extends SwordItem implements Affiliated {
             target.damage(DamageSource.MAGIC, 2);
         }
         if (target.getRandom().nextFloat() < 0.40F) {
-            if (attacker instanceof ISanity && attacker.getRandom().nextBoolean()) {
-                ((ISanity) attacker).setSanity(((ISanity) attacker).getSanity() - 2, true);
+            if (attacker instanceof Sanity && attacker.getRandom().nextBoolean()) {
+                ((Sanity) attacker).setSanity(((Sanity) attacker).getSanity() - 2, true);
             }
             specialEffect.accept(target, attacker);
         }

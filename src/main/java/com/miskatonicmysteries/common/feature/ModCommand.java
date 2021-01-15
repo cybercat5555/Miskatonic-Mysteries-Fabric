@@ -1,8 +1,9 @@
 package com.miskatonicmysteries.common.feature;
 
-import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
+import com.miskatonicmysteries.common.feature.sanity.Sanity;
 import com.miskatonicmysteries.common.feature.spell.Spell;
+import com.miskatonicmysteries.common.feature.spell.SpellCaster;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
@@ -66,12 +67,42 @@ public class ModCommand {
                 .then(CommandManager.literal("getNBT").executes(context -> giveWorldNBT(context)))
                 .then(CommandManager.literal("clear").executes(context -> clearWorldNBT(context))));
 
+        LiteralArgumentBuilder spellBuilder = CommandManager.literal("spells");
+        spellBuilder.then(CommandManager.literal("setMax").then(CommandManager.argument("value", IntegerArgumentType.integer(0, Constants.DataTrackers.SPELL_CAP)).executes(context -> setMaxSpells(context, IntegerArgumentType.getInteger(context, "value"), context.getSource().getPlayer()))
+                .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> setMaxSpells(context, IntegerArgumentType.getInteger(context, "value"), EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[EntityArgumentType.getPlayers(context, "player").size()]))))));
+        spellBuilder.then(CommandManager.literal("setPowerPool").then(CommandManager.argument("value", IntegerArgumentType.integer(0, Constants.DataTrackers.SPELL_CAP * 3)).executes(context -> setPowerPool(context, IntegerArgumentType.getInteger(context, "value"), context.getSource().getPlayer()))
+                .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> setPowerPool(context, IntegerArgumentType.getInteger(context, "value"), EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[EntityArgumentType.getPlayers(context, "player").size()]))))));
+
+        LiteralArgumentBuilder learnSpellBuilder = CommandManager.literal("learnEffect");
+        SpellEffect.SPELL_EFFECTS.keySet().forEach(effectId -> learnSpellBuilder.then(CommandManager.literal(effectId.toString())
+                .executes(context -> learnSpell(context, effectId, context.getSource().getPlayer()))
+                .then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(context -> learnSpell(context, effectId, EntityArgumentType.getPlayer(context, "сaster"))))));
+        spellBuilder.then(learnSpellBuilder);
+
+        LiteralArgumentBuilder mediumAvailabilityBuilder = CommandManager.literal("setMediumAvailability");
+        SpellMedium.SPELL_MEDIUMS.keySet().forEach(mediumId -> {
+            LiteralArgumentBuilder mediumBuilder = CommandManager.literal(mediumId.toString());
+            mediumBuilder.then(CommandManager.argument("amount", IntegerArgumentType.integer(0, Constants.DataTrackers.SPELL_CAP - 1))
+                    .executes(context -> setMediumAvailability(context, mediumId, IntegerArgumentType.getInteger(context, "amount"), context.getSource().getPlayer()))
+                    .then(CommandManager.argument("player", EntityArgumentType.player())
+                            .executes(context -> setMediumAvailability(context, mediumId, IntegerArgumentType.getInteger(context, "amount"), EntityArgumentType.getPlayer(context, "player")))));
+            mediumAvailabilityBuilder.then(mediumBuilder);
+        });
+        SpellMedium.SPELL_MEDIUMS.keySet().forEach(mediumId -> learnSpellBuilder.then(CommandManager.literal(mediumId.toString())).then(CommandManager.argument("amount", IntegerArgumentType.integer(0, Constants.DataTrackers.SPELL_CAP - 1))
+                .executes(context -> setMediumAvailability(context, mediumId, IntegerArgumentType.getInteger(context, "amount"), context.getSource().getPlayer()))
+                .then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(context -> setMediumAvailability(context, mediumId, IntegerArgumentType.getInteger(context, "amount"), EntityArgumentType.getPlayer(context, "сaster"))))));
+        spellBuilder.then(mediumAvailabilityBuilder);
+
+        builder.then(spellBuilder);
+
         builder.then(CommandManager.literal("summonInvestigator")
                 .executes(context -> spawnProtagonist(context, context.getSource().getPlayer()))
                 .then(CommandManager.argument("player", EntityArgumentType.player())
                         .executes(context -> spawnProtagonist(context, EntityArgumentType.getPlayer(context, "player")))));
 
-        LiteralArgumentBuilder spellBuilder = CommandManager.literal("cast");
+        LiteralArgumentBuilder castingBuilder = CommandManager.literal("cast");
         SpellMedium.SPELL_MEDIUMS.keySet().forEach(mediumId -> {
             LiteralArgumentBuilder mediumBuilder = CommandManager.literal(mediumId.toString());
             SpellEffect.SPELL_EFFECTS.keySet().forEach(effectId -> {
@@ -82,9 +113,9 @@ public class ModCommand {
                                 .then(CommandManager.argument("сaster", EntityArgumentType.player())
                                         .executes(context -> castSpell(mediumId, effectId, IntegerArgumentType.getInteger(context, "intensity"), EntityArgumentType.getPlayer(context, "сaster"))))));
             });
-            spellBuilder.then(mediumBuilder);
+            castingBuilder.then(mediumBuilder);
         });
-        builder.then(spellBuilder);
+        builder.then(castingBuilder);
 
         CommandRegistrationCallback.EVENT.register((displatcher, b) -> displatcher.register(builder));
     }
@@ -120,7 +151,7 @@ public class ModCommand {
         if (event != null) {
             for (ServerPlayerEntity player : players) {
                 context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.execute_insanity_event", id.toString()), false);
-                event.execute(player, (ISanity) player);
+                event.execute(player, (Sanity) player);
             }
             return 10;
         } else
@@ -130,21 +161,21 @@ public class ModCommand {
 
     private static int clearSanityExpansions(CommandContext<ServerCommandSource> context, ServerPlayerEntity... players) {
         for (ServerPlayerEntity player : players) {
-            if (((ISanity) player).getSanityCapExpansions().isEmpty())
+            if (((Sanity) player).getSanityCapExpansions().isEmpty())
                 context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.clear_expansions.none_failure", player.getDisplayName()));
             else
-                ((ISanity) player).getSanityCapExpansions().forEach((s, i) -> removeSanityExpansion(context, s, player));
+                ((Sanity) player).getSanityCapExpansions().forEach((s, i) -> removeSanityExpansion(context, s, player));
         }
         return 0;
     }
 
     private static int addSanityExpansion(CommandContext<ServerCommandSource> context, String name, int value, ServerPlayerEntity... players) {
         for (ServerPlayerEntity player : players) {
-            boolean contains = ((ISanity) player).getSanityCapExpansions().keySet().contains(name);
+            boolean contains = ((Sanity) player).getSanityCapExpansions().keySet().contains(name);
             if (contains) {
                 context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.add_sanity_expansion.contains_failure", name, player.getDisplayName()));
             } else {
-                ((ISanity) player).addSanityCapExpansion(name, value);
+                ((Sanity) player).addSanityCapExpansion(name, value);
                 context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_sanity_expansion", name, value, player.getDisplayName()), true);
             }
         }
@@ -153,11 +184,11 @@ public class ModCommand {
 
     private static int removeSanityExpansion(CommandContext<ServerCommandSource> context, String name, ServerPlayerEntity... players) {
         for (ServerPlayerEntity player : players) {
-            boolean contains = ((ISanity) player).getSanityCapExpansions().containsKey(name);
+            boolean contains = ((Sanity) player).getSanityCapExpansions().containsKey(name);
             if (!contains) {
                 context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.remove_sanity_expansion.failure", name, player.getDisplayName()));
             } else {
-                ((ISanity) player).removeSanityCapExpansion(name);
+                ((Sanity) player).removeSanityCapExpansion(name);
                 context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.remove_sanity_expansion", name, player.getDisplayName()), true);
             }
         }
@@ -167,31 +198,83 @@ public class ModCommand {
     private static int giveMaxSanityFeedback(CommandContext<ServerCommandSource> context, ServerPlayerEntity... players) throws CommandSyntaxException {
         int returnValue = Constants.DataTrackers.SANITY_CAP;
         for (ServerPlayerEntity player : players) {
-            int value = ((ISanity) player).getMaxSanity();
-            MutableText expansionText = ((ISanity) player).getSanityCapExpansions().isEmpty() ? new TranslatableText("miskatonicmysteries.command.get_max_sanity.no_expansions") : new TranslatableText("miskatonicmysteries.command.get_max_sanity.expansions");
-            ((ISanity) player).getSanityCapExpansions().forEach((s, i) -> {
+            int value = ((Sanity) player).getMaxSanity();
+            MutableText expansionText = ((Sanity) player).getSanityCapExpansions().isEmpty() ? new TranslatableText("miskatonicmysteries.command.get_max_sanity.no_expansions") : new TranslatableText("miskatonicmysteries.command.get_max_sanity.expansions");
+            ((Sanity) player).getSanityCapExpansions().forEach((s, i) -> {
                 expansionText.append("\n");
                 expansionText.append(new LiteralText(s + ": ").append(new LiteralText(Integer.toString(i)).formatted(i <= 0 ? Formatting.RED : Formatting.GREEN)));
             });
             HoverEvent hoverInfo = new HoverEvent(HoverEvent.Action.SHOW_TEXT, expansionText);
             if (player.equals(context.getSource().getPlayer())) {
                 context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_max_sanity.self", value).setStyle(Style.EMPTY.withHoverEvent(hoverInfo)), false);
-            } else
+            } else {
                 context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_max_sanity", player.getDisplayName(), value).setStyle(Style.EMPTY.withHoverEvent(hoverInfo)), false);
-            if (value < returnValue) returnValue = value;
+            }
+            if (value < returnValue) {
+                returnValue = value;
+            }
         }
         return Math.round(15 * (returnValue / (float) Constants.DataTrackers.SANITY_CAP));
     }
 
     private static int setSanity(CommandContext<ServerCommandSource> context, int value, ServerPlayerEntity... players) throws CommandSyntaxException {
         for (ServerPlayerEntity player : players) {
-            ((ISanity) player).setSanity(value, true);
+            ((Sanity) player).setSanity(value, true);
             if (player.equals(context.getSource().getPlayer())) {
                 context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.set_sanity.self", value), true);
-            } else
+            } else {
                 context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.set_sanity", player.getDisplayName(), value), true);
+            }
         }
         return Math.round(15 * (value / (float) Constants.DataTrackers.SANITY_CAP));
+    }
+
+    private static int setMaxSpells(CommandContext<ServerCommandSource> context, int value, ServerPlayerEntity... players) throws CommandSyntaxException {
+        for (ServerPlayerEntity player : players) {
+            ((SpellCaster) player).setMaxSpells(value);
+            if (player.equals(context.getSource().getPlayer())) {
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.set_max_spells.self", value), true);
+            } else {
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.set_max_spells", player.getDisplayName(), value), true);
+            }
+        }
+        return value;
+    }
+
+    private static int setPowerPool(CommandContext<ServerCommandSource> context, int value, ServerPlayerEntity... players) throws CommandSyntaxException {
+        for (ServerPlayerEntity player : players) {
+            ((SpellCaster) player).setPowerPool(value);
+            if (player.equals(context.getSource().getPlayer())) {
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.set_power_pool.self", value), true);
+            } else {
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.set_power_pool", player.getDisplayName(), value), true);
+            }
+        }
+        return value;
+    }
+
+    private static int learnSpell(CommandContext<ServerCommandSource> context, Identifier effect, ServerPlayerEntity... players) throws CommandSyntaxException {
+        for (ServerPlayerEntity player : players) {
+            ((SpellCaster) player).learnEffect(SpellEffect.SPELL_EFFECTS.get(effect));
+            if (player.equals(context.getSource().getPlayer())) {
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_spell.self", effect), true);
+            } else {
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_spell", player.getDisplayName(), effect), true);
+            }
+        }
+        return SpellEffect.SPELL_EFFECTS.containsKey(effect) ? 16 : 0;
+    }
+
+    private static int setMediumAvailability(CommandContext<ServerCommandSource> context, Identifier medium, int amount, ServerPlayerEntity... players) throws CommandSyntaxException {
+        for (ServerPlayerEntity player : players) {
+            ((SpellCaster) player).setMediumAvailability(SpellMedium.SPELL_MEDIUMS.get(medium), amount);
+            if (player.equals(context.getSource().getPlayer())) {
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_medium.self", amount, medium), true);
+            } else {
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_medium", player.getDisplayName(), amount, medium), true);
+            }
+        }
+        return SpellMedium.SPELL_MEDIUMS.containsKey(medium) ? 16 : 0;
     }
 
     private static int giveStatFeedback(CommandContext<ServerCommandSource> context, ServerPlayerEntity player) throws CommandSyntaxException {
@@ -205,7 +288,7 @@ public class ModCommand {
     private static int giveSanityFeedback(CommandContext<ServerCommandSource> context, ServerPlayerEntity... players) throws CommandSyntaxException {
         int returnValue = 0;
         for (ServerPlayerEntity player : players) {
-            int value = ((ISanity) player).getSanity();
+            int value = ((Sanity) player).getSanity();
             if (player.equals(context.getSource().getPlayer())) {
                 context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_sanity.self", value), false);
             } else

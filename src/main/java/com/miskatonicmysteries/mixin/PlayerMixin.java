@@ -5,13 +5,18 @@ import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
-import com.miskatonicmysteries.common.feature.sanity.ISanity;
+import com.miskatonicmysteries.common.feature.sanity.Sanity;
+import com.miskatonicmysteries.common.feature.spell.Spell;
+import com.miskatonicmysteries.common.feature.spell.SpellCaster;
+import com.miskatonicmysteries.common.feature.spell.SpellEffect;
+import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.common.lib.ModRegistries;
+import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
@@ -22,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,14 +36,18 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.*;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerMixin extends LivingEntity implements ISanity, Affiliated {
-    public final Map<String, Integer> SANITY_CAP_OVERRIDES = new ConcurrentHashMap<>();
+public abstract class PlayerMixin extends LivingEntity implements Sanity, Affiliated, SpellCaster {
+    public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
+
+    private final List<Spell> spells = new ArrayList<>();
+    private final Set<SpellEffect> learnedEffects = new HashSet<>();
+    private final Map<SpellMedium, Integer> availableMediums = new HashMap<>();
 
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -84,6 +94,9 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity, Affil
     private void addMiskStats(CallbackInfo info) {
         dataTracker.startTracking(SANITY, SANITY_CAP);
         dataTracker.startTracking(SHOCKED, false);
+
+        dataTracker.startTracking(POWER_POOL, 0);
+        dataTracker.startTracking(MAX_SPELLS, 0);
     }
 
     @Override
@@ -119,7 +132,7 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity, Affil
     //using normal packets since i don't feel like adding a new data tracker type for something that's updated so little lol
     @Override
     public void addSanityCapExpansion(String name, int amount) {
-        SANITY_CAP_OVERRIDES.putIfAbsent(name, amount);
+        sanityCapOverrides.putIfAbsent(name, amount);
         if (!world.isClient) {
             PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
             data.writeString(name);
@@ -131,8 +144,8 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity, Affil
 
     @Override
     public void removeSanityCapExpansion(String name) {
-        SANITY_CAP_OVERRIDES.remove(name);
-        if (!world.isClient && SANITY_CAP_OVERRIDES.containsKey(name)) {
+        sanityCapOverrides.remove(name);
+        if (!world.isClient && sanityCapOverrides.containsKey(name)) {
             PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
             data.writeString(name);
             PacketHandler.sendToPlayer((PlayerEntity) (Object) this, data, PacketHandler.SANITY_REMOVE_EXPAND_PACKET);
@@ -141,12 +154,12 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity, Affil
 
     @Override
     public Map<String, Integer> getSanityCapExpansions() {
-        return SANITY_CAP_OVERRIDES;
+        return sanityCapOverrides;
     }
 
     @Override
     public void syncSanityData() {
-        SANITY_CAP_OVERRIDES.forEach((s, i) -> {
+        sanityCapOverrides.forEach((s, i) -> {
             PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
             data.writeString(s);
             data.writeInt(i);
@@ -157,10 +170,10 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity, Affil
     @Inject(method = "writeCustomDataToTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
     private void writeMiskData(CompoundTag compoundTag, CallbackInfo info) {
         CompoundTag tag = new CompoundTag();
+
         tag.putInt(Constants.NBT.SANITY, getSanity());
         tag.putBoolean(Constants.NBT.SHOCKED, isShocked());
         ListTag expansions = new ListTag();
-        syncSanityData();
         getSanityCapExpansions().forEach((s, i) -> {
             CompoundTag expansionTag = new CompoundTag();
             expansionTag.putString("Name", s);
@@ -168,6 +181,11 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity, Affil
             expansions.add(expansionTag);
         });
         tag.put(Constants.NBT.SANITY_EXPANSIONS, expansions);
+
+        tag.putInt(Constants.NBT.POWER_POOL, getPowerPool());
+        tag.putInt(Constants.NBT.MAX_SPELLS, getMaxSpells());
+
+        CapabilityUtil.writeSpellData(this, tag);
         compoundTag.put(Constants.NBT.MISK_DATA, tag);
     }
 
@@ -177,11 +195,35 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity, Affil
         if (tag != null) {
             setSanity(tag.getInt(Constants.NBT.SANITY), true);
             setShocked(tag.getBoolean(Constants.NBT.SHOCKED));
-            syncSanityData();
             getSanityCapExpansions().clear();
             ((ListTag) tag.get(Constants.NBT.SANITY_EXPANSIONS)).forEach(s -> addSanityCapExpansion(((CompoundTag) s).getString("Name"), ((CompoundTag) s).getInt("Amount")));
+            syncSanityData();
+
+            setPowerPool(tag.getInt(Constants.NBT.POWER_POOL));
+            setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
+
+            getSpells().clear();
+            for (int i = 0; i < tag.getList(Constants.NBT.SPELL_LIST, 10).size(); i++) {
+                getSpells().add(i, Spell.fromTag((CompoundTag) tag.getList(Constants.NBT.SPELL_LIST, 10).get(i)));
+            }
+            getLearnedEffects().clear();
+            tag.getList(Constants.NBT.SPELL_EFFECTS, 8).forEach(effectString -> {
+                Identifier id = new Identifier(effectString.asString());
+                if (SpellEffect.SPELL_EFFECTS.containsKey(id)) {
+                    getLearnedEffects().add(SpellEffect.SPELL_EFFECTS.get(id));
+                }
+            });
+            getAvailableMediums().clear();
+            tag.getList(Constants.NBT.SPELL_MEDIUMS, 10).forEach(mediumTag -> {
+                Identifier id = new Identifier(((CompoundTag) mediumTag).getString(Constants.NBT.SPELL_MEDIUM));
+                if (SpellMedium.SPELL_MEDIUMS.containsKey(id)) {
+                    setMediumAvailability(SpellMedium.SPELL_MEDIUMS.get(id), ((CompoundTag) mediumTag).getInt("Amount"));
+                }
+            });
+            syncSpellData();
         }
     }
+
 
     @Override
     public boolean isSupernatural() {
@@ -197,5 +239,63 @@ public abstract class PlayerMixin extends LivingEntity implements ISanity, Affil
             }
         }
         return Affiliation.NONE;
+    }
+
+
+    @Override
+    public int getMaxSpells() {
+        return dataTracker.get(MAX_SPELLS);
+    }
+
+    @Override
+    public void setMaxSpells(int amount) {
+        dataTracker.set(MAX_SPELLS, amount);
+    }
+
+    @Override
+    public int getPowerPool() {
+        return dataTracker.get(POWER_POOL);
+    }
+
+    @Override
+    public void setPowerPool(int amount) {
+        dataTracker.set(POWER_POOL, amount);
+    }
+
+    @Override
+    public List<Spell> getSpells() {
+        return spells;
+    }
+
+    @Override
+    public Set<SpellEffect> getLearnedEffects() {
+        return learnedEffects;
+    }
+
+    @Override
+    public Map<SpellMedium, Integer> getAvailableMediums() {
+        return availableMediums;
+    }
+
+    @Override
+    public void learnEffect(SpellEffect effect) {
+        learnedEffects.add(effect);
+        syncSpellData();
+    }
+
+    @Override
+    public void setMediumAvailability(SpellMedium medium, int count) {
+        availableMediums.put(medium, count);
+        syncSpellData();
+    }
+
+    @Override
+    public void syncSpellData() {
+        if (!world.isClient) {
+            PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+            CompoundTag spellCompound = CapabilityUtil.writeSpellData(this, new CompoundTag());
+            data.writeCompoundTag(spellCompound);
+            PacketHandler.sendToPlayer((PlayerEntity) (Object) this, data, PacketHandler.SYNC_SPELLCASTER_DATA_PACKET);
+        }
     }
 }

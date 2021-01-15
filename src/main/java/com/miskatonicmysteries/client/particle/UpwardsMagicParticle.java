@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.VertexConsumer;
@@ -12,8 +11,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
-
-import static net.minecraft.client.texture.SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE;
 
 public class UpwardsMagicParticle extends AbstractSlowingParticle {
 
@@ -44,14 +41,12 @@ public class UpwardsMagicParticle extends AbstractSlowingParticle {
 
     @Override
     public void buildGeometry(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
-        MinecraftClient.getInstance().getTextureManager().getTexture(PARTICLE_ATLAS_TEXTURE).setFilter(true, false);
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
         RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569F);
         RenderSystem.disableLighting();
         super.buildGeometry(vertexConsumer, camera, tickDelta);
-        //  MinecraftClient.getInstance().getTextureManager().getTexture(PARTICLE_ATLAS_TEXTURE).setFilter(false, false);
     }
 
     public int getColorMultiplier(float tint) {

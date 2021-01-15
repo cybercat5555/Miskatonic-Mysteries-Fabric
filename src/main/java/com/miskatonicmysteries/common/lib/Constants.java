@@ -77,6 +77,11 @@ public class Constants {
         public static final String BANNER_PATTERN = "Pattern";
         public static final String BANNER_COLOR = "Color";
         public static final String BANNER_PP_TAG = "Bannerpp_LoomPatterns";
+        public static final String POWER_POOL = "Max Power";
+        public static final String MAX_SPELLS = "Max Spells";
+        public static final String SPELL_LIST = "Spell List";
+        public static final String SPELL_EFFECTS = "Effect List";
+        public static final String SPELL_MEDIUMS = "Medium Map";
     }
 
     public static class DataTrackers {
@@ -85,6 +90,10 @@ public class Constants {
 
         public static final TrackedData<Integer> SANITY = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Boolean> SHOCKED = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+
+        public static final TrackedData<Integer> POWER_POOL = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+        public static final TrackedData<Integer> MAX_SPELLS = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+        public static final int SPELL_CAP = 10;
     }
 
     public static class DamageSources extends DamageSource {

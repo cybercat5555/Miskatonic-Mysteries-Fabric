@@ -4,8 +4,6 @@ import com.miskatonicmysteries.common.handler.PacketHandler;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.command.FunctionCommand;
-import net.minecraft.server.function.CommandFunction;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -23,15 +21,16 @@ public class InsanityEvent {
         this.insanityThreshold = insanityThreshold;
     }
 
-    public boolean execute(PlayerEntity playerEntity, ISanity sanity){
-        if (!playerEntity.world.isClient){
+    public boolean execute(PlayerEntity playerEntity, Sanity sanity) {
+        if (!playerEntity.world.isClient) {
             PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
             data.writeIdentifier(id);
             PacketHandler.sendToPlayer(playerEntity, data, PacketHandler.INSANITY_EVENT_PACKET);
         }
         return true;
     }
-    public boolean test(PlayerEntity player, ISanity sanity, float insanityFactor){
+
+    public boolean test(PlayerEntity player, Sanity sanity, float insanityFactor) {
         return sanity.getSanity() <= insanityThreshold && player.getRandom().nextFloat() < baseChance;
     }
 }

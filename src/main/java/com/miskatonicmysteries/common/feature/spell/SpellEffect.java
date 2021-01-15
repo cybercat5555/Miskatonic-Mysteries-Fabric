@@ -52,6 +52,10 @@ public abstract class SpellEffect {
         return id;
     }
 
+    public Identifier getTextureLocation() {
+        return new Identifier(id.getNamespace(), "textures/gui/spell_widgets/effect/" + id.getPath() + ".png");
+    }
+
     public static void spawnParticleEffectsOnTarget(LivingEntity caster, SpellEffect effect, Entity target) {
         for (int i = 0; i < 15; i++)
             target.world.addParticle(ParticleTypes.ENTITY_EFFECT,

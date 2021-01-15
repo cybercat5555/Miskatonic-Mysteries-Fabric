@@ -18,6 +18,8 @@ public class ProjectileSpellMedium extends SpellMedium {
         if (!world.isClient) {
             SpellProjectileEntity projectile = new SpellProjectileEntity(caster.world, caster, effect, intensity);
             projectile.setProperties(caster, caster.pitch, caster.headYaw, 0, 1, 0F);
+            projectile.yaw = caster.headYaw;
+            projectile.pitch = caster.pitch;
             return world.spawnEntity(projectile);
         }
         return true;

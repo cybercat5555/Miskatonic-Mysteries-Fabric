@@ -141,4 +141,5 @@ public class ResourceHandler {
     public static Model getMaskModel(Item mask) {
         return MASK_MODELS.getOrDefault(mask, new CreeperEntityModel<>());
     }
+
 }

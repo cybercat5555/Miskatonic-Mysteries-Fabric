@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.handler;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.feature.sanity.ISanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
+import com.miskatonicmysteries.common.feature.sanity.Sanity;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class InsanityHandler {
     }
 
     public static void resetProgress(PlayerEntity player) {
-        ISanity sanity = (ISanity) player;
+        Sanity sanity = (Sanity) player;
         sanity.getSanityCapExpansions().keySet().forEach(sanity::removeSanityCapExpansion);
         sanity.setSanity(sanity.getMaxSanity(), true);
         sanity.setShocked(true);
@@ -25,20 +25,20 @@ public class InsanityHandler {
     }
 
     public static boolean hasSanityCapExpansion(PlayerEntity player, String expansion) {
-        ISanity sanity = (ISanity) player;
+        Sanity sanity = (Sanity) player;
         return sanity.getSanityCapExpansions().containsKey(expansion);
     }
 
     public static void handleInsanityEvents(PlayerEntity player) {
-        ISanity sanity = (ISanity) player;
+        Sanity sanity = (Sanity) player;
         float insanityFactor = 1F - calculateSanityFactor(sanity);
         if (player.getRandom().nextFloat() < (0.1F + (0.1F * insanityFactor))) {
             InsanityEvent event = findInsanityEvent(player, sanity, insanityFactor);
-            if (event != null) event.execute(player, (ISanity) player);
+            if (event != null) event.execute(player, (Sanity) player);
         }
     }
 
-    private static InsanityEvent findInsanityEvent(PlayerEntity player, ISanity sanity, float insanityFactor) {
+    private static InsanityEvent findInsanityEvent(PlayerEntity player, Sanity sanity, float insanityFactor) {
         List<InsanityEvent> events = InsanityEvent.INSANITY_EVENTS.values().parallelStream().filter(event -> event.test(player, sanity, insanityFactor)).collect(Collectors.toList());
         for (int i = 0; i < MiskatonicMysteries.config.sanity.insanityEventAttempts; i++) {
             if (events.isEmpty()) return null;
@@ -49,7 +49,7 @@ public class InsanityHandler {
         return null;
     }
 
-    public static float calculateSanityFactor(ISanity sanity){
+    public static float calculateSanityFactor(Sanity sanity) {
         return sanity.getSanity() / (float) SANITY_CAP;
     }
 }

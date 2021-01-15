@@ -29,8 +29,8 @@ public class InsanityInducer implements DataSerializable<InsanityInducer> {
         this.ingredient = ingredient;
     }
 
-    public void induceInsanity(World world, LivingEntity entity, ISanity sanity){
-        if (!world.isClient){
+    public void induceInsanity(World world, LivingEntity entity, Sanity sanity) {
+        if (!world.isClient) {
             sanity.setSanity(sanity.getSanity() - sanityPenalty, ignoreFactors);
             if (decreasesSanityCap) sanity.addSanityCapExpansion(id.toString(), -sanityPenalty);
             if (withShockFactor) sanity.setShocked(true);

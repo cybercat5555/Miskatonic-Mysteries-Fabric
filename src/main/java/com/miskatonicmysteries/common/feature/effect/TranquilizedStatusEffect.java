@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.feature.effect;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.feature.sanity.ISanity;
+import com.miskatonicmysteries.common.feature.sanity.Sanity;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModRegistries;
 import net.minecraft.entity.LivingEntity;
@@ -25,8 +25,8 @@ public class TranquilizedStatusEffect extends StatusEffect {
         if (entity instanceof PlayerEntity && ((PlayerEntity) entity).isSleepingLongEnough()) {
             if (isLethal(entity, amplifier)) entity.damage(Constants.DamageSources.SLEEP, 4000);
             else {
-                ISanity sanity = (ISanity) entity;
-                sanity.setSanity((int) (((ISanity) entity).getSanity() + MiskatonicMysteries.config.sanity.tranquilizedSanityBonus * Math.min((amplifier + 2) / 2F, 3F)), true);
+                Sanity sanity = (Sanity) entity;
+                sanity.setSanity((int) (((Sanity) entity).getSanity() + MiskatonicMysteries.config.sanity.tranquilizedSanityBonus * Math.min((amplifier + 2) / 2F, 3F)), true);
                 entity.damage(Constants.DamageSources.SLEEP, 2);
                 if (entity.getRandom().nextFloat() < MiskatonicMysteries.config.sanity.tranquilizedSanityCapRegainChance) {
                     for (String s : sanity.getSanityCapExpansions().keySet()) {

@@ -15,7 +15,6 @@
     "StructurePoolRegistryMixin",
     "ZombieVillagerAccessor",
     "villagers.ActivityAccessor",
-    "villagers.CultistTaskMixin",
     "villagers.MemoryModuleTypeAccessor",
     "villagers.VillagerEntityAccessor",
     "villagers.VillagerEntityMixin"
