@@ -89,10 +89,6 @@ public class ModCommand {
                             .executes(context -> setMediumAvailability(context, mediumId, IntegerArgumentType.getInteger(context, "amount"), EntityArgumentType.getPlayer(context, "player")))));
             mediumAvailabilityBuilder.then(mediumBuilder);
         });
-        SpellMedium.SPELL_MEDIUMS.keySet().forEach(mediumId -> learnSpellBuilder.then(CommandManager.literal(mediumId.toString())).then(CommandManager.argument("amount", IntegerArgumentType.integer(0, Constants.DataTrackers.SPELL_CAP - 1))
-                .executes(context -> setMediumAvailability(context, mediumId, IntegerArgumentType.getInteger(context, "amount"), context.getSource().getPlayer()))
-                .then(CommandManager.argument("player", EntityArgumentType.player())
-                        .executes(context -> setMediumAvailability(context, mediumId, IntegerArgumentType.getInteger(context, "amount"), EntityArgumentType.getPlayer(context, "сaster"))))));
         spellBuilder.then(mediumAvailabilityBuilder);
 
         builder.then(spellBuilder);

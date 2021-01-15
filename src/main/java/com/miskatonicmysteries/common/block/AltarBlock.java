@@ -4,6 +4,7 @@ import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
 import com.miskatonicmysteries.common.feature.spell.SpellCaster;
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.common.lib.ModParticles;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import io.netty.buffer.Unpooled;
@@ -70,7 +71,7 @@ public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, 
                 altar.markDirty();
                 return ActionResult.CONSUME;
             } else if (!altar.getItems().isEmpty()) {
-                if (!player.isSneaking() && !altar.getStack(0).isEmpty()) {
+                if (!player.isSneaking() && !altar.getStack(0).isEmpty() && altar.getBook().equals(ModObjects.NECRONOMICON)) {
                     if (!world.isClient && player instanceof SpellCaster) {
                         ((SpellCaster) player).syncSpellData();
                         PacketHandler.sendToPlayer(player, new PacketByteBuf(Unpooled.buffer()), PacketHandler.OPEN_SPELL_EDIT_PACKET);
