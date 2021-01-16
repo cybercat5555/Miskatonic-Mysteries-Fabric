@@ -3,18 +3,13 @@ package com.miskatonicmysteries.common.lib;
 import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
-import com.miskatonicmysteries.common.feature.recipe.rite.CraftingRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import com.miskatonicmysteries.common.feature.recipe.rite.TeleportRite;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.Objects;
@@ -23,7 +18,6 @@ public class ModRecipes {
     public static final DummyRecipeType<ChemistryRecipe> CHEMISTRY_RECIPE = new DummyRecipeType<>();
     public static final RecipeSerializer<ChemistryRecipe> CHEMISTRY_SERIALIZER = new ChemistryRecipe.Serializer();
 
-    public static final Rite DUMMY_RITE = new CraftingRite(new Identifier(Constants.MOD_ID, "dummy"), 1000, new ItemStack(Items.DIAMOND), Ingredient.ofItems(Items.DIRT, Items.SAND));
     public static final Rite TELEPORT_RITE = new TeleportRite();
 
 
@@ -31,7 +25,6 @@ public class ModRecipes {
         RegistryUtil.register(Registry.RECIPE_TYPE, "chemistry_recipe", CHEMISTRY_RECIPE);
         RegistryUtil.register(Registry.RECIPE_SERIALIZER, "chemistry_recipe", CHEMISTRY_SERIALIZER);
 
-        addRite(DUMMY_RITE);
         addRite(TELEPORT_RITE);
     }
 

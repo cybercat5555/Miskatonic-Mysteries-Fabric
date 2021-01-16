@@ -21,7 +21,7 @@ public class TeleportRite extends Rite {
     private final int ticksNeeded;
 
     public TeleportRite() { //todo proper ingredient for this
-        super(new Identifier(Constants.MOD_ID, "teleport"), Ingredient.ofItems(Items.ENDER_PEARL), Ingredient.ofItems(Items.ENDER_EYE));
+        super(new Identifier(Constants.MOD_ID, "teleport"), 0, Ingredient.ofItems(Items.ENDER_PEARL), Ingredient.ofItems(Items.ENDER_EYE));
         ticksNeeded = 60;
     }
 
@@ -30,15 +30,15 @@ public class TeleportRite extends Rite {
     public void tick(OctagramBlockEntity octagram) {
         if (!isFinished(octagram) && !octagram.permanentRiteActive) {
             super.tick(octagram);
-        } //teleporting is handled in the Octagram Block
+        }
     }
 
     @Override
     public void onFinished(OctagramBlockEntity octagram) {
         if (!octagram.getWorld().isClient) {
             octagram.tickCount = 0;
-            //MMWorldState data = MMWorldState.get(octagram.getWorld());
-            // data.addTeleport(octagram.getAffiliation(false).toString(), octagram.getPos(), (ServerWorld) octagram.getWorld());
+
+
         }
         super.onFinished(octagram);
     }
@@ -47,8 +47,8 @@ public class TeleportRite extends Rite {
     @Override
     public void onCancelled(OctagramBlockEntity octagram) {
         if (!octagram.getWorld().isClient) {
-            //    MMWorldState data = MMWorldState.get(octagram.getWorld());
-            //    data.removeTeleport(octagram.getPos(), (ServerWorld) octagram.getWorld());
+
+
         }
         super.onCancelled(octagram);
     }
@@ -98,7 +98,6 @@ public class TeleportRite extends Rite {
         matrixStack.translate(1.5, 0, 1.5);
         matrixStack.multiply(Vector3f.POSITIVE_Y.getRadialQuaternion(((float) entity.getWorld().getTime() + tickDelta) / 20.0F));
         matrixStack.translate(-1.5F, 0.0025F, -1.5F);
-        //todo custom render layer for this so it does not do alpha fighting
         RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, vertexConsumers.getBuffer(RenderHelper.getAuraGlowLayer()), light, overlay, colors);
         matrixStack.pop();
     }

@@ -176,7 +176,6 @@ public class ModObjects {
         RegistryUtil.register(Registry.ITEM, "cthulhu_chalk", CTHULHU_CHALK);
         RegistryUtil.register(Registry.ITEM, "hastur_chalk", HASTUR_CHALK);
         RegistryUtil.register(Registry.ITEM, "shub_chalk", SHUB_CHALK);
-
         RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "statue", STATUE_BLOCK_ENTITY_TYPE);
         RegistryUtil.registerBlock(CTHULHU_STATUE_GOLD, "cthulhu_statue_gold");
         RegistryUtil.registerBlock(CTHULHU_STATUE_MOSSY, "cthulhu_statue_mossy");

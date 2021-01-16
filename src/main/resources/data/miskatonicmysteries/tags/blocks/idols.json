@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "miskatonicmysteries:cthulhu_statue_gold",
+    "miskatonicmysteries:cthulhu_statue_stone",
+    "miskatonicmysteries:cthulhu_statue_mossy",
+    "miskatonicmysteries:cthulhu_statue_prismarine",
+    "miskatonicmysteries:hastur_statue_gold",
+    "miskatonicmysteries:hastur_statue_stone",
+    "miskatonicmysteries:hastur_statue_mossy",
+    "miskatonicmysteries:hastur_statue_terracotta",
+    "miskatonicmysteries:shub_statue_gold",
+    "miskatonicmysteries:shub_statue_stone",
+    "miskatonicmysteries:shub_statue_mossy",
+    "miskatonicmysteries:shub_statue_blackstone"
+  ]
+}

@@ -1,18 +1,26 @@
 package com.miskatonicmysteries.common.block.blockentity;
 
+import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.block.OctagramBlock;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
+import com.miskatonicmysteries.common.handler.ProtagonistHandler;
+import com.miskatonicmysteries.common.item.armor.CultistArmor;
+import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
@@ -21,6 +29,8 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     public int tickCount;
     public boolean permanentRiteActive;
     public Rite currentRite = null;
+    public PlayerEntity originalCaster = null;
+
     public OctagramBlockEntity() {
         super(ModObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
 
@@ -34,6 +44,9 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
             tag.putString(Constants.NBT.RITE, currentRite.id.toString());
         }
         tag.putBoolean(Constants.NBT.PERMANENT_RITE, permanentRiteActive);
+        if (originalCaster != null) {
+            tag.putUuid(Constants.NBT.PLAYER_UUID, originalCaster.getUuid());
+        }
         return super.toTag(tag);
     }
 
@@ -45,6 +58,9 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
             currentRite = Rite.RITES.getOrDefault(new Identifier(tag.getString(Constants.NBT.RITE)), null);
         }
         permanentRiteActive = tag.getBoolean(Constants.NBT.PERMANENT_RITE);
+        if (tag.contains(Constants.NBT.PLAYER_UUID)) {
+            originalCaster = world.getPlayerByUuid(tag.getUuid(Constants.NBT.PLAYER_UUID));
+        }
         super.fromTag(state, tag);
     }
 
@@ -73,6 +89,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
         if (currentRite != null && currentRite.shouldContinue(this)) {
             currentRite.tick(this);
             if (currentRite.isFinished(this)) {
+                handleInvestigators();
                 if (currentRite.isPermanent(this)) {
                     permanentRiteActive = true;
                     currentRite.onFinished(this);
@@ -81,9 +98,43 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
                     tickCount = 0;
                     currentRite = null;
                 }
-                return;
             }
             markDirty();
+        } else {
+            originalCaster = null;
+        }
+    }
+
+    private void handleInvestigators() {
+
+        if (originalCaster != null && !world.isClient && world.random.nextFloat() < currentRite.investigatorChance) {
+            float subtlety = 0;
+            if (MiskatonicMysteries.config.entities.subtlety) {
+                for (BlockPos blockPos : BlockPos.iterateOutwards(pos, 8, 8, 8)) {
+                    Block block = world.getBlockState(blockPos).getBlock();
+                    if (block.isIn(Constants.Tags.SUBTLE_BLOCKS)) {
+                        subtlety += 0.05F;
+                    } else if (block.isIn(Constants.Tags.SUSPICIOUS_BLOCKS)) {
+                        subtlety -= 0.05F;
+                    }
+                    if (subtlety >= 0.35F) {
+                        break;
+                    }
+                }
+                subtlety += world.isNight() ? 0.15F : -0.1;
+                subtlety += MaskTrinketItem.getMask(originalCaster).isEmpty() ? 0 : 0.15F;
+                for (ItemStack armor : originalCaster.getArmorItems()) {
+                    if (armor.getItem() instanceof CultistArmor) {
+                        subtlety += 0.1F;
+                    }
+                }
+                subtlety = Math.min(subtlety, 0.8F);
+            } else {
+                subtlety = 0.25F;
+            }
+            if (world.random.nextFloat() > subtlety) {
+                ProtagonistHandler.spawnProtagonist((ServerWorld) world, originalCaster);
+            }
         }
     }
 

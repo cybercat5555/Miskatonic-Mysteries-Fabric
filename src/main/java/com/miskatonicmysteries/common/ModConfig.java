@@ -34,7 +34,7 @@ public class ModConfig implements ConfigData {
         public float yellowSerfPercentage = 0.25F;
 
         @ConfigEntry.Gui.Tooltip
-        public boolean maskImpact = true;
+        public boolean subtlety = true;
     }
 
     public static class Sanity {

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "miskatonicmysteries:blackstone_altar",
+    "miskatonicmysteries:coral_altar",
+    "miskatonicmysteries:funky_altar",
+    "miskatonicmysteries:mossy_stone_altar",
+    "miskatonicmysteries:nether_brick_altar",
+    "miskatonicmysteries:prismarine_altar",
+    "miskatonicmysteries:sandstone_altar",
+    "miskatonicmysteries:stone_altar"
+  ]
+}

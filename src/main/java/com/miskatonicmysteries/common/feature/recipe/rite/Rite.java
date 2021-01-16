@@ -19,9 +19,11 @@ public abstract class Rite {
     public static final Map<Identifier, Rite> RITES = new HashMap<>();
     public final List<Ingredient> ingredients = DefaultedList.ofSize(8, Ingredient.EMPTY);
     public final Identifier id;
+    public float investigatorChance;
 
-    public Rite(Identifier id, Ingredient... ingredients) {
+    public Rite(Identifier id, float investigatorChance, Ingredient... ingredients) {
         this.id = id;
+        this.investigatorChance = investigatorChance;
         for (int i = 0; i < ingredients.length; i++) {
             this.ingredients.set(i, ingredients[i]);
         }
@@ -50,7 +52,7 @@ public abstract class Rite {
     }
 
     public boolean shouldContinue(OctagramBlockEntity octagram) {
-        return true;
+        return octagram.originalCaster != null && octagram.getPos().isWithinDistance(octagram.originalCaster.getPos(), 16);
     }
 
     public boolean canCast(OctagramBlockEntity octagram) {

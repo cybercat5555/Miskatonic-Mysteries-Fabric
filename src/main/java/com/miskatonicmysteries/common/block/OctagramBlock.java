@@ -54,6 +54,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
             Rite rite = ModRecipes.getRite(octagram);
             if (rite != null) {
                 octagram.currentRite = rite;
+                octagram.originalCaster = player;
                 rite.onStart(octagram);
                 octagram.markDirty();
                 return ActionResult.SUCCESS;
