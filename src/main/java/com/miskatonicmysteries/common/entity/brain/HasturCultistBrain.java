@@ -34,8 +34,6 @@ public class HasturCultistBrain {
 
 
     public static void init(HasturCultistEntity entity, Brain<VillagerEntity> brain) {
-        //todo implement anger code too, probably checked when hit, look at piglin code
-        //then is spell stuff
         brain.setSchedule(Schedule.EMPTY);
         brain.setTaskList(Activity.CORE, createCoreTasks(0.5F));
         brain.setTaskList(Activity.MEET, createMeetTasks(0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleState.VALUE_PRESENT)));

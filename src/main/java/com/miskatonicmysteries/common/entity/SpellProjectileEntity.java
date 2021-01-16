@@ -35,7 +35,6 @@ public class SpellProjectileEntity extends ThrownEntity {
         setOwner(caster);
     }
 
-    //todo change pitch and yaw to equal velocity via trig
     @Override
     public void tick() {
         super.tick();

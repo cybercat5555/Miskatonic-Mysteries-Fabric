@@ -10,6 +10,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectType;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.predicate.entity.EntityPredicates;
 
 public class ManiaStatusEffect extends StatusEffect {
     public ManiaStatusEffect() {
@@ -44,7 +45,7 @@ public class ManiaStatusEffect extends StatusEffect {
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
         if (entity instanceof MobEntity) {
-            entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(8, 3, 8), target -> target instanceof LivingEntity).stream().findAny().ifPresent(value -> ((MobEntity) entity).setTarget((LivingEntity) value));
+            entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(8, 3, 8), target -> target instanceof LivingEntity && EntityPredicates.EXCEPT_CREATIVE_SPECTATOR_OR_PEACEFUL.test(target)).stream().findAny().ifPresent(value -> ((MobEntity) entity).setTarget((LivingEntity) value));
         }
     }
 }
