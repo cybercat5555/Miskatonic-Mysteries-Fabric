@@ -1,9 +1,11 @@
 package com.miskatonicmysteries.common.feature.effect;
 
-import com.miskatonicmysteries.common.lib.ModParticles;
+import com.miskatonicmysteries.common.handler.PacketHandler;
+import io.netty.buffer.Unpooled;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.network.PacketByteBuf;
 
 public class BleedStatusEffect extends StatusEffect {
     public BleedStatusEffect() {
@@ -12,8 +14,10 @@ public class BleedStatusEffect extends StatusEffect {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        if (entity.world.random.nextFloat() < 0.1 + (0.1 * amplifier)) {
-            entity.world.addParticle(ModParticles.DRIPPING_BLOOD, entity.getX() + entity.getRandom().nextGaussian() * 0.5F * entity.getWidth(), entity.getY() + entity.getRandom().nextGaussian() * 0.5F * entity.getHeight(), entity.getZ() + entity.getRandom().nextGaussian() * 0.5F * entity.getWidth(), 0, 0, 0);
+        if (!entity.world.isClient && entity.world.random.nextFloat() < 0.1 + (0.1 * amplifier)) {
+            PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+            data.writeInt(entity.getEntityId());
+            PacketHandler.sendToPlayers(entity.world, entity, data, PacketHandler.BLOOD_PARTICLE_PACKET);
         }
     }
 

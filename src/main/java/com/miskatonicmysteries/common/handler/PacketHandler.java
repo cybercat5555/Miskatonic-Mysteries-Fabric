@@ -41,6 +41,7 @@ public class PacketHandler {
 
     public static final Identifier PROTAG_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "protag_particle");
     public static final Identifier EFFECT_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "effect_particle");
+    public static final Identifier BLOOD_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "blood_particle");
 
     public static final Identifier CLIENT_INVOKE_MANIA_PACKET = new Identifier(Constants.MOD_ID, "invoke_mania");
 
@@ -135,6 +136,13 @@ public class PacketHandler {
             Vec3d rgb = Vec3d.unpackRgb(packetByteBuf.readInt());
             client.execute(() -> {
                 client.world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.x + client.world.random.nextGaussian() * 0.75F, pos.y + client.world.random.nextGaussian(), pos.z + client.world.random.nextGaussian() * 0.75F, rgb.x, rgb.y, rgb.z);
+            });
+        });
+
+        ClientPlayNetworking.registerGlobalReceiver(BLOOD_PARTICLE_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
+            Entity entity = client.world.getEntityById(packetByteBuf.readInt());
+            client.execute(() -> {
+                client.world.addParticle(ModParticles.DRIPPING_BLOOD, entity.getX() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), entity.getY() + client.world.getRandom().nextGaussian() * 0.5F * entity.getHeight(), entity.getZ() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), 0, 0, 0);
             });
         });
 
