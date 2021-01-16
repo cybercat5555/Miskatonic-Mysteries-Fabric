@@ -178,7 +178,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
             if (octagram == null) {
                 world.breakBlock(pos, false);
                 return ActionResult.FAIL;
-            } else {
+            } else if (octagram.currentRite == null) {
                 ItemStack stack = player.getStackInHand(hand);
                 if (!stack.isEmpty() && octagram.isValid(state.get(NUMBER), stack) && octagram.getStack(state.get(NUMBER)).isEmpty() && !octagram.permanentRiteActive) {
                     octagram.setStack(state.get(NUMBER), stack);

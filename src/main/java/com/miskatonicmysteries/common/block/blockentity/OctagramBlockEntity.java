@@ -30,7 +30,6 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     public boolean permanentRiteActive;
     public Rite currentRite = null;
     public PlayerEntity originalCaster = null;
-
     public OctagramBlockEntity() {
         super(ModObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
 
@@ -106,7 +105,6 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     }
 
     private void handleInvestigators() {
-
         if (originalCaster != null && !world.isClient && world.random.nextFloat() < currentRite.investigatorChance) {
             float subtlety = 0;
             if (MiskatonicMysteries.config.entities.subtlety) {

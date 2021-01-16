@@ -29,8 +29,7 @@ public abstract class Rite {
         }
     }
 
-    public void onStart(OctagramBlockEntity octagramBlockEntity) {
-
+    public void onStart(OctagramBlockEntity octagram) {
     }
 
     public void tick(OctagramBlockEntity octagram) {

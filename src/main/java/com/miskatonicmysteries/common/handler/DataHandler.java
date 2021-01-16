@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.handler;
 
 import com.google.gson.*;
 import com.miskatonicmysteries.common.feature.DataSerializable;
+import com.miskatonicmysteries.common.feature.recipe.rite.CommandDrivenRite;
 import com.miskatonicmysteries.common.feature.sanity.CommandDrivenInsanityEvent;
 import com.miskatonicmysteries.common.feature.sanity.InsanityInducer;
 import com.miskatonicmysteries.common.lib.Constants;
@@ -24,6 +25,7 @@ public class DataHandler extends JsonDataLoader {
         super(GSON, Constants.MOD_ID);
         DATA_READERS.put(new Identifier(Constants.MOD_ID, "insanity_inducer"), new InsanityInducer.Serializer());
         DATA_READERS.put(new Identifier(Constants.MOD_ID, "insanity_event"), new CommandDrivenInsanityEvent.Serializer());
+        DATA_READERS.put(new Identifier(Constants.MOD_ID, "rite"), new CommandDrivenRite.Serializer());
     }
 
     @Override

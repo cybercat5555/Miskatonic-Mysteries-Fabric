@@ -17,7 +17,6 @@ import java.util.Objects;
 public class ModRecipes {
     public static final DummyRecipeType<ChemistryRecipe> CHEMISTRY_RECIPE = new DummyRecipeType<>();
     public static final RecipeSerializer<ChemistryRecipe> CHEMISTRY_SERIALIZER = new ChemistryRecipe.Serializer();
-
     public static final Rite TELEPORT_RITE = new TeleportRite();
 
 
