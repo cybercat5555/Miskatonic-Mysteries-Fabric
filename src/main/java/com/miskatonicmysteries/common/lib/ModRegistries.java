@@ -57,12 +57,11 @@ public class ModRegistries {
         PSYCHONAUT_TRADES.put(4, new TradeOffers.Factory[]{WARPED_FUNGUS_OFFER, CRIMSON_FUNGUS_OFFER, TRANQ_OFFER});
         PSYCHONAUT_TRADES.put(5, new TradeOffers.Factory[]{RE_AGENT_OFFER});
 
-        //todo still add all of the trades
-        YELLOW_SERF_TRADE.put(1, new TradeOffers.Factory[]{OCEANIC_GOLD_OFFER});
-        YELLOW_SERF_TRADE.put(2, new TradeOffers.Factory[]{WAX_OFFER});
-        YELLOW_SERF_TRADE.put(3, new TradeOffers.Factory[]{LAUDANUM_OFFER});
-        YELLOW_SERF_TRADE.put(4, new TradeOffers.Factory[]{WARPED_FUNGUS_OFFER, CRIMSON_FUNGUS_OFFER, TRANQ_OFFER});
-        YELLOW_SERF_TRADE.put(5, new TradeOffers.Factory[]{RE_AGENT_OFFER});
+        YELLOW_SERF_TRADE.put(1, new TradeOffers.Factory[]{OCEANIC_GOLD_OFFER, NECRONOMICON_OFFER});
+        YELLOW_SERF_TRADE.put(2, new TradeOffers.Factory[]{MASK_OFFER, BLOTTER_OFFER});
+        YELLOW_SERF_TRADE.put(3, new TradeOffers.Factory[]{YELLOW_ROBE_OFFER, YELLOW_SKIRT_OFFER});
+        YELLOW_SERF_TRADE.put(4, new TradeOffers.Factory[]{YELLOW_HOOD_OFFER, ORNATE_DAGGER_OFFER});
+        YELLOW_SERF_TRADE.put(5, new TradeOffers.Factory[]{YELLOW_SIGN_OFFER});
     }
 
     public static void init() {
@@ -82,6 +81,13 @@ public class ModRegistries {
 
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(ModEntities.PSYCHONAUT, PSYCHONAUT_TRADES);
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(ModEntities.YELLOW_SERF, YELLOW_SERF_TRADE);
+
+        TradeOffers.Factory[] wanderingTraderOffers = TradeOffers.WANDERING_TRADER_TRADES.get(1);
+        TradeOffers.Factory[] offers = Arrays.copyOf(wanderingTraderOffers, wanderingTraderOffers.length + 3);
+        offers[wanderingTraderOffers.length] = NECRONOMICON_OFFER;
+        offers[wanderingTraderOffers.length + 1] = OCEANIC_GOLD_OFFER;
+        offers[wanderingTraderOffers.length + 2] = BLOTTER_OFFER;
+        TradeOffers.WANDERING_TRADER_TRADES.put(1, offers);
     }
 
     private static void initLootTableEdits() {
@@ -113,7 +119,7 @@ public class ModRegistries {
     public static class ModTradeOffers {
         public static final List<StatusEffect> POSSIBLE_EFFECTS = Arrays.asList(StatusEffects.NAUSEA, StatusEffects.ABSORPTION, StatusEffects.GLOWING, StatusEffects.HASTE, MANIA, TRANQUILIZED);
         public static final TradeOffers.Factory SCIENCE_JOURNAL_OFFER = new EmeraldToItemOffer(new ItemStack(ModObjects.SCIENCE_JOURNAL), 12, 3, 4, 0.15F);
-        public static final TradeOffers.Factory BLOTTER_OFFER = new ProcessItemOffer(new ItemStack(Items.PAPER), 7, new ItemStack(ModObjects.BLOTTER, 3), 16, 1);
+        public static final TradeOffers.Factory BLOTTER_OFFER = new ProcessItemOffer(new ItemStack(Items.PAPER), 7, new ItemStack(ModObjects.BLOTTER, 3), 16, 2);
         public static final TradeOffers.Factory INFESTED_WHEAT_OFFER = new ItemToEmeraldOffer(new ItemStack(ModObjects.INFESTED_WHEAT, 3), 2, 16, 2, 0.35F);
 
         public static final TradeOffers.Factory CHEMISTRY_SET_OFFER = new EmeraldToItemOffer(new ItemStack(ModObjects.CHEMISTRY_SET), 12, 16, 12, 0.15F);
@@ -135,6 +141,14 @@ public class ModRegistries {
         });
 
         public static final TradeOffers.Factory OCEANIC_GOLD_OFFER = new ProcessItemOffer(new ItemStack(Items.GOLD_BLOCK), 10, new ItemStack(ModObjects.OCEANIC_GOLD_BLOCK, 1), 16, 2);
+        public static final TradeOffers.Factory NECRONOMICON_OFFER = new EmeraldToItemOffer(new ItemStack(ModObjects.NECRONOMICON), 12, 3, 10, 0.15F);
+        public static final TradeOffers.Factory CHALK_OFFER = new EmeraldToItemOffer(new ItemStack(ModObjects.HASTUR_CHALK), 2, 12, 20, 0.15F);
+        public static final TradeOffers.Factory MASK_OFFER = new ProcessItemOffer(new ItemStack(Items.IRON_INGOT), 12, new ItemStack(ModObjects.ELEGANT_MASK, 1), 1, 25);
+        public static final TradeOffers.Factory YELLOW_ROBE_OFFER = new ProcessItemOffer(new ItemStack(Items.YELLOW_WOOL, 8), 8, new ItemStack(ModObjects.YELLOW_ROBE, 1), 2, 30);
+        public static final TradeOffers.Factory YELLOW_SKIRT_OFFER = new ProcessItemOffer(new ItemStack(Items.YELLOW_WOOL, 7), 5, new ItemStack(ModObjects.YELLOW_SKIRT, 1), 2, 30);
+        public static final TradeOffers.Factory YELLOW_HOOD_OFFER = new ProcessItemOffer(new ItemStack(Items.YELLOW_WOOL, 5), 5, new ItemStack(ModObjects.YELLOW_HOOD, 1), 2, 30);
+        public static final TradeOffers.Factory ORNATE_DAGGER_OFFER = new ProcessItemOffer(new ItemStack(Items.IRON_SWORD), 7, new ItemStack(ModObjects.ORNATE_DAGGER, 1), 6, 35);
+        public static final TradeOffers.Factory YELLOW_SIGN_OFFER = new ProcessItemOffer(new ItemStack(Items.PAPER, 4), 20, new ItemStack(ModObjects.YELLOW_SIGN_LOOM_PATTERN), 1, 50);
 
         public static class EmeraldToItemOffer implements TradeOffers.Factory {
             private final ItemStack sell;

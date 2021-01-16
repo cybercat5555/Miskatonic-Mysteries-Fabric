@@ -32,7 +32,6 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
     public ModelPart rightMaskPlate;
     public ModelPart hoodPipe02;
     public ModelPart leftArmFolded;
-    public boolean armsFolded;
 
     public HasturCultistEntityModel() {
         super(1, 0, 128, 64);
@@ -141,10 +140,10 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
             rightArmPose = leftArmPose;
             leftArmPose = tempPose;
         }
-        armsFolded = !livingEntity.isCasting();
+        /*armsFolded = !livingEntity.isCasting();
         livingEntity.getItemsHand().forEach(stack -> {
             if (!stack.isEmpty()) armsFolded = false;
-        });
+        });*/
 
         super.animateModel(livingEntity, f, g, h);
     }
@@ -176,15 +175,15 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
 
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-        if (!armsFolded) {
+        //if (!armsFolded) {
             ImmutableList.of(this.rightLeg, this.leftArm, this.robe, this.head, this.torso, this.rightArm, this.leftLeg).forEach((ModelPart) -> {
                 ModelPart.render(matrices, vertices, light, overlay, red, green, blue, alpha);
             });
-        } else {
+        /*} else {
             ImmutableList.of(this.middleArmFolded, this.rightLeg, this.robe, this.head, this.torso, this.leftLeg, this.rightArmFolded).forEach((ModelPart) -> {
                 ModelPart.render(matrices, vertices, light, overlay, red, green, blue, alpha);
             });
-        }
+        }*/
     }
 
     /**
