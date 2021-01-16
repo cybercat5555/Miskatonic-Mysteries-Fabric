@@ -76,7 +76,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
                 data.writeDouble(getY() + 2.3F);
                 data.writeDouble(getZ());
                 data.writeInt(currentSpell.effect.getColor(this));
-                PacketHandler.sendToPlayers(world, data, PacketHandler.EFFECT_PARTICLE_PACKET);
+                PacketHandler.sendToPlayers(world, this, data, PacketHandler.EFFECT_PARTICLE_PACKET);
             }
             setCastTime(getCastTime() - 1);
 

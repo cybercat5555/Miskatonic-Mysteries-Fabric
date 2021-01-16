@@ -26,7 +26,7 @@ public class MobTargetMedium extends SpellMedium {
                 data.writeInt(caster.getAttacking().getEntityId());
                 data.writeIdentifier(effect.getId());
                 data.writeInt(intensity);
-                PacketHandler.sendToPlayers(caster.world, data, PacketHandler.MOB_SPELL_MEDIUM_PACKET);
+                PacketHandler.sendToPlayers(caster.world, caster, data, PacketHandler.MOB_SPELL_MEDIUM_PACKET);
                 ((MobEntity) caster).lookAtEntity(caster.getAttacking(), 60, 60);
                 return !caster.isDead() && effect.effect(caster.world, caster, caster.getAttacking(), caster.getAttacking().getPos(), this, intensity, caster);
             }

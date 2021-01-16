@@ -25,7 +25,7 @@ public class Spell {
             PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
             data.writeCompoundTag(toTag(new CompoundTag()));
             data.writeInt(caster.getEntityId());
-            PacketHandler.sendToPlayers(caster.world, data, PacketHandler.SPELL_PACKET);
+            PacketHandler.sendToPlayers(caster.world, caster, data, PacketHandler.SPELL_PACKET);
         }
         return effect.canCast(caster, medium) && medium.cast(caster.world, caster, effect, intensity);
     }

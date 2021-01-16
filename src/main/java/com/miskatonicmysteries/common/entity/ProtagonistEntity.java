@@ -134,7 +134,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
                 data.writeDouble(getX());
                 data.writeDouble(getY());
                 data.writeDouble(getZ());
-                PacketHandler.sendToPlayers(world, data, PacketHandler.PROTAG_PARTICLE_PACKET);
+                PacketHandler.sendToPlayers(world, this, data, PacketHandler.PROTAG_PARTICLE_PACKET);
             }
             remove();
         } else {

@@ -12,7 +12,9 @@ import com.miskatonicmysteries.common.lib.ModEntities;
 import com.miskatonicmysteries.common.lib.ModParticles;
 import com.miskatonicmysteries.common.lib.ModRegistries;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -24,6 +26,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -172,8 +175,23 @@ public class PacketHandler {
             ServerPlayNetworking.send((ServerPlayerEntity) player, packet, data);
     }
 
-    public static void sendToPlayers(World world, PacketByteBuf data, Identifier packet) {
+    public static void sendToPlayers(World world, BlockPos trackPos, PacketByteBuf data, Identifier packet) {
         if (world instanceof ServerWorld) {
+            PlayerLookup.tracking((ServerWorld) world, trackPos).forEach(p -> sendToPlayer(p, data, packet));
+            world.getPlayers().forEach(p -> sendToPlayer(p, data, packet));
+        }
+    }
+
+    public static void sendToPlayers(World world, Entity trackingEntity, PacketByteBuf data, Identifier packet) {
+        if (world instanceof ServerWorld) {
+            PlayerLookup.tracking(trackingEntity).forEach(p -> sendToPlayer(p, data, packet));
+            world.getPlayers().forEach(p -> sendToPlayer(p, data, packet));
+        }
+    }
+
+    public static void sendToPlayers(World world, BlockEntity trackingBlockEntity, PacketByteBuf data, Identifier packet) {
+        if (world instanceof ServerWorld) {
+            PlayerLookup.tracking(trackingBlockEntity).forEach(p -> sendToPlayer(p, data, packet));
             world.getPlayers().forEach(p -> sendToPlayer(p, data, packet));
         }
     }
