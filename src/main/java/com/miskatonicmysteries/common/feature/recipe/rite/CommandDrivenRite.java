@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.feature.recipe.rite;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.DataSerializable;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.command.ServerCommandSource;
@@ -21,8 +22,8 @@ public class CommandDrivenRite extends Rite implements DataSerializable<Rite> {
     public final Identifier finishFunctionId;
     public final int tickCount;
 
-    public CommandDrivenRite(Identifier id, Identifier tickFunctionId, Identifier finishFunctionId, int tickCount, float investigatorChance, Ingredient... ingredients) {
-        super(id, investigatorChance, ingredients);
+    public CommandDrivenRite(Identifier id, Affiliation affiliation, Identifier tickFunctionId, Identifier finishFunctionId, int tickCount, float investigatorChance, Ingredient... ingredients) {
+        super(id, affiliation, investigatorChance, ingredients);
         this.tickFunctionId = tickFunctionId;
         this.finishFunctionId = finishFunctionId;
         this.tickCount = tickCount;
@@ -72,7 +73,7 @@ public class CommandDrivenRite extends Rite implements DataSerializable<Rite> {
     public static class Serializer extends DataSerializable.DataReader<Rite> {
         @Override
         public Rite readFromJson(Identifier id, JsonObject json) {
-            return new CommandDrivenRite(id, new Identifier(JsonHelper.getString(json, "tick")), new Identifier(JsonHelper.getString(json, "result")), JsonHelper.getInt(json, "duration", 100), JsonHelper.getFloat(json, "investigatorChance", 0.25F), readIngredients(JsonHelper.getArray(json, "ingredients")));
+            return new CommandDrivenRite(id, JsonHelper.hasElement(json, "affiliation") ? Affiliation.AFFILIATION_MAP.get(new Identifier(JsonHelper.getString(json, "affiliation"))) : null, new Identifier(JsonHelper.getString(json, "tick")), new Identifier(JsonHelper.getString(json, "result")), JsonHelper.getInt(json, "duration", 100), JsonHelper.getFloat(json, "investigatorChance", 0.25F), readIngredients(JsonHelper.getArray(json, "ingredients")));
         }
 
         private Ingredient[] readIngredients(JsonArray json) {

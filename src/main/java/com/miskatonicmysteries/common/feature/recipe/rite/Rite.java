@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,6 +12,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +21,16 @@ public abstract class Rite {
     public static final Map<Identifier, Rite> RITES = new HashMap<>();
     public final List<Ingredient> ingredients = DefaultedList.ofSize(8, Ingredient.EMPTY);
     public final Identifier id;
+    public final Affiliation octagramAffiliation;
     public float investigatorChance;
 
-    public Rite(Identifier id, float investigatorChance, Ingredient... ingredients) {
+    public Rite(Identifier id, @Nullable Affiliation octagram, float investigatorChance, Ingredient... ingredients) {
         this.id = id;
         this.investigatorChance = investigatorChance;
         for (int i = 0; i < ingredients.length; i++) {
             this.ingredients.set(i, ingredients[i]);
         }
+        this.octagramAffiliation = octagram;
     }
 
     public void onStart(OctagramBlockEntity octagram) {
@@ -55,7 +59,7 @@ public abstract class Rite {
     }
 
     public boolean canCast(OctagramBlockEntity octagram) {
-        return InventoryUtil.areItemStackListsExactlyEqual(ingredients, octagram);
+        return (octagramAffiliation == null || octagramAffiliation.equals(octagram.getAffiliation(false))) && InventoryUtil.areItemStackListsExactlyEqual(ingredients, octagram);
     }
 
 

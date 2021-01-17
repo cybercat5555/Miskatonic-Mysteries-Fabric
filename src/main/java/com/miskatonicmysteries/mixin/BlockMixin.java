@@ -1,5 +1,7 @@
 package com.miskatonicmysteries.mixin;
 
+import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.lib.util.MiscUtil;
 import io.netty.buffer.Unpooled;
@@ -33,9 +35,11 @@ public abstract class BlockMixin extends AbstractBlock {
     @Environment(EnvType.CLIENT)
     @Inject(method = "randomDisplayTick", at = @At("HEAD"))
     public void randomDisplay(BlockState state, World world, BlockPos pos, Random random, CallbackInfo info) {
-        if ((state.getBlock() instanceof AbstractBannerBlock) && random.nextInt(5) == 0 && world.getBlockEntity(pos) instanceof BannerBlockEntity
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player != null && client.player.age % MiskatonicMysteries.config.sanity.insanityInterval == 0) {
+            InsanityHandler.handleClientSideBlockChange(client.player, world, state, pos, random);
+        } else if ((state.getBlock() instanceof AbstractBannerBlock) && random.nextInt(5) == 0 && world.getBlockEntity(pos) instanceof BannerBlockEntity
                 && MiscUtil.isValidYellowSign(world.getBlockEntity(pos).toTag(new CompoundTag()))) {
-            MinecraftClient client = MinecraftClient.getInstance();
             Vec3d posTracked = client.player.raycast(100, client.getTickDelta(), false).getPos();
             if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F) && !MiscUtil.isImmuneToYellowSign(client.player)) {
                 PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());

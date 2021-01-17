@@ -41,7 +41,8 @@ public class InventoryUtil {
     }
 
     public static void giveItem(World world, PlayerEntity player, ItemStack item) {
-        if (!world.isClient)
+        if (!world.isClient) {
             world.spawnEntity(new ItemEntity(world, player.getX(), player.getY() + 0.5, player.getZ(), item)); //might spawn those more efficiently
+        }
     }
 }

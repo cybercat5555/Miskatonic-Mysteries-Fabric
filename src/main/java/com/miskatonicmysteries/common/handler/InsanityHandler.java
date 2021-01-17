@@ -3,9 +3,15 @@ package com.miskatonicmysteries.common.handler;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
 import com.miskatonicmysteries.common.feature.sanity.Sanity;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.SANITY_CAP;
@@ -51,5 +57,13 @@ public class InsanityHandler {
 
     public static float calculateSanityFactor(Sanity sanity) {
         return sanity.getSanity() / (float) SANITY_CAP;
+    }
+
+    public static void handleClientSideBlockChange(ClientPlayerEntity player, World world, BlockState state, BlockPos pos, Random random) {
+        Sanity sanity = (Sanity) player;
+        if (sanity.getSanity() < 750 && random.nextFloat() < 0.25F)
+            if (state.getBlock().equals(Blocks.BIRCH_LOG)) {
+                world.setBlockState(pos, Blocks.OAK_LOG.getDefaultState(), 1);
+            }
     }
 }

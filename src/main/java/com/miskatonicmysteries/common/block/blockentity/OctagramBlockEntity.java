@@ -12,6 +12,7 @@ import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
@@ -146,6 +147,21 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
         return getCachedState().getBlock() instanceof OctagramBlock && ((OctagramBlock) world.getBlockState(pos).getBlock()).isSupernatural();
     }
 
+    @Override
+    public void clear() {
+        for (int i = 0; i < size(); i++) {
+            if (getStack(i).getItem().isIn(Constants.Tags.RITE_TOOLS)) {
+                ItemStack item = removeStack(i, 1);
+                if (!world.isClient) {
+                    Vec3d pos = getSummoningPos();
+                    world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), item));
+                }
+                continue;
+            }
+            setStack(i, ItemStack.EMPTY);
+        }
+        markDirty();
+    }
 
     public Vec3d getSummoningPos() {
         return new Vec3d(pos.getX() + 0.5F, pos.getY() + 0.25F, pos.getZ() + 0.5F);

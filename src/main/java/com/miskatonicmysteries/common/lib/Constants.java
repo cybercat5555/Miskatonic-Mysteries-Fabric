@@ -37,6 +37,7 @@ public class Constants {
 
         public static final Tag<Item> RED_MEAT = TagRegistry.item(new Identifier(MOD_ID, "red_meat"));
         public static final Tag<Item> YELLOW_DYE = TagRegistry.item(new Identifier(MOD_ID, "yellow_dye"));
+        public static final Tag<Item> RITE_TOOLS = TagRegistry.item(new Identifier(MOD_ID, "rite_tools"));
     }
 
     public static class NBT {

@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.client.render;
 
 import com.miskatonicmysteries.client.model.armor.HasturMaskModel;
+import com.miskatonicmysteries.client.model.armor.ShubAlternateMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubMaskModel;
 import com.miskatonicmysteries.client.model.block.CthulhuStatueModel;
 import com.miskatonicmysteries.client.model.block.HasturStatueModel;
@@ -83,6 +84,7 @@ public class ResourceHandler {
 
         addMaskModel(ModObjects.ELEGANT_MASK, new HasturMaskModel());
         addMaskModel(ModObjects.FERAL_MASK, new ShubMaskModel());
+        addMaskModel(ModObjects.WILD_MASK, new ShubAlternateMaskModel());
 
         //Botania code
         List<Item> armors = Registry.ITEM.stream()

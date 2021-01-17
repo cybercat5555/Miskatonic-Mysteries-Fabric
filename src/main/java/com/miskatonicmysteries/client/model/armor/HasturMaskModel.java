@@ -58,9 +58,7 @@ public class HasturMaskModel extends Model {
 
     @Override
     public void render(MatrixStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        ImmutableList.of(this.armorHead).forEach((modelRenderer) -> {
-            modelRenderer.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        });
+        ImmutableList.of(this.armorHead).forEach((modelRenderer) -> modelRenderer.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha));
 
     }
 

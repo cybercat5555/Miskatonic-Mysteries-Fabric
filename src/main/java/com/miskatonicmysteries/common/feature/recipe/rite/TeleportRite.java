@@ -21,7 +21,7 @@ public class TeleportRite extends Rite {
     private final int ticksNeeded;
 
     public TeleportRite() { //todo proper ingredient for this
-        super(new Identifier(Constants.MOD_ID, "teleport"), 0, Ingredient.ofItems(Items.ENDER_PEARL), Ingredient.ofItems(Items.ENDER_EYE));
+        super(new Identifier(Constants.MOD_ID, "teleport"), null, 0, Ingredient.ofItems(Items.ENDER_PEARL), Ingredient.ofItems(Items.ENDER_EYE));
         ticksNeeded = 60;
     }
 
