@@ -52,7 +52,7 @@ public class IncantationYogItem extends Item {
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         BlockPos foundPos = null;
         for (BlockPos iterateOutward : BlockPos.iterateOutwards(user.getBlockPos(), 3, 3, 3)) {
-            if (world.getBlockEntity(iterateOutward) instanceof OctagramBlockEntity) {
+            if (world.getBlockEntity(iterateOutward) instanceof OctagramBlockEntity && ((OctagramBlockEntity) world.getBlockEntity(iterateOutward)).boundPos == null) {
                 foundPos = iterateOutward;
                 break;
             }

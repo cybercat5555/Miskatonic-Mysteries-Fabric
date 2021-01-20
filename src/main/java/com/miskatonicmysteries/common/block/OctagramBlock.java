@@ -60,6 +60,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
             octagram.setOriginalCaster(player);
             Rite rite = ModRecipes.getRite(octagram);
             if (rite != null) {
+                octagram.sneakyStart = player.isSneaking();
                 octagram.currentRite = rite;
                 rite.onStart(octagram);
                 octagram.markDirty();

@@ -36,8 +36,11 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     public boolean permanentRiteActive;
     public Rite currentRite = null;
     public UUID originalCaster = null;
+    //misc values which may be used by rites
     public Pair<Identifier, BlockPos> boundPos = null;
+    public boolean sneakyStart;
 
+    //
     public OctagramBlockEntity() {
         super(ModObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
 
@@ -58,6 +61,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
             tag.putString(Constants.NBT.DIMENSION, boundPos.getFirst().toString());
             tag.putLong(Constants.NBT.POSITION, boundPos.getSecond().asLong());
         }
+        tag.putBoolean(Constants.NBT.SNEAKY, sneakyStart);
         return super.toTag(tag);
     }
 
@@ -74,10 +78,10 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
         } else {
             originalCaster = null;
         }
-
         if (tag.contains(Constants.NBT.DIMENSION)) {
             boundPos = new Pair<>(new Identifier(tag.getString(Constants.NBT.DIMENSION)), BlockPos.fromLong(tag.getLong(Constants.NBT.POSITION)));
         }
+        sneakyStart = tag.getBoolean(Constants.NBT.SNEAKY);
         super.fromTag(state, tag);
     }
 

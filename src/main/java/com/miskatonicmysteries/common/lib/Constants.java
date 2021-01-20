@@ -85,6 +85,7 @@ public class Constants {
         public static final String SPELL_LIST = "Spell List";
         public static final String SPELL_EFFECTS = "Effect List";
         public static final String SPELL_MEDIUMS = "Medium Map";
+        public static final String SNEAKY = "Sneaky";
     }
 
     public static class DataTrackers {
