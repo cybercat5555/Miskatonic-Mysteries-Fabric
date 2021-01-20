@@ -16,8 +16,8 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.ExpandSanity
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
 import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModObjects;
-import com.miskatonicmysteries.common.lib.ModRegistries;
+import com.miskatonicmysteries.common.lib.MMMiscRegistries;
+import com.miskatonicmysteries.common.lib.MMObjects;
 import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import io.netty.buffer.Unpooled;
@@ -76,8 +76,8 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
     private void manipulateDeath(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
         if (amount >= getHealth() && !source.isOutOfWorld()) {
             PlayerEntity entity = (PlayerEntity) (Object) this;
-            if (InventoryUtil.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE) >= 0) {
-                entity.inventory.removeStack(InventoryUtil.getSlotForItemInHotbar(entity, ModObjects.RE_AGENT_SYRINGE), 1);
+            if (InventoryUtil.getSlotForItemInHotbar(entity, MMObjects.RE_AGENT_SYRINGE) >= 0) {
+                entity.inventory.removeStack(InventoryUtil.getSlotForItemInHotbar(entity, MMObjects.RE_AGENT_SYRINGE), 1);
                 if (LazarusStatusEffect.revive(entity)) {
                     dead = false;
                     removed = false;
@@ -108,7 +108,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
 
     @Override
     public void setSanity(int sanity, boolean ignoreFactors) {
-        if (ignoreFactors || (!isShocked() && !hasStatusEffect(ModRegistries.TRANQUILIZED)))
+        if (ignoreFactors || (!isShocked() && !hasStatusEffect(MMMiscRegistries.StatusEffects.TRANQUILIZED)))
             dataTracker.set(SANITY, MathHelper.clamp(sanity, 0, getMaxSanity()));
     }
 

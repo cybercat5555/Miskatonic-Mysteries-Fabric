@@ -4,8 +4,8 @@ import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
 import com.miskatonicmysteries.common.feature.spell.SpellCaster;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.OpenSpellEditorPacket;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModObjects;
-import com.miskatonicmysteries.common.lib.ModParticles;
+import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.lib.MMParticles;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -69,7 +69,7 @@ public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, 
                 altar.markDirty();
                 return ActionResult.CONSUME;
             } else if (!altar.getItems().isEmpty()) {
-                if (!player.isSneaking() && !altar.getStack(0).isEmpty() && altar.getBook().equals(ModObjects.NECRONOMICON)) {
+                if (!player.isSneaking() && !altar.getStack(0).isEmpty() && altar.getBook().equals(MMObjects.NECRONOMICON)) {
                     if (!world.isClient && player instanceof SpellCaster) {
                         ((SpellCaster) player).syncSpellData();
                         OpenSpellEditorPacket.send(player);
@@ -154,7 +154,7 @@ public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, 
             zCoord = xCoord;
             xCoord = tempZ;
         }
-        ModParticles.spawnCandleParticle(world, x + (xCoord * Constants.BLOCK_BIT - 0.5) * (reverse ? -mult : mult), y + yCoord * Constants.BLOCK_BIT, z + (zCoord * Constants.BLOCK_BIT - 0.5) * mult, size, false);
+        MMParticles.spawnCandleParticle(world, x + (xCoord * Constants.BLOCK_BIT - 0.5) * (reverse ? -mult : mult), y + yCoord * Constants.BLOCK_BIT, z + (zCoord * Constants.BLOCK_BIT - 0.5) * mult, size, false);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.item;
 
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModRegistries;
+import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,8 +26,8 @@ public class LaudanumItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        user.applyStatusEffect(new StatusEffectInstance(ModRegistries.TRANQUILIZED, 2400, 0));
-        user.applyStatusEffect(new StatusEffectInstance(ModRegistries.OVERMEDICATED, 24000, user.getStatusEffect(ModRegistries.OVERMEDICATED) != null ? user.getStatusEffect(ModRegistries.OVERMEDICATED).getAmplifier() + 1 : 0, false, false, false));
+        user.applyStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.TRANQUILIZED, 2400, 0));
+        user.applyStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.OVERMEDICATED, 24000, user.getStatusEffect(MMMiscRegistries.StatusEffects.OVERMEDICATED) != null ? user.getStatusEffect(MMMiscRegistries.StatusEffects.OVERMEDICATED).getAmplifier() + 1 : 0, false, false, false));
         stack.decrement(1);
         if (stack.isEmpty()) {
             return new ItemStack(Items.GLASS_BOTTLE);

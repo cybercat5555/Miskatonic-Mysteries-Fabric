@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.mixin;
 
-import com.miskatonicmysteries.common.lib.ModRegistries;
+import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -27,7 +27,7 @@ public abstract class LivingEntityMixin {
 
     @Inject(method = "heal", at = @At("HEAD"), cancellable = true)
     private void preventHeal(float amount, CallbackInfo callbackInfo) {
-        if (hasStatusEffect(ModRegistries.BLEED) && getRandom().nextFloat() < 0.4 + 0.2 * getStatusEffect(ModRegistries.BLEED).getAmplifier()) {
+        if (hasStatusEffect(MMMiscRegistries.StatusEffects.BLEED) && getRandom().nextFloat() < 0.4 + 0.2 * getStatusEffect(MMMiscRegistries.StatusEffects.BLEED).getAmplifier()) {
             callbackInfo.cancel();
         }
     }

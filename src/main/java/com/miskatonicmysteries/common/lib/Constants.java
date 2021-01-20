@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 
 public class Constants {
     public static final String MOD_ID = "miskatonicmysteries";
-    public static final ItemGroup MM_GROUP = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "group"), () -> new ItemStack(ModObjects.NECRONOMICON));
+    public static final ItemGroup MM_GROUP = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "group"), () -> new ItemStack(MMObjects.NECRONOMICON));
     public static final float BLOCK_BIT = 0.0625F;
 
     public static class Tags {

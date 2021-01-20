@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.item;
 
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModRegistries;
+import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,7 +25,7 @@ public class BlotterItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        user.applyStatusEffect(new StatusEffectInstance(ModRegistries.MANIA, 2400, 0));
+        user.applyStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.MANIA, 2400, 0));
         stack.decrement(1);
         return stack;
     }

@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import static com.miskatonicmysteries.common.lib.ModRegistries.addSpellEffect;
+import static com.miskatonicmysteries.common.lib.MMMiscRegistries.addSpellEffect;
 
 public abstract class SpellEffect {
     public static final Map<Identifier, SpellEffect> SPELL_EFFECTS = new HashMap<>();

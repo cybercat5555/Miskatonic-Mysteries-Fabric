@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.common.entity.SpellProjectileEntity;
-import com.miskatonicmysteries.common.lib.ModParticles;
+import com.miskatonicmysteries.common.lib.MMParticles;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
@@ -22,7 +22,7 @@ public class SpellProjectileRenderer extends EntityRenderer<SpellProjectileEntit
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
         if (entity.getSpell() != null) {
             Vec3d rgb = Vec3d.unpackRgb(entity.getSpell().getColor(entity.getOwner() instanceof LivingEntity ? (LivingEntity) entity.getOwner() : null));
-            entity.world.addParticle(ModParticles.SHRINKING_MAGIC, entity.getX(), entity.getY(), entity.getZ(), rgb.x, rgb.y, rgb.z);
+            entity.world.addParticle(MMParticles.SHRINKING_MAGIC, entity.getX(), entity.getY(), entity.getZ(), rgb.x, rgb.y, rgb.z);
         }
     }
 

@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.feature.effect;
 
-import com.miskatonicmysteries.common.lib.ModRegistries;
+import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
@@ -24,8 +24,8 @@ public class LazarusStatusEffect extends StatusEffect {
     }
 
     public static boolean revive(PlayerEntity player) {
-        int count = player.hasStatusEffect(ModRegistries.LAZARUS) ? player.getStatusEffect(ModRegistries.LAZARUS).getAmplifier() + 1 : 0;
-        player.addStatusEffect(new StatusEffectInstance(ModRegistries.LAZARUS, 20000, count, true, false, true));
+        int count = player.hasStatusEffect(MMMiscRegistries.StatusEffects.LAZARUS) ? player.getStatusEffect(MMMiscRegistries.StatusEffects.LAZARUS).getAmplifier() + 1 : 0;
+        player.addStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.LAZARUS, 20000, count, true, false, true));
         if (count < 4)
             player.setHealth(player.getMaxHealth() / (count + 1));
         return count < 4;

@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.feature.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.miskatonicmysteries.common.feature.PotentialItem;
-import com.miskatonicmysteries.common.lib.ModRecipes;
+import com.miskatonicmysteries.common.lib.MMRecipes;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
@@ -38,12 +38,12 @@ public class ChemistryRecipe implements LazySerializable{
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return ModRecipes.CHEMISTRY_SERIALIZER;
+        return MMRecipes.CHEMISTRY_SERIALIZER;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipes.CHEMISTRY_RECIPE;
+        return MMRecipes.CHEMISTRY_RECIPE;
     }
 
     public static class Serializer implements RecipeSerializer<ChemistryRecipe> {

@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.entity;
 
-import com.miskatonicmysteries.common.lib.ModEntities;
+import com.miskatonicmysteries.common.lib.MMEntities;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
@@ -30,7 +30,7 @@ public class BoltEntity extends Entity {
     }
 
     public BoltEntity(LivingEntity caster, double length, int color) {
-        this(ModEntities.BOLT, caster.world);
+        this(MMEntities.BOLT, caster.world);
         this.yaw = caster.yaw;
         this.pitch = caster.pitch;
         setPos(caster.getX(), caster.getEyeY(), caster.getZ());

@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.handler;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModEntities;
+import com.miskatonicmysteries.common.lib.MMEntities;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.SpawnRestriction;
@@ -26,7 +26,7 @@ public class ProtagonistHandler {
         if (!data.spawned) {
             BlockPos pos = getProtagonistSpawnPos(world, player, 50);
             if (pos != null) {
-                ProtagonistEntity protagonist = new ProtagonistEntity(ModEntities.PROTAGONIST, world);
+                ProtagonistEntity protagonist = new ProtagonistEntity(MMEntities.PROTAGONIST, world);
                 protagonist.updatePosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                 protagonist.setTargetUUID(player.getUuid());
                 protagonist.setData(data);
@@ -48,7 +48,7 @@ public class ProtagonistHandler {
     public static boolean spawnProtagonistReinforcements(ServerWorld world, PlayerEntity player) {
         BlockPos pos = getProtagonistSpawnPos(world, player, 50);
         if (pos != null) {
-            ProtagonistEntity protagonist = new ProtagonistEntity(ModEntities.PROTAGONIST, world);
+            ProtagonistEntity protagonist = new ProtagonistEntity(MMEntities.PROTAGONIST, world);
             protagonist.updatePosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
             protagonist.initialize(world, world.getLocalDifficulty(pos), SpawnReason.REINFORCEMENT, null, null);
             world.spawnEntity(protagonist);
@@ -69,7 +69,7 @@ public class ProtagonistHandler {
             int l = (int) player.getZ() + MathHelper.floor(MathHelper.sin(f) * 16) + world.random.nextInt(14);
             int m = world.getTopY(Heightmap.Type.WORLD_SURFACE, k, l);
             mutable.set(k, m, l);
-            if (!world.isNearOccupiedPointOfInterest(mutable) && world.isRegionLoaded(mutable.getX() - 10, mutable.getY() - 10, mutable.getZ() - 10, mutable.getX() + 10, mutable.getY() + 10, mutable.getZ() + 10) && world.getChunkManager().shouldTickChunk(new ChunkPos(mutable)) && (SpawnHelper.canSpawn(SpawnRestriction.Location.ON_GROUND, world, mutable, ModEntities.PROTAGONIST) || world.getBlockState(mutable.down()).isOf(Blocks.SNOW) && world.getBlockState(mutable).isAir())) {
+            if (!world.isNearOccupiedPointOfInterest(mutable) && world.isRegionLoaded(mutable.getX() - 10, mutable.getY() - 10, mutable.getZ() - 10, mutable.getX() + 10, mutable.getY() + 10, mutable.getZ() + 10) && world.getChunkManager().shouldTickChunk(new ChunkPos(mutable)) && (SpawnHelper.canSpawn(SpawnRestriction.Location.ON_GROUND, world, mutable, MMEntities.PROTAGONIST) || world.getBlockState(mutable.down()).isOf(Blocks.SNOW) && world.getBlockState(mutable).isAir())) {
                 return mutable;
             }
         }

@@ -9,7 +9,7 @@ import com.miskatonicmysteries.common.entity.ai.task.HealthCareTask;
 import com.miskatonicmysteries.common.entity.ai.task.RecruitTask;
 import com.miskatonicmysteries.common.entity.ai.task.TacticalApproachTask;
 import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.lib.ModEntities;
+import com.miskatonicmysteries.common.lib.MMEntities;
 import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.entity.LivingEntity;
@@ -38,7 +38,7 @@ public class HasturCultistBrain {
         brain.setTaskList(Activity.CORE, createCoreTasks(0.5F));
         brain.setTaskList(Activity.MEET, createMeetTasks(0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleState.VALUE_PRESENT)));
         brain.setTaskList(Activity.FIGHT, 10, createFightTasks(entity, 0.5F), MemoryModuleType.ATTACK_TARGET);
-        brain.setTaskList(Activity.IDLE, VillagerTaskListProvider.createIdleTasks(ModEntities.YELLOW_SERF, 0.5F));
+        brain.setTaskList(Activity.IDLE, VillagerTaskListProvider.createIdleTasks(MMEntities.YELLOW_SERF, 0.5F));
 
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
@@ -146,7 +146,7 @@ public class HasturCultistBrain {
                 Pair.of(1, new MeetVillagerTask()),
                 Pair.of(1, new HealthCareTask()),
                 Pair.of(5, new WalkToNearestVisibleWantedItemTask(f, false, 4)),
-                Pair.of(6, new FindPointOfInterestTask(ModEntities.CONGREGATION_POI, ModEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true, Optional.empty())),
+                Pair.of(6, new FindPointOfInterestTask(MMEntities.CONGREGATION_POI, MMEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true, Optional.empty())),
                 Pair.of(10, new FindPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14))));
     }
 
@@ -154,7 +154,7 @@ public class HasturCultistBrain {
         return ImmutableList.of(
                 Pair.of(2, new RandomTask(ImmutableList.of(
                         Pair.of(new GoToIfNearbyTask(MemoryModuleType.MEETING_POINT, 0.4F, 40), 2),
-                        Pair.of(new GoToIfNearbyTask(ModEntities.CONGREGATION_POINT, 0.4F, 80), 2),
+                        Pair.of(new GoToIfNearbyTask(MMEntities.CONGREGATION_POINT, 0.4F, 80), 2),
                         Pair.of(new MeetVillagerTask(), 2),
                         Pair.of(new RecruitTask(), 3)))),
                 Pair.of(2, new MeetVillagerTask()),

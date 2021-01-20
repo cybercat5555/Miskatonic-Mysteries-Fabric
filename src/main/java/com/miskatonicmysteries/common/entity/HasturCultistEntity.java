@@ -7,8 +7,8 @@ import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModEntities;
-import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.MMEntities;
+import com.miskatonicmysteries.common.lib.MMObjects;
 import com.miskatonicmysteries.mixin.LivingEntityAccessor;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.entity.*;
@@ -118,13 +118,13 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public VillagerData getVillagerData() {
-        return super.getVillagerData().withProfession(ModEntities.YELLOW_SERF); //always the same profession
+        return super.getVillagerData().withProfession(MMEntities.YELLOW_SERF); //always the same profession
     }
 
     @Override
     public void setVillagerData(VillagerData villagerData) {
-        if (villagerData.getProfession() != ModEntities.YELLOW_SERF)
-            villagerData.withProfession(ModEntities.YELLOW_SERF);
+        if (villagerData.getProfession() != MMEntities.YELLOW_SERF)
+            villagerData.withProfession(MMEntities.YELLOW_SERF);
         super.setVillagerData(villagerData);
     }
 
@@ -134,7 +134,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
             return ActionResult.FAIL;
         }
 
-        if (player.getStackInHand(hand).getItem().equals(ModObjects.NECRONOMICON) && getReputation(player) >= 100 && !MMBookItem.hasKnowledge(Affiliation.HASTUR.getId().getPath(), player.getStackInHand(hand))) {
+        if (player.getStackInHand(hand).getItem().equals(MMObjects.NECRONOMICON) && getReputation(player) >= 100 && !MMBookItem.hasKnowledge(Affiliation.HASTUR.getId().getPath(), player.getStackInHand(hand))) {
             MMBookItem.addKnowledge(Affiliation.HASTUR.getId().getPath(), player.getStackInHand(hand));
             if (!this.world.isClient()) {
                 this.playSound(SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
@@ -239,7 +239,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     protected void initEquipment(LocalDifficulty difficulty) {
         super.initEquipment(difficulty);
 
-        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(world.random.nextBoolean() ? Items.IRON_SWORD : ModObjects.ORNATE_DAGGER));
+        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(world.random.nextBoolean() ? Items.IRON_SWORD : MMObjects.ORNATE_DAGGER));
         if (!isAscended()) {
             this.equipStack(EquipmentSlot.OFFHAND, createYellowSignShield());
         }
@@ -268,7 +268,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         }
         setLeftHanded(random.nextBoolean()); //more left-handedness
         initEquipment(difficulty);
-        setVillagerData(getVillagerData().withProfession(ModEntities.YELLOW_SERF));
+        setVillagerData(getVillagerData().withProfession(MMEntities.YELLOW_SERF));
         return entityData;
     }
 

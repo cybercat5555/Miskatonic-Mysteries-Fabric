@@ -11,7 +11,7 @@ import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-public class ModParticles {
+public class MMParticles {
     public static final DefaultParticleType FLAME = FabricParticleTypes.simple(true);
     public static final DefaultParticleType UPWARDS_MAGIC = FabricParticleTypes.simple(true);
     public static final DefaultParticleType SHRINKING_MAGIC = FabricParticleTypes.simple(true);
@@ -30,7 +30,7 @@ public class ModParticles {
 
     public static void spawnCandleParticle(World world, double x, double y, double z, float size, boolean alwaysSpawn) {
         if (alwaysSpawn || world.random.nextBoolean()) {
-            world.addParticle(ModParticles.FLAME, x, y, z, size + world.random.nextGaussian() / 20F, 0, 0);
+            world.addParticle(MMParticles.FLAME, x, y, z, size + world.random.nextGaussian() / 20F, 0, 0);
         }
     }
 }

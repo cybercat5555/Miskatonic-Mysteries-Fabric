@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.feature.world.processor;
 
 import com.miskatonicmysteries.common.block.CandleBlock;
-import com.miskatonicmysteries.common.lib.ModWorld;
+import com.miskatonicmysteries.common.lib.MMWorld;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
@@ -44,6 +44,6 @@ public class PsychonautHouseProcessor extends StructureProcessor {
 
     @Override
     protected StructureProcessorType<?> getType() {
-        return ModWorld.PSYCHONAUT_PROCESSOR;
+        return MMWorld.PSYCHONAUT_PROCESSOR;
     }
 }

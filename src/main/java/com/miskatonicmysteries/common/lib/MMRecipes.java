@@ -14,7 +14,7 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.Objects;
 
-public class ModRecipes {
+public class MMRecipes {
     public static final DummyRecipeType<ChemistryRecipe> CHEMISTRY_RECIPE = new DummyRecipeType<>();
     public static final RecipeSerializer<ChemistryRecipe> CHEMISTRY_SERIALIZER = new ChemistryRecipe.Serializer();
     public static final Rite TELEPORT_RITE = new TeleportRite();
@@ -27,7 +27,7 @@ public class ModRecipes {
         addRite(TELEPORT_RITE);
     }
 
-    public static Rite getRite(OctagramBlockEntity octagram) {//todo use recipe manager when function command/data driven rites are a thing (compare insanity effects)
+    public static Rite getRite(OctagramBlockEntity octagram) {
         return Rite.RITES.values().stream().filter(r -> r.canCast(octagram)).findFirst().orElse(null);
     }
 

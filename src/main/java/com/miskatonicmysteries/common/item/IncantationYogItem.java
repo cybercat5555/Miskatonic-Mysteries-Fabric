@@ -28,6 +28,7 @@ public class IncantationYogItem extends Item {
         super(new Settings().group(Constants.MM_GROUP).maxCount(1));
     }
 
+
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         BlockPos boundPos = getPosition(stack);
@@ -87,6 +88,13 @@ public class IncantationYogItem extends Item {
             return null;
         }
         return world.getServer().getWorld(RegistryKey.of(Registry.DIMENSION, new Identifier(stack.getTag().getString(Constants.NBT.DIMENSION))));
+    }
+
+    public static void clear(ItemStack stack) {
+        if (stack.hasTag()) {
+            stack.getTag().remove(Constants.NBT.POSITION);
+            stack.getTag().remove(Constants.NBT.DIMENSION);
+        }
     }
 
     @Override

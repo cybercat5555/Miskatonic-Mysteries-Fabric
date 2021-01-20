@@ -3,13 +3,13 @@ package com.miskatonicmysteries.common.block.blockentity;
 import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.MMObjects;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
 
 public class StatueBlockEntity extends BaseBlockEntity implements Affiliated {
     public StatueBlockEntity() {
-        super(ModObjects.STATUE_BLOCK_ENTITY_TYPE);
+        super(MMObjects.STATUE_BLOCK_ENTITY_TYPE);
     }
 
     @Override

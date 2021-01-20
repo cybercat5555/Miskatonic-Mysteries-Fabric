@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.item;
 
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.MMObjects;
 import com.miskatonicmysteries.mixin.ZombieVillagerAccessor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -14,7 +14,7 @@ import net.minecraft.util.Hand;
 
 public class ReAgentItem extends Item {
     public ReAgentItem() {
-        super(new Item.Settings().group(Constants.MM_GROUP).recipeRemainder(ModObjects.SYRINGE).maxCount(1));
+        super(new Item.Settings().group(Constants.MM_GROUP).recipeRemainder(MMObjects.SYRINGE).maxCount(1));
     }
 
     @Override

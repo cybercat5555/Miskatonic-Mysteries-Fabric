@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.entity;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModEntities;
+import com.miskatonicmysteries.common.lib.MMEntities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
@@ -29,7 +29,7 @@ public class SpellProjectileEntity extends ThrownEntity {
     }
 
     public SpellProjectileEntity(World world, LivingEntity caster, SpellEffect effect, int intensity) {
-        super(ModEntities.SPELL_PROJECTILE, caster, world);
+        super(MMEntities.SPELL_PROJECTILE, caster, world);
         setSpell(effect);
         setIntensity(intensity);
         setOwner(caster);

@@ -3,8 +3,8 @@ package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModEntities;
-import com.miskatonicmysteries.common.lib.ModParticles;
+import com.miskatonicmysteries.common.lib.MMEntities;
+import com.miskatonicmysteries.common.lib.MMParticles;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
@@ -29,9 +29,9 @@ public class ProtagonistParticlePacket {
         Vec3d pos = new Vec3d(packetByteBuf.readDouble(), packetByteBuf.readDouble(), packetByteBuf.readDouble());
         client.execute(() -> {
             for (int i = 0; i < 10; i++)
-                client.world.addParticle(ModParticles.FLAME, pos.x + client.world.random.nextGaussian() * ModEntities.PROTAGONIST.getWidth(), pos.y + client.world.random.nextFloat() * ModEntities.PROTAGONIST.getHeight(), pos.z + client.world.random.nextGaussian() * ModEntities.PROTAGONIST.getWidth(), 1, 0, 0);
+                client.world.addParticle(MMParticles.FLAME, pos.x + client.world.random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(), pos.y + client.world.random.nextFloat() * MMEntities.PROTAGONIST.getHeight(), pos.z + client.world.random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(), 1, 0, 0);
             for (int i = 0; i < 15; i++)
-                client.world.addParticle(ParticleTypes.LARGE_SMOKE, pos.x + client.world.random.nextGaussian() * ModEntities.PROTAGONIST.getWidth(), pos.y + client.world.random.nextFloat() * ModEntities.PROTAGONIST.getHeight(), pos.z + client.world.random.nextGaussian() * ModEntities.PROTAGONIST.getWidth(), 0, 0, 0);
+                client.world.addParticle(ParticleTypes.LARGE_SMOKE, pos.x + client.world.random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(), pos.y + client.world.random.nextFloat() * MMEntities.PROTAGONIST.getHeight(), pos.z + client.world.random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(), 0, 0, 0);
         });
     }
 }

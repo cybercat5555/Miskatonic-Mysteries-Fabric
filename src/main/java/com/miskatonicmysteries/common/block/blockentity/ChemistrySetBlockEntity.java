@@ -3,8 +3,8 @@ package com.miskatonicmysteries.common.block.blockentity;
 import com.miskatonicmysteries.common.feature.PotentialItem;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModObjects;
-import com.miskatonicmysteries.common.lib.ModRecipes;
+import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.lib.MMRecipes;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,7 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
     public int[] smokeColor = {0, 0, 0};
 
     public ChemistrySetBlockEntity() {
-        super(ModObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
+        super(MMObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
     @Override
     public void tick() {
         if (isLit() && canWork()) {
-            ChemistryRecipe recipe = ModRecipes.getRecipe(this);
+            ChemistryRecipe recipe = MMRecipes.getRecipe(this);
             workProgress++;
             if (workProgress >= 100) {
                 world.playSound(null, pos, SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.6F, world.random.nextFloat() * 0.4F + 0.8F);
@@ -111,7 +111,7 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
     }
 
     public boolean canWork() {
-        return ModRecipes.getRecipe(this) != null;
+        return MMRecipes.getRecipe(this) != null;
     }
 
     public boolean canBeLit(PlayerEntity playerEntity) {

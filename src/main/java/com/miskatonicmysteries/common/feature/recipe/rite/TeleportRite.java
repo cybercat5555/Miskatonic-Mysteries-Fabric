@@ -5,7 +5,7 @@ import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.item.IncantationYogItem;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.MMObjects;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.entity.BlockEntity;
@@ -28,8 +28,8 @@ import net.minecraft.util.math.Matrix4f;
 public class TeleportRite extends Rite {
     private final int ticksNeeded;
 
-    public TeleportRite() { //todo proper ingredient for this
-        super(new Identifier(Constants.MOD_ID, "teleport"), null, 0, Ingredient.ofItems(ModObjects.INCANTATION_YOG), Ingredient.ofItems(Items.ENDER_PEARL), Ingredient.ofItems(Items.ENDER_EYE), Ingredient.ofItems(ModObjects.OCEANIC_GOLD));
+    public TeleportRite() {
+        super(new Identifier(Constants.MOD_ID, "teleport"), null, 0, Ingredient.ofItems(MMObjects.INCANTATION_YOG), Ingredient.ofItems(Items.ENDER_PEARL), Ingredient.ofItems(Items.ENDER_EYE), Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
         ticksNeeded = 60;
     }
 
@@ -40,7 +40,7 @@ public class TeleportRite extends Rite {
                 return true;
             }
             PlayerEntity caster = octagram.getOriginalCaster();
-            ItemStack incantation = octagram.getStack(ModObjects.INCANTATION_YOG);
+            ItemStack incantation = octagram.getStack(MMObjects.INCANTATION_YOG);
             if (!incantation.isEmpty() && IncantationYogItem.getPosition(incantation) != null && IncantationYogItem.getWorld((ServerWorld) octagram.getWorld(), incantation) != null) {
                 BlockPos octagramPos = IncantationYogItem.getPosition(incantation);
                 ServerWorld boundWorld = IncantationYogItem.getWorld((ServerWorld) octagram.getWorld(), incantation);
@@ -78,7 +78,7 @@ public class TeleportRite extends Rite {
         if (!octagram.getWorld().isClient) {
             ServerWorld world = (ServerWorld) octagram.getWorld();
             octagram.tickCount = 0;
-            ItemStack incantation = octagram.getStack(ModObjects.INCANTATION_YOG);
+            ItemStack incantation = octagram.getStack(MMObjects.INCANTATION_YOG);
             if (!incantation.isEmpty()) {
                 BlockPos octagramPos = IncantationYogItem.getPosition(incantation);
                 ServerWorld boundWorld = IncantationYogItem.getWorld(world, incantation);

@@ -6,10 +6,11 @@ import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
+import com.miskatonicmysteries.common.item.IncantationYogItem;
 import com.miskatonicmysteries.common.item.armor.CultistArmor;
 import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.MMObjects;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -39,10 +40,8 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     //misc values which may be used by rites
     public Pair<Identifier, BlockPos> boundPos = null;
     public boolean sneakyStart;
-
-    //
     public OctagramBlockEntity() {
-        super(ModObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
+        super(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
 
     }
 
@@ -186,6 +185,9 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     public void clear() {
         for (int i = 0; i < size(); i++) {
             if (getStack(i).getItem().isIn(Constants.Tags.RITE_TOOLS)) {
+                if (getStack(i).getItem() instanceof IncantationYogItem) {
+                    IncantationYogItem.clear(getStack(i));
+                }
                 continue;
             }
             setStack(i, ItemStack.EMPTY);

@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.item;
 
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.MMObjects;
 import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatternItem;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class YellowSignPatternItem extends LoomPatternItem {
     public YellowSignPatternItem() {
-        super(ModObjects.YELLOW_SIGN_BANNER, new Item.Settings().group(Constants.MM_GROUP).maxCount(1).rarity(Rarity.UNCOMMON));
+        super(MMObjects.YELLOW_SIGN_BANNER, new Item.Settings().group(Constants.MM_GROUP).maxCount(1).rarity(Rarity.UNCOMMON));
     }
 
 
@@ -78,7 +78,7 @@ public class YellowSignPatternItem extends LoomPatternItem {
 
     @Nullable
     protected BlockState getPlacementState(ItemPlacementContext context) {
-        BlockState blockState = ModObjects.YELLOW_SIGN.getPlacementState(context);
+        BlockState blockState = MMObjects.YELLOW_SIGN.getPlacementState(context);
         return blockState != null && this.canPlace(context, blockState) ? blockState : null;
     }
 

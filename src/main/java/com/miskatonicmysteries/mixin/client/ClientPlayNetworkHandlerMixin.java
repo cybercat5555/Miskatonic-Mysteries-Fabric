@@ -2,7 +2,7 @@ package com.miskatonicmysteries.mixin.client;
 
 import com.miskatonicmysteries.common.entity.BoltEntity;
 import com.miskatonicmysteries.common.entity.SpellProjectileEntity;
-import com.miskatonicmysteries.common.lib.ModEntities;
+import com.miskatonicmysteries.common.lib.MMEntities;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -22,9 +22,9 @@ public class ClientPlayNetworkHandlerMixin {
     @Inject(method = "onEntitySpawn", at = @At(value = "HEAD"), cancellable = true)
     private void spawnModEntities(EntitySpawnS2CPacket packet, CallbackInfo info) {
         Entity entity = null;
-        if (packet.getEntityTypeId() == ModEntities.SPELL_PROJECTILE) {
+        if (packet.getEntityTypeId() == MMEntities.SPELL_PROJECTILE) {
             entity = new SpellProjectileEntity((EntityType<SpellProjectileEntity>) packet.getEntityTypeId(), world);
-        } else if (packet.getEntityTypeId() == ModEntities.BOLT) {
+        } else if (packet.getEntityTypeId() == MMEntities.BOLT) {
             entity = new BoltEntity((EntityType<BoltEntity>) packet.getEntityTypeId(), world);
         }
         if (entity != null) {

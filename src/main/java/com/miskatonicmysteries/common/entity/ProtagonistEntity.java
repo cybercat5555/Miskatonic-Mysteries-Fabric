@@ -9,8 +9,8 @@ import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ProtagonistParticlePacket;
 import com.miskatonicmysteries.common.item.GunItem;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModObjects;
-import com.miskatonicmysteries.common.lib.ModParticles;
+import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.lib.MMParticles;
 import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
@@ -96,7 +96,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 
     public void removeAfterTargetKill() {
         for (int i = 0; i < 10; i++)
-            world.addParticle(ModParticles.FLAME, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 1, 0, 0);
+            world.addParticle(MMParticles.FLAME, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 1, 0, 0);
         for (int i = 0; i < 15; i++)
             world.addParticle(ParticleTypes.LARGE_SMOKE, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 0, 0, 0);
         ProtagonistHandler.removeProtagonist(world, this);
@@ -311,8 +311,8 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 
         ALT_WEAPON_MAP.put(new ItemStack(Items.BOW), 0);
         ALT_WEAPON_MAP.put(new ItemStack(Items.CROSSBOW), 1);
-        ALT_WEAPON_MAP.put(new ItemStack(ModObjects.REVOLVER), 2);
-        ALT_WEAPON_MAP.put(new ItemStack(ModObjects.RIFLE), 3);
+        ALT_WEAPON_MAP.put(new ItemStack(MMObjects.REVOLVER), 2);
+        ALT_WEAPON_MAP.put(new ItemStack(MMObjects.RIFLE), 3);
 
         MODIFIER_MAP.put(0, DEFAULT_MOD);
         MODIFIER_MAP.put(1, new EntityAttributeModifier("8dd16ced-6e54-4f36-85a6-2fa9db05f08a", 5, EntityAttributeModifier.Operation.ADDITION));

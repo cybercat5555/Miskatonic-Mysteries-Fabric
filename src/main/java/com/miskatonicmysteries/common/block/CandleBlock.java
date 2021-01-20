@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModParticles;
+import com.miskatonicmysteries.common.lib.MMParticles;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import net.minecraft.block.*;
 import net.minecraft.entity.ai.pathing.NavigationType;
@@ -136,22 +136,22 @@ public class CandleBlock extends Block implements Waterloggable {
             double z = (double) pos.getZ() + 0.5D;
             switch (candles) {
                 case 1:
-                    ModParticles.spawnCandleParticle(world, x, y, z, 1, false);
+                    MMParticles.spawnCandleParticle(world, x, y, z, 1, false);
                     break;
                 case 2:
-                    ModParticles.spawnCandleParticle(world, x - 3 * Constants.BLOCK_BIT, y, z - 3 * Constants.BLOCK_BIT, 1, false);
-                    ModParticles.spawnCandleParticle(world, x + 2 * Constants.BLOCK_BIT, y - 2 * Constants.BLOCK_BIT, z + 2 * Constants.BLOCK_BIT, 1, false);
+                    MMParticles.spawnCandleParticle(world, x - 3 * Constants.BLOCK_BIT, y, z - 3 * Constants.BLOCK_BIT, 1, false);
+                    MMParticles.spawnCandleParticle(world, x + 2 * Constants.BLOCK_BIT, y - 2 * Constants.BLOCK_BIT, z + 2 * Constants.BLOCK_BIT, 1, false);
                     break;
                 case 3:
-                    ModParticles.spawnCandleParticle(world, x, y, z + 3 * Constants.BLOCK_BIT, 1, false);
-                    ModParticles.spawnCandleParticle(world, x - 4 * Constants.BLOCK_BIT, y - 2 * Constants.BLOCK_BIT, z - 4 * Constants.BLOCK_BIT, 1, false);
-                    ModParticles.spawnCandleParticle(world, x + 2 * Constants.BLOCK_BIT, y, z - 2 * Constants.BLOCK_BIT, 1, false);
+                    MMParticles.spawnCandleParticle(world, x, y, z + 3 * Constants.BLOCK_BIT, 1, false);
+                    MMParticles.spawnCandleParticle(world, x - 4 * Constants.BLOCK_BIT, y - 2 * Constants.BLOCK_BIT, z - 4 * Constants.BLOCK_BIT, 1, false);
+                    MMParticles.spawnCandleParticle(world, x + 2 * Constants.BLOCK_BIT, y, z - 2 * Constants.BLOCK_BIT, 1, false);
                     break;
                 case 4:
-                    ModParticles.spawnCandleParticle(world, x - 4 * Constants.BLOCK_BIT, y, z - 4 * Constants.BLOCK_BIT, 1, false);
-                    ModParticles.spawnCandleParticle(world, x + 3 * Constants.BLOCK_BIT, y - 2 * Constants.BLOCK_BIT, z + 4 * Constants.BLOCK_BIT, 1, false);
-                    ModParticles.spawnCandleParticle(world, x - 4 * Constants.BLOCK_BIT, y, z + 2 * Constants.BLOCK_BIT, 1, false);
-                    ModParticles.spawnCandleParticle(world, x + 3 * Constants.BLOCK_BIT, y, z - 4 * Constants.BLOCK_BIT, 1, false);
+                    MMParticles.spawnCandleParticle(world, x - 4 * Constants.BLOCK_BIT, y, z - 4 * Constants.BLOCK_BIT, 1, false);
+                    MMParticles.spawnCandleParticle(world, x + 3 * Constants.BLOCK_BIT, y - 2 * Constants.BLOCK_BIT, z + 4 * Constants.BLOCK_BIT, 1, false);
+                    MMParticles.spawnCandleParticle(world, x - 4 * Constants.BLOCK_BIT, y, z + 2 * Constants.BLOCK_BIT, 1, false);
+                    MMParticles.spawnCandleParticle(world, x + 3 * Constants.BLOCK_BIT, y, z - 4 * Constants.BLOCK_BIT, 1, false);
                     break;
             }
         }

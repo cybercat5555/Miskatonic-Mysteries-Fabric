@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
 import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModParticles;
+import com.miskatonicmysteries.common.lib.MMParticles;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
@@ -24,7 +24,7 @@ public class BloodParticlePacket {
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
         Entity entity = client.world.getEntityById(packetByteBuf.readInt());
         client.execute(() -> {
-            client.world.addParticle(ModParticles.DRIPPING_BLOOD, entity.getX() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), entity.getY() + client.world.getRandom().nextGaussian() * 0.5F * entity.getHeight(), entity.getZ() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), 0, 0, 0);
+            client.world.addParticle(MMParticles.DRIPPING_BLOOD, entity.getX() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), entity.getY() + client.world.getRandom().nextGaussian() * 0.5F * entity.getHeight(), entity.getZ() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), 0, 0, 0);
         });
     }
 }

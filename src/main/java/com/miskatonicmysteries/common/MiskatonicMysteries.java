@@ -17,12 +17,12 @@ public class MiskatonicMysteries implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ModObjects.init();
-        ModEntities.init();
-        ModRegistries.init();
-        ModRecipes.init();
+        MMObjects.init();
+        MMEntities.init();
+        MMMiscRegistries.init();
+        MMRecipes.init();
         InsanityHandler.init();
         PacketHandler.registerC2S();
-        ModWorld.init();
+        MMWorld.init();
     }
 }

@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.entity.ai.task;
 import com.google.common.collect.ImmutableMap;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
-import com.miskatonicmysteries.common.lib.ModEntities;
+import com.miskatonicmysteries.common.lib.MMEntities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.brain.Brain;
@@ -43,7 +43,7 @@ public class RecruitTask extends Task<VillagerEntity> {
                 ((HasturCultistEntity) entity).setCastTime(60);
             }
             VillagerEntity recipient = (VillagerEntity) brain.getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).get();
-            HasturCultistEntity cultist = ModEntities.HASTUR_CULTIST.create(world);
+            HasturCultistEntity cultist = MMEntities.HASTUR_CULTIST.create(world);
             cultist.refreshPositionAndAngles(recipient.getX(), recipient.getY(), recipient.getZ(), recipient.yaw, recipient.pitch);
             cultist.initialize(world, world.getLocalDifficulty(cultist.getBlockPos()), SpawnReason.CONVERSION, null, null);
             cultist.setAiDisabled(recipient.isAiDisabled());

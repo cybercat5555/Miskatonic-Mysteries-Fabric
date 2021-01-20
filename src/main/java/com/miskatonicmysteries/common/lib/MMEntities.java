@@ -23,18 +23,18 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
 
-public class ModEntities {
+public class MMEntities {
     public static final EntityType<ProtagonistEntity> PROTAGONIST = FabricEntityTypeBuilder.create(SpawnGroup.MISC, ProtagonistEntity::new).spawnableFarFromPlayer().dimensions(EntityDimensions.fixed(0.6F, 1.95F)).trackRangeBlocks(48).build();
     public static final EntityType<HasturCultistEntity> HASTUR_CULTIST = FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, HasturCultistEntity::new).spawnableFarFromPlayer().dimensions(EntityDimensions.fixed(0.6F, 1.95F)).trackRangeBlocks(16).build();
     public static final EntityType<SpellProjectileEntity> SPELL_PROJECTILE = FabricEntityTypeBuilder.<SpellProjectileEntity>create(SpawnGroup.MISC, SpellProjectileEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F)).trackRangeBlocks(4).build();
     public static final EntityType<BoltEntity> BOLT = FabricEntityTypeBuilder.<BoltEntity>create(SpawnGroup.MISC, BoltEntity::new).disableSaving().dimensions(EntityDimensions.fixed(0.0F, 0.0F)).trackRangeBlocks(16).trackedUpdateRate(Integer.MAX_VALUE).build();
 
-    public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, ModObjects.CHEMISTRY_SET);
+    public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
     public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create().id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW).build();
 
     public static final PointOfInterestType CONGREGATION_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "yelow_serf"), 48, poi -> false, 100,
-            ModObjects.TERRACOTTA_HASTUR_MURAL, ModObjects.YELLOW_TERRACOTTA_HASTUR_MURAL, ModObjects.STONE_HASTUR_MURAL,
-            ModObjects.HASTUR_STATUE_GOLD, ModObjects.HASTUR_STATUE_MOSSY, ModObjects.HASTUR_STATUE_STONE, ModObjects.HASTUR_STATUE_TERRACOTTA);
+            MMObjects.TERRACOTTA_HASTUR_MURAL, MMObjects.YELLOW_TERRACOTTA_HASTUR_MURAL, MMObjects.STONE_HASTUR_MURAL,
+            MMObjects.HASTUR_STATUE_GOLD, MMObjects.HASTUR_STATUE_MOSSY, MMObjects.HASTUR_STATUE_STONE, MMObjects.HASTUR_STATUE_TERRACOTTA);
     public static final VillagerProfession YELLOW_SERF = VillagerProfessionBuilder.create().id(new Identifier(Constants.MOD_ID, "yellow_serf")).workstation(PointOfInterestType.NITWIT).workSound(SoundEvents.ENTITY_VILLAGER_WORK_CLERIC).build();
     public static final MemoryModuleType<GlobalPos> CONGREGATION_POINT = MemoryModuleTypeAccessor.invokeRegister(
             Constants.MOD_ID + ":congregation_point",

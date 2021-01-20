@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.feature.effect;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.sanity.Sanity;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModRegistries;
+import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
@@ -41,7 +41,7 @@ public class TranquilizedStatusEffect extends StatusEffect {
             entity.removeStatusEffect(this);
         }
         if (!entity.world.isClient)
-            entity.removeStatusEffect(ModRegistries.MANIA);
+            entity.removeStatusEffect(MMMiscRegistries.StatusEffects.MANIA);
     }
 
     private boolean isLethal(LivingEntity entity, int amplifier) {

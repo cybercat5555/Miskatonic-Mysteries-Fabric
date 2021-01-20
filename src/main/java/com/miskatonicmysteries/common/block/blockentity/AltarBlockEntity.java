@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.block.blockentity;
 
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.MMObjects;
 import net.minecraft.block.BlockState;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
@@ -13,7 +13,7 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedInve
     private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
     public AltarBlockEntity() {
-        super(ModObjects.ALTAR_BLOCK_ENTITY_TYPE);
+        super(MMObjects.ALTAR_BLOCK_ENTITY_TYPE);
     }
 
     @Override

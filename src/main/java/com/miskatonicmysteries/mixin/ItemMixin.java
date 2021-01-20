@@ -4,7 +4,7 @@ import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.sanity.InsanityInducer;
 import com.miskatonicmysteries.common.feature.sanity.Sanity;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModRegistries;
+import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import com.miskatonicmysteries.common.lib.util.MiscUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -53,7 +53,7 @@ public abstract class ItemMixin {
                     EntityHitResult hit = ProjectileUtil.raycast(user, vec3d, vec3d3, user.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides(), distance);
                     if (hit != null && hit.getEntity() instanceof LivingEntity && ((LivingEntity) hit.getEntity()).canSee(user) && !MiscUtil.isImmuneToYellowSign((LivingEntity) hit.getEntity())) {
                         LivingEntity target = (LivingEntity) hit.getEntity();
-                        target.addStatusEffect(new StatusEffectInstance(ModRegistries.MANIA, 200, 1, false, true));
+                        target.addStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.MANIA, 200, 1, false, true));
                         if (target instanceof Sanity) {
                             ((Sanity) target).setSanity(((Sanity) target).getSanity() - 5, false);
                             ((Sanity) target).setShocked(true);

@@ -28,7 +28,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class ModObjects {
+public class MMObjects {
     public static final Block CHEMISTRY_SET = new ChemistrySetBlock();
     public static final BlockEntityType<ChemistrySetBlockEntity> CHEMISTRY_SET_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(ChemistrySetBlockEntity::new, CHEMISTRY_SET).build(null);
 
@@ -123,10 +123,10 @@ public class ModObjects {
     public static final Item WAX = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static final Item ORNATE_DAGGER = new BlessedSwordItem(Affiliation.HASTUR, 2, -2.3F,
-            (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(ModRegistries.MANIA, 100, 1, true, false, false)),
+            (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.MANIA, 100, 1, true, false, false)),
             new Item.Settings().group(Constants.MM_GROUP));
     public static final Item GUTTING_DAGGER = new BlessedSwordItem(Affiliation.SHUB, 3, -2.6F,
-            (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(ModRegistries.BLEED, 600, 0, false, false, false)),
+            (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.BLEED, 600, 0, false, false, false)),
             new Item.Settings().group(Constants.MM_GROUP));
     public static final Item HORNED_DAGGER = new BlessedSwordItem(Affiliation.SHUB, 4, -2.3F, (target, attacker) -> {
     },
@@ -135,8 +135,8 @@ public class ModObjects {
             (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0, false, true, true)),
             new Item.Settings().group(Constants.MM_GROUP));
 
-    public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(ModEntities.PROTAGONIST, 4137472, 14592, new Item.Settings().group(Constants.MM_GROUP));
-    public static final Item HASTUR_CULTIST_SPAWN_EGG = new SpawnEggItem(ModEntities.HASTUR_CULTIST, 0xEAC800, 0xFFFFFF, new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(MMEntities.PROTAGONIST, 4137472, 14592, new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item HASTUR_CULTIST_SPAWN_EGG = new SpawnEggItem(MMEntities.HASTUR_CULTIST, 0xEAC800, 0xFFFFFF, new Item.Settings().group(Constants.MM_GROUP));
 
     public static final Item ELEGANT_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png"), Affiliation.HASTUR, false);
     public static final Item FERAL_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png"), Affiliation.SHUB, false);

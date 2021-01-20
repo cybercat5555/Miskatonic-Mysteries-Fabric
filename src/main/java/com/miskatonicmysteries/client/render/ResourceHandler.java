@@ -13,7 +13,7 @@ import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.item.armor.CultistArmor;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.ModObjects;
+import com.miskatonicmysteries.common.lib.MMObjects;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderingRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.client.model.Model;
@@ -54,37 +54,37 @@ public class ResourceHandler {
             registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/shub_octagram_mask"));
             registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/cthulhu_octagram_mask"));
         });
-        ResourceHandler.addBookTextureFor(ModObjects.NECRONOMICON, new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
+        ResourceHandler.addBookTextureFor(MMObjects.NECRONOMICON, new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
 
-        ResourceHandler.addOctagramTextureFor(ModObjects.CTHULHU_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/cthulhu_octagram"),
+        ResourceHandler.addOctagramTextureFor(MMObjects.CTHULHU_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/cthulhu_octagram"),
                 new Identifier(Constants.MOD_ID, "block/octagram/mask/cthulhu_octagram_mask"));
-        ResourceHandler.addOctagramTextureFor(ModObjects.HASTUR_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/hastur_octagram"),
+        ResourceHandler.addOctagramTextureFor(MMObjects.HASTUR_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/hastur_octagram"),
                 new Identifier(Constants.MOD_ID, "block/octagram/mask/hastur_octagram_mask"));
-        ResourceHandler.addOctagramTextureFor(ModObjects.SHUB_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/shub_octagram"),
+        ResourceHandler.addOctagramTextureFor(MMObjects.SHUB_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/shub_octagram"),
                 new Identifier(Constants.MOD_ID, "block/octagram/mask/shub_octagram_mask"));
 
         addStatueModelFor(Affiliation.CTHULHU, new CthulhuStatueModel());
         addStatueModelFor(Affiliation.HASTUR, new HasturStatueModel());
         addStatueModelFor(Affiliation.SHUB, new ShubStatueModel());
 
-        addStatueTextureFor(ModObjects.CTHULHU_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_gold"));
-        addStatueTextureFor(ModObjects.CTHULHU_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_mossy"));
-        addStatueTextureFor(ModObjects.CTHULHU_STATUE_PRISMARINE, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_prismarine"));
-        addStatueTextureFor(ModObjects.CTHULHU_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_stone"));
+        addStatueTextureFor(MMObjects.CTHULHU_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_gold"));
+        addStatueTextureFor(MMObjects.CTHULHU_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_mossy"));
+        addStatueTextureFor(MMObjects.CTHULHU_STATUE_PRISMARINE, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_prismarine"));
+        addStatueTextureFor(MMObjects.CTHULHU_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_stone"));
 
-        addStatueTextureFor(ModObjects.HASTUR_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_gold"));
-        addStatueTextureFor(ModObjects.HASTUR_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_mossy"));
-        addStatueTextureFor(ModObjects.HASTUR_STATUE_TERRACOTTA, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_terracotta"));
-        addStatueTextureFor(ModObjects.HASTUR_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_stone"));
+        addStatueTextureFor(MMObjects.HASTUR_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_gold"));
+        addStatueTextureFor(MMObjects.HASTUR_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_mossy"));
+        addStatueTextureFor(MMObjects.HASTUR_STATUE_TERRACOTTA, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_terracotta"));
+        addStatueTextureFor(MMObjects.HASTUR_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_stone"));
 
-        addStatueTextureFor(ModObjects.SHUB_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_gold"));
-        addStatueTextureFor(ModObjects.SHUB_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_mossy"));
-        addStatueTextureFor(ModObjects.SHUB_STATUE_BLACKSTONE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_blackstone"));
-        addStatueTextureFor(ModObjects.SHUB_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_stone"));
+        addStatueTextureFor(MMObjects.SHUB_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_gold"));
+        addStatueTextureFor(MMObjects.SHUB_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_mossy"));
+        addStatueTextureFor(MMObjects.SHUB_STATUE_BLACKSTONE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_blackstone"));
+        addStatueTextureFor(MMObjects.SHUB_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_stone"));
 
-        addMaskModel(ModObjects.ELEGANT_MASK, new HasturMaskModel());
-        addMaskModel(ModObjects.FERAL_MASK, new ShubMaskModel());
-        addMaskModel(ModObjects.WILD_MASK, new ShubAlternateMaskModel());
+        addMaskModel(MMObjects.ELEGANT_MASK, new HasturMaskModel());
+        addMaskModel(MMObjects.FERAL_MASK, new ShubMaskModel());
+        addMaskModel(MMObjects.WILD_MASK, new ShubAlternateMaskModel());
 
         //Botania code
         List<Item> armors = Registry.ITEM.stream()

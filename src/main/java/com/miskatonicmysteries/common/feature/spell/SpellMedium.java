@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.miskatonicmysteries.common.lib.ModRegistries.addSpellMedium;
+import static com.miskatonicmysteries.common.lib.MMMiscRegistries.addSpellMedium;
 
 public abstract class SpellMedium {
     public static final Map<Identifier, SpellMedium> SPELL_MEDIUMS = new HashMap<>();

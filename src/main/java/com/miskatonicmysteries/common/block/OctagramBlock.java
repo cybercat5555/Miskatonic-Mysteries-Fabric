@@ -5,8 +5,8 @@ import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.TeleportEffectPacket;
-import com.miskatonicmysteries.common.lib.ModObjects;
-import com.miskatonicmysteries.common.lib.ModRecipes;
+import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.lib.MMRecipes;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import com.miskatonicmysteries.common.lib.util.MiscUtil;
 import net.minecraft.block.*;
@@ -58,7 +58,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                 return ActionResult.PASS;
             }
             octagram.setOriginalCaster(player);
-            Rite rite = ModRecipes.getRite(octagram);
+            Rite rite = MMRecipes.getRite(octagram);
             if (rite != null) {
                 octagram.sneakyStart = player.isSneaking();
                 octagram.currentRite = rite;
@@ -122,7 +122,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (entity.age % 5 == 0 && !entity.isSneaking() && !world.isClient && world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
             OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(pos);
-            if (octagram.currentRite == ModRecipes.TELEPORT_RITE && octagram.permanentRiteActive && octagram.tickCount == 0
+            if (octagram.currentRite == MMRecipes.TELEPORT_RITE && octagram.permanentRiteActive && octagram.tickCount == 0
                     && octagram.boundPos != null) {
                 BlockPos boundPos = octagram.getBoundPos().offset(entity.getMovementDirection());
                 TeleportEffectPacket.send(entity, pos);
@@ -144,7 +144,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         for (int i = 0; i < 8; i++) {
             BlockPos partPos = BlockOuterOctagram.getOffsetToCenterPos(i);
-            world.setBlockState(pos.add(-partPos.getX(), 0, -partPos.getZ()), ModObjects.OCTAGRAM_SIDES.getDefaultState().with(BlockOuterOctagram.NUMBER, i));
+            world.setBlockState(pos.add(-partPos.getX(), 0, -partPos.getZ()), MMObjects.OCTAGRAM_SIDES.getDefaultState().with(BlockOuterOctagram.NUMBER, i));
         }
         super.onPlaced(world, pos, state, placer, itemStack);
     }
