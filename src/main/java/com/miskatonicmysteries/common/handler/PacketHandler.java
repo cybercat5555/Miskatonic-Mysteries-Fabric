@@ -25,6 +25,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -42,10 +43,11 @@ public class PacketHandler {
     public static final Identifier PROTAG_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "protag_particle");
     public static final Identifier EFFECT_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "effect_particle");
     public static final Identifier BLOOD_PARTICLE_PACKET = new Identifier(Constants.MOD_ID, "blood_particle");
+    public static final Identifier SYNC_SPELLCASTER_DATA_PACKET = new Identifier(Constants.MOD_ID, "sync_spell");
+    public static final Identifier TELEPORT_EFFECT_PACKET = new Identifier(Constants.MOD_ID, "teleport");
 
     public static final Identifier CLIENT_INVOKE_MANIA_PACKET = new Identifier(Constants.MOD_ID, "invoke_mania");
 
-    public static final Identifier SYNC_SPELLCASTER_DATA_PACKET = new Identifier(Constants.MOD_ID, "sync_spell");
     public static final Identifier OPEN_SPELL_EDIT_PACKET = new Identifier(Constants.MOD_ID, "open_spellbook");
 
     public static void registerC2S() {
@@ -176,6 +178,17 @@ public class PacketHandler {
         ClientPlayNetworking.registerGlobalReceiver(OPEN_SPELL_EDIT_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
             client.execute(() -> client.openScreen(new EditSpellScreen((SpellCaster) client.player)));
         });
+
+        ClientPlayNetworking.registerGlobalReceiver(TELEPORT_EFFECT_PACKET, (client, networkHandler, packetByteBuf, sender) -> {
+            Entity entity = client.world.getEntityById(packetByteBuf.readInt());
+            client.execute(() -> {
+                client.world.playSound(entity.getBlockPos(), ModRegistries.TELEPORT_SOUND, SoundCategory.PLAYERS, 0.5F, 0.8F, true);
+                for (int i = 0; i < 5; i++) {
+                    client.world.addParticle(ParticleTypes.PORTAL, entity.getX() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), entity.getY() + client.world.getRandom().nextGaussian() * 0.5F * entity.getHeight(), entity.getZ() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), 0, 0, 0);
+                }
+            });
+        });
+
     }
 
     public static void sendToPlayer(PlayerEntity player, PacketByteBuf data, Identifier packet) {

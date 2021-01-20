@@ -10,9 +10,9 @@ import com.miskatonicmysteries.common.item.armor.CultistArmor;
 import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
@@ -24,13 +24,20 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.World;
+
+import java.util.UUID;
 
 public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedInventory, Affiliated, Tickable {
     private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(8, ItemStack.EMPTY);
     public int tickCount;
     public boolean permanentRiteActive;
     public Rite currentRite = null;
-    public PlayerEntity originalCaster = null;
+    public UUID originalCaster = null;
+    public Pair<Identifier, BlockPos> boundPos = null;
+
     public OctagramBlockEntity() {
         super(ModObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
 
@@ -45,7 +52,11 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
         }
         tag.putBoolean(Constants.NBT.PERMANENT_RITE, permanentRiteActive);
         if (originalCaster != null) {
-            tag.putUuid(Constants.NBT.PLAYER_UUID, originalCaster.getUuid());
+            tag.putUuid(Constants.NBT.PLAYER_UUID, originalCaster);
+        }
+        if (boundPos != null) {
+            tag.putString(Constants.NBT.DIMENSION, boundPos.getFirst().toString());
+            tag.putLong(Constants.NBT.POSITION, boundPos.getSecond().asLong());
         }
         return super.toTag(tag);
     }
@@ -59,7 +70,13 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
         }
         permanentRiteActive = tag.getBoolean(Constants.NBT.PERMANENT_RITE);
         if (tag.contains(Constants.NBT.PLAYER_UUID)) {
-            originalCaster = world.getPlayerByUuid(tag.getUuid(Constants.NBT.PLAYER_UUID));
+            originalCaster = tag.getUuid(Constants.NBT.PLAYER_UUID);
+        } else {
+            originalCaster = null;
+        }
+
+        if (tag.contains(Constants.NBT.DIMENSION)) {
+            boundPos = new Pair<>(new Identifier(tag.getString(Constants.NBT.DIMENSION)), BlockPos.fromLong(tag.getLong(Constants.NBT.POSITION)));
         }
         super.fromTag(state, tag);
     }
@@ -86,27 +103,31 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
 
     @Override
     public void tick() {
-        if (currentRite != null && currentRite.shouldContinue(this)) {
-            currentRite.tick(this);
-            if (currentRite.isFinished(this)) {
-                handleInvestigators();
-                if (currentRite.isPermanent(this)) {
-                    permanentRiteActive = true;
-                    currentRite.onFinished(this);
-                } else {
-                    currentRite.onFinished(this);
-                    tickCount = 0;
-                    currentRite = null;
+        if (currentRite != null) {
+            if (currentRite.shouldContinue(this)) {
+                currentRite.tick(this);
+                if (currentRite.isFinished(this)) {
+                    handleInvestigators();
+                    if (currentRite.isPermanent(this)) {
+                        permanentRiteActive = true;
+                        currentRite.onFinished(this);
+                    } else {
+                        currentRite.onFinished(this);
+                        tickCount = 0;
+                        currentRite = null;
+                    }
                 }
+            } else {
+                currentRite.onCancelled(this);
+                originalCaster = null;
             }
             markDirty();
-        } else {
-            originalCaster = null;
         }
     }
 
     private void handleInvestigators() {
-        if (originalCaster != null && !world.isClient && world.random.nextFloat() < currentRite.investigatorChance) {
+        PlayerEntity caster = getOriginalCaster();
+        if (caster != null && !world.isClient && world.random.nextFloat() < currentRite.investigatorChance) {
             float subtlety = 0;
             if (MiskatonicMysteries.config.entities.subtlety) {
                 for (BlockPos blockPos : BlockPos.iterateOutwards(pos, 8, 8, 8)) {
@@ -121,8 +142,8 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
                     }
                 }
                 subtlety += world.isNight() ? 0.15F : -0.1;
-                subtlety += MaskTrinketItem.getMask(originalCaster).isEmpty() ? 0 : 0.15F;
-                for (ItemStack armor : originalCaster.getArmorItems()) {
+                subtlety += MaskTrinketItem.getMask(caster).isEmpty() ? 0 : 0.15F;
+                for (ItemStack armor : caster.getArmorItems()) {
                     if (armor.getItem() instanceof CultistArmor) {
                         subtlety += 0.1F;
                     }
@@ -132,8 +153,18 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
                 subtlety = 0.25F;
             }
             if (world.random.nextFloat() > subtlety) {
-                ProtagonistHandler.spawnProtagonist((ServerWorld) world, originalCaster);
+                ProtagonistHandler.spawnProtagonist((ServerWorld) world, caster);
             }
+        }
+    }
+
+    public PlayerEntity getOriginalCaster() {
+        return world != null && originalCaster != null ? world.getPlayerByUuid(originalCaster) : null;
+    }
+
+    public void setOriginalCaster(PlayerEntity player) {
+        if (currentRite == null || originalCaster == null) {
+            this.originalCaster = player.getUuid();
         }
     }
 
@@ -151,11 +182,6 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     public void clear() {
         for (int i = 0; i < size(); i++) {
             if (getStack(i).getItem().isIn(Constants.Tags.RITE_TOOLS)) {
-                ItemStack item = removeStack(i, 1);
-                if (!world.isClient) {
-                    Vec3d pos = getSummoningPos();
-                    world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), item));
-                }
                 continue;
             }
             setStack(i, ItemStack.EMPTY);
@@ -170,4 +196,17 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     public Box getSelectionBox() {
         return new Box(pos.add(-1, -1, -1), pos.add(2, 2, 2));
     }
+
+    public BlockPos getBoundPos() {
+        return boundPos != null && World.isValid(boundPos.getSecond()) ? boundPos.getSecond() : null;
+    }
+
+    public ServerWorld getBoundDimension() {
+        return boundPos != null && !world.isClient ? world.getServer().getWorld(RegistryKey.of(Registry.DIMENSION, boundPos.getFirst())) : null;
+    }
+
+    public void bind(World world, BlockPos pos) {
+        boundPos = new Pair<>(world.getRegistryKey().getValue(), pos);
+    }
+
 }

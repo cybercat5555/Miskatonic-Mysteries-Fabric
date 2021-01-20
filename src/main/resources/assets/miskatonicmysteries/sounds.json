@@ -15,5 +15,12 @@
       "random/fuse",
       "random/burp"
     ]
+  },
+  "teleport": {
+    "subtitle": "subtitles.miskatonicmysteries.teleport",
+    "sounds": [
+      "mob/endermen/portal",
+      "mob/endermen/portal2"
+    ]
   }
 }

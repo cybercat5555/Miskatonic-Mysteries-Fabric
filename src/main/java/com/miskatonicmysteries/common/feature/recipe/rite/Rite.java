@@ -55,7 +55,7 @@ public abstract class Rite {
     }
 
     public boolean shouldContinue(OctagramBlockEntity octagram) {
-        return octagram.originalCaster != null && octagram.getPos().isWithinDistance(octagram.originalCaster.getPos(), 16);
+        return true;
     }
 
     public boolean canCast(OctagramBlockEntity octagram) {

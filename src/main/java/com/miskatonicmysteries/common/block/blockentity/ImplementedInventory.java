@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.block.blockentity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
 
@@ -76,14 +77,24 @@ public interface ImplementedInventory extends Inventory {
      */
     @Override
     default void clear() {
-        for (int i = 0; i < size(); i++)
+        for (int i = 0; i < size(); i++) {
             setStack(i, ItemStack.EMPTY);
+        }
         markDirty();
     }
 
     @Override
     default boolean canPlayerUse(PlayerEntity player) {
         return true;
+    }
+
+    default ItemStack getStack(Item item) {
+        for (int i = 0; i < size(); i++) {
+            if (item.equals(getStack(i).getItem())) {
+                return getStack(i);
+            }
+        }
+        return ItemStack.EMPTY;
     }
 
 }

@@ -42,7 +42,7 @@ public class CommandDrivenRite extends Rite implements DataSerializable<Rite> {
     @Override
     public void tick(OctagramBlockEntity octagram) {
         if (!octagram.getWorld().isClient) {
-            ServerCommandSource source = octagram.getWorld().getServer().getCommandSource().withPosition(Vec3d.ofCenter(octagram.getPos())).withEntity(octagram.originalCaster);
+            ServerCommandSource source = octagram.getWorld().getServer().getCommandSource().withPosition(Vec3d.ofCenter(octagram.getPos())).withEntity(octagram.getOriginalCaster());
             CommandFunctionManager manager = octagram.getWorld().getServer().getCommandFunctionManager();
             CommandFunction.LazyContainer function = new CommandFunction.LazyContainer(tickFunctionId);
             if (function.get(manager).isPresent()) {
@@ -55,7 +55,7 @@ public class CommandDrivenRite extends Rite implements DataSerializable<Rite> {
     @Override
     public void onFinished(OctagramBlockEntity octagram) {
         if (!octagram.getWorld().isClient) {
-            ServerCommandSource source = octagram.getWorld().getServer().getCommandSource().withPosition(Vec3d.ofCenter(octagram.getPos())).withEntity(octagram.originalCaster);
+            ServerCommandSource source = octagram.getWorld().getServer().getCommandSource().withPosition(Vec3d.ofCenter(octagram.getPos())).withEntity(octagram.getOriginalCaster());
             CommandFunctionManager manager = octagram.getWorld().getServer().getCommandFunctionManager();
             CommandFunction.LazyContainer function = new CommandFunction.LazyContainer(finishFunctionId);
             if (function.get(manager).isPresent()) {

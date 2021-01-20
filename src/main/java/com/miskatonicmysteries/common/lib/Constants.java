@@ -72,8 +72,8 @@ public class Constants {
         public static final String LOCATIONS = "Locations";
         public static final String CHANNELS = "Channels";
         public static final String AFFILIATION = "Affiliation";
-        public static final String POSITION = "Position";
-        public static final String DIMENSION = "Dimension";
+        public static final String POSITION = "Connected Position";
+        public static final String DIMENSION = "Connected Dimension";
 
         public static final String BLOCK_ENTITY_TAG = "BlockEntityTag";
         public static final String BANNER_BASE = "Base";

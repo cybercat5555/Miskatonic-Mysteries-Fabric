@@ -4,19 +4,26 @@ import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
+import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.common.lib.ModRecipes;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
+import com.miskatonicmysteries.common.lib.util.MiscUtil;
+import io.netty.buffer.Unpooled;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.ActionResult;
@@ -35,7 +42,8 @@ import java.util.List;
 
 public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityProvider, Affiliated {
     public static List<OctagramBlock> OCTAGRAMS = new ArrayList<>();
-    public static final VoxelShape SHAPE = createCuboidShape(0, 0, 0, 16, 1, 16);
+    public static final VoxelShape OUTLINE_SHAPE = createCuboidShape(0, 0, 0, 16, 0.5F, 16);
+    public static final VoxelShape COLLISION_SHAPE = createCuboidShape(0, 0, 0, 16, 8, 16);
     private final Affiliation affiliation;
 
     public OctagramBlock(Affiliation affiliation) {
@@ -46,15 +54,15 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
+        if (!world.isClient && world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
             OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(pos);
             if (octagram.currentRite != null) {
                 return ActionResult.PASS;
             }
+            octagram.setOriginalCaster(player);
             Rite rite = ModRecipes.getRite(octagram);
             if (rite != null) {
                 octagram.currentRite = rite;
-                octagram.originalCaster = player;
                 rite.onStart(octagram);
                 octagram.markDirty();
                 return ActionResult.SUCCESS;
@@ -75,8 +83,13 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
     }
 
     @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return OUTLINE_SHAPE;
+    }
+
+    @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return SHAPE;
+        return OUTLINE_SHAPE;
     }
 
     @Override
@@ -104,6 +117,24 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
+    }
+
+    @Override
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        if (entity.age % 5 == 0 && !entity.isSneaking() && !world.isClient && world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
+            OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(pos);
+            if (octagram.currentRite == ModRecipes.TELEPORT_RITE && octagram.permanentRiteActive && octagram.tickCount == 0
+                    && octagram.boundPos != null) {
+                BlockPos boundPos = octagram.getBoundPos().offset(entity.getMovementDirection());
+                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+                buf.writeInt(entity.getEntityId());
+                PacketHandler.sendToPlayers(world, pos, buf, PacketHandler.TELEPORT_EFFECT_PACKET);
+                MiscUtil.teleport(octagram.getBoundDimension(), entity, boundPos.getX() + 0.5F, boundPos.getY(), boundPos.getZ() + 0.5F, entity.getHeadYaw(), entity.pitch);
+                octagram.getBoundDimension().playSound(boundPos.getX(), boundPos.getY(), boundPos.getZ(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1, 1, false);
+                PacketHandler.sendToPlayers(world, boundPos, buf, PacketHandler.TELEPORT_EFFECT_PACKET);
+            }
+        }
+        super.onEntityCollision(state, world, pos, entity);
     }
 
     @Nullable
@@ -178,7 +209,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
             if (octagram == null) {
                 world.breakBlock(pos, false);
                 return ActionResult.FAIL;
-            } else if (octagram.currentRite == null) {
+            } else if (octagram.currentRite == null || octagram.permanentRiteActive) {
                 ItemStack stack = player.getStackInHand(hand);
                 if (!stack.isEmpty() && octagram.isValid(state.get(NUMBER), stack) && octagram.getStack(state.get(NUMBER)).isEmpty() && !octagram.permanentRiteActive) {
                     octagram.setStack(state.get(NUMBER), stack);
@@ -254,7 +285,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 
         @Override
         public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-            return SHAPE;
+            return OUTLINE_SHAPE;
         }
     }
 }

@@ -35,6 +35,7 @@ import static com.miskatonicmysteries.common.lib.ModRegistries.ModTradeOffers.*;
 public class ModRegistries {
     public static final SoundEvent GUN_SHOT = new SoundEvent(new Identifier(Constants.MOD_ID, "gun_shot"));
     public static final SoundEvent SCARY_SOUNDS = new SoundEvent(new Identifier(Constants.MOD_ID, "scary"));
+    public static final SoundEvent TELEPORT_SOUND = new SoundEvent(new Identifier(Constants.MOD_ID, "teleport"));
 
     public static final StatusEffect MANIA = new ManiaStatusEffect();
     public static final StatusEffect TRANQUILIZED = new TranquilizedStatusEffect();
@@ -72,6 +73,7 @@ public class ModRegistries {
 
         RegistryUtil.register(Registry.SOUND_EVENT, "gun_shot", GUN_SHOT);
         RegistryUtil.register(Registry.SOUND_EVENT, "scary", SCARY_SOUNDS);
+        RegistryUtil.register(Registry.SOUND_EVENT, "teleport", TELEPORT_SOUND);
 
         RegistryUtil.register(Registry.STATUS_EFFECT, "mania", MANIA);
         RegistryUtil.register(Registry.STATUS_EFFECT, "tranquilized", TRANQUILIZED);
