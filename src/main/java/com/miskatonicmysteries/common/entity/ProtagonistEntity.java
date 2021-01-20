@@ -5,14 +5,13 @@ import com.miskatonicmysteries.common.entity.ai.GunAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobBowAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobCrossbowAttackGoal;
 import com.miskatonicmysteries.common.feature.sanity.Sanity;
-import com.miskatonicmysteries.common.handler.PacketHandler;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.ProtagonistParticlePacket;
 import com.miskatonicmysteries.common.item.GunItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.common.lib.ModParticles;
 import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
-import io.netty.buffer.Unpooled;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.*;
@@ -33,7 +32,6 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
@@ -130,11 +128,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
                     ProtagonistHandler.levelProtagonist(world, this);
             }
             if (!world.isClient) {
-                PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-                data.writeDouble(getX());
-                data.writeDouble(getY());
-                data.writeDouble(getZ());
-                PacketHandler.sendToPlayers(world, this, data, PacketHandler.PROTAG_PARTICLE_PACKET);
+                ProtagonistParticlePacket.send(this);
             }
             remove();
         } else {

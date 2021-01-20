@@ -11,7 +11,9 @@ import com.miskatonicmysteries.common.feature.spell.SpellCaster;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
-import com.miskatonicmysteries.common.handler.PacketHandler;
+import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.ExpandSanityPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
 import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModObjects;
@@ -134,10 +136,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
     public void addSanityCapExpansion(String name, int amount) {
         sanityCapOverrides.putIfAbsent(name, amount);
         if (!world.isClient) {
-            PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-            data.writeString(name);
-            data.writeInt(amount);
-            PacketHandler.sendToPlayer((PlayerEntity) (Object) this, data, PacketHandler.SANITY_EXPAND_PACKET);
+            ExpandSanityPacket.send((PlayerEntity) (Object) this, name, amount);
         }
         if (getSanity() > getMaxSanity()) setSanity(getMaxSanity(), true);
     }
@@ -146,9 +145,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
     public void removeSanityCapExpansion(String name) {
         sanityCapOverrides.remove(name);
         if (!world.isClient && sanityCapOverrides.containsKey(name)) {
-            PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-            data.writeString(name);
-            PacketHandler.sendToPlayer((PlayerEntity) (Object) this, data, PacketHandler.SANITY_REMOVE_EXPAND_PACKET);
+            RemoveExpansionPacket.send((PlayerEntity) (Object) this, name);
         }
     }
 
@@ -163,7 +160,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
             PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
             data.writeString(s);
             data.writeInt(i);
-            PacketHandler.sendToPlayer((PlayerEntity) (Object) this, data, PacketHandler.SANITY_EXPAND_PACKET);
+            ExpandSanityPacket.send((PlayerEntity) (Object) this, s, i);
         });
     }
 
@@ -292,10 +289,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
     @Override
     public void syncSpellData() {
         if (!world.isClient) {
-            PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-            CompoundTag spellCompound = CapabilityUtil.writeSpellData(this, new CompoundTag());
-            data.writeCompoundTag(spellCompound);
-            PacketHandler.sendToPlayer((PlayerEntity) (Object) this, data, PacketHandler.SYNC_SPELLCASTER_DATA_PACKET);
+            SyncSpellCasterDataPacket.send(false, (PlayerEntity) (Object) this, this);
         }
     }
 }

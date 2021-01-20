@@ -2,13 +2,11 @@ package com.miskatonicmysteries.common.feature.spell.medium;
 
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
-import com.miskatonicmysteries.common.handler.PacketHandler;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.MobSpellPacket;
 import com.miskatonicmysteries.common.lib.Constants;
-import io.netty.buffer.Unpooled;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -21,12 +19,7 @@ public class MobTargetMedium extends SpellMedium {
     public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
         if (caster instanceof MobEntity && caster.getAttacking() != null && !world.isClient) {
             if (caster.canSee(caster.getAttacking())) {
-                PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-                data.writeInt(caster.getEntityId());
-                data.writeInt(caster.getAttacking().getEntityId());
-                data.writeIdentifier(effect.getId());
-                data.writeInt(intensity);
-                PacketHandler.sendToPlayers(caster.world, caster, data, PacketHandler.MOB_SPELL_MEDIUM_PACKET);
+                MobSpellPacket.send(caster, effect, intensity);
                 ((MobEntity) caster).lookAtEntity(caster.getAttacking(), 60, 60);
                 return !caster.isDead() && effect.effect(caster.world, caster, caster.getAttacking(), caster.getAttacking().getPos(), this, intensity, caster);
             }

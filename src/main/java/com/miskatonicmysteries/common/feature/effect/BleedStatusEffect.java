@@ -1,11 +1,9 @@
 package com.miskatonicmysteries.common.feature.effect;
 
-import com.miskatonicmysteries.common.handler.PacketHandler;
-import io.netty.buffer.Unpooled;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.BloodParticlePacket;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectType;
-import net.minecraft.network.PacketByteBuf;
 
 public class BleedStatusEffect extends StatusEffect {
     public BleedStatusEffect() {
@@ -15,9 +13,7 @@ public class BleedStatusEffect extends StatusEffect {
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         if (!entity.world.isClient && entity.world.random.nextFloat() < 0.1 + (0.1 * amplifier)) {
-            PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-            data.writeInt(entity.getEntityId());
-            PacketHandler.sendToPlayers(entity.world, entity, data, PacketHandler.BLOOD_PARTICLE_PACKET);
+            BloodParticlePacket.send(entity);
         }
     }
 

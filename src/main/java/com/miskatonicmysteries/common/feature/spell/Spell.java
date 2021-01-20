@@ -1,11 +1,9 @@
 package com.miskatonicmysteries.common.feature.spell;
 
-import com.miskatonicmysteries.common.handler.PacketHandler;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SpellPacket;
 import com.miskatonicmysteries.common.lib.Constants;
-import io.netty.buffer.Unpooled;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
 public class Spell {
@@ -22,10 +20,7 @@ public class Spell {
 
     public boolean cast(LivingEntity caster) {
         if (!caster.world.isClient) {
-            PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-            data.writeCompoundTag(toTag(new CompoundTag()));
-            data.writeInt(caster.getEntityId());
-            PacketHandler.sendToPlayers(caster.world, caster, data, PacketHandler.SPELL_PACKET);
+            SpellPacket.send(caster, toTag(new CompoundTag()));
         }
         return effect.canCast(caster, medium) && medium.cast(caster.world, caster, effect, intensity);
     }

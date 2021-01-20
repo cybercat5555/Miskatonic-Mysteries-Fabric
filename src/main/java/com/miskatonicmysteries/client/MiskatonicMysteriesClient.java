@@ -13,7 +13,7 @@ import com.miskatonicmysteries.client.render.entity.SpellProjectileRenderer;
 import com.miskatonicmysteries.common.block.AltarBlock;
 import com.miskatonicmysteries.common.block.OctagramBlock;
 import com.miskatonicmysteries.common.block.StatueBlock;
-import com.miskatonicmysteries.common.handler.PacketHandler;
+import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.item.GunItem;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import com.miskatonicmysteries.common.lib.ModObjects;

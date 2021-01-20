@@ -4,14 +4,13 @@ import com.miskatonicmysteries.common.entity.brain.HasturCultistBrain;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.spell.Spell;
-import com.miskatonicmysteries.common.handler.PacketHandler;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.ModEntities;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.mixin.LivingEntityAccessor;
 import com.mojang.serialization.Dynamic;
-import io.netty.buffer.Unpooled;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.Durations;
 import net.minecraft.entity.ai.brain.Brain;
@@ -29,7 +28,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -71,15 +69,9 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         HasturCultistBrain.tickActivities(this);
         if (isCasting()) {
             if (currentSpell != null && !world.isClient) {
-                PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-                data.writeDouble(getX());
-                data.writeDouble(getY() + 2.3F);
-                data.writeDouble(getZ());
-                data.writeInt(currentSpell.effect.getColor(this));
-                PacketHandler.sendToPlayers(world, this, data, PacketHandler.EFFECT_PARTICLE_PACKET);
+                EffectParticlePacket.send(this);
             }
             setCastTime(getCastTime() - 1);
-
         }
         if (!world.isClient && currentSpell != null && getCastTime() <= 0) {
             currentSpell.cast(this);

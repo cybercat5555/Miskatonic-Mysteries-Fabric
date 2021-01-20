@@ -8,22 +8,17 @@ import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.feature.spell.SpellCaster;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
-import com.miskatonicmysteries.common.handler.PacketHandler;
+import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -66,10 +61,7 @@ public class EditSpellScreen extends Screen {
         for (int i = 0; i < spells.length; i++) {
             user.getSpells().add(i, spells[i]);
         }
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        CompoundTag spellCompound = CapabilityUtil.writeSpellData(user, new CompoundTag());
-        data.writeCompoundTag(spellCompound);
-        ClientPlayNetworking.send(PacketHandler.SYNC_SPELLCASTER_DATA_PACKET, data);
+        SyncSpellCasterDataPacket.send(true, MinecraftClient.getInstance().player, user);
         super.onClose();
     }
 

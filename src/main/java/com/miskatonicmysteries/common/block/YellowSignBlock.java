@@ -1,16 +1,13 @@
 package com.miskatonicmysteries.common.block;
 
-import com.miskatonicmysteries.common.handler.PacketHandler;
+import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
 import com.miskatonicmysteries.common.lib.util.MiscUtil;
-import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -53,10 +50,7 @@ public class YellowSignBlock extends Block {
             MinecraftClient client = MinecraftClient.getInstance();
             Vec3d posTracked = client.player.raycast(100, client.getTickDelta(), false).getPos();
             if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F) && !MiscUtil.isImmuneToYellowSign(client.player)) {
-                PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-                data.writeInt(1);
-                data.writeInt(200 + random.nextInt(200));
-                ClientPlayNetworking.send(PacketHandler.CLIENT_INVOKE_MANIA_PACKET, data);
+                InvokeManiaPacket.send(1, 200 + random.nextInt(200));
             }
         }
         super.randomDisplayTick(state, world, pos, random);

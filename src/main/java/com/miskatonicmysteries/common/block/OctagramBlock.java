@@ -4,12 +4,11 @@ import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
-import com.miskatonicmysteries.common.handler.PacketHandler;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.TeleportEffectPacket;
 import com.miskatonicmysteries.common.lib.ModObjects;
 import com.miskatonicmysteries.common.lib.ModRecipes;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import com.miskatonicmysteries.common.lib.util.MiscUtil;
-import io.netty.buffer.Unpooled;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
@@ -18,7 +17,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
@@ -126,12 +124,10 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
             if (octagram.currentRite == ModRecipes.TELEPORT_RITE && octagram.permanentRiteActive && octagram.tickCount == 0
                     && octagram.boundPos != null) {
                 BlockPos boundPos = octagram.getBoundPos().offset(entity.getMovementDirection());
-                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-                buf.writeInt(entity.getEntityId());
-                PacketHandler.sendToPlayers(world, pos, buf, PacketHandler.TELEPORT_EFFECT_PACKET);
+                TeleportEffectPacket.send(entity, pos);
                 MiscUtil.teleport(octagram.getBoundDimension(), entity, boundPos.getX() + 0.5F, boundPos.getY(), boundPos.getZ() + 0.5F, entity.getHeadYaw(), entity.pitch);
                 octagram.getBoundDimension().playSound(boundPos.getX(), boundPos.getY(), boundPos.getZ(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1, 1, false);
-                PacketHandler.sendToPlayers(world, boundPos, buf, PacketHandler.TELEPORT_EFFECT_PACKET);
+                TeleportEffectPacket.send(entity, boundPos);
             }
         }
         super.onEntityCollision(state, world, pos, entity);
