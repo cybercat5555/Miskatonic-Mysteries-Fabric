@@ -173,6 +173,7 @@
   "bannerpp.pattern.miskatonicmysteries.yellow_sign.green": "Green Sign",
   "bannerpp.pattern.miskatonicmysteries.yellow_sign.red": "Red Sign",
   "bannerpp.pattern.miskatonicmysteries.yellow_sign.black": "Black Sign",
+  "rei.miskatonicmysteries.chemistry_recipe": "Illegal Chemistry",
   "comment11": "CONFIG",
   "text.autoconfig.miskatonicmysteries.option.modUpdateInterval": "Semi-Trivial Update Interval",
   "text.autoconfig.miskatonicmysteries.option.client": "Client",

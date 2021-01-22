@@ -25,6 +25,9 @@
     ],
     "modmenu": [
       "com.miskatonicmysteries.client.compat.MMModMenu"
+    ],
+    "rei_plugins": [
+      "com.miskatonicmysteries.client.compat.rei.MMREICompat"
     ]
   },
   "mixins": [
