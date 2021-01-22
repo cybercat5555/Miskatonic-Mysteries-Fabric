@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "age=0": { "model": "miskatonicmysteries:block/infested_wheat_stage0" },
+    "age=1": { "model": "miskatonicmysteries:block/infested_wheat_stage1" }
+  }
+}

@@ -53,7 +53,6 @@ public class MMMiscRegistries {
     }
 
     public static class LootTables {
-        public static final Identifier INFESTED_WHEAT_LOOT_TABLE = new Identifier(Constants.MOD_ID, "injects/infested_wheat");
         public static final Identifier TRANQ_TABLE = new Identifier(Constants.MOD_ID, "injects/tranquilizer");
 
         public static final Map<Identifier, Identifier> LOOT_TABLE_INJECTS = new HashMap<>();
@@ -109,8 +108,6 @@ public class MMMiscRegistries {
     }
 
     private static void initLootTableEdits() {
-        LOOT_TABLE_INJECTS.put(Blocks.WHEAT.getLootTableId(), INFESTED_WHEAT_LOOT_TABLE);
-
         LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.VILLAGE_BUTCHER_CHEST, TRANQ_TABLE);
         LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.VILLAGE_CARTOGRAPHER_CHEST, TRANQ_TABLE);
         LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.VILLAGE_TANNERY_CHEST, TRANQ_TABLE);

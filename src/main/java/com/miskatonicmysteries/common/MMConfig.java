@@ -6,7 +6,7 @@ import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
 import me.sargunvohra.mcmods.autoconfig1u.annotation.ConfigEntry;
 
 @Config(name = Constants.MOD_ID)
-public class ModConfig implements ConfigData {
+public class MMConfig implements ConfigData {
     public int modUpdateInterval = 20;
 
     @ConfigEntry.Gui.CollapsibleObject
@@ -19,7 +19,7 @@ public class ModConfig implements ConfigData {
     public Sanity sanity = new Sanity();
 
     @ConfigEntry.Gui.CollapsibleObject
-    public WorldGen worldGen = new WorldGen();
+    public World world = new World();
 
     public static class Client {
         public boolean useShaders = true;
@@ -58,7 +58,7 @@ public class ModConfig implements ConfigData {
         public float tranquilizedSanityCapRegainChance = 0.1F;
     }
 
-    public static class WorldGen {
+    public static class World {
 
         @ConfigEntry.BoundedDiscrete(max = 100)
         @ConfigEntry.Gui.Tooltip(count = 2)
@@ -67,5 +67,8 @@ public class ModConfig implements ConfigData {
         @ConfigEntry.BoundedDiscrete(max = 100)
         @ConfigEntry.Gui.Tooltip(count = 2)
         public int hasturShrineWeight = 4;
+
+        @ConfigEntry.Gui.Tooltip(count = 2)
+        public float infestedWheatChance = 0.05F;
     }
 }

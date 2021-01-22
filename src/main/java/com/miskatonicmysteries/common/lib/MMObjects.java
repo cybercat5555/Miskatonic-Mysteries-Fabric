@@ -14,10 +14,7 @@ import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
 import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPattern;
 import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatterns;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.PillarBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -99,6 +96,7 @@ public class MMObjects {
 
     public static final Block YELLOW_SIGN = new YellowSignBlock();
 
+    public static final Block INFESTED_WHEAT_CROP = new InfestedWheatCropBlock();
     public static final LoomPattern YELLOW_SIGN_BANNER = new LoomPattern(true);
     public static final Item YELLOW_SIGN_LOOM_PATTERN = new YellowSignPatternItem();
 
@@ -218,6 +216,8 @@ public class MMObjects {
         RegistryUtil.registerBlock(CANDLE, "candle");
 
         RegistryUtil.register(Registry.BLOCK, "yellow_sign", YELLOW_SIGN);
+
+        RegistryUtil.register(Registry.BLOCK, "infested_wheat", INFESTED_WHEAT_CROP);
 
         RegistryUtil.register(LoomPatterns.REGISTRY, "yellow_sign", YELLOW_SIGN_BANNER);
 

@@ -197,11 +197,13 @@
   "text.autoconfig.miskatonicmysteries.option.sanity.tranquilizedSanityBonus.@Tooltip": "The base-amount of sanity regenerated after sleeping while tranquilized",
   "text.autoconfig.miskatonicmysteries.option.sanity.tranquilizedSanityCapRegainChance": "Tranquilized: Regain Chance",
   "text.autoconfig.miskatonicmysteries.option.sanity.tranquilizedSanityCapRegainChance.@Tooltip": "The chance of regaining a bit of normally permanently lost sanity after sleeping while tranquilized",
-  "text.autoconfig.miskatonicmysteries.option.worldGen": "World Generation",
-  "text.autoconfig.miskatonicmysteries.option.worldGen.psychonautHouseWeight": "Psychonaut House (Weight)",
-  "text.autoconfig.miskatonicmysteries.option.worldGen.psychonautHouseWeight.@Tooltip[0]": "The chance for Psychonaut Houses to spawn in villages;",
-  "text.autoconfig.miskatonicmysteries.option.worldGen.psychonautHouseWeight.@Tooltip[1]": "the higher the value, the likelier they are to appear",
-  "text.autoconfig.miskatonicmysteries.option.worldGen.hasturShrineWeight": "Hastur Shrine (Weight)",
-  "text.autoconfig.miskatonicmysteries.option.worldGen.hasturShrineWeight.@Tooltip[0]": "The chance for Hastur Shrines to form the center of villages;",
-  "text.autoconfig.miskatonicmysteries.option.worldGen.hasturShrineWeight.@Tooltip[1]": "the higher the value, the likelier they are to appear"
+  "text.autoconfig.miskatonicmysteries.option.world": "World",
+  "text.autoconfig.miskatonicmysteries.option.world.psychonautHouseWeight": "Psychonaut House (Weight)",
+  "text.autoconfig.miskatonicmysteries.option.world.psychonautHouseWeight.@Tooltip[0]": "The chance for Psychonaut Houses to spawn in villages;",
+  "text.autoconfig.miskatonicmysteries.option.world.psychonautHouseWeight.@Tooltip[1]": "the higher the value, the likelier they are to appear",
+  "text.autoconfig.miskatonicmysteries.option.world.hasturShrineWeight": "Hastur Shrine (Weight)",
+  "text.autoconfig.miskatonicmysteries.option.world.hasturShrineWeight.@Tooltip[0]": "The chance for Hastur Shrines to form the center of villages;",
+  "text.autoconfig.miskatonicmysteries.option.world.hasturShrineWeight.@Tooltip[1]": "the higher the value, the likelier they are to appear",
+  "text.autoconfig.miskatonicmysteries.option.world.infestedWheatChance": "Infested Wheat Chance",
+  "text.autoconfig.miskatonicmysteries.option.world.infestedWheatChance.@Tooltip": "The chance for Wheat to become infested"
 }
