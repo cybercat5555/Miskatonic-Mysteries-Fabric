@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.common.feature;
 
+import com.miskatonicmysteries.common.feature.interfaces.Sanity;
+import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
-import com.miskatonicmysteries.common.feature.sanity.Sanity;
 import com.miskatonicmysteries.common.feature.spell.Spell;
-import com.miskatonicmysteries.common.feature.spell.SpellCaster;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;

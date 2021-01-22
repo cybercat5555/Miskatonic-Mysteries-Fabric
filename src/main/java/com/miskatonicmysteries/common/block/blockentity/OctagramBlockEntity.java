@@ -2,8 +2,8 @@ package com.miskatonicmysteries.common.block.blockentity;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.block.OctagramBlock;
-import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
+import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.item.IncantationYogItem;
@@ -39,7 +39,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     public UUID originalCaster = null;
     //misc values which may be used by rites
     public Pair<Identifier, BlockPos> boundPos = null;
-    public boolean sneakyStart;
+    public boolean triggered;
     public OctagramBlockEntity() {
         super(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
 
@@ -60,7 +60,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
             tag.putString(Constants.NBT.DIMENSION, boundPos.getFirst().toString());
             tag.putLong(Constants.NBT.POSITION, boundPos.getSecond().asLong());
         }
-        tag.putBoolean(Constants.NBT.SNEAKY, sneakyStart);
+        tag.putBoolean(Constants.NBT.TRIGGERED, triggered);
         return super.toTag(tag);
     }
 
@@ -80,7 +80,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
         if (tag.contains(Constants.NBT.DIMENSION)) {
             boundPos = new Pair<>(new Identifier(tag.getString(Constants.NBT.DIMENSION)), BlockPos.fromLong(tag.getLong(Constants.NBT.POSITION)));
         }
-        sneakyStart = tag.getBoolean(Constants.NBT.SNEAKY);
+        triggered = tag.getBoolean(Constants.NBT.TRIGGERED);
         super.fromTag(state, tag);
     }
 
@@ -184,7 +184,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     @Override
     public void clear() {
         for (int i = 0; i < size(); i++) {
-            if (getStack(i).getItem().isIn(Constants.Tags.RITE_TOOLS)) {
+            if (!getStack(i).isEmpty() && getStack(i).getItem().isIn(Constants.Tags.RITE_TOOLS)) {
                 if (getStack(i).getItem() instanceof IncantationYogItem) {
                     IncantationYogItem.clear(getStack(i));
                 }
@@ -192,7 +192,6 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
             }
             setStack(i, ItemStack.EMPTY);
         }
-        markDirty();
     }
 
     public Vec3d getSummoningPos() {

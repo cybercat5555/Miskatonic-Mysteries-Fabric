@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
+import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
-import com.miskatonicmysteries.common.feature.sanity.Sanity;
 import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.lib.Constants;
 import io.netty.buffer.Unpooled;

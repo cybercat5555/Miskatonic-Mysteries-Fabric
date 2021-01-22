@@ -22,5 +22,17 @@
       "mob/endermen/portal",
       "mob/endermen/portal2"
     ]
+  },
+  "veil_spawn": {
+    "subtitle": "subtitles.miskatonicmysteries.veil_spawn",
+    "sounds": [
+      "mob/ghast/fireball4"
+    ]
+  },
+  "incantation_bound": {
+    "subtitle": "subtitles.miskatonicmysteries.incantation_bound",
+    "sounds": [
+      "random/successful_hit"
+    ]
   }
 }

@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.handler;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
-import com.miskatonicmysteries.common.feature.sanity.Sanity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.network.ClientPlayerEntity;

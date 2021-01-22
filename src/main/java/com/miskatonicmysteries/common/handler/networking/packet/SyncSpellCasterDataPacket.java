@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.handler.networking.packet;
 
+import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.spell.Spell;
-import com.miskatonicmysteries.common.feature.spell.SpellCaster;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.handler.networking.PacketHandler;

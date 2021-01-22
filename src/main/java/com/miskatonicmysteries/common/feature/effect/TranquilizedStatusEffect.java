@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.feature.effect;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.feature.sanity.Sanity;
+import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import net.minecraft.entity.LivingEntity;

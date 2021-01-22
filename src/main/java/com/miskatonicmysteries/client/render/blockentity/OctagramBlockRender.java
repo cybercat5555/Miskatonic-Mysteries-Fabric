@@ -18,7 +18,6 @@ import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.math.Direction;
 
 public class OctagramBlockRender extends BlockEntityRenderer<OctagramBlockEntity> {
-    public static final RenderLayer OCTAGRAM_RENDER_LAYER = RenderHelper.getAuraGlowLayer();
 
     public OctagramBlockRender(BlockEntityRenderDispatcher dispatcher) {
         super(dispatcher);

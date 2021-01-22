@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.handler;
 
 import com.google.gson.*;
-import com.miskatonicmysteries.common.feature.DataSerializable;
+import com.miskatonicmysteries.common.feature.interfaces.DataSerializable;
 import com.miskatonicmysteries.common.feature.recipe.rite.CommandDrivenRite;
 import com.miskatonicmysteries.common.feature.sanity.CommandDrivenInsanityEvent;
 import com.miskatonicmysteries.common.feature.sanity.InsanityInducer;

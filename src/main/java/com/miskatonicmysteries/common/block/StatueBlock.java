@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
-import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
+import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.fluid.FluidState;

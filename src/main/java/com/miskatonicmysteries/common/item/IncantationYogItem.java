@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.item;
 
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,7 +12,6 @@ import net.minecraft.item.ItemUsage;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
@@ -59,7 +59,7 @@ public class IncantationYogItem extends Item {
             }
         }
         if (foundPos != null) {
-            world.playSound(user.getX(), user.getY(), user.getZ(), SoundEvents.ENTITY_ARROW_HIT_PLAYER, SoundCategory.PLAYERS, 1, 1, false);
+            world.playSound(user.getX(), user.getY(), user.getZ(), MMMiscRegistries.Sounds.INCANTATION_BIND_SUCCESS, SoundCategory.PLAYERS, 1, 1, false);
         }
         return storePosition(stack, world, foundPos);
     }

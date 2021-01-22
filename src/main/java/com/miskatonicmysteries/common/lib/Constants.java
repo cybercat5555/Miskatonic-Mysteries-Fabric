@@ -6,6 +6,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.EntityDamageSource;
@@ -38,6 +39,8 @@ public class Constants {
         public static final Tag<Item> RED_MEAT = TagRegistry.item(new Identifier(MOD_ID, "red_meat"));
         public static final Tag<Item> YELLOW_DYE = TagRegistry.item(new Identifier(MOD_ID, "yellow_dye"));
         public static final Tag<Item> RITE_TOOLS = TagRegistry.item(new Identifier(MOD_ID, "rite_tools"));
+        public static final Tag<EntityType<?>> BURNED_VEIL_MOBS = TagRegistry.entityType(new Identifier(MOD_ID, "burned_veil_mobs"));
+        public static final Tag<EntityType<?>> BROKEN_VEIL_MOBS = TagRegistry.entityType(new Identifier(MOD_ID, "broken_veil_mobs"));
     }
 
     public static class NBT {
@@ -74,7 +77,6 @@ public class Constants {
         public static final String AFFILIATION = "Affiliation";
         public static final String POSITION = "Connected Position";
         public static final String DIMENSION = "Connected Dimension";
-
         public static final String BLOCK_ENTITY_TAG = "BlockEntityTag";
         public static final String BANNER_BASE = "Base";
         public static final String BANNER_PATTERN = "Pattern";
@@ -85,7 +87,8 @@ public class Constants {
         public static final String SPELL_LIST = "Spell List";
         public static final String SPELL_EFFECTS = "Effect List";
         public static final String SPELL_MEDIUMS = "Medium Map";
-        public static final String SNEAKY = "Sneaky";
+        public static final String TRIGGERED = "Triggered";
+        public static final String SHOULD_DROP = "Should Drop";
     }
 
     public static class DataTrackers {
@@ -98,6 +101,9 @@ public class Constants {
         public static final TrackedData<Integer> POWER_POOL = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Integer> MAX_SPELLS = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final int SPELL_CAP = 10;
+
+
+        public static final TrackedData<Boolean> SHOULD_DROP = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     }
 
     public static class DamageSources extends DamageSource {

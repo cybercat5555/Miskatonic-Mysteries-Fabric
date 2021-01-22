@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.handler.networking.packet.c2s;
 
-import com.miskatonicmysteries.common.feature.sanity.Sanity;
+import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import io.netty.buffer.Unpooled;

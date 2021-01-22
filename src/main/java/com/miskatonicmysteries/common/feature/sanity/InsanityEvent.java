@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.feature.sanity;
 
+import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.InsanityEventPacket;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;

@@ -33,13 +33,11 @@ public class RenderHelper extends RenderLayer {
             .texture(BLOCK_ATLAS_TEXTURE)
             .diffuseLighting(new RenderPhase.DiffuseLighting(true))
             .transparency(new RenderPhase.Transparency(Constants.MOD_ID + ":translucency", () -> {
-                RenderSystem.disableDepthTest();
                 RenderSystem.depthMask(false);
                 RenderSystem.enableBlend();
                 RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
 
             }, () -> {
-                RenderSystem.enableDepthTest();
                 RenderSystem.depthMask(true);
                 RenderSystem.disableBlend();
                 RenderSystem.defaultBlendFunc();
@@ -57,7 +55,6 @@ public class RenderHelper extends RenderLayer {
             .build(true);
 
     public static final RenderLayer AURA_LAYER = RenderLayer.of(Constants.MOD_ID + ":aura_layer", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, AURA_PARAMS);
-    //for when the octagram "fades into" portal mode, still doesn't work perfectly on other transparent blocks
     public static final RenderLayer TRANSPARENCY_LAYER = RenderLayer.of(Constants.MOD_ID + ":transparent", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, TRANSPARENCY_PARAMS);
 
 

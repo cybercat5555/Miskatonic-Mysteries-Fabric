@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.mixin;
 
-import com.miskatonicmysteries.common.feature.sanity.Sanity;
+import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

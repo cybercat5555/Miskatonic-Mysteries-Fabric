@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.entity;
 
 import com.miskatonicmysteries.common.entity.brain.HasturCultistBrain;
-import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
+import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
 import com.miskatonicmysteries.common.item.books.MMBookItem;

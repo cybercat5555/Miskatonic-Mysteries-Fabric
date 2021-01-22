@@ -1,7 +1,8 @@
 package com.miskatonicmysteries.common.feature.sanity;
 
 import com.google.gson.JsonObject;
-import com.miskatonicmysteries.common.feature.DataSerializable;
+import com.miskatonicmysteries.common.feature.interfaces.DataSerializable;
+import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.function.CommandFunction;

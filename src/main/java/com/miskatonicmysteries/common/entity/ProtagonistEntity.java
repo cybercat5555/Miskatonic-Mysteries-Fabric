@@ -4,7 +4,7 @@ import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.ai.GunAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobBowAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobCrossbowAttackGoal;
-import com.miskatonicmysteries.common.feature.sanity.Sanity;
+import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ProtagonistParticlePacket;
 import com.miskatonicmysteries.common.item.GunItem;

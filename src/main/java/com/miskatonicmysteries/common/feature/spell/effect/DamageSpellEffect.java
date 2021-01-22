@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.feature.spell.effect;
 
-import com.miskatonicmysteries.common.feature.Affiliated;
+import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.Constants;

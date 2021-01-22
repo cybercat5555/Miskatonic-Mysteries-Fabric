@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.item.trinkets;
 
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
+import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.lib.Constants;
 import dev.emi.trinkets.api.Slots;
 import dev.emi.trinkets.api.Trinket;

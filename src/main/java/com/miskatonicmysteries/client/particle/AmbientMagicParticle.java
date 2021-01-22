@@ -12,11 +12,11 @@ import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
-public class UpwardsMagicParticle extends AbstractSlowingParticle {
+public class AmbientMagicParticle extends AbstractSlowingParticle {
 
-    protected UpwardsMagicParticle(ClientWorld clientWorld, double x, double y, double z, float r, float g, float b) {
+    protected AmbientMagicParticle(ClientWorld clientWorld, double x, double y, double z, float r, float g, float b) {
         super(clientWorld, x, y, z, 0, Math.max(0.01F, clientWorld.random.nextFloat() / 50), 0);
-        colorAlpha = 0.85F;
+        colorAlpha = 0;
         colorRed = r;
         colorGreen = g;
         colorBlue = b;
@@ -34,9 +34,12 @@ public class UpwardsMagicParticle extends AbstractSlowingParticle {
 
     @Override
     public void tick() {
-        float lifeRatio = (float) this.age / (float) this.maxAge;
-        this.scale = scale - (lifeRatio * scale);
         super.tick();
+        float lifeRatio = (float) this.age / (float) this.maxAge;
+        this.colorAlpha = lifeRatio >= 0.5F ? 1 - (lifeRatio - 0.5F) * 2 : lifeRatio * 2;
+        if (lifeRatio >= 1) {
+            markDead();
+        }
     }
 
     @Override
@@ -77,7 +80,7 @@ public class UpwardsMagicParticle extends AbstractSlowingParticle {
         }
 
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z, double r, double g, double b) {
-            UpwardsMagicParticle particle = new UpwardsMagicParticle(clientWorld, x, y, z, (float) r, (float) g, (float) b);
+            AmbientMagicParticle particle = new AmbientMagicParticle(clientWorld, x, y, z, (float) r, (float) g, (float) b);
             particle.scale(0.75F + clientWorld.random.nextFloat() / 5F);
             particle.setSpriteForAge(this.spriteProvider);
             return particle;

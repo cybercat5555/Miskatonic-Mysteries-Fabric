@@ -1,9 +1,8 @@
-package com.miskatonicmysteries.common.feature;
+package com.miskatonicmysteries.common.feature.interfaces;
 
 import com.google.gson.JsonObject;
 import net.minecraft.util.Identifier;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public interface DataSerializable<T> {

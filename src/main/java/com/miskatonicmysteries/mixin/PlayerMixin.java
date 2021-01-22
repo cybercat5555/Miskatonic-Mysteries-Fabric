@@ -2,12 +2,12 @@ package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
-import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
-import com.miskatonicmysteries.common.feature.sanity.Sanity;
+import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
+import com.miskatonicmysteries.common.feature.interfaces.Sanity;
+import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.spell.Spell;
-import com.miskatonicmysteries.common.feature.spell.SpellCaster;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
@@ -61,7 +61,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
             if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.sanity.shockRemoveChance)
                 setShocked(false);
         }
-        if (!world.isClient && age % MiskatonicMysteries.config.sanity.insanityInterval == 0) {
+        if (!world.isClient && age > 100 && age % MiskatonicMysteries.config.sanity.insanityInterval == 0) {
             InsanityHandler.handleInsanityEvents((PlayerEntity) (Object) this);
         }
     }

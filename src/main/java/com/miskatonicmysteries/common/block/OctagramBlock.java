@@ -1,9 +1,11 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
+import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
+import com.miskatonicmysteries.common.feature.recipe.rite.TeleportRite;
+import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.TeleportEffectPacket;
 import com.miskatonicmysteries.common.lib.MMObjects;
 import com.miskatonicmysteries.common.lib.MMRecipes;
@@ -41,7 +43,6 @@ import java.util.List;
 public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityProvider, Affiliated {
     public static List<OctagramBlock> OCTAGRAMS = new ArrayList<>();
     public static final VoxelShape OUTLINE_SHAPE = createCuboidShape(0, 0, 0, 16, 0.5F, 16);
-    public static final VoxelShape COLLISION_SHAPE = createCuboidShape(0, 0, 0, 16, 8, 16);
     private final Affiliation affiliation;
 
     public OctagramBlock(Affiliation affiliation) {
@@ -60,7 +61,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
             octagram.setOriginalCaster(player);
             Rite rite = MMRecipes.getRite(octagram);
             if (rite != null) {
-                octagram.sneakyStart = player.isSneaking();
+                octagram.triggered = !player.isSneaking();
                 octagram.currentRite = rite;
                 rite.onStart(octagram);
                 octagram.markDirty();
@@ -72,6 +73,11 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
     }
 
     @Override
+    public VoxelShape getVisualShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return super.getVisualShape(state, world, pos, context);
+    }
+
+    @Override
     public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
         return 1;
     }
@@ -79,11 +85,6 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
     @Override
     public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
         return true;
-    }
-
-    @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return OUTLINE_SHAPE;
     }
 
     @Override
@@ -122,7 +123,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (entity.age % 5 == 0 && !entity.isSneaking() && !world.isClient && world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
             OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(pos);
-            if (octagram.currentRite == MMRecipes.TELEPORT_RITE && octagram.permanentRiteActive && octagram.tickCount == 0
+            if (octagram.currentRite instanceof TeleportRite && octagram.permanentRiteActive && octagram.tickCount == 0
                     && octagram.boundPos != null) {
                 BlockPos boundPos = octagram.getBoundPos().offset(entity.getMovementDirection());
                 TeleportEffectPacket.send(entity, pos);
@@ -196,6 +197,11 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
         }
 
         @Override
+        public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+            //prevent weirdness
+        }
+
+        @Override
         public BlockRenderType getRenderType(BlockState state) {
             return BlockRenderType.INVISIBLE;
         }
@@ -211,6 +217,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                 if (!stack.isEmpty() && octagram.isValid(state.get(NUMBER), stack) && octagram.getStack(state.get(NUMBER)).isEmpty() && !octagram.permanentRiteActive) {
                     octagram.setStack(state.get(NUMBER), stack);
                     octagram.markDirty();
+                    player.swingHand(hand);
                     return ActionResult.CONSUME;
                 } else if (stack.isEmpty() && !octagram.getItems().isEmpty() && !octagram.getItems().get(state.get(NUMBER)).isEmpty()) {
                     InventoryUtil.giveItem(world, player, octagram.removeStack(state.get(NUMBER)));
@@ -221,10 +228,16 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
             return super.onUse(state, world, pos, player, hand, hit);
         }
 
-
         @Override
-        public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-
+        public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+            if (entity.age % 5 == 0 && !world.isClient && getOctagram(world, pos, world.getBlockState(pos)) != null) {
+                OctagramBlockEntity octagram = getOctagram(world, pos, world.getBlockState(pos));
+                if (octagram.currentRite instanceof TriggeredRite && !octagram.triggered && octagram.tickCount >= ((TriggeredRite) octagram.currentRite).ticksNeeded) {
+                    ((TriggeredRite) octagram.currentRite).trigger(octagram, entity);
+                    octagram.markDirty();
+                }
+            }
+            super.onEntityCollision(state, world, pos, entity);
         }
 
         @Override
@@ -278,6 +291,16 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
         protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
             builder.add(NUMBER);
             super.appendProperties(builder);
+        }
+
+        @Override
+        public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
+            return 1;
+        }
+
+        @Override
+        public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+            return true;
         }
 
         @Override

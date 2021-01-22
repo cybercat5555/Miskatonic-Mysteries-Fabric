@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.feature.DataSerializable;
+import com.miskatonicmysteries.common.feature.interfaces.DataSerializable;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.function.CommandFunction;

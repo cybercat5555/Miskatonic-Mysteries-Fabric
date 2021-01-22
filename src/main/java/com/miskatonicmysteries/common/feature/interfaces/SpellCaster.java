@@ -1,4 +1,8 @@
-package com.miskatonicmysteries.common.feature.spell;
+package com.miskatonicmysteries.common.feature.interfaces;
+
+import com.miskatonicmysteries.common.feature.spell.Spell;
+import com.miskatonicmysteries.common.feature.spell.SpellEffect;
+import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 
 import java.util.List;
 import java.util.Map;

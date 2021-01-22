@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.lib.util;
 
-import com.miskatonicmysteries.common.feature.Affiliated;
 import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.feature.spell.SpellCaster;
+import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
+import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
