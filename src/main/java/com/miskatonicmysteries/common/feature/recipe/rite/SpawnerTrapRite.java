@@ -109,7 +109,6 @@ public class SpawnerTrapRite extends TriggeredRite {
     @Override
     public void trigger(OctagramBlockEntity octagram, Entity triggeringEntity) {
         super.trigger(octagram, triggeringEntity);
-        octagram.getWorld().playSound(null, octagram.getPos(), MMMiscRegistries.Sounds.BROKE_VEIL_SPAWN, SoundCategory.AMBIENT, 1.0F, (float) octagram.getWorld().random.nextGaussian() * 0.2F + 1.0F);
         if (triggeringEntity instanceof LivingEntity) {
             ((LivingEntity) triggeringEntity).addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 400, 1, true, true));
         }

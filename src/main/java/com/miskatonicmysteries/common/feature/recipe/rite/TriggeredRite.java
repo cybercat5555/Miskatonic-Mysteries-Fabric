@@ -39,6 +39,14 @@ public abstract class TriggeredRite extends Rite {
     }
 
     @Override
+    public void onFinished(OctagramBlockEntity octagram) {
+        super.onFinished(octagram);
+        octagram.permanentRiteActive = false;
+        octagram.currentRite = null;
+        octagram.tickCount = 0;
+    }
+
+    @Override
     public boolean isPermanent(OctagramBlockEntity octagram) {
         return true;
     }

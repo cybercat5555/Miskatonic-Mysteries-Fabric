@@ -20,7 +20,7 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
         colorRed = r;
         colorGreen = g;
         colorBlue = b;
-        maxAge = 60 + clientWorld.random.nextInt(20);
+        maxAge = 40 + clientWorld.random.nextInt(40);
     }
 
     public ParticleTextureSheet getType() {
@@ -81,7 +81,7 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
 
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z, double r, double g, double b) {
             AmbientMagicParticle particle = new AmbientMagicParticle(clientWorld, x, y, z, (float) r, (float) g, (float) b);
-            particle.scale(0.75F + clientWorld.random.nextFloat() / 5F);
+            particle.scale(0.75F + clientWorld.random.nextFloat() / 4F);
             particle.setSpriteForAge(this.spriteProvider);
             return particle;
         }

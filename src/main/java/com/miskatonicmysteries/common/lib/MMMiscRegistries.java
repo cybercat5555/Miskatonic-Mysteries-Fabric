@@ -42,6 +42,7 @@ public class MMMiscRegistries {
         public static final SoundEvent SCARY_SOUNDS = new SoundEvent(new Identifier(Constants.MOD_ID, "scary"));
         public static final SoundEvent TELEPORT_SOUND = new SoundEvent(new Identifier(Constants.MOD_ID, "teleport"));
         public static final SoundEvent BROKE_VEIL_SPAWN = new SoundEvent(new Identifier(Constants.MOD_ID, "veil_spawn"));
+        public static final SoundEvent PRIMED_RITE_TRIGGERED = new SoundEvent(new Identifier(Constants.MOD_ID, "rite_triggered"));
         public static final SoundEvent INCANTATION_BIND_SUCCESS = new SoundEvent(new Identifier(Constants.MOD_ID, "incantation_bound"));
     }
 
@@ -90,6 +91,7 @@ public class MMMiscRegistries {
         RegistryUtil.register(Registry.SOUND_EVENT, "teleport", TELEPORT_SOUND);
         RegistryUtil.register(Registry.SOUND_EVENT, "veil_spawn", BROKE_VEIL_SPAWN);
         RegistryUtil.register(Registry.SOUND_EVENT, "incantation_bound", INCANTATION_BIND_SUCCESS);
+        RegistryUtil.register(Registry.SOUND_EVENT, "rite_triggered", PRIMED_RITE_TRIGGERED);
 
         RegistryUtil.register(Registry.STATUS_EFFECT, "mania", MANIA);
         RegistryUtil.register(Registry.STATUS_EFFECT, "tranquilized", TRANQUILIZED);

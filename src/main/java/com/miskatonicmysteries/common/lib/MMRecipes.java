@@ -3,10 +3,7 @@ package com.miskatonicmysteries.common.lib;
 import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
-import com.miskatonicmysteries.common.feature.recipe.rite.BrokenVeilRite;
-import com.miskatonicmysteries.common.feature.recipe.rite.BurnedVeilRite;
-import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
-import com.miskatonicmysteries.common.feature.recipe.rite.TeleportRite;
+import com.miskatonicmysteries.common.feature.recipe.rite.*;
 import com.miskatonicmysteries.common.lib.util.InventoryUtil;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
 import net.minecraft.recipe.Recipe;
@@ -23,7 +20,7 @@ public class MMRecipes {
     public static final Rite OPEN_WAY = new TeleportRite();
     public static final Rite BURNED_VEIL = new BurnedVeilRite();
     public static final Rite BROKEN_VEIL = new BrokenVeilRite();
-
+    public static final Rite HYSTERIA = new HysteriaRite();
 
     public static void init() {
         RegistryUtil.register(Registry.RECIPE_TYPE, "chemistry_recipe", CHEMISTRY_RECIPE);
@@ -32,6 +29,7 @@ public class MMRecipes {
         addRite(OPEN_WAY);
         addRite(BURNED_VEIL);
         addRite(BROKEN_VEIL);
+        addRite(HYSTERIA);
     }
 
     public static Rite getRite(OctagramBlockEntity octagram) {

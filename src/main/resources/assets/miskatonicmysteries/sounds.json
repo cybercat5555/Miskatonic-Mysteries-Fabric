@@ -29,6 +29,12 @@
       "mob/ghast/fireball4"
     ]
   },
+  "rite_tiggered": {
+    "subtitle": "subtitles.miskatonicmysteries.rite_triggered",
+    "sounds": [
+      "mob/ghast/fireball4"
+    ]
+  },
   "incantation_bound": {
     "subtitle": "subtitles.miskatonicmysteries.incantation_bound",
     "sounds": [

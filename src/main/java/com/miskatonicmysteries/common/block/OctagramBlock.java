@@ -192,7 +192,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
         public static IntProperty NUMBER = IntProperty.of("number", 0, 7);
 
         public BlockOuterOctagram() {
-            super(Settings.of(Material.CARPET).nonOpaque());
+            super(Settings.of(Material.CARPET).nonOpaque().noCollision());
             setDefaultState(getDefaultState().with(NUMBER, 0));
         }
 
@@ -230,7 +230,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 
         @Override
         public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-            if (entity.age % 5 == 0 && !world.isClient && getOctagram(world, pos, world.getBlockState(pos)) != null) {
+            if (!world.isClient && getOctagram(world, pos, world.getBlockState(pos)) != null) {
                 OctagramBlockEntity octagram = getOctagram(world, pos, world.getBlockState(pos));
                 if (octagram.currentRite instanceof TriggeredRite && !octagram.triggered && octagram.tickCount >= ((TriggeredRite) octagram.currentRite).ticksNeeded) {
                     ((TriggeredRite) octagram.currentRite).trigger(octagram, entity);

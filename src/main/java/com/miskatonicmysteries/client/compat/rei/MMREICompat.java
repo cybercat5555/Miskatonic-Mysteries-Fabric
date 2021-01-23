@@ -3,13 +3,19 @@ package com.miskatonicmysteries.client.compat.rei;
 import com.miskatonicmysteries.client.compat.rei.category.ChemistrySetCategory;
 import com.miskatonicmysteries.client.compat.rei.category.OctagramRiteCategory;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
+import com.miskatonicmysteries.common.item.ChalkItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMRecipes;
+import me.shedaniel.rei.api.EntryStack;
 import me.shedaniel.rei.api.RecipeHelper;
 import me.shedaniel.rei.api.plugins.REIPluginV0;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MMREICompat implements REIPluginV0 {
     private static final Identifier ID = new Identifier(Constants.MOD_ID, "rei");
@@ -38,7 +44,14 @@ public class MMREICompat implements REIPluginV0 {
 
     @Override
     public void registerOthers(RecipeHelper recipeHelper) {
+
         recipeHelper.registerWorkingStations(ChemistrySetCategory.ID, ChemistrySetCategory.LOGO);
-        recipeHelper.registerWorkingStations(OctagramRiteCategory.ID, OctagramRiteCategory.LOGO);
+        List<EntryStack> validChalks = new ArrayList<>();
+        Registry.ITEM.forEach(item -> {
+            if (item instanceof ChalkItem) {
+                validChalks.add(EntryStack.create(item));
+            }
+        });
+        recipeHelper.registerWorkingStations(OctagramRiteCategory.ID, validChalks.toArray(new EntryStack[0]));
     }
 }
