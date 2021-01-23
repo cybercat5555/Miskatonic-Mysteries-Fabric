@@ -13,7 +13,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.ItemStack;
@@ -28,7 +28,8 @@ import net.minecraft.village.TradeOffers;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static com.miskatonicmysteries.common.lib.MMMiscRegistries.LootTables.*;
+import static com.miskatonicmysteries.common.lib.MMMiscRegistries.LootTables.LOOT_TABLE_INJECTS;
+import static com.miskatonicmysteries.common.lib.MMMiscRegistries.LootTables.TRANQ_TABLE;
 import static com.miskatonicmysteries.common.lib.MMMiscRegistries.ModTradeOffers.*;
 import static com.miskatonicmysteries.common.lib.MMMiscRegistries.Sounds.*;
 import static com.miskatonicmysteries.common.lib.MMMiscRegistries.StatusEffects.*;
@@ -105,6 +106,8 @@ public class MMMiscRegistries {
         offers[wanderingTraderOffers.length + 1] = OCEANIC_GOLD_OFFER;
         offers[wanderingTraderOffers.length + 2] = BLOTTER_OFFER;
         TradeOffers.WANDERING_TRADER_TRADES.put(1, offers);
+
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(MMObjects.INFESTED_WHEAT, 0.7F);
     }
 
     private static void initLootTableEdits() {

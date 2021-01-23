@@ -112,4 +112,7 @@ public abstract class Rite {
         matrixStack.pop();
     }
 
+    public String getTranslationString() {
+        return "rite." + id.toString().replaceAll(":", ".");
+    }
 }

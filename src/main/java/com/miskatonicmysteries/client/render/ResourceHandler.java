@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ResourceHandler {
-    public static final SpriteIdentifier DEFAULT_OCTAGRAM = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "block/octagram/octagram_generic"));
+    public static final SpriteIdentifier DEFAULT_OCTAGRAM = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "block/octagram/generic_octagram"));
     public static final SpriteIdentifier DEFAULT_OCTAGRAM_MASK = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "block/octagram/mask/octagram_mask"));
     public static final SpriteIdentifier AURA_SPRITE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/aura"));
 
