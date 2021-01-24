@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "BlockMixin",
+    "CropMixin",
     "DataLoadMixin",
     "ItemMixin",
     "LivingEntityAccessor",
@@ -14,11 +15,9 @@
     "StructurePoolAccessor",
     "StructurePoolRegistryMixin",
     "ZombieVillagerAccessor",
-    "CropMixin",
     "villagers.ActivityAccessor",
     "villagers.MemoryModuleTypeAccessor",
-    "villagers.VillagerEntityAccessor",
-    "villagers.VillagerEntityMixin"
+    "villagers.VillagerEntityAccessor"
   ],
   "client": [
     "client.ClientPlayNetworkHandlerMixin",

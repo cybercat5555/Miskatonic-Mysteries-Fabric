@@ -19,7 +19,7 @@ import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.entity.mob.AbstractPiglinEntity;
 import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -108,13 +108,14 @@ public class HasturCultistBrain {
                     LivingEntity bestTarget = null;
                     for (LivingEntity livingEntity : mobList) {
                         if (CapabilityUtil.getAffiliation(livingEntity, true) == Affiliation.SHUB
-                                || livingEntity instanceof ProtagonistEntity || (livingEntity instanceof HostileEntity && !(livingEntity instanceof CreeperEntity))) {
+                                || livingEntity instanceof ProtagonistEntity || (livingEntity instanceof Monster && !(livingEntity instanceof CreeperEntity))) {
                             if (bestTarget == null || livingEntity.distanceTo(cultist) < bestTarget.distanceTo(cultist)) {
                                 bestTarget = livingEntity;
                             }
                         }
                     }
                     if (bestTarget != null) {
+                        System.out.println("found best target " + bestTarget);
                         return Optional.of(bestTarget);
                     }
                 }

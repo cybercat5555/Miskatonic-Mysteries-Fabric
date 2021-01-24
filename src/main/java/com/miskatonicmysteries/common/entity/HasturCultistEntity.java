@@ -130,6 +130,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
+        System.out.println(getAttacking());
         if (getAttacking() != null) {
             return ActionResult.FAIL;
         }
@@ -180,7 +181,9 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public void tick() {
-        if (age % 100 == 0) heal(1);
+        if (age % 100 == 0) {
+            heal(1);
+        }
         super.tick();
     }
 
@@ -262,8 +265,9 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
         entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
-        dataTracker.set(VARIANT, random.nextInt(2));
-        if (spawnReason != SpawnReason.EVENT && spawnReason != SpawnReason.STRUCTURE && random.nextFloat() < 0.25F) {
+        if (spawnReason == SpawnReason.STRUCTURE && getVariant() != 2) {
+            dataTracker.set(VARIANT, random.nextInt(2));
+        } else if (spawnReason != SpawnReason.EVENT && random.nextFloat() < 0.25F) {
             dataTracker.set(VARIANT, 2);
         }
         setLeftHanded(random.nextBoolean()); //more left-handedness
