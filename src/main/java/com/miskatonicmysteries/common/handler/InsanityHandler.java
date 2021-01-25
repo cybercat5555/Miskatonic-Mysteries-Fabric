@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.handler;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
+import com.miskatonicmysteries.common.lib.MMObjects;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -61,9 +62,10 @@ public class InsanityHandler {
 
     public static void handleClientSideBlockChange(ClientPlayerEntity player, World world, BlockState state, BlockPos pos, Random random) {
         Sanity sanity = (Sanity) player;
-        if (sanity.getSanity() < 750 && random.nextFloat() < 0.25F)
+        if (sanity.getSanity() < 750 && random.nextFloat() < 0.2F) {
             if (state.getBlock().equals(Blocks.BIRCH_LOG)) {
-                world.setBlockState(pos, Blocks.OAK_LOG.getDefaultState(), 1);
+                world.setBlockState(pos, MMObjects.BIRCH_LOG.getDefaultState(), 1);
             }
+        }
     }
 }
