@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.mixin;
+package com.miskatonicmysteries.mixin.world;
 
 import com.miskatonicmysteries.common.lib.MMWorld;
 import net.minecraft.structure.pool.StructurePool;

@@ -34,7 +34,7 @@ public abstract class BlockMixin extends AbstractBlock {
     public void randomDisplay(BlockState state, World world, BlockPos pos, Random random, CallbackInfo info) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player != null && client.player.age % MiskatonicMysteries.config.sanity.insanityInterval == 0 && random.nextFloat() < 0.1F) {
-            InsanityHandler.handleClientSideBlockChange(client.player, world, state, pos, random); //todo could probably do this in an actual insanity event rather than mixin
+            InsanityHandler.handleClientSideBlockChange(client.player, world, state, pos, random); //could probably do this in an actual insanity event rather than mixin
         } else if ((state.getBlock() instanceof AbstractBannerBlock) && random.nextInt(5) == 0 && world.getBlockEntity(pos) instanceof BannerBlockEntity
                 && MiscUtil.isValidYellowSign(world.getBlockEntity(pos).toTag(new CompoundTag()))) {
             Vec3d posTracked = client.player.raycast(100, client.getTickDelta(), false).getPos();

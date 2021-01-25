@@ -1,6 +1,8 @@
 {
   "name": "item.miskatonicmysteries.necronomicon",
+  "subtitle": "miskatonicmysteries.necronomicon.subtitle",
   "landing_text": "miskatonicmysteries.necronomicon.landing",
+  "book_texture": "miskatonicmysteries:textures/gui/necronomicon.png",
   "dont_generate_book": true,
   "custom_book_item": "miskatonicmysteries:necronomicon"
 }

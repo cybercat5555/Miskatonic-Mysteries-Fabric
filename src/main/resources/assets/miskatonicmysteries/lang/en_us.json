@@ -216,5 +216,8 @@
   "text.autoconfig.miskatonicmysteries.option.world.hasturShrineWeight.@Tooltip[0]": "The chance for Hastur Shrines to form the center of villages;",
   "text.autoconfig.miskatonicmysteries.option.world.hasturShrineWeight.@Tooltip[1]": "the higher the value, the likelier they are to appear",
   "text.autoconfig.miskatonicmysteries.option.world.infestedWheatChance": "Infested Wheat Chance",
-  "text.autoconfig.miskatonicmysteries.option.world.infestedWheatChance.@Tooltip": "The chance for Wheat to become infested"
+  "text.autoconfig.miskatonicmysteries.option.world.infestedWheatChance.@Tooltip": "The chance for Wheat to become infested",
+  "comment13": "BOOK STUFF",
+  "miskatonicmysteries.necronomicon.subtitle": "Book of the Dead's Names",
+  "miskatonicmysteries.necronomicon.landing": "That is not dead which can eternal lie.\nAnd with strange aeons even death may die"
 }

@@ -1,0 +1,11 @@
+{
+  "name": "Introduction",
+  "category": "miskatonicmysteries:world",
+  "icon": "miskatonicmysteries:necronomicon",
+  "pages": [
+    {
+      "type": "text",
+      "text": "FNORD"
+    }
+  ]
+}

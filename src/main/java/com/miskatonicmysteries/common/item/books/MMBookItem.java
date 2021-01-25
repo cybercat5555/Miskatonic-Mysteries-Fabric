@@ -35,6 +35,9 @@ public class MMBookItem extends Item implements Affiliated {
     private Affiliation affiliation;
     private boolean special;
 
+    /*
+    todo distorted text template component: takes path and level input, sets the font to something readable then
+     */
     public MMBookItem(Identifier id, Affiliation affiliation, boolean special) {
         super(new Settings().maxCount(1).group(Constants.MM_GROUP));
         this.id = id;

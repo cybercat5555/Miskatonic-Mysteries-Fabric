@@ -12,12 +12,13 @@
     "LivingEntityMixin",
     "PlayerMixin",
     "ServerPlayerMixin",
-    "StructurePoolAccessor",
-    "StructurePoolRegistryMixin",
     "ZombieVillagerAccessor",
     "villagers.ActivityAccessor",
     "villagers.MemoryModuleTypeAccessor",
-    "villagers.VillagerEntityAccessor"
+    "villagers.VillagerEntityAccessor",
+    "world.OceanMonumentMixin",
+    "world.StructurePoolAccessor",
+    "world.StructurePoolRegistryMixin"
   ],
   "client": [
     "client.ClientPlayNetworkHandlerMixin",
