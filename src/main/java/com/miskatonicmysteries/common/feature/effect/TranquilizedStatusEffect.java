@@ -19,29 +19,32 @@ public class TranquilizedStatusEffect extends StatusEffect {
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         if (entity instanceof MobEntity && ((MobEntity) entity).getTarget() == null && entity.age % 60 == 0) {
-            if (entity.getRandom().nextFloat() < (0.1 * amplifier))
+            if (entity.getRandom().nextFloat() < (0.1 * amplifier)) {
                 onApplied(entity, entity.getAttributes(), amplifier);
+            }
         }
         if (entity instanceof PlayerEntity && ((PlayerEntity) entity).isSleepingLongEnough()) {
-            if (isLethal(entity, amplifier)) entity.damage(Constants.DamageSources.SLEEP, 4000);
-            else {
-                Sanity sanity = (Sanity) entity;
-                sanity.setSanity((int) (((Sanity) entity).getSanity() + MiskatonicMysteries.config.sanity.tranquilizedSanityBonus * Math.min((amplifier + 2) / 2F, 3F)), true);
-                entity.damage(Constants.DamageSources.SLEEP, 2);
-                if (entity.getRandom().nextFloat() < MiskatonicMysteries.config.sanity.tranquilizedSanityCapRegainChance) {
-                    for (String s : sanity.getSanityCapExpansions().keySet()) {
-                        if (sanity.getSanityCapExpansions().get(s) < 0) {
-                            int value = sanity.getSanityCapExpansions().get(s) + (amplifier * 5);
-                            sanity.removeSanityCapExpansion(s);
-                            if (value <= 0) sanity.addSanityCapExpansion(s, value);
+            if (isLethal(entity, amplifier)) {
+                entity.damage(Constants.DamageSources.SLEEP, 4000);
+            } else {
+                Sanity.of(entity).ifPresent(sanity -> {
+                    sanity.setSanity((int) (sanity.getSanity() + MiskatonicMysteries.config.sanity.tranquilizedSanityBonus * Math.min((amplifier + 2) / 2F, 3F)), true);
+                    if (entity.getRandom().nextFloat() < MiskatonicMysteries.config.sanity.tranquilizedSanityCapRegainChance) {
+                        for (String s : sanity.getSanityCapExpansions().keySet()) {
+                            if (sanity.getSanityCapExpansions().get(s) < 0) {
+                                int value = sanity.getSanityCapExpansions().get(s) + (amplifier * 5);
+                                sanity.removeSanityCapExpansion(s);
+                                if (value <= 0) sanity.addSanityCapExpansion(s, value);
+                            }
                         }
                     }
-                }
+                });
+                entity.damage(Constants.DamageSources.SLEEP, 2);
+
             }
             entity.removeStatusEffect(this);
         }
-        if (!entity.world.isClient)
-            entity.removeStatusEffect(MMMiscRegistries.StatusEffects.MANIA);
+        entity.removeStatusEffect(MMMiscRegistries.StatusEffects.MANIA);
     }
 
     private boolean isLethal(LivingEntity entity, int amplifier) {
@@ -56,8 +59,9 @@ public class TranquilizedStatusEffect extends StatusEffect {
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
         if (entity instanceof MobEntity) {
-            ((MobEntity) entity).setTarget(null);
-            ((MobEntity) entity).setAttacking(false);
+            MobEntity mob = (MobEntity) entity;
+            mob.setTarget(null);
+            mob.setAttacking(false);
         }
     }
 }

@@ -28,10 +28,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class ItemMixin {
     @Inject(method = "finishUsing(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;)Lnet/minecraft/item/ItemStack;", at = @At("HEAD"))
     private void induceSanityAfterUse(ItemStack stack, World world, LivingEntity entity, CallbackInfoReturnable<ItemStack> info){
-        if (!stack.isEmpty() && entity instanceof Sanity && (getUseAction(stack) == UseAction.BLOCK || getUseAction(stack) == UseAction.DRINK || getUseAction(stack) == UseAction.EAT)) {
+        if (!stack.isEmpty() && Sanity.of(entity).isPresent() && (getUseAction(stack) == UseAction.BLOCK || getUseAction(stack) == UseAction.DRINK || getUseAction(stack) == UseAction.EAT)) {
             InsanityInducer.INSANITY_INDUCERS.forEach((id, inducer) -> {
                 if (inducer.ingredient.test(stack)) {
-                    inducer.induceInsanity(world, entity, (Sanity) entity);
+                    inducer.induceInsanity(world, entity, Sanity.of(entity).get());
                 }
             });
         }
@@ -54,10 +54,10 @@ public abstract class ItemMixin {
                     if (hit != null && hit.getEntity() instanceof LivingEntity && ((LivingEntity) hit.getEntity()).canSee(user) && !MiscUtil.isImmuneToYellowSign((LivingEntity) hit.getEntity())) {
                         LivingEntity target = (LivingEntity) hit.getEntity();
                         target.addStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.MANIA, 200, 1, false, true));
-                        if (target instanceof Sanity) {
-                            ((Sanity) target).setSanity(((Sanity) target).getSanity() - 5, false);
-                            ((Sanity) target).setShocked(true);
-                        }
+                        Sanity.of(target).ifPresent(sanity -> {
+                            sanity.setSanity(((Sanity) target).getSanity() - 5, false);
+                            sanity.setShocked(true);
+                        });
                     }
                 }
             }

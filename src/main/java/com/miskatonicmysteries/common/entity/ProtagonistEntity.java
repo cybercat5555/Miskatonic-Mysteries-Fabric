@@ -89,7 +89,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
         this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
         this.targetSelector.add(0, new RevengeGoal(this, ProtagonistEntity.class));
         this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, CapabilityUtil::isAffiliated));
-        this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, true, player -> (getTargetUUID().isPresent() && player.getUuid().equals(getTargetUUID().get())) || (player instanceof Sanity && ((Sanity) player).getSanity() <= MiskatonicMysteries.config.entities.protagonistAggressionThreshold)));
+        this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, true, player -> (getTargetUUID().isPresent() && player.getUuid().equals(getTargetUUID().get())) || (Sanity.of(player).isPresent() && Sanity.of(player).get().getSanity() <= MiskatonicMysteries.config.entities.protagonistAggressionThreshold)));
         this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true, mob -> !(mob instanceof ProtagonistEntity) && !(mob instanceof CreeperEntity)));
         super.initGoals();
     }

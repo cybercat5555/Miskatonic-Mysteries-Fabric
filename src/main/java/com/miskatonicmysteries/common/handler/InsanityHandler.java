@@ -1,7 +1,9 @@
 package com.miskatonicmysteries.common.handler;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
 import com.miskatonicmysteries.common.feature.interfaces.Sanity;
+import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
 import com.miskatonicmysteries.common.lib.MMObjects;
 import net.minecraft.block.BlockState;
@@ -12,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -24,31 +27,46 @@ public class InsanityHandler {
     }
 
     public static void resetProgress(PlayerEntity player) {
-        Sanity sanity = (Sanity) player;
-        sanity.getSanityCapExpansions().keySet().forEach(sanity::removeSanityCapExpansion);
-        sanity.setSanity(sanity.getMaxSanity(), true);
-        sanity.setShocked(true);
-        //remove other stuff
+        Sanity.of(player).ifPresent(sanity -> {
+            sanity.getSanityCapExpansions().keySet().forEach(sanity::removeSanityCapExpansion);
+            sanity.setSanity(sanity.getMaxSanity(), true);
+            sanity.setShocked(true);
+            sanity.syncSanityData();
+        });
+        SpellCaster.of(player).ifPresent(caster -> {
+            caster.getSpells().clear();
+            caster.getAvailableMediums().clear();
+            caster.setPowerPool(0);
+            caster.syncSpellData();
+        });
+        Ascendant.of(player).ifPresent(ascendant -> {
+            ascendant.setStage(0);
+        });
     }
 
     public static boolean hasSanityCapExpansion(PlayerEntity player, String expansion) {
-        Sanity sanity = (Sanity) player;
-        return sanity.getSanityCapExpansions().containsKey(expansion);
+        Optional<Sanity> sanity = Sanity.of(player);
+        return sanity.isPresent() && sanity.get().getSanityCapExpansions().containsKey(expansion);
     }
 
     public static void handleInsanityEvents(PlayerEntity player) {
-        Sanity sanity = (Sanity) player;
-        float insanityFactor = 1F - calculateSanityFactor(sanity);
-        if (player.getRandom().nextFloat() < (0.1F + (0.1F * insanityFactor))) {
-            InsanityEvent event = findInsanityEvent(player, sanity, insanityFactor);
-            if (event != null) event.execute(player, (Sanity) player);
-        }
+        Sanity.of(player).ifPresent(sanity -> {
+            float insanityFactor = 1F - calculateSanityFactor(sanity);
+            if (player.getRandom().nextFloat() < (0.1F + (0.1F * insanityFactor))) {
+                InsanityEvent event = findInsanityEvent(player, sanity, insanityFactor);
+                if (event != null) {
+                    event.execute(player, (Sanity) player);
+                }
+            }
+        });
     }
 
     private static InsanityEvent findInsanityEvent(PlayerEntity player, Sanity sanity, float insanityFactor) {
         List<InsanityEvent> events = InsanityEvent.INSANITY_EVENTS.values().parallelStream().filter(event -> event.test(player, sanity, insanityFactor)).collect(Collectors.toList());
         for (int i = 0; i < MiskatonicMysteries.config.sanity.insanityEventAttempts; i++) {
-            if (events.isEmpty()) return null;
+            if (events.isEmpty()) {
+                return null;
+            }
             InsanityEvent event = events.get(player.getRandom().nextInt(events.size()));
             if (player.getRandom().nextFloat() < event.baseChance) return event;
             events.remove(event);
@@ -61,11 +79,12 @@ public class InsanityHandler {
     }
 
     public static void handleClientSideBlockChange(ClientPlayerEntity player, World world, BlockState state, BlockPos pos, Random random) {
-        Sanity sanity = (Sanity) player;
-        if (sanity.getSanity() < 750 && random.nextFloat() < 0.2F) {
-            if (state.getBlock().equals(Blocks.BIRCH_LOG)) {
-                world.setBlockState(pos, MMObjects.BIRCH_LOG.getDefaultState(), 1);
+        Sanity.of(player).ifPresent(sanity -> {
+            if (sanity.getSanity() < 750 && random.nextFloat() < 0.2F) {
+                if (state.getBlock().equals(Blocks.BIRCH_LOG)) {
+                    world.setBlockState(pos, MMObjects.BIRCH_LOG.getDefaultState(), 1);
+                }
             }
-        }
+        });
     }
 }

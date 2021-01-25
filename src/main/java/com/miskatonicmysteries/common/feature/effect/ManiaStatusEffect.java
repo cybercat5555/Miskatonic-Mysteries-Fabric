@@ -23,11 +23,12 @@ public class ManiaStatusEffect extends StatusEffect {
             if (entity.getRandom().nextFloat() < (0.1 * amplifier))
                 onApplied(entity, entity.getAttributes(), amplifier);
         }
-        if (entity instanceof PlayerEntity) {
+        Sanity.of(entity).ifPresent(sanity -> {
             insanityDeath(entity, (Sanity) entity, amplifier);
-            if (entity.age % 120 == 20 && entity.getRandom().nextFloat() < 0.05 * (amplifier + 1))
+            if (entity.age % 120 == 20 && entity.getRandom().nextFloat() < 0.05 * (amplifier + 1)) {
                 InsanityHandler.handleInsanityEvents((PlayerEntity) entity);
-        }
+            }
+        });
     }
 
     private void insanityDeath(LivingEntity entity, Sanity sanity, int amplifier) {

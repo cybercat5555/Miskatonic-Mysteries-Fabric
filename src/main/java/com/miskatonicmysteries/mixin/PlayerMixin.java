@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
+import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
 import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.spell.Spell;
@@ -44,7 +45,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.*;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerMixin extends LivingEntity implements Sanity, Affiliated, SpellCaster {
+public abstract class PlayerMixin extends LivingEntity implements Sanity, Affiliated, SpellCaster, Ascendant {
     public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
 
     private final List<Spell> spells = new ArrayList<>();
@@ -58,8 +59,9 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
     @Inject(method = "tick()V", at = @At("TAIL"))
     private void handleMiskStats(CallbackInfo info) {
         if (age % MiskatonicMysteries.config.modUpdateInterval == 0) {
-            if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.sanity.shockRemoveChance)
+            if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.sanity.shockRemoveChance) {
                 setShocked(false);
+            }
         }
         if (!world.isClient && age > 100 && age % MiskatonicMysteries.config.sanity.insanityInterval == 0) {
             InsanityHandler.handleInsanityEvents((PlayerEntity) (Object) this);
@@ -96,7 +98,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
     private void addMiskStats(CallbackInfo info) {
         dataTracker.startTracking(SANITY, SANITY_CAP);
         dataTracker.startTracking(SHOCKED, false);
-
+        dataTracker.startTracking(LEVEL, 0);
         dataTracker.startTracking(POWER_POOL, 0);
         dataTracker.startTracking(MAX_SPELLS, 0);
     }
@@ -108,8 +110,9 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
 
     @Override
     public void setSanity(int sanity, boolean ignoreFactors) {
-        if (ignoreFactors || (!isShocked() && !hasStatusEffect(MMMiscRegistries.StatusEffects.TRANQUILIZED)))
+        if (ignoreFactors || (!isShocked() && !hasStatusEffect(MMMiscRegistries.StatusEffects.TRANQUILIZED))) {
             dataTracker.set(SANITY, MathHelper.clamp(sanity, 0, getMaxSanity()));
+        }
     }
 
     @Override
@@ -131,7 +134,6 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
         return Constants.DataTrackers.SANITY_CAP + mod;
     }
 
-    //using normal packets since i don't feel like adding a new data tracker type for something that's updated so little lol
     @Override
     public void addSanityCapExpansion(String name, int amount) {
         sanityCapOverrides.putIfAbsent(name, amount);
@@ -183,6 +185,8 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
         tag.putInt(Constants.NBT.MAX_SPELLS, getMaxSpells());
 
         CapabilityUtil.writeSpellData(this, tag);
+
+        tag.putInt(Constants.NBT.STAGE, getStage());
         compoundTag.put(Constants.NBT.MISK_DATA, tag);
     }
 
@@ -218,6 +222,8 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
                 }
             });
             syncSpellData();
+
+            setStage(compoundTag.getInt(Constants.NBT.STAGE));
         }
     }
 
@@ -291,5 +297,15 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
         if (!world.isClient) {
             SyncSpellCasterDataPacket.send(false, (PlayerEntity) (Object) this, this);
         }
+    }
+
+    @Override
+    public int getStage() {
+        return dataTracker.get(LEVEL);
+    }
+
+    @Override
+    public void setStage(int level) {
+        dataTracker.set(LEVEL, level);
     }
 }

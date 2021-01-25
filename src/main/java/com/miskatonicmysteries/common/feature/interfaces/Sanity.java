@@ -1,8 +1,16 @@
 package com.miskatonicmysteries.common.feature.interfaces;
 
 import java.util.Map;
+import java.util.Optional;
 
 public interface Sanity {
+    static Optional<Sanity> of(Object context) {
+        if (context instanceof Sanity) {
+            return Optional.of(((Sanity) context));
+        }
+        return Optional.empty();
+    }
+
     int getSanity();
 
     void setSanity(int amount, boolean ignoreFactors);

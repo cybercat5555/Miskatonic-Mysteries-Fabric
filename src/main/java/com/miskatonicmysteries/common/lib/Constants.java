@@ -100,6 +100,7 @@ public class Constants {
 
         public static final TrackedData<Integer> POWER_POOL = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Integer> MAX_SPELLS = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+        public static final TrackedData<Integer> LEVEL = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final int SPELL_CAP = 10;
 
 

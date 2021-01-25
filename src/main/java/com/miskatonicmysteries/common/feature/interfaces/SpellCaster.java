@@ -6,9 +6,17 @@ import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public interface SpellCaster {
+    static Optional<SpellCaster> of(Object context) {
+        if (context instanceof SpellCaster) {
+            return Optional.of(((SpellCaster) context));
+        }
+        return Optional.empty();
+    }
+
     int getPowerPool();
 
     void setPowerPool(int amount);
