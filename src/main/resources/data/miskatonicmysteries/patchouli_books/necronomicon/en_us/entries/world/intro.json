@@ -6,6 +6,12 @@
     {
       "type": "text",
       "text": "FNORD"
+    },
+    {
+      "type": "miskatonicmysteries:obfuscated",
+      "text": "Lorem ipsum docet iawigoagwj oi hgoaiwhgoawigh awgahowghawgihaw gaohwgouawghoaiwg awoggawigawo awhoawfhoawg",
+      "affiliation_needed": "miskatonicmysteries:shub",
+      "level_needed": 1
     }
   ]
 }
