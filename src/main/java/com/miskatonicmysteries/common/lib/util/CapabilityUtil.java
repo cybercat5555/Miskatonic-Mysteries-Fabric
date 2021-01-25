@@ -2,12 +2,16 @@ package com.miskatonicmysteries.common.lib.util;
 
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
+import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
 import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+
+import java.util.Optional;
 
 public class CapabilityUtil {
     public static boolean isAffiliated(Entity entity) {
@@ -38,5 +42,10 @@ public class CapabilityUtil {
         tag.put(Constants.NBT.SPELL_EFFECTS, effects);
         tag.put(Constants.NBT.SPELL_MEDIUMS, mediums);
         return tag;
+    }
+
+    public static int getStage(PlayerEntity player) {
+        Optional<Ascendant> ascendant = Ascendant.of(player);
+        return ascendant.map(Ascendant::getStage).orElse(0);
     }
 }

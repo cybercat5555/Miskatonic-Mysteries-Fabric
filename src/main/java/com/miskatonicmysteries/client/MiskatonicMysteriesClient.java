@@ -15,6 +15,7 @@ import com.miskatonicmysteries.common.block.OctagramBlock;
 import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.item.GunItem;
+import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMEntities;
 import com.miskatonicmysteries.common.lib.MMObjects;
 import com.miskatonicmysteries.common.lib.MMParticles;
@@ -24,13 +25,22 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegi
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
+import vazkii.patchouli.api.PatchouliAPI;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.file.Path;
 
 public class MiskatonicMysteriesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         MMParticles.init();
+        registerBuiltin("obfuscated");
+
         FabricModelPredicateProviderRegistry.register(MMObjects.RIFLE, new Identifier("loading"), (stack, world, entity) -> GunItem.isLoading(stack) ? 1 : 0);
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.CANDLE, RenderLayer.getCutout());
@@ -60,5 +70,22 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 
         ResourceHandler.init();
         StatueBlock.STATUES.forEach(statue -> BuiltinItemRendererRegistry.INSTANCE.register(statue.asItem(), new StatueBlockRender.BuiltinItemStatueRenderer()));
+    }
+
+
+    private void registerBuiltin(String name) {
+        ModContainer self = FabricLoader.getInstance().getModContainer(Constants.MOD_ID).get();
+        PatchouliAPI.get().registerTemplateAsBuiltin(
+                new Identifier(Constants.MOD_ID, name),
+                () -> {
+                    try {
+                        Path root = self.getPath("data/miskatonicmysteries/patchouli_books/builtin/" + name + ".json");
+                        return new FileInputStream(new File(root.toUri()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+        );
     }
 }

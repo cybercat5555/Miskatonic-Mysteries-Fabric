@@ -219,5 +219,5 @@
   "text.autoconfig.miskatonicmysteries.option.world.infestedWheatChance.@Tooltip": "The chance for Wheat to become infested",
   "comment13": "BOOK STUFF",
   "miskatonicmysteries.necronomicon.subtitle": "Book of the Dead's Names",
-  "miskatonicmysteries.necronomicon.landing": "That is not dead which can eternal lie.$(br)And with strange aeons even death may die"
+  "miskatonicmysteries.necronomicon.landing": "That is not dead which can eternal lie, $(br)and with strange aeons even death may die."
 }

@@ -1,11 +1,13 @@
 package com.miskatonicmysteries.client.gui.patchouli;
 
+import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Style;
 import net.minecraft.text.TextColor;
+import net.minecraft.util.Identifier;
 import vazkii.patchouli.client.book.gui.GuiBook;
 import vazkii.patchouli.client.book.text.BookTextParser;
 import vazkii.patchouli.client.book.text.Word;
@@ -14,6 +16,8 @@ import vazkii.patchouli.common.book.Book;
 import java.util.List;
 
 public class ObfuscatedBookTextRenderer { //did I just copy it? yes
+    public static final Identifier OBFUSCATED_FONT_ID = new Identifier(Constants.MOD_ID, "obfuscated_font");
+
     private final Book book;
     private final GuiBook gui;
     private final String text;
@@ -39,7 +43,7 @@ public class ObfuscatedBookTextRenderer { //did I just copy it? yes
         this.y = y;
         this.width = width;
         this.lineHeight = lineHeight;
-        this.baseStyle = book.getFontStyle().withColor(TextColor.fromRgb(baseColor));
+        this.baseStyle = Style.EMPTY.withFont(OBFUSCATED_FONT_ID).withColor(TextColor.fromRgb(baseColor));
         build();
     }
 
@@ -50,7 +54,7 @@ public class ObfuscatedBookTextRenderer { //did I just copy it? yes
 
     public void render(MatrixStack ms, int mouseX, int mouseY) {
         TextRenderer font = MinecraftClient.getInstance().textRenderer;
-        Style style = book.getFontStyle();
+        Style style = Style.EMPTY.withFont(OBFUSCATED_FONT_ID);
         words.forEach(word -> word.render(ms, font, style, mouseX, mouseY));
     }
 
@@ -60,7 +64,6 @@ public class ObfuscatedBookTextRenderer { //did I just copy it? yes
                 return true;
             }
         }
-
         return false;
     }
 }
