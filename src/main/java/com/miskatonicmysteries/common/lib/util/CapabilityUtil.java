@@ -5,12 +5,16 @@ import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
 import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.lib.Constants;
+import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class CapabilityUtil {
@@ -47,5 +51,19 @@ public class CapabilityUtil {
     public static int getStage(PlayerEntity player) {
         Optional<Ascendant> ascendant = Ascendant.of(player);
         return ascendant.map(Ascendant::getStage).orElse(0);
+    }
+
+    public static Affiliation getApparentAffiliationFromEquipment(@Nullable ItemStack exclude, PlayerEntity player) {
+        Inventory trinkets = TrinketsApi.getTrinketsInventory(player);
+        for (int i = 0; i < trinkets.size(); i++) {
+            ItemStack stack = trinkets.getStack(i);
+            if (stack.equals(exclude)) {
+                continue;
+            }
+            if (stack.getItem() instanceof Affiliated) {
+                return ((Affiliated) stack.getItem()).getAffiliation(true);
+            }
+        }
+        return Affiliation.NONE;
     }
 }

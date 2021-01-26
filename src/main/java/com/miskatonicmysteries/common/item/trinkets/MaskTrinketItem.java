@@ -3,7 +3,9 @@ package com.miskatonicmysteries.common.item.trinkets;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
+import com.miskatonicmysteries.common.feature.interfaces.MalleableAffiliated;
 import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import dev.emi.trinkets.api.Slots;
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;
@@ -30,6 +32,7 @@ public class MaskTrinketItem extends TrinketItem implements Affiliated {
         this.verySpecial = verySpecial;
     }
 
+
     public static ItemStack getMask(PlayerEntity player) {
         for (int i = 0; i < TrinketsApi.getTrinketsInventory(player).size(); i++) {
             ItemStack stack = TrinketsApi.getTrinketsInventory(player).getStack(i);
@@ -38,6 +41,16 @@ public class MaskTrinketItem extends TrinketItem implements Affiliated {
         return ItemStack.EMPTY;
     }
 
+    @Override
+    public void onEquip(PlayerEntity player, ItemStack stack) {
+        MalleableAffiliated.of(player).ifPresent(affiliation -> affiliation.setAffiliation(this.affiliation, true));
+    }
+
+    @Override
+    public void onUnequip(PlayerEntity player, ItemStack stack) {
+        Affiliation apparentAffiliation = CapabilityUtil.getApparentAffiliationFromEquipment(stack, player);
+        MalleableAffiliated.of(player).ifPresent(affiliation -> affiliation.setAffiliation(apparentAffiliation, true));
+    }
 
     @Override
     public boolean canWearInSlot(String group, String slot) {
