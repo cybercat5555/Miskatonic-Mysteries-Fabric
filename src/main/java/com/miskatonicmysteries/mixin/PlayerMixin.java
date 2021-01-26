@@ -4,8 +4,8 @@ import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
-import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
+import com.miskatonicmysteries.common.feature.interfaces.MalleableAffiliated;
 import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.spell.Spell;
@@ -15,7 +15,6 @@ import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ExpandSanityPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
-import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import com.miskatonicmysteries.common.lib.MMObjects;
@@ -26,7 +25,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.PacketByteBuf;
@@ -45,7 +43,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.*;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerMixin extends LivingEntity implements Sanity, Affiliated, SpellCaster, Ascendant {
+public abstract class PlayerMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant {
     public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
 
     private final List<Spell> spells = new ArrayList<>();
@@ -101,6 +99,8 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
         dataTracker.startTracking(LEVEL, 0);
         dataTracker.startTracking(POWER_POOL, 0);
         dataTracker.startTracking(MAX_SPELLS, 0);
+        dataTracker.startTracking(AFFILIATION, Affiliation.NONE);
+        dataTracker.startTracking(APPARENT_AFFILIATION, Affiliation.NONE);
     }
 
     @Override
@@ -187,6 +187,8 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
         CapabilityUtil.writeSpellData(this, tag);
 
         tag.putInt(Constants.NBT.STAGE, getStage());
+        tag.putString(Constants.NBT.AFFILIATION, getAffiliation(false).getId().toString());
+        tag.putString(Constants.NBT.APPARENT_AFFILIATION, getAffiliation(true).getId().toString());
         compoundTag.put(Constants.NBT.MISK_DATA, tag);
     }
 
@@ -224,6 +226,9 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
             syncSpellData();
 
             setStage(compoundTag.getInt(Constants.NBT.STAGE));
+
+            setAffiliation(Affiliation.AFFILIATION_MAP.getOrDefault(new Identifier(tag.getString(Constants.NBT.AFFILIATION)), Affiliation.NONE), false);
+            setAffiliation(Affiliation.AFFILIATION_MAP.getOrDefault(new Identifier(tag.getString(Constants.NBT.APPARENT_AFFILIATION)), Affiliation.NONE), true);
         }
     }
 
@@ -234,16 +239,14 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Affili
     }
 
     @Override
-    public Affiliation getAffiliation(boolean apparent) {
-        if (apparent) {
-            ItemStack mask = MaskTrinketItem.getMask((PlayerEntity) (Object) this);
-            if (!mask.isEmpty()) {
-                return ((MaskTrinketItem) mask.getItem()).getAffiliation(true);
-            }
-        }
-        return Affiliation.NONE;
+    public Affiliation getAffiliation(boolean apparent) { //todo reimplement apparent mask affiliation
+        return dataTracker.get(apparent ? APPARENT_AFFILIATION : AFFILIATION);
     }
 
+    @Override
+    public void setAffiliation(Affiliation affiliation, boolean apparent) {
+        dataTracker.set(apparent ? APPARENT_AFFILIATION : AFFILIATION, affiliation);
+    }
 
     @Override
     public int getMaxSpells() {

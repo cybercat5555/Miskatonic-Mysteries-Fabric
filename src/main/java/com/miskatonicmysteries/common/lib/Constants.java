@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.lib;
 
+import com.miskatonicmysteries.common.feature.Affiliation;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.AbstractBlock;
@@ -12,11 +13,13 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.tag.Tag;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -71,10 +74,8 @@ public class Constants {
         public static final String RITE = "Rite";
         public static final String KNOWLEDGE = "Knowledge";
         public static final String PERMANENT_RITE = "Permanent Rite";
-        public static final String CHANNEL = "Channel";
-        public static final String LOCATIONS = "Locations";
-        public static final String CHANNELS = "Channels";
         public static final String AFFILIATION = "Affiliation";
+        public static final String APPARENT_AFFILIATION = "Apparent Affiliation";
         public static final String POSITION = "Connected Position";
         public static final String DIMENSION = "Connected Dimension";
         public static final String BLOCK_ENTITY_TAG = "BlockEntityTag";
@@ -92,6 +93,19 @@ public class Constants {
     }
 
     public static class DataTrackers {
+        public static final TrackedDataHandler<Affiliation> AFFILIATION_TRACKER = new TrackedDataHandler<Affiliation>() {
+            public void write(PacketByteBuf packetByteBuf, Affiliation affiliation) {
+                packetByteBuf.writeIdentifier(affiliation.getId());
+            }
+
+            public Affiliation read(PacketByteBuf packetByteBuf) {
+                return Affiliation.AFFILIATION_MAP.getOrDefault(packetByteBuf.readIdentifier(), Affiliation.NONE);
+            }
+
+            public Affiliation copy(Affiliation affiliation) {
+                return affiliation;
+            }
+        };
         public static final int SANITY_CAP = 1000;
         public static final int PROTAGONIST_MAX_LEVEL = 3;
 
@@ -104,7 +118,13 @@ public class Constants {
         public static final int SPELL_CAP = 10;
 
 
-        public static final TrackedData<Boolean> SHOULD_DROP = DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+        public static final TrackedData<Affiliation> AFFILIATION = DataTracker.registerData(PlayerEntity.class, AFFILIATION_TRACKER);
+        public static final TrackedData<Affiliation> APPARENT_AFFILIATION = DataTracker.registerData(PlayerEntity.class, AFFILIATION_TRACKER);
+
+
+        static {
+            TrackedDataHandlerRegistry.register(AFFILIATION_TRACKER);
+        }
     }
 
     public static class DamageSources extends DamageSource {
