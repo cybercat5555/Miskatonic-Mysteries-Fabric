@@ -1,0 +1,14 @@
+{
+  "name": "The Rorschach Test",
+  "category": "miskatonicmysteries:psychology",
+  "icon": "minecraft:ink_sac",
+  "pages": [
+    {
+      "type": "miskatonicmysteries:inkblot"
+    },
+    {
+      "type": "empty",
+      "draw_filler": false
+    }
+  ]
+}

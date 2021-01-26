@@ -23,6 +23,8 @@ public class ObfuscatedTextComponent implements ICustomComponent {
     transient boolean obfuscated;
     transient String actualText;
 
+    transient int actualStage;
+    transient Affiliation actualAffiliation;
     IVariable text;
     @SerializedName("obfuscated_text")
     IVariable obfuscatedText;
@@ -39,11 +41,12 @@ public class ObfuscatedTextComponent implements ICustomComponent {
     public void onDisplayed(IComponentRenderContext context) {
         textRender = new BookTextRenderer((GuiBook) context.getGui(), actualText, x, y);
         alternateTextRender = new ObfuscatedBookTextRenderer((GuiBook) context.getGui(), actualText, x, y);
+        obfuscated = !canPlayerRead(actualStage, actualAffiliation);
     }
 
     private boolean canPlayerRead(int level, Affiliation affiliation) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        return affiliation == null || CapabilityUtil.getAffiliation(player, true).equals(affiliation) && level <= CapabilityUtil.getStage(player);
+        return affiliation == null || CapabilityUtil.getAffiliation(player, false).equals(affiliation) && level <= CapabilityUtil.getStage(player);
 
     }
 
@@ -59,8 +62,8 @@ public class ObfuscatedTextComponent implements ICustomComponent {
     @Override
     public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
         String affiliationString = lookup.apply(affiliation).asString();
-        Affiliation affiliation = affiliationString == null ? null : Affiliation.AFFILIATION_MAP.getOrDefault((affiliationString.contains(":") ? new Identifier(affiliationString) : new Identifier(Constants.MOD_ID, affiliationString)), null);
-        obfuscated = !canPlayerRead(lookup.apply(stage).asNumber(-1).intValue(), affiliation);
+        actualAffiliation = affiliationString == null ? null : Affiliation.AFFILIATION_MAP.getOrDefault((affiliationString.contains(":") ? new Identifier(affiliationString) : new Identifier(Constants.MOD_ID, affiliationString)), null);
+        actualStage = lookup.apply(stage).asNumber(-1).intValue();
         actualText = obfuscated && obfuscatedText != null ? lookup.apply(obfuscatedText).asString() : lookup.apply(text).asString();
     }
 }
