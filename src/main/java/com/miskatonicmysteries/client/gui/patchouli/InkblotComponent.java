@@ -22,7 +22,7 @@ import java.util.function.UnaryOperator;
 
 public class InkblotComponent implements ICustomComponent {
     private static final Identifier BASE = new Identifier(Constants.MOD_ID, "textures/gui/inkblots/inkblot_normal.png");
-    private static final Identifier DEFAULT = new Identifier(Constants.MOD_ID, "textures/gui/inkblots/inkblot_insane_generic.png");
+    private static final Identifier DEFAULT = new Identifier(Constants.MOD_ID, "textures/gui/inkblots/inkblot_insane_none.png");
     transient int x, y;
     transient float alphaFactor = 0F;
     transient Identifier overlay;
@@ -62,9 +62,6 @@ public class InkblotComponent implements ICustomComponent {
 
     private Identifier getOverlayFromAffiliation(Affiliated affiliated) {
         Affiliation affiliation = affiliated.getAffiliation(false);
-        if (affiliation.equals(Affiliation.NONE)) {
-            return DEFAULT;
-        }
         Identifier id = affiliation.getId();
         return new Identifier(id.getNamespace(), "textures/gui/inkblots/inkblot_insane_" + id.getPath() + ".png");
     }
