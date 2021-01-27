@@ -13,4 +13,6 @@ public interface Ascendant {
     int getStage();
 
     void setStage(int level);
+
+    void syncMutationData();
 }

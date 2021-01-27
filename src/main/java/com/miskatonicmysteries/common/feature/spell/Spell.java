@@ -1,9 +1,11 @@
 package com.miskatonicmysteries.common.feature.spell;
 
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SpellPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 
 public class Spell {
@@ -19,6 +21,7 @@ public class Spell {
 
 
     public boolean cast(LivingEntity caster) {
+        caster.world.playSound(caster.getX(), caster.getY(), caster.getZ(), MMMiscRegistries.Sounds.MAGIC, SoundCategory.PLAYERS, 0.85F, (float) caster.getRandom().nextGaussian() * 0.2F + 1.0F, true);
         if (!caster.world.isClient) {
             SpellPacket.send(caster, toTag(new CompoundTag()));
         }

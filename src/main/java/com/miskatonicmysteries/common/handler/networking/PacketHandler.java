@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.handler.networking;
 
+import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.*;
@@ -20,6 +21,7 @@ public class PacketHandler {
     public static void registerC2S() {
         ServerPlayNetworking.registerGlobalReceiver(InvokeManiaPacket.ID, InvokeManiaPacket::handle);
         ServerPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, SyncSpellCasterDataPacket::handleFromClient);
+        ServerPlayNetworking.registerGlobalReceiver(SpellPacket.ID, SpellPacket::handleFromClient);
     }
 
     public static void registerS2C() {
@@ -34,7 +36,6 @@ public class PacketHandler {
         ClientPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, SyncSpellCasterDataPacket::handleFromServer);
         ClientPlayNetworking.registerGlobalReceiver(OpenSpellEditorPacket.ID, OpenSpellEditorPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
-
     }
 
     public static void sendToPlayer(PlayerEntity player, PacketByteBuf data, Identifier packet) {

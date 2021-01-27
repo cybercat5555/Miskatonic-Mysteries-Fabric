@@ -10,6 +10,7 @@
     "ItemMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",
+    "PlayerManagerMixin",
     "PlayerMixin",
     "ServerPlayerMixin",
     "ZombieVillagerAccessor",

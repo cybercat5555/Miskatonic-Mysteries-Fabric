@@ -1,4 +1,5 @@
 {
+  "category.miskatonicmysteries": "Miskatonic Mysteries",
   "itemGroup.miskatonicmysteries.group": "Miskatonic Mysteries",
   "comment1": "BLOCKS",
   "block.miskatonicmysteries.chemistry_set": "Chemistry Set",
@@ -151,6 +152,7 @@
   "subtitles.miskatonicmysteries.incantation_bound": "Incantation Bound",
   "subtitles.miskatonicmysteries.veil_spawn": "Veil Tears",
   "subtitles.miskatonicmysteries.rite_triggered": "Rite Triggers",
+  "subtitles.miskatonicmysteries.spell_cast": "Spell Cast",
   "comment9": "BOOK STUFF",
   "miskatonicmysteries.science_journal.subtitle": "of Miskatonic University",
   "miskatonicmysteries.science_journal.landing": "Property of Miskatonic University, affiliated universities, companies etc.$(br2)Possession of this report by a non-affiliated individual is punishable by law",

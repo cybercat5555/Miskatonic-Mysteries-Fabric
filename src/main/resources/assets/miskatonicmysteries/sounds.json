@@ -40,5 +40,11 @@
     "sounds": [
       "random/successful_hit"
     ]
+  },
+  "spell_cast": {
+    "subtitle": "subtitles.miskatonicmysteries.spell_cast",
+    "sounds": [
+      "mob/ghast/fireball4"
+    ]
   }
 }

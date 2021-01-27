@@ -50,8 +50,10 @@ dependencies {
 
 	modImplementation "io.github.fablabsmc:bannerpp:${project.bannerpp_version}"
 	include "io.github.fablabsmc:bannerpp:${project.bannerpp_version}"
-	//include "io.github.ladysnake:Satin:${project.satin_version}"
 
+	modApi "me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"
+	include "me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"
+	
 	modImplementation "com.github.emilyploszaj:trinkets:${project.trinkets_version}"
 	modApi("me.shedaniel.cloth:config-2:${project.cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")

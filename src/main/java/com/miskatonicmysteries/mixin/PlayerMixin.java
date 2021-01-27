@@ -196,15 +196,17 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     public void readMiskData(CompoundTag compoundTag, CallbackInfo info) {
         CompoundTag tag = (CompoundTag) compoundTag.get(Constants.NBT.MISK_DATA);
         if (tag != null) {
+            syncSanityData();
             setSanity(tag.getInt(Constants.NBT.SANITY), true);
             setShocked(tag.getBoolean(Constants.NBT.SHOCKED));
             getSanityCapExpansions().clear();
             ((ListTag) tag.get(Constants.NBT.SANITY_EXPANSIONS)).forEach(s -> addSanityCapExpansion(((CompoundTag) s).getString("Name"), ((CompoundTag) s).getInt("Amount")));
-            syncSanityData();
+
 
             setPowerPool(tag.getInt(Constants.NBT.POWER_POOL));
             setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
 
+            syncSpellData();
             getSpells().clear();
             for (int i = 0; i < tag.getList(Constants.NBT.SPELL_LIST, 10).size(); i++) {
                 getSpells().add(i, Spell.fromTag((CompoundTag) tag.getList(Constants.NBT.SPELL_LIST, 10).get(i)));
@@ -223,7 +225,6 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
                     setMediumAvailability(SpellMedium.SPELL_MEDIUMS.get(id), ((CompoundTag) mediumTag).getInt("Amount"));
                 }
             });
-            syncSpellData();
 
             setStage(compoundTag.getInt(Constants.NBT.STAGE));
 
@@ -310,5 +311,10 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     @Override
     public void setStage(int level) {
         dataTracker.set(LEVEL, level);
+    }
+
+    @Override
+    public void syncMutationData() {
+        //currently empty, just exists so i don't forget it later lol
     }
 }

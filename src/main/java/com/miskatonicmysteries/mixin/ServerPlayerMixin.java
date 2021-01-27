@@ -17,6 +17,7 @@ public class ServerPlayerMixin {
         Sanity.of(oldPlayer).ifPresent(oldSanity -> Sanity.of(this).ifPresent(sanity -> {
             sanity.setSanity(oldSanity.getSanity(), true);
             sanity.getSanityCapExpansions().putAll(oldSanity.getSanityCapExpansions());
+            sanity.syncSanityData();
         }));
 
         SpellCaster.of(oldPlayer).ifPresent(oldCaster -> SpellCaster.of(this).ifPresent(caster -> {
@@ -24,6 +25,7 @@ public class ServerPlayerMixin {
             oldCaster.getAvailableMediums().forEach(caster::setMediumAvailability);
             oldCaster.getLearnedEffects().forEach(effect -> caster.getLearnedEffects().add(effect));
             oldCaster.getSpells().forEach(spell -> caster.getSpells().add(spell));
+            caster.syncSpellData();
         }));
 
         Ascendant.of(oldPlayer).ifPresent(oldAscendant -> Ascendant.of(this).ifPresent(ascendant -> {

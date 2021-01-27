@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.client;
 
+import com.miskatonicmysteries.client.gui.HUDHandler;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.client.render.ShaderHandler;
 import com.miskatonicmysteries.client.render.blockentity.AltarBlockRender;
@@ -40,7 +41,6 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
     public void onInitializeClient() {
         MMParticles.init();
         registerBuiltin("obfuscated");
-
         FabricModelPredicateProviderRegistry.register(MMObjects.RIFLE, new Identifier("loading"), (stack, world, entity) -> GunItem.isLoading(stack) ? 1 : 0);
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.CANDLE, RenderLayer.getCutout());
@@ -70,6 +70,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 
         ResourceHandler.init();
         StatueBlock.STATUES.forEach(statue -> BuiltinItemRendererRegistry.INSTANCE.register(statue.asItem(), new StatueBlockRender.BuiltinItemStatueRenderer()));
+        HUDHandler.init();
     }
 
 
