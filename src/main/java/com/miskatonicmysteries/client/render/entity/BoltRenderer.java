@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.render.entity;
 
+import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.common.entity.BoltEntity;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -37,14 +37,14 @@ public class BoltRenderer extends EntityRenderer<BoltEntity> {
         float[] segmentLengths = new float[segmentNumber];
         for (int segment = 0; segment < segmentLengths.length; segment++) {
             if (segment == targetNumber) {
-                segmentLengths[segment] = currentLength - maxDistancePerSegment * segment;//- maxDistancePerSegment * (float) segment; //uhhh not correct but for science
+                segmentLengths[segment] = currentLength - maxDistancePerSegment * segment;
             } else {
                 segmentLengths[segment] = maxDistancePerSegment;
             }
         }
         float[] offsetsY = new float[segmentNumber];
         float[] offsetsX = new float[segmentNumber];
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getLightning());
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderHelper.getBoltLayer());
         Matrix4f matrix4f = matrices.peek().getModel();
 
         matrices.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(entity.getYaw(tickDelta)));

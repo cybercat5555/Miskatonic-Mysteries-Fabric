@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.feature.spell.effect;
 
+import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
@@ -12,15 +13,20 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class DamageSpellEffect extends SpellEffect {
     public DamageSpellEffect() {
-        super(new Identifier(Constants.MOD_ID, "damage"), null, 0xFFFFFF);
+        super(new Identifier(Constants.MOD_ID, "damage"), null, 0xF5CE8C);
     }
 
     @Override
     public int getColor(@Nullable LivingEntity caster) {
-        return caster instanceof Affiliated ? ((Affiliated) caster).getAffiliation(true).getIntColor() : super.getColor(caster);
+        Optional<Affiliated> affiliation = Affiliated.of(caster);
+        if (!affiliation.isPresent() || affiliation.get().getAffiliation(true) == null || affiliation.get().getAffiliation(true).equals(Affiliation.NONE)) {
+            return 0xF9E6A7;
+        }
+        return affiliation.get().getAffiliation(true).getIntColor();
     }
 
     @Override

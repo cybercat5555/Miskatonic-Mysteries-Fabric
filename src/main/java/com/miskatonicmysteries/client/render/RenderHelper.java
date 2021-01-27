@@ -3,6 +3,7 @@ package com.miskatonicmysteries.client.render;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import ladysnake.satin.api.util.RenderLayerHelper;
 import net.minecraft.client.render.*;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
@@ -56,6 +57,7 @@ public class RenderHelper extends RenderLayer {
 
     public static final RenderLayer AURA_LAYER = RenderLayer.of(Constants.MOD_ID + ":aura_layer", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, AURA_PARAMS);
     public static final RenderLayer TRANSPARENCY_LAYER = RenderLayer.of(Constants.MOD_ID + ":transparent", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, TRANSPARENCY_PARAMS);
+    public static final RenderLayer BOLT_LAYER = RenderLayer.of(Constants.MOD_ID + ":bolt", VertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, false, true, AURA_PARAMS);
 
 
     public RenderHelper(String name, VertexFormat vertexFormat, int drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, Runnable startAction, Runnable endAction) {
@@ -68,6 +70,10 @@ public class RenderHelper extends RenderLayer {
 
     public static RenderLayer getTransparency() {
         return TRANSPARENCY_LAYER;
+    }
+
+    public static RenderLayer getBoltLayer() {
+        return RenderLayer.of(Constants.MOD_ID + ":bolt", VertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, false, true, RenderLayerHelper.copyPhaseParameters(getLightning(), builder -> builder.transparency(TRANSLUCENT_TRANSPARENCY)));
     }
 
     public static void renderTexturedPlane(float size, Sprite sprite, MatrixStack matrices, VertexConsumer buffer, int light, int overlay, float[] rgba) {

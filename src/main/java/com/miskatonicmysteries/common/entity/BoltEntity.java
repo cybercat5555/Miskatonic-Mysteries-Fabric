@@ -84,7 +84,6 @@ public class BoltEntity extends Entity {
 
     }
 
-
     @Override
     protected void readCustomDataFromTag(CompoundTag tag) {
 
