@@ -87,7 +87,7 @@ public class Constants {
         public static final String MAX_SPELLS = "Max Spells";
         public static final String SPELL_LIST = "Spell List";
         public static final String SPELL_EFFECTS = "Effect List";
-        public static final String SPELL_MEDIUMS = "Medium Map";
+        public static final String SPELL_MEDIUMS = "Medium List";
         public static final String TRIGGERED = "Triggered";
         public static final String SHOULD_DROP = "Should Drop";
     }

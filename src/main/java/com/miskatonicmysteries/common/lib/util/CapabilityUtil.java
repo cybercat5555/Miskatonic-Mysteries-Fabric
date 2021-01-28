@@ -36,12 +36,7 @@ public class CapabilityUtil {
         ListTag effects = new ListTag();
         caster.getLearnedEffects().forEach((effect) -> effects.add(StringTag.of(effect.getId().toString())));
         ListTag mediums = new ListTag();
-        caster.getAvailableMediums().forEach((s, i) -> {
-            CompoundTag expansionTag = new CompoundTag();
-            expansionTag.putString(Constants.NBT.SPELL_MEDIUM, s.getId().toString());
-            expansionTag.putInt("Amount", i);
-            mediums.add(expansionTag);
-        });
+        caster.getLearnedMediums().forEach((medium) -> mediums.add(StringTag.of(medium.getId().toString())));
         tag.put(Constants.NBT.SPELL_LIST, spells);
         tag.put(Constants.NBT.SPELL_EFFECTS, effects);
         tag.put(Constants.NBT.SPELL_MEDIUMS, mediums);

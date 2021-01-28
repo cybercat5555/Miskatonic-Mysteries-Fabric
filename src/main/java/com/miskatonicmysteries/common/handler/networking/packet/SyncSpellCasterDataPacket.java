@@ -50,11 +50,11 @@ public class SyncSpellCasterDataPacket {
                         caster.getLearnedEffects().add(SpellEffect.SPELL_EFFECTS.get(id));
                     }
                 });
-                caster.getAvailableMediums().clear();
-                tag.getList(Constants.NBT.SPELL_MEDIUMS, 10).forEach(mediumTag -> {
-                    Identifier id = new Identifier(((CompoundTag) mediumTag).getString(Constants.NBT.SPELL_MEDIUM));
+                caster.getLearnedMediums().clear();
+                tag.getList(Constants.NBT.SPELL_MEDIUMS, 8).forEach(effectString -> {
+                    Identifier id = new Identifier(effectString.asString());
                     if (SpellMedium.SPELL_MEDIUMS.containsKey(id)) {
-                        caster.setMediumAvailability(SpellMedium.SPELL_MEDIUMS.get(id), ((CompoundTag) mediumTag).getInt("Amount"));
+                        caster.getLearnedMediums().add(SpellMedium.SPELL_MEDIUMS.get(id));
                     }
                 });
             }
@@ -77,11 +77,11 @@ public class SyncSpellCasterDataPacket {
                         caster.getLearnedEffects().add(SpellEffect.SPELL_EFFECTS.get(id));
                     }
                 });
-                caster.getAvailableMediums().clear();
-                tag.getList(Constants.NBT.SPELL_MEDIUMS, 10).forEach(mediumTag -> {
-                    Identifier id = new Identifier(((CompoundTag) mediumTag).getString(Constants.NBT.SPELL_MEDIUM));
+                caster.getLearnedMediums().clear();
+                tag.getList(Constants.NBT.SPELL_MEDIUMS, 8).forEach(effectString -> {
+                    Identifier id = new Identifier(effectString.asString());
                     if (SpellMedium.SPELL_MEDIUMS.containsKey(id)) {
-                        caster.setMediumAvailability(SpellMedium.SPELL_MEDIUMS.get(id), ((CompoundTag) mediumTag).getInt("Amount"));
+                        caster.getLearnedMediums().add(SpellMedium.SPELL_MEDIUMS.get(id));
                     }
                 });
             }

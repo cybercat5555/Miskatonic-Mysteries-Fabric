@@ -21,10 +21,11 @@ public class ServerPlayerMixin {
         }));
 
         SpellCaster.of(oldPlayer).ifPresent(oldCaster -> SpellCaster.of(this).ifPresent(caster -> {
+            caster.setMaxSpells(oldCaster.getMaxSpells());
             caster.setPowerPool(oldCaster.getPowerPool());
-            oldCaster.getAvailableMediums().forEach(caster::setMediumAvailability);
-            oldCaster.getLearnedEffects().forEach(effect -> caster.getLearnedEffects().add(effect));
-            oldCaster.getSpells().forEach(spell -> caster.getSpells().add(spell));
+            caster.getLearnedEffects().addAll(oldCaster.getLearnedEffects());
+            caster.getLearnedMediums().addAll(oldCaster.getLearnedMediums());
+            caster.getSpells().addAll(oldCaster.getSpells());
             caster.syncSpellData();
         }));
 

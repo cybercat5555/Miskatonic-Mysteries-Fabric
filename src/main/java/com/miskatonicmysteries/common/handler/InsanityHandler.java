@@ -35,7 +35,7 @@ public class InsanityHandler {
         });
         SpellCaster.of(player).ifPresent(caster -> {
             caster.getSpells().clear();
-            caster.getAvailableMediums().clear();
+            caster.getLearnedMediums().clear();
             caster.setPowerPool(0);
             caster.syncSpellData();
         });

@@ -29,12 +29,11 @@ import java.util.*;
 
 @Environment(EnvType.CLIENT)
 public class EditSpellScreen extends Screen {
-    public final Map<SpellMedium, Integer> FULLAVAILABEMEDIUMSTHISISTEMPORARY = new HashMap<>();
     public static final Identifier BOOK_TEXTURE = new Identifier(Constants.MOD_ID, "textures/gui/spellbook.png");
     public Spell[] spells;
     public SpellCaster user;
     public final List<SpellEffect> learnedEffects = new ArrayList<>();
-    public final Map<SpellMedium, Integer> availableMediums = new HashMap<>();
+    public final Set<SpellMedium> learnedMediums = new HashSet<>();
 
     public MediumComponentWidget selectedMedium;
     public SpellComponentWidget selectedEffect;
@@ -44,15 +43,15 @@ public class EditSpellScreen extends Screen {
     public EditSpellScreen(SpellCaster player) {
         super(NarratorManager.EMPTY);
         this.user = player;
-        //issue is that the client is not synced before this is opened, so might have to make a packet that both syncs that and opens the hud
         learnedEffects.addAll(user.getLearnedEffects());
+        learnedMediums.addAll(user.getLearnedMediums());
         spells = new Spell[player.getMaxSpells()];
         for (int i = 0; i < player.getMaxSpells(); i++) {
             if (i < player.getSpells().size()) {
                 spells[i] = player.getSpells().get(i);
             }
         }
-        updateAvailabeMediums();
+        updateAvailablePower();
     }
 
     @Override
@@ -65,14 +64,12 @@ public class EditSpellScreen extends Screen {
         super.onClose();
     }
 
-    public void updateAvailabeMediums() {
-        user.getAvailableMediums().forEach(availableMediums::put);
+    public void updateAvailablePower() {
         availablePower = user.getPowerPool();
         for (Spell spell : spells) {
             if (spell != null) {
-                availableMediums.put(spell.medium, availableMediums.getOrDefault(spell.medium, 1) - 1);
                 availablePower -= spell.intensity + 1;
-                if (availableMediums.get(spell.medium) < 0 || availablePower < 0) {
+                if (availablePower < 0) {
                     clearSpells();
                 }
             }

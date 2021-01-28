@@ -5,7 +5,6 @@ import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,9 +30,9 @@ public interface SpellCaster {
 
     void learnEffect(SpellEffect effect);
 
-    Map<SpellMedium, Integer> getAvailableMediums();
+    Set<SpellMedium> getLearnedMediums();
 
-    void setMediumAvailability(SpellMedium medium, int count);
+    void learnMedium(SpellMedium medium);
 
     void syncSpellData();
 }

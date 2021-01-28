@@ -277,6 +277,7 @@ public class ModCommand {
             if (SpellCaster.of(player).isPresent()) {
                 SpellCaster caster = SpellCaster.of(player).get();
                 caster.learnEffect(SpellEffect.SPELL_EFFECTS.get(effect));
+                caster.syncSpellData();
                 if (player.equals(context.getSource().getPlayer())) {
                     context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_spell.self", effect), true);
                 } else {
@@ -291,11 +292,12 @@ public class ModCommand {
         for (ServerPlayerEntity player : players) {
             if (SpellCaster.of(player).isPresent()) {
                 SpellCaster caster = SpellCaster.of(player).get();
-                caster.setMediumAvailability(SpellMedium.SPELL_MEDIUMS.get(medium), amount);
+                caster.learnMedium(SpellMedium.SPELL_MEDIUMS.get(medium));
+                caster.syncSpellData();
                 if (player.equals(context.getSource().getPlayer())) {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_medium.self", amount, medium), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_medium.self", medium), true);
                 } else {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_medium", player.getDisplayName(), amount, medium), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_medium", player.getDisplayName(), amount, medium), true);
                 }
             }
         }

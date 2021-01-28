@@ -48,7 +48,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
 
     private final List<Spell> spells = new ArrayList<>();
     private final Set<SpellEffect> learnedEffects = new HashSet<>();
-    private final Map<SpellMedium, Integer> availableMediums = new HashMap<>();
+    private final Set<SpellMedium> learnedMediums = new HashSet<>();
 
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -202,7 +202,6 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
             getSanityCapExpansions().clear();
             ((ListTag) tag.get(Constants.NBT.SANITY_EXPANSIONS)).forEach(s -> addSanityCapExpansion(((CompoundTag) s).getString("Name"), ((CompoundTag) s).getInt("Amount")));
 
-
             setPowerPool(tag.getInt(Constants.NBT.POWER_POOL));
             setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
 
@@ -218,11 +217,11 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
                     getLearnedEffects().add(SpellEffect.SPELL_EFFECTS.get(id));
                 }
             });
-            getAvailableMediums().clear();
-            tag.getList(Constants.NBT.SPELL_MEDIUMS, 10).forEach(mediumTag -> {
-                Identifier id = new Identifier(((CompoundTag) mediumTag).getString(Constants.NBT.SPELL_MEDIUM));
+            getLearnedMediums().clear();
+            tag.getList(Constants.NBT.SPELL_MEDIUMS, 8).forEach(mediumString -> {
+                Identifier id = new Identifier(mediumString.asString());
                 if (SpellMedium.SPELL_MEDIUMS.containsKey(id)) {
-                    setMediumAvailability(SpellMedium.SPELL_MEDIUMS.get(id), ((CompoundTag) mediumTag).getInt("Amount"));
+                    getLearnedMediums().add(SpellMedium.SPELL_MEDIUMS.get(id));
                 }
             });
 
@@ -280,20 +279,18 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     }
 
     @Override
-    public Map<SpellMedium, Integer> getAvailableMediums() {
-        return availableMediums;
+    public Set<SpellMedium> getLearnedMediums() {
+        return learnedMediums;
     }
 
     @Override
     public void learnEffect(SpellEffect effect) {
         learnedEffects.add(effect);
-        syncSpellData();
     }
 
     @Override
-    public void setMediumAvailability(SpellMedium medium, int count) {
-        availableMediums.put(medium, count);
-        syncSpellData();
+    public void learnMedium(SpellMedium medium) {
+        learnedMediums.add(medium);
     }
 
     @Override

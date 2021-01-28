@@ -28,7 +28,7 @@ public class CombinedSpellWidget extends AbstractButtonWidget {
             screen.selectedEffect = null;
             screen.power = -1;
         }
-        screen.updateAvailabeMediums();
+        screen.updateAvailablePower();
     }
 
     @Override
