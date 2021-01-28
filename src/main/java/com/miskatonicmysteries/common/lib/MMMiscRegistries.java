@@ -73,7 +73,7 @@ public class MMMiscRegistries {
             PSYCHONAUT_TRADES.put(5, new TradeOffers.Factory[]{RE_AGENT_OFFER});
 
             YELLOW_SERF_TRADE.put(1, new TradeOffers.Factory[]{OCEANIC_GOLD_OFFER, NECRONOMICON_OFFER});
-            YELLOW_SERF_TRADE.put(2, new TradeOffers.Factory[]{MASK_OFFER, BLOTTER_OFFER});
+            YELLOW_SERF_TRADE.put(2, new TradeOffers.Factory[]{MASK_OFFER, BLOTTER_OFFER, CHALK_OFFER});
             YELLOW_SERF_TRADE.put(3, new TradeOffers.Factory[]{YELLOW_ROBE_OFFER, YELLOW_SKIRT_OFFER});
             YELLOW_SERF_TRADE.put(4, new TradeOffers.Factory[]{YELLOW_HOOD_OFFER, ORNATE_DAGGER_OFFER});
             YELLOW_SERF_TRADE.put(5, new TradeOffers.Factory[]{YELLOW_SIGN_OFFER});
@@ -105,10 +105,11 @@ public class MMMiscRegistries {
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(MMEntities.YELLOW_SERF, YELLOW_SERF_TRADE);
 
         TradeOffers.Factory[] wanderingTraderOffers = TradeOffers.WANDERING_TRADER_TRADES.get(1);
-        TradeOffers.Factory[] offers = Arrays.copyOf(wanderingTraderOffers, wanderingTraderOffers.length + 3);
+        TradeOffers.Factory[] offers = Arrays.copyOf(wanderingTraderOffers, wanderingTraderOffers.length + 4);
         offers[wanderingTraderOffers.length] = NECRONOMICON_OFFER;
         offers[wanderingTraderOffers.length + 1] = OCEANIC_GOLD_OFFER;
         offers[wanderingTraderOffers.length + 2] = BLOTTER_OFFER;
+        offers[wanderingTraderOffers.length + 3] = ORB_OFFER;
         TradeOffers.WANDERING_TRADER_TRADES.put(1, offers);
 
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(MMObjects.INFESTED_WHEAT, 0.7F);
@@ -171,6 +172,8 @@ public class MMMiscRegistries {
         public static final TradeOffers.Factory YELLOW_HOOD_OFFER = new ProcessItemOffer(new ItemStack(Items.YELLOW_WOOL, 5), 5, new ItemStack(MMObjects.YELLOW_HOOD, 1), 2, 30);
         public static final TradeOffers.Factory ORNATE_DAGGER_OFFER = new ProcessItemOffer(new ItemStack(Items.IRON_SWORD), 7, new ItemStack(MMObjects.ORNATE_DAGGER, 1), 6, 35);
         public static final TradeOffers.Factory YELLOW_SIGN_OFFER = new ProcessItemOffer(new ItemStack(Items.PAPER, 4), 20, new ItemStack(MMObjects.YELLOW_SIGN_LOOM_PATTERN), 1, 50);
+
+        public static final TradeOffers.Factory ORB_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.THE_ORB), 10, 1, 20, 0.15F);
 
         public static class EmeraldToItemOffer implements TradeOffers.Factory {
             private final ItemStack sell;

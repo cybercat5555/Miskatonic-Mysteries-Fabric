@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.common.item;
+package com.miskatonicmysteries.common.item.consumable;
 
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMMiscRegistries;
@@ -13,9 +13,9 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class TranquilizerItem extends Item {
-    public TranquilizerItem() {
-        super(new Settings().group(Constants.MM_GROUP));
+public class BlotterItem extends Item {
+    public BlotterItem() {
+        super(new Item.Settings().group(Constants.MM_GROUP));
     }
 
     @Override
@@ -25,7 +25,7 @@ public class TranquilizerItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        user.applyStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.TRANQUILIZED, 18000, 1));
+        user.applyStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.MANIA, 2400, 0));
         stack.decrement(1);
         return stack;
     }
@@ -37,6 +37,6 @@ public class TranquilizerItem extends Item {
 
     @Override
     public int getMaxUseTime(ItemStack stack) {
-        return 20;
+        return 30;
     }
 }

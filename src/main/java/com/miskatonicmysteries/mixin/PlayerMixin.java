@@ -85,9 +85,10 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
                     infoReturnable.cancel();
                 }
             } else if (isDead() && source instanceof Constants.DamageSources.ProtagonistDamageSource) {
-                InsanityHandler.resetProgress((PlayerEntity) (Object) this);
-                if (source.getSource() instanceof ProtagonistEntity)
+                CapabilityUtil.resetProgress((PlayerEntity) (Object) this);
+                if (source.getSource() instanceof ProtagonistEntity) {
                     ((ProtagonistEntity) source.getAttacker()).removeAfterTargetKill();
+                }
             }
         }
     }

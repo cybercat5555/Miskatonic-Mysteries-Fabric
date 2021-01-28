@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.common.item;
+package com.miskatonicmysteries.common.item.consumable;
 
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMMiscRegistries;

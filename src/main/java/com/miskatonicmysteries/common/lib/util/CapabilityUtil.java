@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.lib.util;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
+import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.lib.Constants;
 import dev.emi.trinkets.api.TrinketsApi;
@@ -18,6 +19,32 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class CapabilityUtil {
+    public static void resetProgress(PlayerEntity player) {
+        Sanity.of(player).ifPresent(sanity -> {
+            sanity.getSanityCapExpansions().keySet().forEach(sanity::removeSanityCapExpansion);
+            sanity.setSanity(sanity.getMaxSanity(), true);
+            sanity.setShocked(true);
+            sanity.syncSanityData();
+        });
+        SpellCaster.of(player).ifPresent(caster -> {
+            caster.getSpells().clear();
+            caster.getLearnedMediums().clear();
+            caster.getLearnedEffects().clear();
+            caster.setMaxSpells(0);
+            caster.setPowerPool(0);
+            caster.syncSpellData();
+        });
+        Ascendant.of(player).ifPresent(ascendant -> {
+            ascendant.setStage(0);
+        });
+    }
+
+    public static void guaranteePower(int power, SpellCaster caster) {
+        if (caster.getPowerPool() < power) {
+            caster.setPowerPool(power);
+        }
+    }
+
     public static boolean isAffiliated(Entity entity) {
         return entity instanceof Affiliated && ((Affiliated) entity).getAffiliation(true) != Affiliation.NONE;
     }

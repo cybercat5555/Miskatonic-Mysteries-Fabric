@@ -1,9 +1,7 @@
 package com.miskatonicmysteries.common.handler;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
 import com.miskatonicmysteries.common.feature.interfaces.Sanity;
-import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
 import com.miskatonicmysteries.common.lib.MMObjects;
 import net.minecraft.block.BlockState;
@@ -24,24 +22,6 @@ public class InsanityHandler {
 
     public static void init() {
         //currently empty lol
-    }
-
-    public static void resetProgress(PlayerEntity player) {
-        Sanity.of(player).ifPresent(sanity -> {
-            sanity.getSanityCapExpansions().keySet().forEach(sanity::removeSanityCapExpansion);
-            sanity.setSanity(sanity.getMaxSanity(), true);
-            sanity.setShocked(true);
-            sanity.syncSanityData();
-        });
-        SpellCaster.of(player).ifPresent(caster -> {
-            caster.getSpells().clear();
-            caster.getLearnedMediums().clear();
-            caster.setPowerPool(0);
-            caster.syncSpellData();
-        });
-        Ascendant.of(player).ifPresent(ascendant -> {
-            ascendant.setStage(0);
-        });
     }
 
     public static boolean hasSanityCapExpansion(PlayerEntity player, String expansion) {

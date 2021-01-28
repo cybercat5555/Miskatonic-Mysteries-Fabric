@@ -10,6 +10,7 @@ import com.miskatonicmysteries.common.item.*;
 import com.miskatonicmysteries.common.item.armor.HasturCultistArmor;
 import com.miskatonicmysteries.common.item.armor.ShubCultistArmor;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
+import com.miskatonicmysteries.common.item.consumable.*;
 import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
 import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPattern;
@@ -99,9 +100,7 @@ public class MMObjects {
     public static final Block YELLOW_SIGN = new YellowSignBlock();
 
     public static final Block INFESTED_WHEAT_CROP = new InfestedWheatCropBlock();
-    public static final Block BIRCH_LOG = new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, (blockState) -> {
-        return blockState.get(PillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.SAND : MaterialColor.WHITE;
-    }).strength(2.0F).sounds(BlockSoundGroup.WOOD));
+    public static final Block BIRCH_LOG = new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, (blockState) -> blockState.get(PillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.SAND : MaterialColor.WHITE).strength(2.0F).sounds(BlockSoundGroup.WOOD));
 
     public static final LoomPattern YELLOW_SIGN_BANNER = new LoomPattern(true);
     public static final Item YELLOW_SIGN_LOOM_PATTERN = new YellowSignPatternItem();
@@ -123,6 +122,8 @@ public class MMObjects {
     public static final Item LAUDANUM = new LaudanumItem();
     public static final Item TRANQUILIZER = new TranquilizerItem();
     public static final Item RE_AGENT_SYRINGE = new ReAgentItem();
+
+    public static final Item THE_ORB = new TheOrbItem();
 
     public static final Item WAX = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
@@ -268,5 +269,7 @@ public class MMObjects {
         RegistryUtil.register(Registry.ITEM, "dark_skirt", DARK_SKIRT);
 
         RegistryUtil.register(Registry.ITEM, "incantation_yog", INCANTATION_YOG);
+
+        RegistryUtil.register(Registry.ITEM, "the_orb", THE_ORB);
     }
 }

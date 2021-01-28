@@ -25,7 +25,7 @@ import java.util.Iterator;
 
 public class ChalkItem extends BlockItem {
     public ChalkItem(Block block) {
-        super(block, new Item.Settings().group(Constants.MM_GROUP).maxDamage(10));
+        super(block, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
     }
 
     //i am not going to mixin this just to have slighly different placement behavior
