@@ -8,12 +8,14 @@ import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.item.IncantationYogItem;
 import com.miskatonicmysteries.common.item.armor.CultistArmor;
+import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMObjects;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
@@ -222,4 +224,13 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
         boundPos = new Pair<>(world.getRegistryKey().getValue(), pos);
     }
 
+    public boolean doesNearestAltarHaveKnowledge(String knowledge) {
+        for (BlockPos blockPos : BlockPos.iterateOutwards(pos, 8, 8, 8)) {
+            BlockEntity entity = world.getBlockEntity(blockPos);
+            if (entity instanceof AltarBlockEntity && MMBookItem.hasKnowledge(knowledge, ((AltarBlockEntity) entity).getStack(0))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
