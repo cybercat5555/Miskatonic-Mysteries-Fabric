@@ -46,7 +46,7 @@ public class ObfuscatedTextComponent implements ICustomComponent {
 
     private boolean canPlayerRead(int level, Affiliation affiliation) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        return affiliation == null || CapabilityUtil.getAffiliation(player, false).equals(affiliation) && level <= CapabilityUtil.getStage(player);
+        return (affiliation == null || CapabilityUtil.getAffiliation(player, false).equals(affiliation)) && level <= CapabilityUtil.getStage(player);
 
     }
 

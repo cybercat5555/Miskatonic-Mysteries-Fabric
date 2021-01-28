@@ -2,6 +2,7 @@
   "name": "Introduction",
   "category": "miskatonicmysteries:world",
   "icon": "miskatonicmysteries:necronomicon",
+  "priority": true,
   "pages": [
     {
       "type": "text",
