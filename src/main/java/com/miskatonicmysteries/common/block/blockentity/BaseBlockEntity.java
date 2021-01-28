@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.CompoundTag;
+
 public abstract class BaseBlockEntity extends BlockEntity implements BlockEntityClientSerializable {
     public BaseBlockEntity(BlockEntityType<?> type) {
         super(type);
@@ -23,8 +24,5 @@ public abstract class BaseBlockEntity extends BlockEntity implements BlockEntity
     @Override
     public void markDirty() {
         super.markDirty();
-        if (world != null && !world.isClient) {
-            sync();
-        }
     }
 }

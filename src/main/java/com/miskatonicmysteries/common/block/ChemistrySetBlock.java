@@ -91,12 +91,18 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
         } else if (!stack.isEmpty()) {
             if (blockEntity.containsPotentialItems()) {
                 blockEntity.markDirty();
-                if(blockEntity.convertPotentialItem(player, hand)) return ActionResult.SUCCESS;
+                if (!world.isClient) {
+                    blockEntity.sync();
+                }
+                if (blockEntity.convertPotentialItem(player, hand)) return ActionResult.SUCCESS;
             }
             for (int i = 0; i < blockEntity.size(); i++) {
                 if (blockEntity.getStack(i).isEmpty() && blockEntity.isValid(i, stack) && blockEntity.canPlayerUse(player)) {
                     blockEntity.setStack(i, stack.split(1));
                     blockEntity.markDirty();
+                    if (!world.isClient) {
+                        blockEntity.sync();
+                    }
                     return ActionResult.CONSUME;
                 }
             }
@@ -105,6 +111,9 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
                 if (!blockEntity.getStack(i).isEmpty() && blockEntity.canPlayerUse(player)) {
                     InventoryUtil.giveItem(world, player, blockEntity.removeStack(i));
                     blockEntity.markDirty();
+                    if (!world.isClient) {
+                        blockEntity.sync();
+                    }
                     return ActionResult.SUCCESS;
                 }
             }
@@ -142,7 +151,7 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
             if (cheemset.containsPotentialItems()) {
                 cheemset.getPotentialItems().forEach(p -> {
                     if (!p.isEmpty() && random.nextBoolean())
-                        world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5F + random.nextGaussian() / 4F, pos.getY() + 0.5F + random.nextGaussian() / 3F, pos.getZ() + 0.5F + random.nextGaussian() / 4F, cheemset.smokeColor[0], cheemset.smokeColor[1], cheemset.smokeColor[2]);
+                        world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.5F + random.nextGaussian() / 4F, pos.getY() + 0.5F + random.nextGaussian() / 3F, pos.getZ() + 0.5F + random.nextGaussian() / 4F, cheemset.smokeColor[0] / 255F, cheemset.smokeColor[1] / 255F, cheemset.smokeColor[2] / 255F);
                 });
             }
         }

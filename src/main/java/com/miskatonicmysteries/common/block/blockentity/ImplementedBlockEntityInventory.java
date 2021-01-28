@@ -7,14 +7,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
 
-public interface ImplementedInventory extends Inventory {
+public interface ImplementedBlockEntityInventory extends Inventory {
     DefaultedList<ItemStack> getItems();
 
-    static ImplementedInventory of(DefaultedList<ItemStack> items) {
+    static ImplementedBlockEntityInventory of(DefaultedList<ItemStack> items) {
         return () -> items;
     }
 
-    static ImplementedInventory ofSize(int size) {
+    static ImplementedBlockEntityInventory ofSize(int size) {
         return of(DefaultedList.ofSize(size, ItemStack.EMPTY));
     }
 
@@ -68,8 +68,9 @@ public interface ImplementedInventory extends Inventory {
      */
     @Override
     default void setStack(int slot, ItemStack stack) {
-        if (isValid(slot, stack))
+        if (isValid(slot, stack)) {
             getItems().set(slot, stack.split(getMaxCountPerStack()));
+        }
         markDirty();
     }
     /**

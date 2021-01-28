@@ -59,12 +59,14 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                 return ActionResult.PASS;
             }
             octagram.setOriginalCaster(player);
+            octagram.sync();
             Rite rite = MMRecipes.getRite(octagram);
             if (rite != null) {
                 octagram.triggered = !player.isSneaking();
                 octagram.currentRite = rite;
                 rite.onStart(octagram);
                 octagram.markDirty();
+                octagram.sync();
                 return ActionResult.SUCCESS;
             }
         }
@@ -112,8 +114,10 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                 OctagramBlockEntity octagram = (OctagramBlockEntity) blockEntity;
                 if (octagram.currentRite != null && octagram.currentRite.isPermanent((OctagramBlockEntity) blockEntity)) {
                     octagram.currentRite.onCancelled(octagram);
+
                 }
                 ItemScatterer.spawn(world, pos, octagram.getItems());
+                octagram.sync();
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
@@ -218,10 +222,16 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                     octagram.setStack(state.get(NUMBER), stack);
                     octagram.markDirty();
                     player.swingHand(hand);
+                    if (!world.isClient) {
+                        octagram.sync();
+                    }
                     return ActionResult.CONSUME;
                 } else if (stack.isEmpty() && !octagram.getItems().isEmpty() && !octagram.getItems().get(state.get(NUMBER)).isEmpty()) {
                     InventoryUtil.giveItem(world, player, octagram.removeStack(state.get(NUMBER)));
                     octagram.markDirty();
+                    if (!world.isClient) {
+                        octagram.sync();
+                    }
                     return ActionResult.SUCCESS;
                 }
             }
@@ -235,6 +245,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                 if (octagram.currentRite instanceof TriggeredRite && !octagram.triggered && octagram.tickCount >= ((TriggeredRite) octagram.currentRite).ticksNeeded) {
                     ((TriggeredRite) octagram.currentRite).trigger(octagram, entity);
                     octagram.markDirty();
+                    octagram.sync();
                 }
             }
             super.onEntityCollision(state, world, pos, entity);

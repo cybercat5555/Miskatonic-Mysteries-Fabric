@@ -20,7 +20,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
 
-public class ChemistrySetBlockEntity extends BaseBlockEntity implements ImplementedInventory, Tickable {
+public class ChemistrySetBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory, Tickable {
     private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(5, ItemStack.EMPTY);
     private final DefaultedList<PotentialItem> POTENTIAL_ITEMS = DefaultedList.ofSize(3, PotentialItem.EMPTY);
     public int workProgress;
@@ -48,6 +48,7 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
+        ITEMS.clear();
         Inventories.fromTag(tag, ITEMS);
         ListTag listTag = tag.getList(Constants.NBT.POTENTIAL_ITEMS, 10);
 
@@ -69,25 +70,32 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
             ChemistryRecipe recipe = MMRecipes.getRecipe(this);
             workProgress++;
             if (workProgress >= 100) {
+
                 world.playSound(null, pos, SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.6F, world.random.nextFloat() * 0.4F + 0.8F);
+                changeSmokeColor(recipe.color);
                 for (int i = 0; i < recipe.output.size(); i++) {
-                    changeSmokeColor(recipe.color);
                     POTENTIAL_ITEMS.set(i, recipe.output.get(i));
                 }
                 clear();
                 finish();
+                if (!world.isClient) {
+                    sync();
+                }
             }
             markDirty();
-        } else if (isLit()){
+        } else if (isLit()) {
             finish();
+            if (!world.isClient) {
+                sync();
+            }
             markDirty();
         }
     }
 
     private void changeSmokeColor(int color) {
-        smokeColor[0] = 255 - ((color >> 16) & 0xff);
-        smokeColor[1] = 255 - ((color >> 8) & 0xff);
-        smokeColor[2] = 255 - (color & 0xff);
+        smokeColor[0] = (color >> 16) & 0xff;
+        smokeColor[1] = (color >> 8) & 0xff;
+        smokeColor[2] = color & 0xff;
     }
 
     public boolean convertPotentialItem(PlayerEntity player, Hand hand) {

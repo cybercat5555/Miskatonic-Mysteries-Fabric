@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 
 import java.util.UUID;
 
-public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedInventory, Affiliated, Tickable {
+public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory, Affiliated, Tickable {
     private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(8, ItemStack.EMPTY);
     public int tickCount;
     public boolean permanentRiteActive;
@@ -40,6 +40,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
     //misc values which may be used by rites
     public Pair<Identifier, BlockPos> boundPos = null;
     public boolean triggered;
+
     public OctagramBlockEntity() {
         super(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
 
@@ -66,6 +67,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
 
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
+        ITEMS.clear();
         Inventories.fromTag(tag, ITEMS);
         tickCount = tag.getInt(Constants.NBT.TICK_COUNT);
         if (tag.contains(Constants.NBT.RITE)) {
@@ -119,10 +121,16 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedI
                         tickCount = 0;
                         currentRite = null;
                     }
+                    if (!world.isClient) {
+                        sync();
+                    }
                 }
             } else {
                 currentRite.onCancelled(this);
                 originalCaster = null;
+                if (!world.isClient) {
+                    sync();
+                }
             }
             markDirty();
         }

@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.collection.DefaultedList;
 
-public class AltarBlockEntity extends BaseBlockEntity implements ImplementedInventory {
+public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory {
     private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
     public AltarBlockEntity() {
@@ -24,8 +24,17 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedInve
 
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
+        ITEMS.clear();
         Inventories.fromTag(tag, ITEMS);
         super.fromTag(state, tag);
+    }
+
+    @Override
+    public void markDirty() {
+        if (world != null && !world.isClient) {
+            sync();
+        }
+        super.markDirty();
     }
 
     @Override
