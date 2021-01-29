@@ -3,6 +3,7 @@ package com.miskatonicmysteries.mixin;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
+import com.miskatonicmysteries.common.feature.blessing.Blessing;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
 import com.miskatonicmysteries.common.feature.interfaces.MalleableAffiliated;
@@ -15,6 +16,7 @@ import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ExpandSanityPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBlessingsPacket;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import com.miskatonicmysteries.common.lib.MMObjects;
@@ -50,12 +52,16 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     private final Set<SpellEffect> learnedEffects = new HashSet<>();
     private final Set<SpellMedium> learnedMediums = new HashSet<>();
 
+    private final List<Blessing> blessings = new ArrayList<>();
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Inject(method = "tick()V", at = @At("TAIL"))
     private void handleMiskStats(CallbackInfo info) {
+        for (Blessing blessing : blessings) {
+            blessing.tick(this);
+        }
         if (age % MiskatonicMysteries.config.modUpdateInterval == 0) {
             if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.sanity.shockRemoveChance) {
                 setShocked(false);
@@ -186,10 +192,11 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         tag.putInt(Constants.NBT.MAX_SPELLS, getMaxSpells());
 
         CapabilityUtil.writeSpellData(this, tag);
-
         tag.putInt(Constants.NBT.STAGE, getStage());
         tag.putString(Constants.NBT.AFFILIATION, getAffiliation(false).getId().toString());
         tag.putString(Constants.NBT.APPARENT_AFFILIATION, getAffiliation(true).getId().toString());
+
+        CapabilityUtil.writeBlessingData(this, tag);
         compoundTag.put(Constants.NBT.MISK_DATA, tag);
     }
 
@@ -207,29 +214,12 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
             setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
 
             syncSpellData();
-            getSpells().clear();
-            for (int i = 0; i < tag.getList(Constants.NBT.SPELL_LIST, 10).size(); i++) {
-                getSpells().add(i, Spell.fromTag((CompoundTag) tag.getList(Constants.NBT.SPELL_LIST, 10).get(i)));
-            }
-            getLearnedEffects().clear();
-            tag.getList(Constants.NBT.SPELL_EFFECTS, 8).forEach(effectString -> {
-                Identifier id = new Identifier(effectString.asString());
-                if (SpellEffect.SPELL_EFFECTS.containsKey(id)) {
-                    getLearnedEffects().add(SpellEffect.SPELL_EFFECTS.get(id));
-                }
-            });
-            getLearnedMediums().clear();
-            tag.getList(Constants.NBT.SPELL_MEDIUMS, 8).forEach(mediumString -> {
-                Identifier id = new Identifier(mediumString.asString());
-                if (SpellMedium.SPELL_MEDIUMS.containsKey(id)) {
-                    getLearnedMediums().add(SpellMedium.SPELL_MEDIUMS.get(id));
-                }
-            });
-
+            CapabilityUtil.readSpellData(this, tag);
             setStage(compoundTag.getInt(Constants.NBT.STAGE));
 
             setAffiliation(Affiliation.AFFILIATION_MAP.getOrDefault(new Identifier(tag.getString(Constants.NBT.AFFILIATION)), Affiliation.NONE), false);
             setAffiliation(Affiliation.AFFILIATION_MAP.getOrDefault(new Identifier(tag.getString(Constants.NBT.APPARENT_AFFILIATION)), Affiliation.NONE), true);
+            CapabilityUtil.readBlessingData(this, tag);
         }
     }
 
@@ -240,7 +230,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     }
 
     @Override
-    public Affiliation getAffiliation(boolean apparent) { //todo reimplement apparent mask affiliation
+    public Affiliation getAffiliation(boolean apparent) {
         return dataTracker.get(apparent ? APPARENT_AFFILIATION : AFFILIATION);
     }
 
@@ -311,8 +301,33 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         dataTracker.set(LEVEL, level);
     }
 
+
     @Override
-    public void syncMutationData() {
-        //currently empty, just exists so i don't forget it later lol
+    public boolean removeBlessing(Blessing blessing) {
+        if (blessings.contains(blessing)) {
+            blessing.onRemoved(this);
+            return blessings.remove(blessing);
+        }
+        return false;
+    }
+
+    @Override
+    public List<Blessing> getBlessings() {
+        return blessings;
+    }
+
+    @Override
+    public void addBlessing(Blessing blessing) {
+        if (!blessings.contains(blessing) && blessings.size() < Constants.DataTrackers.MAX_BLESSINGS) {
+            blessings.add(blessing);
+            blessing.onAcquired(this);
+        }
+    }
+
+    @Override
+    public void syncBlessingData() {
+        if (!world.isClient) {
+            SyncBlessingsPacket.send((PlayerEntity) (Object) this, this);
+        }
     }
 }

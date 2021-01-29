@@ -17,6 +17,6 @@ public class PlayerManagerMixin {
     private void onPlayerConnectInject(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci) {
         Sanity.of(player).ifPresent(Sanity::syncSanityData);
         SpellCaster.of(player).ifPresent(SpellCaster::syncSpellData);
-        Ascendant.of(player).ifPresent(Ascendant::syncMutationData);
+        Ascendant.of(player).ifPresent(Ascendant::syncBlessingData);
     }
 }

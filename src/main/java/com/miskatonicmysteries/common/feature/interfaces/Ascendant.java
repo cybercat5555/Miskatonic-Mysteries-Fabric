@@ -1,5 +1,8 @@
 package com.miskatonicmysteries.common.feature.interfaces;
 
+import com.miskatonicmysteries.common.feature.blessing.Blessing;
+
+import java.util.List;
 import java.util.Optional;
 
 public interface Ascendant {
@@ -10,9 +13,15 @@ public interface Ascendant {
         return Optional.empty();
     }
 
+    void addBlessing(Blessing blessing);
+
+    boolean removeBlessing(Blessing blessing);
+
+    List<Blessing> getBlessings();
+
     int getStage();
 
     void setStage(int level);
 
-    void syncMutationData();
+    void syncBlessingData(); //technically redundant with expansion packets existing ?
 }

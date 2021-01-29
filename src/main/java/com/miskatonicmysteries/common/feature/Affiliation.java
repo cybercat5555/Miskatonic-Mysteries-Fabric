@@ -1,11 +1,15 @@
 package com.miskatonicmysteries.common.feature;
 
+import com.miskatonicmysteries.common.feature.blessing.Blessing;
+import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
+import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
 import com.miskatonicmysteries.common.lib.Constants;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.miskatonicmysteries.common.lib.Constants.MOD_ID;
 
@@ -18,11 +22,18 @@ public class Affiliation {
 
     protected Identifier id;
     protected float[] color;
+    public Set<Blessing> blessingPool = new HashSet<>();
 
-    public Affiliation(Identifier id, float[] color) {
+    public Affiliation(Identifier id, float[] color, Blessing... blessings) {
         this.id = id;
         this.color = color;
         AFFILIATION_MAP.put(id, this);
+        blessingPool.addAll(Arrays.asList(blessings));
+    }
+
+    public Blessing findRandomBlessing(LivingEntity entity, Affiliated affiliated, Ascendant ascendant) {
+        List<Blessing> possibleBlessings = blessingPool.stream().filter(blessing -> !ascendant.getBlessings().contains(blessing)).collect(Collectors.toList());
+        return possibleBlessings.size() > 0 ? possibleBlessings.get(entity.getRandom().nextInt(possibleBlessings.size())) : null;
     }
 
     public CompoundTag toTag(CompoundTag tag) {

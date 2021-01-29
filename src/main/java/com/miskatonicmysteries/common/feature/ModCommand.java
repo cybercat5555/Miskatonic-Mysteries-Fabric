@@ -1,5 +1,7 @@
 package com.miskatonicmysteries.common.feature;
 
+import com.miskatonicmysteries.common.feature.blessing.Blessing;
+import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
 import com.miskatonicmysteries.common.feature.interfaces.Sanity;
 import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
@@ -8,6 +10,7 @@ import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.ModifyBlessingPacket;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -32,6 +35,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.concurrent.CompletableFuture;
 
+@SuppressWarnings({"RAW_USE", "rawtypes"})
 public class ModCommand {
     public static void setup() {
         LiteralArgumentBuilder builder = CommandManager.literal("miskmyst").requires(source -> source.hasPermissionLevel(2));
@@ -62,7 +66,21 @@ public class ModCommand {
                                 .executes(context -> clearSanityExpansions(context, context.getSource().getPlayer()))
                                 .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> clearSanityExpansions(context, EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[EntityArgumentType.getPlayers(context, "player").size()])))))));
 
-        //       .then(CommandManager.literal("mutations"))); for later
+        LiteralArgumentBuilder blessingBuilder = CommandManager.literal("blessings");
+        LiteralArgumentBuilder addBlessingBuilder = CommandManager.literal("addBlessing");
+        Blessing.BLESSINGS.keySet().forEach(blessingId -> addBlessingBuilder.then(CommandManager.literal(blessingId.toString())
+                .executes(context -> addBlessing(context, blessingId, context.getSource().getPlayer()))
+                .then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(context -> addBlessing(context, blessingId, EntityArgumentType.getPlayer(context, "player"))))));
+        blessingBuilder.then(addBlessingBuilder);
+        LiteralArgumentBuilder removeBlessingBuilder = CommandManager.literal("removeBlessing");
+        Blessing.BLESSINGS.keySet().forEach(blessingId -> removeBlessingBuilder.then(CommandManager.literal(blessingId.toString())
+                .executes(context -> removeBlessing(context, blessingId, context.getSource().getPlayer()))
+                .then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(context -> removeBlessing(context, blessingId, EntityArgumentType.getPlayer(context, "player"))))));
+        blessingBuilder.then(removeBlessingBuilder);
+        builder.then(blessingBuilder);
+
         builder.then(CommandManager.literal("world")
                 .then(CommandManager.literal("getNBT").executes(context -> giveWorldNBT(context)))
                 .then(CommandManager.literal("clear").executes(context -> clearWorldNBT(context))));
@@ -75,22 +93,31 @@ public class ModCommand {
 
         LiteralArgumentBuilder learnSpellBuilder = CommandManager.literal("learnEffect");
         SpellEffect.SPELL_EFFECTS.keySet().forEach(effectId -> learnSpellBuilder.then(CommandManager.literal(effectId.toString())
-                .executes(context -> learnSpell(context, effectId, context.getSource().getPlayer()))
+                .executes(context -> learnSpellEffect(context, effectId, context.getSource().getPlayer()))
                 .then(CommandManager.argument("player", EntityArgumentType.player())
-                        .executes(context -> learnSpell(context, effectId, EntityArgumentType.getPlayer(context, "сaster"))))));
+                        .executes(context -> learnSpellEffect(context, effectId, EntityArgumentType.getPlayer(context, "player"))))));
         spellBuilder.then(learnSpellBuilder);
 
-        LiteralArgumentBuilder mediumAvailabilityBuilder = CommandManager.literal("setMediumAvailability");
-        SpellMedium.SPELL_MEDIUMS.keySet().forEach(mediumId -> {
-            LiteralArgumentBuilder mediumBuilder = CommandManager.literal(mediumId.toString());
-            mediumBuilder.then(CommandManager.argument("amount", IntegerArgumentType.integer(0, Constants.DataTrackers.SPELL_CAP - 1))
-                    .executes(context -> setMediumAvailability(context, mediumId, IntegerArgumentType.getInteger(context, "amount"), context.getSource().getPlayer()))
-                    .then(CommandManager.argument("player", EntityArgumentType.player())
-                            .executes(context -> setMediumAvailability(context, mediumId, IntegerArgumentType.getInteger(context, "amount"), EntityArgumentType.getPlayer(context, "player")))));
-            mediumAvailabilityBuilder.then(mediumBuilder);
-        });
-        spellBuilder.then(mediumAvailabilityBuilder);
+        LiteralArgumentBuilder removeSpellBuilder = CommandManager.literal("removeEffect");
+        SpellEffect.SPELL_EFFECTS.keySet().forEach(effectId -> removeSpellBuilder.then(CommandManager.literal(effectId.toString())
+                .executes(context -> removeSpellEffect(context, effectId, context.getSource().getPlayer()))
+                .then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(context -> removeSpellEffect(context, effectId, EntityArgumentType.getPlayer(context, "player"))))));
+        spellBuilder.then(removeSpellBuilder);
 
+        LiteralArgumentBuilder learnMedium = CommandManager.literal("learnMedium");
+        SpellMedium.SPELL_MEDIUMS.keySet().forEach(mediumId -> learnMedium.then(CommandManager.literal(mediumId.toString())
+                .executes(context -> learnMedium(context, mediumId, context.getSource().getPlayer()))
+                .then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(context -> learnMedium(context, mediumId, EntityArgumentType.getPlayer(context, "player"))))));
+        spellBuilder.then(learnMedium);
+
+        LiteralArgumentBuilder removeMedium = CommandManager.literal("removeMedium");
+        SpellMedium.SPELL_MEDIUMS.keySet().forEach(mediumId -> removeMedium.then(CommandManager.literal(mediumId.toString())
+                .executes(context -> removeMedium(context, mediumId, context.getSource().getPlayer()))
+                .then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(context -> removeMedium(context, mediumId, EntityArgumentType.getPlayer(context, "player"))))));
+        spellBuilder.then(removeMedium);
         builder.then(spellBuilder);
 
         builder.then(CommandManager.literal("summonInvestigator")
@@ -272,7 +299,7 @@ public class ModCommand {
         return value;
     }
 
-    private static int learnSpell(CommandContext<ServerCommandSource> context, Identifier effect, ServerPlayerEntity... players) throws CommandSyntaxException {
+    private static int learnSpellEffect(CommandContext<ServerCommandSource> context, Identifier effect, ServerPlayerEntity... players) throws CommandSyntaxException {
         for (ServerPlayerEntity player : players) {
             if (SpellCaster.of(player).isPresent()) {
                 SpellCaster caster = SpellCaster.of(player).get();
@@ -288,7 +315,23 @@ public class ModCommand {
         return SpellEffect.SPELL_EFFECTS.containsKey(effect) ? 16 : 0;
     }
 
-    private static int setMediumAvailability(CommandContext<ServerCommandSource> context, Identifier medium, int amount, ServerPlayerEntity... players) throws CommandSyntaxException {
+    private static int removeSpellEffect(CommandContext<ServerCommandSource> context, Identifier effect, ServerPlayerEntity... players) throws CommandSyntaxException {
+        for (ServerPlayerEntity player : players) {
+            if (SpellCaster.of(player).isPresent()) {
+                SpellCaster caster = SpellCaster.of(player).get();
+                caster.getLearnedEffects().remove(SpellEffect.SPELL_EFFECTS.get(effect));
+                caster.syncSpellData();
+                if (player.equals(context.getSource().getPlayer())) {
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_spell.self", effect), true);
+                } else {
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_spell", player.getDisplayName(), effect), true);
+                }
+            }
+        }
+        return SpellEffect.SPELL_EFFECTS.containsKey(effect) ? 16 : 0;
+    }
+
+    private static int learnMedium(CommandContext<ServerCommandSource> context, Identifier medium, ServerPlayerEntity... players) throws CommandSyntaxException {
         for (ServerPlayerEntity player : players) {
             if (SpellCaster.of(player).isPresent()) {
                 SpellCaster caster = SpellCaster.of(player).get();
@@ -297,11 +340,67 @@ public class ModCommand {
                 if (player.equals(context.getSource().getPlayer())) {
                     context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_medium.self", medium), true);
                 } else {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_medium", player.getDisplayName(), amount, medium), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_medium", player.getDisplayName(), medium), true);
                 }
             }
         }
         return SpellMedium.SPELL_MEDIUMS.containsKey(medium) ? 16 : 0;
+    }
+
+    private static int removeMedium(CommandContext<ServerCommandSource> context, Identifier medium, ServerPlayerEntity... players) throws CommandSyntaxException {
+        for (ServerPlayerEntity player : players) {
+            if (SpellCaster.of(player).isPresent()) {
+                SpellCaster caster = SpellCaster.of(player).get();
+                caster.getLearnedMediums().remove(SpellMedium.SPELL_MEDIUMS.get(medium));
+                caster.syncSpellData();
+                if (player.equals(context.getSource().getPlayer())) {
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_medium.self", medium), true);
+                } else {
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_medium", player.getDisplayName(), medium), true);
+                }
+            }
+        }
+        return SpellMedium.SPELL_MEDIUMS.containsKey(medium) ? 16 : 0;
+    }
+
+    private static int addBlessing(CommandContext<ServerCommandSource> context, Identifier blessingId, ServerPlayerEntity... players) throws CommandSyntaxException {
+        for (ServerPlayerEntity player : players) {
+            if (Ascendant.of(player).isPresent()) {
+                Ascendant ascendant = Ascendant.of(player).get();
+                if (ascendant.getBlessings().size() < Constants.DataTrackers.MAX_BLESSINGS) {
+                    Blessing blessing = Blessing.BLESSINGS.get(blessingId);
+                    ascendant.addBlessing(blessing);
+                    ModifyBlessingPacket.send(player, blessing, true);
+                    ascendant.syncBlessingData();
+                    if (player.equals(context.getSource().getPlayer())) {
+                        context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_blessing.self", blessingId), true);
+                    } else {
+                        context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_blessing", player.getDisplayName(), blessingId), true);
+                    }
+                } else {
+                    context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.add_blessing.failure", player.getDisplayName()));
+                }
+            }
+        }
+        return Blessing.BLESSINGS.containsKey(blessingId) ? 16 : 0;
+    }
+
+    private static int removeBlessing(CommandContext<ServerCommandSource> context, Identifier blessingId, ServerPlayerEntity... players) throws CommandSyntaxException {
+        for (ServerPlayerEntity player : players) {
+            if (Ascendant.of(player).isPresent()) {
+                Ascendant ascendant = Ascendant.of(player).get();
+                Blessing blessing = Blessing.BLESSINGS.get(blessingId);
+                ascendant.removeBlessing(blessing);
+                ModifyBlessingPacket.send(player, blessing, false);
+                ascendant.syncBlessingData();
+                if (player.equals(context.getSource().getPlayer())) {
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.remove_blessing.self", blessingId), true);
+                } else {
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.remove_blessing", player.getDisplayName(), blessingId), true);
+                }
+            }
+        }
+        return Blessing.BLESSINGS.containsKey(blessingId) ? 16 : 0;
     }
 
     private static int giveStatFeedback(CommandContext<ServerCommandSource> context, ServerPlayerEntity player) throws CommandSyntaxException {

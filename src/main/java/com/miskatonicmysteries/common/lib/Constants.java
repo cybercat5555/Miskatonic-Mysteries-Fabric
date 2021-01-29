@@ -90,6 +90,7 @@ public class Constants {
         public static final String SPELL_MEDIUMS = "Medium List";
         public static final String TRIGGERED = "Triggered";
         public static final String SHOULD_DROP = "Should Drop";
+        public static final String BLESSINGS = "Blessings";
     }
 
     public static class DataTrackers {
@@ -120,6 +121,7 @@ public class Constants {
 
         public static final TrackedData<Affiliation> AFFILIATION = DataTracker.registerData(PlayerEntity.class, AFFILIATION_TRACKER);
         public static final TrackedData<Affiliation> APPARENT_AFFILIATION = DataTracker.registerData(PlayerEntity.class, AFFILIATION_TRACKER);
+        public static final int MAX_BLESSINGS = 3;
 
 
         static {

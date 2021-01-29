@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.lib;
 
 import com.miskatonicmysteries.common.feature.ModCommand;
+import com.miskatonicmysteries.common.feature.blessing.Blessing;
 import com.miskatonicmysteries.common.feature.effect.*;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
@@ -137,6 +138,11 @@ public class MMMiscRegistries {
     public static SpellMedium addSpellMedium(SpellMedium medium) {
         SpellMedium.SPELL_MEDIUMS.put(medium.getId(), medium);
         return medium;
+    }
+
+    public static Blessing addBlessing(Blessing mutation) {
+        Blessing.BLESSINGS.put(mutation.getId(), mutation);
+        return mutation;
     }
 
     public static class ModTradeOffers {
