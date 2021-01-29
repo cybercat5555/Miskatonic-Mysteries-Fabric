@@ -23,6 +23,7 @@
   ],
   "client": [
     "client.ClientPlayNetworkHandlerMixin",
+    "client.ParticleManagerMixin",
     "client.PlayerModelMixin"
   ],
   "injectors": {

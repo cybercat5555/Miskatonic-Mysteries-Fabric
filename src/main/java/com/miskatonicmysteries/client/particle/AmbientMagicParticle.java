@@ -1,16 +1,12 @@
 package com.miskatonicmysteries.client.particle;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.miskatonicmysteries.common.lib.MMParticles;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11;
 
 public class AmbientMagicParticle extends AbstractSlowingParticle {
 
@@ -24,7 +20,7 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
     }
 
     public ParticleTextureSheet getType() {
-        return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
+        return MMParticles.ParticleTextureSheets.GLOWING;
     }
 
     public void move(double dx, double dy, double dz) {
@@ -40,16 +36,6 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
         if (lifeRatio >= 1) {
             markDead();
         }
-    }
-
-    @Override
-    public void buildGeometry(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
-        RenderSystem.depthMask(false);
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
-        RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569F);
-        RenderSystem.disableLighting();
-        super.buildGeometry(vertexConsumer, camera, tickDelta);
     }
 
     public int getColorMultiplier(float tint) {

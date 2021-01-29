@@ -5,11 +5,21 @@ import com.miskatonicmysteries.client.particle.CandleFlameParticle;
 import com.miskatonicmysteries.client.particle.LeakParticle;
 import com.miskatonicmysteries.client.particle.ShrinkingMagicParticle;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.particle.ParticleTextureSheet;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.texture.AbstractTexture;
+import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+import org.lwjgl.opengl.GL11;
 
 public class MMParticles {
     public static final DefaultParticleType FLAME = FabricParticleTypes.simple(true);
@@ -32,5 +42,38 @@ public class MMParticles {
         if (alwaysSpawn || world.random.nextBoolean()) {
             world.addParticle(MMParticles.FLAME, x, y, z, size + world.random.nextGaussian() / 20F, 0, 0);
         }
+    }
+
+    public static class ParticleTextureSheets {
+        public static final ParticleTextureSheet GLOWING = new ParticleTextureSheet() {
+            @Override
+            public void begin(BufferBuilder bufferBuilder, TextureManager textureManager) {
+                RenderSystem.depthMask(false);
+                RenderSystem.enableBlend();
+                RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+                RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569F);
+                RenderSystem.disableLighting();
+
+                textureManager.bindTexture(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
+                AbstractTexture tex = textureManager.getTexture(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
+                tex.setFilter(true, false);
+                bufferBuilder.begin(GL11.GL_QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT);
+            }
+
+            @Override
+            public void draw(Tessellator tessellator) {
+                AbstractTexture tex = MinecraftClient.getInstance().getTextureManager().getTexture(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
+                tex.setFilter(false, false);
+                tessellator.draw();
+                RenderSystem.defaultAlphaFunc();
+                RenderSystem.disableBlend();
+                RenderSystem.depthMask(true);
+            }
+
+            @Override
+            public String toString() {
+                return Constants.MOD_ID + ":glowing";
+            }
+        };
     }
 }
