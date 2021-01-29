@@ -31,6 +31,7 @@ public class ServerPlayerMixin {
 
         Ascendant.of(oldPlayer).ifPresent(oldAscendant -> Ascendant.of(this).ifPresent(ascendant -> {
             ascendant.setStage(oldAscendant.getStage());
+            ascendant.getBlessings().addAll(oldAscendant.getBlessings());
         }));
 
         MalleableAffiliated.of(oldPlayer).ifPresent(oldAffiliation -> MalleableAffiliated.of(this).ifPresent(affiliation -> {

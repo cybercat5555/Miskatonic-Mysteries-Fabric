@@ -31,6 +31,11 @@ public class CapabilityUtil {
             sanity.setShocked(true);
             sanity.syncSanityData();
         });
+        Ascendant.of(player).ifPresent(ascendant -> {
+            ascendant.setStage(0);
+            ascendant.getBlessings().clear();
+            ascendant.syncBlessingData();
+        });
         SpellCaster.of(player).ifPresent(caster -> {
             caster.getSpells().clear();
             caster.getLearnedMediums().clear();
@@ -38,9 +43,6 @@ public class CapabilityUtil {
             caster.setMaxSpells(0);
             caster.setPowerPool(0);
             caster.syncSpellData();
-        });
-        Ascendant.of(player).ifPresent(ascendant -> {
-            ascendant.setStage(0);
         });
     }
 
@@ -80,6 +82,10 @@ public class CapabilityUtil {
             }
         }
         return Affiliation.NONE;
+    }
+
+    public static boolean hasBlessing(Ascendant ascendant, Blessing blessing) {
+        return ascendant.getBlessings().contains(blessing);
     }
 
     public static CompoundTag writeSpellData(SpellCaster caster, CompoundTag tag) {
@@ -132,4 +138,5 @@ public class CapabilityUtil {
             }
         });
     }
+
 }

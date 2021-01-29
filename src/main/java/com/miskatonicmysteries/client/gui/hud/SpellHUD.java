@@ -17,7 +17,7 @@ public class SpellHUD extends DrawableHelper {
     private float mouseX, mouseY;
     public int scaledWidth, scaledHeight;
     private MinecraftClient client;
-    private List<Spell> renderedSpells = new ArrayList<>();
+    public List<Spell> renderedSpells = new ArrayList<>();
     public static final int RADIUS = 32;
     private double angle = -1;
     public Spell selectedSpell;

@@ -10,11 +10,12 @@ import net.minecraft.util.Identifier;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("StaticInitializerReferencesSubClass")
 public class Blessing implements Affiliated {
     public static final Map<Identifier, Blessing> BLESSINGS = new HashMap<>();
     public static final Blessing CHARMING_PERSONALITY = MMMiscRegistries.addBlessing(new Blessing(new Identifier(Constants.MOD_ID, "charming_personality"), Affiliation.HASTUR));
-    public static final Blessing ROYAL_ENTOURAGE = MMMiscRegistries.addBlessing(new Blessing(new Identifier(Constants.MOD_ID, "royal_entourage"), Affiliation.HASTUR));
-    public static final Blessing MAGIC_BOOST = MMMiscRegistries.addBlessing(new Blessing(new Identifier(Constants.MOD_ID, "magic_boost"), Affiliation.HASTUR));
+    public static final Blessing ROYAL_ENTOURAGE = MMMiscRegistries.addBlessing(new RoyalEntourageBlessing());
+    public static final Blessing MAGIC_BOOST = MMMiscRegistries.addBlessing(new MagicBoostBlessing());
     public static final Blessing BNUUY = MMMiscRegistries.addBlessing(new Blessing(new Identifier(Constants.MOD_ID, "fuckin_bnuuy"), Affiliation.HASTUR));
 
     private final Identifier id;
@@ -49,5 +50,9 @@ public class Blessing implements Affiliated {
     @Override
     public boolean isSupernatural() {
         return true;
+    }
+
+    public String getTranslationString() {
+        return "blessing." + id.toString().replaceAll(":", ".");
     }
 }

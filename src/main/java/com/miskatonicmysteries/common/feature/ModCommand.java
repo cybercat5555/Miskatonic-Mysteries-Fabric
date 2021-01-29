@@ -78,6 +78,10 @@ public class ModCommand {
                 .executes(context -> removeBlessing(context, blessingId, context.getSource().getPlayer()))
                 .then(CommandManager.argument("player", EntityArgumentType.player())
                         .executes(context -> removeBlessing(context, blessingId, EntityArgumentType.getPlayer(context, "player"))))));
+        blessingBuilder.then(CommandManager.literal("get")
+                .executes(context -> giveBlessingFeedback(context, context.getSource().getPlayer()))
+                .then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(context -> giveBlessingFeedback(context, EntityArgumentType.getPlayer(context, "player")))));
         blessingBuilder.then(removeBlessingBuilder);
         builder.then(blessingBuilder);
 
@@ -373,9 +377,9 @@ public class ModCommand {
                     ModifyBlessingPacket.send(player, blessing, true);
                     ascendant.syncBlessingData();
                     if (player.equals(context.getSource().getPlayer())) {
-                        context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_blessing.self", blessingId), true);
+                        context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_blessing.self", new TranslatableText(blessing.getTranslationString())), true);
                     } else {
-                        context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_blessing", player.getDisplayName(), blessingId), true);
+                        context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_blessing", player.getDisplayName(), new TranslatableText(blessing.getTranslationString())), true);
                     }
                 } else {
                     context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.add_blessing.failure", player.getDisplayName()));
@@ -394,20 +398,42 @@ public class ModCommand {
                 ModifyBlessingPacket.send(player, blessing, false);
                 ascendant.syncBlessingData();
                 if (player.equals(context.getSource().getPlayer())) {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.remove_blessing.self", blessingId), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.remove_blessing.self", new TranslatableText(blessing.getTranslationString())), true);
                 } else {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.remove_blessing", player.getDisplayName(), blessingId), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.remove_blessing", player.getDisplayName(), new TranslatableText(blessing.getTranslationString())), true);
                 }
             }
         }
         return Blessing.BLESSINGS.containsKey(blessingId) ? 16 : 0;
     }
 
+    private static int giveBlessingFeedback(CommandContext<ServerCommandSource> context, ServerPlayerEntity... players) throws CommandSyntaxException {
+        for (ServerPlayerEntity player : players) {
+            if (Ascendant.of(player).isPresent()) {
+                Ascendant ascendant = Ascendant.of(player).get();
+                int value = ascendant.getBlessings().size();
+                MutableText blessingText = new TranslatableText("miskatonicmysteries.command.get_blessings.blessings");
+                ascendant.getBlessings().forEach(blessing -> {
+                    blessingText.append("\n");
+                    blessingText.append(new LiteralText("-").append(new TranslatableText(blessing.getTranslationString())));
+                });
+                HoverEvent hoverInfo = new HoverEvent(HoverEvent.Action.SHOW_TEXT, blessingText);
+                if (player.equals(context.getSource().getPlayer())) {
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_blessings.self", value).setStyle(Style.EMPTY.withHoverEvent(hoverInfo)), false);
+                } else {
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_blessings", player.getDisplayName(), value).setStyle(Style.EMPTY.withHoverEvent(hoverInfo)), false);
+                }
+            }
+
+        }
+        return 16;
+    }
+
     private static int giveStatFeedback(CommandContext<ServerCommandSource> context, ServerPlayerEntity player) throws CommandSyntaxException {
         context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.stats", player.getDisplayName()).setStyle(Style.EMPTY.withBold(true)), false);
         giveSanityFeedback(context, player);
         giveMaxSanityFeedback(context, player);
-
+        giveBlessingFeedback(context, player);
         return 0;
     }
 

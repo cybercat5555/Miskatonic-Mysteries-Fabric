@@ -17,6 +17,7 @@
     "villagers.ActivityAccessor",
     "villagers.MemoryModuleTypeAccessor",
     "villagers.VillagerEntityAccessor",
+    "villagers.VillagerEntityMixin",
     "world.OceanMonumentMixin",
     "world.StructurePoolAccessor",
     "world.StructurePoolRegistryMixin"

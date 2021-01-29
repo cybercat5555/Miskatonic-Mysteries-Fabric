@@ -9,6 +9,8 @@ import com.miskatonicmysteries.common.entity.ai.task.HealthCareTask;
 import com.miskatonicmysteries.common.entity.ai.task.RecruitTask;
 import com.miskatonicmysteries.common.entity.ai.task.TacticalApproachTask;
 import com.miskatonicmysteries.common.feature.Affiliation;
+import com.miskatonicmysteries.common.feature.blessing.Blessing;
+import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
 import com.miskatonicmysteries.common.lib.MMEntities;
 import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import com.mojang.datafixers.util.Pair;
@@ -107,6 +109,15 @@ public class HasturCultistBrain {
                     List<LivingEntity> mobList = mobs.get();
                     LivingEntity bestTarget = null;
                     for (LivingEntity livingEntity : mobList) {
+                        if (Ascendant.of(livingEntity).isPresent() && CapabilityUtil.hasBlessing(Ascendant.of(livingEntity).get(), Blessing.ROYAL_ENTOURAGE)) {
+                            if (livingEntity.getAttacker() != null) {
+                                bestTarget = livingEntity.getAttacker();
+                                break;
+                            }
+                        } else if (livingEntity.getAttacking() != null && !(livingEntity.getAttacking() instanceof VillagerEntity)) {
+                            bestTarget = livingEntity.getAttacking();
+                            break;
+                        }
                         if (CapabilityUtil.getAffiliation(livingEntity, true) == Affiliation.SHUB
                                 || livingEntity instanceof ProtagonistEntity || (livingEntity instanceof Monster && !(livingEntity instanceof CreeperEntity))) {
                             if (bestTarget == null || livingEntity.distanceTo(cultist) < bestTarget.distanceTo(cultist)) {
@@ -115,7 +126,6 @@ public class HasturCultistBrain {
                         }
                     }
                     if (bestTarget != null) {
-                        System.out.println("found best target " + bestTarget);
                         return Optional.of(bestTarget);
                     }
                 }

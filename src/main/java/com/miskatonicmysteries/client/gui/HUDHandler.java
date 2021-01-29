@@ -39,12 +39,16 @@ public class HUDHandler {
                 selectionActive = false;
             }
 
-            if (client.player != null && spellHUD.selectedSpell != null && client.options.keyUse.isPressed()) {
-                spellHUD.currentSpellProgress += 0.1F;
-                if (spellHUD.currentSpellProgress >= 1) {
-                    SpellPacket.sendFromClientPlayer(client.player, spellHUD.selectedSpell.toTag(new CompoundTag()));
+            if (client.player != null && spellHUD.selectedSpell != null) {
+                if (client.options.keyUse.isPressed()) {
+                    spellHUD.currentSpellProgress += 0.1F;
+                    if (spellHUD.currentSpellProgress >= 1) {
+                        SpellPacket.sendFromClientPlayer(client.player, spellHUD.selectedSpell.toTag(new CompoundTag()));
+                        spellHUD.currentSpellProgress = 0;
+                        spellHUD.selectedSpell = null;
+                    }
+                } else {
                     spellHUD.currentSpellProgress = 0;
-                    spellHUD.selectedSpell = null;
                 }
             }
 
@@ -53,7 +57,8 @@ public class HUDHandler {
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
             if (selectionActive) {
                 spellHUD.render(matrixStack, tickDelta);
-            } else if (spellHUD.selectedSpell != null) {
+            }
+            if ((!selectionActive || spellHUD.renderedSpells.size() <= 1) && spellHUD.selectedSpell != null) {
                 matrixStack.push();
                 RenderSystem.enableBlend();
                 RenderSystem.defaultBlendFunc();
