@@ -2,12 +2,14 @@ package com.miskatonicmysteries.common.item.consumable;
 
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMMiscRegistries;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -27,6 +29,9 @@ public class BlotterItem extends Item {
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         user.applyStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.MANIA, 2400, 0));
         stack.decrement(1);
+        if (user instanceof ServerPlayerEntity) {
+            Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
+        }
         return stack;
     }
 

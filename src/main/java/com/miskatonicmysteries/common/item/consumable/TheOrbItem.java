@@ -47,7 +47,7 @@ public class TheOrbItem extends Item {
         });
         SpellCaster.of(user).ifPresent(caster -> {
             caster.learnMedium(SpellMedium.PROJECTILE);
-            CapabilityUtil.guaranteePower(2, caster);
+            CapabilityUtil.guaranteePower(3, caster);
         });
         user.eatFood(world, stack);
         return stack;

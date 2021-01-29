@@ -2,6 +2,13 @@
   "name": "Oceanic Gold",
   "category": "miskatonicmysteries:world",
   "icon": "miskatonicmysteries:oceanic_gold",
+  "extra_recipe_mappings": {
+    "miskatonicmysteries:oceanic_gold_block_warded": 0,
+    "miskatonicmysteries:oceanic_gold_tiles": 0,
+    "miskatonicmysteries:oceanic_gold_pillar": 0,
+    "miskatonicmysteries:oceanic_gold_pillar_ornate": 0,
+    "miskatonicmysteries:oceanic_gold_pillar_split": 0
+  },
   "pages": [
     {
       "type": "text",

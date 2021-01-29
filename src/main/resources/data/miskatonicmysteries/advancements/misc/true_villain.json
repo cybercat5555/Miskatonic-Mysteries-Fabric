@@ -1,0 +1,29 @@
+{
+  "parent": "miskatonicmysteries:misc/troublemaker",
+  "display": {
+    "icon": {
+      "item": "miskatonicmysteries:revolver"
+    },
+    "title": {
+      "translate": "advancements.miskatonicmysteries.true_villain.title"
+    },
+    "description": {
+      "translate": "advancements.miskatonicmysteries.true_villain.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "truly_kill_protagonist": {
+      "comment": "Activated in code",
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "truly_kill_protagonist"
+    ]
+  ]
+}

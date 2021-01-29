@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "miskatonicmysteries:crafting/candle"
+    ]
+  },
+  "criteria": {
+    "has_wax": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "miskatonicmysteries:wax"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "miskatonicmysteries:crafting/candle"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_redstone",
+      "has_wax"
+    ]
+  ]
+}

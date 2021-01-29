@@ -3,8 +3,11 @@ package com.miskatonicmysteries.common.item.books;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.interfaces.Sanity;
+import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
+import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
@@ -35,9 +38,6 @@ public class MMBookItem extends Item implements Affiliated {
     private Affiliation affiliation;
     private boolean special;
 
-    /*
-    todo distorted text template component: takes path and level input, sets the font to something readable then
-     */
     public MMBookItem(Identifier id, Affiliation affiliation, boolean special) {
         super(new Settings().maxCount(1).group(Constants.MM_GROUP));
         this.id = id;
@@ -54,7 +54,11 @@ public class MMBookItem extends Item implements Affiliated {
         Book book = getBook();
         if (player instanceof ServerPlayerEntity) {
             if (special && !InsanityHandler.hasSanityCapExpansion(player, Constants.Misc.NECRONOMICON_EXTENSION)) {
-                ((Sanity) player).addSanityCapExpansion(Constants.Misc.NECRONOMICON_EXTENSION, -10);
+                Sanity.of(player).ifPresent(sanity -> sanity.addSanityCapExpansion(Constants.Misc.NECRONOMICON_EXTENSION, -10));
+                SpellCaster.of(player).ifPresent(caster -> {
+                    caster.learnMedium(SpellMedium.SELF);
+                    CapabilityUtil.guaranteePower(2, caster);
+                });
             }
             PatchouliAPI.get().openBookGUI((ServerPlayerEntity) player, book.id);
             SoundEvent sfx = PatchouliSounds.getSound(book.openSound, PatchouliSounds.book_open);

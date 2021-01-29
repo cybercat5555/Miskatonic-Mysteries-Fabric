@@ -3,6 +3,14 @@
   "subtitle": "miskatonicmysteries.necronomicon.subtitle",
   "landing_text": "miskatonicmysteries.necronomicon.landing",
   "book_texture": "miskatonicmysteries:textures/gui/necronomicon.png",
+  "filler_texture": "patchouli:textures/gui/page_filler.png",
+  "progress_bar_background": "990000",
+  "progress_bar_color": "060000",
   "dont_generate_book": true,
-  "custom_book_item": "miskatonicmysteries:necronomicon"
+  "show_progress": false,
+  "custom_book_item": "miskatonicmysteries:necronomicon",
+  "advancement_namespaces": [
+    "miskatonicmysteries"
+  ],
+  "advancements_tab": "miskatonicmysteries:root"
 }

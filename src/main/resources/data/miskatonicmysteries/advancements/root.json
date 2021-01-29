@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "miskatonicmysteries:necronomicon"
+    },
+    "title": {
+      "translate": "advancements.necronomicon.root.title"
+    },
+    "description": {
+      "translate": "advancements.necronomicon.root.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/block/basalt_side.png"
+  },
+  "criteria": {
+    "get_book": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "miskatonicmysteries:necronomicon"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_book"
+    ]
+  ]
+}

@@ -15,9 +15,13 @@ public class OvermedicalizedStatusEffect extends StatusEffect {
     @Override
     public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
         if (amplifier >= 0) {
-            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 3600, amplifier));
-            if (amplifier >= 1) entity.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 3600, 1));
-            if (amplifier >= 2) entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 1200, amplifier));
+            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 1200, amplifier));
+            if (amplifier >= 1) {
+                entity.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 1200, 1));
+            }
+            if (amplifier >= 2) {
+                entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 1200, amplifier));
+            }
         }
     }
 }

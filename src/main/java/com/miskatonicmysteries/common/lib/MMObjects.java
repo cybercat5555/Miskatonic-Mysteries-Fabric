@@ -156,6 +156,9 @@ public class MMObjects {
     public static final Item DARK_SKIRT = new ShubCultistArmor(EquipmentSlot.LEGS);
 
     public static final Item INCANTATION_YOG = new IncantationYogItem();
+
+    public static final Item IRIDESCENT_PEARL = new Item(new Item.Settings().group(Constants.MM_GROUP));
+
     public static void init() {
         RegistryUtil.registerBlock(DUMMY_RESONATOR_OFF, "resonator_off");
         RegistryUtil.registerBlock(DUMMY_RESONATOR_ON, "resonator_on");
@@ -271,5 +274,6 @@ public class MMObjects {
         RegistryUtil.register(Registry.ITEM, "incantation_yog", INCANTATION_YOG);
 
         RegistryUtil.register(Registry.ITEM, "the_orb", THE_ORB);
+        RegistryUtil.register(Registry.ITEM, "iridescent_pearl", IRIDESCENT_PEARL);
     }
 }

@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.item.consumable;
 
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMMiscRegistries;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.Items;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -29,6 +31,9 @@ public class LaudanumItem extends Item {
         user.applyStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.TRANQUILIZED, 2400, 0));
         user.applyStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.OVERMEDICATED, 24000, user.getStatusEffect(MMMiscRegistries.StatusEffects.OVERMEDICATED) != null ? user.getStatusEffect(MMMiscRegistries.StatusEffects.OVERMEDICATED).getAmplifier() + 1 : 0, false, false, false));
         stack.decrement(1);
+        if (user instanceof ServerPlayerEntity) {
+            Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
+        }
         if (stack.isEmpty()) {
             return new ItemStack(Items.GLASS_BOTTLE);
         } else {

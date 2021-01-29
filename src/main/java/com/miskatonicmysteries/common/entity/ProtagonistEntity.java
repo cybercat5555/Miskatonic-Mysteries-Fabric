@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.entity.ai.GunAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobBowAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobCrossbowAttackGoal;
 import com.miskatonicmysteries.common.feature.interfaces.Sanity;
+import com.miskatonicmysteries.common.handler.AdvancementHandler;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ProtagonistParticlePacket;
 import com.miskatonicmysteries.common.item.GunItem;
@@ -33,8 +34,10 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -124,16 +127,21 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
     protected void updatePostDeath() {
         if (getTargetUUID().isPresent() && getStage() < Constants.DataTrackers.PROTAGONIST_MAX_LEVEL) {
             if (getAttacker() instanceof PlayerEntity || (getAttacker() instanceof TameableEntity && getTargetUUID().isPresent() && getTargetUUID().get().equals(((TameableEntity) getAttacker()).getOwnerUuid()))) {
-                if (!world.isClient)
+                if (!world.isClient) {
                     ProtagonistHandler.levelProtagonist(world, this);
+                }
             }
             if (!world.isClient) {
                 ProtagonistParticlePacket.send(this);
             }
             remove();
         } else {
-            if (!world.isClient)
+            if (!world.isClient) {
+                if (getTargetUUID().isPresent() && getAttacker() instanceof ServerPlayerEntity) {
+                    AdvancementHandler.grantAdvancement(new Identifier(Constants.MOD_ID, "true_villain"), "truly_kill_protagonist", (ServerPlayerEntity) getAttacker());
+                }
                 ProtagonistHandler.removeProtagonist(world, this);
+            }
             ++this.deathTime;
             if (this.deathTime == 40) {
                 this.remove();

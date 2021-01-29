@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "miskatonicmysteries:crafting/bullet"
+    ]
+  },
+  "criteria": {
+    "has_gun": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "miskatonicmysteries:guns"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "miskatonicmysteries:crafting/bullet"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_redstone",
+      "has_gun"
+    ]
+  ]
+}
