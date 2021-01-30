@@ -4,6 +4,7 @@ import com.miskatonicmysteries.common.entity.brain.HasturCultistBrain;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.spell.Spell;
+import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.lib.Constants;
@@ -36,6 +37,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.IntRange;
+import net.minecraft.village.VillageGossipType;
 import net.minecraft.village.VillagerData;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -130,12 +132,16 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
-        System.out.println(getAttacking());
         if (getAttacking() != null) {
             return ActionResult.FAIL;
         }
-
-        if (player.getStackInHand(hand).getItem().equals(MMObjects.NECRONOMICON) && getReputation(player) >= 100 && !MMBookItem.hasKnowledge(Affiliation.HASTUR.getId().getPath(), player.getStackInHand(hand))) {
+        if (getVariant() == 2 && player.getStackInHand(hand).getItem().isIn(Constants.Tags.HASTUR_CULTIST_OFFERINGS)) {
+            if (HasturAscensionHandler.offerArtToCultist(player, hand, this)) {
+                getGossip().startGossip(player.getUuid(), VillageGossipType.MAJOR_POSITIVE, 25);
+            }
+            return ActionResult.SUCCESS;
+        }
+        if (player.getStackInHand(hand).getItem().equals(MMObjects.NECRONOMICON) && getReputation(player) >= 25 && !MMBookItem.hasKnowledge(Affiliation.HASTUR.getId().getPath(), player.getStackInHand(hand))) {
             MMBookItem.addKnowledge(Affiliation.HASTUR.getId().getPath(), player.getStackInHand(hand));
             if (!this.world.isClient()) {
                 this.playSound(SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());

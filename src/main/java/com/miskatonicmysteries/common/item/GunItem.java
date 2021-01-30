@@ -44,11 +44,11 @@ public abstract class GunItem extends Item {
             if (world.isClient) user.sendMessage(new TranslatableText("message.heavy_gun.needs_offhand"), true);
             return TypedActionResult.fail(stack);
         }
-        if (user.isSneaking() && !isLoaded(stack)) {
+        if (user.isSneaking()) {
             setLoading(stack, true);
             user.setCurrentHand(hand);
             return TypedActionResult.consume(stack);
-        } else if (isLoaded(stack)) {
+        } else if (!isLoading(stack) && isLoaded(stack)) {
             shoot(world, user, stack);
             user.setCurrentHand(hand);
             return TypedActionResult.consume(stack);
@@ -66,7 +66,7 @@ public abstract class GunItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        return !isLoaded(stack) ? loadGun(stack, world, user) : stack;
+        return !isLoading(stack) ? loadGun(stack, world, user) : stack;
     }
 
     public static boolean isLoading(ItemStack stack) {
@@ -91,12 +91,16 @@ public abstract class GunItem extends Item {
     }
 
     public ItemStack loadGun(ItemStack stack, World world, LivingEntity user) {
-        if (!stack.hasTag()) stack.setTag(new CompoundTag());
+        if (!stack.hasTag()) {
+            stack.setTag(new CompoundTag());
+        }
 
         int generatedShots = user instanceof PlayerEntity && !((PlayerEntity) user).isCreative() ? loadBullets((PlayerEntity) user, stack.getTag().getInt(Constants.NBT.SHOTS)) : getMaxShots();
         stack.getTag().putInt(Constants.NBT.SHOTS, generatedShots);
         setLoading(stack, false);
-        if (user instanceof PlayerEntity) ((PlayerEntity) user).getItemCooldownManager().set(this, getLoadingTime());
+        if (user instanceof PlayerEntity) {
+            ((PlayerEntity) user).getItemCooldownManager().set(this, getLoadingTime());
+        }
         return stack;
     }
 

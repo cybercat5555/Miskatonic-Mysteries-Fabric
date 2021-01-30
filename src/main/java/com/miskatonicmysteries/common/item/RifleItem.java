@@ -12,7 +12,7 @@ public class RifleItem extends GunItem {
 
     @Override
     public int getLoadingTime() {
-        return 20;
+        return 40;
     }
 
     @Override

@@ -73,6 +73,10 @@ public abstract class Rite {
     public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
     }
 
+    @Environment(EnvType.CLIENT)
+    public void renderRiteItems(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
+    }
+
     /**
      * Called in {@link com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender}OctagramBlockRender before anything else.
      * Used to set up very special rendering

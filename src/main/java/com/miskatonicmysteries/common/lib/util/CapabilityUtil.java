@@ -2,14 +2,12 @@ package com.miskatonicmysteries.common.lib.util;
 
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.blessing.Blessing;
-import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
-import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
-import com.miskatonicmysteries.common.feature.interfaces.Sanity;
-import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
+import com.miskatonicmysteries.common.feature.interfaces.*;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 import javax.annotation.Nullable;
@@ -32,7 +31,7 @@ public class CapabilityUtil {
             sanity.syncSanityData();
         });
         Ascendant.of(player).ifPresent(ascendant -> {
-            ascendant.setStage(0);
+            ascendant.setAscensionStage(0);
             ascendant.getBlessings().clear();
             ascendant.syncBlessingData();
         });
@@ -44,6 +43,10 @@ public class CapabilityUtil {
             caster.setPowerPool(0);
             caster.syncSpellData();
         });
+        MalleableAffiliated.of(player).ifPresent(malleableAffiliated -> {
+            malleableAffiliated.setAffiliation(Affiliation.NONE, true);
+            malleableAffiliated.setAffiliation(Affiliation.NONE, false);
+        });
     }
 
     public static void guaranteePower(int power, SpellCaster caster) {
@@ -53,11 +56,11 @@ public class CapabilityUtil {
     }
 
     public static boolean isAffiliated(Entity entity) {
-        return entity instanceof Affiliated && ((Affiliated) entity).getAffiliation(true) != Affiliation.NONE;
+        return Affiliated.of(entity).isPresent() && Affiliated.of(entity).get().getAffiliation(false) != Affiliation.NONE;
     }
 
     public static Affiliation getAffiliation(Entity entity, boolean apparent) {
-        return isAffiliated(entity) ? ((Affiliated) entity).getAffiliation(apparent) : Affiliation.NONE;
+        return Affiliated.of(entity).map(affiliated -> affiliated.getAffiliation(apparent)).orElse(Affiliation.NONE);
     }
 
     public static boolean shouldRecognizeAffiliation(Entity entity) {
@@ -67,7 +70,31 @@ public class CapabilityUtil {
 
     public static int getStage(PlayerEntity player) {
         Optional<Ascendant> ascendant = Ascendant.of(player);
-        return ascendant.map(Ascendant::getStage).orElse(0);
+        return ascendant.map(Ascendant::getAscensionStage).orElse(0);
+    }
+
+    public static boolean levelUp(PlayerEntity player, int stage, Affiliation affiliation) {
+        Optional<Ascendant> ascendant = Ascendant.of(player);
+        Optional<MalleableAffiliated> affiliated = MalleableAffiliated.of(player);
+        if (ascendant.isPresent() && affiliated.isPresent() && canLevelUp(ascendant.get(), affiliated.get(), stage, affiliation)) {
+            ascendant.ifPresent(a -> a.setAscensionStage(stage));
+            affiliated.ifPresent(a -> a.setAffiliation(affiliation, false));
+            if (player instanceof ServerPlayerEntity) {
+                MMMiscRegistries.Criteria.LEVEL_UP.trigger((ServerPlayerEntity) player, affiliation, stage);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean canLevelUp(Ascendant ascendant, Affiliated affiliated, int stage, Affiliation affiliation) {
+        if (ascendant.getAscensionStage() < stage - 1 || ascendant.getAscensionStage() >= stage) {
+            return false;
+        }
+        if (affiliated.getAffiliation(false) != affiliation && (stage - 1) > 0) {
+            return false;
+        }
+        return true;
     }
 
     public static Affiliation getApparentAffiliationFromEquipment(@Nullable ItemStack exclude, PlayerEntity player) {

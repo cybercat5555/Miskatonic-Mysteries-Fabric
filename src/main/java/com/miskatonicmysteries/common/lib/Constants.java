@@ -42,6 +42,8 @@ public class Constants {
         public static final Tag<Item> RED_MEAT = TagRegistry.item(new Identifier(MOD_ID, "red_meat"));
         public static final Tag<Item> YELLOW_DYE = TagRegistry.item(new Identifier(MOD_ID, "yellow_dye"));
         public static final Tag<Item> RITE_TOOLS = TagRegistry.item(new Identifier(MOD_ID, "rite_tools"));
+        public static final Tag<Item> HASTUR_CULTIST_OFFERINGS = TagRegistry.item(new Identifier(MOD_ID, "hastur_cultist_offerings"));
+        public static final Tag<Item> SCULPTOR_RITE_INGREDIENTS = TagRegistry.item(new Identifier(MOD_ID, "sculptor_rite_ingredients"));
         public static final Tag<EntityType<?>> BURNED_VEIL_MOBS = TagRegistry.entityType(new Identifier(MOD_ID, "burned_veil_mobs"));
         public static final Tag<EntityType<?>> BROKEN_VEIL_MOBS = TagRegistry.entityType(new Identifier(MOD_ID, "broken_veil_mobs"));
     }
@@ -91,6 +93,7 @@ public class Constants {
         public static final String TRIGGERED = "Triggered";
         public static final String SHOULD_DROP = "Should Drop";
         public static final String BLESSINGS = "Blessings";
+        public static final String ASCENSION_STAGE = "Ascension Stage";
     }
 
     public static class DataTrackers {
@@ -115,18 +118,12 @@ public class Constants {
 
         public static final TrackedData<Integer> POWER_POOL = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Integer> MAX_SPELLS = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
-        public static final TrackedData<Integer> LEVEL = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+        public static final TrackedData<Integer> STAGE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final int SPELL_CAP = 10;
-
 
         public static final TrackedData<Affiliation> AFFILIATION = DataTracker.registerData(PlayerEntity.class, AFFILIATION_TRACKER);
         public static final TrackedData<Affiliation> APPARENT_AFFILIATION = DataTracker.registerData(PlayerEntity.class, AFFILIATION_TRACKER);
         public static final int MAX_BLESSINGS = 3;
-
-
-        static {
-            TrackedDataHandlerRegistry.register(AFFILIATION_TRACKER);
-        }
     }
 
     public static class DamageSources extends DamageSource {

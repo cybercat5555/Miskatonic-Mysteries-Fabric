@@ -19,9 +19,9 @@ public interface Ascendant {
 
     List<Blessing> getBlessings();
 
-    int getStage();
+    int getAscensionStage();
 
-    void setStage(int level);
+    void setAscensionStage(int level);
 
     void syncBlessingData(); //technically redundant with expansion packets existing ?
 }

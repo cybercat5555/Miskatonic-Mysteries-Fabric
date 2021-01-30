@@ -103,7 +103,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     private void addMiskStats(CallbackInfo info) {
         dataTracker.startTracking(SANITY, SANITY_CAP);
         dataTracker.startTracking(SHOCKED, false);
-        dataTracker.startTracking(LEVEL, 0);
+        dataTracker.startTracking(STAGE, 0);
         dataTracker.startTracking(POWER_POOL, 0);
         dataTracker.startTracking(MAX_SPELLS, 0);
         dataTracker.startTracking(AFFILIATION, Affiliation.NONE);
@@ -192,7 +192,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         tag.putInt(Constants.NBT.MAX_SPELLS, getMaxSpells());
 
         CapabilityUtil.writeSpellData(this, tag);
-        tag.putInt(Constants.NBT.STAGE, getStage());
+        tag.putInt(Constants.NBT.ASCENSION_STAGE, getAscensionStage());
         tag.putString(Constants.NBT.AFFILIATION, getAffiliation(false).getId().toString());
         tag.putString(Constants.NBT.APPARENT_AFFILIATION, getAffiliation(true).getId().toString());
 
@@ -215,7 +215,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
 
             syncSpellData();
             CapabilityUtil.readSpellData(this, tag);
-            setStage(compoundTag.getInt(Constants.NBT.STAGE));
+            setAscensionStage(tag.getInt(Constants.NBT.ASCENSION_STAGE));
 
             setAffiliation(Affiliation.AFFILIATION_MAP.getOrDefault(new Identifier(tag.getString(Constants.NBT.AFFILIATION)), Affiliation.NONE), false);
             setAffiliation(Affiliation.AFFILIATION_MAP.getOrDefault(new Identifier(tag.getString(Constants.NBT.APPARENT_AFFILIATION)), Affiliation.NONE), true);
@@ -292,15 +292,14 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     }
 
     @Override
-    public int getStage() {
-        return dataTracker.get(LEVEL);
+    public int getAscensionStage() {
+        return dataTracker.get(STAGE);
     }
 
     @Override
-    public void setStage(int level) {
-        dataTracker.set(LEVEL, level);
+    public void setAscensionStage(int level) {
+        dataTracker.set(STAGE, level);
     }
-
 
     @Override
     public boolean removeBlessing(Blessing blessing) {

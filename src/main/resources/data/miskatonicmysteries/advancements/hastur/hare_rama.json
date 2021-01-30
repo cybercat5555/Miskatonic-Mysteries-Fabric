@@ -1,0 +1,32 @@
+{
+  "parent": "miskatonicmysteries:hastur/hare_krishna",
+  "display": {
+    "icon": {
+      "item": "miskatonicmysteries:hastur_statue_terracotta"
+    },
+    "title": {
+      "translate": "advancements.miskatonicmysteries.hare_rama.title"
+    },
+    "description": {
+      "translate": "advancements.miskatonicmysteries.hare_rama.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "cast_rite": {
+      "trigger": "miskatonicmysteries:level_up",
+      "conditions": {
+        "affiliation": "miskatonicmysteries:hastur",
+        "stage": 1
+      }
+    }
+  },
+  "requirements": [
+    [
+      "cast_rite"
+    ]
+  ]
+}

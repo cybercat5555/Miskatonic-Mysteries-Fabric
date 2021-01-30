@@ -27,7 +27,6 @@ public abstract class OceanMonumentMixin extends OceanMonumentGenerator.Piece {
                     target = "net/minecraft/structure/OceanMonumentGenerator$CoreRoom.fillWithOutline(Lnet/minecraft/world/StructureWorldAccess;Lnet/minecraft/util/math/BlockBox;IIIIIILnet/minecraft/block/BlockState;Lnet/minecraft/block/BlockState;Z)V",
                     ordinal = 14))
     private void generate(StructureWorldAccess structureWorldAccess, StructureAccessor structureAccessor, ChunkGenerator chunkGenerator, Random random, BlockBox boundingBox, ChunkPos chunkPos, BlockPos blockPos, CallbackInfoReturnable<Boolean> cir) {
-        System.out.println(blockPos);
         this.fillWithOutline(structureWorldAccess, boundingBox, 7, 4, 7, 8, 5, 8, MMObjects.OCEANIC_GOLD_PILLAR_ORNATE.getDefaultState(), MMObjects.WARDED_OCEANIC_GOLD_BLOCK.getDefaultState(), false);
     }
 }

@@ -11,6 +11,7 @@ import com.miskatonicmysteries.common.item.armor.CultistArmor;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import com.miskatonicmysteries.common.lib.MMObjects;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Block;
@@ -20,6 +21,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Tickable;
@@ -114,6 +116,9 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
             if (currentRite.shouldContinue(this)) {
                 currentRite.tick(this);
                 if (currentRite.isFinished(this)) {
+                    if (getOriginalCaster() instanceof ServerPlayerEntity) {
+                        MMMiscRegistries.Criteria.RITE_CAST.trigger((ServerPlayerEntity) getOriginalCaster(), currentRite);
+                    }
                     handleInvestigators();
                     if (currentRite.isPermanent(this)) {
                         permanentRiteActive = true;

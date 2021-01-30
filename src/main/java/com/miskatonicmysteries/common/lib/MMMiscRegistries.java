@@ -1,5 +1,7 @@
 package com.miskatonicmysteries.common.lib;
 
+import com.miskatonicmysteries.common.criterion.LevelUpCriterion;
+import com.miskatonicmysteries.common.criterion.RiteCastCriterion;
 import com.miskatonicmysteries.common.feature.ModCommand;
 import com.miskatonicmysteries.common.feature.blessing.Blessing;
 import com.miskatonicmysteries.common.feature.effect.*;
@@ -14,8 +16,10 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
+import net.fabricmc.fabric.api.object.builder.v1.advancement.CriterionRegistry;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -81,8 +85,13 @@ public class MMMiscRegistries {
         }
     }
 
+    public static class Criteria {
+        public static final RiteCastCriterion RITE_CAST = new RiteCastCriterion();
+        public static final LevelUpCriterion LEVEL_UP = new LevelUpCriterion();
+    }
 
     public static void init() {
+        TrackedDataHandlerRegistry.register(Constants.DataTrackers.AFFILIATION_TRACKER);
         TrinketSlots.addSlot(SlotGroups.HEAD, Slots.MASK, new Identifier("trinkets", "textures/item/empty_trinket_slot_mask.png"));
 
         initLootTableEdits();
@@ -114,6 +123,9 @@ public class MMMiscRegistries {
         TradeOffers.WANDERING_TRADER_TRADES.put(1, offers);
 
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(MMObjects.INFESTED_WHEAT, 0.7F);
+
+        CriterionRegistry.register(Criteria.RITE_CAST);
+        CriterionRegistry.register(Criteria.LEVEL_UP);
     }
 
     private static void initLootTableEdits() {

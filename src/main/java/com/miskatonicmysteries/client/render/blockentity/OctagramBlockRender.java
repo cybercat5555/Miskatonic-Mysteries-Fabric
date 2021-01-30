@@ -44,6 +44,9 @@ public class OctagramBlockRender extends BlockEntityRenderer<OctagramBlockEntity
         matrixStack.pop();
         if ((overrideRender >> 1 & 1) == 1) {
             renderItems(entity, vertexConsumers, matrixStack, light);
+            if (entity.currentRite != null) {
+                entity.currentRite.renderRiteItems(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
+            }
         }
         matrixStack.pop();
     }

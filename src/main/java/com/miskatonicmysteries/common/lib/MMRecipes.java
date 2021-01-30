@@ -21,7 +21,7 @@ public class MMRecipes {
     public static final Rite BURNED_VEIL = new BurnedVeilRite();
     public static final Rite BROKEN_VEIL = new BrokenVeilRite();
     public static final Rite HYSTERIA = new HysteriaRite();
-
+    public static final Rite SCULPTOR_RITE = new SculptorRite();
     public static void init() {
         RegistryUtil.register(Registry.RECIPE_TYPE, "chemistry_recipe", CHEMISTRY_RECIPE);
         RegistryUtil.register(Registry.RECIPE_SERIALIZER, "chemistry_recipe", CHEMISTRY_SERIALIZER);
@@ -30,6 +30,7 @@ public class MMRecipes {
         addRite(BURNED_VEIL);
         addRite(BROKEN_VEIL);
         addRite(HYSTERIA);
+        addRite(SCULPTOR_RITE);
     }
 
     public static Rite getRite(OctagramBlockEntity octagram) {
