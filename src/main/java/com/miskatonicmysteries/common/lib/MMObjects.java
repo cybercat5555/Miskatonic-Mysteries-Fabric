@@ -1,10 +1,7 @@
 package com.miskatonicmysteries.common.lib;
 
 import com.miskatonicmysteries.common.block.*;
-import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
-import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.*;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.item.*;
 import com.miskatonicmysteries.common.item.armor.HasturCultistArmor;
@@ -93,8 +90,8 @@ public class MMObjects {
 
     public static final Block CANDLE = new CandleBlock();
 
-    public static final Block DUMMY_RESONATOR_ON = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
-    public static final Block DUMMY_RESONATOR_OFF = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
+    public static final Block RESONATOR = new ResonatorBlock();
+    public static final BlockEntityType<ResonatorBlockEntity> RESONATOR_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(ResonatorBlockEntity::new, RESONATOR).build(null);
     public static final Block POWERCELL = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
 
     public static final Block YELLOW_SIGN = new YellowSignBlock();
@@ -160,8 +157,6 @@ public class MMObjects {
     public static final Item IRIDESCENT_PEARL = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static void init() {
-        RegistryUtil.registerBlock(DUMMY_RESONATOR_OFF, "resonator_off");
-        RegistryUtil.registerBlock(DUMMY_RESONATOR_ON, "resonator_on");
         RegistryUtil.registerBlock(POWERCELL, "powercell");
 
         RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "chemistry_set", CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
@@ -228,6 +223,9 @@ public class MMObjects {
         RegistryUtil.register(Registry.BLOCK, "yellow_sign", YELLOW_SIGN);
         RegistryUtil.register(Registry.BLOCK, "birch_log", BIRCH_LOG);
         RegistryUtil.register(Registry.BLOCK, "infested_wheat", INFESTED_WHEAT_CROP);
+
+        RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "resonator", RESONATOR_BLOCK_ENTITY_TYPE);
+        RegistryUtil.registerBlock(RESONATOR, "resonator");
 
         RegistryUtil.register(LoomPatterns.REGISTRY, "yellow_sign", YELLOW_SIGN_BANNER);
 

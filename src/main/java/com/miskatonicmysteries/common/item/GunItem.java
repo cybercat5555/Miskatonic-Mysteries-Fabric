@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.item;
 
+import com.miskatonicmysteries.common.block.Shootable;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import com.miskatonicmysteries.common.lib.MMObjects;
@@ -26,6 +27,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
@@ -135,7 +137,10 @@ public abstract class GunItem extends Item {
         HitResult blockHit = world.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, player));
         double distance = Math.pow(getMaxDistance(), 2);
         EntityHitResult hit = ProjectileUtil.raycast(player, vec3d, vec3d3, player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides(), distance);
-
+        BlockPos blockPos = new BlockPos(blockHit.getPos());
+        if (world.getBlockState(blockPos).getBlock() instanceof Shootable) {
+            ((Shootable) world.getBlockState(blockPos).getBlock()).onShot(world, blockPos, player);
+        }
         if (hit != null && hit.getEntity() != null && (blockHit.squaredDistanceTo(player) > hit.getEntity().squaredDistanceTo(player))) {
             hit.getEntity().damage(new EntityDamageSource(Constants.MOD_ID + ".gun", player), getDamage());
             if (hit.getEntity() instanceof LivingEntity)

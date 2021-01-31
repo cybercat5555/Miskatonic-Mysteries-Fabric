@@ -36,8 +36,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.CANDLE, RenderLayer.getCutout());
 
-        BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.DUMMY_RESONATOR_OFF, RenderLayer.getTranslucent());
-        BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.DUMMY_RESONATOR_ON, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.RESONATOR, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.POWERCELL, RenderLayer.getTranslucent());
 
         AltarBlock.ALTARS.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
