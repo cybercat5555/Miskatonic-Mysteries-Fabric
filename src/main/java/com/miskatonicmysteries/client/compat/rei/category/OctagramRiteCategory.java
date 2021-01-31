@@ -41,6 +41,11 @@ public class OctagramRiteCategory implements RecipeCategory<OctagramRiteCategory
     }
 
     @Override
+    public int getDisplayHeight() {
+        return 88;
+    }
+
+    @Override
     public @NotNull String getCategoryName() {
         return I18n.translate("rei." + ID.toString().replaceAll(":", "."));
     }
@@ -48,7 +53,7 @@ public class OctagramRiteCategory implements RecipeCategory<OctagramRiteCategory
     @Override
     public @NotNull List<Widget> setupDisplay(Display recipeDisplay, Rectangle bounds) {
         List<Widget> widgets = new ArrayList<>();
-        Point startPoint = new Point(bounds.getCenterX() - 32, bounds.getCenterY() - 34);
+        Point startPoint = new Point(bounds.getCenterX() - 32, bounds.getCenterY() - 6);
         widgets.add(Widgets.createRecipeBase(bounds));
         SpriteIdentifier sprite = getMatchingOctagramTexture(recipeDisplay.getRite().octagramAffiliation);
         widgets.add(Widgets.createTexturedWidget(new Identifier(sprite.getTextureId().getNamespace(), "textures/" + sprite.getTextureId().getPath() + ".png"), startPoint.x, startPoint.y - 24, 0, 0, 64, 64, sprite.getSprite().getWidth(), sprite.getSprite().getHeight(), sprite.getSprite().getWidth(), sprite.getSprite().getHeight()));

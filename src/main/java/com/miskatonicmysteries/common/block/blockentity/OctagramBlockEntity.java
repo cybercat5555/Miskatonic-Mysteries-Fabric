@@ -116,6 +116,9 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
             if (currentRite.shouldContinue(this)) {
                 currentRite.tick(this);
                 if (currentRite.isFinished(this)) {
+                    if (!world.isClient) {
+                        sync();
+                    }
                     if (getOriginalCaster() instanceof ServerPlayerEntity) {
                         MMMiscRegistries.Criteria.RITE_CAST.trigger((ServerPlayerEntity) getOriginalCaster(), currentRite);
                     }
@@ -128,16 +131,14 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
                         tickCount = 0;
                         currentRite = null;
                     }
-                    if (!world.isClient) {
-                        sync();
-                    }
+
                 }
             } else {
-                currentRite.onCancelled(this);
-                originalCaster = null;
                 if (!world.isClient) {
                     sync();
                 }
+                currentRite.onCancelled(this);
+                originalCaster = null;
             }
             markDirty();
         }

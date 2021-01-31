@@ -39,9 +39,14 @@ public class ChemistrySetCategory implements RecipeCategory<ChemistrySetCategory
     }
 
     @Override
+    public int getDisplayHeight() {
+        return 64;
+    }
+
+    @Override
     public @NotNull List<Widget> setupDisplay(Display recipeDisplay, Rectangle bounds) {
         List<Widget> widgets = new ArrayList<>();
-        Point startPoint = new Point(bounds.getCenterX() - 64, bounds.getCenterY() - 34);
+        Point startPoint = new Point(bounds.getCenterX() - 64, bounds.getCenterY() - 2);
         widgets.add(Widgets.createRecipeBase(bounds));
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 4, startPoint.y - 24)).entries(recipeDisplay.getInputEntries().get(0)).markInput());
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 22, startPoint.y - 24)).entries(recipeDisplay.getInputEntries().get(1)).markInput());
@@ -49,7 +54,7 @@ public class ChemistrySetCategory implements RecipeCategory<ChemistrySetCategory
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 22, startPoint.y - 6)).entries(recipeDisplay.getInputEntries().get(3)).markInput());
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 4, startPoint.y + 12)).entries(recipeDisplay.getInputEntries().get(4)).markInput());
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 22, startPoint.y + 12)).markInput());//this is always empty because i am a horrible person
-        widgets.add(Widgets.createArrow(new Point(startPoint.x + 39, startPoint.y - 6)).animationDurationMS(2000));
+        widgets.add(Widgets.createArrow(new Point(startPoint.x + 39, startPoint.y - 6)).animationDurationTicks(100));
 
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 66, startPoint.y - 6)).entries(recipeDisplay.getResultingEntries().get(0)).markOutput());
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 88, startPoint.y - 6)).entries(recipeDisplay.getOutputMatches().get(0)).disableBackground().unmarkInputOrOutput());

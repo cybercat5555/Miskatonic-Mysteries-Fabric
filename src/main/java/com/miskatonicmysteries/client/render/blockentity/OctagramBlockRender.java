@@ -42,19 +42,19 @@ public class OctagramBlockRender extends BlockEntityRenderer<OctagramBlockEntity
             entity.currentRite.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
         }
         matrixStack.pop();
+        matrixStack.translate(0.5F, 0, 0.5F);
         if ((overrideRender >> 1 & 1) == 1) {
             renderItems(entity, vertexConsumers, matrixStack, light);
-            if (entity.currentRite != null) {
-                entity.currentRite.renderRiteItems(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
-            }
+
+        }
+        if (entity.currentRite != null) {
+            entity.currentRite.renderRiteItems(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
         }
         matrixStack.pop();
     }
 
 
     public static void renderItems(OctagramBlockEntity entity, VertexConsumerProvider vertexConsumers, MatrixStack matrixStack, int light) {
-        matrixStack.translate(0.5F, 0, 0.5F);
-
         for (int i = 0; i < entity.size(); i++) {
             matrixStack.push();
             matrixStack.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(0.125F * i * 360F));
