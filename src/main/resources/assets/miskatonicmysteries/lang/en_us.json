@@ -113,6 +113,7 @@
   "message.miskatonicmysteries.invalid_octagram.bad_affiliation": "Linked Octagrams must be matching",
   "message.miskatonicmysteries.invalid_octagram.already_bound": "The targeted Octagram is already bound",
   "message.miskatonicmysteries.needs_space": "This needs more space",
+  "message.miskatonicmysteries.invalid_connection.self_reference": "The Octagram must bind with another one",
   "comment6": "COMMANDS",
   "miskatonicmysteries.command.stats": "Showing Miskatonic Mysteries statistics for player %s:",
   "miskatonicmysteries.command.miskatonicmysteries.get_sanity": "%s's sanity level is %d",

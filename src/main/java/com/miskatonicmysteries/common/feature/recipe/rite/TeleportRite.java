@@ -42,6 +42,10 @@ public class TeleportRite extends Rite {
                     caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_octagram.not_present"), true);
                     return false;
                 }
+                if (octagramPos.equals(octagram.getPos())) {
+                    caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_connection.self_reference"), true);
+                    return false;
+                }
                 if (((OctagramBlockEntity) boundWorld.getBlockEntity(octagramPos)).getAffiliation(false) != octagram.getAffiliation(false)) {
                     caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_octagram.bad_affiliation"), true);
                     return false;
@@ -50,6 +54,7 @@ public class TeleportRite extends Rite {
                     caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_octagram.already_bound"), true);
                     return false;
                 }
+
                 return true;
             } else if (caster != null) {
                 caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_incantation"), true);
