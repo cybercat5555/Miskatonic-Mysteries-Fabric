@@ -5,10 +5,7 @@ import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.blessing.Blessing;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
-import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
-import com.miskatonicmysteries.common.feature.interfaces.MalleableAffiliated;
-import com.miskatonicmysteries.common.feature.interfaces.Sanity;
-import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
+import com.miskatonicmysteries.common.feature.interfaces.*;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
@@ -45,7 +42,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.*;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant {
+public abstract class PlayerMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant, Resonating {
     public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
 
     private final List<Spell> spells = new ArrayList<>();
@@ -53,6 +50,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     private final Set<SpellMedium> learnedMediums = new HashSet<>();
 
     private final List<Blessing> blessings = new ArrayList<>();
+
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -61,6 +59,12 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     private void handleMiskStats(CallbackInfo info) {
         for (Blessing blessing : blessings) {
             blessing.tick(this);
+        }
+        if (isSneaking()) System.out.println(getResonance());
+        if (getResonance() > 0) {
+            setResonance(getResonance() - 0.01F);
+        } else if (getResonance() < 0) {
+            setResonance(0);
         }
         if (age % MiskatonicMysteries.config.modUpdateInterval == 0) {
             if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.sanity.shockRemoveChance) {
@@ -108,6 +112,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         dataTracker.startTracking(MAX_SPELLS, 0);
         dataTracker.startTracking(AFFILIATION, Affiliation.NONE);
         dataTracker.startTracking(APPARENT_AFFILIATION, Affiliation.NONE);
+        dataTracker.startTracking(RESONANCE, 0F);
     }
 
     @Override
@@ -196,6 +201,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         tag.putString(Constants.NBT.AFFILIATION, getAffiliation(false).getId().toString());
         tag.putString(Constants.NBT.APPARENT_AFFILIATION, getAffiliation(true).getId().toString());
 
+        tag.putFloat(Constants.NBT.RESONANCE, getResonance());
         CapabilityUtil.writeBlessingData(this, tag);
         compoundTag.put(Constants.NBT.MISK_DATA, tag);
     }
@@ -220,6 +226,8 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
             setAffiliation(Affiliation.AFFILIATION_MAP.getOrDefault(new Identifier(tag.getString(Constants.NBT.AFFILIATION)), Affiliation.NONE), false);
             setAffiliation(Affiliation.AFFILIATION_MAP.getOrDefault(new Identifier(tag.getString(Constants.NBT.APPARENT_AFFILIATION)), Affiliation.NONE), true);
             CapabilityUtil.readBlessingData(this, tag);
+
+            setResonance(tag.getFloat(Constants.NBT.RESONANCE));
         }
     }
 
@@ -328,5 +336,15 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         if (!world.isClient) {
             SyncBlessingsPacket.send((PlayerEntity) (Object) this, this);
         }
+    }
+
+    @Override
+    public void setResonance(float resonance) {
+        this.dataTracker.set(RESONANCE, resonance);
+    }
+
+    @Override
+    public float getResonance() {
+        return dataTracker.get(RESONANCE);
     }
 }

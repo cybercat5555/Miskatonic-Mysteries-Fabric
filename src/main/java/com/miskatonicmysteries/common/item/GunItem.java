@@ -68,7 +68,7 @@ public abstract class GunItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        return !isLoading(stack) ? loadGun(stack, world, user) : stack;
+        return isLoading(stack) ? loadGun(stack, world, user) : stack;
     }
 
     public static boolean isLoading(ItemStack stack) {
@@ -81,7 +81,9 @@ public abstract class GunItem extends Item {
     }
 
     public static ItemStack setLoading(ItemStack stack, boolean loading) {
-        if (!stack.hasTag()) stack.setTag(new CompoundTag());
+        if (!stack.hasTag()) {
+            stack.setTag(new CompoundTag());
+        }
         stack.getTag().putBoolean(Constants.NBT.LOADING, loading);
         return stack;
     }

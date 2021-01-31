@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.ResonatorBlockEntity;
 import com.miskatonicmysteries.common.lib.MMParticles;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -97,8 +98,14 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
         if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
             world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
-
         return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
+    }
+
+    @Override
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
+        if (!world.isClient) {
+            world.setBlockState(pos, state.with(POWERED, world.isReceivingRedstonePower(pos)));
+        }
     }
 
     @Override
@@ -128,12 +135,12 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
 
     @Override
     public BlockEntity createBlockEntity(BlockView world) {
-        return new ChemistrySetBlockEntity();
+        return new ResonatorBlockEntity();
     }
 
     @Override
     public void onShot(World world, BlockPos pos, LivingEntity shooter) {
-        if (!world.isClient) {
+        if (!world.isClient && world.getBlockState(pos).get(POWERED)) {
             world.createExplosion(null, pos.getX() + 0.5F, pos.getY() + 0.85F, pos.getZ() + 0.5F, 7.0F, Explosion.DestructionType.DESTROY);
         }
     }

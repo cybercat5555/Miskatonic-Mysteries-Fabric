@@ -94,6 +94,8 @@ public class Constants {
         public static final String SHOULD_DROP = "Should Drop";
         public static final String BLESSINGS = "Blessings";
         public static final String ASCENSION_STAGE = "Ascension Stage";
+        public static final String RESONANCE = "Resonance";
+        public static final String RADIUS = "Radius";
     }
 
     public static class DataTrackers {
@@ -124,6 +126,8 @@ public class Constants {
         public static final TrackedData<Affiliation> AFFILIATION = DataTracker.registerData(PlayerEntity.class, AFFILIATION_TRACKER);
         public static final TrackedData<Affiliation> APPARENT_AFFILIATION = DataTracker.registerData(PlayerEntity.class, AFFILIATION_TRACKER);
         public static final int MAX_BLESSINGS = 3;
+
+        public static final TrackedData<Float> RESONANCE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
     }
 
     public static class DamageSources extends DamageSource {
