@@ -32,6 +32,14 @@ repositories {
 		url = 'https://maven.fabricmc.net/'
 	}
 	maven {
+		name = "Technici4n"
+		url = "https://raw.githubusercontent.com/Technici4n/Technici4n-maven/master/"
+		content {
+			includeGroup "net.fabricmc.fabric-api" // until fabric-api-lookup-api-v1 is merged
+			includeGroup "dev.technici4n"
+		}
+	}
+	maven {
 		url 'https://server.bbkr.space/artifactory/libs-release/'
 	}
 }
@@ -63,6 +71,7 @@ dependencies {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	include "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
+	modApi include("dev.technici4n:FastTransferLib:${project.ftl_version}")
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 }
 

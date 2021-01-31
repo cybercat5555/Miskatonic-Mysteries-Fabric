@@ -96,6 +96,7 @@ public class Constants {
         public static final String ASCENSION_STAGE = "Ascension Stage";
         public static final String RESONANCE = "Resonance";
         public static final String RADIUS = "Radius";
+        public static final String ENERGY = "Energy";
     }
 
     public static class DataTrackers {
