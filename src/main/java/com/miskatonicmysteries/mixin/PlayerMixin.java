@@ -23,6 +23,8 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -31,6 +33,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -43,6 +46,8 @@ import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.*;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant, Resonating {
+
+
     public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
 
     private final List<Spell> spells = new ArrayList<>();
@@ -60,8 +65,15 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         for (Blessing blessing : blessings) {
             blessing.tick(this);
         }
-        if (isSneaking()) System.out.println(getResonance());
         if (getResonance() > 0) {
+            if (getSanity() < 750) {
+                addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 100, 0, true, true, false));
+                if (getSanity() < 500) {
+                    if (!world.isClient && getResonance() > 0.4F && age % 400 == 0) {
+                        addExperienceLevels(random.nextInt(10));
+                    }
+                }
+            }
             setResonance(getResonance() - 0.01F);
         } else if (getResonance() < 0) {
             setResonance(0);
@@ -75,6 +87,9 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
             InsanityHandler.handleInsanityEvents((PlayerEntity) (Object) this);
         }
     }
+
+    @Shadow
+    public abstract void addExperienceLevels(int levels);
 
     @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"))
     private void manipulateProtagonistDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {

@@ -7,7 +7,7 @@
     64
   ],
   "textures": {
-    "particle": "miskatonicmysteries:block/powercell"
+    "particle": "miskatonicmysteries:block/power_cell"
   },
   "elements": [
     {

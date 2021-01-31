@@ -1,24 +1,18 @@
 package com.miskatonicmysteries.common.block;
 
-import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
-import com.miskatonicmysteries.common.block.blockentity.ResonatorBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.energy.ResonatorBlockEntity;
 import com.miskatonicmysteries.common.lib.MMParticles;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -62,24 +56,6 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
         builder.add(POWERED, FACING, WATERLOGGED);
-    }
-
-    @Override
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (!state.isOf(newState.getBlock())) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof ChemistrySetBlockEntity) {
-                ItemScatterer.spawn(world, pos, ((ChemistrySetBlockEntity) blockEntity).getItems());
-            }
-            super.onStateReplaced(state, world, pos, newState, moved);
-        }
-    }
-
-    @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-
-        //implement use functionality
-        return super.onUse(state, world, pos, player, hand, hit);
     }
 
     @Override

@@ -12,7 +12,9 @@ import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.DyeColor;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -87,5 +89,12 @@ public class MiscUtil {
         if (target instanceof PathAwareEntity) {
             ((PathAwareEntity) target).getNavigation().stop();
         }
+    }
+
+    public static LiteralText createPowerPercentageText(double power, double maxPower) {
+        StringBuilder output = new StringBuilder("||||||||||||||||||||");
+        int grayChar = (int) Math.round(20 * (power / maxPower));
+        output.insert(grayChar, Formatting.DARK_GRAY);
+        return new LiteralText((Formatting.BLUE + output.toString()));
     }
 }

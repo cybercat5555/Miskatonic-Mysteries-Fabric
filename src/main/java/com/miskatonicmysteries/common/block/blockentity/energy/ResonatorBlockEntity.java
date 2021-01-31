@@ -1,5 +1,6 @@
-package com.miskatonicmysteries.common.block.blockentity;
+package com.miskatonicmysteries.common.block.blockentity.energy;
 
+import com.miskatonicmysteries.common.block.blockentity.BaseBlockEntity;
 import com.miskatonicmysteries.common.feature.interfaces.Resonating;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMObjects;
@@ -21,6 +22,7 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements Tickable, E
         super(MMObjects.RESONATOR_BLOCK_ENTITY_TYPE);
     }
 
+    private static final int MAX_STORED_POWER = 3200;
     private static final int MAX_RADIUS = 16;
     private float radius;
     private float intensity;
@@ -76,7 +78,7 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements Tickable, E
 
     private float getIntensityFromDistance(Entity affectedEntity) {
         double distance = Math.sqrt(affectedEntity.squaredDistanceTo(pos.getX() + 0.5F, pos.getY() + 0.75F, pos.getZ() + 0.5F));
-        return distance < radius / 4F ? intensity : 1 - (float) (intensity * (distance / radius));
+        return 1 - (float) (intensity * (distance / radius));
     }
 
     public boolean isPowered() {
@@ -99,7 +101,7 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements Tickable, E
 
     @Override
     public double getMaxStoredPower() {
-        return 1000;
+        return 3200;
     }
 
     @Override

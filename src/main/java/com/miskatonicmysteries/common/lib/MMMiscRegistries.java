@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.lib;
 
+import com.miskatonicmysteries.common.block.PowerCellBlock;
 import com.miskatonicmysteries.common.criterion.LevelUpCriterion;
 import com.miskatonicmysteries.common.criterion.RiteCastCriterion;
 import com.miskatonicmysteries.common.feature.ModCommand;
@@ -72,7 +73,7 @@ public class MMMiscRegistries {
 
         static {
             PSYCHONAUT_TRADES.put(1, new TradeOffers.Factory[]{BLOTTER_OFFER, SCIENCE_JOURNAL_OFFER, INFESTED_WHEAT_OFFER});
-            PSYCHONAUT_TRADES.put(2, new TradeOffers.Factory[]{CHEMISTRY_SET_OFFER, WAX_OFFER, SUSPICIOUS_OFFER});
+            PSYCHONAUT_TRADES.put(2, new TradeOffers.Factory[]{CHEMISTRY_SET_OFFER, WAX_OFFER, SUSPICIOUS_OFFER, POWER_CELL_OFFER});
             PSYCHONAUT_TRADES.put(3, new TradeOffers.Factory[]{NETHER_WART_OFFER, LAUDANUM_OFFER});
             PSYCHONAUT_TRADES.put(4, new TradeOffers.Factory[]{WARPED_FUNGUS_OFFER, CRIMSON_FUNGUS_OFFER, TRANQ_OFFER});
             PSYCHONAUT_TRADES.put(5, new TradeOffers.Factory[]{RE_AGENT_OFFER});
@@ -202,6 +203,7 @@ public class MMMiscRegistries {
 
         public static final TradeOffers.Factory ORB_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.THE_ORB), 10, 1, 20, 0.15F);
 
+        public static final TradeOffers.Factory POWER_CELL_OFFER = new ProcessItemOffer(new ItemStack(Items.IRON_INGOT, 5), 5, PowerCellBlock.getFilledStack(), 8, 20);
         public static class EmeraldToItemOffer implements TradeOffers.Factory {
             private final ItemStack sell;
             private final int price;

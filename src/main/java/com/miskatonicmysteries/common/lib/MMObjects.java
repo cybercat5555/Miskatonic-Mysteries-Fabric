@@ -1,7 +1,12 @@
 package com.miskatonicmysteries.common.lib;
 
 import com.miskatonicmysteries.common.block.*;
-import com.miskatonicmysteries.common.block.blockentity.*;
+import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.energy.PowerCellBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.energy.ResonatorBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.item.*;
 import com.miskatonicmysteries.common.item.armor.HasturCultistArmor;
@@ -92,7 +97,9 @@ public class MMObjects {
 
     public static final Block RESONATOR = new ResonatorBlock();
     public static final BlockEntityType<ResonatorBlockEntity> RESONATOR_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(ResonatorBlockEntity::new, RESONATOR).build(null);
-    public static final Block POWERCELL = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
+
+    public static final Block POWER_CELL = new PowerCellBlock();
+    public static final BlockEntityType<PowerCellBlockEntity> POWER_CELL_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(PowerCellBlockEntity::new, POWER_CELL).build(null);
 
     public static final Block YELLOW_SIGN = new YellowSignBlock();
 
@@ -157,7 +164,6 @@ public class MMObjects {
     public static final Item IRIDESCENT_PEARL = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static void init() {
-        RegistryUtil.registerBlock(POWERCELL, "powercell");
 
         RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "chemistry_set", CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
         RegistryUtil.registerBlock(CHEMISTRY_SET, "chemistry_set");
@@ -226,6 +232,8 @@ public class MMObjects {
 
         RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "resonator", RESONATOR_BLOCK_ENTITY_TYPE);
         RegistryUtil.registerBlock(RESONATOR, "resonator");
+        RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "power_cell", POWER_CELL_BLOCK_ENTITY_TYPE);
+        RegistryUtil.registerBlock(POWER_CELL, "power_cell");
 
         RegistryUtil.register(LoomPatterns.REGISTRY, "yellow_sign", YELLOW_SIGN_BANNER);
 
