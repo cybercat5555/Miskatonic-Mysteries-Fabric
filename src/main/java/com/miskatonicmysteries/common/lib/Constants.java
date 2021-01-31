@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.lib;
 
+import com.miskatonicmysteries.common.block.PowerCellBlock;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.tag.TagRegistry;
@@ -16,6 +17,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -24,12 +26,25 @@ import net.minecraft.tag.Tag;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import javax.annotation.Nullable;
 
 public class Constants {
     public static final String MOD_ID = "miskatonicmysteries";
-    public static final ItemGroup MM_GROUP = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "group"), () -> new ItemStack(MMObjects.NECRONOMICON));
+    public static final ItemGroup MM_GROUP = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "group"))
+            .icon(() -> new ItemStack(MMObjects.NECRONOMICON)).appendItems(list -> {
+                for (Item item : Registry.ITEM) {
+                    if (Registry.ITEM.getId(item).getNamespace().equals(MOD_ID)) {
+                        if (item.equals(BlockItem.fromBlock(MMObjects.POWER_CELL))) {
+                            list.add(PowerCellBlock.getFilledStack());
+                        } else {
+                            list.add(new ItemStack(item));
+                        }
+                    }
+                }
+            })
+            .build();
     public static final float BLOCK_BIT = 0.0625F;
 
     public static class Tags {

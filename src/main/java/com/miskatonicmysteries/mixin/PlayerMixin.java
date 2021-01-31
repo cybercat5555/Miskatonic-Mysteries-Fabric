@@ -46,8 +46,6 @@ import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.*;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant, Resonating {
-
-
     public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
 
     private final List<Spell> spells = new ArrayList<>();

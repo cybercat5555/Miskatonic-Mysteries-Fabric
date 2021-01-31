@@ -60,6 +60,16 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
         super.appendTooltip(stack, world, tooltip, options);
     }
 
+    @Override
+    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+        if (world.getBlockEntity(pos) != null) {
+            ItemStack stack = getFilledStack();
+            stack.getTag().put("BlockEntityTag", world.getBlockEntity(pos).toTag(new CompoundTag()));
+            return stack;
+        }
+        return super.getPickStack(world, pos, state);
+    }
+
     @Environment(EnvType.CLIENT)
     public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
         return 1.0F;

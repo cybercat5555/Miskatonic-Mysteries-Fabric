@@ -49,7 +49,7 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements Tickable, E
     public void tick() {
         boolean powered = isPowered();
         radius = MAX_RADIUS * intensity;
-
+        //todo expand high intensity area with longer run time, handle block changes and mob spawning
         if (powered) {
             if (energy < 16) {
                 world.setBlockState(pos, getCachedState().with(Properties.POWERED, false));
