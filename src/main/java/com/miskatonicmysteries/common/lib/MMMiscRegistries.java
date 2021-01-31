@@ -33,8 +33,7 @@ import net.minecraft.village.TradeOffers;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static com.miskatonicmysteries.common.lib.MMMiscRegistries.LootTables.LOOT_TABLE_INJECTS;
-import static com.miskatonicmysteries.common.lib.MMMiscRegistries.LootTables.TRANQ_TABLE;
+import static com.miskatonicmysteries.common.lib.MMMiscRegistries.LootTables.*;
 import static com.miskatonicmysteries.common.lib.MMMiscRegistries.ModTradeOffers.*;
 import static com.miskatonicmysteries.common.lib.MMMiscRegistries.Sounds.*;
 import static com.miskatonicmysteries.common.lib.MMMiscRegistries.StatusEffects.*;
@@ -62,7 +61,8 @@ public class MMMiscRegistries {
 
     public static class LootTables {
         public static final Identifier TRANQ_TABLE = new Identifier(Constants.MOD_ID, "injects/tranquilizer");
-
+        public static final Identifier OCEANIC_GOLD_TABLE = new Identifier(Constants.MOD_ID, "injects/oceanic_gold");
+        public static final Identifier INCANTATION_TABLE = new Identifier(Constants.MOD_ID, "injects/incantation");
         public static final Map<Identifier, Identifier> LOOT_TABLE_INJECTS = new HashMap<>();
     }
 
@@ -134,6 +134,15 @@ public class MMMiscRegistries {
         LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.VILLAGE_TANNERY_CHEST, TRANQ_TABLE);
         LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.VILLAGE_PLAINS_CHEST, TRANQ_TABLE);
 
+        LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.BURIED_TREASURE_CHEST, OCEANIC_GOLD_TABLE);
+        LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.SHIPWRECK_TREASURE_CHEST, OCEANIC_GOLD_TABLE);
+        LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.UNDERWATER_RUIN_BIG_CHEST, OCEANIC_GOLD_TABLE);
+        LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.UNDERWATER_RUIN_SMALL_CHEST, OCEANIC_GOLD_TABLE);
+        LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.STRONGHOLD_CROSSING_CHEST, OCEANIC_GOLD_TABLE);
+
+        LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.STRONGHOLD_LIBRARY_CHEST, INCANTATION_TABLE);
+        LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.SIMPLE_DUNGEON_CHEST, INCANTATION_TABLE);
+        LOOT_TABLE_INJECTS.put(net.minecraft.loot.LootTables.IGLOO_CHEST_CHEST, INCANTATION_TABLE);
         LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, identifier, builder, lootTableSetter) -> {
             if (LOOT_TABLE_INJECTS.containsKey(identifier)) {
                 FabricLootSupplier lootSupplier = (FabricLootSupplier) FabricLootSupplierBuilder.of(lootManager.getTable(LOOT_TABLE_INJECTS.get(identifier))).build();
@@ -182,7 +191,7 @@ public class MMMiscRegistries {
         });
 
         public static final TradeOffers.Factory OCEANIC_GOLD_OFFER = new ProcessItemOffer(new ItemStack(Items.GOLD_BLOCK), 10, new ItemStack(MMObjects.OCEANIC_GOLD_BLOCK, 1), 16, 2);
-        public static final TradeOffers.Factory NECRONOMICON_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.NECRONOMICON), 12, 3, 10, 0.15F);
+        public static final TradeOffers.Factory NECRONOMICON_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.NECRONOMICON), 12, 3, 8, 0.15F);
         public static final TradeOffers.Factory CHALK_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.HASTUR_CHALK), 2, 12, 20, 0.15F);
         public static final TradeOffers.Factory MASK_OFFER = new ProcessItemOffer(new ItemStack(Items.IRON_INGOT), 12, new ItemStack(MMObjects.ELEGANT_MASK, 1), 1, 25);
         public static final TradeOffers.Factory YELLOW_ROBE_OFFER = new ProcessItemOffer(new ItemStack(Items.YELLOW_WOOL, 8), 8, new ItemStack(MMObjects.YELLOW_ROBE, 1), 2, 30);
