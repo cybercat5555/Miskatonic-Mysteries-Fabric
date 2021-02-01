@@ -65,10 +65,10 @@ public class MMConfig implements ConfigData {
         @ConfigEntry.Gui.RequiresRestart
         public int psychonautHouseWeight = 3;
 
-        @ConfigEntry.BoundedDiscrete(max = 500)
+        @ConfigEntry.BoundedDiscrete(max = 1000)
         @ConfigEntry.Gui.Tooltip(count = 2)
         @ConfigEntry.Gui.RequiresRestart
-        public int hasturShrineWeight = 50;
+        public int hasturShrineWeight = 60;
 
         @ConfigEntry.Gui.Tooltip(count = 2)
         public float infestedWheatChance = 0.05F;
