@@ -35,7 +35,7 @@ public class MiscUtil {
     }
 
     public static boolean isImmuneToYellowSign(LivingEntity entity) {
-        return CapabilityUtil.getAffiliation(entity, false) == Affiliation.HASTUR;
+        return CapabilityUtil.getAffiliation(entity, false).equals(Affiliation.HASTUR);
     }
 
     public static boolean isValidYellowSign(CompoundTag compoundTag) {

@@ -11,11 +11,15 @@ import com.miskatonicmysteries.common.entity.ai.task.TacticalApproachTask;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.blessing.Blessing;
 import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
 import com.miskatonicmysteries.common.lib.MMEntities;
 import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.*;
+import net.minecraft.entity.ai.brain.Activity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.MemoryModuleState;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.*;
@@ -36,14 +40,15 @@ public class HasturCultistBrain {
 
 
     public static void init(HasturCultistEntity entity, Brain<VillagerEntity> brain) {
-        brain.setSchedule(Schedule.EMPTY);
-        brain.setTaskList(Activity.CORE, createCoreTasks(0.5F));
-        brain.setTaskList(Activity.MEET, createMeetTasks(0.5F), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleState.VALUE_PRESENT)));
-        brain.setTaskList(Activity.FIGHT, 10, createFightTasks(entity, 0.5F), MemoryModuleType.ATTACK_TARGET);
-        brain.setTaskList(Activity.IDLE, VillagerTaskListProvider.createIdleTasks(MMEntities.YELLOW_SERF, 0.5F));
+        brain.setTaskList(Activity.CORE, 0, createCoreTasks(entity, 0.65F));
+        brain.setTaskList(Activity.IDLE, VillagerTaskListProvider.createIdleTasks(MMEntities.YELLOW_SERF, 0.65F), ImmutableSet.of(Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT)));
+        brain.setTaskList(Activity.FIGHT, 10, createFightTasks(entity, 0.65F), MemoryModuleType.ATTACK_TARGET);
+        brain.setTaskList(Activity.MEET, createMeetTasks(0.65F), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleState.VALUE_PRESENT), Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT)));
 
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
+        brain.resetPossibleActivities();
+        //can't attack if there's a congregation point nearby, too busy with it?
     }
 
 
@@ -54,6 +59,18 @@ public class HasturCultistBrain {
     public static void tickActivities(HasturCultistEntity entity) {
         Brain<VillagerEntity> brain = entity.getBrain();
         brain.resetPossibleActivities(ImmutableList.of(Activity.MEET, Activity.FIGHT, Activity.IDLE));
+
+        if (entity.isCasting()) {
+            if (entity.currentSpell != null && !entity.world.isClient) {
+                EffectParticlePacket.send(entity);
+            }
+            entity.setCastTime(entity.getCastTime() - 1);
+        }
+        if (!entity.world.isClient && entity.currentSpell != null && entity.getCastTime() <= 0) {
+            entity.currentSpell.cast(entity);
+            entity.currentSpell = null;
+            entity.getBrain().remember(MemoryModuleType.ATTACK_COOLING_DOWN, true, 40);
+        }
     }
 
 
@@ -82,14 +99,6 @@ public class HasturCultistBrain {
 
     private static boolean shouldAttack(LivingEntity target) {
         return EntityPredicates.EXCEPT_CREATIVE_SPECTATOR_OR_PEACEFUL.test(target);
-    }
-
-    public static ImmutableList<Task<? super VillagerEntity>> createFightTasks(HasturCultistEntity cultist, float f) {
-        return ImmutableList.of(
-                new ForgetAttackTargetTask<>((livingEntity) -> !isPreferredAttackTarget(cultist, livingEntity)),
-                new ConditionalTask<>(HasturCultistBrain::isAscended, new CastSpellTask()),
-                new TacticalApproachTask(f, mob -> mob instanceof HasturCultistEntity && ((HasturCultistEntity) mob).isCasting()),
-                new MeleeAttackTask(15));
     }
 
 
@@ -144,21 +153,21 @@ public class HasturCultistBrain {
         return getBestTarget(cultist).filter((livingEntity2) -> livingEntity2 == target).isPresent();
     }
 
-    public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> createCoreTasks(float f) {
+    public static ImmutableList<Task<? super VillagerEntity>> createCoreTasks(HasturCultistEntity cultist, float f) {
         return ImmutableList.of(
-                Pair.of(0, new StayAboveWaterTask(0.8F)),
-                Pair.of(0, new OpenDoorsTask()),
-                Pair.of(0, new LookAroundTask(45, 90)),
-                Pair.of(0, new UpdateAttackTargetTask<>(HasturCultistBrain::getBestTarget)),
-                Pair.of(0, new ForgetAngryAtTargetTask<>()),
-                Pair.of(0, new WakeUpTask()),
-                Pair.of(0, new StartRaidTask()),
-                Pair.of(1, new WanderAroundTask()),
-                Pair.of(1, new MeetVillagerTask()),
-                Pair.of(1, new HealthCareTask()),
-                Pair.of(5, new WalkToNearestVisibleWantedItemTask(f, false, 4)),
-                Pair.of(6, new FindPointOfInterestTask(MMEntities.CONGREGATION_POI, MMEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true, Optional.empty())),
-                Pair.of(10, new FindPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14))));
+                new StayAboveWaterTask(0.8F), new OpenDoorsTask(),
+                new LookAroundTask(45, 90),
+                new UpdateAttackTargetTask<>(HasturCultistBrain::getBestTarget),
+                new ForgetAngryAtTargetTask<>(),
+                new WakeUpTask(),
+                new StartRaidTask(),
+                new WanderAroundTask(),
+                new MeetVillagerTask(),
+                new HealthCareTask(),
+                new WalkToNearestVisibleWantedItemTask(f, false, 4),
+                new FindPointOfInterestTask(MMEntities.CONGREGATION_POI, MMEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true, Optional.empty()),
+                new FindPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14)),
+                new ForgetAttackTargetTask<>((livingEntity) -> !isPreferredAttackTarget(cultist, livingEntity)));
     }
 
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> createMeetTasks(float f) {
@@ -175,5 +184,12 @@ public class HasturCultistBrain {
                 Pair.of(99, new ScheduleActivityTask()));
     }
 
+    public static ImmutableList<Task<? super VillagerEntity>> createFightTasks(HasturCultistEntity cultist, float f) {
+        return ImmutableList.of(
+                new ForgetAttackTargetTask<>((livingEntity) -> !isPreferredAttackTarget(cultist, livingEntity)),
+                new ConditionalTask<>(HasturCultistBrain::isAscended, new CastSpellTask()),
+                new TacticalApproachTask(f, mob -> mob instanceof HasturCultistEntity && ((HasturCultistEntity) mob).isCasting()),
+                new MeleeAttackTask(15));
+    }
 
 }

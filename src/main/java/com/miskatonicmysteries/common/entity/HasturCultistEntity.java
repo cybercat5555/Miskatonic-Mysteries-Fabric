@@ -5,7 +5,6 @@ import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMEntities;
@@ -69,18 +68,10 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     @Override
     protected void mobTick() {
         super.mobTick();
+        this.world.getProfiler().push("hasturCultistBrain");
+        this.getBrain().tick((ServerWorld) this.world, this);
+        this.world.getProfiler().pop();
         HasturCultistBrain.tickActivities(this);
-        if (isCasting()) {
-            if (currentSpell != null && !world.isClient) {
-                EffectParticlePacket.send(this);
-            }
-            setCastTime(getCastTime() - 1);
-        }
-        if (!world.isClient && currentSpell != null && getCastTime() <= 0) {
-            currentSpell.cast(this);
-            currentSpell = null;
-            getBrain().remember(MemoryModuleType.ATTACK_COOLING_DOWN, true, 40);
-        }
     }
 
     @Override
