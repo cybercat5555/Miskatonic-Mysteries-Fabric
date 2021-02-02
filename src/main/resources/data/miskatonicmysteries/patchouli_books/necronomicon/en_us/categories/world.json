@@ -1,6 +1,6 @@
 {
   "name": "The World",
-  "description": "FNORD",
-  "icon": "miskatonicmysteries:oceanic_gold",
+  "description": "The World is vast. FNORD.",
+  "icon": "miskatonicmysteries:textures/gui/icons/world.png",
   "sortnum": 0
 }
