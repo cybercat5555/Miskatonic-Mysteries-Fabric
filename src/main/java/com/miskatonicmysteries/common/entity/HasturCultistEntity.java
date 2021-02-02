@@ -39,6 +39,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.IntRange;
 import net.minecraft.village.VillageGossipType;
 import net.minecraft.village.VillagerData;
+import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -267,6 +268,12 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         return stack;
     }
 
+    @Override
+    public void onDeath(DamageSource source) {
+        super.onDeath(source);
+        setVillagerData(getVillagerData().withProfession(VillagerProfession.NITWIT));
+    }
+
     @Nullable
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
@@ -279,6 +286,9 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         setLeftHanded(random.nextBoolean()); //more left-handedness
         initEquipment(difficulty);
         setVillagerData(getVillagerData().withProfession(MMEntities.YELLOW_SERF));
+        if (this.world instanceof ServerWorld) {
+            this.reinitializeBrain((ServerWorld) this.world);
+        }
         return entityData;
     }
 
@@ -328,6 +338,9 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         }
         setCastTime(tag.getInt(Constants.NBT.CASTING));
         angerFromTag((ServerWorld) world, tag);
+        if (this.world instanceof ServerWorld) {
+            this.reinitializeBrain((ServerWorld) this.world);
+        }
     }
 
     @Override
