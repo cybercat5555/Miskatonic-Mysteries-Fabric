@@ -1,0 +1,33 @@
+{
+  "parent": "miskatonicmysteries:root",
+  "display": {
+    "icon": {
+      "item": "miskatonicmysteries:the_orb"
+    },
+    "title": {
+      "translate": "advancements.miskatonicmysteries.oh_no.title"
+    },
+    "description": {
+      "translate": "advancements.miskatonicmysteries.oh_no.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+  "criteria": {
+    "eat_orb": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "item": "miskatonicmysteries:the_orb"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "eat_orb"
+    ]
+  ]
+}

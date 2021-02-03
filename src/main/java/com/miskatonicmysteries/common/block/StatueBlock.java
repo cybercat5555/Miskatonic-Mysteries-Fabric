@@ -3,16 +3,24 @@ package com.miskatonicmysteries.common.block;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
+import com.miskatonicmysteries.common.lib.Constants;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
@@ -37,6 +45,35 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
         this.affiliation = affiliation;
         setDefaultState(getDefaultState().with(Properties.ROTATION, 0));
         STATUES.add(this);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @org.jetbrains.annotations.Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+        if (stack.hasTag() && stack.getTag().contains(("BlockEntityTag"))) {
+            CompoundTag compoundTag = stack.getSubTag("BlockEntityTag");
+            if (compoundTag != null && compoundTag.contains(Constants.NBT.PLAYER_NAME)) {
+                tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.created_by", compoundTag.getString(Constants.NBT.PLAYER_NAME)).formatted(Formatting.GRAY));
+            }
+        }
+        super.appendTooltip(stack, world, tooltip, options);
+    }
+
+    public static ItemStack setCreator(ItemStack stack, PlayerEntity player) {
+        if (player == null) {
+            return stack;
+        }
+        if (!stack.hasTag()) {
+            stack.setTag(new CompoundTag());
+        }
+        CompoundTag blockEntityTag = new CompoundTag();
+        blockEntityTag.putString(Constants.NBT.PLAYER_NAME, player.getName().asString());
+        blockEntityTag.putUuid(Constants.NBT.PLAYER_UUID, player.getUuid());
+        stack.getTag().put("BlockEntityTag", blockEntityTag);
+        return stack;
+    }
+
+    public static boolean isPlayerMade(ItemStack stack) {
+        return stack.hasTag() && stack.getTag().contains("BlockEntityTag") && stack.getSubTag("BlockEntityTag").contains(Constants.NBT.PLAYER_NAME);
     }
 
     public BlockState rotate(BlockState state, BlockRotation rotation) {

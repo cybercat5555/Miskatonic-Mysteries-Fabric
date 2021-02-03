@@ -122,7 +122,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         dataTracker.startTracking(SHOCKED, false);
         dataTracker.startTracking(STAGE, 0);
         dataTracker.startTracking(POWER_POOL, 0);
-        dataTracker.startTracking(MAX_SPELLS, 0);
+        dataTracker.startTracking(MAX_SPELLS, Constants.DataTrackers.MIN_SPELLS);
         dataTracker.startTracking(AFFILIATION, Affiliation.NONE);
         dataTracker.startTracking(APPARENT_AFFILIATION, Affiliation.NONE);
         dataTracker.startTracking(RESONANCE, 0F);

@@ -69,12 +69,17 @@ public class SculptorRite extends Rite {
     }
 
     @Override
+    public boolean shouldContinue(OctagramBlockEntity octagram) {
+        return octagram.getOriginalCaster() != null;
+    }
+
+    @Override
     public void onFinished(OctagramBlockEntity octagram) {
         World world = octagram.getWorld();
         world.playSound(null, octagram.getPos(), MMMiscRegistries.Sounds.MAGIC, SoundCategory.PLAYERS, 0.8F, 1.0F);
         Vec3d pos = octagram.getSummoningPos().add(0, 0.5F, 0);
         if (!world.isClient) {
-            ItemEntity result = new ItemEntity(world, pos.x, pos.y, pos.z, new ItemStack(getStatueForIngredients(octagram)));
+            ItemEntity result = new ItemEntity(world, pos.x, pos.y, pos.z, StatueBlock.setCreator(new ItemStack(getStatueForIngredients(octagram)), octagram.getOriginalCaster()));
             result.setVelocity(0, 0, 0);
             result.setNoGravity(true);
             world.spawnEntity(result);

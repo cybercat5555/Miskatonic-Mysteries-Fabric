@@ -12,5 +12,9 @@
   "advancement_namespaces": [
     "miskatonicmysteries"
   ],
+  "macros": {
+    "$(marked)": "$(#840A00)",
+    "$(item)": "$(#230A47)"
+  },
   "advancements_tab": "miskatonicmysteries:root"
 }

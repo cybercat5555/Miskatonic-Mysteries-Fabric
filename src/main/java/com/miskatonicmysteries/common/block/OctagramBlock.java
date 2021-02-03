@@ -22,8 +22,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.ActionResult;
@@ -132,7 +130,6 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                 BlockPos boundPos = octagram.getBoundPos().offset(entity.getMovementDirection());
                 TeleportEffectPacket.send(entity, pos);
                 MiscUtil.teleport(octagram.getBoundDimension(), entity, boundPos.getX() + 0.5F, boundPos.getY(), boundPos.getZ() + 0.5F, entity.getHeadYaw(), entity.pitch);
-                octagram.getBoundDimension().playSound(boundPos.getX(), boundPos.getY(), boundPos.getZ(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1, 1, false);
                 TeleportEffectPacket.send(entity, boundPos);
             }
         }

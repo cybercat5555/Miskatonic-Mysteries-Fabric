@@ -39,7 +39,7 @@ public class CapabilityUtil {
             caster.getSpells().clear();
             caster.getLearnedMediums().clear();
             caster.getLearnedEffects().clear();
-            caster.setMaxSpells(0);
+            caster.setMaxSpells(Constants.DataTrackers.MIN_SPELLS);
             caster.setPowerPool(0);
             caster.syncSpellData();
         });

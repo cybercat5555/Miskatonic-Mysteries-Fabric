@@ -6,12 +6,25 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "PlayerName",
+                  "target": "BlockEntityTag.PlayerName",
+                  "op": "replace"
+                },
+                {
+                  "source": "PlayerUUID",
+                  "target": "BlockEntityTag.PlayerUUID",
+                  "op": "replace"
+                }
+              ]
+            }
+          ],
           "name": "miskatonicmysteries:hastur_statue_terracotta"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
         }
       ]
     }

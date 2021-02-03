@@ -28,7 +28,7 @@ public class TeleportEffectPacket {
         Entity entity = client.world.getEntityById(packetByteBuf.readInt());
         client.execute(() -> {
             if (entity instanceof LivingEntity) {
-                client.world.playSound(entity.getBlockPos(), MMMiscRegistries.Sounds.TELEPORT_SOUND, SoundCategory.PLAYERS, 0.5F, 0.8F, true);
+                client.world.playSound(entity.getBlockPos(), MMMiscRegistries.Sounds.TELEPORT_SOUND, SoundCategory.PLAYERS, 0.5F, 0.8F, false);
             }
             for (int i = 0; i < 5; i++) {
                 client.world.addParticle(ParticleTypes.PORTAL, entity.getX() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), entity.getY() + client.world.getRandom().nextGaussian() * 0.5F * entity.getHeight(), entity.getZ() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), 0, 0, 0);

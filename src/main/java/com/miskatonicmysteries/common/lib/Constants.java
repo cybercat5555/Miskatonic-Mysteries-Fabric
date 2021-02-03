@@ -79,7 +79,7 @@ public class Constants {
         public static final String STAGE = "Stage";
         public static final String ALTERNATE_WEAPON = "Alternate Weapon";
         public static final String CHARGING = "Charging";
-        public static final String PLAYER_UUID = "Player UUID";
+        public static final String PLAYER_UUID = "PlayerUUID";
         public static final String PROTAGONISTS = "Protagonists";
         public static final String SPAWNED = "Spawned";
         public static final String SPELL_EFFECT = "Spell Effect";
@@ -112,6 +112,7 @@ public class Constants {
         public static final String RESONANCE = "Resonance";
         public static final String RADIUS = "Radius";
         public static final String ENERGY = "Energy";
+        public static final String PLAYER_NAME = "PlayerName";
     }
 
     public static class DataTrackers {
@@ -138,12 +139,14 @@ public class Constants {
         public static final TrackedData<Integer> MAX_SPELLS = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Integer> STAGE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final int SPELL_CAP = 10;
+        public static final int MIN_SPELLS = 3;
 
         public static final TrackedData<Affiliation> AFFILIATION = DataTracker.registerData(PlayerEntity.class, AFFILIATION_TRACKER);
         public static final TrackedData<Affiliation> APPARENT_AFFILIATION = DataTracker.registerData(PlayerEntity.class, AFFILIATION_TRACKER);
         public static final int MAX_BLESSINGS = 3;
 
         public static final TrackedData<Float> RESONANCE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
+
     }
 
     public static class DamageSources extends DamageSource {
@@ -177,5 +180,6 @@ public class Constants {
 
     public static class Misc {
         public static final String NECRONOMICON_EXTENSION = "readBook";
+        public static final String ATE_ORB_EXTENSION = "orb";
     }
 }

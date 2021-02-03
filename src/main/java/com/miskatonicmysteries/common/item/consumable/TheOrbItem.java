@@ -42,7 +42,7 @@ public class TheOrbItem extends Item {
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         Sanity.of(user).ifPresent(sanity -> {
-            sanity.addSanityCapExpansion("orb", -50);
+            sanity.addSanityCapExpansion(Constants.Misc.ATE_ORB_EXTENSION, -50);
             sanity.setSanity(sanity.getSanity() - 25, true);
         });
         SpellCaster.of(user).ifPresent(caster -> {
