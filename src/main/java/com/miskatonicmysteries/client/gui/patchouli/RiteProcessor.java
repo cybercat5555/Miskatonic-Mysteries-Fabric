@@ -4,6 +4,7 @@ import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
@@ -29,7 +30,8 @@ public class RiteProcessor implements IComponentProcessor {
             default: {
                 for (int i = 0; i < rite.ingredients.size(); i++) {
                     if (key.equals("ingredient" + (i + 1))) {
-                        return IVariable.from(rite.ingredients.get(i));
+                        ItemStack[] stack = rite.ingredients.get(i).getMatchingStacksClient(); //patchouli pls
+                        return stack.length > 0 ? IVariable.from(stack[0]) : null;
                     }
                 }
 

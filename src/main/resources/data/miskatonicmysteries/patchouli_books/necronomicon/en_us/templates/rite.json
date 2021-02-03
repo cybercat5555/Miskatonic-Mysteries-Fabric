@@ -63,16 +63,24 @@
       "y": 25
     },
     {
-      "type": "header",
-      "text": "#rite_name",
+      "type": "custom",
+      "class": "com.miskatonicmysteries.client.gui.patchouli.ObfuscatedHeaderComponent",
       "x": -1,
-      "y": 0
+      "y": 0,
+      "text": "#rite_name",
+      "obfuscated_text": "#obfuscated_rite_name",
+      "affiliation": "#affiliation",
+      "stage": "#stage"
     },
     {
-      "type": "text",
-      "text": "#text",
+      "type": "custom",
+      "class": "com.miskatonicmysteries.client.gui.patchouli.ObfuscatedTextComponent",
       "x": 0,
-      "y": 100
+      "y": 100,
+      "text": "#text",
+      "obfuscated_text": "#obfuscated_text",
+      "affiliation": "#affiliation",
+      "stage": "#stage"
     }
   ]
 }
