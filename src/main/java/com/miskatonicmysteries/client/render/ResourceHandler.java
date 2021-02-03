@@ -144,4 +144,15 @@ public class ResourceHandler {
         return MASK_MODELS.getOrDefault(mask, new CreeperEntityModel<>());
     }
 
+    public static SpriteIdentifier getMatchingOctagramTexture(Affiliation affiliation) {
+        if (affiliation == null || affiliation == Affiliation.NONE) {
+            return ResourceHandler.DEFAULT_OCTAGRAM;
+        }
+        for (OctagramBlock octagramBlock : ResourceHandler.OCTAGRAM_SPRITES.keySet()) {
+            if (affiliation.equals(octagramBlock.getAffiliation(false))) {
+                return ResourceHandler.OCTAGRAM_SPRITES.get(octagramBlock);
+            }
+        }
+        return ResourceHandler.DEFAULT_OCTAGRAM;
+    }
 }

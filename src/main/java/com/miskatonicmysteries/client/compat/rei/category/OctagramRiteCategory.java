@@ -2,8 +2,6 @@ package com.miskatonicmysteries.client.compat.rei.category;
 
 import com.miskatonicmysteries.client.compat.rei.entry.SimpleOctagramEntry;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.block.OctagramBlock;
-import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
 import com.miskatonicmysteries.common.lib.Constants;
@@ -55,7 +53,7 @@ public class OctagramRiteCategory implements RecipeCategory<OctagramRiteCategory
         List<Widget> widgets = new ArrayList<>();
         Point startPoint = new Point(bounds.getCenterX() - 32, bounds.getCenterY() - 6);
         widgets.add(Widgets.createRecipeBase(bounds));
-        SpriteIdentifier sprite = getMatchingOctagramTexture(recipeDisplay.getRite().octagramAffiliation);
+        SpriteIdentifier sprite = ResourceHandler.getMatchingOctagramTexture(recipeDisplay.getRite().octagramAffiliation);
         widgets.add(Widgets.createTexturedWidget(new Identifier(sprite.getTextureId().getNamespace(), "textures/" + sprite.getTextureId().getPath() + ".png"), startPoint.x, startPoint.y - 24, 0, 0, 64, 64, sprite.getSprite().getWidth(), sprite.getSprite().getHeight(), sprite.getSprite().getWidth(), sprite.getSprite().getHeight()));
         int size = recipeDisplay.getInputEntries().size();
         if (size > 0) { //peak elegance haha yes
@@ -89,18 +87,6 @@ public class OctagramRiteCategory implements RecipeCategory<OctagramRiteCategory
         }
         widgets.add(label);
         return widgets;
-    }
-
-    private SpriteIdentifier getMatchingOctagramTexture(Affiliation affiliation) {
-        if (affiliation == null || affiliation == Affiliation.NONE) {
-            return ResourceHandler.DEFAULT_OCTAGRAM;
-        }
-        for (OctagramBlock octagramBlock : ResourceHandler.OCTAGRAM_SPRITES.keySet()) {
-            if (affiliation.equals(octagramBlock.getAffiliation(false))) {
-                return ResourceHandler.OCTAGRAM_SPRITES.get(octagramBlock);
-            }
-        }
-        return ResourceHandler.DEFAULT_OCTAGRAM;
     }
 
     @Override

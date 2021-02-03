@@ -115,13 +115,19 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
         return state;
     }
 
+
+    @Override
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
+        super.neighborUpdate(state, world, pos, block, fromPos, notify);
+    }
+
     @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos, BlockPos posFrom) {
-        changeConnectionState(state, world, pos);
         if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
             world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
-        return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
+
+        return changeConnectionState(state, world, pos);
     }
 
     @Override

@@ -1,0 +1,16 @@
+{
+  "name": "Rite of the Open Way",
+  "category": "miskatonicmysteries:rites",
+  "icon": "minecraft:ender_pearl",
+  "pages": [
+    {
+      "type": "text",
+      "text": "The Rite"
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "rite": "miskatonicmysteries:teleport",
+      "text": "Soufflé"
+    }
+  ]
+}
