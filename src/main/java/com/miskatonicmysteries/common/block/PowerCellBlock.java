@@ -51,8 +51,8 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        if (stack.hasTag() && stack.getTag().contains(("BlockEntityTag"))) {
-            CompoundTag compoundTag = stack.getSubTag("BlockEntityTag");
+        if (stack.hasTag() && stack.getTag().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
+            CompoundTag compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
             if (compoundTag != null && compoundTag.contains(Constants.NBT.ENERGY)) {
                 tooltip.add(MiscUtil.createPowerPercentageText(compoundTag.getDouble(Constants.NBT.ENERGY), PowerCellBlockEntity.MAX_STORAGE));
             }
@@ -64,7 +64,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         if (world.getBlockEntity(pos) != null) {
             ItemStack stack = getFilledStack();
-            stack.getTag().put("BlockEntityTag", world.getBlockEntity(pos).toTag(new CompoundTag()));
+            stack.getTag().put(Constants.NBT.BLOCK_ENTITY_TAG, world.getBlockEntity(pos).toTag(new CompoundTag()));
             return stack;
         }
         return super.getPickStack(world, pos, state);
@@ -164,7 +164,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
         CompoundTag tag = new CompoundTag();
         CompoundTag blockEntityTag = new CompoundTag();
         blockEntityTag.putDouble(Constants.NBT.ENERGY, PowerCellBlockEntity.MAX_STORAGE);
-        tag.put("BlockEntityTag", blockEntityTag);
+        tag.put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
         stack.setTag(tag);
         return stack;
     }

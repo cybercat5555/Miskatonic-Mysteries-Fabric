@@ -64,16 +64,16 @@ public class Constants {
     }
 
     public static class NBT {
-        public static final String RECEIVED_STACK = "Received Stack";
-        public static final String REALIZED_STACK = "Realized Stack";
-        public static final String POTENTIAL_ITEMS = "Potential Items";
+        public static final String RECEIVED_STACK = "ReceivedStack";
+        public static final String REALIZED_STACK = "RealizedStack";
+        public static final String POTENTIAL_ITEMS = "PotentialItems";
         public static final String SHOTS = "Shots";
         public static final String LOADING = "Loading";
 
-        public static final String MISK_DATA = "MiskMyst Data";
+        public static final String MISK_DATA = "MiskMystData";
         public static final String SANITY = "Sanity";
         public static final String SHOCKED = "Shocked";
-        public static final String SANITY_EXPANSIONS = "Sanity Expansions";
+        public static final String SANITY_EXPANSIONS = "SanityExpansions";
         public static final String WORK_PROGRESS = "Work Progress";
         public static final String VARIANT = "Variant";
         public static final String STAGE = "Stage";
@@ -82,19 +82,19 @@ public class Constants {
         public static final String PLAYER_UUID = "PlayerUUID";
         public static final String PROTAGONISTS = "Protagonists";
         public static final String SPAWNED = "Spawned";
-        public static final String SPELL_EFFECT = "Spell Effect";
-        public static final String SPELL_MEDIUM = "Spell Medium";
+        public static final String SPELL_EFFECT = "SpellEffect";
+        public static final String SPELL_MEDIUM = "SpellMedium";
         public static final String INTENSITY = "Intensity";
         public static final String CASTING = "Casting";
         public static final String SPELL = "Spell";
-        public static final String TICK_COUNT = "Tick Count";
+        public static final String TICK_COUNT = "TickCount";
         public static final String RITE = "Rite";
         public static final String KNOWLEDGE = "Knowledge";
-        public static final String PERMANENT_RITE = "Permanent Rite";
+        public static final String PERMANENT_RITE = "PermanentRite";
         public static final String AFFILIATION = "Affiliation";
-        public static final String APPARENT_AFFILIATION = "Apparent Affiliation";
-        public static final String POSITION = "Connected Position";
-        public static final String DIMENSION = "Connected Dimension";
+        public static final String APPARENT_AFFILIATION = "ApparentAffiliation";
+        public static final String POSITION = "ConnectedPosition";
+        public static final String DIMENSION = "ConnectedDimension";
         public static final String BLOCK_ENTITY_TAG = "BlockEntityTag";
         public static final String BANNER_BASE = "Base";
         public static final String BANNER_PATTERN = "Pattern";

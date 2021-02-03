@@ -49,8 +49,8 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 
     @Override
     public void appendTooltip(ItemStack stack, @org.jetbrains.annotations.Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-        if (stack.hasTag() && stack.getTag().contains(("BlockEntityTag"))) {
-            CompoundTag compoundTag = stack.getSubTag("BlockEntityTag");
+        if (stack.hasTag() && stack.getTag().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
+            CompoundTag compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
             if (compoundTag != null && compoundTag.contains(Constants.NBT.PLAYER_NAME)) {
                 tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.created_by", compoundTag.getString(Constants.NBT.PLAYER_NAME)).formatted(Formatting.GRAY));
             }
@@ -68,12 +68,12 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
         CompoundTag blockEntityTag = new CompoundTag();
         blockEntityTag.putString(Constants.NBT.PLAYER_NAME, player.getName().asString());
         blockEntityTag.putUuid(Constants.NBT.PLAYER_UUID, player.getUuid());
-        stack.getTag().put("BlockEntityTag", blockEntityTag);
+        stack.getTag().put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
         return stack;
     }
 
     public static boolean isPlayerMade(ItemStack stack) {
-        return stack.hasTag() && stack.getTag().contains("BlockEntityTag") && stack.getSubTag("BlockEntityTag").contains(Constants.NBT.PLAYER_NAME);
+        return stack.hasTag() && stack.getTag().contains(Constants.NBT.BLOCK_ENTITY_TAG) && stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG).contains(Constants.NBT.PLAYER_NAME);
     }
 
     public BlockState rotate(BlockState state, BlockRotation rotation) {
