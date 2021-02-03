@@ -7,12 +7,19 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -20,6 +27,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
+import team.reborn.energy.EnergySide;
 
 import java.util.Random;
 
@@ -78,10 +86,25 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
     }
 
     @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        if (!world.isClient) {
-            world.setBlockState(pos, state.with(POWERED, world.isReceivingRedstonePower(pos)));
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (hand == Hand.MAIN_HAND && hit.getSide() == state.get(FACING).getOpposite()) {
+            if (world.isClient) {
+                return ActionResult.SUCCESS;
+            }
+            world.playSound(null, pos, SoundEvents.BLOCK_LEVER_CLICK, SoundCategory.BLOCKS, 0.2F, state.get(POWERED) ? 0.6F : 0.5F);
+            if (state.get(POWERED)) {
+                if (player.isSneaking()) {
+                    world.setBlockState(pos, state.with(POWERED, false));
+                }
+            } else if (world.getBlockEntity(pos) instanceof ResonatorBlockEntity && ((ResonatorBlockEntity) world.getBlockEntity(pos)).getStored(EnergySide.UNKNOWN) > 0) {
+                world.setBlockState(pos, state.with(POWERED, true));
+            } else {
+                player.sendMessage(new TranslatableText("message.miskatonicmysteries.resonator_needs_energy"), true);
+                return ActionResult.FAIL;
+            }
+            return ActionResult.SUCCESS;
         }
+        return super.onUse(state, world, pos, player, hand, hit);
     }
 
     @Override

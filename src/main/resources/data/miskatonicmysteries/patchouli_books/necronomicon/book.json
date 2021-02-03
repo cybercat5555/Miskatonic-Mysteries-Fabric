@@ -14,7 +14,7 @@
   ],
   "macros": {
     "$(marked)": "$(#840A00)",
-    "$(item)": "$(#230A47)"
+    "$(item)": "$(#005035)"
   },
   "advancements_tab": "miskatonicmysteries:root"
 }

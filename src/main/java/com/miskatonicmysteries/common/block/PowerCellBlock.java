@@ -61,6 +61,24 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
     }
 
     @Override
+    public boolean hasComparatorOutput(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+        return world.getBlockEntity(pos) instanceof PowerCellBlockEntity ? (int) (16 * ((PowerCellBlockEntity) world.getBlockEntity(pos)).getStored(EnergySide.UNKNOWN) / PowerCellBlockEntity.MAX_STORAGE) : 0;
+    }
+
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!state.isOf(newState.getBlock())) {
+            world.updateComparators(pos, state.getBlock());
+        }
+        super.onStateReplaced(state, world, pos, newState, moved);
+    }
+
+    @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         if (world.getBlockEntity(pos) != null) {
             ItemStack stack = getFilledStack();

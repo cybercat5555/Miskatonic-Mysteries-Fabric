@@ -40,6 +40,7 @@ public class PowerCellBlockEntity extends BaseBlockEntity implements Tickable, E
             BlockEntity storage = world.getBlockEntity(pos.up());
             if (storage instanceof EnergyStorage) {
                 Energy.of(this).into(Energy.of(storage)).move();
+                world.updateComparators(pos, MMObjects.POWER_CELL);
             }
         }
     }
