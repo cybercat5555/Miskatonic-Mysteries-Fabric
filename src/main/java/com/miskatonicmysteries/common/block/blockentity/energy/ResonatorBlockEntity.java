@@ -84,10 +84,12 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements Tickable, E
                         }
                     });
                 }
+                markDirty();
             }
         } else if (intensity > 0 || ticksRan > 0) {
             ticksRan--;
             intensity -= 0.001F;
+            markDirty();
         }
     }
 

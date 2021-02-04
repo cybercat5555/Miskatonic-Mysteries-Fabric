@@ -6,7 +6,6 @@ import com.miskatonicmysteries.common.lib.*;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import software.bernie.geckolib3.GeckoLib;
 
 public class MiskatonicMysteries implements ModInitializer {
     public static MMConfig config;
@@ -18,7 +17,6 @@ public class MiskatonicMysteries implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        GeckoLib.initialize();
         MMObjects.init();
         MMEntities.init();
         MMMiscRegistries.init();

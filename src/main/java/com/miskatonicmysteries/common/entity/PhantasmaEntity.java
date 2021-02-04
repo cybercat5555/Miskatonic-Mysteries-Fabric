@@ -87,6 +87,9 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
     }
 
     private <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
+        /*if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F)) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("floating", true));
+        }*/
         event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
         return PlayState.CONTINUE;
     }
