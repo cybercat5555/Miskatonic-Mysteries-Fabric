@@ -1,9 +1,6 @@
 package com.miskatonicmysteries.common.lib;
 
-import com.miskatonicmysteries.common.entity.BoltEntity;
-import com.miskatonicmysteries.common.entity.HasturCultistEntity;
-import com.miskatonicmysteries.common.entity.ProtagonistEntity;
-import com.miskatonicmysteries.common.entity.SpellProjectileEntity;
+import com.miskatonicmysteries.common.entity.*;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
 import com.miskatonicmysteries.mixin.villagers.MemoryModuleTypeAccessor;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -28,6 +25,7 @@ public class MMEntities {
     public static final EntityType<HasturCultistEntity> HASTUR_CULTIST = FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, HasturCultistEntity::new).spawnableFarFromPlayer().dimensions(EntityDimensions.fixed(0.6F, 1.95F)).trackRangeBlocks(16).build();
     public static final EntityType<SpellProjectileEntity> SPELL_PROJECTILE = FabricEntityTypeBuilder.<SpellProjectileEntity>create(SpawnGroup.MISC, SpellProjectileEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F)).trackRangeBlocks(4).build();
     public static final EntityType<BoltEntity> BOLT = FabricEntityTypeBuilder.<BoltEntity>create(SpawnGroup.MISC, BoltEntity::new).disableSaving().dimensions(EntityDimensions.fixed(0.0F, 0.0F)).trackRangeBlocks(16).trackedUpdateRate(Integer.MAX_VALUE).build();
+    public static final EntityType<PhantasmEntity> PHANTASM = FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, PhantasmEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F)).trackRangeBlocks(16).build();
 
     public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
     public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create().id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW).build();
@@ -50,6 +48,9 @@ public class MMEntities {
 
         RegistryUtil.register(Registry.ENTITY_TYPE, "spell_projectile", SPELL_PROJECTILE);
         RegistryUtil.register(Registry.ENTITY_TYPE, "bolt", BOLT);
+
+        RegistryUtil.register(Registry.ENTITY_TYPE, "phantasm", PHANTASM);
+        FabricDefaultAttributeRegistry.register(PHANTASM, PathAwareEntity.createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 10).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.5F).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 12));
 
         RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
         RegistryUtil.register(Registry.VILLAGER_PROFESSION, "yellow_serf", YELLOW_SERF);

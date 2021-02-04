@@ -42,6 +42,7 @@ repositories {
 	maven {
 		url 'https://server.bbkr.space/artifactory/libs-release/'
 	}
+	maven { url 'https://repo.repsy.io/mvn/gandiber/geckolib' }
 }
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -72,6 +73,7 @@ dependencies {
 	}
 	include "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
 	modApi include("dev.technici4n:FastTransferLib:${project.ftl_version}")
+	modImplementation "software.bernie.geckolib:${project.geckolib_version}"
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 }
 
