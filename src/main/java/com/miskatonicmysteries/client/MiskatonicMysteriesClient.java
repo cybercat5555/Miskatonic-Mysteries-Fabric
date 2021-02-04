@@ -11,6 +11,7 @@ import com.miskatonicmysteries.client.render.entity.BoltRenderer;
 import com.miskatonicmysteries.client.render.entity.HasturCultistEntityRender;
 import com.miskatonicmysteries.client.render.entity.ProtagonistEntityRender;
 import com.miskatonicmysteries.client.render.entity.SpellProjectileRenderer;
+import com.miskatonicmysteries.client.render.entity.phantasma.PhantasmaV0Renderer;
 import com.miskatonicmysteries.common.block.AltarBlock;
 import com.miskatonicmysteries.common.block.OctagramBlock;
 import com.miskatonicmysteries.common.block.StatueBlock;
@@ -54,6 +55,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         EntityRendererRegistry.INSTANCE.register(MMEntities.HASTUR_CULTIST, (entityRenderDispatcher, context) -> new HasturCultistEntityRender(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.SPELL_PROJECTILE, (entityRenderDispatcher, context) -> new SpellProjectileRenderer(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.BOLT, (entityRenderDispatcher, context) -> new BoltRenderer(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.PHANTASMA, (entityRenderDispatcher, context) -> new PhantasmaV0Renderer(entityRenderDispatcher));
 
         PacketHandler.registerS2C();
         new ShaderHandler().init();
