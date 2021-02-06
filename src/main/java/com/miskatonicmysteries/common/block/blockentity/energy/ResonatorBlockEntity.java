@@ -58,7 +58,6 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements Tickable, E
     @Override
     public void tick() {
         boolean powered = isPowered();
-        //todo still handle some block changes, as well as aberrations
         if (powered) {
             radius = MAX_RADIUS * intensity;
             ticksRan++;
@@ -94,10 +93,10 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements Tickable, E
     }
 
     private void spawnPhantasm() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
             Vec3d pos = new Vec3d(getPos().getX() + world.random.nextGaussian() * (radius - 3), getPos().getY() + world.random.nextGaussian() * (radius - 7), getPos().getZ() + world.random.nextGaussian() * (radius - 3));
             if (world.getBlockState(new BlockPos(pos)).isSolidBlock(world, new BlockPos(pos)) && world instanceof ServerWorld) {
-                PhantasmaEntity phantasma = MMEntities.PHANTASMA.create(world);
+                PhantasmaEntity phantasma = world.getRandom().nextBoolean() ? MMEntities.ABERRATION.create(world) : MMEntities.PHANTASMA.create(world);
                 phantasma.refreshPositionAndAngles(pos.getX(), pos.getY(), pos.getZ(), world.random.nextInt(360), 0);
                 phantasma.initialize((ServerWorld) world, world.getLocalDifficulty(phantasma.getBlockPos()), SpawnReason.SPAWNER, null, null);
                 phantasma.setResonance(0.01F);

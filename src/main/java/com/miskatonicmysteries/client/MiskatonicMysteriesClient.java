@@ -1,17 +1,15 @@
 package com.miskatonicmysteries.client;
 
 import com.miskatonicmysteries.client.gui.HUDHandler;
+import com.miskatonicmysteries.client.model.entity.phantasma.AberrationModel;
+import com.miskatonicmysteries.client.model.entity.phantasma.PhantasmaModel;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.client.render.ShaderHandler;
 import com.miskatonicmysteries.client.render.blockentity.AltarBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.ChemistrySetBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
-import com.miskatonicmysteries.client.render.entity.BoltRenderer;
-import com.miskatonicmysteries.client.render.entity.HasturCultistEntityRender;
-import com.miskatonicmysteries.client.render.entity.ProtagonistEntityRender;
-import com.miskatonicmysteries.client.render.entity.SpellProjectileRenderer;
-import com.miskatonicmysteries.client.render.entity.phantasma.PhantasmaV0Renderer;
+import com.miskatonicmysteries.client.render.entity.*;
 import com.miskatonicmysteries.common.block.AltarBlock;
 import com.miskatonicmysteries.common.block.OctagramBlock;
 import com.miskatonicmysteries.common.block.StatueBlock;
@@ -55,7 +53,8 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         EntityRendererRegistry.INSTANCE.register(MMEntities.HASTUR_CULTIST, (entityRenderDispatcher, context) -> new HasturCultistEntityRender(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.SPELL_PROJECTILE, (entityRenderDispatcher, context) -> new SpellProjectileRenderer(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.BOLT, (entityRenderDispatcher, context) -> new BoltRenderer(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.PHANTASMA, (entityRenderDispatcher, context) -> new PhantasmaV0Renderer(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.PHANTASMA, (entityRenderDispatcher, context) -> new PhantasmaRenderer(entityRenderDispatcher, new PhantasmaModel()));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.ABERRATION, (entityRenderDispatcher, context) -> new PhantasmaRenderer(entityRenderDispatcher, new AberrationModel()));
 
         PacketHandler.registerS2C();
         new ShaderHandler().init();

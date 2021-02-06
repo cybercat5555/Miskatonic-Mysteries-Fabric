@@ -146,6 +146,7 @@ public class MMObjects {
 
     public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(MMEntities.PROTAGONIST, 4137472, 14592, new Item.Settings().group(Constants.MM_GROUP));
     public static final Item HASTUR_CULTIST_SPAWN_EGG = new SpawnEggItem(MMEntities.HASTUR_CULTIST, 0xEAC800, 0xFFFFFF, new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item PHANTASMA_SPAWN_EGG = new SpawnEggItem(MMEntities.PHANTASMA, 0x77329F, 0xDA329F, new Item.Settings().group(Constants.MM_GROUP));
 
     public static final Item ELEGANT_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png"), Affiliation.HASTUR, false);
     public static final Item FERAL_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png"), Affiliation.SHUB, false);
@@ -162,6 +163,7 @@ public class MMObjects {
     public static final Item INCANTATION_YOG = new IncantationYogItem();
 
     public static final Item IRIDESCENT_PEARL = new Item(new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item RESONATE_OOZE = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static void init() {
 
@@ -264,6 +266,7 @@ public class MMObjects {
 
         RegistryUtil.register(Registry.ITEM, "protagonist_spawn_egg", PROTAGONIST_SPAWN_EGG);
         RegistryUtil.register(Registry.ITEM, "hastur_cultist_spawn_egg", HASTUR_CULTIST_SPAWN_EGG);
+        RegistryUtil.register(Registry.ITEM, "phantasma_spawn_egg", PHANTASMA_SPAWN_EGG);
 
         RegistryUtil.register(Registry.ITEM, "elegant_mask", ELEGANT_MASK);
         RegistryUtil.register(Registry.ITEM, "feral_mask", FERAL_MASK);
@@ -281,5 +284,6 @@ public class MMObjects {
 
         RegistryUtil.register(Registry.ITEM, "the_orb", THE_ORB);
         RegistryUtil.register(Registry.ITEM, "iridescent_pearl", IRIDESCENT_PEARL);
+        RegistryUtil.register(Registry.ITEM, "resonate_ooze", RESONATE_OOZE);
     }
 }

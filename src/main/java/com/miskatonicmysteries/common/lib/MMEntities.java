@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -25,7 +26,8 @@ public class MMEntities {
     public static final EntityType<HasturCultistEntity> HASTUR_CULTIST = FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, HasturCultistEntity::new).spawnableFarFromPlayer().dimensions(EntityDimensions.fixed(0.6F, 1.95F)).trackRangeBlocks(16).build();
     public static final EntityType<SpellProjectileEntity> SPELL_PROJECTILE = FabricEntityTypeBuilder.<SpellProjectileEntity>create(SpawnGroup.MISC, SpellProjectileEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F)).trackRangeBlocks(4).build();
     public static final EntityType<BoltEntity> BOLT = FabricEntityTypeBuilder.<BoltEntity>create(SpawnGroup.MISC, BoltEntity::new).disableSaving().dimensions(EntityDimensions.fixed(0.0F, 0.0F)).trackRangeBlocks(16).trackedUpdateRate(Integer.MAX_VALUE).build();
-    public static final EntityType<PhantasmaEntity> PHANTASMA = FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, PhantasmaEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F)).trackRangeBlocks(16).build();
+    public static final EntityType<PhantasmaEntity> PHANTASMA = FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, PhantasmaEntity::new).dimensions(EntityDimensions.fixed(0.6F, 0.6F)).trackRangeBlocks(12).build();
+    public static final EntityType<AberrationEntity> ABERRATION = FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, AberrationEntity::new).dimensions(EntityDimensions.fixed(0.7F, 0.7F)).trackRangeBlocks(16).build();
 
     public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
     public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create().id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW).build();
@@ -61,12 +63,20 @@ public class MMEntities {
         RegistryUtil.register(Registry.ENTITY_TYPE, "phantasma", PHANTASMA);
         FabricDefaultAttributeRegistry.register(PHANTASMA, PathAwareEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 10)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.5F)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 12)
-                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.5F)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 6)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.65F)
                 .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.2F));
 
+        RegistryUtil.register(Registry.ENTITY_TYPE, "aberration", ABERRATION);
+        FabricDefaultAttributeRegistry.register(ABERRATION, HostileEntity.createHostileAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 16)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.5F)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 12)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.65F)
+                .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.4F));
         RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
         RegistryUtil.register(Registry.VILLAGER_PROFESSION, "yellow_serf", YELLOW_SERF);
     }

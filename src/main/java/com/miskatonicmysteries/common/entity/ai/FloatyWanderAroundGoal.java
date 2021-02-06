@@ -38,6 +38,6 @@ public class FloatyWanderAroundGoal extends Goal {
     private Vec3d getRandomLocation() {
         Vec3d vec3d3 = entity.getRotationVec(0.0F);
         Vec3d vec3d4 = TargetFinder.findAirTarget(entity, 8, 7, vec3d3, 1.5707964F, 3, 1);
-        return vec3d4 != null ? vec3d4 : TargetFinder.findGroundTarget(entity, 8, 4, -2, vec3d3, 1.5707963705062866D);
+        return vec3d4 != null ? vec3d4 : TargetFinder.findGroundTarget(entity, 8, 4, 2, vec3d3, 1.5707963705062866D);
     }
 }

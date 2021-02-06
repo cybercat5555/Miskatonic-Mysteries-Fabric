@@ -1,6 +1,5 @@
-package com.miskatonicmysteries.client.render.entity.phantasma;
+package com.miskatonicmysteries.client.render.entity;
 
-import com.miskatonicmysteries.client.model.entity.phantasma.PhantasmaV0Model;
 import com.miskatonicmysteries.common.entity.PhantasmaEntity;
 import com.miskatonicmysteries.common.feature.interfaces.Resonating;
 import net.minecraft.client.MinecraftClient;
@@ -10,34 +9,16 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import software.bernie.geckolib3.model.AnimatedGeoModel;
 import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
 import java.awt.*;
 
-public class PhantasmaV0Renderer extends GeoEntityRenderer<PhantasmaEntity> {
-    public PhantasmaV1Renderer v1Renderer;
-    public PhantasmaV2Renderer v2Renderer;
+public class PhantasmaRenderer extends GeoEntityRenderer<PhantasmaEntity> {
 
-    public PhantasmaV0Renderer(EntityRenderDispatcher dispatcher) {
-        super(dispatcher, new PhantasmaV0Model());
+    public PhantasmaRenderer(EntityRenderDispatcher dispatcher, AnimatedGeoModel<PhantasmaEntity> model) {
+        super(dispatcher, model);
         this.shadowRadius = 0;
-        v1Renderer = new PhantasmaV1Renderer(dispatcher);
-        v2Renderer = new PhantasmaV2Renderer(dispatcher);
-    }
-
-    @Override
-    public void render(PhantasmaEntity entity, float entityYaw, float partialTicks, MatrixStack stack, VertexConsumerProvider bufferIn, int packedLightIn) {
-        switch (entity.getVariant()) {
-            case 1:
-                v1Renderer.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
-                break;
-            case 2:
-                v2Renderer.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
-                break;
-            default:
-                super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
-                break;
-        }
     }
 
     @Override

@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "geometry.phantasma_2",
+        "identifier": "geometry.phantasma_1",
         "texture_width": 64,
         "texture_height": 32,
         "visible_bounds_width": 3,

@@ -1763,7 +1763,7 @@
         }
       }
     },
-    "Idle": {
+    "idle": {
       "loop": true,
       "animation_length": 2.2,
       "bones": {
@@ -2910,7 +2910,7 @@
         }
       }
     },
-    "Attack": {
+    "attack": {
       "animation_length": 1.28,
       "bones": {
         "body": {

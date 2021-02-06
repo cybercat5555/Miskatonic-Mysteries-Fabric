@@ -58,6 +58,7 @@ public class MMMiscRegistries {
         public static final StatusEffect OVERMEDICATED = new OvermedicalizedStatusEffect();
         public static final StatusEffect LAZARUS = new LazarusStatusEffect();
         public static final StatusEffect BLEED = new BleedStatusEffect();
+        public static final StatusEffect RESONANCE = new ResonanceStatusEffect();
     }
 
     public static class LootTables {
@@ -111,6 +112,7 @@ public class MMMiscRegistries {
         RegistryUtil.register(Registry.STATUS_EFFECT, "overmedicated", OVERMEDICATED);
         RegistryUtil.register(Registry.STATUS_EFFECT, "lazarus", LAZARUS);
         RegistryUtil.register(Registry.STATUS_EFFECT, "bleed", BLEED);
+        RegistryUtil.register(Registry.STATUS_EFFECT, "resonance", RESONANCE);
 
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(MMEntities.PSYCHONAUT, PSYCHONAUT_TRADES);
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(MMEntities.YELLOW_SERF, YELLOW_SERF_TRADE);

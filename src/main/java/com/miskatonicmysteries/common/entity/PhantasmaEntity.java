@@ -20,6 +20,7 @@ import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -35,12 +36,13 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Resonating, Flutterer {
     public static final TrackedData<Float> RESONANCE = DataTracker.registerData(PhantasmaEntity.class, TrackedDataHandlerRegistry.FLOAT);
-    public static final TrackedData<Integer> VARIANT = DataTracker.registerData(PhantasmaEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    public static final TrackedData<Integer> VARIATION = DataTracker.registerData(PhantasmaEntity.class, TrackedDataHandlerRegistry.INTEGER);
+
     private AnimationFactory factory = new AnimationFactory(this);
 
     public PhantasmaEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
-        moveControl = new FlightMoveControl(this, 20, true);
+        moveControl = new FlightMoveControl(this, 10, true);
     }
 
     public float getPathfindingFavor(BlockPos pos, WorldView world) {
@@ -69,15 +71,19 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
     @Override
     public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
         setResonance(Math.max(world.getRandom().nextFloat(), 0.2F));
-        dataTracker.set(VARIANT, world.getRandom().nextInt(3));
+        dataTracker.set(VARIATION, world.getRandom().nextInt(getMaxVariants()));
         return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
+    }
+
+    public int getMaxVariants() {
+        return 3;
     }
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(0, new EscapeDangerGoal(this, 1.0D));
-        this.goalSelector.add(2, new FloatyWanderAroundGoal(this, 20));
-        this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 4.0F));
+        this.goalSelector.add(0, new EscapeDangerGoal(this, 1.5D));
+        this.goalSelector.add(1, new FloatyWanderAroundGoal(this, 100));
+        this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         super.initGoals();
     }
 
@@ -86,11 +92,14 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
         data.addAnimationController(new AnimationController<>(this, "controller", 0, this::animationPredicate));
     }
 
-    private <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
-        /*if (!(lastLimbDistance > -0.15F && lastLimbDistance < 0.15F)) {
+    public <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
+        /*float limbSwingAmount = event.getLimbSwingAmount();
+        boolean isMoving = !(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F);
+        if (isMoving) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("floating", true));
-        }*/
+        }else{*/
         event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+        // }
         return PlayState.CONTINUE;
     }
 
@@ -104,12 +113,14 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
     public void writeCustomDataToTag(CompoundTag tag) {
         super.writeCustomDataToTag(tag);
         tag.putFloat(Constants.NBT.RESONANCE, getResonance());
+        tag.putInt(Constants.NBT.VARIANT, getVariation());
     }
 
     @Override
     public void readCustomDataFromTag(CompoundTag tag) {
         super.readCustomDataFromTag(tag);
         setResonance(tag.getFloat(Constants.NBT.RESONANCE));
+        dataTracker.set(VARIATION, MathHelper.clamp(tag.getInt(Constants.NBT.VARIANT), 0, getMaxVariants() - 1));
     }
 
 
@@ -117,7 +128,11 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(RESONANCE, 0F);
-        this.dataTracker.startTracking(VARIANT, 0);
+        this.dataTracker.startTracking(VARIATION, 0);
+    }
+
+    public int getVariation() {
+        return dataTracker.get(VARIATION);
     }
 
     @Override
@@ -130,10 +145,6 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
         dataTracker.set(RESONANCE, resonance);
     }
 
-    public int getVariant() {
-        return dataTracker.get(VARIANT);
-    }
-
     @Override
     protected EntityNavigation createNavigation(World world) {
         BirdNavigation flightNavigation = new BirdNavigation(this, world) {
@@ -141,9 +152,7 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
                 return true;
             }
         };
-        flightNavigation.setCanPathThroughDoors(false);
         flightNavigation.setCanSwim(false);
-        flightNavigation.setCanEnterOpenDoors(true);
         return flightNavigation;
     }
 }
