@@ -9,6 +9,7 @@ import com.miskatonicmysteries.common.feature.effect.*;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.util.RegistryUtil;
+import com.miskatonicmysteries.mixin.BrewingRecipeRegistryAccessor;
 import dev.emi.trinkets.api.SlotGroups;
 import dev.emi.trinkets.api.Slots;
 import dev.emi.trinkets.api.TrinketSlots;
@@ -22,9 +23,12 @@ import net.minecraft.block.ComposterBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.SuspiciousStewItem;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.Potions;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -59,6 +63,12 @@ public class MMMiscRegistries {
         public static final StatusEffect LAZARUS = new LazarusStatusEffect();
         public static final StatusEffect BLEED = new BleedStatusEffect();
         public static final StatusEffect RESONANCE = new ResonanceStatusEffect();
+
+        static class Potions {
+            public static final Potion RESONANCE = new Potion(new StatusEffectInstance(StatusEffects.RESONANCE, 3600, 0));
+            public static final Potion LONG_RESONANCE = new Potion(new StatusEffectInstance(StatusEffects.RESONANCE, 9600, 0));
+            public static final Potion STRONG_RESONANCE = new Potion(new StatusEffectInstance(StatusEffects.RESONANCE, 1800, 1));
+        }
     }
 
     public static class LootTables {
@@ -114,6 +124,10 @@ public class MMMiscRegistries {
         RegistryUtil.register(Registry.STATUS_EFFECT, "bleed", BLEED);
         RegistryUtil.register(Registry.STATUS_EFFECT, "resonance", RESONANCE);
 
+        RegistryUtil.register(Registry.POTION, "resonance", StatusEffects.Potions.RESONANCE);
+        RegistryUtil.register(Registry.POTION, "resonance_long", StatusEffects.Potions.LONG_RESONANCE);
+        RegistryUtil.register(Registry.POTION, "resonance_strong", StatusEffects.Potions.STRONG_RESONANCE);
+
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(MMEntities.PSYCHONAUT, PSYCHONAUT_TRADES);
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(MMEntities.YELLOW_SERF, YELLOW_SERF_TRADE);
 
@@ -129,6 +143,10 @@ public class MMMiscRegistries {
 
         CriterionRegistry.register(Criteria.RITE_CAST);
         CriterionRegistry.register(Criteria.LEVEL_UP);
+
+        BrewingRecipeRegistryAccessor.invokeRegister(Potions.WATER, MMObjects.RESONATE_OOZE, StatusEffects.Potions.RESONANCE);
+        BrewingRecipeRegistryAccessor.invokeRegister(StatusEffects.Potions.RESONANCE, Items.REDSTONE, StatusEffects.Potions.LONG_RESONANCE);
+        BrewingRecipeRegistryAccessor.invokeRegister(StatusEffects.Potions.RESONANCE, Items.GLOWSTONE_DUST, StatusEffects.Potions.STRONG_RESONANCE);
     }
 
     private static void initLootTableEdits() {

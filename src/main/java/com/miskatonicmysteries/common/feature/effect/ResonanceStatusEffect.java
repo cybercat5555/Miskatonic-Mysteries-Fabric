@@ -12,10 +12,10 @@ public class ResonanceStatusEffect extends StatusEffect {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        float targetIntensity = amplifier * 0.35F;
+        float targetIntensity = Math.min(1, (amplifier + 1) * 0.35F);
         Resonating.of(entity).ifPresent(resonating -> {
             if (resonating.getResonance() < targetIntensity) {
-                resonating.setResonance(resonating.getResonance() + targetIntensity / 100F + 0.01F);
+                resonating.setResonance(resonating.getResonance() + targetIntensity / 200F + 0.01F);
             }
         });
     }

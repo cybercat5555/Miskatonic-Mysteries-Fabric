@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "BlockMixin",
+    "BrewingRecipeRegistryAccessor",
     "CropMixin",
     "DataLoadMixin",
     "ItemMixin",
