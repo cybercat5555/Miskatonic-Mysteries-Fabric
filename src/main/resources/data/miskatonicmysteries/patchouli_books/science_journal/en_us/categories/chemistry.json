@@ -1,6 +1,6 @@
 {
   "name": "Chemistry",
-  "description": "",
-  "icon": "",
-  "sortnum": 1
+  "description": "FNORD",
+  "icon": "miskatonicmysteries:textures/gui/icons/chemistry.png",
+  "sortnum": 0
 }

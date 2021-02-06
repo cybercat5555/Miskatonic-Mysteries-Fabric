@@ -5,12 +5,12 @@
   "pages": [
     {
       "type": "text",
-      "text": "$(item)Resonate Ooze$() is, well, the residue of $(marked)phantasmal organisms$(), made visible and material through $(l:miskatonicmysteries:physics/resonator)$(item)the Resonator$()."
+      "text": "$(item)Resonate Ooze$() is, well, the residue of $(marked)phantasmal organisms$(), made visible and material through $(l:miskatonicmysteries:physics/resonator)$(item)the Resonator$(). This ooze of paranormal consistency can be used in $(marked)Potion Brewing$(), creating a potion with effects similar to that of the Resonator, albeit weaker and limited to whoever consumes it."
     },
     {
       "type": "spotlight",
       "item": "miskatonicmysteries:resonate_ooze",
-      "text": "This ooze of paranormal consistency can be used in $(marked)Potion Brewing$(), creating a potion with effects similar to that of the Resonator, albeit weaker and limited to whoever consumes it. "
+      "text": "Resonate Ooze is still a subject of intense research. Most scientists assume that it has plenty of uses outside of $(o)conventional science$()."
     }
   ]
 }

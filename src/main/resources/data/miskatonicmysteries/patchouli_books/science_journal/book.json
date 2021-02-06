@@ -5,5 +5,9 @@
   "book_texture": "miskatonicmysteries:textures/gui/science_journal.png",
   "dont_generate_book": true,
   "custom_book_item": "miskatonicmysteries:science_journal",
-  "show_progress": false
+  "show_progress": false,
+  "macros": {
+    "$(marked)": "$(#AE32FF)",
+    "$(item)": "$(#2F32FF)"
+  }
 }

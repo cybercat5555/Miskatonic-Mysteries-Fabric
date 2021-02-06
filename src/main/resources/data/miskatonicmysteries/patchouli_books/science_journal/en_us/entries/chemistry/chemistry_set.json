@@ -1,0 +1,20 @@
+{
+  "name": "Chemistry 101",
+  "category": "miskatonicmysteries:chemistry",
+  "icon": "miskatonicmysteries:chemistry_set",
+  "pages": [
+    {
+      "type": "text",
+      "text": "As one of the leading forces in research, Miskatonic University is greatly participated also in the discipline of $(marked)Chemistry$(). One of the University's greatest achievements is the simple, yet effective $(item)Chemistry Set$(). This set is able to produce most chemical substances with relative ease."
+    },
+    {
+      "type": "crafting",
+      "recipe": "miskatonicmysteries:crafting/chemistry_set",
+      "text": "Mind that using this requires a completed internship in the Faculty of Biochemical Research. Using this device without permission will have immediate exmatriculation as a consequence."
+    },
+    {
+      "type": "text",
+      "text": "The set takes up to five different ingredients. Chemical crafting go after this simple scheme:$(li)Add Ingredients$(li)Light using $(item)Flint and Steel$()$(li)Wait$(li)Collect$(br)Collecting requires a proper medium. This can be anything from a bottle to a piece of paper, depending on what is fabricated."
+    }
+  ]
+}

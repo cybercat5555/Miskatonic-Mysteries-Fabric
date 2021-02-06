@@ -1,6 +1,6 @@
 {
   "name": "Physics",
-  "description": "",
-  "icon": "minecraft:dirt",
-  "sortnum": 3
+  "description": "FNORD",
+  "icon": "miskatonicmysteries:textures/gui/icons/physics.png",
+  "sortnum": 1
 }
