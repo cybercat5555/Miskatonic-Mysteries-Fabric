@@ -6,6 +6,7 @@ import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -14,6 +15,8 @@ import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
@@ -49,6 +52,10 @@ public class TheOrbItem extends Item {
             caster.learnMedium(SpellMedium.PROJECTILE);
             CapabilityUtil.guaranteePower(3, caster);
         });
+        if (user instanceof ServerPlayerEntity) {
+            Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
+            ((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
+        }
         user.eatFood(world, stack);
         return stack;
     }

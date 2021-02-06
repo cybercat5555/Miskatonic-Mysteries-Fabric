@@ -32,27 +32,29 @@ public class ChemistrySetBlockRender extends BlockEntityRenderer<ChemistrySetBlo
         MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(0), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
         matrices.translate(0.3, 0, 0.3);
         MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(1), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
+        matrices.translate(-0.1, 0, -0.1);
+        MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(2), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
         matrices.pop();
 
         //bottom left
         matrices.push();
         matrices.translate(0.35, -0.2, -0.05);
         matrices.scale(0.3F, 0.3F, 0.3F);
-        MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(2), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
+        MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(3), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
         matrices.pop();
 
         //top right
         matrices.push();
         matrices.translate(-0.425, 0.2, 0);
         matrices.scale(0.3F, 0.3F, 0.3F);
-        MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(3), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
+        MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(4), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
         matrices.pop();
 
         //top left
         matrices.push();
         matrices.translate(0.3, 0.25, 0);
         matrices.scale(0.3F, 0.3F, 0.3F);
-        MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(4), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
+        MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(5), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers);
         matrices.pop();
 
         matrices.pop();

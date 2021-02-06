@@ -21,7 +21,7 @@ import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
 
 public class ChemistrySetBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory, Tickable {
-    private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(5, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(6, ItemStack.EMPTY);
     private final DefaultedList<PotentialItem> POTENTIAL_ITEMS = DefaultedList.ofSize(3, PotentialItem.EMPTY);
     public int workProgress;
     public int[] smokeColor = {0, 0, 0};
@@ -70,7 +70,6 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
             ChemistryRecipe recipe = MMRecipes.getRecipe(this);
             workProgress++;
             if (workProgress >= 100) {
-
                 world.playSound(null, pos, SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.6F, world.random.nextFloat() * 0.4F + 0.8F);
                 changeSmokeColor(recipe.color);
                 for (int i = 0; i < recipe.output.size(); i++) {

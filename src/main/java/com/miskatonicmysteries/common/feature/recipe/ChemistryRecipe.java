@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChemistryRecipe implements LazySerializable{
-    public final List<Ingredient> ingredients = DefaultedList.ofSize(5, Ingredient.EMPTY);
+    public final List<Ingredient> ingredients = DefaultedList.ofSize(6, Ingredient.EMPTY);
     public final int color;
     public final List<PotentialItem> output = DefaultedList.ofSize(3, PotentialItem.EMPTY);
     public final Identifier id;

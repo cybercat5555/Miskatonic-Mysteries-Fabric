@@ -107,7 +107,7 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
                 }
             }
         } else {
-            for (int i = 4; i >= 0; i--) {
+            for (int i = 5; i >= 0; i--) {
                 if (!blockEntity.getStack(i).isEmpty() && blockEntity.canPlayerUse(player)) {
                     InventoryUtil.giveItem(world, player, blockEntity.removeStack(i));
                     blockEntity.markDirty();

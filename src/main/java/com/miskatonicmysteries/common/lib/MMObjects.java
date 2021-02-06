@@ -165,6 +165,8 @@ public class MMObjects {
     public static final Item IRIDESCENT_PEARL = new Item(new Item.Settings().group(Constants.MM_GROUP));
     public static final Item RESONATE_OOZE = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
+    public static final Item CHEMICAL_FUEL = new ChemicalFuelItem();
+
     public static void init() {
 
         RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "chemistry_set", CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
@@ -285,5 +287,6 @@ public class MMObjects {
         RegistryUtil.register(Registry.ITEM, "the_orb", THE_ORB);
         RegistryUtil.register(Registry.ITEM, "iridescent_pearl", IRIDESCENT_PEARL);
         RegistryUtil.register(Registry.ITEM, "resonate_ooze", RESONATE_OOZE);
+        RegistryUtil.register(Registry.ITEM, "chemical_fuel", CHEMICAL_FUEL);
     }
 }

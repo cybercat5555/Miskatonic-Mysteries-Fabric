@@ -3,12 +3,15 @@ package com.miskatonicmysteries.common.item.consumable;
 import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMObjects;
 import com.miskatonicmysteries.mixin.ZombieVillagerAccessor;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 
@@ -19,6 +22,10 @@ public class ReAgentItem extends Item {
 
     @Override
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+        if (user instanceof ServerPlayerEntity) {
+            Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
+            user.incrementStat(Stats.USED.getOrCreateStat(this));
+        }
         if (entity instanceof ZombieVillagerEntity) {
             if (entity.getRandom().nextBoolean()) {
                 ((ZombieVillagerAccessor) entity).callSetConverting(user.getUuid(), 100);

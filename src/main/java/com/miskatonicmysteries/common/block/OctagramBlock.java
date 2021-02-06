@@ -65,7 +65,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                 rite.onStart(octagram);
                 octagram.markDirty();
                 octagram.sync();
-                return ActionResult.SUCCESS;
+                return ActionResult.CONSUME;
             }
         }
 

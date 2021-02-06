@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -31,6 +32,7 @@ public class BlotterItem extends Item {
         stack.decrement(1);
         if (user instanceof ServerPlayerEntity) {
             Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
+            ((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
         }
         return stack;
     }

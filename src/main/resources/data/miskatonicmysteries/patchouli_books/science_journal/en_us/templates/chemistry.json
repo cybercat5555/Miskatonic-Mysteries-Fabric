@@ -1,86 +1,128 @@
 {
-  "processor": "com.miskatonicmysteries.client.gui.patchouli.RiteProcessor",
+  "processor": "com.miskatonicmysteries.client.gui.patchouli.ChemistryProcessor",
   "components": [
     {
       "type": "image",
-      "image": "#octagram",
-      "x": 21,
+      "image": "miskatonicmysteries:textures/gui/science_journal_chemical_recipe.png",
+      "x": 10,
       "y": 15,
       "u": 0,
       "v": 0,
-      "texture_width": 48,
-      "texture_height": 48,
-      "width": 48,
-      "height": 48,
-      "scale": 1.5
+      "texture_width": 128,
+      "texture_height": 128,
+      "width": 128,
+      "height": 128,
+      "scale": 1
+    },
+    {
+      "type": "image",
+      "image": "miskatonicmysteries:textures/gui/science_journal_chemical_recipe.png",
+      "x": 54,
+      "y": 12,
+      "u": 44,
+      "v": 16,
+      "texture_width": 128,
+      "texture_height": 128,
+      "width": 56,
+      "height": 24,
+      "scale": 1
+    },
+    {
+      "type": "image",
+      "image": "miskatonicmysteries:textures/gui/science_journal_chemical_recipe.png",
+      "x": 54,
+      "y": 50,
+      "u": 44,
+      "v": 16,
+      "texture_width": 128,
+      "texture_height": 128,
+      "width": 56,
+      "height": 24,
+      "scale": 1
     },
     {
       "type": "item",
       "item": "#ingredient1",
-      "x": 49,
-      "y": 15
+      "x": 12,
+      "y": 17
     },
     {
       "type": "item",
       "item": "#ingredient2",
-      "x": 49,
-      "y": 71
+      "x": 12,
+      "y": 37
     },
     {
       "type": "item",
       "item": "#ingredient3",
-      "x": 20,
-      "y": 42
+      "x": 12,
+      "y": 57
     },
     {
       "type": "item",
       "item": "#ingredient4",
-      "x": 78,
-      "y": 42
+      "x": 32,
+      "y": 17
     },
     {
       "type": "item",
       "item": "#ingredient5",
-      "x": 30,
-      "y": 25
+      "x": 32,
+      "y": 37
     },
     {
       "type": "item",
       "item": "#ingredient6",
-      "x": 68,
-      "y": 62
+      "x": 32,
+      "y": 57
     },
     {
       "type": "item",
-      "item": "#ingredient7",
-      "x": 30,
-      "y": 62
+      "item": "#output_in2",
+      "x": 57,
+      "y": 18
     },
     {
       "type": "item",
-      "item": "#ingredient8",
-      "x": 68,
-      "y": 25
+      "item": "#output_in1",
+      "x": 57,
+      "y": 37
     },
     {
-      "type": "custom",
-      "class": "com.miskatonicmysteries.client.gui.patchouli.ObfuscatedHeaderComponent",
+      "type": "item",
+      "item": "#output_in3",
+      "x": 57,
+      "y": 56
+    },
+    {
+      "type": "item",
+      "item": "#output_out2",
+      "x": 91,
+      "y": 18
+    },
+    {
+      "type": "item",
+      "item": "#output_out1",
+      "x": 91,
+      "y": 37
+    },
+    {
+      "type": "item",
+      "item": "#output_out3",
+      "x": 91,
+      "y": 56
+    },
+    {
+      "type": "header",
       "x": -1,
       "y": 0,
-      "text": "#rite_name",
-      "obfuscated_text": "#obfuscated_rite_name",
-      "affiliation": "#affiliation",
-      "stage": "#stage"
+      "text": "#header"
     },
     {
-      "type": "custom",
-      "class": "com.miskatonicmysteries.client.gui.patchouli.ObfuscatedTextComponent",
+      "type": "text",
       "x": 0,
-      "y": 100,
-      "text": "#text",
-      "obfuscated_text": "#obfuscated_text",
-      "affiliation": "#affiliation",
-      "stage": "#stage"
+      "y": 68,
+      "text": "#text"
     }
   ]
 }

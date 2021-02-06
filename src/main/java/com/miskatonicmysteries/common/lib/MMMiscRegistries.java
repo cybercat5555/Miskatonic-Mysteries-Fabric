@@ -20,6 +20,9 @@ import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.fabricmc.fabric.api.object.builder.v1.advancement.CriterionRegistry;
 import net.minecraft.block.ComposterBlock;
+import net.minecraft.command.argument.ArgumentTypes;
+import net.minecraft.command.argument.IdentifierArgumentType;
+import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffect;
@@ -107,8 +110,9 @@ public class MMMiscRegistries {
         TrinketSlots.addSlot(SlotGroups.HEAD, Slots.MASK, new Identifier("trinkets", "textures/item/empty_trinket_slot_mask.png"));
 
         initLootTableEdits();
-        ModCommand.setup();
 
+        ArgumentTypes.register("insanity_event", ModCommand.InsanityEventArgumentType.class, new ConstantArgumentSerializer(IdentifierArgumentType::identifier));
+        ModCommand.setup();
         RegistryUtil.register(Registry.SOUND_EVENT, "gun_shot", GUN_SHOT);
         RegistryUtil.register(Registry.SOUND_EVENT, "scary", SCARY_SOUNDS);
         RegistryUtil.register(Registry.SOUND_EVENT, "teleport", TELEPORT_SOUND);

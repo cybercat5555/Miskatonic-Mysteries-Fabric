@@ -1,0 +1,44 @@
+{
+  "type": "miskatonicmysteries:chemistry_recipe",
+  "ingredients": [
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "color": 16777215,
+  "output": [
+    {
+      "in": {
+        "item": "minecraft:glass_bottle"
+      },
+      "out": {
+        "item": "miskatonicmysteries:chemical_fuel",
+        "count": 1
+      }
+    },
+    {
+      "in": {
+        "item": "minecraft:glass_bottle"
+      },
+      "out": {
+        "item": "miskatonicmysteries:chemical_fuel",
+        "count": 1
+      }
+    }
+  ]
+}
