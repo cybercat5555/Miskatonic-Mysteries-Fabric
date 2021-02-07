@@ -4,9 +4,14 @@ import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.lib.MMMiscRegistries;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -31,20 +36,68 @@ import net.minecraft.world.WorldAccess;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class StatueBlock extends Block implements Waterloggable, BlockEntityProvider, Affiliated {
+    public static final Map<StatusEffect, Integer> POSITIVE_STATUE_EFFECTS = new HashMap<>();
+    public static final Map<StatusEffect, Integer> NEGATIVE_STATUE_EFFECTS = new HashMap<>();
+
+    static {
+        POSITIVE_STATUE_EFFECTS.put(StatusEffects.SPEED, 2);
+        POSITIVE_STATUE_EFFECTS.put(StatusEffects.REGENERATION, 3);
+        POSITIVE_STATUE_EFFECTS.put(StatusEffects.STRENGTH, 4);
+        POSITIVE_STATUE_EFFECTS.put(StatusEffects.RESISTANCE, 4);
+        POSITIVE_STATUE_EFFECTS.put(StatusEffects.LUCK, 4);
+
+        NEGATIVE_STATUE_EFFECTS.put(MMMiscRegistries.StatusEffects.MANIA, 2);
+        NEGATIVE_STATUE_EFFECTS.put(StatusEffects.POISON, 4);
+        NEGATIVE_STATUE_EFFECTS.put(StatusEffects.NAUSEA, 3);
+        NEGATIVE_STATUE_EFFECTS.put(StatusEffects.UNLUCK, 5);
+        NEGATIVE_STATUE_EFFECTS.put(MMMiscRegistries.StatusEffects.BLEED, 4);
+        NEGATIVE_STATUE_EFFECTS.put(StatusEffects.WITHER, 6);
+        NEGATIVE_STATUE_EFFECTS.put(StatusEffects.HUNGER, 4);
+        NEGATIVE_STATUE_EFFECTS.put(StatusEffects.WEAKNESS, 3);
+    }
+
     public static List<StatueBlock> STATUES = new ArrayList<>();
     private Affiliation affiliation;
     private static final VoxelShape SHAPE = createCuboidShape(4, 0, 4, 12, 16, 12);
 
-    public StatueBlock(Affiliation affiliation, Settings settings) {
+    private boolean buffed;
+
+    public StatueBlock(Affiliation affiliation, boolean buffed, Settings settings) {
         super(settings.nonOpaque());
         this.affiliation = affiliation;
         setDefaultState(getDefaultState().with(Properties.ROTATION, 0));
         STATUES.add(this);
+        this.buffed = buffed;
+    }
+
+    public void selectStatusEffects(LivingEntity entity, Affiliated affiliated) {
+        boolean buffed = isBuffed();
+        if (getAffiliation(false).equals(affiliated.getAffiliation(false))) {
+            int duration = (buffed ? 9600 : 4800);
+            for (StatusEffect statusEffect : POSITIVE_STATUE_EFFECTS.keySet()) {
+                if (entity.world.getRandom().nextInt(POSITIVE_STATUE_EFFECTS.get(statusEffect)) == 0) {
+                    entity.addStatusEffect(new StatusEffectInstance(statusEffect, duration, buffed && statusEffect != StatusEffects.REGENERATION ? 1 : 0, true, false, false));
+                }
+            }
+        } else {
+            int duration = (buffed ? 1200 : 600);
+            for (StatusEffect statusEffect : NEGATIVE_STATUE_EFFECTS.keySet()) {
+                if (entity.world.getRandom().nextInt(NEGATIVE_STATUE_EFFECTS.get(statusEffect)) == 0) {
+                    entity.addStatusEffect(new StatusEffectInstance(statusEffect, duration, buffed ? 1 : 0, true, true, false));
+                }
+            }
+        }
+    }
+
+    public boolean isBuffed() {
+        return buffed;
     }
 
     @Override

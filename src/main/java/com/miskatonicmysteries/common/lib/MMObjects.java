@@ -54,20 +54,20 @@ public class MMObjects {
     public static final ChalkItem SHUB_CHALK = new ChalkItem(SHUB_OCTAGRAM);
     public static final BlockEntityType<OctagramBlockEntity> OCTAGRAM_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(OctagramBlockEntity::new, OctagramBlock.OCTAGRAMS.toArray(new OctagramBlock[OctagramBlock.OCTAGRAMS.size()])).build(null);
 
-    public static final StatueBlock CTHULHU_STATUE_GOLD = new StatueBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
-    public static final StatueBlock CTHULHU_STATUE_MOSSY = new StatueBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
-    public static final StatueBlock CTHULHU_STATUE_PRISMARINE = new StatueBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.PRISMARINE));
-    public static final StatueBlock CTHULHU_STATUE_STONE = new StatueBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final StatueBlock CTHULHU_STATUE_GOLD = new StatueBlock(Affiliation.CTHULHU, true, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+    public static final StatueBlock CTHULHU_STATUE_MOSSY = new StatueBlock(Affiliation.CTHULHU, false, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final StatueBlock CTHULHU_STATUE_PRISMARINE = new StatueBlock(Affiliation.CTHULHU, false, AbstractBlock.Settings.copy(Blocks.PRISMARINE));
+    public static final StatueBlock CTHULHU_STATUE_STONE = new StatueBlock(Affiliation.CTHULHU, false, AbstractBlock.Settings.copy(Blocks.STONE));
 
-    public static final StatueBlock HASTUR_STATUE_GOLD = new StatueBlock(Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
-    public static final StatueBlock HASTUR_STATUE_MOSSY = new StatueBlock(Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
-    public static final StatueBlock HASTUR_STATUE_TERRACOTTA = new StatueBlock(Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
-    public static final StatueBlock HASTUR_STATUE_STONE = new StatueBlock(Affiliation.HASTUR, AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final StatueBlock HASTUR_STATUE_GOLD = new StatueBlock(Affiliation.HASTUR, true, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+    public static final StatueBlock HASTUR_STATUE_MOSSY = new StatueBlock(Affiliation.HASTUR, false, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final StatueBlock HASTUR_STATUE_TERRACOTTA = new StatueBlock(Affiliation.HASTUR, false, AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
+    public static final StatueBlock HASTUR_STATUE_STONE = new StatueBlock(Affiliation.HASTUR, false, AbstractBlock.Settings.copy(Blocks.STONE));
 
-    public static final StatueBlock SHUB_STATUE_GOLD = new StatueBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
-    public static final StatueBlock SHUB_STATUE_MOSSY = new StatueBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
-    public static final StatueBlock SHUB_STATUE_BLACKSTONE = new StatueBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
-    public static final StatueBlock SHUB_STATUE_STONE = new StatueBlock(Affiliation.SHUB, AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final StatueBlock SHUB_STATUE_GOLD = new StatueBlock(Affiliation.SHUB, false, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+    public static final StatueBlock SHUB_STATUE_MOSSY = new StatueBlock(Affiliation.SHUB, false, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+    public static final StatueBlock SHUB_STATUE_BLACKSTONE = new StatueBlock(Affiliation.SHUB, false, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
+    public static final StatueBlock SHUB_STATUE_STONE = new StatueBlock(Affiliation.SHUB, false, AbstractBlock.Settings.copy(Blocks.STONE));
     public static final BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(StatueBlockEntity::new, StatueBlock.STATUES.toArray(new StatueBlock[StatueBlock.STATUES.size()])).build(null);
 
     public static final Block STONE_CTHULHU_MURAL = new MuralBlock(Affiliation.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));

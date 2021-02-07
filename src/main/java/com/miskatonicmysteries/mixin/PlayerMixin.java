@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.feature.blessing.Blessing;
@@ -30,6 +31,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -56,6 +58,19 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
 
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    @Inject(method = "wakeUp(ZZ)V", at = @At("HEAD"))
+    private void wakeUp(boolean bl, boolean updateSleepingPlayers, CallbackInfo ci) {
+        if (isSleepingLongEnough() && !world.isClient && world.random.nextFloat() < MiskatonicMysteries.config.entities.statueEffectChance) {
+            Iterable<BlockPos> positions = BlockPos.iterateOutwards(getBlockPos(), 10, 10, 10);
+            for (BlockPos position : positions) {
+                if (world.getBlockState(position).getBlock() instanceof StatueBlock) {
+                    ((StatueBlock) world.getBlockState(position).getBlock()).selectStatusEffects(this, this);
+                    break;
+                }
+            }
+        }
     }
 
     @Inject(method = "tick()V", at = @At("TAIL"))
@@ -88,6 +103,9 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
 
     @Shadow
     public abstract void addExperienceLevels(int levels);
+
+    @Shadow
+    public abstract boolean isSleepingLongEnough();
 
     @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"))
     private void manipulateProtagonistDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {

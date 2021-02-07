@@ -122,10 +122,10 @@ public class HasturCultistBrain {
                             if (livingEntity.getAttacker() != null) {
                                 bestTarget = livingEntity.getAttacker();
                                 break;
+                            } else if (livingEntity.getAttacking() != null && !(livingEntity.getAttacking() instanceof VillagerEntity)) {
+                                bestTarget = livingEntity.getAttacking();
+                                break;
                             }
-                        } else if (livingEntity.getAttacking() != null && !(livingEntity.getAttacking() instanceof VillagerEntity)) {
-                            bestTarget = livingEntity.getAttacking();
-                            break;
                         }
                         if (CapabilityUtil.getAffiliation(livingEntity, true) == Affiliation.SHUB
                                 || livingEntity instanceof ProtagonistEntity || (livingEntity instanceof Monster && !(livingEntity instanceof CreeperEntity))) {

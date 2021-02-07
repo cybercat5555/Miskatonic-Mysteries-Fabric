@@ -16,6 +16,12 @@
       "title": "Incantation",
       "item": "miskatonicmysteries:incantation_yog",
       "text": "The Gate-and-Key isn't primarily worshipped in this world, not anymore; however, older civilizations have left one particularly powerful and commonly used incantation, able to hold an exact position in space.$(br)Using this binds it to the position of an Octagram, which may be used in practices such as the $(l:miskatonicmysteries:rites/rite_teleport)$(marked)Rite of the Open Way.$()"
+    },
+    {
+      "type": "miskatonicmysteries:chemistry",
+      "recipe": "miskatonicmysteries:chemistry/iridescent_pearl",
+      "header": "Iridescent Pearl",
+      "text": "An alchemically-created pearl that shines a multitude of colours. It is said to resemble the orbs of the Gate-and-Key, and thus contains an atom of his power. However, it is a fragile object and will be destroyed in the rite."
     }
   ]
 }

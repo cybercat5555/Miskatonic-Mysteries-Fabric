@@ -16,6 +16,7 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.MobNavigation;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -65,8 +66,23 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     }
 
     @Override
+    public boolean isInvulnerableTo(DamageSource damageSource) {
+        if (damageSource == DamageSource.OUT_OF_WORLD) {
+            return false;
+        } else if (isInvulnerable()) {
+            return true;
+        } else if (damageSource == DamageSource.MAGIC || damageSource == DamageSource.GENERIC) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     protected void mobTick() {
         super.mobTick();
+        if (!isAttacking()) {
+            heal(1);
+        }
         if (isCasting()) {
             if (currentSpell != null && !world.isClient) {
                 EffectParticlePacket.send(this);

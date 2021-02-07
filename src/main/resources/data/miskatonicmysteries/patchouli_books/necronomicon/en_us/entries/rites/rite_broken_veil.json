@@ -1,0 +1,16 @@
+{
+  "name": "Broken Veil",
+  "category": "miskatonicmysteries:rites",
+  "icon": "minecraft:ender_eye",
+  "pages": [
+    {
+      "type": "text",
+      "text": "A sinister $(l:miskatonicmysteries:rites/triggered_rites)$(marked)triggered Rite$() used as protection or trap. $(br)By creating a modified form of a Warp Point held under tension, one can allow creatures from the Otherwhere to enter the realm once a soul passes near, or if the rite is forcefully activated. In short, when a living being passes by the Octagram, it will spawn forth a group of otherworldly horrors."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "rite": "miskatonicmysteries:broken_veil",
+      "text": "Pretty nasty."
+    }
+  ]
+}

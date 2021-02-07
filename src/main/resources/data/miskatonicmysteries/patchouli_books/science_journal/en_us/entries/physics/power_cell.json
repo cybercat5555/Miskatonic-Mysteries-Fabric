@@ -16,7 +16,7 @@
       "type": "miskatonicmysteries:chemistry",
       "header": "Chemical Fuel",
       "recipe": "miskatonicmysteries:chemistry/chemical_fuel",
-      "text": "$(br)In case of longer term usage, they can be re-filled with $(item)Chemical Fuel$().$(br)Chemical Fuel fills a Power Cell by twenty-five percent."
+      "text": "In case of longer term usage, they can be re-filled with $(item)Chemical Fuel$().$(br)Chemical Fuel fills a Power Cell by twenty-five percent."
     },
     {
       "type": "text",

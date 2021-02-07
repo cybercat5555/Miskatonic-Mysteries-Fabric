@@ -31,10 +31,15 @@ public class MMConfig implements ConfigData {
         public int protagonistAggressionThreshold = 700;
 
         @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 1)
         public float yellowSerfPercentage = 0.25F;
 
         @ConfigEntry.Gui.Tooltip
         public boolean subtlety = true;
+
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 1)
+        public float statueEffectChance = 0.4F;
     }
 
     public static class Sanity {

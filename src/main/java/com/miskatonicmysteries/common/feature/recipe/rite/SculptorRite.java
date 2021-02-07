@@ -30,6 +30,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Random;
 
 public class SculptorRite extends Rite {
     private static final HasturStatueModel MODEL = new HasturStatueModel();
@@ -54,6 +55,11 @@ public class SculptorRite extends Rite {
     public void tick(OctagramBlockEntity octagram) {
         if (octagram.tickCount > 0 && octagram.tickCount % 40 == 0) {
             octagram.getWorld().playSound(null, octagram.getPos(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.PLAYERS, 0.8F, 1.0F);
+            Vec3d pos = octagram.getSummoningPos().add(0, 0.25F * octagram.tickCount / 40F, 0);
+            Random random = octagram.getWorld().random;
+            for (int i = 0; i < 7; i++) {
+                MMParticles.spawnCandleParticle(octagram.getWorld(), pos.x + random.nextGaussian() / 4F, pos.y + random.nextGaussian() / 4F, pos.z + random.nextGaussian() / 4F, 1, true);
+            }
         }
         List<HasturCultistEntity> cultists = octagram.getWorld().getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 5, 10), cultist -> cultist.getTarget() == null);
         Vec3d pos = octagram.getSummoningPos();

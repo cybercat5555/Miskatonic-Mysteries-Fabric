@@ -1,0 +1,16 @@
+{
+  "name": "Burned Veil",
+  "category": "miskatonicmysteries:rites",
+  "icon": "minecraft:blaze_powder",
+  "pages": [
+    {
+      "type": "text",
+      "text": "A demonic rite used as protection or traps.$(br)By creating a modified form of a Warp Point held under tension, one can allow burning horrors from the Infernal Kingdom to enter this reality once a living being passes nearby the rite, or upon activation. It will release waves of these demonic monsters to destroy those nearby."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "rite": "miskatonicmysteries:burned_veil",
+      "text": ""
+    }
+  ]
+}

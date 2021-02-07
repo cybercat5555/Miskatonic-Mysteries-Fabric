@@ -42,7 +42,7 @@ public abstract class ItemMixin {
 
     @Inject(method = "usageTick", at = @At("HEAD"))
     public void tickShield(World world, LivingEntity user, ItemStack stack, int remainingUseTicks, CallbackInfo info) {
-        if (stack.getItem() instanceof ShieldItem && user.getRandom().nextInt(MiskatonicMysteries.config.modUpdateInterval) == 0) {
+        if (!world.isClient && stack.getItem() instanceof ShieldItem && user.getRandom().nextInt(MiskatonicMysteries.config.modUpdateInterval) == 0) {
             if (stack.hasTag() && stack.getTag().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) != null) {
                 CompoundTag compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
                 if (compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) && MiscUtil.isValidYellowSign(compoundTag.getList(Constants.NBT.BANNER_PP_TAG, 10))) {
