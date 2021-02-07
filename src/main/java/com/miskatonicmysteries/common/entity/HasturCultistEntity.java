@@ -46,7 +46,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class HasturCultistEntity extends VillagerEntity implements Angerable, Affiliated {
+public class HasturCultistEntity extends VillagerEntity implements Angerable, Affiliated, CastingMob {
     protected static final TrackedData<Integer> VARIANT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
     protected static final TrackedData<Integer> CASTING_TIME_LEFT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
     //anger
@@ -360,16 +360,36 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         setAngerTime(ANGER_TIME_RANGE.choose(this.random));
     }
 
+    @Override
     public void setCastTime(int castTime) {
         dataTracker.set(CASTING_TIME_LEFT, castTime);
     }
 
+    @Override
     public int getCastTime() {
         return dataTracker.get(CASTING_TIME_LEFT);
     }
 
+    @Override
     public boolean isCasting() {
         return dataTracker.get(CASTING_TIME_LEFT) > 0;
+    }
+
+    @Override
+    @Nullable
+    public Spell getCurrentSpell() {
+        return currentSpell;
+    }
+
+    @Override
+    public void setCurrentSpell(@Nullable Spell currentSpell) {
+        this.currentSpell = currentSpell;
+    }
+
+    @Override
+    public Spell selectSpell() {
+        //return null because it's already handled in the very specific task
+        return null;
     }
 
     @Override

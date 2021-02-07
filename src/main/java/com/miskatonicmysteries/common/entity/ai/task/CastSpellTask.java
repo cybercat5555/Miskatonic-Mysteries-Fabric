@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.entity.ai.task;
 
 import com.google.common.collect.ImmutableMap;
-import com.miskatonicmysteries.common.entity.HasturCultistEntity;
+import com.miskatonicmysteries.common.entity.CastingMob;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.miskatonicmysteries.common.feature.spell.SpellMedium;
@@ -24,7 +24,7 @@ public class CastSpellTask extends Task<VillagerEntity> {
 
     @Override
     protected boolean shouldRun(ServerWorld world, VillagerEntity entity) {
-        return entity instanceof HasturCultistEntity && LookTargetUtil.isVisibleInMemory(entity, getTarget(entity)) && ((HasturCultistEntity) entity).getCastTime() <= 0 && getTarget(entity).distanceTo(entity) > 3;
+        return entity instanceof CastingMob && LookTargetUtil.isVisibleInMemory(entity, getTarget(entity)) && ((CastingMob) entity).getCastTime() <= 0 && getTarget(entity).distanceTo(entity) > 3;
     }
 
     private LivingEntity getTarget(MobEntity mobEntity) {
@@ -33,7 +33,7 @@ public class CastSpellTask extends Task<VillagerEntity> {
 
     @Override
     protected void run(ServerWorld world, VillagerEntity entity, long time) {
-        if (entity instanceof HasturCultistEntity) {
+        if (entity instanceof CastingMob) {
             timer = 60;
             SpellEffect effect = SpellEffect.KNOCKBACK;
             SpellMedium medium = SpellMedium.MOB_TARGET;
@@ -51,8 +51,8 @@ public class CastSpellTask extends Task<VillagerEntity> {
                 effect = SpellEffect.RESISTANCE;
                 medium = SpellMedium.GROUP;
             }
-            ((HasturCultistEntity) entity).currentSpell = new Spell(medium, effect, intensity);
-            ((HasturCultistEntity) entity).setCastTime(timer);
+            ((CastingMob) entity).setCurrentSpell(new Spell(medium, effect, intensity));
+            ((CastingMob) entity).setCastTime(timer);
             LookTargetUtil.lookAt(entity, target);
         }
     }

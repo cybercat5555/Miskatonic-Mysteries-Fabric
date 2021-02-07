@@ -55,6 +55,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         EntityRendererRegistry.INSTANCE.register(MMEntities.BOLT, (entityRenderDispatcher, context) -> new BoltRenderer(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.PHANTASMA, (entityRenderDispatcher, context) -> new PhantasmaRenderer(entityRenderDispatcher, new PhantasmaModel()));
         EntityRendererRegistry.INSTANCE.register(MMEntities.ABERRATION, (entityRenderDispatcher, context) -> new PhantasmaRenderer(entityRenderDispatcher, new AberrationModel()));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.TATTERED_PRINCE, (entityRenderDispatcher, context) -> new TatteredPrinceRenderer(entityRenderDispatcher));
 
         PacketHandler.registerS2C();
         new ShaderHandler().init();

@@ -28,6 +28,7 @@ public class MMEntities {
     public static final EntityType<BoltEntity> BOLT = FabricEntityTypeBuilder.<BoltEntity>create(SpawnGroup.MISC, BoltEntity::new).disableSaving().dimensions(EntityDimensions.fixed(0.0F, 0.0F)).trackRangeBlocks(16).trackedUpdateRate(Integer.MAX_VALUE).build();
     public static final EntityType<PhantasmaEntity> PHANTASMA = FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, PhantasmaEntity::new).dimensions(EntityDimensions.fixed(0.6F, 0.6F)).trackRangeBlocks(12).build();
     public static final EntityType<AberrationEntity> ABERRATION = FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, AberrationEntity::new).dimensions(EntityDimensions.fixed(0.7F, 0.7F)).trackRangeBlocks(16).build();
+    public static final EntityType<TatteredPrinceEntity> TATTERED_PRINCE = FabricEntityTypeBuilder.create(SpawnGroup.MISC, TatteredPrinceEntity::new).dimensions(EntityDimensions.fixed(1.5F, 4)).trackRangeBlocks(48).build();
 
     public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
     public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create().id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW).build();
@@ -77,6 +78,17 @@ public class MMEntities {
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 12)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.65F)
                 .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.4F));
+
+
+        RegistryUtil.register(Registry.ENTITY_TYPE, "tattered_prince", TATTERED_PRINCE);
+        FabricDefaultAttributeRegistry.register(TATTERED_PRINCE, PathAwareEntity.createMobAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 250)
+                .add(EntityAttributes.GENERIC_ARMOR, 9)
+                .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, 10)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.24D)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.5F)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.8F));
         RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
         RegistryUtil.register(Registry.VILLAGER_PROFESSION, "yellow_serf", YELLOW_SERF);
     }

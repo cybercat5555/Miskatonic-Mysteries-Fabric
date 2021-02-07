@@ -103,6 +103,7 @@
   "entity.miskatonicmysteries.hastur_cultist": "Yellow Serf",
   "entity.miskatonicmysteries.phantasma": "Phantasma",
   "entity.miskatonicmysteries.aberration": "Aberration",
+  "entity.miskatonicmysteries.tattered_prince": "Tattered Prince",
   "comment4": "TOOLTIPS",
   "tooltip.miskatonicmysteries.gun_loaded": "Loaded (%d/%d)",
   "tooltip.miskatonicmysteries.gun_not_loaded": "Not Loaded (%d/%d)",
