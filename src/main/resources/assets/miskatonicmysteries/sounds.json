@@ -6,6 +6,12 @@
       "miskatonicmysteries:shoot1"
     ]
   },
+  "resonator": {
+    "subtitle": "subtitles.miskatonicmysteries.resonator",
+    "sounds": [
+      "miskatonicmysteries:resonator_ambiance"
+    ]
+  },
   "scary": {
     "subtitle": "subtitles.miskatonicmysteries.scary",
     "sounds": [

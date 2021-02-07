@@ -88,6 +88,10 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (hand == Hand.MAIN_HAND && hit.getSide() == state.get(FACING).getOpposite()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity == null) {
+                return ActionResult.FAIL;
+            }
             if (world.isClient) {
                 return ActionResult.SUCCESS;
             }
@@ -95,9 +99,11 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
             if (state.get(POWERED)) {
                 if (player.isSneaking()) {
                     world.setBlockState(pos, state.with(POWERED, false));
+                    blockEntity.markDirty();
                 }
-            } else if (world.getBlockEntity(pos) instanceof ResonatorBlockEntity && ((ResonatorBlockEntity) world.getBlockEntity(pos)).getStored(EnergySide.UNKNOWN) > 0) {
+            } else if (blockEntity instanceof ResonatorBlockEntity && ((ResonatorBlockEntity) blockEntity).getStored(EnergySide.UNKNOWN) > 0) {
                 world.setBlockState(pos, state.with(POWERED, true));
+                blockEntity.markDirty();
             } else {
                 player.sendMessage(new TranslatableText("message.miskatonicmysteries.resonator_needs_energy"), true);
                 return ActionResult.FAIL;
@@ -110,7 +116,8 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
     @Override
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
-        if (state.get(POWERED)) {
+        boolean powered = state.get(POWERED);
+        if (powered) {
             world.addParticle(MMParticles.AMBIENT, pos.getX() + 0.5F + random.nextGaussian() * 2, pos.getY() + 0.5F + random.nextGaussian() * 1.5F, pos.getZ() + 0.5F + random.nextGaussian() * 2, 0.75F, 0, 1);
         }
     }

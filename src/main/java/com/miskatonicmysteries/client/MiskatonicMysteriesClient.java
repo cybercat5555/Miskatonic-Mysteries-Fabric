@@ -10,6 +10,7 @@ import com.miskatonicmysteries.client.render.blockentity.ChemistrySetBlockRender
 import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
 import com.miskatonicmysteries.client.render.entity.*;
+import com.miskatonicmysteries.client.sound.ResonatorSound;
 import com.miskatonicmysteries.common.block.AltarBlock;
 import com.miskatonicmysteries.common.block.OctagramBlock;
 import com.miskatonicmysteries.common.block.StatueBlock;
@@ -20,16 +21,29 @@ import com.miskatonicmysteries.common.lib.MMObjects;
 import com.miskatonicmysteries.common.lib.MMParticles;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 
 public class MiskatonicMysteriesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        ClientTickEvents.END_CLIENT_TICK.register(new ClientTickEvents.EndTick() {
+            @Override
+            public void onEndTick(MinecraftClient minecraftClient) {
+                for (BlockPos blockPos : ResonatorSound.soundInstances.keySet()) {
+                    if (ResonatorSound.soundInstances.get(blockPos).isDone()) {
+                        ResonatorSound.soundInstances.remove(blockPos);
+                    }
+                }
+            }
+        });
         MMParticles.init();
         FabricModelPredicateProviderRegistry.register(MMObjects.RIFLE, new Identifier("loading"), (stack, world, entity) -> GunItem.isLoading(stack) ? 1 : 0);
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());

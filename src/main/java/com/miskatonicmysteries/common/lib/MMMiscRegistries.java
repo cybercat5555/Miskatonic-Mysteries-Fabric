@@ -57,6 +57,7 @@ public class MMMiscRegistries {
         public static final SoundEvent PRIMED_RITE_TRIGGERED = new SoundEvent(new Identifier(Constants.MOD_ID, "rite_triggered"));
         public static final SoundEvent INCANTATION_BIND_SUCCESS = new SoundEvent(new Identifier(Constants.MOD_ID, "incantation_bound"));
         public static final SoundEvent MAGIC = new SoundEvent(new Identifier(Constants.MOD_ID, "spell_cast"));
+        public static final SoundEvent RESONATOR_HUMMING = new SoundEvent(new Identifier(Constants.MOD_ID, "resonator"));
     }
 
     public static class StatusEffects {
@@ -120,6 +121,7 @@ public class MMMiscRegistries {
         RegistryUtil.register(Registry.SOUND_EVENT, "incantation_bound", INCANTATION_BIND_SUCCESS);
         RegistryUtil.register(Registry.SOUND_EVENT, "rite_triggered", PRIMED_RITE_TRIGGERED);
         RegistryUtil.register(Registry.SOUND_EVENT, "spell_cast", MAGIC);
+        RegistryUtil.register(Registry.SOUND_EVENT, "resonator", RESONATOR_HUMMING);
 
         RegistryUtil.register(Registry.STATUS_EFFECT, "mania", MANIA);
         RegistryUtil.register(Registry.STATUS_EFFECT, "tranquilized", TRANQUILIZED);

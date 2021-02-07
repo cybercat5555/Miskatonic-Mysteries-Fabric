@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.block.blockentity.energy;
 
+import com.miskatonicmysteries.client.sound.ResonatorSound;
 import com.miskatonicmysteries.common.block.blockentity.BaseBlockEntity;
 import com.miskatonicmysteries.common.entity.PhantasmaEntity;
 import com.miskatonicmysteries.common.feature.interfaces.Resonating;
@@ -7,6 +8,8 @@ import com.miskatonicmysteries.common.lib.Constants;
 import com.miskatonicmysteries.common.lib.MMEntities;
 import com.miskatonicmysteries.common.lib.MMObjects;
 import com.miskatonicmysteries.common.lib.MMParticles;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;
@@ -31,9 +34,9 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements Tickable, E
     private static final int MAX_STORED_POWER = 3200;
     private static final int MAX_RADIUS = 16;
     private float radius;
-    private float intensity;
+    public float intensity;
     private double energy;
-    private int ticksRan;
+    public int ticksRan;
     private static final int MAX_EFFECTIVE_RUNTIME = 1200;
 
     @Override
@@ -69,6 +72,7 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements Tickable, E
                     intensity += 0.0005F;
                 }
                 if (world.isClient) {
+                    handleSound(this);
                     world.addParticle(MMParticles.AMBIENT, pos.getX() + 0.5F + world.random.nextGaussian() * radius, pos.getY() + 0.5F + world.random.nextGaussian() * radius, pos.getZ() + 0.5F + world.random.nextGaussian() * radius, 0.75F, 0, 1);
                 }
                 if (ticksRan > MAX_EFFECTIVE_RUNTIME / 2 && ticksRan % 240 == 0) {
@@ -148,5 +152,10 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements Tickable, E
     @Override
     public double getMaxOutput(EnergySide side) {
         return 0;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static void handleSound(ResonatorBlockEntity resonator) {
+        ResonatorSound.createSound(resonator.getPos());
     }
 }

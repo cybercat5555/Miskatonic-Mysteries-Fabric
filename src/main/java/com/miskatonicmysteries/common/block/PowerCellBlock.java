@@ -42,7 +42,7 @@ import java.util.List;
 import static net.minecraft.state.property.Properties.*;
 
 public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntityProvider, Waterloggable, Shootable {
-    public static final VoxelShape OUTLINE_SHAPE = createCuboidShape(0, 0, 0, 16, 0.5F, 16);
+    public static final VoxelShape OUTLINE_SHAPE = createCuboidShape(1, 0, 1, 15, 15, 15);
 
     public PowerCellBlock() {
         super(Settings.of(Material.METAL).strength(1F, 4F).nonOpaque().requiresTool()
