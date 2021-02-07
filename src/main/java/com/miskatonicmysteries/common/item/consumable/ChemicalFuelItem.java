@@ -32,16 +32,18 @@ public class ChemicalFuelItem extends Item {
             BlockPos pos = pointer.getBlockPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
             if (pointer.getWorld().getBlockEntity(pos) instanceof PowerCellBlockEntity) {
                 PowerCellBlockEntity cell = (PowerCellBlockEntity) pointer.getWorld().getBlockEntity(pos);
-                Energy.of(cell).set(cell.getStored(EnergySide.UNKNOWN) + cell.getMaxStoredPower() / 4F);
-                Item remainder = stack.getItem().getRecipeRemainder();
-                stack.decrement(1);
-                if (stack.isEmpty()) {
-                    return new ItemStack(remainder);
-                } else {
-                    if (((DispenserBlockEntity) pointer.getBlockEntity()).addToFirstFreeSlot(new ItemStack(remainder)) < 0) {
-                        defaultBehavior.dispense(pointer, new ItemStack(remainder));
+                if (cell.getStored(EnergySide.UNKNOWN) < cell.getMaxStoredPower()) {
+                    Energy.of(cell).set(cell.getStored(EnergySide.UNKNOWN) + cell.getMaxStoredPower() / 4F);
+                    Item remainder = stack.getItem().getRecipeRemainder();
+                    stack.decrement(1);
+                    if (stack.isEmpty()) {
+                        return new ItemStack(remainder);
+                    } else {
+                        if (((DispenserBlockEntity) pointer.getBlockEntity()).addToFirstFreeSlot(new ItemStack(remainder)) < 0) {
+                            defaultBehavior.dispense(pointer, new ItemStack(remainder));
+                        }
+                        return stack;
                     }
-                    return stack;
                 }
             }
             return super.dispenseSilently(pointer, stack);
@@ -62,18 +64,20 @@ public class ChemicalFuelItem extends Item {
     public ActionResult useOnBlock(ItemUsageContext context) {
         if (context.getWorld().getBlockEntity(context.getBlockPos()) instanceof PowerCellBlockEntity) {
             PowerCellBlockEntity cell = (PowerCellBlockEntity) context.getWorld().getBlockEntity(context.getBlockPos());
-            Energy.of(cell).set(cell.getStored(EnergySide.UNKNOWN) + cell.getMaxStoredPower() / 4F);
-            context.getPlayer().getStackInHand(context.getHand()).decrement(1);
-            ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
-            if (context.getPlayer().getStackInHand(context.getHand()).isEmpty()) {
-                context.getPlayer().setStackInHand(context.getHand(), itemStack);
-            } else {
-                if (!context.getPlayer().inventory.insertStack(itemStack)) {
-                    context.getPlayer().dropItem(itemStack, false);
+            if (cell.getStored(EnergySide.UNKNOWN) < cell.getMaxStoredPower()) {
+                Energy.of(cell).set(cell.getStored(EnergySide.UNKNOWN) + cell.getMaxStoredPower() / 4F);
+                context.getPlayer().getStackInHand(context.getHand()).decrement(1);
+                ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
+                if (context.getPlayer().getStackInHand(context.getHand()).isEmpty()) {
+                    context.getPlayer().setStackInHand(context.getHand(), itemStack);
+                } else {
+                    if (!context.getPlayer().inventory.insertStack(itemStack)) {
+                        context.getPlayer().dropItem(itemStack, false);
+                    }
                 }
+                context.getPlayer().swingHand(context.getHand());
+                return ActionResult.CONSUME;
             }
-            context.getPlayer().swingHand(context.getHand());
-            return ActionResult.CONSUME;
         }
         return ActionResult.PASS;
     }
