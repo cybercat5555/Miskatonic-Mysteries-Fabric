@@ -1,10 +1,9 @@
 package com.miskatonicmysteries.common.util;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.block.PowerCellBlock;
-import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
-import com.miskatonicmysteries.common.registry.MMRegistries;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.AbstractBlock;
@@ -17,14 +16,12 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.tag.Tag;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -119,20 +116,6 @@ public class Constants {
     }
 
     public static class DataTrackers {
-        public static final TrackedDataHandler<Affiliation> AFFILIATION_TRACKER = new TrackedDataHandler<Affiliation>() {
-            public void write(PacketByteBuf packetByteBuf, Affiliation affiliation) {
-                packetByteBuf.writeIdentifier(affiliation.getId());
-            }
-
-            public Affiliation read(PacketByteBuf packetByteBuf) {
-                Identifier id = packetByteBuf.readIdentifier();
-                return MMRegistries.AFFILIATIONS.containsId(id) ? MMRegistries.AFFILIATIONS.get(id) : MMAffiliations.NONE;
-            }
-
-            public Affiliation copy(Affiliation affiliation) {
-                return affiliation;
-            }
-        };
         public static final int SANITY_CAP = 1000;
         public static final int PROTAGONIST_MAX_LEVEL = 3;
 
@@ -145,8 +128,8 @@ public class Constants {
         public static final int SPELL_CAP = 10;
         public static final int MIN_SPELLS = 3;
 
-        public static final TrackedData<Affiliation> AFFILIATION = DataTracker.registerData(PlayerEntity.class, AFFILIATION_TRACKER);
-        public static final TrackedData<Affiliation> APPARENT_AFFILIATION = DataTracker.registerData(PlayerEntity.class, AFFILIATION_TRACKER);
+        public static final TrackedData<Affiliation> AFFILIATION = DataTracker.registerData(PlayerEntity.class, MiskatonicMysteriesAPI.AFFILIATION_TRACKER);
+        public static final TrackedData<Affiliation> APPARENT_AFFILIATION = DataTracker.registerData(PlayerEntity.class, MiskatonicMysteriesAPI.AFFILIATION_TRACKER);
         public static final int MAX_BLESSINGS = 3;
 
         public static final TrackedData<Float> RESONANCE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);

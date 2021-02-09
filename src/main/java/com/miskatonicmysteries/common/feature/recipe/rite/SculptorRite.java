@@ -7,9 +7,9 @@ import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
+import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
@@ -83,7 +83,7 @@ public class SculptorRite extends Rite {
     @Override
     public void onFinished(OctagramBlockEntity octagram) {
         World world = octagram.getWorld();
-        world.playSound(null, octagram.getPos(), MMMiscRegistries.Sounds.MAGIC, SoundCategory.PLAYERS, 0.8F, 1.0F);
+        world.playSound(null, octagram.getPos(), MMSounds.MAGIC, SoundCategory.PLAYERS, 0.8F, 1.0F);
         Vec3d pos = octagram.getSummoningPos().add(0, 0.5F, 0);
         if (!world.isClient) {
             ItemEntity result = new ItemEntity(world, pos.x, pos.y, pos.z, StatueBlock.setCreator(new ItemStack(getStatueForIngredients(octagram)), octagram.getOriginalCaster()));

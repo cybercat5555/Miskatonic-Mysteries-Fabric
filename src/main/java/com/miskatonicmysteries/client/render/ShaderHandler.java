@@ -2,7 +2,7 @@ package com.miskatonicmysteries.client.render;
 
 import com.miskatonicmysteries.api.interfaces.Resonating;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import ladysnake.satin.api.event.ShaderEffectRenderCallback;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
@@ -30,7 +30,7 @@ public class ShaderHandler implements ShaderEffectRenderCallback, ClientTickEven
     public void renderShaderEffects(float v) {
         if (MiskatonicMysteries.config.client.useShaders && MinecraftClient.getInstance().player != null) {
             ClientPlayerEntity player = MinecraftClient.getInstance().player;
-            if (player.hasStatusEffect(MMMiscRegistries.StatusEffects.MANIA)) {
+            if (player.hasStatusEffect(MMStatusEffects.MANIA)) {
                 MANIA.render(v);
             }
             Resonating.of(player).ifPresent(resonating -> {
@@ -44,8 +44,8 @@ public class ShaderHandler implements ShaderEffectRenderCallback, ClientTickEven
     @Override
     public void onEndTick(MinecraftClient client) {
         if (MiskatonicMysteries.config.client.useShaders && client.player != null) {
-            if (client.player.hasStatusEffect(MMMiscRegistries.StatusEffects.MANIA)
-                    && client.player.getStatusEffect(MMMiscRegistries.StatusEffects.MANIA).getAmplifier() > 0) {
+            if (client.player.hasStatusEffect(MMStatusEffects.MANIA)
+                    && client.player.getStatusEffect(MMStatusEffects.MANIA).getAmplifier() > 0) {
                 MANIA_PHOSPHOR.set(0.9F, 0.8F, 0.8F);
             } else {
                 MANIA_PHOSPHOR.set(0.8F, 0.7F, 0.7F);

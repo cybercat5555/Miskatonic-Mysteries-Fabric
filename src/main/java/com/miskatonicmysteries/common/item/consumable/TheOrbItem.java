@@ -3,8 +3,8 @@ package com.miskatonicmysteries.common.item.consumable;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 public class TheOrbItem extends Item {
     public static final FoodComponent ORB_FOOD = new FoodComponent.Builder().hunger(-20).saturationModifier(0)
             .alwaysEdible()
-            .statusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.MANIA, 1200, 1), 0.9F)
+            .statusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 1200, 1), 0.9F)
             .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 1200, 1), 0.5F)
             .statusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 2400, 1), 0.4F)
             .statusEffect(new StatusEffectInstance(StatusEffects.WITHER, 600, 0), 0.25F)

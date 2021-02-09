@@ -5,19 +5,38 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMCriteria;
+import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class MiskatonicMysteriesAPI {
+    public static final TrackedDataHandler<Affiliation> AFFILIATION_TRACKER = new TrackedDataHandler<Affiliation>() {
+        public void write(PacketByteBuf packetByteBuf, Affiliation affiliation) {
+            packetByteBuf.writeIdentifier(affiliation.getId());
+        }
+
+        public Affiliation read(PacketByteBuf packetByteBuf) {
+            Identifier id = packetByteBuf.readIdentifier();
+            return MMRegistries.AFFILIATIONS.containsId(id) ? MMRegistries.AFFILIATIONS.get(id) : MMAffiliations.NONE;
+        }
+
+        public Affiliation copy(Affiliation affiliation) {
+            return affiliation;
+        }
+    };
+
     public static Affiliation getNonNullAffiliation(Object obj, boolean apparent) {
         return Affiliated.of(obj).map(affiliated -> affiliated.getAffiliation(apparent)).orElse(MMAffiliations.NONE);
     }
@@ -73,7 +92,7 @@ public class MiskatonicMysteriesAPI {
             ascendant.ifPresent(a -> a.setAscensionStage(stage));
             affiliated.ifPresent(a -> a.setAffiliation(affiliation, false));
             if (player instanceof ServerPlayerEntity) {
-                MMMiscRegistries.Criteria.LEVEL_UP.trigger((ServerPlayerEntity) player, affiliation, stage);
+                MMCriteria.Criteria.LEVEL_UP.trigger((ServerPlayerEntity) player, affiliation, stage);
             }
             return true;
         }

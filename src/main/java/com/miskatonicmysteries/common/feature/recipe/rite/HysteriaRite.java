@@ -1,9 +1,10 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
+import com.miskatonicmysteries.common.registry.MMSounds;
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -29,7 +30,7 @@ public class HysteriaRite extends TriggeredRite {
 
     @Override
     public void onFinished(OctagramBlockEntity octagram) {
-        octagram.getWorld().playSound(null, octagram.getPos(), MMMiscRegistries.Sounds.PRIMED_RITE_TRIGGERED, SoundCategory.AMBIENT, 1.0F, (float) octagram.getWorld().random.nextGaussian() * 0.2F + 1.0F);
+        octagram.getWorld().playSound(null, octagram.getPos(), MMSounds.PRIMED_RITE_TRIGGERED, SoundCategory.AMBIENT, 1.0F, (float) octagram.getWorld().random.nextGaussian() * 0.2F + 1.0F);
 
         if (octagram.getWorld().isClient) {
             for (int i = 0; i < 25; i++) {
@@ -38,7 +39,7 @@ public class HysteriaRite extends TriggeredRite {
             }
         }
         octagram.getWorld().getEntitiesByClass(LivingEntity.class, octagram.getSelectionBox().expand(7, 7, 7), null)
-                .forEach(living -> living.addStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.MANIA, 3600, octagram.getWorld().random.nextInt(2), false, true)));
+                .forEach(living -> living.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 3600, octagram.getWorld().random.nextInt(2), false, true)));
         super.onFinished(octagram);
     }
 

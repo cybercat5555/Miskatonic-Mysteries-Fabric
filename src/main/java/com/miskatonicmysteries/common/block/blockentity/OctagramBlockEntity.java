@@ -10,7 +10,7 @@ import com.miskatonicmysteries.common.item.IncantationYogItem;
 import com.miskatonicmysteries.common.item.armor.CultistArmor;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMCriteria;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
@@ -121,7 +121,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
                         sync();
                     }
                     if (getOriginalCaster() instanceof ServerPlayerEntity) {
-                        MMMiscRegistries.Criteria.RITE_CAST.trigger((ServerPlayerEntity) getOriginalCaster(), currentRite);
+                        MMCriteria.Criteria.RITE_CAST.trigger((ServerPlayerEntity) getOriginalCaster(), currentRite);
                     }
                     handleInvestigators();
                     if (currentRite.isPermanent(this)) {

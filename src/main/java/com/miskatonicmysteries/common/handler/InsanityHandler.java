@@ -20,11 +20,6 @@ import java.util.stream.Collectors;
 import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SANITY_CAP;
 
 public class InsanityHandler {
-
-    public static void init() {
-        //currently empty lol
-    }
-
     public static boolean hasSanityCapExpansion(PlayerEntity player, String expansion) {
         Optional<Sanity> sanity = Sanity.of(player);
         return sanity.isPresent() && sanity.get().getSanityCapExpansions().containsKey(expansion);

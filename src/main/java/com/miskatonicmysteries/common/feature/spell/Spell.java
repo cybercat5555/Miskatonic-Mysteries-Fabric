@@ -6,8 +6,8 @@ import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.registry.MMBlessings;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -27,7 +27,7 @@ public class Spell {
 
 
     public boolean cast(LivingEntity caster) {
-        caster.world.playSound(caster.getX(), caster.getY(), caster.getZ(), MMMiscRegistries.Sounds.MAGIC, SoundCategory.PLAYERS, 0.85F, (float) caster.getRandom().nextGaussian() * 0.2F + 1.0F, true);
+        caster.world.playSound(caster.getX(), caster.getY(), caster.getZ(), MMSounds.MAGIC, SoundCategory.PLAYERS, 0.85F, (float) caster.getRandom().nextGaussian() * 0.2F + 1.0F, true);
         if (!caster.world.isClient) {
             SpellPacket.send(caster, toTag(new CompoundTag()));
         }

@@ -17,9 +17,9 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.ExpandSanity
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBlessingsPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.InventoryUtil;
 import com.miskatonicmysteries.common.util.NbtUtil;
@@ -156,7 +156,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
 
     @Override
     public void setSanity(int sanity, boolean ignoreFactors) {
-        if (ignoreFactors || (!isShocked() && !hasStatusEffect(MMMiscRegistries.StatusEffects.TRANQUILIZED))) {
+        if (ignoreFactors || (!isShocked() && !hasStatusEffect(MMStatusEffects.TRANQUILIZED))) {
             dataTracker.set(SANITY, MathHelper.clamp(sanity, 0, getMaxSanity()));
         }
     }

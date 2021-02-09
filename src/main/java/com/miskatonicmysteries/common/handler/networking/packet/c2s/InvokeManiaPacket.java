@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.handler.networking.packet.c2s;
 
 import com.miskatonicmysteries.api.interfaces.Sanity;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -27,8 +27,8 @@ public class InvokeManiaPacket {
         int amplifier = packetByteBuf.readInt();
         int duration = packetByteBuf.readInt();
         server.execute(() -> {
-                    player.addStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.MANIA, duration, amplifier, false, true));
-                    ((Sanity) player).setSanity(((Sanity) player).getSanity() - 5, false);
+            player.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, duration, amplifier, false, true));
+            ((Sanity) player).setSanity(((Sanity) player).getSanity() - 5, false);
                     ((Sanity) player).setShocked(true);
                 }
         );

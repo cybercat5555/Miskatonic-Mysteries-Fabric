@@ -135,10 +135,10 @@ public class MMObjects {
     public static final Item WAX = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static final Item ORNATE_DAGGER = new BlessedSwordItem(MMAffiliations.HASTUR, 2, -2.3F,
-            (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.MANIA, 100, 1, true, false, false)),
+            (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 100, 1, true, false, false)),
             new Item.Settings().group(Constants.MM_GROUP));
     public static final Item GUTTING_DAGGER = new BlessedSwordItem(MMAffiliations.SHUB, 3, -2.6F,
-            (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.BLEED, 600, 0, false, false, false)),
+            (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(MMStatusEffects.BLEED, 600, 0, false, false, false)),
             new Item.Settings().group(Constants.MM_GROUP));
     public static final Item HORNED_DAGGER = new BlessedSwordItem(MMAffiliations.SHUB, 4, -2.3F, (target, attacker) -> {
     },
@@ -171,6 +171,7 @@ public class MMObjects {
     public static final Item CHEMICAL_FUEL = new ChemicalFuelItem();
 
     public static void init() {
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(MMObjects.INFESTED_WHEAT, 0.7F);
 
         RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "chemistry_set", CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
         RegistryUtil.registerBlock(CHEMISTRY_SET, "chemistry_set");

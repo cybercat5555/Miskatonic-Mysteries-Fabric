@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.item.consumable;
 
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
@@ -28,7 +28,7 @@ public class TranquilizerItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        user.applyStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.TRANQUILIZED, 18000, 1));
+        user.applyStatusEffect(new StatusEffectInstance(MMStatusEffects.TRANQUILIZED, 18000, 1));
         stack.decrement(1);
         if (user instanceof ServerPlayerEntity) {
             Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);

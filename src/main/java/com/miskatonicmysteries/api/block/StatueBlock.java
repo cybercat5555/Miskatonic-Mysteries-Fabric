@@ -3,7 +3,7 @@ package com.miskatonicmysteries.api.block;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -53,11 +53,11 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
         POSITIVE_STATUE_EFFECTS.put(StatusEffects.RESISTANCE, 4);
         POSITIVE_STATUE_EFFECTS.put(StatusEffects.LUCK, 4);
 
-        NEGATIVE_STATUE_EFFECTS.put(MMMiscRegistries.StatusEffects.MANIA, 2);
+        NEGATIVE_STATUE_EFFECTS.put(MMStatusEffects.MANIA, 2);
         NEGATIVE_STATUE_EFFECTS.put(StatusEffects.POISON, 4);
         NEGATIVE_STATUE_EFFECTS.put(StatusEffects.NAUSEA, 3);
         NEGATIVE_STATUE_EFFECTS.put(StatusEffects.UNLUCK, 5);
-        NEGATIVE_STATUE_EFFECTS.put(MMMiscRegistries.StatusEffects.BLEED, 4);
+        NEGATIVE_STATUE_EFFECTS.put(MMStatusEffects.BLEED, 4);
         NEGATIVE_STATUE_EFFECTS.put(StatusEffects.WITHER, 6);
         NEGATIVE_STATUE_EFFECTS.put(StatusEffects.HUNGER, 4);
         NEGATIVE_STATUE_EFFECTS.put(StatusEffects.WEAKNESS, 3);

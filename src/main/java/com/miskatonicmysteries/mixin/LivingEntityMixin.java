@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.api.interfaces.DropManipulator;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -55,7 +55,7 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 
     @Inject(method = "heal", at = @At("HEAD"), cancellable = true)
     private void preventHeal(float amount, CallbackInfo callbackInfo) {
-        if (hasStatusEffect(MMMiscRegistries.StatusEffects.BLEED) && getRandom().nextFloat() < 0.4 + 0.2 * getStatusEffect(MMMiscRegistries.StatusEffects.BLEED).getAmplifier()) {
+        if (hasStatusEffect(MMStatusEffects.BLEED) && getRandom().nextFloat() < 0.4 + 0.2 * getStatusEffect(MMStatusEffects.BLEED).getAmplifier()) {
             callbackInfo.cancel();
         }
     }

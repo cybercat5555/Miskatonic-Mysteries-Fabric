@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.sound;
 
 import com.miskatonicmysteries.common.block.blockentity.energy.ResonatorBlockEntity;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMSounds;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.MovingSoundInstance;
@@ -21,7 +21,7 @@ public class ResonatorSound extends MovingSoundInstance implements TickableSound
     public static final Map<BlockPos, ResonatorSound> soundInstances = new HashMap<>();
 
     protected ResonatorSound(BlockPos pos) {
-        super(MMMiscRegistries.Sounds.RESONATOR_HUMMING, SoundCategory.BLOCKS);
+        super(MMSounds.RESONATOR_HUMMING, SoundCategory.BLOCKS);
         this.player = MinecraftClient.getInstance().player;
         this.world = MinecraftClient.getInstance().world;
         this.pos = pos;

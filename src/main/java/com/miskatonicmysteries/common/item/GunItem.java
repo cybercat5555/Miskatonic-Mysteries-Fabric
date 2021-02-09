@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.item;
 
 import com.miskatonicmysteries.common.block.Shootable;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -156,7 +156,7 @@ public abstract class GunItem extends Item {
 
         setLoading(stack, false);
         stack.getTag().putInt(Constants.NBT.SHOTS, stack.getTag().getInt(Constants.NBT.SHOTS) - 1);
-        world.playSound(null, player.getX(), player.getY(), player.getZ(), MMMiscRegistries.Sounds.GUN_SHOT, SoundCategory.PLAYERS, 0.6F, 1.0F / (RANDOM.nextFloat() * 0.2F + (isHeavy() ? 1F : 0.5F)));
+        world.playSound(null, player.getX(), player.getY(), player.getZ(), MMSounds.GUN_SHOT, SoundCategory.PLAYERS, 0.6F, 1.0F / (RANDOM.nextFloat() * 0.2F + (isHeavy() ? 1F : 0.5F)));
 
         if (player instanceof PlayerEntity) {
             ((PlayerEntity) player).getItemCooldownManager().set(this, getCooldown());

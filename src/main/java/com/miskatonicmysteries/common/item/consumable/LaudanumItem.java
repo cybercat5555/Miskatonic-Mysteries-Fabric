@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.item.consumable;
 
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
@@ -29,8 +29,8 @@ public class LaudanumItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        user.applyStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.TRANQUILIZED, 2400, 0));
-        user.applyStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.OVERMEDICATED, 24000, user.getStatusEffect(MMMiscRegistries.StatusEffects.OVERMEDICATED) != null ? user.getStatusEffect(MMMiscRegistries.StatusEffects.OVERMEDICATED).getAmplifier() + 1 : 0, false, false, false));
+        user.applyStatusEffect(new StatusEffectInstance(MMStatusEffects.TRANQUILIZED, 2400, 0));
+        user.applyStatusEffect(new StatusEffectInstance(MMStatusEffects.OVERMEDICATED, 24000, user.getStatusEffect(MMStatusEffects.OVERMEDICATED) != null ? user.getStatusEffect(MMStatusEffects.OVERMEDICATED).getAmplifier() + 1 : 0, false, false, false));
         stack.decrement(1);
         if (user instanceof ServerPlayerEntity) {
             Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);

@@ -3,8 +3,8 @@ package com.miskatonicmysteries.common.feature.recipe.rite;
 import com.miskatonicmysteries.api.interfaces.DropManipulator;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import com.miskatonicmysteries.common.registry.MMParticles;
+import com.miskatonicmysteries.common.registry.MMSounds;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
@@ -69,7 +69,7 @@ public class SpawnerTrapRite extends TriggeredRite {
         if (octagram.triggered && octagram.tickCount > ticksNeeded && octagram.tickCount % 200 == 0) {
             World world = octagram.getWorld();
             int amount = 1 + world.random.nextInt(2);
-            octagram.getWorld().playSound(null, octagram.getPos(), MMMiscRegistries.Sounds.BROKE_VEIL_SPAWN, SoundCategory.AMBIENT, 1.0F, (float) world.random.nextGaussian() * 0.2F + 1.0F);
+            octagram.getWorld().playSound(null, octagram.getPos(), MMSounds.BROKE_VEIL_SPAWN, SoundCategory.AMBIENT, 1.0F, (float) world.random.nextGaussian() * 0.2F + 1.0F);
             if (!world.isClient) {
                 for (int i = 0; i < amount; i++) {
                     List<EntityType<?>> possibleTypes = Registry.ENTITY_TYPE.stream().filter(spawnPredicate).collect(Collectors.toList());
