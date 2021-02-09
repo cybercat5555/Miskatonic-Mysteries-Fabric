@@ -3,7 +3,7 @@ package com.miskatonicmysteries.mixin;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
-import com.miskatonicmysteries.common.lib.util.MiscUtil;
+import com.miskatonicmysteries.common.util.MiscUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.AbstractBannerBlock;

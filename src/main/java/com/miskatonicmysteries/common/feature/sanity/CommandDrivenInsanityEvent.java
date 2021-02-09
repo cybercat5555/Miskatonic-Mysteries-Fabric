@@ -1,16 +1,17 @@
 package com.miskatonicmysteries.common.feature.sanity;
 
 import com.google.gson.JsonObject;
-import com.miskatonicmysteries.common.feature.interfaces.DataSerializable;
-import com.miskatonicmysteries.common.feature.interfaces.Sanity;
+import com.miskatonicmysteries.api.interfaces.DataSerializable;
+import com.miskatonicmysteries.api.interfaces.Sanity;
+import com.miskatonicmysteries.api.registry.InsanityEvent;
+import com.miskatonicmysteries.common.registry.MMRegistries;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.function.CommandFunction;
 import net.minecraft.server.function.CommandFunctionManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
-
-import java.util.Map;
+import net.minecraft.util.registry.Registry;
 
 public class CommandDrivenInsanityEvent extends InsanityEvent implements DataSerializable<CommandDrivenInsanityEvent> {
     public final Identifier functionId;
@@ -43,8 +44,8 @@ public class CommandDrivenInsanityEvent extends InsanityEvent implements DataSer
         }
 
         @Override
-        public Map<Identifier, InsanityEvent> getAccessMap() {
-            return INSANITY_EVENTS;
+        public Registry<InsanityEvent> getRegistry() {
+            return MMRegistries.INSANITY_EVENTS;
         }
     }
 }

@@ -1,8 +1,9 @@
 package com.miskatonicmysteries.common.criterion;
 
 import com.google.gson.JsonObject;
-import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.api.registry.Rite;
+import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
@@ -21,7 +22,7 @@ public class RiteCastCriterion extends AbstractCriterion<RiteCastCriterion.Condi
 
     public RiteCastCriterion.Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
         Identifier riteId = new Identifier(JsonHelper.getString(jsonObject, "rite"));
-        return Rite.RITES.containsKey(riteId) ? new RiteCastCriterion.Conditions(extended, Rite.RITES.get(riteId)) : null;
+        return MMRegistries.RITES.containsId(riteId) ? new RiteCastCriterion.Conditions(extended, MMRegistries.RITES.get(riteId)) : null;
     }
 
     public void trigger(ServerPlayerEntity player, Rite rite) {
@@ -37,12 +38,12 @@ public class RiteCastCriterion extends AbstractCriterion<RiteCastCriterion.Condi
         }
 
         public boolean matches(Rite rite) {
-            return this.rite.id.equals(rite.id);
+            return this.rite.getId().equals(rite.getId());
         }
 
         public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
             JsonObject jsonObject = super.toJson(predicateSerializer);
-            jsonObject.addProperty("rite", this.rite.id.toString());
+            jsonObject.addProperty("rite", this.rite.getId().toString());
             return jsonObject;
         }
     }

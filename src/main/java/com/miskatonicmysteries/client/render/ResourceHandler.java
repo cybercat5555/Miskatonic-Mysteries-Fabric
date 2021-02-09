@@ -1,19 +1,20 @@
 package com.miskatonicmysteries.client.render;
 
+import com.miskatonicmysteries.api.block.OctagramBlock;
+import com.miskatonicmysteries.api.block.StatueBlock;
+import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.model.armor.HasturMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubAlternateMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubMaskModel;
 import com.miskatonicmysteries.client.model.block.CthulhuStatueModel;
 import com.miskatonicmysteries.client.model.block.HasturStatueModel;
 import com.miskatonicmysteries.client.model.block.ShubStatueModel;
-import com.miskatonicmysteries.common.block.OctagramBlock;
-import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
-import com.miskatonicmysteries.common.feature.Affiliation;
 import com.miskatonicmysteries.common.item.armor.CultistArmor;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderingRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.client.model.Model;
@@ -63,9 +64,9 @@ public class ResourceHandler {
         ResourceHandler.addOctagramTextureFor(MMObjects.SHUB_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/shub_octagram"),
                 new Identifier(Constants.MOD_ID, "block/octagram/mask/shub_octagram_mask"));
 
-        addStatueModelFor(Affiliation.CTHULHU, new CthulhuStatueModel());
-        addStatueModelFor(Affiliation.HASTUR, new HasturStatueModel());
-        addStatueModelFor(Affiliation.SHUB, new ShubStatueModel());
+        addStatueModelFor(MMAffiliations.CTHULHU, new CthulhuStatueModel());
+        addStatueModelFor(MMAffiliations.HASTUR, new HasturStatueModel());
+        addStatueModelFor(MMAffiliations.SHUB, new ShubStatueModel());
 
         addStatueTextureFor(MMObjects.CTHULHU_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_gold"));
         addStatueTextureFor(MMObjects.CTHULHU_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_mossy"));
@@ -145,7 +146,7 @@ public class ResourceHandler {
     }
 
     public static SpriteIdentifier getMatchingOctagramTexture(Affiliation affiliation) {
-        if (affiliation == null || affiliation == Affiliation.NONE) {
+        if (affiliation == null || affiliation == MMAffiliations.NONE) {
             return ResourceHandler.DEFAULT_OCTAGRAM;
         }
         for (OctagramBlock octagramBlock : ResourceHandler.OCTAGRAM_SPRITES.keySet()) {

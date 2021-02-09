@@ -1,15 +1,16 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
+import com.miskatonicmysteries.api.block.StatueBlock;
+import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.model.block.HasturStatueModel;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMMiscRegistries;
-import com.miskatonicmysteries.common.lib.MMObjects;
-import com.miskatonicmysteries.common.lib.MMParticles;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMParticles;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -38,9 +39,9 @@ public class SculptorRite extends Rite {
     private final String knowledge;
 
     public SculptorRite() {
-        super(new Identifier(Constants.MOD_ID, "sculptor_rite"), Affiliation.HASTUR, 0.2F,
+        super(new Identifier(Constants.MOD_ID, "sculptor_rite"), MMAffiliations.HASTUR, 0.2F,
                 Ingredient.ofItems(Items.CLAY_BALL), Ingredient.ofItems(Items.YELLOW_DYE), Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(Items.TERRACOTTA, Items.STONE));
-        this.knowledge = Affiliation.HASTUR.getId().getPath();
+        this.knowledge = MMAffiliations.HASTUR.getId().getPath();
     }
 
     @Override

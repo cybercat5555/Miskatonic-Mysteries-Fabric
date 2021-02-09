@@ -1,11 +1,11 @@
 package com.miskatonicmysteries.common.item.trinkets;
 
+import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.interfaces.MalleableAffiliated;
+import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
-import com.miskatonicmysteries.common.feature.interfaces.MalleableAffiliated;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
+import com.miskatonicmysteries.common.util.CapabilityUtil;
+import com.miskatonicmysteries.common.util.Constants;
 import dev.emi.trinkets.api.Slots;
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;

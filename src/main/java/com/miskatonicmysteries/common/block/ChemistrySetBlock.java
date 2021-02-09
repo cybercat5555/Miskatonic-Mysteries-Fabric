@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
-import com.miskatonicmysteries.common.lib.util.InventoryUtil;
+import com.miskatonicmysteries.common.util.InventoryUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;

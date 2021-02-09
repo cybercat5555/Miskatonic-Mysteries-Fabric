@@ -1,9 +1,10 @@
 package com.miskatonicmysteries.client.gui.patchouli;
 
 import com.google.gson.annotations.SerializedName;
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
+import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.util.CapabilityUtil;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
@@ -61,7 +62,7 @@ public class ObfuscatedTextComponent implements ICustomComponent {
     @Override
     public void onVariablesAvailable(UnaryOperator<IVariable> lookup) {
         String affiliationString = lookup.apply(affiliation).asString();
-        actualAffiliation = affiliationString == null ? null : Affiliation.AFFILIATION_MAP.getOrDefault((affiliationString.contains(":") ? new Identifier(affiliationString) : new Identifier(Constants.MOD_ID, affiliationString)), null);
+        actualAffiliation = affiliationString == null ? null : MMRegistries.AFFILIATIONS.get(affiliationString.contains(":") ? new Identifier(affiliationString) : new Identifier(Constants.MOD_ID, affiliationString));
         actualStage = lookup.apply(stage).asNumber(-1).intValue();
         renderedText = lookup.apply(text).asString("");
         obfuscatedTextString = lookup.apply(obfuscatedText).asString(renderedText);

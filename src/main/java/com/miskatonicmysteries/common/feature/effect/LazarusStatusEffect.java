@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.feature.effect;
 
-import com.miskatonicmysteries.common.lib.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;

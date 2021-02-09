@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.energy.PowerCellBlockEntity;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMObjects;
-import com.miskatonicmysteries.common.lib.util.MiscUtil;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.MiscUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;

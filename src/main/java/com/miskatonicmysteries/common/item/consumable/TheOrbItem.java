@@ -1,11 +1,11 @@
 package com.miskatonicmysteries.common.item.consumable;
 
-import com.miskatonicmysteries.common.feature.interfaces.Sanity;
-import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
-import com.miskatonicmysteries.common.feature.spell.SpellMedium;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMMiscRegistries;
-import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
+import com.miskatonicmysteries.api.interfaces.Sanity;
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
+import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMSpellMediums;
+import com.miskatonicmysteries.common.util.CapabilityUtil;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -49,7 +49,7 @@ public class TheOrbItem extends Item {
             sanity.setSanity(sanity.getSanity() - 25, true);
         });
         SpellCaster.of(user).ifPresent(caster -> {
-            caster.learnMedium(SpellMedium.PROJECTILE);
+            caster.learnMedium(MMSpellMediums.PROJECTILE);
             CapabilityUtil.guaranteePower(3, caster);
         });
         if (user instanceof ServerPlayerEntity) {

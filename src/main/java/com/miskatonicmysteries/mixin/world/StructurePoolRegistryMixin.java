@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.mixin.world;
 
-import com.miskatonicmysteries.common.lib.MMWorld;
+import com.miskatonicmysteries.common.registry.MMWorld;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePools;
 import net.minecraft.util.registry.BuiltinRegistries;

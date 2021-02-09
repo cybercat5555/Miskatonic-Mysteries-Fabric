@@ -1,10 +1,11 @@
 package com.miskatonicmysteries.common.block.blockentity;
 
-import com.miskatonicmysteries.common.block.StatueBlock;
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.api.block.StatueBlock;
+import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
 
@@ -42,7 +43,7 @@ public class StatueBlockEntity extends BaseBlockEntity implements Affiliated {
 
     @Override
     public Affiliation getAffiliation(boolean apparent) {
-        return world.getBlockState(pos).getBlock() instanceof StatueBlock ? ((StatueBlock) world.getBlockState(pos).getBlock()).getAffiliation(apparent) : Affiliation.NONE;
+        return world.getBlockState(pos).getBlock() instanceof StatueBlock ? ((StatueBlock) world.getBlockState(pos).getBlock()).getAffiliation(apparent) : MMAffiliations.NONE;
     }
 
     @Override

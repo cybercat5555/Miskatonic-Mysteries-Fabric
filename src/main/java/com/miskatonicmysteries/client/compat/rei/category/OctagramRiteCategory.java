@@ -1,11 +1,11 @@
 package com.miskatonicmysteries.client.compat.rei.category;
 
+import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.compat.rei.entry.SimpleOctagramEntry;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.util.Constants;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.EntryStack;
@@ -53,7 +53,7 @@ public class OctagramRiteCategory implements RecipeCategory<OctagramRiteCategory
         List<Widget> widgets = new ArrayList<>();
         Point startPoint = new Point(bounds.getCenterX() - 32, bounds.getCenterY() - 6);
         widgets.add(Widgets.createRecipeBase(bounds));
-        SpriteIdentifier sprite = ResourceHandler.getMatchingOctagramTexture(recipeDisplay.getRite().octagramAffiliation);
+        SpriteIdentifier sprite = ResourceHandler.getMatchingOctagramTexture(recipeDisplay.getRite().getOctagramAffiliation());
         widgets.add(Widgets.createTexturedWidget(new Identifier(sprite.getTextureId().getNamespace(), "textures/" + sprite.getTextureId().getPath() + ".png"), startPoint.x, startPoint.y - 24, 0, 0, 64, 64, sprite.getSprite().getWidth(), sprite.getSprite().getHeight(), sprite.getSprite().getWidth(), sprite.getSprite().getHeight()));
         int size = recipeDisplay.getInputEntries().size();
         if (size > 0) { //peak elegance haha yes
@@ -100,7 +100,7 @@ public class OctagramRiteCategory implements RecipeCategory<OctagramRiteCategory
         private final Rite rite;
 
         public Display(Rite recipe) {
-            input = EntryStack.ofIngredients(recipe.ingredients);
+            input = EntryStack.ofIngredients(recipe.getIngredients());
             output = new ArrayList<>();
             rite = recipe;
         }

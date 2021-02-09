@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.render.blockentity;
 
+import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRenderer;
 import net.minecraft.block.Block;

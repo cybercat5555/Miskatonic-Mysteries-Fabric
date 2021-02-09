@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.entity.ai.task;
 import com.google.common.collect.ImmutableMap;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
-import com.miskatonicmysteries.common.lib.MMEntities;
+import com.miskatonicmysteries.common.registry.MMEntities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.brain.Brain;

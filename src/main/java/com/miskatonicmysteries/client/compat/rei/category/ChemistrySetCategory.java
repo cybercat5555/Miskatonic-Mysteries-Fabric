@@ -2,8 +2,8 @@ package com.miskatonicmysteries.client.compat.rei.category;
 
 import com.miskatonicmysteries.common.feature.PotentialItem;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.util.Constants;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.EntryStack;

@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.mixin;
 
-import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
-import com.miskatonicmysteries.common.feature.interfaces.MalleableAffiliated;
-import com.miskatonicmysteries.common.feature.interfaces.Sanity;
-import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
+import com.miskatonicmysteries.api.interfaces.Ascendant;
+import com.miskatonicmysteries.api.interfaces.MalleableAffiliated;
+import com.miskatonicmysteries.api.interfaces.Sanity;
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

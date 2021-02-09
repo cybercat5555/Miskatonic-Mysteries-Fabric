@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.client.render;
 
+import com.miskatonicmysteries.api.interfaces.Resonating;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.feature.interfaces.Resonating;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.util.Constants;
 import ladysnake.satin.api.event.ShaderEffectRenderCallback;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
 import ladysnake.satin.api.managed.ShaderEffectManager;

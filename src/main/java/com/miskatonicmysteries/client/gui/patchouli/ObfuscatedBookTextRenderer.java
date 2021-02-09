@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.client.gui.patchouli;
 
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.resource.language.I18n;

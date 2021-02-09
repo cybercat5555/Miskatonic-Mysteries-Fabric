@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.client.gui.EditSpellScreen;
-import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.handler.networking.PacketHandler;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;

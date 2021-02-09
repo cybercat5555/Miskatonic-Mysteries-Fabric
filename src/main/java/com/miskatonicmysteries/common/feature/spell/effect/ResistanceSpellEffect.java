@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.feature.spell.effect;
 
-import com.miskatonicmysteries.common.feature.spell.SpellEffect;
-import com.miskatonicmysteries.common.feature.spell.SpellMedium;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.api.registry.SpellMedium;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;

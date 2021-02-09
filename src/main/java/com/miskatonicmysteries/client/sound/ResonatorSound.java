@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.sound;
 
 import com.miskatonicmysteries.common.block.blockentity.energy.ResonatorBlockEntity;
-import com.miskatonicmysteries.common.lib.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.MovingSoundInstance;

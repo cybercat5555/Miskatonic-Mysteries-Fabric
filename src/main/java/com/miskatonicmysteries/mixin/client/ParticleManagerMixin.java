@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.mixin.client;
 
 import com.google.common.collect.ImmutableList;
-import com.miskatonicmysteries.common.lib.MMParticles;
+import com.miskatonicmysteries.common.registry.MMParticles;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.particle.ParticleTextureSheet;
 import net.minecraft.client.texture.TextureManager;

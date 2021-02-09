@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.render.entity;
 
+import com.miskatonicmysteries.api.interfaces.Resonating;
 import com.miskatonicmysteries.common.entity.PhantasmaEntity;
-import com.miskatonicmysteries.common.feature.interfaces.Resonating;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;

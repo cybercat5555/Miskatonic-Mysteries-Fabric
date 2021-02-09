@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.mixin;
 
-import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
-import com.miskatonicmysteries.common.feature.interfaces.Sanity;
-import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
+import com.miskatonicmysteries.api.interfaces.Ascendant;
+import com.miskatonicmysteries.api.interfaces.Sanity;
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;

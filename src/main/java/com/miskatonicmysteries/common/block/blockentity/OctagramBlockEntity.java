@@ -1,18 +1,19 @@
 package com.miskatonicmysteries.common.block.blockentity;
 
+import com.miskatonicmysteries.api.block.OctagramBlock;
+import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.block.OctagramBlock;
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
-import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.item.IncantationYogItem;
 import com.miskatonicmysteries.common.item.armor.CultistArmor;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMMiscRegistries;
-import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -55,7 +56,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
         Inventories.toTag(tag, ITEMS);
         tag.putInt(Constants.NBT.TICK_COUNT, tickCount);
         if (currentRite != null) {
-            tag.putString(Constants.NBT.RITE, currentRite.id.toString());
+            tag.putString(Constants.NBT.RITE, currentRite.getId().toString());
         }
         tag.putBoolean(Constants.NBT.PERMANENT_RITE, permanentRiteActive);
         if (originalCaster != null) {
@@ -75,7 +76,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
         Inventories.fromTag(tag, ITEMS);
         tickCount = tag.getInt(Constants.NBT.TICK_COUNT);
         if (tag.contains(Constants.NBT.RITE)) {
-            currentRite = Rite.RITES.getOrDefault(new Identifier(tag.getString(Constants.NBT.RITE)), null);
+            currentRite = MMRegistries.RITES.get(new Identifier(tag.getString(Constants.NBT.RITE)));
         }
         permanentRiteActive = tag.getBoolean(Constants.NBT.PERMANENT_RITE);
         if (tag.contains(Constants.NBT.PLAYER_UUID)) {
@@ -146,7 +147,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 
     private void handleInvestigators() {
         PlayerEntity caster = getOriginalCaster();
-        if (caster != null && !world.isClient && world.random.nextFloat() < currentRite.investigatorChance) {
+        if (caster != null && !world.isClient && world.random.nextFloat() < currentRite.getInvestigatorChance()) {
             float subtlety = 0;
             if (MiskatonicMysteries.config.entities.subtlety) {
                 for (BlockPos blockPos : BlockPos.iterateOutwards(pos, 8, 8, 8)) {

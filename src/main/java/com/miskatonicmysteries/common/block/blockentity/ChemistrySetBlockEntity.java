@@ -2,9 +2,9 @@ package com.miskatonicmysteries.common.block.blockentity;
 
 import com.miskatonicmysteries.common.feature.PotentialItem;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMObjects;
-import com.miskatonicmysteries.common.lib.MMRecipes;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMRecipes;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -67,7 +67,7 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
     @Override
     public void tick() {
         if (isLit() && canWork()) {
-            ChemistryRecipe recipe = MMRecipes.getRecipe(this);
+            ChemistryRecipe recipe = MMRecipes.getChemistryRecipe(this);
             workProgress++;
             if (workProgress >= 100) {
                 world.playSound(null, pos, SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.6F, world.random.nextFloat() * 0.4F + 0.8F);
@@ -118,7 +118,7 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
     }
 
     public boolean canWork() {
-        return MMRecipes.getRecipe(this) != null;
+        return MMRecipes.getChemistryRecipe(this) != null;
     }
 
     public boolean canBeLit(PlayerEntity playerEntity) {

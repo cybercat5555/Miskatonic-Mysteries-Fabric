@@ -1,16 +1,17 @@
 package com.miskatonicmysteries.common.handler;
 
 import com.google.gson.*;
-import com.miskatonicmysteries.common.feature.interfaces.DataSerializable;
+import com.miskatonicmysteries.api.interfaces.DataSerializable;
+import com.miskatonicmysteries.api.registry.InsanityInducer;
 import com.miskatonicmysteries.common.feature.recipe.rite.CommandDrivenRite;
 import com.miskatonicmysteries.common.feature.sanity.CommandDrivenInsanityEvent;
-import com.miskatonicmysteries.common.feature.sanity.InsanityInducer;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.profiler.Profiler;
+import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +35,7 @@ public class DataHandler extends JsonDataLoader {
             String type = JsonHelper.getString((JsonObject) element, "type");
             try{
                 DataSerializable.DataReader reader = DATA_READERS.get(new Identifier(type));
-                reader.getAccessMap().put(id, reader.readFromJson(id, (JsonObject) element));
+                Registry.register(reader.getRegistry(), id, reader.readFromJson(id, (JsonObject) element));
             }catch (IllegalArgumentException | JsonParseException | NullPointerException exception){
                 LOGGER.error("Parsing error loading data module {} for Miskatonic Mysteries", id, exception);
                 exception.printStackTrace();

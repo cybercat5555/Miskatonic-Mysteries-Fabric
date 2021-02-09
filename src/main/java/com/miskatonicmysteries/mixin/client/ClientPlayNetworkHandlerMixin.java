@@ -2,7 +2,7 @@ package com.miskatonicmysteries.mixin.client;
 
 import com.miskatonicmysteries.common.entity.BoltEntity;
 import com.miskatonicmysteries.common.entity.SpellProjectileEntity;
-import com.miskatonicmysteries.common.lib.MMEntities;
+import com.miskatonicmysteries.common.registry.MMEntities;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;

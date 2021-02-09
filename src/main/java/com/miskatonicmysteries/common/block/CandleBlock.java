@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.block;
 
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMParticles;
-import com.miskatonicmysteries.common.lib.util.InventoryUtil;
+import com.miskatonicmysteries.common.registry.MMParticles;
+import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.InventoryUtil;
 import net.minecraft.block.*;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;

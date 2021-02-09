@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.gui.widget;
 
+import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.client.gui.EditSpellScreen;
-import com.miskatonicmysteries.common.feature.spell.SpellEffect;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;

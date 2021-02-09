@@ -2,7 +2,7 @@ package com.miskatonicmysteries.client.gui.widget;
 
 import com.miskatonicmysteries.client.gui.EditSpellScreen;
 import com.miskatonicmysteries.common.feature.spell.Spell;
-import com.miskatonicmysteries.common.feature.spell.SpellEffect;
+import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
@@ -23,7 +23,7 @@ public class CombinedSpellWidget extends AbstractButtonWidget {
     public void onClick(double mouseX, double mouseY) {
         screen.spells[index] = null;
         if ((screen.selectedMedium != null && screen.selectedEffect != null && screen.power >= 0)) {
-            screen.spells[index] = new Spell(screen.selectedMedium.medium, SpellEffect.SPELL_EFFECTS.get(screen.selectedEffect.linkedId), screen.power);
+            screen.spells[index] = new Spell(screen.selectedMedium.medium, MMRegistries.SPELL_EFFECTS.get(screen.selectedEffect.linkedId), screen.power);
             screen.selectedMedium = null;
             screen.selectedEffect = null;
             screen.power = -1;

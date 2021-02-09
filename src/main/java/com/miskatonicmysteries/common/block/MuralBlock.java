@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.block;
 
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
+import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.registry.Affiliation;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;

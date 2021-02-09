@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.common.entity.SpellProjectileEntity;
-import com.miskatonicmysteries.common.lib.MMParticles;
+import com.miskatonicmysteries.common.registry.MMParticles;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;

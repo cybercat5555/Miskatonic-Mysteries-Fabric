@@ -1,11 +1,14 @@
 package com.miskatonicmysteries.common.feature.spell;
 
-import com.miskatonicmysteries.common.feature.blessing.Blessing;
-import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
+import com.miskatonicmysteries.api.interfaces.Ascendant;
+import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMMiscRegistries;
-import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
+import com.miskatonicmysteries.common.registry.MMBlessings;
+import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.util.CapabilityUtil;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundCategory;
@@ -28,7 +31,7 @@ public class Spell {
         if (!caster.world.isClient) {
             SpellPacket.send(caster, toTag(new CompoundTag()));
         }
-        boolean boost = Ascendant.of(caster).isPresent() && CapabilityUtil.hasBlessing(Ascendant.of(caster).get(), Blessing.MAGIC_BOOST);
+        boolean boost = Ascendant.of(caster).isPresent() && CapabilityUtil.hasBlessing(Ascendant.of(caster).get(), MMBlessings.MAGIC_BOOST);
         return effect.canCast(caster, medium) && medium.cast(caster.world, caster, effect, boost ? intensity + 1 : intensity);
     }
 
@@ -40,6 +43,6 @@ public class Spell {
     }
 
     public static Spell fromTag(CompoundTag tag) {
-        return tag.isEmpty() ? null : new Spell(SpellMedium.SPELL_MEDIUMS.get(new Identifier(tag.getString(Constants.NBT.SPELL_MEDIUM))), SpellEffect.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))), tag.getInt(Constants.NBT.INTENSITY));
+        return tag.isEmpty() ? null : new Spell(MMRegistries.SPELL_MEDIUMS.get(new Identifier(tag.getString(Constants.NBT.SPELL_MEDIUM))), MMRegistries.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))), tag.getInt(Constants.NBT.INTENSITY));
     }
 }

@@ -1,10 +1,12 @@
 package com.miskatonicmysteries.common.entity.ai.task;
 
 import com.google.common.collect.ImmutableMap;
-import com.miskatonicmysteries.common.entity.CastingMob;
+import com.miskatonicmysteries.api.interfaces.CastingMob;
+import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.spell.Spell;
-import com.miskatonicmysteries.common.feature.spell.SpellEffect;
-import com.miskatonicmysteries.common.feature.spell.SpellMedium;
+import com.miskatonicmysteries.common.registry.MMSpellEffects;
+import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -35,21 +37,21 @@ public class CastSpellTask extends Task<VillagerEntity> {
     protected void run(ServerWorld world, VillagerEntity entity, long time) {
         if (entity instanceof CastingMob) {
             timer = 60;
-            SpellEffect effect = SpellEffect.KNOCKBACK;
-            SpellMedium medium = SpellMedium.MOB_TARGET;
+            SpellEffect effect = MMSpellEffects.KNOCKBACK;
+            SpellMedium medium = MMSpellMediums.MOB_TARGET;
             LivingEntity target = getTarget(entity);
             int intensity = 1 + entity.getRandom().nextInt(2);
             if (entity.getRandom().nextBoolean() && entity.getHealth() < entity.getMaxHealth()) {
-                effect = SpellEffect.HEAL;
-                medium = SpellMedium.GROUP;
+                effect = MMSpellEffects.HEAL;
+                medium = MMSpellMediums.GROUP;
             } else if (entity.getRandom().nextBoolean() && target.distanceTo(entity) > 12) {
-                effect = SpellEffect.DAMAGE;
-                medium = SpellMedium.BOLT;
+                effect = MMSpellEffects.DAMAGE;
+                medium = MMSpellMediums.BOLT;
                 intensity = 1;
                 timer = 40;
             } else if (!entity.hasStatusEffect(StatusEffects.RESISTANCE)) {
-                effect = SpellEffect.RESISTANCE;
-                medium = SpellMedium.GROUP;
+                effect = MMSpellEffects.RESISTANCE;
+                medium = MMSpellMediums.GROUP;
             }
             ((CastingMob) entity).setCurrentSpell(new Spell(medium, effect, intensity));
             ((CastingMob) entity).setCastTime(timer);

@@ -1,14 +1,16 @@
 package com.miskatonicmysteries.common.entity;
 
+import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.interfaces.CastingMob;
+import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.entity.brain.HasturCultistBrain;
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.item.books.MMBookItem;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMEntities;
-import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMEntities;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.LivingEntityAccessor;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.entity.*;
@@ -133,8 +135,8 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
             }
             return ActionResult.SUCCESS;
         }
-        if (player.getStackInHand(hand).getItem().equals(MMObjects.NECRONOMICON) && getReputation(player) >= 25 && !MMBookItem.hasKnowledge(Affiliation.HASTUR.getId().getPath(), player.getStackInHand(hand))) {
-            MMBookItem.addKnowledge(Affiliation.HASTUR.getId().getPath(), player.getStackInHand(hand));
+        if (player.getStackInHand(hand).getItem().equals(MMObjects.NECRONOMICON) && getReputation(player) >= 25 && !MMBookItem.hasKnowledge(MMAffiliations.HASTUR.getId().getPath(), player.getStackInHand(hand))) {
+            MMBookItem.addKnowledge(MMAffiliations.HASTUR.getId().getPath(), player.getStackInHand(hand));
             if (!this.world.isClient()) {
                 this.playSound(SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
                 world.spawnEntity(new ExperienceOrbEntity(world, getX(), getY(), getZ(), 5));
@@ -394,7 +396,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public Affiliation getAffiliation(boolean apparent) {
-        return Affiliation.HASTUR;
+        return MMAffiliations.HASTUR;
     }
 
     @Override

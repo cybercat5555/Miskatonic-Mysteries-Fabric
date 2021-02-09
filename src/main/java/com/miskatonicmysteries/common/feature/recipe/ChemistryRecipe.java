@@ -2,8 +2,9 @@ package com.miskatonicmysteries.common.feature.recipe;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.miskatonicmysteries.api.interfaces.LazySerializable;
 import com.miskatonicmysteries.common.feature.PotentialItem;
-import com.miskatonicmysteries.common.lib.MMRecipes;
+import com.miskatonicmysteries.common.registry.MMRecipes;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
@@ -15,11 +16,12 @@ import net.minecraft.util.collection.DefaultedList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChemistryRecipe implements LazySerializable{
+public class ChemistryRecipe implements LazySerializable {
     public final List<Ingredient> ingredients = DefaultedList.ofSize(6, Ingredient.EMPTY);
     public final int color;
     public final List<PotentialItem> output = DefaultedList.ofSize(3, PotentialItem.EMPTY);
     public final Identifier id;
+
     public ChemistryRecipe(Identifier id, Ingredient[] ingredients, int color, PotentialItem... output) {
         this.id = id;
         for (int i = 0; i < ingredients.length; i++) {

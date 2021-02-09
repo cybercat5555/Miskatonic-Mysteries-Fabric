@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.common.block.blockentity.energy.ResonatorBlockEntity;
-import com.miskatonicmysteries.common.lib.MMParticles;
+import com.miskatonicmysteries.common.registry.MMParticles;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;

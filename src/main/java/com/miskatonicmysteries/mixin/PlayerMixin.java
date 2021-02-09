@@ -1,25 +1,27 @@
 package com.miskatonicmysteries.mixin;
 
+import com.miskatonicmysteries.api.block.StatueBlock;
+import com.miskatonicmysteries.api.interfaces.*;
+import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.api.registry.Blessing;
+import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.feature.blessing.Blessing;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
-import com.miskatonicmysteries.common.feature.interfaces.*;
 import com.miskatonicmysteries.common.feature.spell.Spell;
-import com.miskatonicmysteries.common.feature.spell.SpellEffect;
-import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ExpandSanityPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBlessingsPacket;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMMiscRegistries;
-import com.miskatonicmysteries.common.lib.MMObjects;
-import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
-import com.miskatonicmysteries.common.lib.util.InventoryUtil;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.util.CapabilityUtil;
+import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.InventoryUtil;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -44,7 +46,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.*;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.*;
 
 @Mixin(PlayerEntity.class) //todo move capabilities to cardinal components api
 public abstract class PlayerMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant, Resonating {
@@ -141,8 +143,8 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         dataTracker.startTracking(STAGE, 0);
         dataTracker.startTracking(POWER_POOL, 0);
         dataTracker.startTracking(MAX_SPELLS, Constants.DataTrackers.MIN_SPELLS);
-        dataTracker.startTracking(AFFILIATION, Affiliation.NONE);
-        dataTracker.startTracking(APPARENT_AFFILIATION, Affiliation.NONE);
+        dataTracker.startTracking(AFFILIATION, MMAffiliations.NONE);
+        dataTracker.startTracking(APPARENT_AFFILIATION, MMAffiliations.NONE);
         dataTracker.startTracking(RESONANCE, 0F);
     }
 
@@ -254,8 +256,8 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
             CapabilityUtil.readSpellData(this, tag);
             setAscensionStage(tag.getInt(Constants.NBT.ASCENSION_STAGE));
 
-            setAffiliation(Affiliation.AFFILIATION_MAP.getOrDefault(new Identifier(tag.getString(Constants.NBT.AFFILIATION)), Affiliation.NONE), false);
-            setAffiliation(Affiliation.AFFILIATION_MAP.getOrDefault(new Identifier(tag.getString(Constants.NBT.APPARENT_AFFILIATION)), Affiliation.NONE), true);
+            setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.AFFILIATION))), false);
+            setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.APPARENT_AFFILIATION))), true);
             CapabilityUtil.readBlessingData(this, tag);
 
             setResonance(tag.getFloat(Constants.NBT.RESONANCE));

@@ -2,7 +2,7 @@ package com.miskatonicmysteries.client.gui;
 
 import com.miskatonicmysteries.client.gui.hud.SpellHUD;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;

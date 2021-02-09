@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.client.render;
 
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import ladysnake.satin.api.util.RenderLayerHelper;

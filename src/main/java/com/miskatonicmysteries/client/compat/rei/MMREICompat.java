@@ -2,10 +2,10 @@ package com.miskatonicmysteries.client.compat.rei;
 
 import com.miskatonicmysteries.client.compat.rei.category.ChemistrySetCategory;
 import com.miskatonicmysteries.client.compat.rei.category.OctagramRiteCategory;
-import com.miskatonicmysteries.common.feature.recipe.rite.Rite;
 import com.miskatonicmysteries.common.item.ChalkItem;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMRecipes;
+import com.miskatonicmysteries.common.registry.MMRecipes;
+import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.util.Constants;
 import me.shedaniel.rei.api.EntryStack;
 import me.shedaniel.rei.api.RecipeHelper;
 import me.shedaniel.rei.api.plugins.REIPluginV0;
@@ -32,9 +32,7 @@ public class MMREICompat implements REIPluginV0 {
         if (world != null) {
             world.getRecipeManager().listAllOfType(MMRecipes.CHEMISTRY_RECIPE).forEach(recipe -> recipeHelper.registerDisplay(new ChemistrySetCategory.Display(recipe)));
         }
-        Rite.RITES.forEach((id, rite) -> {
-            recipeHelper.registerDisplay(new OctagramRiteCategory.Display(rite));
-        });
+        MMRegistries.RITES.forEach((rite) -> recipeHelper.registerDisplay(new OctagramRiteCategory.Display(rite)));
     }
 
     @Override

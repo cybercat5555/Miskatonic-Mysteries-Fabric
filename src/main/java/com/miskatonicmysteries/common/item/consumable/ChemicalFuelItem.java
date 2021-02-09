@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.item.consumable;
 
 import com.miskatonicmysteries.common.block.blockentity.energy.PowerCellBlockEntity;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.DispenserBehavior;

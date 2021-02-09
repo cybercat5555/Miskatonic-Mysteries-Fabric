@@ -1,13 +1,17 @@
 package com.miskatonicmysteries.common.entity;
 
+import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.interfaces.CastingMob;
+import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.entity.ai.CastSpellGoal;
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
 import com.miskatonicmysteries.common.feature.spell.Spell;
-import com.miskatonicmysteries.common.feature.spell.SpellEffect;
-import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMSpellEffects;
+import com.miskatonicmysteries.common.registry.MMSpellMediums;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -229,15 +233,14 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 
     @Override
     public Spell selectSpell() {
-        SpellMedium medium = SpellMedium.BOLT;
-        SpellEffect effect = SpellEffect.DAMAGE;
-        Spell spell = new Spell(medium, effect, 2 + world.random.nextInt(3));
-        return spell;
+        SpellMedium medium = MMSpellMediums.BOLT;
+        SpellEffect effect = MMSpellEffects.DAMAGE;
+        return new Spell(medium, effect, 2 + world.random.nextInt(3));
     }
 
     @Override
     public Affiliation getAffiliation(boolean apparent) {
-        return Affiliation.HASTUR;
+        return MMAffiliations.HASTUR;
     }
 
     @Override

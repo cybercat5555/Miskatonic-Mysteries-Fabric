@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.block.blockentity.energy;
 
 import com.miskatonicmysteries.common.block.blockentity.BaseBlockEntity;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;

@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.gui.patchouli;
 
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
-import com.miskatonicmysteries.common.lib.MMRecipes;
+import com.miskatonicmysteries.common.registry.MMRecipes;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeManager;

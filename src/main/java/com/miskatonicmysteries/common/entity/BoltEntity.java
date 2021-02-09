@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.entity;
 
-import com.miskatonicmysteries.common.lib.MMEntities;
+import com.miskatonicmysteries.common.registry.MMEntities;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;

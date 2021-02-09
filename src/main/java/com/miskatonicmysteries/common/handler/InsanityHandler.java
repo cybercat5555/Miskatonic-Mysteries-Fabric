@@ -1,9 +1,10 @@
 package com.miskatonicmysteries.common.handler;
 
+import com.miskatonicmysteries.api.interfaces.Sanity;
+import com.miskatonicmysteries.api.registry.InsanityEvent;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.feature.interfaces.Sanity;
-import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
-import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMRegistries;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -16,7 +17,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.SANITY_CAP;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SANITY_CAP;
 
 public class InsanityHandler {
 
@@ -42,7 +43,7 @@ public class InsanityHandler {
     }
 
     private static InsanityEvent findInsanityEvent(PlayerEntity player, Sanity sanity, float insanityFactor) {
-        List<InsanityEvent> events = InsanityEvent.INSANITY_EVENTS.values().parallelStream().filter(event -> event.test(player, sanity, insanityFactor)).collect(Collectors.toList());
+        List<InsanityEvent> events = MMRegistries.INSANITY_EVENTS.stream().filter(event -> event.test(player, sanity, insanityFactor)).collect(Collectors.toList());
         for (int i = 0; i < MiskatonicMysteries.config.sanity.insanityEventAttempts; i++) {
             if (events.isEmpty()) {
                 return null;

@@ -1,9 +1,10 @@
 package com.miskatonicmysteries.common.entity;
 
-import com.miskatonicmysteries.common.feature.spell.SpellEffect;
-import com.miskatonicmysteries.common.feature.spell.SpellMedium;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMEntities;
+import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.common.registry.MMEntities;
+import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.registry.MMSpellMediums;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
@@ -58,7 +59,7 @@ public class SpellProjectileEntity extends ThrownEntity {
     protected void readCustomDataFromTag(CompoundTag tag) {
         super.readCustomDataFromTag(tag);
         setIntensity(tag.getInt(Constants.NBT.INTENSITY));
-        setSpell(SpellEffect.SPELL_EFFECTS.getOrDefault(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT)), null));
+        setSpell(MMRegistries.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))));
     }
 
     public void setSpell(SpellEffect effect) {
@@ -67,7 +68,7 @@ public class SpellProjectileEntity extends ThrownEntity {
 
     @Nullable
     public SpellEffect getSpell() {
-        return SpellEffect.SPELL_EFFECTS.getOrDefault(new Identifier(dataTracker.get(EFFECT)), null);
+        return MMRegistries.SPELL_EFFECTS.get(new Identifier(dataTracker.get(EFFECT)));
     }
 
     public void setIntensity(int intensity) {
@@ -82,7 +83,7 @@ public class SpellProjectileEntity extends ThrownEntity {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
         if (getOwner() instanceof LivingEntity && getSpell() != null) {
-            getSpell().effect(world, (LivingEntity) getOwner(), entityHitResult.getEntity(), entityHitResult.getPos(), SpellMedium.PROJECTILE, getIntensity(), this);
+            getSpell().effect(world, (LivingEntity) getOwner(), entityHitResult.getEntity(), entityHitResult.getPos(), MMSpellMediums.PROJECTILE, getIntensity(), this);
         }
     }
 
@@ -90,7 +91,7 @@ public class SpellProjectileEntity extends ThrownEntity {
     protected void onBlockHit(BlockHitResult blockHitResult) {
         super.onBlockHit(blockHitResult);
         if (getOwner() instanceof LivingEntity && getSpell() != null) {
-            getSpell().effect(world, (LivingEntity) getOwner(), null, blockHitResult.getPos(), SpellMedium.PROJECTILE, getIntensity(), this);
+            getSpell().effect(world, (LivingEntity) getOwner(), null, blockHitResult.getPos(), MMSpellMediums.PROJECTILE, getIntensity(), this);
         }
     }
 

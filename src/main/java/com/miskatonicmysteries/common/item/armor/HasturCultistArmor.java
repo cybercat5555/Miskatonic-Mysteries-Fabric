@@ -1,7 +1,8 @@
 package com.miskatonicmysteries.common.item.armor;
 
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -20,7 +21,7 @@ public class HasturCultistArmor extends CultistArmor {
 
     @Override
     public Affiliation getAffiliation(boolean apparent) {
-        return Affiliation.HASTUR;
+        return MMAffiliations.HASTUR;
     }
 
     @Override

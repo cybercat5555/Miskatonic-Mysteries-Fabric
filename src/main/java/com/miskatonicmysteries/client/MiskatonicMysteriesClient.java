@@ -1,5 +1,8 @@
 package com.miskatonicmysteries.client;
 
+import com.miskatonicmysteries.api.block.AltarBlock;
+import com.miskatonicmysteries.api.block.OctagramBlock;
+import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.client.gui.HUDHandler;
 import com.miskatonicmysteries.client.model.entity.phantasma.AberrationModel;
 import com.miskatonicmysteries.client.model.entity.phantasma.PhantasmaModel;
@@ -11,14 +14,11 @@ import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
 import com.miskatonicmysteries.client.render.entity.*;
 import com.miskatonicmysteries.client.sound.ResonatorSound;
-import com.miskatonicmysteries.common.block.AltarBlock;
-import com.miskatonicmysteries.common.block.OctagramBlock;
-import com.miskatonicmysteries.common.block.StatueBlock;
 import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.item.GunItem;
-import com.miskatonicmysteries.common.lib.MMEntities;
-import com.miskatonicmysteries.common.lib.MMObjects;
-import com.miskatonicmysteries.common.lib.MMParticles;
+import com.miskatonicmysteries.common.registry.MMEntities;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMParticles;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;

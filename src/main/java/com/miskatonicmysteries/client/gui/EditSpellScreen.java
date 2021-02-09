@@ -1,15 +1,16 @@
 package com.miskatonicmysteries.client.gui;
 
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
+import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.client.gui.widget.CombinedSpellWidget;
 import com.miskatonicmysteries.client.gui.widget.MediumComponentWidget;
 import com.miskatonicmysteries.client.gui.widget.SpellComponentWidget;
 import com.miskatonicmysteries.client.gui.widget.SpellPowerWidget;
-import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.spell.Spell;
-import com.miskatonicmysteries.common.feature.spell.SpellEffect;
-import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.registry.MMSpellMediums;
+import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
@@ -91,11 +92,11 @@ public class EditSpellScreen extends Screen {
             addButton(new SpellComponentWidget((this.width - 192) / 4 + 30 * (i % 4), 64 + (30 * (i / 4)), learnedEffects.get(i), this));
         }
 
-        addButton(new MediumComponentWidget((this.width - 192) / 4 + 128, 50 + 32, SpellMedium.SELF, this));
-        addButton(new MediumComponentWidget((this.width - 192) / 4 + 140 + 64, 50 + 32, SpellMedium.PROJECTILE, this));
-        addButton(new MediumComponentWidget((this.width - 192) / 4 + 138, 34 + 3 * 32, SpellMedium.BOLT, this));
-        addButton(new MediumComponentWidget((this.width - 192) / 4 + 130 + 64, 34 + 3 * 32, SpellMedium.GROUP, this));
-        addButton(new MediumComponentWidget((this.width - 192) / 4 + 134 + 32, 30 + 32, SpellMedium.VISION, this));
+        addButton(new MediumComponentWidget((this.width - 192) / 4 + 128, 50 + 32, MMSpellMediums.SELF, this));
+        addButton(new MediumComponentWidget((this.width - 192) / 4 + 140 + 64, 50 + 32, MMSpellMediums.PROJECTILE, this));
+        addButton(new MediumComponentWidget((this.width - 192) / 4 + 138, 34 + 3 * 32, MMSpellMediums.BOLT, this));
+        addButton(new MediumComponentWidget((this.width - 192) / 4 + 130 + 64, 34 + 3 * 32, MMSpellMediums.GROUP, this));
+        addButton(new MediumComponentWidget((this.width - 192) / 4 + 134 + 32, 30 + 32, MMSpellMediums.VISION, this));
 
         addButton(new SpellPowerWidget((this.width - 192) / 4 + 134, 38 + 4 * 32, 0, this));
         addButton(new SpellPowerWidget((this.width - 192) / 4 + 134 + 32, 38 + 4 * 32, 1, this));

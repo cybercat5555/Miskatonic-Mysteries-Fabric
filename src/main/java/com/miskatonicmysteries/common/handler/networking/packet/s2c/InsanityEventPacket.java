@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
-import com.miskatonicmysteries.common.feature.interfaces.Sanity;
-import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
+import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.common.handler.networking.PacketHandler;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
@@ -23,6 +23,8 @@ public class InsanityEventPacket {
 
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
         Identifier id = packetByteBuf.readIdentifier();
-        client.execute(() -> InsanityEvent.INSANITY_EVENTS.get(id).execute(client.player, (Sanity) client.player));
+        if (client.player != null) {
+            client.execute(() -> MMRegistries.INSANITY_EVENTS.get(id).execute(client.player, (Sanity) client.player));
+        }
     }
 }

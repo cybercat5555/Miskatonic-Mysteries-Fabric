@@ -1,13 +1,13 @@
 package com.miskatonicmysteries.common.block.blockentity.energy;
 
+import com.miskatonicmysteries.api.interfaces.Resonating;
 import com.miskatonicmysteries.client.sound.ResonatorSound;
 import com.miskatonicmysteries.common.block.blockentity.BaseBlockEntity;
 import com.miskatonicmysteries.common.entity.PhantasmaEntity;
-import com.miskatonicmysteries.common.feature.interfaces.Resonating;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMEntities;
-import com.miskatonicmysteries.common.lib.MMObjects;
-import com.miskatonicmysteries.common.lib.MMParticles;
+import com.miskatonicmysteries.common.registry.MMEntities;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMParticles;
+import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;

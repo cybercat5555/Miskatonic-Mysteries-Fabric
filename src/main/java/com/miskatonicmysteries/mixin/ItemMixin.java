@@ -1,11 +1,11 @@
 package com.miskatonicmysteries.mixin;
 
+import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.feature.interfaces.Sanity;
-import com.miskatonicmysteries.common.feature.sanity.InsanityInducer;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMMiscRegistries;
-import com.miskatonicmysteries.common.lib.util.MiscUtil;
+import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.MiscUtil;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -29,7 +29,7 @@ public abstract class ItemMixin {
     @Inject(method = "finishUsing(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;)Lnet/minecraft/item/ItemStack;", at = @At("HEAD"))
     private void induceSanityAfterUse(ItemStack stack, World world, LivingEntity entity, CallbackInfoReturnable<ItemStack> info){
         if (!stack.isEmpty() && Sanity.of(entity).isPresent() && (getUseAction(stack) == UseAction.BLOCK || getUseAction(stack) == UseAction.DRINK || getUseAction(stack) == UseAction.EAT)) {
-            InsanityInducer.INSANITY_INDUCERS.forEach((id, inducer) -> {
+            MMRegistries.INSANITY_INDUCERS.forEach((inducer) -> {
                 if (inducer.ingredient.test(stack)) {
                     inducer.induceInsanity(world, entity, Sanity.of(entity).get());
                 }

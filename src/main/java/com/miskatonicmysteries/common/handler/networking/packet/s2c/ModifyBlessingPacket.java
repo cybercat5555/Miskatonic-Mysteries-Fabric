@@ -1,9 +1,10 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
-import com.miskatonicmysteries.common.feature.blessing.Blessing;
-import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
+import com.miskatonicmysteries.api.interfaces.Ascendant;
+import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.common.handler.networking.PacketHandler;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
@@ -23,16 +24,14 @@ public class ModifyBlessingPacket {
     }
 
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        Blessing blessing = Blessing.BLESSINGS.getOrDefault(new Identifier(packetByteBuf.readString()), null);
+        Blessing blessing = MMRegistries.BLESSINGS.get(new Identifier(packetByteBuf.readString()));
         boolean add = packetByteBuf.readBoolean();
-        if (blessing != null) {
-            client.execute(() -> Ascendant.of(client.player).ifPresent(ascendant -> {
-                if (add) {
-                    ascendant.addBlessing(blessing);
-                } else {
-                    ascendant.removeBlessing(blessing);
-                }
-            }));
-        }
+        client.execute(() -> Ascendant.of(client.player).ifPresent(ascendant -> {
+            if (add) {
+                ascendant.addBlessing(blessing);
+            } else {
+                ascendant.removeBlessing(blessing);
+            }
+        }));
     }
 }

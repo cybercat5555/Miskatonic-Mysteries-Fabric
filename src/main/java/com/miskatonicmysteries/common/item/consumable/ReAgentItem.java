@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.item.consumable;
 
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.ZombieVillagerAccessor;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;

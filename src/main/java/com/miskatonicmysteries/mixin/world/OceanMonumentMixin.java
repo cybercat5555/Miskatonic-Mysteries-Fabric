@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.mixin.world;
 
-import com.miskatonicmysteries.common.lib.MMObjects;
+import com.miskatonicmysteries.common.registry.MMObjects;
 import net.minecraft.structure.OceanMonumentGenerator;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.math.BlockBox;

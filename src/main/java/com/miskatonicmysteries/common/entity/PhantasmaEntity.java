@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.entity;
 
+import com.miskatonicmysteries.api.interfaces.Resonating;
 import com.miskatonicmysteries.common.entity.ai.FloatyWanderAroundGoal;
-import com.miskatonicmysteries.common.feature.interfaces.Resonating;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;

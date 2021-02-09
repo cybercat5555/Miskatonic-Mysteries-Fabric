@@ -1,10 +1,10 @@
 package com.miskatonicmysteries.common.feature.spell.effect;
 
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.feature.interfaces.Affiliated;
-import com.miskatonicmysteries.common.feature.spell.SpellEffect;
-import com.miskatonicmysteries.common.feature.spell.SpellMedium;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.api.registry.SpellMedium;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -23,7 +23,7 @@ public class DamageSpellEffect extends SpellEffect {
     @Override
     public int getColor(@Nullable LivingEntity caster) {
         Optional<Affiliated> affiliation = Affiliated.of(caster);
-        if (!affiliation.isPresent() || affiliation.get().getAffiliation(true) == null || affiliation.get().getAffiliation(true).equals(Affiliation.NONE)) {
+        if (!affiliation.isPresent() || affiliation.get().getAffiliation(true) == null || affiliation.get().getAffiliation(true).equals(MMAffiliations.NONE)) {
             return 0xF9E6A7;
         }
         return affiliation.get().getAffiliation(true).getIntColor();

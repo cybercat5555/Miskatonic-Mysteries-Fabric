@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.model.entity.phantasma;
 
 import com.miskatonicmysteries.common.entity.PhantasmaEntity;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 

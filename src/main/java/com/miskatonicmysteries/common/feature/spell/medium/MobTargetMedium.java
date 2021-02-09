@@ -1,9 +1,10 @@
 package com.miskatonicmysteries.common.feature.spell.medium;
 
-import com.miskatonicmysteries.common.feature.spell.SpellEffect;
-import com.miskatonicmysteries.common.feature.spell.SpellMedium;
+import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.MobSpellPacket;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.registry.MMSpellMediums;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,7 +25,9 @@ public class MobTargetMedium extends SpellMedium {
                 return !caster.isDead() && effect.effect(caster.world, caster, caster.getAttacking(), caster.getAttacking().getPos(), this, intensity, caster);
             }
         }
-        if (caster instanceof PlayerEntity) return BOLT.cast(world, caster, effect, intensity);
+        if (caster instanceof PlayerEntity) {
+            return MMSpellMediums.BOLT.cast(world, caster, effect, intensity);
+        }
         return false;
     }
 }

@@ -1,8 +1,9 @@
 package com.miskatonicmysteries.common.criterion;
 
 import com.google.gson.JsonObject;
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
@@ -22,7 +23,7 @@ public class LevelUpCriterion extends AbstractCriterion<LevelUpCriterion.Conditi
     public LevelUpCriterion.Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
         Identifier affiliationId = new Identifier(JsonHelper.getString(jsonObject, "affiliation"));
         int stage = JsonHelper.getInt(jsonObject, "stage", -1);
-        return Affiliation.AFFILIATION_MAP.containsKey(affiliationId) ? new LevelUpCriterion.Conditions(extended, Affiliation.AFFILIATION_MAP.get(affiliationId), stage) : null;
+        return new LevelUpCriterion.Conditions(extended, MMRegistries.AFFILIATIONS.get(affiliationId), stage);
     }
 
     public void trigger(ServerPlayerEntity player, Affiliation affiliation, int stage) {

@@ -2,18 +2,18 @@ package com.miskatonicmysteries.common.entity.brain;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.entity.ai.task.CastSpellTask;
 import com.miskatonicmysteries.common.entity.ai.task.HealthCareTask;
 import com.miskatonicmysteries.common.entity.ai.task.RecruitTask;
 import com.miskatonicmysteries.common.entity.ai.task.TacticalApproachTask;
-import com.miskatonicmysteries.common.feature.Affiliation;
-import com.miskatonicmysteries.common.feature.blessing.Blessing;
-import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
-import com.miskatonicmysteries.common.lib.MMEntities;
-import com.miskatonicmysteries.common.lib.util.CapabilityUtil;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMBlessings;
+import com.miskatonicmysteries.common.registry.MMEntities;
+import com.miskatonicmysteries.common.util.CapabilityUtil;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
@@ -118,7 +118,7 @@ public class HasturCultistBrain {
                     List<LivingEntity> mobList = mobs.get();
                     LivingEntity bestTarget = null;
                     for (LivingEntity livingEntity : mobList) {
-                        if (Ascendant.of(livingEntity).isPresent() && CapabilityUtil.hasBlessing(Ascendant.of(livingEntity).get(), Blessing.ROYAL_ENTOURAGE)) {
+                        if (Ascendant.of(livingEntity).isPresent() && CapabilityUtil.hasBlessing(Ascendant.of(livingEntity).get(), MMBlessings.ROYAL_ENTOURAGE)) {
                             if (livingEntity.getAttacker() != null) {
                                 bestTarget = livingEntity.getAttacker();
                                 break;
@@ -127,7 +127,7 @@ public class HasturCultistBrain {
                                 break;
                             }
                         }
-                        if (CapabilityUtil.getAffiliation(livingEntity, true) == Affiliation.SHUB
+                        if (CapabilityUtil.getAffiliation(livingEntity, true) == MMAffiliations.SHUB
                                 || livingEntity instanceof ProtagonistEntity || (livingEntity instanceof Monster && !(livingEntity instanceof CreeperEntity))) {
                             if (bestTarget == null || livingEntity.distanceTo(cultist) < bestTarget.distanceTo(cultist)) {
                                 bestTarget = livingEntity;

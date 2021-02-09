@@ -1,17 +1,18 @@
 package com.miskatonicmysteries.common.feature;
 
-import com.miskatonicmysteries.common.feature.blessing.Blessing;
-import com.miskatonicmysteries.common.feature.interfaces.Ascendant;
-import com.miskatonicmysteries.common.feature.interfaces.Sanity;
-import com.miskatonicmysteries.common.feature.interfaces.SpellCaster;
-import com.miskatonicmysteries.common.feature.sanity.InsanityEvent;
+import com.miskatonicmysteries.api.interfaces.Ascendant;
+import com.miskatonicmysteries.api.interfaces.Sanity;
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
+import com.miskatonicmysteries.api.registry.Blessing;
+import com.miskatonicmysteries.api.registry.InsanityEvent;
+import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.spell.Spell;
-import com.miskatonicmysteries.common.feature.spell.SpellEffect;
-import com.miskatonicmysteries.common.feature.spell.SpellMedium;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ModifyBlessingPacket;
-import com.miskatonicmysteries.common.lib.Constants;
+import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -68,21 +69,23 @@ public class ModCommand {
 
         LiteralArgumentBuilder blessingBuilder = CommandManager.literal("blessings");
         LiteralArgumentBuilder addBlessingBuilder = CommandManager.literal("addBlessing");
-        Blessing.BLESSINGS.keySet().forEach(blessingId -> addBlessingBuilder.then(CommandManager.literal(blessingId.toString())
-                .executes(context -> addBlessing(context, blessingId, context.getSource().getPlayer()))
-                .then(CommandManager.argument("player", EntityArgumentType.player())
-                        .executes(context -> addBlessing(context, blessingId, EntityArgumentType.getPlayer(context, "player"))))));
-        blessingBuilder.then(addBlessingBuilder);
         LiteralArgumentBuilder removeBlessingBuilder = CommandManager.literal("removeBlessing");
-        Blessing.BLESSINGS.keySet().forEach(blessingId -> removeBlessingBuilder.then(CommandManager.literal(blessingId.toString())
-                .executes(context -> removeBlessing(context, blessingId, context.getSource().getPlayer()))
-                .then(CommandManager.argument("player", EntityArgumentType.player())
-                        .executes(context -> removeBlessing(context, blessingId, EntityArgumentType.getPlayer(context, "player"))))));
+        for (Identifier blessingId : MMRegistries.BLESSINGS.getIds()) {
+            addBlessingBuilder.then(CommandManager.literal(blessingId.toString())
+                    .executes(context -> addBlessing(context, blessingId, context.getSource().getPlayer()))
+                    .then(CommandManager.argument("player", EntityArgumentType.player())
+                            .executes(context -> addBlessing(context, blessingId, EntityArgumentType.getPlayer(context, "player")))));
+            removeBlessingBuilder.then(CommandManager.literal(blessingId.toString())
+                    .executes(context -> removeBlessing(context, blessingId, context.getSource().getPlayer()))
+                    .then(CommandManager.argument("player", EntityArgumentType.player())
+                            .executes(context -> removeBlessing(context, blessingId, EntityArgumentType.getPlayer(context, "player")))));
+        }
+        blessingBuilder.then(addBlessingBuilder);
+        blessingBuilder.then(removeBlessingBuilder);
         blessingBuilder.then(CommandManager.literal("get")
                 .executes(context -> giveBlessingFeedback(context, context.getSource().getPlayer()))
                 .then(CommandManager.argument("player", EntityArgumentType.player())
                         .executes(context -> giveBlessingFeedback(context, EntityArgumentType.getPlayer(context, "player")))));
-        blessingBuilder.then(removeBlessingBuilder);
         builder.then(blessingBuilder);
 
         builder.then(CommandManager.literal("world")
@@ -96,31 +99,39 @@ public class ModCommand {
                 .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> setPowerPool(context, IntegerArgumentType.getInteger(context, "value"), EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[EntityArgumentType.getPlayers(context, "player").size()]))))));
 
         LiteralArgumentBuilder learnSpellBuilder = CommandManager.literal("learnEffect");
-        SpellEffect.SPELL_EFFECTS.keySet().forEach(effectId -> learnSpellBuilder.then(CommandManager.literal(effectId.toString())
-                .executes(context -> learnSpellEffect(context, effectId, context.getSource().getPlayer()))
-                .then(CommandManager.argument("player", EntityArgumentType.player())
-                        .executes(context -> learnSpellEffect(context, effectId, EntityArgumentType.getPlayer(context, "player"))))));
+        for (Identifier effectId : MMRegistries.SPELL_EFFECTS.getIds()) {
+            learnSpellBuilder.then(CommandManager.literal(effectId.toString())
+                    .executes(context -> learnSpellEffect(context, effectId, context.getSource().getPlayer()))
+                    .then(CommandManager.argument("player", EntityArgumentType.player())
+                            .executes(context -> learnSpellEffect(context, effectId, EntityArgumentType.getPlayer(context, "player")))));
+        }
         spellBuilder.then(learnSpellBuilder);
 
         LiteralArgumentBuilder removeSpellBuilder = CommandManager.literal("removeEffect");
-        SpellEffect.SPELL_EFFECTS.keySet().forEach(effectId -> removeSpellBuilder.then(CommandManager.literal(effectId.toString())
-                .executes(context -> removeSpellEffect(context, effectId, context.getSource().getPlayer()))
-                .then(CommandManager.argument("player", EntityArgumentType.player())
-                        .executes(context -> removeSpellEffect(context, effectId, EntityArgumentType.getPlayer(context, "player"))))));
+        for (Identifier effectId : MMRegistries.SPELL_EFFECTS.getIds()) {
+            removeSpellBuilder.then(CommandManager.literal(effectId.toString())
+                    .executes(context -> removeSpellEffect(context, effectId, context.getSource().getPlayer()))
+                    .then(CommandManager.argument("player", EntityArgumentType.player())
+                            .executes(context -> removeSpellEffect(context, effectId, EntityArgumentType.getPlayer(context, "player")))));
+        }
         spellBuilder.then(removeSpellBuilder);
 
         LiteralArgumentBuilder learnMedium = CommandManager.literal("learnMedium");
-        SpellMedium.SPELL_MEDIUMS.keySet().forEach(mediumId -> learnMedium.then(CommandManager.literal(mediumId.toString())
-                .executes(context -> learnMedium(context, mediumId, context.getSource().getPlayer()))
-                .then(CommandManager.argument("player", EntityArgumentType.player())
-                        .executes(context -> learnMedium(context, mediumId, EntityArgumentType.getPlayer(context, "player"))))));
+        for (Identifier mediumId : MMRegistries.SPELL_MEDIUMS.getIds()) {
+            learnMedium.then(CommandManager.literal(mediumId.toString())
+                    .executes(context -> learnMedium(context, mediumId, context.getSource().getPlayer()))
+                    .then(CommandManager.argument("player", EntityArgumentType.player())
+                            .executes(context -> learnMedium(context, mediumId, EntityArgumentType.getPlayer(context, "player")))));
+        }
         spellBuilder.then(learnMedium);
 
         LiteralArgumentBuilder removeMedium = CommandManager.literal("removeMedium");
-        SpellMedium.SPELL_MEDIUMS.keySet().forEach(mediumId -> removeMedium.then(CommandManager.literal(mediumId.toString())
-                .executes(context -> removeMedium(context, mediumId, context.getSource().getPlayer()))
-                .then(CommandManager.argument("player", EntityArgumentType.player())
-                        .executes(context -> removeMedium(context, mediumId, EntityArgumentType.getPlayer(context, "player"))))));
+        for (Identifier mediumId : MMRegistries.SPELL_MEDIUMS.getIds()) {
+            removeMedium.then(CommandManager.literal(mediumId.toString())
+                    .executes(context -> removeMedium(context, mediumId, context.getSource().getPlayer()))
+                    .then(CommandManager.argument("player", EntityArgumentType.player())
+                            .executes(context -> removeMedium(context, mediumId, EntityArgumentType.getPlayer(context, "player")))));
+        }
         spellBuilder.then(removeMedium);
         builder.then(spellBuilder);
 
@@ -130,26 +141,26 @@ public class ModCommand {
                         .executes(context -> spawnProtagonist(context, EntityArgumentType.getPlayer(context, "player")))));
 
         LiteralArgumentBuilder castingBuilder = CommandManager.literal("cast");
-        SpellMedium.SPELL_MEDIUMS.keySet().forEach(mediumId -> {
+        for (Identifier mediumId : MMRegistries.SPELL_MEDIUMS.getIds()) {
             LiteralArgumentBuilder mediumBuilder = CommandManager.literal(mediumId.toString());
-            SpellEffect.SPELL_EFFECTS.keySet().forEach(effectId -> {
+            for (Identifier effectId : MMRegistries.SPELL_EFFECTS.getIds()) {
                 mediumBuilder.then(CommandManager.literal(effectId.toString())
                         .executes(context -> castSpell(mediumId, effectId, 0, context.getSource().getPlayer()))
                         .then(CommandManager.argument("intensity", IntegerArgumentType.integer(0))
                                 .executes(context -> castSpell(mediumId, effectId, IntegerArgumentType.getInteger(context, "intensity"), context.getSource().getPlayer()))
                                 .then(CommandManager.argument("сaster", EntityArgumentType.player())
                                         .executes(context -> castSpell(mediumId, effectId, IntegerArgumentType.getInteger(context, "intensity"), EntityArgumentType.getPlayer(context, "сaster"))))));
-            });
+            }
             castingBuilder.then(mediumBuilder);
-        });
+        }
         builder.then(castingBuilder);
 
         CommandRegistrationCallback.EVENT.register((displatcher, b) -> displatcher.register(builder));
     }
 
     private static int castSpell(Identifier mediumId, Identifier effectId, int intensity, LivingEntity caster) {
-        SpellMedium medium = SpellMedium.SPELL_MEDIUMS.get(mediumId);
-        SpellEffect effect = SpellEffect.SPELL_EFFECTS.get(effectId);
+        SpellMedium medium = MMRegistries.SPELL_MEDIUMS.get(mediumId);
+        SpellEffect effect = MMRegistries.SPELL_EFFECTS.get(effectId);
         Spell spell = new Spell(medium, effect, intensity);
         return spell.cast(caster) ? 15 : 0;
     }
@@ -175,7 +186,7 @@ public class ModCommand {
     }
 
     private static int playInsanityEvent(CommandContext<ServerCommandSource> context, Identifier id, ServerPlayerEntity... players) {
-        InsanityEvent event = InsanityEvent.INSANITY_EVENTS.get(id);
+        InsanityEvent event = MMRegistries.INSANITY_EVENTS.get(id);
         if (event != null) {
             for (ServerPlayerEntity player : players) {
                 context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.execute_insanity_event", id.toString()), false);
@@ -307,7 +318,7 @@ public class ModCommand {
         for (ServerPlayerEntity player : players) {
             if (SpellCaster.of(player).isPresent()) {
                 SpellCaster caster = SpellCaster.of(player).get();
-                caster.learnEffect(SpellEffect.SPELL_EFFECTS.get(effect));
+                caster.learnEffect(MMRegistries.SPELL_EFFECTS.get(effect));
                 caster.syncSpellData();
                 if (player.equals(context.getSource().getPlayer())) {
                     context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_spell.self", effect), true);
@@ -316,14 +327,14 @@ public class ModCommand {
                 }
             }
         }
-        return SpellEffect.SPELL_EFFECTS.containsKey(effect) ? 16 : 0;
+        return MMRegistries.SPELL_EFFECTS.containsId(effect) ? 16 : 0;
     }
 
     private static int removeSpellEffect(CommandContext<ServerCommandSource> context, Identifier effect, ServerPlayerEntity... players) throws CommandSyntaxException {
         for (ServerPlayerEntity player : players) {
             if (SpellCaster.of(player).isPresent()) {
                 SpellCaster caster = SpellCaster.of(player).get();
-                caster.getLearnedEffects().remove(SpellEffect.SPELL_EFFECTS.get(effect));
+                caster.getLearnedEffects().remove(MMRegistries.SPELL_EFFECTS.get(effect));
                 caster.syncSpellData();
                 if (player.equals(context.getSource().getPlayer())) {
                     context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_spell.self", effect), true);
@@ -332,14 +343,14 @@ public class ModCommand {
                 }
             }
         }
-        return SpellEffect.SPELL_EFFECTS.containsKey(effect) ? 16 : 0;
+        return MMRegistries.SPELL_EFFECTS.containsId(effect) ? 16 : 0;
     }
 
     private static int learnMedium(CommandContext<ServerCommandSource> context, Identifier medium, ServerPlayerEntity... players) throws CommandSyntaxException {
         for (ServerPlayerEntity player : players) {
             if (SpellCaster.of(player).isPresent()) {
                 SpellCaster caster = SpellCaster.of(player).get();
-                caster.learnMedium(SpellMedium.SPELL_MEDIUMS.get(medium));
+                caster.learnMedium(MMRegistries.SPELL_MEDIUMS.get(medium));
                 caster.syncSpellData();
                 if (player.equals(context.getSource().getPlayer())) {
                     context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_medium.self", medium), true);
@@ -348,14 +359,14 @@ public class ModCommand {
                 }
             }
         }
-        return SpellMedium.SPELL_MEDIUMS.containsKey(medium) ? 16 : 0;
+        return MMRegistries.SPELL_MEDIUMS.containsId(medium) ? 16 : 0;
     }
 
     private static int removeMedium(CommandContext<ServerCommandSource> context, Identifier medium, ServerPlayerEntity... players) throws CommandSyntaxException {
         for (ServerPlayerEntity player : players) {
             if (SpellCaster.of(player).isPresent()) {
                 SpellCaster caster = SpellCaster.of(player).get();
-                caster.getLearnedMediums().remove(SpellMedium.SPELL_MEDIUMS.get(medium));
+                caster.getLearnedMediums().remove(MMRegistries.SPELL_MEDIUMS.get(medium));
                 caster.syncSpellData();
                 if (player.equals(context.getSource().getPlayer())) {
                     context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_medium.self", medium), true);
@@ -364,7 +375,7 @@ public class ModCommand {
                 }
             }
         }
-        return SpellMedium.SPELL_MEDIUMS.containsKey(medium) ? 16 : 0;
+        return MMRegistries.SPELL_MEDIUMS.containsId(medium) ? 16 : 0;
     }
 
     private static int addBlessing(CommandContext<ServerCommandSource> context, Identifier blessingId, ServerPlayerEntity... players) throws CommandSyntaxException {
@@ -372,7 +383,7 @@ public class ModCommand {
             if (Ascendant.of(player).isPresent()) {
                 Ascendant ascendant = Ascendant.of(player).get();
                 if (ascendant.getBlessings().size() < Constants.DataTrackers.MAX_BLESSINGS) {
-                    Blessing blessing = Blessing.BLESSINGS.get(blessingId);
+                    Blessing blessing = MMRegistries.BLESSINGS.get(blessingId);
                     ascendant.addBlessing(blessing);
                     ModifyBlessingPacket.send(player, blessing, true);
                     ascendant.syncBlessingData();
@@ -386,14 +397,14 @@ public class ModCommand {
                 }
             }
         }
-        return Blessing.BLESSINGS.containsKey(blessingId) ? 16 : 0;
+        return MMRegistries.BLESSINGS.containsId(blessingId) ? 16 : 0;
     }
 
     private static int removeBlessing(CommandContext<ServerCommandSource> context, Identifier blessingId, ServerPlayerEntity... players) throws CommandSyntaxException {
         for (ServerPlayerEntity player : players) {
             if (Ascendant.of(player).isPresent()) {
                 Ascendant ascendant = Ascendant.of(player).get();
-                Blessing blessing = Blessing.BLESSINGS.get(blessingId);
+                Blessing blessing = MMRegistries.BLESSINGS.get(blessingId);
                 ascendant.removeBlessing(blessing);
                 ModifyBlessingPacket.send(player, blessing, false);
                 ascendant.syncBlessingData();
@@ -404,7 +415,7 @@ public class ModCommand {
                 }
             }
         }
-        return Blessing.BLESSINGS.containsKey(blessingId) ? 16 : 0;
+        return MMRegistries.BLESSINGS.containsId(blessingId) ? 16 : 0;
     }
 
     private static int giveBlessingFeedback(CommandContext<ServerCommandSource> context, ServerPlayerEntity... players) throws CommandSyntaxException {
@@ -466,7 +477,7 @@ public class ModCommand {
 
         @Override
         public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-            InsanityEvent.INSANITY_EVENTS.keySet().forEach(id -> {
+            MMRegistries.INSANITY_EVENTS.getIds().forEach(id -> {
                 if (id.toString().startsWith(builder.getRemaining().toLowerCase())) builder.suggest(id.toString());
             });
             return builder.buildFuture();

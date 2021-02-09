@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.mixin;
 
-import com.miskatonicmysteries.common.feature.interfaces.DropManipulator;
-import com.miskatonicmysteries.common.lib.Constants;
-import com.miskatonicmysteries.common.lib.MMMiscRegistries;
+import com.miskatonicmysteries.api.interfaces.DropManipulator;
+import com.miskatonicmysteries.common.registry.MMMiscRegistries;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
