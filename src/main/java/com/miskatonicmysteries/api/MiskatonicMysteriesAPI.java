@@ -22,7 +22,6 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class MiskatonicMysteriesAPI {
-    //todo move chalk and gun item to api
     public static final TrackedDataHandler<Affiliation> AFFILIATION_TRACKER = new TrackedDataHandler<Affiliation>() {
         public void write(PacketByteBuf packetByteBuf, Affiliation affiliation) {
             packetByteBuf.writeIdentifier(affiliation.getId());
