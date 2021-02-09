@@ -46,7 +46,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.miskatonicmysteries.common.lib.Constants.DataTrackers.*;
 
-@Mixin(PlayerEntity.class)
+@Mixin(PlayerEntity.class) //todo move capabilities to cardinal components api
 public abstract class PlayerMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant, Resonating {
     public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
 
