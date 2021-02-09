@@ -1,11 +1,12 @@
 package com.miskatonicmysteries.mixin;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
-import com.miskatonicmysteries.common.util.MiscUtil;
+import com.miskatonicmysteries.common.util.Util;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -45,13 +46,13 @@ public abstract class ItemMixin {
         if (!world.isClient && stack.getItem() instanceof ShieldItem && user.getRandom().nextInt(MiskatonicMysteries.config.modUpdateInterval) == 0) {
             if (stack.hasTag() && stack.getTag().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) != null) {
                 CompoundTag compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
-                if (compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) && MiscUtil.isValidYellowSign(compoundTag.getList(Constants.NBT.BANNER_PP_TAG, 10))) {
+                if (compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) && Util.isValidYellowSign(compoundTag.getList(Constants.NBT.BANNER_PP_TAG, 10))) {
                     int distance = 16 * 16;
                     Vec3d vec3d = user.getCameraPosVec(1);
                     Vec3d vec3d2 = user.getRotationVec(1);
                     Vec3d vec3d3 = vec3d.add(vec3d2.x * distance, vec3d2.y * distance, vec3d2.z * distance);
                     EntityHitResult hit = ProjectileUtil.raycast(user, vec3d, vec3d3, user.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides(), distance);
-                    if (hit != null && hit.getEntity() instanceof LivingEntity && ((LivingEntity) hit.getEntity()).canSee(user) && !MiscUtil.isImmuneToYellowSign((LivingEntity) hit.getEntity())) {
+                    if (hit != null && hit.getEntity() instanceof LivingEntity && ((LivingEntity) hit.getEntity()).canSee(user) && !MiskatonicMysteriesAPI.isImmuneToYellowSign((LivingEntity) hit.getEntity())) {
                         LivingEntity target = (LivingEntity) hit.getEntity();
                         target.addStatusEffect(new StatusEffectInstance(MMMiscRegistries.StatusEffects.MANIA, 200, 1, false, true));
                         Sanity.of(target).ifPresent(sanity -> {

@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.common.item;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.registry.Affiliation;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -31,7 +31,7 @@ public class BlessedSwordItem extends SwordItem implements Affiliated {
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (CapabilityUtil.isAffiliated(target) && CapabilityUtil.getAffiliation(target, false) != getAffiliation(true)) {
+        if (MiskatonicMysteriesAPI.isDefiniteAffiliated(target) && MiskatonicMysteriesAPI.getNonNullAffiliation(target, false) != getAffiliation(true)) {
             target.damage(DamageSource.MAGIC, 2);
         }
         if (target.getRandom().nextFloat() < 0.40F) {

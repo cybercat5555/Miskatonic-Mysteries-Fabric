@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.util;
 
-import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.feature.world.structures.ModifiableStructurePool;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
@@ -11,16 +11,29 @@ import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.structure.pool.StructurePool;
+import net.minecraft.structure.pool.StructurePoolElement;
+import net.minecraft.structure.processor.StructureProcessorList;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.EnumSet;
 
-public class MiscUtil {
+public class Util {
+    public static StructurePool tryAddElementToPool(Identifier targetPool, StructurePool pool, String elementId, StructurePool.Projection projection, int weight, StructureProcessorList processorList) {
+        if (targetPool.equals(pool.getId())) {
+            ModifiableStructurePool modPool = new ModifiableStructurePool(pool);
+            modPool.addStructurePoolElement(StructurePoolElement.method_30426(elementId, processorList).apply(projection), weight);
+            return modPool.getStructurePool();
+        }
+        return pool;
+    }
+
     public static boolean isValidYellowSign(ListTag bannerListTag) {
         if (bannerListTag.isEmpty()) return false;
         CompoundTag found = null;
@@ -33,12 +46,8 @@ public class MiscUtil {
         return found != null && DyeColor.byId(found.getInt(Constants.NBT.BANNER_COLOR)) == DyeColor.YELLOW;
     }
 
-    public static boolean isImmuneToYellowSign(LivingEntity entity) {
-        return CapabilityUtil.getAffiliation(entity, false).equals(MMAffiliations.HASTUR);
-    }
-
     public static boolean isValidYellowSign(CompoundTag compoundTag) {
-        return compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) && MiscUtil.isValidYellowSign(compoundTag.getList(Constants.NBT.BANNER_PP_TAG, 10));
+        return compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) && Util.isValidYellowSign(compoundTag.getList(Constants.NBT.BANNER_PP_TAG, 10));
     }
 
     public static void teleport(ServerWorld world, Entity target, double x, double y, double z, float yaw, float pitch) {

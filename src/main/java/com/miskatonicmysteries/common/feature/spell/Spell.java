@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.feature.spell;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
@@ -7,7 +8,6 @@ import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.registry.MMBlessings;
 import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import com.miskatonicmysteries.common.registry.MMRegistries;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -31,7 +31,7 @@ public class Spell {
         if (!caster.world.isClient) {
             SpellPacket.send(caster, toTag(new CompoundTag()));
         }
-        boolean boost = Ascendant.of(caster).isPresent() && CapabilityUtil.hasBlessing(Ascendant.of(caster).get(), MMBlessings.MAGIC_BOOST);
+        boolean boost = Ascendant.of(caster).isPresent() && MiskatonicMysteriesAPI.hasBlessing(Ascendant.of(caster).get(), MMBlessings.MAGIC_BOOST);
         return effect.canCast(caster, medium) && medium.cast(caster.world, caster, effect, boost ? intensity + 1 : intensity);
     }
 

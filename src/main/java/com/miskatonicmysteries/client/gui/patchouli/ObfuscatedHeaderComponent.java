@@ -1,10 +1,10 @@
 package com.miskatonicmysteries.client.gui.patchouli;
 
 import com.google.gson.annotations.SerializedName;
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.gui.EditSpellScreen;
 import com.miskatonicmysteries.common.registry.MMRegistries;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -56,7 +56,7 @@ public class ObfuscatedHeaderComponent implements ICustomComponent {
 
     private boolean canPlayerRead(int level, Affiliation affiliation) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        return (affiliation == null || CapabilityUtil.getAffiliation(player, false).equals(affiliation)) && level <= CapabilityUtil.getStage(player);
+        return (affiliation == null || MiskatonicMysteriesAPI.getNonNullAffiliation(player, false).equals(affiliation)) && level <= MiskatonicMysteriesAPI.getAscensionStage(player);
     }
 
     @Override

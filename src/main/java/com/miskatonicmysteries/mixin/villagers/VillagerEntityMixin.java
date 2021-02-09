@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.mixin.villagers;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.common.registry.MMBlessings;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityInteraction;
 import net.minecraft.entity.LivingEntity;
@@ -29,7 +29,7 @@ public class VillagerEntityMixin {
     @Inject(method = "onInteractionWith", at = @At("HEAD"), cancellable = true)
     private void onInteractionWith(EntityInteraction interaction, Entity entity, CallbackInfo ci) {
         Optional<Ascendant> optionalAscendant = Ascendant.of(entity);
-        if (optionalAscendant.isPresent() && CapabilityUtil.hasBlessing(optionalAscendant.get(), MMBlessings.CHARMING_PERSONALITY)) {
+        if (optionalAscendant.isPresent() && MiskatonicMysteriesAPI.hasBlessing(optionalAscendant.get(), MMBlessings.CHARMING_PERSONALITY)) {
             if (interaction == EntityInteraction.ZOMBIE_VILLAGER_CURED) {
                 this.gossip.startGossip(entity.getUuid(), VillageGossipType.MAJOR_POSITIVE, 40);
                 this.gossip.startGossip(entity.getUuid(), VillageGossipType.MINOR_POSITIVE, 60);

@@ -10,7 +10,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.TeleportEffe
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRites;
 import com.miskatonicmysteries.common.util.InventoryUtil;
-import com.miskatonicmysteries.common.util.MiscUtil;
+import com.miskatonicmysteries.common.util.Util;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
@@ -129,7 +129,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                     && octagram.boundPos != null) {
                 BlockPos boundPos = octagram.getBoundPos().offset(entity.getMovementDirection());
                 TeleportEffectPacket.send(entity, pos);
-                MiscUtil.teleport(octagram.getBoundDimension(), entity, boundPos.getX() + 0.5F, boundPos.getY(), boundPos.getZ() + 0.5F, entity.getHeadYaw(), entity.pitch);
+                Util.teleport(octagram.getBoundDimension(), entity, boundPos.getX() + 0.5F, boundPos.getY(), boundPos.getZ() + 0.5F, entity.getHeadYaw(), entity.pitch);
                 TeleportEffectPacket.send(entity, boundPos);
             }
         }

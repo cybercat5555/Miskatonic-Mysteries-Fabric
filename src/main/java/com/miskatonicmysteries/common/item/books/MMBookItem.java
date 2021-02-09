@@ -1,12 +1,12 @@
 package com.miskatonicmysteries.common.item.books;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -57,7 +57,7 @@ public class MMBookItem extends Item implements Affiliated {
                 Sanity.of(player).ifPresent(sanity -> sanity.addSanityCapExpansion(Constants.Misc.NECRONOMICON_EXTENSION, -10));
                 SpellCaster.of(player).ifPresent(caster -> {
                     caster.learnMedium(MMSpellMediums.SELF);
-                    CapabilityUtil.guaranteePower(2, caster);
+                    MiskatonicMysteriesAPI.guaranteeSpellPower(2, caster);
                 });
             }
             PatchouliAPI.get().openBookGUI((ServerPlayerEntity) player, book.id);

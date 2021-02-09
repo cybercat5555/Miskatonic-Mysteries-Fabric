@@ -1,10 +1,10 @@
 package com.miskatonicmysteries.common.item.consumable;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
@@ -50,7 +50,7 @@ public class TheOrbItem extends Item {
         });
         SpellCaster.of(user).ifPresent(caster -> {
             caster.learnMedium(MMSpellMediums.PROJECTILE);
-            CapabilityUtil.guaranteePower(3, caster);
+            MiskatonicMysteriesAPI.guaranteeSpellPower(3, caster);
         });
         if (user instanceof ServerPlayerEntity) {
             Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);

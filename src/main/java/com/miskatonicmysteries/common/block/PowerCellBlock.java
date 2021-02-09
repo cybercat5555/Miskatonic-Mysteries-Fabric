@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.block;
 import com.miskatonicmysteries.common.block.blockentity.energy.PowerCellBlockEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
-import com.miskatonicmysteries.common.util.MiscUtil;
+import com.miskatonicmysteries.common.util.Util;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
@@ -62,7 +62,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
         if (stack.hasTag() && stack.getTag().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
             CompoundTag compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
             if (compoundTag != null && compoundTag.contains(Constants.NBT.ENERGY)) {
-                tooltip.add(MiscUtil.createPowerPercentageText(compoundTag.getDouble(Constants.NBT.ENERGY), PowerCellBlockEntity.MAX_STORAGE));
+                tooltip.add(Util.createPowerPercentageText(compoundTag.getDouble(Constants.NBT.ENERGY), PowerCellBlockEntity.MAX_STORAGE));
             }
         }
         super.appendTooltip(stack, world, tooltip, options);
@@ -117,7 +117,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
             BlockEntity cell = world.getBlockEntity(pos);
             if (cell instanceof PowerCellBlockEntity) {
                 EnergySide side = EnergySide.fromMinecraft(hit.getSide());
-                player.sendMessage(MiscUtil.createPowerPercentageText(((PowerCellBlockEntity) cell).getStored(side), PowerCellBlockEntity.MAX_STORAGE), true);
+                player.sendMessage(Util.createPowerPercentageText(((PowerCellBlockEntity) cell).getStored(side), PowerCellBlockEntity.MAX_STORAGE), true);
             }
         }
         return super.onUse(state, world, pos, player, hand, hit);

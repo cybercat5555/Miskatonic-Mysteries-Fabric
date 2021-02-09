@@ -2,8 +2,8 @@ package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
 import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.common.handler.networking.PacketHandler;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.NbtUtil;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
@@ -20,7 +20,7 @@ public class SyncBlessingsPacket {
 
     public static void send(LivingEntity entity, Ascendant caster) {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        CompoundTag blessingCompound = CapabilityUtil.writeBlessingData(caster, new CompoundTag());
+        CompoundTag blessingCompound = NbtUtil.writeBlessingData(caster, new CompoundTag());
         data.writeCompoundTag(blessingCompound);
         data.writeInt(entity.getEntityId());
         PacketHandler.sendToPlayers(entity.world, entity, data, ID);
@@ -34,7 +34,7 @@ public class SyncBlessingsPacket {
             CompoundTag tag = packetByteBuf.readCompoundTag();
             Entity entity = client.world.getEntityById(packetByteBuf.readInt());
             if (entity != null) {
-                client.execute(() -> Ascendant.of(entity).ifPresent(ascendant -> CapabilityUtil.readBlessingData(ascendant, tag)));
+                client.execute(() -> Ascendant.of(entity).ifPresent(ascendant -> NbtUtil.readBlessingData(ascendant, tag)));
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.mixin;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.interfaces.*;
 import com.miskatonicmysteries.api.registry.Affiliation;
@@ -19,9 +20,9 @@ import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMMiscRegistries;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.InventoryUtil;
+import com.miskatonicmysteries.common.util.NbtUtil;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -128,7 +129,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
                     infoReturnable.cancel();
                 }
             } else if (isDead() && source instanceof Constants.DamageSources.ProtagonistDamageSource) {
-                CapabilityUtil.resetProgress((PlayerEntity) (Object) this);
+                MiskatonicMysteriesAPI.resetProgress((PlayerEntity) (Object) this);
                 if (source.getSource() instanceof ProtagonistEntity) {
                     ((ProtagonistEntity) source.getAttacker()).removeAfterTargetKill();
                 }
@@ -229,13 +230,13 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         tag.putInt(Constants.NBT.POWER_POOL, getPowerPool());
         tag.putInt(Constants.NBT.MAX_SPELLS, getMaxSpells());
 
-        CapabilityUtil.writeSpellData(this, tag);
+        NbtUtil.writeSpellData(this, tag);
         tag.putInt(Constants.NBT.ASCENSION_STAGE, getAscensionStage());
         tag.putString(Constants.NBT.AFFILIATION, getAffiliation(false).getId().toString());
         tag.putString(Constants.NBT.APPARENT_AFFILIATION, getAffiliation(true).getId().toString());
 
         tag.putFloat(Constants.NBT.RESONANCE, getResonance());
-        CapabilityUtil.writeBlessingData(this, tag);
+        NbtUtil.writeBlessingData(this, tag);
         compoundTag.put(Constants.NBT.MISK_DATA, tag);
     }
 
@@ -253,12 +254,12 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
             setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
 
             syncSpellData();
-            CapabilityUtil.readSpellData(this, tag);
+            NbtUtil.readSpellData(this, tag);
             setAscensionStage(tag.getInt(Constants.NBT.ASCENSION_STAGE));
 
             setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.AFFILIATION))), false);
             setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.APPARENT_AFFILIATION))), true);
-            CapabilityUtil.readBlessingData(this, tag);
+            NbtUtil.readBlessingData(this, tag);
 
             setResonance(tag.getFloat(Constants.NBT.RESONANCE));
         }

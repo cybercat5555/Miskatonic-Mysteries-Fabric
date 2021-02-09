@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.common.handler.ascension;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -12,9 +12,10 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 
 public class HasturAscensionHandler {
+    public static final int SIGN_IMMUNITY_STAGE = 2;
 
     public static boolean offerArtToCultist(PlayerEntity player, Hand hand, HasturCultistEntity entity) {
-        if (StatueBlock.isPlayerMade(player.getStackInHand(hand)) && CapabilityUtil.levelUp(player, 1, MMAffiliations.HASTUR)) {
+        if (StatueBlock.isPlayerMade(player.getStackInHand(hand)) && MiskatonicMysteriesAPI.levelUp(player, 1, MMAffiliations.HASTUR)) {
             player.getStackInHand(hand).decrement(1);
             entity.lookAtEntity(player, 40, 40);
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 12000, 1, true, true));

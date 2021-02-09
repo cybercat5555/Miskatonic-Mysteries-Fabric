@@ -2,8 +2,8 @@ package com.miskatonicmysteries.common.handler.networking.packet;
 
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.handler.networking.PacketHandler;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.NbtUtil;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
@@ -22,7 +22,7 @@ public class SyncSpellCasterDataPacket {
 
     public static void send(boolean client, PlayerEntity user, SpellCaster caster) {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        CompoundTag spellCompound = CapabilityUtil.writeSpellData(caster, new CompoundTag());
+        CompoundTag spellCompound = NbtUtil.writeSpellData(caster, new CompoundTag());
         data.writeCompoundTag(spellCompound);
         if (client) {
             ClientPlayNetworking.send(ID, data);
@@ -33,11 +33,11 @@ public class SyncSpellCasterDataPacket {
 
     public static void handleFromClient(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf packetByteBuf, PacketSender sender) {
         CompoundTag tag = packetByteBuf.readCompoundTag();
-        server.execute(() -> SpellCaster.of(player).ifPresent(caster -> CapabilityUtil.readSpellData(caster, tag)));
+        server.execute(() -> SpellCaster.of(player).ifPresent(caster -> NbtUtil.readSpellData(caster, tag)));
     }
 
     public static void handleFromServer(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
         CompoundTag tag = packetByteBuf.readCompoundTag();
-        client.execute(() -> SpellCaster.of(client.player).ifPresent(caster -> CapabilityUtil.readSpellData(caster, tag)));
+        client.execute(() -> SpellCaster.of(client.player).ifPresent(caster -> NbtUtil.readSpellData(caster, tag)));
     }
 }

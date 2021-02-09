@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.common.feature.spell.medium;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -21,7 +21,7 @@ public class GroupSpellMedium extends SpellMedium {
         if (caster instanceof Affiliated) {
             for (Entity otherEntity : world.getOtherEntities(null, caster.getBoundingBox()
                             .expand(15 + (5 * intensity), 5 + (5 * intensity), 15 + (5 * intensity)),
-                    entity -> entity instanceof LivingEntity && CapabilityUtil.getAffiliation(entity, true).equals(CapabilityUtil.getAffiliation(caster, false)))) {
+                    entity -> entity instanceof LivingEntity && MiskatonicMysteriesAPI.getNonNullAffiliation(entity, true).equals(MiskatonicMysteriesAPI.getNonNullAffiliation(caster, false)))) {
                 if (effect.effect(world, caster, otherEntity, otherEntity.getPos(), this, intensity, caster))
                     successfulCast = true;
             }

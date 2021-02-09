@@ -1,9 +1,10 @@
 package com.miskatonicmysteries.mixin;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
-import com.miskatonicmysteries.common.util.MiscUtil;
+import com.miskatonicmysteries.common.util.Util;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.AbstractBannerBlock;
@@ -36,9 +37,9 @@ public abstract class BlockMixin extends AbstractBlock {
         if (client.player != null && client.player.age % MiskatonicMysteries.config.sanity.insanityInterval == 0 && random.nextFloat() < 0.1F) {
             InsanityHandler.handleClientSideBlockChange(client.player, world, state, pos, random); //could probably do this in an actual insanity event rather than mixin
         } else if ((state.getBlock() instanceof AbstractBannerBlock) && random.nextInt(5) == 0 && world.getBlockEntity(pos) instanceof BannerBlockEntity
-                && MiscUtil.isValidYellowSign(world.getBlockEntity(pos).toTag(new CompoundTag()))) {
+                && Util.isValidYellowSign(world.getBlockEntity(pos).toTag(new CompoundTag()))) {
             Vec3d posTracked = client.player.raycast(100, client.getTickDelta(), false).getPos();
-            if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F) && !MiscUtil.isImmuneToYellowSign(client.player)) {
+            if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F) && !MiskatonicMysteriesAPI.isImmuneToYellowSign(client.player)) {
                 InvokeManiaPacket.send(1, 200 + random.nextInt(200));
             }
         }

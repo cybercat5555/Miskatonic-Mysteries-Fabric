@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryUtil {
-
     public static boolean areItemStackListsExactlyEqual(List<Ingredient> ings, Inventory inv) {
         List<ItemStack> checklist = new ArrayList<>();
         for (int i = 0; i < inv.size(); i++) {

@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.entity;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.ai.GunAttackGoal;
@@ -11,7 +12,6 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.ProtagonistP
 import com.miskatonicmysteries.common.item.GunItem;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
@@ -91,7 +91,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 12));
         this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
         this.targetSelector.add(0, new RevengeGoal(this, ProtagonistEntity.class));
-        this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, CapabilityUtil::isAffiliated));
+        this.targetSelector.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, MiskatonicMysteriesAPI::isDefiniteAffiliated));
         this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, true, player -> (getTargetUUID().isPresent() && player.getUuid().equals(getTargetUUID().get())) || (Sanity.of(player).isPresent() && Sanity.of(player).get().getSanity() <= MiskatonicMysteries.config.entities.protagonistAggressionThreshold)));
         this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true, mob -> !(mob instanceof ProtagonistEntity) && !(mob instanceof CreeperEntity)));
         super.initGoals();

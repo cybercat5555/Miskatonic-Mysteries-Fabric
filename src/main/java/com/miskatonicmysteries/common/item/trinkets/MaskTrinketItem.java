@@ -1,10 +1,10 @@
 package com.miskatonicmysteries.common.item.trinkets;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.MalleableAffiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.util.CapabilityUtil;
 import com.miskatonicmysteries.common.util.Constants;
 import dev.emi.trinkets.api.Slots;
 import dev.emi.trinkets.api.Trinket;
@@ -48,7 +48,8 @@ public class MaskTrinketItem extends TrinketItem implements Affiliated {
 
     @Override
     public void onUnequip(PlayerEntity player, ItemStack stack) {
-        Affiliation apparentAffiliation = CapabilityUtil.getApparentAffiliationFromEquipment(stack, player);
+        //update affiliation based on equipment left
+        Affiliation apparentAffiliation = MiskatonicMysteriesAPI.getApparentAffiliationFromEquipment(stack, player);
         MalleableAffiliated.of(player).ifPresent(affiliation -> affiliation.setAffiliation(apparentAffiliation, true));
     }
 
