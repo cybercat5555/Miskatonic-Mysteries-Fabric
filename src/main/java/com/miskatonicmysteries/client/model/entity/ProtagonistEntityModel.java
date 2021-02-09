@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.client.model.entity;
 
 import com.google.common.collect.ImmutableList;
+import com.miskatonicmysteries.api.item.GunItem;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
-import com.miskatonicmysteries.common.item.GunItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;

@@ -5,7 +5,6 @@ import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.MalleableAffiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.util.Constants;
 import dev.emi.trinkets.api.Slots;
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;
@@ -21,12 +20,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
 public class MaskTrinketItem extends TrinketItem implements Affiliated {
-    private Identifier texture;
-    private Affiliation affiliation;
-    private boolean verySpecial;
+    private final Identifier texture;
+    private final Affiliation affiliation;
+    private final boolean verySpecial;
 
-    public MaskTrinketItem(Settings settings, Identifier texture, Affiliation affiliation, boolean verySpecial) {
-        super(settings.group(Constants.MM_GROUP).maxCount(1));
+    public MaskTrinketItem(Identifier texture, Affiliation affiliation, boolean verySpecial, Settings settings) {
+        super(settings);
         this.texture = texture;
         this.affiliation = affiliation;
         this.verySpecial = verySpecial;

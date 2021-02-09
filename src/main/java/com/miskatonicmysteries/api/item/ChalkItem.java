@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.api.item;
 
-import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -23,11 +22,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Iterator;
 
 public class ChalkItem extends BlockItem {
-    public ChalkItem(Block block) {
-        super(block, new Settings().group(Constants.MM_GROUP).maxDamage(4));
+    public ChalkItem(Block block, Settings setting) {
+        super(block, setting);
     }
 
-    //i am not going to mixin this just to have slighly different placement behavior
     @Override
     public ActionResult place(ItemPlacementContext context) {
         if (!context.canPlace()) {

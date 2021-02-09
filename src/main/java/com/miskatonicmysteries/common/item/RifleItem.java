@@ -1,8 +1,12 @@
 package com.miskatonicmysteries.common.item;
 
+import com.miskatonicmysteries.api.item.GunItem;
+import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+
 public class RifleItem extends GunItem {
     public RifleItem() {
-        super();
+        super(new FabricItemSettings().group(Constants.MM_GROUP).maxCount(1).maxDamage(128));
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.entity.ai;
 
-import com.miskatonicmysteries.common.item.GunItem;
+import com.miskatonicmysteries.api.item.GunItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.MobEntity;

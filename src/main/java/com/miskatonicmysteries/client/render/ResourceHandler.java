@@ -2,6 +2,7 @@ package com.miskatonicmysteries.client.render;
 
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
+import com.miskatonicmysteries.api.item.armor.CultistArmor;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.model.armor.HasturMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubAlternateMaskModel;
@@ -11,7 +12,6 @@ import com.miskatonicmysteries.client.model.block.HasturStatueModel;
 import com.miskatonicmysteries.client.model.block.ShubStatueModel;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
-import com.miskatonicmysteries.common.item.armor.CultistArmor;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
@@ -87,7 +87,6 @@ public class ResourceHandler {
         addMaskModel(MMObjects.FERAL_MASK, new ShubMaskModel());
         addMaskModel(MMObjects.WILD_MASK, new ShubAlternateMaskModel());
 
-        //Botania code
         List<Item> armors = Registry.ITEM.stream()
                 .filter(i -> i instanceof CultistArmor
                         && Registry.ITEM.getId(i).getNamespace().equals(Constants.MOD_ID))

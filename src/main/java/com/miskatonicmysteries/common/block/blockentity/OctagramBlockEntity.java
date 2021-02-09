@@ -2,14 +2,14 @@ package com.miskatonicmysteries.common.block.blockentity;
 
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.item.MMBookItem;
+import com.miskatonicmysteries.api.item.armor.CultistArmor;
+import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.item.IncantationYogItem;
-import com.miskatonicmysteries.common.item.armor.CultistArmor;
-import com.miskatonicmysteries.common.item.books.MMBookItem;
-import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.registry.MMCriteria;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
@@ -121,7 +121,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
                         sync();
                     }
                     if (getOriginalCaster() instanceof ServerPlayerEntity) {
-                        MMCriteria.Criteria.RITE_CAST.trigger((ServerPlayerEntity) getOriginalCaster(), currentRite);
+                        MMCriteria.RITE_CAST.trigger((ServerPlayerEntity) getOriginalCaster(), currentRite);
                     }
                     handleInvestigators();
                     if (currentRite.isPermanent(this)) {

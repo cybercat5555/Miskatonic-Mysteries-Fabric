@@ -34,12 +34,12 @@ import vazkii.patchouli.common.book.BookRegistry;
 import java.util.List;
 
 public class MMBookItem extends Item implements Affiliated {
-    private Identifier id;
-    private Affiliation affiliation;
-    private boolean special;
+    private final Identifier id;
+    private final Affiliation affiliation;
+    private final boolean special;
 
-    public MMBookItem(Identifier id, Affiliation affiliation, boolean special) {
-        super(new Settings().maxCount(1).group(Constants.MM_GROUP));
+    public MMBookItem(Identifier id, Affiliation affiliation, boolean special, Settings settings) {
+        super(settings);
         this.id = id;
         this.affiliation = affiliation;
         this.special = special;

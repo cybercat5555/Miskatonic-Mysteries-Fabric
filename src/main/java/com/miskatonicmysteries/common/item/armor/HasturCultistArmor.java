@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.item.armor;
 
+import com.miskatonicmysteries.api.item.armor.CultistArmor;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.util.Constants;
@@ -11,7 +12,7 @@ public class HasturCultistArmor extends CultistArmor {
     private static final Identifier TEXTURE = new Identifier(Constants.MOD_ID, "textures/model/armor/yellow_robes.png");
 
     public HasturCultistArmor(EquipmentSlot slot) {
-        super(slot);
+        super(slot, new Settings().group(Constants.MM_GROUP).maxCount(1));
     }
 
     @Override

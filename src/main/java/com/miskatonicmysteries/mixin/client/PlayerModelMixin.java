@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.mixin.client;
 
-import com.miskatonicmysteries.common.item.GunItem;
+import com.miskatonicmysteries.api.item.GunItem;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
@@ -15,17 +15,9 @@ public abstract class PlayerModelMixin {
     @Shadow
     public ModelPart head;
     @Shadow
-    public ModelPart helmet;
-    @Shadow
-    public ModelPart torso;
-    @Shadow
     public ModelPart rightArm;
     @Shadow
     public ModelPart leftArm;
-    @Shadow
-    public ModelPart rightLeg;
-    @Shadow
-    public ModelPart leftLeg;
 
     @Shadow
     public BipedEntityModel.ArmPose leftArmPose;

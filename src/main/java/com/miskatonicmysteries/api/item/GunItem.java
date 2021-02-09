@@ -35,8 +35,8 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public abstract class GunItem extends Item {
-    public GunItem() {
-        super(new Settings().group(Constants.MM_GROUP).maxCount(1));
+    public GunItem(Settings settings) {
+        super(settings);
     }
 
     @Override
@@ -52,7 +52,7 @@ public abstract class GunItem extends Item {
             return TypedActionResult.consume(stack);
         } else if (!isLoading(stack) && isLoaded(stack)) {
             shoot(world, user, stack);
-            user.setCurrentHand(hand);
+            stack.damage(1, user, playerEntity -> playerEntity.sendToolBreakStatus(hand));
             return TypedActionResult.consume(stack);
         }
         return TypedActionResult.pass(stack);

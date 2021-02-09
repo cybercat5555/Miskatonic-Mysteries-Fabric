@@ -3,6 +3,10 @@ package com.miskatonicmysteries.common.registry;
 import com.miskatonicmysteries.api.block.AltarBlock;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
+import com.miskatonicmysteries.api.item.BlessedSwordItem;
+import com.miskatonicmysteries.api.item.ChalkItem;
+import com.miskatonicmysteries.api.item.MMBookItem;
+import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.block.*;
 import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
@@ -10,12 +14,13 @@ import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.energy.PowerCellBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.energy.ResonatorBlockEntity;
-import com.miskatonicmysteries.common.item.*;
+import com.miskatonicmysteries.common.item.IncantationYogItem;
+import com.miskatonicmysteries.common.item.RevolverItem;
+import com.miskatonicmysteries.common.item.RifleItem;
+import com.miskatonicmysteries.common.item.YellowSignPatternItem;
 import com.miskatonicmysteries.common.item.armor.HasturCultistArmor;
 import com.miskatonicmysteries.common.item.armor.ShubCultistArmor;
-import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.item.consumable.*;
-import com.miskatonicmysteries.common.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPattern;
@@ -52,9 +57,9 @@ public class MMObjects {
     public static final OctagramBlock HASTUR_OCTAGRAM = new OctagramBlock(MMAffiliations.HASTUR);
     public static final OctagramBlock SHUB_OCTAGRAM = new OctagramBlock(MMAffiliations.SHUB);
 
-    public static final ChalkItem CTHULHU_CHALK = new ChalkItem(CTHULHU_OCTAGRAM);
-    public static final ChalkItem HASTUR_CHALK = new ChalkItem(HASTUR_OCTAGRAM);
-    public static final ChalkItem SHUB_CHALK = new ChalkItem(SHUB_OCTAGRAM);
+    public static final ChalkItem CTHULHU_CHALK = new ChalkItem(CTHULHU_OCTAGRAM, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
+    public static final ChalkItem HASTUR_CHALK = new ChalkItem(HASTUR_OCTAGRAM, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
+    public static final ChalkItem SHUB_CHALK = new ChalkItem(SHUB_OCTAGRAM, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
     public static final BlockEntityType<OctagramBlockEntity> OCTAGRAM_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(OctagramBlockEntity::new, OctagramBlock.OCTAGRAMS.toArray(new OctagramBlock[OctagramBlock.OCTAGRAMS.size()])).build(null);
 
     public static final StatueBlock CTHULHU_STATUE_GOLD = new StatueBlock(MMAffiliations.CTHULHU, true, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
@@ -112,8 +117,8 @@ public class MMObjects {
     public static final LoomPattern YELLOW_SIGN_BANNER = new LoomPattern(true);
     public static final Item YELLOW_SIGN_LOOM_PATTERN = new YellowSignPatternItem();
 
-    public static final MMBookItem SCIENCE_JOURNAL = new MMBookItem(new Identifier(Constants.MOD_ID, "science_journal"), MMAffiliations.NONE, false);
-    public static final MMBookItem NECRONOMICON = new MMBookItem(new Identifier(Constants.MOD_ID, "necronomicon"), MMAffiliations.NONE, true);
+    public static final MMBookItem SCIENCE_JOURNAL = new MMBookItem(new Identifier(Constants.MOD_ID, "science_journal"), MMAffiliations.NONE, false, new Item.Settings().maxCount(1).group(Constants.MM_GROUP));
+    public static final MMBookItem NECRONOMICON = new MMBookItem(new Identifier(Constants.MOD_ID, "necronomicon"), MMAffiliations.NONE, true, new Item.Settings().maxCount(1).group(Constants.MM_GROUP));
 
     public static final Item OCEANIC_GOLD = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
@@ -151,9 +156,9 @@ public class MMObjects {
     public static final Item HASTUR_CULTIST_SPAWN_EGG = new SpawnEggItem(MMEntities.HASTUR_CULTIST, 0xEAC800, 0xFFFFFF, new Item.Settings().group(Constants.MM_GROUP));
     public static final Item PHANTASMA_SPAWN_EGG = new SpawnEggItem(MMEntities.PHANTASMA, 0x77329F, 0xDA329F, new Item.Settings().group(Constants.MM_GROUP));
 
-    public static final Item ELEGANT_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png"), MMAffiliations.HASTUR, false);
-    public static final Item FERAL_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png"), MMAffiliations.SHUB, false);
-    public static final Item WILD_MASK = new MaskTrinketItem(new Item.Settings(), new Identifier(Constants.MOD_ID, "textures/model/mask/wild_mask.png"), MMAffiliations.SHUB, false);
+    public static final Item ELEGANT_MASK = new MaskTrinketItem(new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png"), MMAffiliations.HASTUR, false, new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
+    public static final Item FERAL_MASK = new MaskTrinketItem(new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png"), MMAffiliations.SHUB, false, new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
+    public static final Item WILD_MASK = new MaskTrinketItem(new Identifier(Constants.MOD_ID, "textures/model/mask/wild_mask.png"), MMAffiliations.SHUB, false, new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
 
     public static final Item YELLOW_HOOD = new HasturCultistArmor(EquipmentSlot.HEAD);
     public static final Item YELLOW_ROBE = new HasturCultistArmor(EquipmentSlot.CHEST);

@@ -2,11 +2,11 @@ package com.miskatonicmysteries.common.entity;
 
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.CastingMob;
+import com.miskatonicmysteries.api.item.MMBookItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.entity.brain.HasturCultistBrain;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
-import com.miskatonicmysteries.common.item.books.MMBookItem;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMObjects;

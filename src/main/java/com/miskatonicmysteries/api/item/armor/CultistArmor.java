@@ -2,7 +2,6 @@ package com.miskatonicmysteries.api.item.armor;
 
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.client.model.armor.CultistRobesModel;
-import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -14,8 +13,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
 public abstract class CultistArmor extends ArmorItem implements Affiliated {
-    public CultistArmor(EquipmentSlot slot) {
-        super(ArmorMaterials.LEATHER, slot, new Settings().group(Constants.MM_GROUP).maxCount(1));
+    public CultistArmor(EquipmentSlot slot, Settings settings) {
+        super(ArmorMaterials.LEATHER, slot, settings);
     }
 
     public abstract Identifier getArmorTexture(ItemStack stack, EquipmentSlot slot);
