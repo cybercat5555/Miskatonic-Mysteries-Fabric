@@ -22,6 +22,7 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class MiskatonicMysteriesAPI {
+    //todo move chalk and gun item to api
     public static final TrackedDataHandler<Affiliation> AFFILIATION_TRACKER = new TrackedDataHandler<Affiliation>() {
         public void write(PacketByteBuf packetByteBuf, Affiliation affiliation) {
             packetByteBuf.writeIdentifier(affiliation.getId());
@@ -92,7 +93,7 @@ public class MiskatonicMysteriesAPI {
             ascendant.ifPresent(a -> a.setAscensionStage(stage));
             affiliated.ifPresent(a -> a.setAffiliation(affiliation, false));
             if (player instanceof ServerPlayerEntity) {
-                MMCriteria.Criteria.LEVEL_UP.trigger((ServerPlayerEntity) player, affiliation, stage);
+                MMCriteria.LEVEL_UP.trigger((ServerPlayerEntity) player, affiliation, stage);
             }
             return true;
         }
