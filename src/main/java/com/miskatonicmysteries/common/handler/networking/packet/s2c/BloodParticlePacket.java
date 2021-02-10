@@ -22,9 +22,11 @@ public class BloodParticlePacket {
     }
 
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        Entity entity = client.world.getEntityById(packetByteBuf.readInt());
-        if (entity != null) {
-            client.execute(() -> client.world.addParticle(MMParticles.DRIPPING_BLOOD, entity.getX() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), entity.getY() + client.world.getRandom().nextGaussian() * 0.5F * entity.getHeight(), entity.getZ() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), 0, 0, 0));
+        if (client.world != null) {
+            Entity entity = client.world.getEntityById(packetByteBuf.readInt());
+            if (entity != null) {
+                client.execute(() -> client.world.addParticle(MMParticles.DRIPPING_BLOOD, entity.getX() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), entity.getY() + client.world.getRandom().nextGaussian() * 0.5F * entity.getHeight(), entity.getZ() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), 0, 0, 0));
+            }
         }
     }
 }

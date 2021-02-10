@@ -35,7 +35,9 @@ public class DataHandler extends JsonDataLoader {
             String type = JsonHelper.getString((JsonObject) element, "type");
             try{
                 DataSerializable.DataReader reader = DATA_READERS.get(new Identifier(type));
-                Registry.register(reader.getRegistry(), id, reader.readFromJson(id, (JsonObject) element));
+                if (!reader.getRegistry().containsId(id)) {
+                    Registry.register(reader.getRegistry(), id, reader.readFromJson(id, (JsonObject) element));
+                }
             }catch (IllegalArgumentException | JsonParseException | NullPointerException exception){
                 LOGGER.error("Parsing error loading data module {} for Miskatonic Mysteries", id, exception);
                 exception.printStackTrace();

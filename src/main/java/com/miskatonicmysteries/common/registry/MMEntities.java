@@ -87,7 +87,7 @@ public class MMEntities {
                 .add(EntityAttributes.GENERIC_ARMOR, 9)
                 .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, 10)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.24D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.5F)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6F)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.8F));
         RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);

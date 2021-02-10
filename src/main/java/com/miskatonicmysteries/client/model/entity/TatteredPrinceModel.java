@@ -3,6 +3,7 @@ package com.miskatonicmysteries.client.model.entity;
 import com.miskatonicmysteries.common.entity.TatteredPrinceEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
@@ -38,5 +39,8 @@ public class TatteredPrinceModel extends AnimatedGeoModel<TatteredPrinceEntity> 
             head.setRotationX(extraData.headPitch * ((float) Math.PI / 180F));
             head.setRotationY(extraData.netHeadYaw * ((float) Math.PI / 180F));
         }
+
+        IBone punchArm = this.getAnimationProcessor().getBone("rArm01");
+        punchArm.setRotationY(MathHelper.cos(customPredicate.getLimbSwing() * 0.6662F + 3.1415927F) * 2.0F * customPredicate.getLimbSwingAmount() * 0.5F);
     }
 }

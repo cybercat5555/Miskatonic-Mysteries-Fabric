@@ -17,12 +17,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public class CommandDrivenRite extends Rite implements DataSerializable<Rite> {
-    public static final Map<Identifier, Rite> DATA_RITES = new HashMap<>(); //yes i know this is dirty and hacky
+    public static final Set<Rite> DATA_RITES = new HashSet<>(); //yes i know this is dirty and hacky
     public final Identifier tickFunctionId;
     public final Identifier finishFunctionId;
     public final int tickCount;

@@ -18,6 +18,10 @@ public class MMRites {
         register(BROKEN_VEIL);
         register(HYSTERIA);
         register(SCULPTOR_RITE);
+
+        for (Rite dataRite : CommandDrivenRite.DATA_RITES) {
+            register(dataRite);
+        }
     }
 
     private static void register(Rite rite) {
