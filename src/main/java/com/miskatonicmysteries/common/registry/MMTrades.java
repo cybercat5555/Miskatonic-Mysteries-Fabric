@@ -40,14 +40,14 @@ public class MMTrades {
     public static final List<StatusEffect> POSSIBLE_EFFECTS = Arrays.asList(StatusEffects.NAUSEA, StatusEffects.ABSORPTION, StatusEffects.GLOWING, StatusEffects.HASTE, MANIA, TRANQUILIZED);
 
     //Psychonaut Offers
-    public static final TradeOffers.Factory SCIENCE_JOURNAL_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.SCIENCE_JOURNAL), 12, 3, 4, 0.15F);
+    public static final TradeOffers.Factory SCIENCE_JOURNAL_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.SCIENCE_JOURNAL), 6, 3, 4, 0.15F);
     public static final TradeOffers.Factory INFESTED_WHEAT_OFFER = new ItemToEmeraldOffer(new ItemStack(MMObjects.INFESTED_WHEAT, 3), 2, 16, 2, 0.35F);
 
-    public static final TradeOffers.Factory BLOTTER_OFFER = new ProcessItemOffer(new ItemStack(Items.PAPER), 7, new ItemStack(MMObjects.BLOTTER, 3), 16, 3);
+    public static final TradeOffers.Factory BLOTTER_OFFER = new ProcessItemOffer(new ItemStack(Items.PAPER), 3, new ItemStack(MMObjects.BLOTTER, 3), 16, 3);
     public static final TradeOffers.Factory POWER_CELL_OFFER = new ProcessItemOffer(new ItemStack(Items.IRON_INGOT, 8), 12, new ItemStack(MMObjects.POWER_CELL), 1, 6);
     public static final TradeOffers.Factory CHEMICAL_FUEL_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.CHEMICAL_FUEL), 5, 4, 4, 0.35F);
 
-    public static final TradeOffers.Factory NETHER_WART_OFFER = new ItemToEmeraldOffer(new ItemStack(Items.NETHER_WART, 12), 1, 32, 10, 0.2F);
+    public static final TradeOffers.Factory NETHER_WART_OFFER = new ItemToEmeraldOffer(new ItemStack(Items.NETHER_WART, 12), 2, 32, 10, 0.2F);
     public static final TradeOffers.Factory LAUDANUM_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.LAUDANUM), 5, 12, 20, 0.15F);
     public static final TradeOffers.Factory SUSPICIOUS_OFFER = ((entity, random) -> {
         ItemStack itemStack = new ItemStack(Items.SUSPICIOUS_STEW, 1);
@@ -65,7 +65,7 @@ public class MMTrades {
     public static final TradeOffers.Factory RESONATOR_OFFER = new ProcessItemOffer(new ItemStack(Items.IRON_INGOT, 20), 20, new ItemStack(MMObjects.RESONATOR), 1, 50);
 
     //Hastur Cultist Offers
-    public static final TradeOffers.Factory NECRONOMICON_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.NECRONOMICON), 12, 3, 8, 0.15F);
+    public static final TradeOffers.Factory NECRONOMICON_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.NECRONOMICON), 6, 3, 8, 0.15F);
 
     public static final TradeOffers.Factory OCEANIC_GOLD_OFFER = new ProcessItemOffer(new ItemStack(Items.GOLD_BLOCK), 10, new ItemStack(MMObjects.OCEANIC_GOLD_BLOCK, 1), 16, 10);
     public static final TradeOffers.Factory REVERSE_OCEANIC_GOLD_OFFER = new ItemToEmeraldOffer(new ItemStack(MMObjects.OCEANIC_GOLD, 3), 2, 16, 10, 0.15F);
@@ -73,7 +73,7 @@ public class MMTrades {
 
     public static final TradeOffers.Factory MASK_OFFER = new ProcessItemOffer(new ItemStack(Items.IRON_INGOT), 8, new ItemStack(MMObjects.ELEGANT_MASK, 1), 1, 25);
     public static final TradeOffers.Factory YELLOW_HOOD_OFFER = new ProcessItemOffer(new ItemStack(Items.YELLOW_WOOL, 5), 5, new ItemStack(MMObjects.YELLOW_HOOD, 1), 2, 30);
-    public static final TradeOffers.Factory REVERSE_LAUDANUM_OFFER = new ItemToEmeraldOffer(new ItemStack(MMObjects.LAUDANUM), 1, 16, 15, 0.15F);
+    public static final TradeOffers.Factory REVERSE_LAUDANUM_OFFER = new ItemToEmeraldOffer(new ItemStack(MMObjects.LAUDANUM, 1), 1, 16, 15, 0.15F);
 
     public static final TradeOffers.Factory YELLOW_ROBE_OFFER = new ProcessItemOffer(new ItemStack(Items.YELLOW_WOOL, 8), 8, new ItemStack(MMObjects.YELLOW_ROBE, 1), 2, 30);
     public static final TradeOffers.Factory YELLOW_SKIRT_OFFER = new ProcessItemOffer(new ItemStack(Items.YELLOW_WOOL, 7), 5, new ItemStack(MMObjects.YELLOW_SKIRT, 1), 2, 30);
@@ -137,7 +137,7 @@ public class MMTrades {
         }
 
         public TradeOffer create(Entity entity, Random random) {
-            return new TradeOffer(new ItemStack(buy.getItem(), buy.getCount() + random.nextInt(5)), new ItemStack(Items.EMERALD, this.price), this.maxUses, this.experience, this.multiplier);
+            return new TradeOffer(new ItemStack(buy.getItem(), buy.getCount() + random.nextInt(3)), new ItemStack(Items.EMERALD, this.price), this.maxUses, this.experience, this.multiplier);
         }
     }
 

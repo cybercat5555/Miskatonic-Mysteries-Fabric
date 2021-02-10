@@ -6,10 +6,7 @@ import com.miskatonicmysteries.client.model.block.HasturStatueModel;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
-import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.registry.MMObjects;
-import com.miskatonicmysteries.common.registry.MMParticles;
-import com.miskatonicmysteries.common.registry.MMSounds;
+import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
@@ -21,6 +18,8 @@ import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
@@ -54,12 +53,19 @@ public class SculptorRite extends Rite {
 
     @Override
     public void tick(OctagramBlockEntity octagram) {
-        if (octagram.tickCount > 0 && octagram.tickCount % 40 == 0) {
-            octagram.getWorld().playSound(null, octagram.getPos(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.PLAYERS, 0.8F, 1.0F);
-            Vec3d pos = octagram.getSummoningPos().add(0, 0.25F * octagram.tickCount / 40F, 0);
-            Random random = octagram.getWorld().random;
-            for (int i = 0; i < 7; i++) {
-                MMParticles.spawnCandleParticle(octagram.getWorld(), pos.x + random.nextGaussian() / 4F, pos.y + random.nextGaussian() / 4F, pos.z + random.nextGaussian() / 4F, 1, true);
+        if (octagram.tickCount > 0 && octagram.tickCount % 40 == 0 && octagram.tickCount <= 120) {
+            World world = octagram.getWorld();
+            if (!world.isClient) {
+                octagram.getOriginalCaster().damage(DamageSource.MAGIC, octagram.getOriginalCaster().getMaxHealth() / 2.5F);
+                octagram.getOriginalCaster().addStatusEffect(new StatusEffectInstance(MMStatusEffects.BLEED, 400, 2, true, false, false));
+            } else {
+                world.playSound(null, octagram.getPos(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.PLAYERS, 0.8F, 1.0F);
+                Vec3d pos = octagram.getSummoningPos().add(0, 0.25F * octagram.tickCount / 40F, 0);
+                Random random = world.random;
+                for (int i = 0; i < 7; i++) {
+                    MMParticles.spawnCandleParticle(world, pos.x + random.nextGaussian() / 4F, pos.y + random.nextGaussian() / 4F, pos.z + random.nextGaussian() / 4F, 1, true);
+                    world.addParticle(MMParticles.DRIPPING_BLOOD, pos.x + random.nextGaussian() / 2F, pos.y + random.nextGaussian() / 2, pos.z + random.nextGaussian() / 2, 0, 0.05F, 0);
+                }
             }
         }
         List<HasturCultistEntity> cultists = octagram.getWorld().getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 5, 10), cultist -> cultist.getTarget() == null);
@@ -77,7 +83,7 @@ public class SculptorRite extends Rite {
 
     @Override
     public boolean shouldContinue(OctagramBlockEntity octagram) {
-        return octagram.getOriginalCaster() != null;
+        return octagram.getOriginalCaster() != null && !octagram.getOriginalCaster().isDead();
     }
 
     @Override

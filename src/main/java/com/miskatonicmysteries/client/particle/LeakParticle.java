@@ -53,6 +53,9 @@ public class LeakParticle extends SpriteBillboardParticle {
 
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z, double g, double h, double i) {
             LeakParticle blockLeakParticle = new LeakParticle(clientWorld, x, y, z);
+            blockLeakParticle.velocityX += g;
+            blockLeakParticle.velocityY += h;
+            blockLeakParticle.velocityZ += i;
             blockLeakParticle.gravityStrength = 0.01F;
             blockLeakParticle.setColor(0.65F, 0, 0);
             blockLeakParticle.setSprite(this.spriteProvider);
