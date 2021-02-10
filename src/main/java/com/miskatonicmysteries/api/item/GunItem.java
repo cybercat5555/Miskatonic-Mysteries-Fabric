@@ -145,9 +145,6 @@ public abstract class GunItem extends Item {
         }
         if (hit != null && hit.getEntity() != null && (blockHit.squaredDistanceTo(player) > hit.getEntity().squaredDistanceTo(player))) {
             hit.getEntity().damage(new EntityDamageSource(Constants.MOD_ID + ".gun", player), getDamage());
-            if (hit.getEntity() instanceof LivingEntity)
-                ((LivingEntity) hit.getEntity()).setAttacker(player);
-
             if (world.isClient) {
                 for (int i = 0; i < 4; i++)
                     world.addParticle(ParticleTypes.SMOKE, hit.getPos().x + world.random.nextGaussian() / 20F, hit.getPos().y + world.random.nextGaussian() / 20F, hit.getPos().z + world.random.nextGaussian() / 20F, 0, 0, 0);

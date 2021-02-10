@@ -15,7 +15,7 @@ public class CastSpellGoal<T extends PathAwareEntity & CastingMob> extends Goal 
 
     public CastSpellGoal(T caster) {
         this.entity = caster;
-        this.setControls(EnumSet.of(Control.LOOK));
+        this.setControls(EnumSet.of(Control.LOOK, Control.MOVE));
     }
 
     @Override

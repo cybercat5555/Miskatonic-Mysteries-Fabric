@@ -32,7 +32,7 @@ public class DamageSpellEffect extends SpellEffect {
     @Override
     public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
         if (target != null) {
-            target.damage(DamageSource.MAGIC, 2.5F * (intensity + 1));
+            target.damage(DamageSource.magic(target, caster), 2.5F * (intensity + 1));
             return true;
         }
         return false;

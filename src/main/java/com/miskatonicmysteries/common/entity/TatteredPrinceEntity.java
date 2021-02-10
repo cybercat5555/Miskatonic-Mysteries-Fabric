@@ -45,7 +45,7 @@ import javax.annotation.Nullable;
 
 public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable, Affiliated, CastingMob {
     private final ServerBossBar bossBar;
-    private AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = new AnimationFactory(this);
     protected static final TrackedData<Integer> CASTING_TIME_LEFT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     @Nullable
@@ -75,10 +75,8 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
             return false;
         } else if (isInvulnerable()) {
             return true;
-        } else if (damageSource == DamageSource.MAGIC || damageSource == DamageSource.GENERIC) {
-            return false;
-        }
-        return true;
+        } else
+            return damageSource != DamageSource.MAGIC && damageSource != DamageSource.GENERIC && !(damageSource.getAttacker() instanceof PlayerEntity);
     }
 
     @Override
