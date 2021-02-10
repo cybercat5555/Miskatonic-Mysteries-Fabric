@@ -8,6 +8,7 @@ import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -39,7 +40,7 @@ public class SculptorRite extends Rite {
 
     public SculptorRite() {
         super(new Identifier(Constants.MOD_ID, "sculptor_rite"), MMAffiliations.HASTUR, 0.2F,
-                Ingredient.ofItems(Items.CLAY_BALL), Ingredient.ofItems(Items.YELLOW_DYE), Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(Items.TERRACOTTA, Items.STONE));
+                Ingredient.ofItems(Blocks.CLAY), Ingredient.ofItems(Items.YELLOW_DYE), Ingredient.ofItems(MMObjects.IRIDESCENT_PEARL), Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(MMObjects.IRIDESCENT_PEARL), Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
         this.knowledge = MMAffiliations.HASTUR.getId().getPath();
     }
 
