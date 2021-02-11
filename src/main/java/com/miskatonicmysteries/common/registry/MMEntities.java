@@ -37,7 +37,6 @@ public class MMEntities {
     public static final PointOfInterestType CONGREGATION_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "yelow_serf"), 48, poi -> false, 100,
             MMObjects.TERRACOTTA_HASTUR_MURAL, MMObjects.YELLOW_TERRACOTTA_HASTUR_MURAL, MMObjects.STONE_HASTUR_MURAL,
             MMObjects.HASTUR_STATUE_GOLD, MMObjects.HASTUR_STATUE_MOSSY, MMObjects.HASTUR_STATUE_STONE, MMObjects.HASTUR_STATUE_TERRACOTTA);
-    public static final VillagerProfession YELLOW_SERF = VillagerProfessionBuilder.create().id(new Identifier(Constants.MOD_ID, "yellow_serf")).workstation(PointOfInterestType.NITWIT).workSound(SoundEvents.ENTITY_VILLAGER_WORK_CLERIC).build();
     public static final MemoryModuleType<GlobalPos> CONGREGATION_POINT = MemoryModuleTypeAccessor.invokeRegister(
             Constants.MOD_ID + ":congregation_point",
             GlobalPos.CODEC
@@ -91,6 +90,5 @@ public class MMEntities {
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.8F));
         RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
-        RegistryUtil.register(Registry.VILLAGER_PROFESSION, "yellow_serf", YELLOW_SERF);
     }
 }

@@ -26,7 +26,6 @@ public class MMTrades {
 
     public static void init() {
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(MMEntities.PSYCHONAUT, PSYCHONAUT_TRADES);
-        TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(MMEntities.YELLOW_SERF, YELLOW_SERF_TRADE);
 
         TradeOffers.Factory[] wanderingTraderOffers = TradeOffers.WANDERING_TRADER_TRADES.get(1);
         TradeOffers.Factory[] offers = Arrays.copyOf(wanderingTraderOffers, wanderingTraderOffers.length + 4);

@@ -35,7 +35,7 @@ public class CastSpellGoal<T extends PathAwareEntity & CastingMob> extends Goal 
     public void start() {
         entity.setAttacking(true);
         entity.setCurrentSpell(entity.selectSpell());
-        entity.setCastTime(100);
+        entity.setCastTime(60);
     }
 
     @Override

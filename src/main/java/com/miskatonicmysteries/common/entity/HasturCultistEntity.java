@@ -8,11 +8,12 @@ import com.miskatonicmysteries.common.entity.brain.HasturCultistBrain;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMTrades;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.LivingEntityAccessor;
 import com.mojang.serialization.Dynamic;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.Durations;
 import net.minecraft.entity.ai.brain.Brain;
@@ -38,9 +39,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.IntRange;
-import net.minecraft.village.VillageGossipType;
-import net.minecraft.village.VillagerData;
-import net.minecraft.village.VillagerProfession;
+import net.minecraft.village.*;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -61,6 +60,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     public Spell currentSpell;
 
 
+    //todo probably remove yellow serf profession, trades etc. can be done more easily 
     public HasturCultistEntity(EntityType<HasturCultistEntity> type, World world) {
         super(type, world);
         ((MobNavigation) this.getNavigation()).setCanPathThroughDoors(true);
@@ -114,14 +114,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public VillagerData getVillagerData() {
-        return super.getVillagerData().withProfession(MMEntities.YELLOW_SERF); //always the same profession
-    }
-
-    @Override
-    public void setVillagerData(VillagerData villagerData) {
-        if (villagerData.getProfession() != MMEntities.YELLOW_SERF)
-            villagerData.withProfession(MMEntities.YELLOW_SERF);
-        super.setVillagerData(villagerData);
+        return super.getVillagerData().withProfession(VillagerProfession.NITWIT); //always the same profession
     }
 
     @Override
@@ -149,7 +142,15 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     @Override
     protected void fillRecipes() {
         if (isAscended()) {
-            super.fillRecipes();
+            VillagerData villagerData = this.getVillagerData();
+            Int2ObjectMap<TradeOffers.Factory[]> trades = MMTrades.YELLOW_SERF_TRADE;
+            if (!trades.isEmpty()) {
+                TradeOffers.Factory[] tradeFactories = trades.get(villagerData.getLevel());
+                if (tradeFactories != null) {
+                    TradeOfferList tradeOfferList = this.getOffers();
+                    this.fillRecipesFromPool(tradeOfferList, tradeFactories, 2);
+                }
+            }
         }
     }
 
@@ -273,7 +274,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         }
         setLeftHanded(random.nextBoolean()); //more left-handedness
         initEquipment(difficulty);
-        setVillagerData(getVillagerData().withProfession(MMEntities.YELLOW_SERF));
+        setVillagerData(getVillagerData().withProfession(VillagerProfession.NITWIT));
         if (this.world instanceof ServerWorld) {
             this.reinitializeBrain((ServerWorld) this.world);
         }
@@ -403,4 +404,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     public boolean isSupernatural() {
         return isAscended();
     }
+
+
 }

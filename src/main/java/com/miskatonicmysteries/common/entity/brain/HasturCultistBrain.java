@@ -41,7 +41,7 @@ public class HasturCultistBrain {
 
     public static void init(HasturCultistEntity entity, Brain<VillagerEntity> brain) {
         brain.setTaskList(Activity.CORE, 0, createCoreTasks(entity, 0.65F));
-        brain.setTaskList(Activity.IDLE, VillagerTaskListProvider.createIdleTasks(MMEntities.YELLOW_SERF, 0.65F), ImmutableSet.of(Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT)));
+        brain.setTaskList(Activity.IDLE, VillagerTaskListProvider.createIdleTasks(entity.getVillagerData().getProfession(), 0.65F), ImmutableSet.of(Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT)));
         brain.setTaskList(Activity.FIGHT, 10, createFightTasks(entity, 0.65F), MemoryModuleType.ATTACK_TARGET);
         brain.setTaskList(Activity.MEET, createMeetTasks(0.65F), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleState.VALUE_PRESENT), Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT)));
 
