@@ -30,4 +30,9 @@ public class MobTargetMedium extends SpellMedium {
         }
         return false;
     }
+
+    @Override
+    public float getBurnoutRate(LivingEntity caster) {
+        return 0F;
+    }
 }

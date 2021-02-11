@@ -39,4 +39,9 @@ public class BoltSpellMedium extends SpellMedium {
     private int getMaxDistance() {
         return 24;
     }
+
+    @Override
+    public float getBurnoutRate(LivingEntity caster) {
+        return 0.1F;
+    }
 }

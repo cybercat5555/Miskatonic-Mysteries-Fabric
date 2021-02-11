@@ -16,4 +16,9 @@ public class SelfSpellMedium extends SpellMedium {
     public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
         return !caster.isDead() && effect.effect(world, caster, caster, caster.getPos(), this, intensity, caster);
     }
+
+    @Override
+    public float getBurnoutRate(LivingEntity caster) {
+        return 0.05F;
+    }
 }

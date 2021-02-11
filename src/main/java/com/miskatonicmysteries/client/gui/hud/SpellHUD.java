@@ -24,10 +24,6 @@ public class SpellHUD extends DrawableHelper {
     public float currentSpellProgress;
     public int absentTicks;
 
-    public SpellHUD() {
-        //???
-    }
-
     public void init(MinecraftClient client) {
         scaledWidth = client.getWindow().getScaledWidth();
         scaledHeight = client.getWindow().getScaledHeight();

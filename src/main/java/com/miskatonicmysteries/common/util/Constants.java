@@ -116,6 +116,7 @@ public class Constants {
         public static final String MARKED_VILLAGES = "MarkedVillages";
         public static final String MARKER_POS = "MarkerPosition";
         public static final String VILLAGE_POS = "VillagePosition";
+        public static final String SPELL_BURNOUT = "SpellBurnout";
     }
 
     public static class DataTrackers {
@@ -128,6 +129,7 @@ public class Constants {
         public static final TrackedData<Integer> POWER_POOL = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Integer> MAX_SPELLS = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Integer> STAGE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
+        public static final TrackedData<Float> SPELL_BURNOUT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
         public static final int SPELL_CAP = 10;
         public static final int MIN_SPELLS = 3;
 

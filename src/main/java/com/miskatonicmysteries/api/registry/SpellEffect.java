@@ -53,4 +53,8 @@ public abstract class SpellEffect {
                     ((effect.getColor(caster) >> 8) & 255) / 255F,
                     (effect.getColor(caster) & 255) / 255F);
     }
+
+    public float getBurnoutMultiplier(int intensity) {
+        return 1;
+    }
 }

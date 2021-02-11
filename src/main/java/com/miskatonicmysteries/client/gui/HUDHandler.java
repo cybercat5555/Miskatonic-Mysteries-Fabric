@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.client.gui;
 
+import com.miskatonicmysteries.client.gui.hud.SpellBurnoutHUD;
 import com.miskatonicmysteries.client.gui.hud.SpellHUD;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.util.Constants;
@@ -7,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.nbt.CompoundTag;
@@ -17,9 +19,10 @@ public class HUDHandler {
     public static boolean selectionActive = false;
 
     public static SpellHUD spellHUD;
-
+    public static SpellBurnoutHUD burnoutHUD;
     public static void init() {
         spellHUD = new SpellHUD();
+        burnoutHUD = new SpellBurnoutHUD();
         spellSelectionKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key." + Constants.MOD_ID + ".hud",
                 InputUtil.Type.KEYSYM,
@@ -55,6 +58,7 @@ public class HUDHandler {
         });
 
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
+            MinecraftClient client = MinecraftClient.getInstance();
             if (selectionActive) {
                 spellHUD.render(matrixStack, tickDelta);
             }
@@ -67,6 +71,7 @@ public class HUDHandler {
                 spellHUD.renderSpellIcon(spellHUD.scaledWidth / 2F, spellHUD.scaledHeight / 2F, matrixStack, spellHUD.selectedSpell);
                 matrixStack.pop();
             }
+            burnoutHUD.render(client, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight(), client.player);
         });
     }
 }

@@ -91,8 +91,9 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
                 }
             }
             setResonance(getResonance() - 0.01F);
-        } else if (getResonance() < 0) {
-            setResonance(0);
+        }
+        if (getSpellBurnout() > 0) {
+            setSpellBurnout(getSpellBurnout() - 0.002F);
         }
         if (age % MiskatonicMysteries.config.modUpdateInterval == 0) {
             if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.sanity.shockRemoveChance) {
@@ -143,6 +144,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         dataTracker.startTracking(SHOCKED, false);
         dataTracker.startTracking(STAGE, 0);
         dataTracker.startTracking(POWER_POOL, 0);
+        dataTracker.startTracking(SPELL_BURNOUT, 0F);
         dataTracker.startTracking(MAX_SPELLS, Constants.DataTrackers.MIN_SPELLS);
         dataTracker.startTracking(AFFILIATION, MMAffiliations.NONE);
         dataTracker.startTracking(APPARENT_AFFILIATION, MMAffiliations.NONE);
@@ -229,7 +231,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
 
         tag.putInt(Constants.NBT.POWER_POOL, getPowerPool());
         tag.putInt(Constants.NBT.MAX_SPELLS, getMaxSpells());
-
+        tag.putFloat(Constants.NBT.SPELL_BURNOUT, getSpellBurnout());
         NbtUtil.writeSpellData(this, tag);
         tag.putInt(Constants.NBT.ASCENSION_STAGE, getAscensionStage());
         tag.putString(Constants.NBT.AFFILIATION, getAffiliation(false).getId().toString());
@@ -252,7 +254,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
 
             setPowerPool(tag.getInt(Constants.NBT.POWER_POOL));
             setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
-
+            setSpellBurnout(tag.getFloat(Constants.NBT.SPELL_BURNOUT));
             syncSpellData();
             NbtUtil.readSpellData(this, tag);
             setAscensionStage(tag.getInt(Constants.NBT.ASCENSION_STAGE));
@@ -324,6 +326,16 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     @Override
     public void learnMedium(SpellMedium medium) {
         learnedMediums.add(medium);
+    }
+
+    @Override
+    public void setSpellBurnout(float burnout) {
+        this.dataTracker.set(SPELL_BURNOUT, burnout);
+    }
+
+    @Override
+    public float getSpellBurnout() {
+        return dataTracker.get(SPELL_BURNOUT);
     }
 
     @Override

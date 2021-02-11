@@ -20,4 +20,6 @@ public abstract class SpellMedium {
     }
 
     public abstract boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity);
+
+    public abstract float getBurnoutRate(LivingEntity caster);
 }

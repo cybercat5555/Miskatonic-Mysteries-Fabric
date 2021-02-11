@@ -31,4 +31,9 @@ public class VisionSpellMedium extends SpellMedium {
     private int getMaxDistance() {
         return 32;
     }
+
+    @Override
+    public float getBurnoutRate(LivingEntity caster) {
+        return 0.25F;
+    }
 }
