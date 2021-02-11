@@ -18,6 +18,7 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
@@ -45,7 +46,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
     //misc values which may be used by rites
     public Pair<Identifier, BlockPos> boundPos = null;
     public boolean triggered;
-
+    public Entity targetedEntity = null;
     public OctagramBlockEntity() {
         super(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
 
@@ -92,6 +93,16 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
     }
 
     @Override
+    public CompoundTag toClientTag(CompoundTag compoundTag) {
+        return super.toClientTag(compoundTag);
+    }
+
+    @Override
+    public void fromClientTag(CompoundTag compoundTag) {
+        super.fromClientTag(compoundTag);
+    }
+
+    @Override
     public void markDirty() {
         super.markDirty();
         if (currentRite != null && !permanentRiteActive && !currentRite.canCast(this)) {
@@ -131,6 +142,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
                         currentRite.onFinished(this);
                         tickCount = 0;
                         currentRite = null;
+                        targetedEntity = null;
                     }
 
                 }

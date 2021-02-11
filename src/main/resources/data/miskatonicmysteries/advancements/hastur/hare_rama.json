@@ -16,7 +16,7 @@
     "hidden": false
   },
   "criteria": {
-    "cast_rite": {
+    "leveled_up": {
       "trigger": "miskatonicmysteries:level_up",
       "conditions": {
         "affiliation": "miskatonicmysteries:hastur",
@@ -26,7 +26,7 @@
   },
   "requirements": [
     [
-      "cast_rite"
+      "leveled_up"
     ]
   ]
 }

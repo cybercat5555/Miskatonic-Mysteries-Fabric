@@ -3,6 +3,9 @@ package com.miskatonicmysteries.common.registry;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.rite.*;
+import com.miskatonicmysteries.common.util.Constants;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class MMRites {
@@ -11,6 +14,7 @@ public class MMRites {
     public static final Rite BROKEN_VEIL = new BrokenVeilRite();
     public static final Rite HYSTERIA = new HysteriaRite();
     public static final Rite SCULPTOR_RITE = new SculptorRite();
+    public static final Rite GOLDEN_FLOCK_RITE = new VillagerConversionRite(new Identifier(Constants.MOD_ID, "golden_flock"), MMEntities.HASTUR_CULTIST, MMAffiliations.HASTUR, Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
 
     public static void init() {
         register(OPEN_WAY);
@@ -18,10 +22,7 @@ public class MMRites {
         register(BROKEN_VEIL);
         register(HYSTERIA);
         register(SCULPTOR_RITE);
-
-        for (Rite dataRite : CommandDrivenRite.DATA_RITES) {
-            register(dataRite);
-        }
+        register(GOLDEN_FLOCK_RITE);
     }
 
     private static void register(Rite rite) {

@@ -69,7 +69,7 @@ public class SculptorRite extends Rite {
                 }
             }
         }
-        List<HasturCultistEntity> cultists = octagram.getWorld().getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 5, 10), cultist -> cultist.getTarget() == null);
+        List<HasturCultistEntity> cultists = octagram.getWorld().getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 5, 10), cultist -> !cultist.isAttacking());
         Vec3d pos = octagram.getSummoningPos();
         for (HasturCultistEntity cultist : cultists) {
             cultist.getNavigation().startMovingTo(pos.x, pos.y, pos.z, 0.8F);

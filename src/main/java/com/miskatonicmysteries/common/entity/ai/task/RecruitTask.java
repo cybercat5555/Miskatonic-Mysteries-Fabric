@@ -51,7 +51,6 @@ public class RecruitTask extends Task<VillagerEntity> {
                 cultist.setCustomName(recipient.getCustomName());
                 cultist.setCustomNameVisible(recipient.isCustomNameVisible());
             }
-
             cultist.setPersistent();
             world.spawnEntityAndPassengers(cultist);
             recipient.releaseTicketFor(MemoryModuleType.HOME);

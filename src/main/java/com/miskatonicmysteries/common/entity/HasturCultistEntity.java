@@ -267,7 +267,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
         entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
-        if (spawnReason == SpawnReason.STRUCTURE && getVariant() != 2) {
+        if ((spawnReason == SpawnReason.STRUCTURE && getVariant() != 2) || spawnReason == SpawnReason.CONVERSION) {
             dataTracker.set(VARIANT, random.nextInt(2));
         } else if (spawnReason != SpawnReason.EVENT && random.nextFloat() < 0.25F) {
             dataTracker.set(VARIANT, 2);
