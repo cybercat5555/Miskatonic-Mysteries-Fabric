@@ -38,6 +38,7 @@ public class PacketHandler {
         ClientPlayNetworking.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SyncBlessingsPacket.ID, SyncBlessingsPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(ModifyBlessingPacket.ID, ModifyBlessingPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SoundPacket.ID, SoundPacket::handle);
     }
 
     public static void sendToPlayer(PlayerEntity player, PacketByteBuf data, Identifier packet) {

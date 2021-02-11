@@ -3,6 +3,7 @@ package com.miskatonicmysteries.api;
 import com.miskatonicmysteries.api.interfaces.*;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
+import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMCriteria;
@@ -16,6 +17,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 
 import javax.annotation.Nullable;
@@ -56,29 +58,32 @@ public class MiskatonicMysteriesAPI {
     }
 
     public static void resetProgress(PlayerEntity player) {
-        Sanity.of(player).ifPresent(sanity -> {
-            sanity.getSanityCapExpansions().keySet().forEach(sanity::removeSanityCapExpansion);
-            sanity.setSanity(sanity.getMaxSanity(), true);
-            sanity.setShocked(true);
-            sanity.syncSanityData();
-        });
-        Ascendant.of(player).ifPresent(ascendant -> {
-            ascendant.setAscensionStage(0);
-            ascendant.getBlessings().clear();
-            ascendant.syncBlessingData();
-        });
-        SpellCaster.of(player).ifPresent(caster -> {
-            caster.getSpells().clear();
-            caster.getLearnedMediums().clear();
-            caster.getLearnedEffects().clear();
-            caster.setMaxSpells(Constants.DataTrackers.MIN_SPELLS);
-            caster.setPowerPool(0);
-            caster.syncSpellData();
-        });
-        MalleableAffiliated.of(player).ifPresent(malleableAffiliated -> {
-            malleableAffiliated.setAffiliation(MMAffiliations.NONE, true);
-            malleableAffiliated.setAffiliation(MMAffiliations.NONE, false);
-        });
+        if (player.world instanceof ServerWorld) {
+            Sanity.of(player).ifPresent(sanity -> {
+                sanity.getSanityCapExpansions().keySet().forEach(sanity::removeSanityCapExpansion);
+                sanity.setSanity(sanity.getMaxSanity(), true);
+                sanity.setShocked(true);
+                sanity.syncSanityData();
+            });
+            Ascendant.of(player).ifPresent(ascendant -> {
+                ascendant.setAscensionStage(0);
+                ascendant.getBlessings().clear();
+                ascendant.syncBlessingData();
+            });
+            SpellCaster.of(player).ifPresent(caster -> {
+                caster.getSpells().clear();
+                caster.getLearnedMediums().clear();
+                caster.getLearnedEffects().clear();
+                caster.setMaxSpells(Constants.DataTrackers.MIN_SPELLS);
+                caster.setPowerPool(0);
+                caster.syncSpellData();
+            });
+            MalleableAffiliated.of(player).ifPresent(malleableAffiliated -> {
+                malleableAffiliated.setAffiliation(MMAffiliations.NONE, true);
+                malleableAffiliated.setAffiliation(MMAffiliations.NONE, false);
+            });
+            MMWorldState.get(player.world).unmarkVillages(player.getUuid());
+        }
     }
 
     public static boolean hasBlessing(Ascendant ascendant, Blessing blessing) {
@@ -103,10 +108,7 @@ public class MiskatonicMysteriesAPI {
         if (ascendant.getAscensionStage() < stage - 1 || ascendant.getAscensionStage() >= stage) {
             return false;
         }
-        if (affiliated.getAffiliation(false) != affiliation && (stage - 1) > 0) {
-            return false;
-        }
-        return true;
+        return affiliated.getAffiliation(false) == affiliation || (stage - 1) <= 0;
     }
 
     public static int getAscensionStage(Object object) {
@@ -125,6 +127,6 @@ public class MiskatonicMysteriesAPI {
     }
 
     public static boolean isImmuneToYellowSign(LivingEntity entity) {
-        return getNonNullAffiliation(entity, false).equals(MMAffiliations.HASTUR) && getAscensionStage(entity) > HasturAscensionHandler.SIGN_IMMUNITY_STAGE;
+        return getNonNullAffiliation(entity, false).equals(MMAffiliations.HASTUR) && getAscensionStage(entity) >= HasturAscensionHandler.SIGN_IMMUNITY_STAGE;
     }
 }

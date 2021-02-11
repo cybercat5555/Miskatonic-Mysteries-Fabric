@@ -65,6 +65,7 @@ public class YellowSignPatternItem extends LoomPatternItem {
                 if (playerEntity == null || !playerEntity.abilities.creativeMode) {
                     itemStack.decrement(1);
                 }
+                block.onPlaced(world, blockPos, blockState, playerEntity, itemStack);
 
                 return ActionResult.success(world.isClient);
             }

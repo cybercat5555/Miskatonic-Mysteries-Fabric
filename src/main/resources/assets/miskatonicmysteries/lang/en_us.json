@@ -136,6 +136,7 @@
   "message.miskatonicmysteries.needs_space": "This needs more space",
   "message.miskatonicmysteries.invalid_connection.self_reference": "The Octagram must bind with another one",
   "message.miskatonicmysteries.resonator_needs_energy": "The Resonator needs energy to run",
+  "message.miskatonicmysteries.yellow_sign_ascend": "The Yellow Sign has seen the World!",
   "comment6": "COMMANDS",
   "miskatonicmysteries.command.stats": "Showing Miskatonic Mysteries statistics for player %s:",
   "miskatonicmysteries.command.miskatonicmysteries.get_sanity": "%s's sanity level is %d",

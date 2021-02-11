@@ -77,7 +77,7 @@ public class Constants {
         public static final String WORK_PROGRESS = "Work Progress";
         public static final String VARIANT = "Variant";
         public static final String STAGE = "Stage";
-        public static final String ALTERNATE_WEAPON = "Alternate Weapon";
+        public static final String ALTERNATE_WEAPON = "AlternateWeapon";
         public static final String CHARGING = "Charging";
         public static final String PLAYER_UUID = "PlayerUUID";
         public static final String PROTAGONISTS = "Protagonists";
@@ -100,19 +100,22 @@ public class Constants {
         public static final String BANNER_PATTERN = "Pattern";
         public static final String BANNER_COLOR = "Color";
         public static final String BANNER_PP_TAG = "Bannerpp_LoomPatterns";
-        public static final String POWER_POOL = "Max Power";
-        public static final String MAX_SPELLS = "Max Spells";
-        public static final String SPELL_LIST = "Spell List";
-        public static final String SPELL_EFFECTS = "Effect List";
-        public static final String SPELL_MEDIUMS = "Medium List";
+        public static final String POWER_POOL = "MaxPower";
+        public static final String MAX_SPELLS = "MaxSpells";
+        public static final String SPELL_LIST = "SpellList";
+        public static final String SPELL_EFFECTS = "EffectList";
+        public static final String SPELL_MEDIUMS = "MediumList";
         public static final String TRIGGERED = "Triggered";
-        public static final String SHOULD_DROP = "Should Drop";
+        public static final String SHOULD_DROP = "ShouldDrop";
         public static final String BLESSINGS = "Blessings";
-        public static final String ASCENSION_STAGE = "Ascension Stage";
+        public static final String ASCENSION_STAGE = "AscensionStage";
         public static final String RESONANCE = "Resonance";
         public static final String RADIUS = "Radius";
         public static final String ENERGY = "Energy";
         public static final String PLAYER_NAME = "PlayerName";
+        public static final String MARKED_VILLAGES = "MarkedVillages";
+        public static final String MARKER_POS = "MarkerPosition";
+        public static final String VILLAGE_POS = "VillagePosition";
     }
 
     public static class DataTrackers {

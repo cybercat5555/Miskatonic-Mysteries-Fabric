@@ -3,13 +3,19 @@ package com.miskatonicmysteries.common.handler.ascension;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
+import com.miskatonicmysteries.common.feature.world.MMWorldState;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMSounds;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 
 public class HasturAscensionHandler {
     public static final int SIGN_IMMUNITY_STAGE = 2;
@@ -27,5 +33,13 @@ public class HasturAscensionHandler {
             return true;
         }
         return false;
+    }
+
+    public static void markVillage(BlockPos villagePos, MMWorldState worldState, PlayerEntity player) {
+        if (!worldState.getMarkedVillages().contains(villagePos) && worldState.getUniquelyMarkedVillages(player) >= 3 && MiskatonicMysteriesAPI.levelUp(player, 2, MMAffiliations.HASTUR)) {
+            player.sendMessage(new TranslatableText("message.miskatonicmysteries.yellow_sign_ascend").formatted(Formatting.GOLD), true);
+            player.playSound(MMSounds.MAGIC, 1, 1);
+            SoundPacket.send(player);
+        }
     }
 }
