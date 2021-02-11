@@ -159,11 +159,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     }
 
     @Override
-    protected Text getDefaultName() {
-        return new TranslatableText(this.getType().getTranslationKey());
-    }
-
-    @Override
     public void equipStack(EquipmentSlot slot, ItemStack stack) {
         if (getEquippedStack(slot).isEmpty()) super.equipStack(slot, stack);
     }
@@ -392,6 +387,11 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     public Spell selectSpell() {
         //return null because it's already handled in the very specific task
         return null;
+    }
+
+    @Override
+    protected Text getDefaultName() {
+        return isAscended() ? new TranslatableText("entity.miskatonicmysteries.hastur_cultist_ascended") : super.getDefaultName();
     }
 
     @Override
