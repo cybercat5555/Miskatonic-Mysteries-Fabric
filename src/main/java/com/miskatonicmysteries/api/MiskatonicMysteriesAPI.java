@@ -3,7 +3,6 @@ package com.miskatonicmysteries.api;
 import com.miskatonicmysteries.api.interfaces.*;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
-import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMCriteria;
@@ -82,7 +81,6 @@ public class MiskatonicMysteriesAPI {
                 malleableAffiliated.setAffiliation(MMAffiliations.NONE, true);
                 malleableAffiliated.setAffiliation(MMAffiliations.NONE, false);
             });
-            MMWorldState.get(player.world).unmarkVillages(player.getUuid());
         }
     }
 

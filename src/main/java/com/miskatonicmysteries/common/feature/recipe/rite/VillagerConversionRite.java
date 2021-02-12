@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.api.registry.Affiliation;
-import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncRiteTargetPacket;
@@ -20,6 +19,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.village.VillageGossipType;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.World;
 
@@ -27,11 +27,11 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class VillagerConversionRite extends Rite {
+public class VillagerConversionRite extends AscensionLockedRite {
     private final EntityType<? extends HasturCultistEntity> conversionType;
 
     public VillagerConversionRite(Identifier id, EntityType<? extends HasturCultistEntity> conversionEntity, @Nullable Affiliation octagram, Ingredient... ingredients) {
-        super(id, octagram, 0.5F, ingredients);
+        super(id, octagram, 0.5F, 1, ingredients);
         this.conversionType = conversionEntity;
 
     }
@@ -50,9 +50,16 @@ public class VillagerConversionRite extends Rite {
             if (octagram.targetedEntity != null) {
                 octagram.tickCount = 0;
                 SyncRiteTargetPacket.send(octagram.targetedEntity, octagram);
+                octagram.markDirty();
+                octagram.sync();
             }
         }
         return !(octagram.targetedEntity == null && octagram.tickCount > 20);
+    }
+
+    @Override
+    public void onCancelled(OctagramBlockEntity octagram) {
+        super.onCancelled(octagram);
     }
 
     @Override
@@ -119,6 +126,7 @@ public class VillagerConversionRite extends Rite {
                 }
                 cultist.setCastTime(20);
                 cultist.setPersistent();
+
                 world.spawnEntityAndPassengers(cultist);
                 recipient.releaseTicketFor(MemoryModuleType.HOME);
                 recipient.releaseTicketFor(MemoryModuleType.JOB_SITE);
@@ -126,6 +134,9 @@ public class VillagerConversionRite extends Rite {
                 recipient.releaseTicketFor(MemoryModuleType.MEETING_POINT);
                 recipient.remove();
                 cultist.reinitializeBrain(world);
+                if (octagram.getOriginalCaster() != null) {
+                    cultist.getGossip().startGossip(octagram.getOriginalCaster().getUuid(), VillageGossipType.MAJOR_POSITIVE, 50);
+                }
             }
         }
         super.onFinished(octagram);

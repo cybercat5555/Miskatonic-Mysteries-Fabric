@@ -147,11 +147,12 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 
                 }
             } else {
+                currentRite.onCancelled(this);
+                originalCaster = null;
+                currentRite = null;
                 if (!world.isClient) {
                     sync();
                 }
-                currentRite.onCancelled(this);
-                originalCaster = null;
             }
             markDirty();
         }
