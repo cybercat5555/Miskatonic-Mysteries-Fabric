@@ -1,0 +1,27 @@
+{
+  "name": "Power Cells",
+  "category": "miskatonicmysteries:chemistry",
+  "icon": "miskatonicmysteries:power_cell",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Created from a modified Leyden Jar array, these $(item)Power Cells$() can function as an emergency power source in the form of a rudimentary chemical reactor. As their name applies, these Cells can convert Chemical Fuel into usable electricity, perfect for small, hobbyist projects"
+    },
+    {
+      "type": "spotlight",
+      "item": "miskatonicmysteries:power_cell",
+      "text": "Please contact a Miskatonic University Faculty Member to acquire a unit."
+    },
+    {
+      "type": "miskatonicmysteries:chemistry",
+      "header": "Chemical Fuel",
+      "recipe": "miskatonicmysteries:chemistry/chemical_fuel",
+      "text": "Formulated to work with Miskatonic-brand Power Cells, this simple recipe is only available to those affiliated with the University."
+    },
+    {
+      "type": "miskatonicmysteries:advert",
+      "text": "Primarily based upon crude ethanol mixed with select other ingredients, while safe to handle, it is NOT fit for human consumption.",
+      "advert": "miskatonicmysteries:textures/gui/adverts/rifle.png"
+    }
+  ]
+}

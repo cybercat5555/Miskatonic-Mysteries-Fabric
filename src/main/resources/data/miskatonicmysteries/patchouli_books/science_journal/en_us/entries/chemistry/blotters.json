@@ -1,0 +1,17 @@
+{
+  "name": "Blotters",
+  "category": "miskatonicmysteries:chemistry",
+  "icon": "miskatonicmysteries:blotter",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Distilled from the 'miracle chemicals' in ergot-infected wheat, this recipe converts an otherwise soiled crop into a safe, mind-expanding chemical.$(br)It has already been distributed among select University Members, and has since proven more advanced ideas, such as the $(l:miskatonicmysteries:physics/resonator)$(item)Resonator$()."
+    },
+    {
+      "type": "miskatonicmysteries:chemistry",
+      "header": "Blotters",
+      "recipe": "miskatonicmysteries:chemistry/blotter",
+      "text": ""
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Tranquilizer",
+  "category": "miskatonicmysteries:chemistry",
+  "icon": "miskatonicmysteries:tranquilizer",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Devised for only extreme cases, these patented $(item)Tranquilisers$() have been proven to bring patients back from the fringes of their psyche.$(br)This medicine is to be consumed just before bed, in order to help subside the 'horrific writhing goats' and 'incessant drumming and rays of indescribable colours' that haunt patients in their dreams and waking life."
+    },
+    {
+      "type": "spotlight",
+      "item": "miskatonicmysteries:tranquilizer",
+      "text": "Please contact a licensed Miskatonic Faculty Member in order to obtain this medicine."
+    }
+  ]
+}

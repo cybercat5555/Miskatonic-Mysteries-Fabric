@@ -1,0 +1,23 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "text": "#text"
+    },
+    {
+      "type": "image",
+      "image": "#advert",
+      "x": 10,
+      "y": 30,
+      "u": 0,
+      "v": 0,
+      "texture_width": 128,
+      "texture_height": 128,
+      "width": 128,
+      "height": 128,
+      "scale": 0.8
+    }
+  ]
+}

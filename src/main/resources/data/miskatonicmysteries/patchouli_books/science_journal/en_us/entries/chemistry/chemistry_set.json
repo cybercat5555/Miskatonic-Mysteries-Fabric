@@ -2,6 +2,7 @@
   "name": "Chemistry 101",
   "category": "miskatonicmysteries:chemistry",
   "icon": "miskatonicmysteries:chemistry_set",
+  "priority": true,
   "pages": [
     {
       "type": "text",

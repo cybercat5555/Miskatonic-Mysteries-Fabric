@@ -11,6 +11,7 @@
     "ItemMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",
+    "MilkBucketItemMixin",
     "PlayerManagerMixin",
     "PlayerMixin",
     "ServerPlayerMixin",
