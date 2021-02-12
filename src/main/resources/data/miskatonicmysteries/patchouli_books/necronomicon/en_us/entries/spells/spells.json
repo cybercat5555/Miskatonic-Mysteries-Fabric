@@ -1,0 +1,22 @@
+{
+  "name": "Spells",
+  "category": "miskatonicmysteries:spells",
+  "icon": "",
+  "priority": true,
+  "pages": [
+    {
+      "type": "text",
+      "text": "While often considered to be stored in special books that only chosen ones can read and weld, in reality anyone can possess these powers, assuming they allow themselves to open up to these energies."
+    },
+    {
+      "type": "text",
+      "title": "Mediums",
+      "text": "Spells can be cast though several mediums, five of which are accessible to humans:$(li)Vision$(li)Bolt$(li)Projectile$(li)Self$(li)Group$(br)Mediums, once unlocked, need to be selected with Potency and Effect."
+    },
+    {
+      "type": "text",
+      "title": "Potency",
+      "text": "TO DO (needs some proper explanation on how to interact with the GUI)"
+    }
+  ]
+}

@@ -139,6 +139,7 @@
   "message.miskatonicmysteries.resonator_needs_energy": "The Resonator needs energy to run",
   "message.miskatonicmysteries.ascension_path_fail": "Your path does not align with this",
   "message.miskatonicmysteries.ascension_stage_fail": "You are not yet ready to cast this",
+  "message.miskatonicmysteries.spell_rite_fail": "You already know this spell effect",
   "comment6": "COMMANDS",
   "miskatonicmysteries.command.stats": "Showing Miskatonic Mysteries statistics for player %s:",
   "miskatonicmysteries.command.miskatonicmysteries.get_sanity": "%s's sanity level is %d",

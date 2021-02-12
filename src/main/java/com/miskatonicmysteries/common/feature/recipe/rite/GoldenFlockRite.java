@@ -1,13 +1,10 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
-import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncRiteTargetPacket;
-import com.miskatonicmysteries.common.registry.MMParticles;
-import com.miskatonicmysteries.common.registry.MMSounds;
-import com.miskatonicmysteries.common.registry.MMStatusEffects;
-import net.minecraft.entity.EntityType;
+import com.miskatonicmysteries.common.registry.*;
+import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -23,16 +20,12 @@ import net.minecraft.village.VillageGossipType;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class VillagerConversionRite extends AscensionLockedRite {
-    private final EntityType<? extends HasturCultistEntity> conversionType;
-
-    public VillagerConversionRite(Identifier id, EntityType<? extends HasturCultistEntity> conversionEntity, @Nullable Affiliation octagram, Ingredient... ingredients) {
-        super(id, octagram, 0.5F, 1, ingredients);
-        this.conversionType = conversionEntity;
+public class GoldenFlockRite extends AscensionLockedRite {
+    public GoldenFlockRite() {
+        super(new Identifier(Constants.MOD_ID, "golden_flock"), MMAffiliations.HASTUR, 0.5F, 1, Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
 
     }
 
@@ -72,7 +65,7 @@ public class VillagerConversionRite extends AscensionLockedRite {
 
     @Override
     public void tick(OctagramBlockEntity octagram) {
-        if (octagram.targetedEntity instanceof VillagerEntity && !octagram.targetedEntity.getType().equals(conversionType)) {
+        if (octagram.targetedEntity instanceof VillagerEntity && !octagram.targetedEntity.getType().equals(MMEntities.HASTUR_CULTIST)) {
             Vec3d pos = octagram.getSummoningPos();
             if (octagram.targetedEntity.squaredDistanceTo(pos) > 100 || ((VillagerEntity) octagram.targetedEntity).isDead()) {
                 octagram.targetedEntity = null;
@@ -119,7 +112,7 @@ public class VillagerConversionRite extends AscensionLockedRite {
             if (octagram.getWorld() instanceof ServerWorld) {
                 VillagerEntity recipient = (VillagerEntity) octagram.targetedEntity;
                 ServerWorld world = (ServerWorld) octagram.getWorld();
-                HasturCultistEntity cultist = conversionType.create(world);
+                HasturCultistEntity cultist = MMEntities.HASTUR_CULTIST.create(world);
                 cultist.refreshPositionAndAngles(recipient.getX(), recipient.getY(), recipient.getZ(), recipient.yaw, recipient.pitch);
                 cultist.initialize(world, world.getLocalDifficulty(cultist.getBlockPos()), SpawnReason.CONVERSION, null, null);
                 cultist.setAiDisabled(recipient.isAiDisabled());

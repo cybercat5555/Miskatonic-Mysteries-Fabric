@@ -55,6 +55,6 @@ public abstract class SpellEffect {
     }
 
     public float getBurnoutMultiplier(int intensity) {
-        return 1;
+        return 1 + intensity / 10F;
     }
 }

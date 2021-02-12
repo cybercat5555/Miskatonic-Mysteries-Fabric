@@ -1,0 +1,16 @@
+{
+  "name": "Healing",
+  "category": "miskatonicmysteries:spells",
+  "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/heal.png",
+  "pages": [
+    {
+      "type": "text",
+      "text": "A key part of any Entheator's tool kit is a simple Healing spell.$(br)This effect will apply a short $(marked)Regeneration$() effect."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "rite": "miskatonicmysteries:regeneration",
+      "text": ""
+    }
+  ]
+}

@@ -105,7 +105,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
     @Override
     public void markDirty() {
         super.markDirty();
-        if (currentRite != null && !permanentRiteActive && !currentRite.canCast(this)) {
+        if (currentRite != null && !permanentRiteActive && !currentRite.shouldContinue(this)) {
             currentRite.onCancelled(this);
             tickCount = 0;
             currentRite = null;
@@ -214,6 +214,10 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
     @Override
     public void clear() {
         for (int i = 0; i < size(); i++) {
+            if (getStack(i).getItem().hasRecipeRemainder()) {
+                setStack(i, new ItemStack(getStack(i).getItem().getRecipeRemainder()));
+                continue;
+            }
             if (!getStack(i).isEmpty() && getStack(i).getItem().isIn(Constants.Tags.RITE_TOOLS)) {
                 if (getStack(i).getItem() instanceof IncantationYogItem) {
                     IncantationYogItem.clear(getStack(i));

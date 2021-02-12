@@ -1,0 +1,16 @@
+{
+  "name": "Resistance",
+  "category": "miskatonicmysteries:spells",
+  "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/resistance.png",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Another good spell for starters, which applies a hardening effect to their flesh."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "rite": "miskatonicmysteries:resistance",
+      "text": ""
+    }
+  ]
+}
