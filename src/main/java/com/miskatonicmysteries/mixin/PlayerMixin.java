@@ -93,7 +93,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
             setResonance(getResonance() - 0.01F);
         }
         if (getSpellBurnout() > 0) {
-            setSpellBurnout(getSpellBurnout() - 0.002F);
+            setSpellBurnout(getSpellBurnout() - (0.002F + getResonance() * 0.008F));
         }
         if (age % MiskatonicMysteries.config.modUpdateInterval == 0) {
             if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.sanity.shockRemoveChance) {
