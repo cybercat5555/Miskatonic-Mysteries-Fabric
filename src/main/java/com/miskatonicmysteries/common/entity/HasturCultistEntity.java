@@ -390,7 +390,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     protected Text getDefaultName() {
-        return isAscended() ? new TranslatableText("entity.miskatonicmysteries.hastur_cultist_ascended") : super.getDefaultName();
+        return isAscended() ? new TranslatableText("entity.miskatonicmysteries.hastur_cultist_ascended") : new TranslatableText("entity.miskatonicmysteries.hastur_cultist");
     }
 
     @Override
