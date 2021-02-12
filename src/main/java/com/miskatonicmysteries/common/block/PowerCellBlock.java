@@ -18,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.state.property.Property;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -37,19 +38,30 @@ import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static net.minecraft.state.property.Properties.*;
 
 public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntityProvider, Waterloggable, Shootable {
     public static final VoxelShape OUTLINE_SHAPE = createCuboidShape(1, 0, 1, 15, 15, 15);
 
+    public static final Map<Direction, Property<Boolean>> DIRECTION_PROPERTY_MAP = new HashMap<>();
+
+    static {
+        DIRECTION_PROPERTY_MAP.put(Direction.NORTH, NORTH);
+        DIRECTION_PROPERTY_MAP.put(Direction.EAST, EAST);
+        DIRECTION_PROPERTY_MAP.put(Direction.SOUTH, SOUTH);
+        DIRECTION_PROPERTY_MAP.put(Direction.WEST, WEST);
+    }
+
     public PowerCellBlock() {
         super(Settings.of(Material.METAL).strength(1F, 4F).nonOpaque().requiresTool()
                 .allowsSpawning((state, world, pos, type) -> false).solidBlock((state, world, pos) -> false)
                 .suffocates((state, world, pos) -> false)
                 .blockVision((state, world, pos) -> false));
-        setDefaultState(getStateManager().getDefaultState().with(FACING, Direction.NORTH).with(WATERLOGGED, false).with(UP, false));
+        setDefaultState(getStateManager().getDefaultState().with(WATERLOGGED, false).with(FACING, Direction.NORTH).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false));
     }
 
     @Override
@@ -108,7 +120,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
-        builder.add(FACING, WATERLOGGED, UP);
+        builder.add(WATERLOGGED, FACING, NORTH, EAST, SOUTH, WEST);
     }
 
     @Override
@@ -127,7 +139,14 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
         if (world.getBlockEntity(pos) != null) {
             world.getBlockEntity(pos).markDirty();
         }
-        return state.with(UP, world.getBlockEntity(pos.up()) instanceof EnergyHolder && ((EnergyHolder) world.getBlockEntity(pos.up())).getTier() == EnergyTier.LOW);
+        for (Direction direction : DIRECTION_PROPERTY_MAP.keySet()) {
+            if (world.getBlockEntity(pos.offset(direction)) instanceof EnergyHolder && ((EnergyHolder) world.getBlockEntity(pos.offset(direction))).getTier() == EnergyTier.LOW) {
+                state = state.with(DIRECTION_PROPERTY_MAP.get(direction), true);
+            } else {
+                state.with(DIRECTION_PROPERTY_MAP.get(direction), false);
+            }
+        }
+        return state;
     }
 
     @Override
@@ -165,7 +184,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
     public boolean tryFillWithFluid(WorldAccess world, BlockPos pos, BlockState state, FluidState fluidState) {
         if (!state.get(Properties.WATERLOGGED) && fluidState.getFluid() == Fluids.WATER) {
             if (!world.isClient()) {
-                world.setBlockState(pos, state.with(Properties.WATERLOGGED, true).with(LIT, false), 3);
+                world.setBlockState(pos, state.with(Properties.WATERLOGGED, true), 3);
                 world.getFluidTickScheduler().schedule(pos, fluidState.getFluid(), fluidState.getFluid().getTickRate(world));
             }
             return true;

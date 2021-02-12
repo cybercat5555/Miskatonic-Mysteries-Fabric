@@ -26,7 +26,6 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegi
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -34,13 +33,10 @@ import net.minecraft.util.math.BlockPos;
 public class MiskatonicMysteriesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        ClientTickEvents.END_CLIENT_TICK.register(new ClientTickEvents.EndTick() {
-            @Override
-            public void onEndTick(MinecraftClient minecraftClient) {
-                for (BlockPos blockPos : ResonatorSound.soundInstances.keySet()) {
-                    if (ResonatorSound.soundInstances.get(blockPos).isDone()) {
-                        ResonatorSound.soundInstances.remove(blockPos);
-                    }
+        ClientTickEvents.END_CLIENT_TICK.register(minecraftClient -> {
+            for (BlockPos blockPos : ResonatorSound.soundInstances.keySet()) {
+                if (ResonatorSound.soundInstances.get(blockPos).isDone()) {
+                    ResonatorSound.soundInstances.remove(blockPos);
                 }
             }
         });

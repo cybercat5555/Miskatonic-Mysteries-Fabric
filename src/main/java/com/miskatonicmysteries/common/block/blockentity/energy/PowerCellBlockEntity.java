@@ -1,13 +1,14 @@
 package com.miskatonicmysteries.common.block.blockentity.energy;
 
+import com.miskatonicmysteries.common.block.PowerCellBlock;
 import com.miskatonicmysteries.common.block.blockentity.BaseBlockEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.Tickable;
+import net.minecraft.util.math.Direction;
 import team.reborn.energy.Energy;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
@@ -36,13 +37,23 @@ public class PowerCellBlockEntity extends BaseBlockEntity implements Tickable, E
 
     @Override
     public void tick() {
-        if (getCachedState().get(Properties.UP)) {
-            BlockEntity storage = world.getBlockEntity(pos.up());
-            if (storage instanceof EnergyStorage) {
-                Energy.of(this).into(Energy.of(storage)).move();
-                world.updateComparators(pos, MMObjects.POWER_CELL);
+        for (Direction direction : PowerCellBlock.DIRECTION_PROPERTY_MAP.keySet()) {
+            if (getCachedState().get(PowerCellBlock.DIRECTION_PROPERTY_MAP.get(direction))) {
+                BlockEntity storage = world.getBlockEntity(pos.offset(direction));
+                if (storage instanceof EnergyStorage) {
+                    Energy.of(this).into(Energy.of(storage)).move();
+                }
             }
         }
+
+    }
+
+    @Override
+    public void markDirty() {
+        if (world != null) {
+            world.updateComparators(pos, MMObjects.POWER_CELL);
+        }
+        super.markDirty();
     }
 
     @Override

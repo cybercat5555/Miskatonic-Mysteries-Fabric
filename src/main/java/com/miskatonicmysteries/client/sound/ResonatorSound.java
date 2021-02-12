@@ -11,14 +11,14 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ResonatorSound extends MovingSoundInstance implements TickableSoundInstance {
     private final ClientPlayerEntity player;
     private final ClientWorld world;
     private final BlockPos pos;
-    public static final Map<BlockPos, ResonatorSound> soundInstances = new HashMap<>();
+    public static final Map<BlockPos, ResonatorSound> soundInstances = new ConcurrentHashMap<>();
 
     protected ResonatorSound(BlockPos pos) {
         super(MMSounds.RESONATOR_HUMMING, SoundCategory.BLOCKS);
