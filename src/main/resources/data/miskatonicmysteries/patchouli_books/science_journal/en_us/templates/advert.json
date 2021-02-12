@@ -3,14 +3,14 @@
     {
       "type": "text",
       "x": 0,
-      "y": 0,
+      "y": -4,
       "text": "#text"
     },
     {
       "type": "image",
       "image": "#advert",
-      "x": 10,
-      "y": 30,
+      "x": 6,
+      "y": 42,
       "u": 0,
       "v": 0,
       "texture_width": 128,

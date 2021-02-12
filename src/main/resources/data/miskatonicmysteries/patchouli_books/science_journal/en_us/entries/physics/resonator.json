@@ -5,20 +5,21 @@
   "pages": [
     {
       "type": "text",
-      "text": "$(item)The Resonator$() is the latest invention of the fabulous $(t:Sadly, this good sir disintegrated the 12th August 1913)L.P. Suyem$(). By stimulating the pineal gland, it decontorts the hyper-coholadistic-tremmarowavoids of the ultraviolet layer and makes them more accessible to the human mind.$(br)Studies have shown that this increases uncanniness by 37%."
+      "text": "A fantastic device, a marvel of modern engineering, physics, and cognition.$(br)When powered, the $(item)Resonator$() emits a vibration that matches that of the brain’s pineal gland waves when it is at its highest point. $(br)This vibration also happens to bathe the area in a soothing purple-magenta glow."
+    },
+    {
+      "type": "text",
+      "text": "In addition, this vibration resonates on the exact frequency of an otherwise intangible world that exists concurrent to ours, sometimes even allowing us and them to touch and see each other. "
     },
     {
       "type": "spotlight",
       "item": "miskatonicmysteries:resonator",
-      "text": "The Resonator is activated by simply flicking the small switch in front of it. This device requires $(marked)power$(), which can be provided by $(t:A Power Cell is enough)$(item)several means$(), though these are usually Miskatonic University's Reactors, since only its professionals are able to assemble it properly. "
+      "text": "This cutting-edge technology can only be acquired through certified Miskatonic Faculty. However, one should be careful with operation as this machine must use up a large amount of power, though our patented Power Cells can aid with this.  "
     },
     {
-      "type": "text",
-      "text": "Having this device run for an extended amount of time results in so called $(marked)Phantasma$() to appear. While most of them are harmless, some $(marked)Aberrations$() aren't, once they reach a certain level of materiality that is. This level of materiality seems to directly correlate to the intensity of resonance, the effect caused by the Resonator."
-    },
-    {
-      "type": "text",
-      "text": "Other than tinting the ultraviolet layer visible to the observer, this devices also seems to have a soothing effect on the mentally affected, especially those of the morbidly manic kind. While this seems to have its boundaries, it is a remarkable observation nonetheless."
+      "type": "miskatonicmysteries:advert",
+      "text": "Avoid agitating the machine if possible, such as using it for target practice.",
+      "advert": "miskatonicmysteries:textures/gui/adverts/revolver.png"
     }
   ]
 }

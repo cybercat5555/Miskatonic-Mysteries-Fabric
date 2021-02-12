@@ -5,11 +5,12 @@
   "pages": [
     {
       "type": "text",
-      "text": "An altered state of mind in which the patient undergoes heightened senses, shifting colours, and general delirium. This state can be induced through chemicals, stress, or other overwhelming sensations and experiences. "
+      "text": "An altered state of mind in which the patient undergoes heightened senses, shifting colours, and general delirium. This state can be induced through chemicals, stress, or other overwhelming sensations and experiences.$(br)Unlike other conditions, this ailment cannot be subsided with milk."
     },
     {
-      "type": "text",
-      "text": "Unlike other conditions, this ailment cannot be subsided with milk, and the patient must either let it run its course, or consume our patented $(l:miskatonicmysteries:chemistry/tranquilizers)$(item)Tranquilizers$()."
+      "type": "miskatonicmysteries:advert",
+      "text": "The patient must either let it run its course, or consume our patented $(l:miskatonicmysteries:chemistry/tranquilizers)$(item)Tranquilizers$().",
+      "advert": "miskatonicmysteries:textures/gui/adverts/protag.png"
     }
   ]
 }
