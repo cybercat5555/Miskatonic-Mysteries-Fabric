@@ -1,19 +1,13 @@
 package com.miskatonicmysteries.common.block;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
-import com.miskatonicmysteries.common.feature.world.MMWorldState;
-import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -22,7 +16,6 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
-import net.minecraft.world.gen.feature.StructureFeature;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
@@ -49,33 +42,6 @@ public class YellowSignBlock extends Block {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         super.appendProperties(builder);
         builder.add(FACING, IN_WALL);
-    }
-
-    @Override
-    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        if (!world.isClient && placer instanceof PlayerEntity) {
-            ServerWorld serverWorld = (ServerWorld) world;
-            MMWorldState worldState = MMWorldState.get(serverWorld);
-            BlockPos villagePos = serverWorld.locateStructure(StructureFeature.VILLAGE, pos, 32, false);
-            if (villagePos != null) {
-                HasturAscensionHandler.markVillage(villagePos, worldState, (PlayerEntity) placer);
-                worldState.markVillage(pos, new VillageMarker(placer.getUuid(), pos));
-            }
-        }
-        super.onPlaced(world, pos, state, placer, itemStack);
-    }
-
-    @Override
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (!world.isClient && !newState.isOf(this)) {
-            ServerWorld serverWorld = (ServerWorld) world;
-            MMWorldState worldState = MMWorldState.get(serverWorld);
-            BlockPos villagePos = serverWorld.locateStructure(StructureFeature.VILLAGE, pos, 32, false);
-            if (villagePos != null) {
-                worldState.unmarkVillage(pos);
-            }
-        }
-        super.onStateReplaced(state, world, pos, newState, moved);
     }
 
     @Override

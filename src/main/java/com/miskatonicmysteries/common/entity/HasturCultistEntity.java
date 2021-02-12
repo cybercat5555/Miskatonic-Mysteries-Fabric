@@ -59,8 +59,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     @Nullable
     public Spell currentSpell;
 
-
-    //todo probably remove yellow serf profession, trades etc. can be done more easily 
     public HasturCultistEntity(EntityType<HasturCultistEntity> type, World world) {
         super(type, world);
         ((MobNavigation) this.getNavigation()).setCanPathThroughDoors(true);
