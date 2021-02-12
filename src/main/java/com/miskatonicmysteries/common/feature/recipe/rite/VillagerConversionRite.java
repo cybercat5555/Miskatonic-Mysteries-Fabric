@@ -38,6 +38,9 @@ public class VillagerConversionRite extends AscensionLockedRite {
 
     @Override
     public boolean shouldContinue(OctagramBlockEntity octagram) {
+        if (octagram.getOriginalCaster() == null) {
+            return false;
+        }
         if (octagram.targetedEntity == null && !octagram.getWorld().isClient) {
             octagram.tickCount++;
             Vec3d pos = octagram.getSummoningPos();
