@@ -140,10 +140,13 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
             world.getBlockEntity(pos).markDirty();
         }
         for (Direction direction : DIRECTION_PROPERTY_MAP.keySet()) {
-            if (world.getBlockEntity(pos.offset(direction)) instanceof EnergyHolder && ((EnergyHolder) world.getBlockEntity(pos.offset(direction))).getTier() == EnergyTier.LOW) {
+            BlockPos offsetPos = pos.offset(direction);
+            if (world.getBlockEntity(offsetPos) instanceof EnergyHolder
+                    && ((EnergyHolder) world.getBlockEntity(offsetPos)).getTier() == EnergyTier.LOW
+                    && ((EnergyHolder) world.getBlockEntity(offsetPos)).getMaxInput(EnergySide.fromMinecraft(direction)) > 0) {
                 state = state.with(DIRECTION_PROPERTY_MAP.get(direction), true);
             } else {
-                state.with(DIRECTION_PROPERTY_MAP.get(direction), false);
+                state = state.with(DIRECTION_PROPERTY_MAP.get(direction), false);
             }
         }
         return state;
@@ -158,12 +161,6 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
             return state.with(WATERLOGGED, source);
         }
         return state;
-    }
-
-
-    @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        super.neighborUpdate(state, world, pos, block, fromPos, notify);
     }
 
     @Override
