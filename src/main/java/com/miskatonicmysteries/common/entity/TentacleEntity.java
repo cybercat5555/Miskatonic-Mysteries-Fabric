@@ -136,11 +136,12 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 
     @Override
     public void tickMovement() {
-        int maxProgress = isBroadSwing() ? 37 : 30;
+        int maxProgress = isBroadSwing() ? 37 : 18;
+        int hitTick = isBroadSwing() ? 15 : 10;
         if (this.handSwinging) {
             ++this.handSwingTicks;
-            if (handSwingTicks == 20) {
-                if (getTarget() != null && getTarget().distanceTo(this) <= 3) {
+            if (handSwingTicks == hitTick) {
+                if (getTarget() != null && getTarget().distanceTo(this) <= 3 && isWithinAngle(getTarget())) {
                     tryAttack(getTarget());
                 }
             }
@@ -153,6 +154,20 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         }
         this.handSwingProgress = (float) this.handSwingTicks / maxProgress;
         super.tickMovement();
+        this.setVelocity(Vec3d.ZERO);
+    }
+
+    private boolean isWithinAngle(LivingEntity entity) {
+        Vec3d vec = new Vec3d(getX() - entity.getX(), getY() - entity.getY(), getZ() - entity.getZ());
+        double targetYaw = -Math.toDegrees(Math.atan2(-vec.x, -vec.z));
+        if (targetYaw < 0) {
+            targetYaw += 360;
+        }
+        headYaw %= 360;
+        if (headYaw < 0) {
+            headYaw += 360;
+        }
+        return Math.abs(targetYaw - headYaw) < (isBroadSwing() ? 60 : 15);
     }
 
     @Override
@@ -287,7 +302,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         }
 
         protected double getSquaredMaxAttackDistance(LivingEntity entity) {
-            return 9;
+            return 13;
         }
     }
 }

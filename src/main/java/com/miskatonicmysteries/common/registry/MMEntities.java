@@ -94,11 +94,12 @@ public class MMEntities {
 
         RegistryUtil.register(Registry.ENTITY_TYPE, "energy_tentacle", GENERIC_TENTACLE);
         FabricDefaultAttributeRegistry.register(GENERIC_TENTACLE, MobEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 10)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 15)
                 .add(EntityAttributes.GENERIC_ARMOR, 10)
                 .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, 10)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7)
+                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 6)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1));
         RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
