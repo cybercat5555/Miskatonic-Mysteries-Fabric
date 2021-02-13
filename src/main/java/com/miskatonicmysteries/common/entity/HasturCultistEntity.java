@@ -259,17 +259,17 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     @Override
     public void onDeath(DamageSource source) {
         super.onDeath(source);
-        if (isAscended() && !world.isClient) {
+        if (isAscended() && world instanceof ServerWorld) {
             int amount = 1 + random.nextInt(3);
             for (int i = 0; i < amount; i++) {
                 TentacleEntity tentacle = MMEntities.GENERIC_TENTACLE.create(world);
-                if (source.getAttacker() instanceof LivingEntity) {
-                    tentacle.setSpecificTarget((LivingEntity) source.getAttacker());
+                if (getAttacker() != null) {
+                    tentacle.setSpecificTarget(getAttacker());
                 }
-                tentacle.setPos(getX() + random.nextGaussian(), getY(), getZ() + random.nextGaussian());
+                tentacle.refreshPositionAndAngles(getX() + random.nextGaussian(), getY(), getZ() + random.nextGaussian(), 0.0F, 0.0F);
                 tentacle.setHeadYaw(random.nextInt(360));
                 tentacle.initialize((ServerWorld) world, world.getLocalDifficulty(getBlockPos()), SpawnReason.REINFORCEMENT, null, null);
-                world.spawnEntity(tentacle);
+                ((ServerWorld) world).spawnEntityAndPassengers(tentacle);
             }
         }
     }
@@ -325,7 +325,9 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
             CompoundTag spell = currentSpell.toTag(new CompoundTag());
             tag.put(Constants.NBT.SPELL, spell);
         }
-        angerToTag(tag);
+        if (world instanceof ServerWorld) {
+            angerToTag(tag);
+        }
     }
 
 
@@ -337,8 +339,8 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
             currentSpell = Spell.fromTag((CompoundTag) tag.get(Constants.NBT.SPELL));
         }
         setCastTime(tag.getInt(Constants.NBT.CASTING));
-        angerFromTag((ServerWorld) world, tag);
         if (this.world instanceof ServerWorld) {
+            angerFromTag((ServerWorld) world, tag);
             this.reinitializeBrain((ServerWorld) this.world);
         }
     }

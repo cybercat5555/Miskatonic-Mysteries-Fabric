@@ -29,8 +29,7 @@ public class InvokeManiaPacket {
         server.execute(() -> {
             player.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, duration, amplifier, false, true));
             ((Sanity) player).setSanity(((Sanity) player).getSanity() - 5, false);
-                    ((Sanity) player).setShocked(true);
-                }
-        );
+            ((Sanity) player).setShocked(true);
+        });
     }
 }

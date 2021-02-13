@@ -63,24 +63,32 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
     @Override
     protected void initGoals() {
         this.goalSelector.add(0, new SwingAtTargetGoal());
-        this.targetSelector.add(0, new FollowTargetGoal<>(this, LivingEntity.class, 10, false, false, living -> {
-            if (getOwnerUUID().isPresent()) {
-                if (living.getUuid().equals(getOwnerUUID().get())) {
-                    if (owner == null) {
-                        owner = living;
-                    }
-                    return false;
+        this.targetSelector.add(0, new FollowTargetGoal<>(this, LivingEntity.class, 10, false, false, this::isValidTarget));
+    }
+
+    private boolean isValidTarget(LivingEntity target) {
+        if (getOwnerUUID().isPresent()) {
+            if (target.getUuid().equals(getOwnerUUID().get())) {
+                if (owner == null) {
+                    owner = target;
                 }
-                return owner != null && (living.equals(owner.getAttacking()) || owner.equals(living.getAttacking()));
-            } else if (getTargetUUID().isPresent() && living.getUuid().equals(getTargetUUID().get())) {
-                return true;
-            }
-            if (living instanceof TentacleEntity && ((TentacleEntity) living).getOwnerUUID().equals(getOwnerUUID())) {
                 return false;
             }
-            Affiliation affiliation = MiskatonicMysteriesAPI.getNonNullAffiliation(living, true);
-            return getAffiliation(true) == MMAffiliations.NONE || affiliation != getAffiliation(true) || living instanceof Monster;
-        }));
+            if (owner != null && (target.equals(owner.getAttacker()) || owner.equals(target.getAttacker()))) {
+                return true;
+            }
+        }
+        if (getTargetUUID().isPresent() && getTargetUUID().get().equals(target.getUuid())) {
+            return true;
+        }
+        if (target instanceof Monster) {
+            return true;
+        }
+        if (target instanceof TentacleEntity && ((TentacleEntity) target).getOwnerUUID().equals(getOwnerUUID())) {
+            return false;
+        }
+        Affiliation affiliation = MiskatonicMysteriesAPI.getNonNullAffiliation(target, true);
+        return getAffiliation(true) == MMAffiliations.NONE && affiliation != getAffiliation(true);
     }
 
     @Override
@@ -124,7 +132,6 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         dataTracker.set(BROAD_SWING, tag.getBoolean(Constants.NBT.BROAD_SWING));
         dataTracker.set(OWNER, tag.contains(Constants.NBT.OWNER) ? Optional.of(tag.getUuid(Constants.NBT.OWNER)) : Optional.empty());
         dataTracker.set(SPECIFIC_TARGET, tag.contains(Constants.NBT.TARGET) ? Optional.of(tag.getUuid(Constants.NBT.TARGET)) : Optional.empty());
-
     }
 
     @Override
@@ -154,7 +161,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         }
         this.handSwingProgress = (float) this.handSwingTicks / maxProgress;
         super.tickMovement();
-        this.setVelocity(Vec3d.ZERO);
+        this.setVelocity(0, getVelocity().y, 0);
     }
 
     private boolean isWithinAngle(LivingEntity entity) {
@@ -240,7 +247,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
     }
 
     public Optional<UUID> getTargetUUID() {
-        return dataTracker.get(OWNER);
+        return dataTracker.get(SPECIFIC_TARGET);
     }
 
     public void setOwner(LivingEntity owner) {

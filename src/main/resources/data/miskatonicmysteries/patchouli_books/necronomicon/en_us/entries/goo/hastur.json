@@ -1,0 +1,16 @@
+{
+  "name": "The Yellow King",
+  "category": "miskatonicmysteries:great_old_ones",
+  "icon": "miskatonicmysteries:hastur_statue_terracotta",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Followers of the $(l:miskatonicmysteries:goo/hastur)$(marked)Yellow King$() call themselves “Yellow Serfs”, as they work for their king on what they consider his land and execute his will, which despite how dour it sound, tends to revolve around curing the sick and injured, devising new masterworks in his name, and spreading his influence, to encourage others to do the same."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "rite": "miskatonicmysteries:hysteria",
+      "text": "Definitely make sure to cast this while sneaking to not accidentally start it normally."
+    }
+  ]
+}

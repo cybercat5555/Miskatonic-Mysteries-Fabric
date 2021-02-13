@@ -1,0 +1,31 @@
+{
+  "name": "The Yellow Flock",
+  "category": "miskatonicmysteries:bestiary",
+  "icon": "miskatonicmysteries:yellow_hood",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Followers of the $(l:miskatonicmysteries:goo/hastur)$(marked)Yellow King$() call themselves '$(marked)Yellow Serfs$()', as they work for their king on what they consider his land and execute his will, which despite how dour it sounds, tends to revolve around curing the sick and injured, devising new masterworks in his name, and spreading his influence, to encourage others to do the same."
+    },
+    {
+      "type": "entity",
+      "entity": "miskatonicmysteries:hastur_cultist{Variant:1}",
+      "offset": 0.15,
+      "text": "They are more peaceful than their cohorts, but one should not take this as an offering to attack. "
+    },
+    {
+      "type": "entity",
+      "entity": "miskatonicmysteries:hastur_cultist{Variant:2}",
+      "offset": 0.15,
+      "text": "They hold back relentless power and strategy, as they see combat just as much as art as anything else."
+    },
+    {
+      "type": "text",
+      "text": "$(marked)Yellow Vassals$() are ascended Yellow Serfs, who have opened their mind to allow the Yellow Sign to be engraved into their being. Vassals aid in initiating new Serfs to their king, and preside over congregations of Serfs, to ensure they take the most care of the unenlightened in peace.$(br)They possess some of the greatest magics of all human followers, though they will not hurt others unless acting in self-defense or when the other poses a significant threat."
+    },
+    {
+      "type": "text",
+      "text": "Yellow Vassals can be traded with, offering handy deals for other Entheators.$(br)If you are interested in the ways of the Yellow King, why not trade and talk to them?"
+    }
+  ]
+}
