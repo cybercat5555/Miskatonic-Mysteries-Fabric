@@ -1,0 +1,23 @@
+{
+  "name": "Occult Knowledge",
+  "category": "miskatonicmysteries:world",
+  "icon": "minecraft:paper",
+  "pages": [
+    {
+      "type": "text",
+      "text": "A lot of knowledge in this world cannot be described using mere words. Sometimes, one has to experience it by themselves. Such $(marked)Occult Knowledge$() is stored in this book once acquired, and is usually used in $(marked)Rites$(). "
+    },
+    {
+      "type": "text",
+      "anchor": "witch_secret",
+      "title": "A Witches Secret",
+      "text": "Despite all their madness and debility, $(marked)Witches$() seem to have an extraordinary understanding of the occult outside of Great Old Ones. They will be ready to share their secret after gifting them a potion."
+    },
+    {
+      "type": "text",
+      "anchor": "hastur_knowledge",
+      "title": "Knowledge of Hastur",
+      "text": "$(marked)Yellow Vassals$() are dedicated worshippers of the Yellow King, and always in for a talk. They may share what they know after building a good reputation among them."
+    }
+  ]
+}

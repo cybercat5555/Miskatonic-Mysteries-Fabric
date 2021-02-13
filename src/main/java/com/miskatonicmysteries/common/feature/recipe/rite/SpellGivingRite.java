@@ -25,18 +25,27 @@ import java.util.Random;
 
 public class SpellGivingRite extends AscensionLockedRite {
     private final SpellEffect grantedEffect;
+    private final String knowledge;
 
-    public SpellGivingRite(SpellEffect effect, Identifier id, @Nullable Affiliation octagram, int stage, Ingredient... ingredients) {
+    public SpellGivingRite(SpellEffect effect, String knowledge, Identifier id, @Nullable Affiliation octagram, int stage, Ingredient... ingredients) {
         super(id, octagram, 0.25F, stage, ingredients);
         this.grantedEffect = effect;
+        this.knowledge = knowledge;
     }
 
     @Override
     public boolean canCast(OctagramBlockEntity octagram) {
         if (super.canCast(octagram)) {
+
             Optional<SpellCaster> caster = SpellCaster.of(octagram.getOriginalCaster());
             if (caster.isPresent() && caster.get().getLearnedEffects().contains(grantedEffect)) {
                 octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.spell_rite_fail"), true);
+                return false;
+            }
+            if (!octagram.doesNearestAltarHaveKnowledge(knowledge)) {
+                if (octagram.getOriginalCaster() != null) {
+                    octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.knowledge"), true);
+                }
                 return false;
             }
             return true;

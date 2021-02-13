@@ -20,11 +20,11 @@ public class MMRites {
     public static final Rite SCULPTOR_RITE = new SculptorRite();
     public static final Rite GOLDEN_FLOCK_RITE = new GoldenFlockRite();
 
-    public static final Rite REGENERATION_SPELL_RITE = new SpellGivingRite(MMSpellEffects.HEAL, new Identifier(Constants.MOD_ID, "regeneration"), null, 0,
+    public static final Rite REGENERATION_SPELL_RITE = new SpellGivingRite(MMSpellEffects.HEAL, Constants.Misc.WITCH_KNOWLEDGE, new Identifier(Constants.MOD_ID, "regeneration"), null, 0,
             Ingredient.ofItems(Items.GLISTERING_MELON_SLICE), Ingredient.ofItems(MMObjects.OCEANIC_GOLD), Ingredient.ofItems(Items.SPONGE), Ingredient.ofItems(Items.GOLDEN_APPLE), Ingredient.ofItems(Items.GHAST_TEAR));
-    public static final Rite RESISTANCE_SPELL_RITE = new SpellGivingRite(MMSpellEffects.RESISTANCE, new Identifier(Constants.MOD_ID, "resistance"), null, 0,
+    public static final Rite RESISTANCE_SPELL_RITE = new SpellGivingRite(MMSpellEffects.RESISTANCE, Constants.Misc.WITCH_KNOWLEDGE, new Identifier(Constants.MOD_ID, "resistance"), null, 0,
             Ingredient.ofItems(Items.SCUTE), Ingredient.ofItems(MMObjects.OCEANIC_GOLD), Ingredient.ofItems(Items.IRON_INGOT), Ingredient.ofItems(Items.BEEF), Ingredient.ofItems(Items.QUARTZ), Ingredient.ofItems(Items.DIAMOND));
-    public static final Rite KNOCKBACK_SPELL_RITE = new SpellGivingRite(MMSpellEffects.KNOCKBACK, new Identifier(Constants.MOD_ID, "knockback"), null, 0,
+    public static final Rite KNOCKBACK_SPELL_RITE = new SpellGivingRite(MMSpellEffects.KNOCKBACK, "", new Identifier(Constants.MOD_ID, "knockback"), null, 0,
             Ingredient.ofItems(Items.FEATHER), Ingredient.ofItems(MMObjects.OCEANIC_GOLD), Ingredient.ofStacks(PotionUtil.setPotion(new ItemStack(Items.POTION), Potions.STRONG_SWIFTNESS)), Ingredient.ofItems(Items.BEEF), Ingredient.ofItems(Items.CHICKEN), Ingredient.ofItems(Items.ARROW));
 
     public static void init() {

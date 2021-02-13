@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.mixin;
 
+import com.miskatonicmysteries.api.interfaces.Appeasable;
 import com.miskatonicmysteries.api.interfaces.DropManipulator;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
@@ -16,6 +17,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Random;
 
@@ -63,10 +65,21 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
     @Inject(method = "writeCustomDataToTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
     private void writeMiscData(CompoundTag compoundTag, CallbackInfo info) {
         compoundTag.putBoolean(Constants.NBT.SHOULD_DROP, hasOverridenDrops());
+        Appeasable.of(this).ifPresent(appeasable -> compoundTag.putInt(Constants.NBT.APPEASE_TICKS, appeasable.getAppeasedTicks()));
     }
 
     @Inject(method = "readCustomDataFromTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
     public void readMiscData(CompoundTag compoundTag, CallbackInfo info) {
         setDropOveride(compoundTag.getBoolean(Constants.NBT.SHOULD_DROP));
+        Appeasable.of(this).ifPresent(appeasable -> {
+            appeasable.setAppeasedTicks(compoundTag.getInt(Constants.NBT.APPEASE_TICKS));
+        });
+    }
+
+    @Inject(method = "canTarget(Lnet/minecraft/entity/EntityType;)Z", at = @At("HEAD"), cancellable = true)
+    private void appease(EntityType<?> type, CallbackInfoReturnable<Boolean> cir) {
+        if (Appeasable.of(this).isPresent() && Appeasable.of(this).get().isAppeased()) {
+            cir.setReturnValue(false);
+        }
     }
 }

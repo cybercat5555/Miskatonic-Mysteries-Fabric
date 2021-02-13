@@ -26,6 +26,7 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -46,8 +47,14 @@ public class SculptorRite extends Rite {
 
     @Override
     public boolean canCast(OctagramBlockEntity octagram) {
-        if (octagram.doesNearestAltarHaveKnowledge(knowledge)) {
-            return super.canCast(octagram);
+        if (super.canCast(octagram)) {
+            if (!octagram.doesNearestAltarHaveKnowledge(knowledge)) {
+                if (octagram.getOriginalCaster() != null) {
+                    octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.knowledge"), true);
+                }
+                return false;
+            }
+            return true;
         }
         return false;
     }

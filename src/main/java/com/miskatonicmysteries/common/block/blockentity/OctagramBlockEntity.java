@@ -249,6 +249,9 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
     }
 
     public boolean doesNearestAltarHaveKnowledge(String knowledge) {
+        if (knowledge.isEmpty()) {
+            return true;
+        }
         for (BlockPos blockPos : BlockPos.iterateOutwards(pos, 8, 8, 8)) {
             BlockEntity entity = world.getBlockEntity(blockPos);
             if (entity instanceof AltarBlockEntity && MMBookItem.hasKnowledge(knowledge, ((AltarBlockEntity) entity).getStack(0))) {

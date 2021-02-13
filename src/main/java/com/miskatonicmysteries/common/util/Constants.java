@@ -120,6 +120,7 @@ public class Constants {
         public static final String BROAD_SWING = "BroadSwing";
         public static final String OWNER = "Owner";
         public static final String TARGET = "Target";
+        public static final String APPEASE_TICKS = "AppeaseTicks";
     }
 
     public static class DataTrackers {
@@ -176,5 +177,6 @@ public class Constants {
     public static class Misc {
         public static final String NECRONOMICON_EXTENSION = "readBook";
         public static final String ATE_ORB_EXTENSION = "orb";
+        public static final String WITCH_KNOWLEDGE = "witch";
     }
 }
