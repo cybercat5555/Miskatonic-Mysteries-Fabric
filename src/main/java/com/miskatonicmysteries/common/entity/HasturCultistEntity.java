@@ -8,6 +8,7 @@ import com.miskatonicmysteries.common.entity.brain.HasturCultistBrain;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMTrades;
 import com.miskatonicmysteries.common.util.Constants;
@@ -258,7 +259,19 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     @Override
     public void onDeath(DamageSource source) {
         super.onDeath(source);
-        setVillagerData(getVillagerData().withProfession(VillagerProfession.NITWIT));
+        if (isAscended() && !world.isClient) {
+            int amount = 1 + random.nextInt(3);
+            for (int i = 0; i < amount; i++) {
+                TentacleEntity tentacle = MMEntities.GENERIC_TENTACLE.create(world);
+                if (source.getAttacker() instanceof LivingEntity) {
+                    tentacle.setSpecificTarget((LivingEntity) source.getAttacker());
+                }
+                tentacle.setPos(getX() + random.nextGaussian(), getY(), getZ() + random.nextGaussian());
+                tentacle.setHeadYaw(random.nextInt(360));
+                tentacle.initialize((ServerWorld) world, world.getLocalDifficulty(getBlockPos()), SpawnReason.REINFORCEMENT, null, null);
+                world.spawnEntity(tentacle);
+            }
+        }
     }
 
     @Nullable
