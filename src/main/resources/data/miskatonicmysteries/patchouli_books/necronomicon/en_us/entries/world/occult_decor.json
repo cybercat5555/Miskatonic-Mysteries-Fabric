@@ -1,0 +1,32 @@
+{
+  "name": "Occult Paraphernalia",
+  "category": "miskatonicmysteries:world",
+  "icon": "miskatonicmysteries:candle",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "text",
+      "text": "While technically not with any power, $(item)Occult Paraphernalia$() are still nice to have around.$(br)They usually serve as simple decoration, but they may sometimes help with things beyond $(o)the ambiance$()."
+    },
+    {
+      "type": "crafting",
+      "recipe": "miskatonicmysteries:crafting/candle",
+      "text": "Candles may be stacked to an extent.$(br)They can be lit using $(item)Flint and Steel$()."
+    },
+    {
+      "type": "smelting",
+      "recipe": "miskatonicmysteries:smelting/wax_from_smelting",
+      "text": "Wax is fabricated by simply smelting $(item)Honey Combs$()."
+    },
+    {
+      "type": "spotlight",
+      "item": "miskatonicmysteries:stone_hastur_mural",
+      "text": "$(item)Murals$() are simple objects of worship finely carved from a material. They are usually found in $(l:miskatonicmysteries:world/shrines)$(marked)Shrines$() and always dedicated to a Great Old One."
+    },
+    {
+      "type": "spotlight",
+      "item": "miskatonicmysteries:hastur_statue_stone",
+      "text": "$(item)Idols$() are more complex objects of worship and almost always found in Shrines.$(br)Much like Murals, they are dedicated to a Great Old One.$(br)Unlike Murals, they are actually of slightly supernatural nature. Worshippers find a lot of power in them, especially after rest."
+    }
+  ]
+}

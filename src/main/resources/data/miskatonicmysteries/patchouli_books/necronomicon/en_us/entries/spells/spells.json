@@ -6,17 +6,22 @@
   "pages": [
     {
       "type": "text",
-      "text": "While often considered to be stored in special books that only chosen ones can read and weld, in reality anyone can possess these powers, assuming they allow themselves to open up to these energies."
+      "text": "While often considered to be stored in special books that only chosen ones can read and weld, in reality anyone can possess these powers, assuming they allow themselves to open up to these energies.$(br)Spells are simply created by putting this book on an $(l:miskatonicmysteries:world/altars)$(marked)Altar$() and selecting the Effect, the Medium, and the Intensity.$(br)The final product is placed in a free spell slot."
     },
     {
       "type": "text",
       "title": "Mediums",
-      "text": "Spells can be cast though several mediums, five of which are accessible to humans:$(li)Vision$(li)Bolt$(li)Projectile$(li)Self$(li)Group$(br)Mediums, once unlocked, need to be selected with Potency and Effect."
+      "text": "Spells can be cast though several mediums, five of which are accessible to humans:$(li)Vision$(li)Bolt$(li)Projectile$(li)Self$(li)Group$(br)Mediums, once unlocked, need to be selected with Potency and Effect.$(br)The exact process of unlocking a Medium is very vague, but you will know when you have by checking spell creation."
     },
     {
       "type": "text",
-      "title": "Potency",
-      "text": "TO DO (needs some proper explanation on how to interact with the GUI)"
+      "title": "Intensity",
+      "text": "Intensity may have one of the following three levels: weak, medium and strong. As the name implies, it affects the intensity of the cast spell's effect. Additionally, more intense spells will usually drain the user more. $(br)Casters only have a limited pool of power to choose from, so spend those points wisely."
+    },
+    {
+      "type": "text",
+      "title": "Casting a Spell",
+      "text": "Casting requires the caster to settle on what spell to cast, then focus their energies until it is done. Casting a spell will always drain the caster, and casting too many spells in a short time will cause substantial harm, both physically and mentally. $(br2)$(o)Press $(k:miskatonicmysteries.hud) to select a spell, then hold $(k:use).$()"
     }
   ]
 }

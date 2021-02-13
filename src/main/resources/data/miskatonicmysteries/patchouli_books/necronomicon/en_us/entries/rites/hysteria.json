@@ -1,0 +1,17 @@
+{
+  "name": "Hysteria",
+  "category": "miskatonicmysteries:rites",
+  "icon": "miskatonicmysteries:textures/mob_effect/mania.png",
+  "advancement": "miskatonicmysteries:main/evocation",
+  "pages": [
+    {
+      "type": "text",
+      "text": "The Rite of $(marked)Hysteria$() is a essential Rite to most Entheators.$(br)It is usually cast as a $(l:miskatonicmysteries:rites/rite_intro#triggered_rite)$(t:->Triggered Rites)$(marked)triggered Rite$(), and invokes a strong $(marked)Mania$() in anyone near it, commonly used as a precedent for other Rites."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "rite": "miskatonicmysteries:hysteria",
+      "text": "Definitely make sure to cast this while sneaking to not accidentally start it normally."
+    }
+  ]
+}

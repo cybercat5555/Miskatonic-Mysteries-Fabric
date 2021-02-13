@@ -1,0 +1,26 @@
+{
+  "name": "Rites",
+  "category": "miskatonicmysteries:rites",
+  "icon": "",
+  "priority": true,
+  "pages": [
+    {
+      "type": "text",
+      "text": "The first act most Entheators perform in the realm of the Sunken is that of $(marked)Rites$().$(br)All Rites are conducted through sacred geometric patterns known as $(l:miskatonicmysteries:world/octagrams)$(marked)Octagrams$(), with the aid of reagents.$(br)Reagents can be placed in each point of the Octagram, Rites are activated by interacting with the center."
+    },
+    {
+      "type": "text",
+      "text": "However, all of that is easier said than done; Rites are supernatural and as such cannot be reduced to general terms.$(br)Some Rites require $(l:miskatonicmysteries:world/occult_knowledge)$(marked)special knowledge$(), provided by putting the book containing it on an $(l:miskatonicmysteries:world/altars)$(item)Altar$().$(br)Sometimes, a Rite will call on one specific Great Old One. This requires the Octagram to be matching."
+    },
+    {
+      "type": "text",
+      "text": "Additionally, most Rites may be easily noticed, so be weary. Using $(l:miskatonicmysteries:world/occult_decor)$(item)Occult Paraphernalia$() may help with this, though it could also make it worse."
+    },
+    {
+      "type": "text",
+      "title": "Triggered Rites",
+      "anchor": "triggered_rites",
+      "text": "Lastly, one last thing to note: Rites are, in theory, very versatile.$(br)For example, some Rites may be cast as a $(marked)Triggered Rite$(). They aren't truly active until something steps on them. A Rite that allows this may be cast as such by sneaking while starting it."
+    }
+  ]
+}

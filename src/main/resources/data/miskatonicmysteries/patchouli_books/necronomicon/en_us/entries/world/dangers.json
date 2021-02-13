@@ -1,0 +1,16 @@
+{
+  "name": "Dangers of Occultism",
+  "category": "miskatonicmysteries:world",
+  "icon": "miskatonicmysteries:horned_dagger",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "text",
+      "text": "This world is vast, but it is also cruel. We are not going to pretend that delving into this won't come with grave dangers and consequences.$(br)As a practitioner of the invisible arts, as a Entheator, people will be looking for you. Every Rite cast bears the danger of a local Investigator tracking you down, taking your head and undoing the entirety of your Great Work."
+    },
+    {
+      "type": "text",
+      "text": "Not to forget about the mind, which is simply not ready to contain all of this forever. While bounds must be broken at one point, they are needed for some. Sometimes, you will have to compromise, for the sake of your own sanity and life.$(br2)Lastly, always beware the Great Old One's whims. Do not toy around with them."
+    }
+  ]
+}

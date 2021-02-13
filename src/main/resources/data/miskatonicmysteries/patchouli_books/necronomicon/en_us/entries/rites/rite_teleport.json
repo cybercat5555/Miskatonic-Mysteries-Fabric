@@ -2,6 +2,7 @@
   "name": "Rite of the Open Way",
   "category": "miskatonicmysteries:rites",
   "icon": "minecraft:ender_pearl",
+  "advancement": "miskatonicmysteries:main/evocation",
   "pages": [
     {
       "type": "text",

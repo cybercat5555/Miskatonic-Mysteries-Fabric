@@ -53,12 +53,13 @@ public class MMBookItem extends Item implements Affiliated {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         Book book = getBook();
         if (player instanceof ServerPlayerEntity) {
+            SpellCaster.of(player).ifPresent(caster -> {
+                caster.learnMedium(MMSpellMediums.SELF);
+                MiskatonicMysteriesAPI.guaranteeSpellPower(2, caster);
+            });
             if (special && !InsanityHandler.hasSanityCapExpansion(player, Constants.Misc.NECRONOMICON_EXTENSION)) {
                 Sanity.of(player).ifPresent(sanity -> sanity.addSanityCapExpansion(Constants.Misc.NECRONOMICON_EXTENSION, -10));
-                SpellCaster.of(player).ifPresent(caster -> {
-                    caster.learnMedium(MMSpellMediums.SELF);
-                    MiskatonicMysteriesAPI.guaranteeSpellPower(2, caster);
-                });
+
             }
             PatchouliAPI.get().openBookGUI((ServerPlayerEntity) player, book.id);
             SoundEvent sfx = PatchouliSounds.getSound(book.openSound, PatchouliSounds.book_open);

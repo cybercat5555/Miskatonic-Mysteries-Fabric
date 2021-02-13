@@ -2,6 +2,7 @@
   "name": "Occult Knowledge",
   "category": "miskatonicmysteries:world",
   "icon": "minecraft:paper",
+  "sortnum": 3,
   "pages": [
     {
       "type": "text",

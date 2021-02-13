@@ -9,10 +9,11 @@
     "miskatonicmysteries:oceanic_gold_pillar_ornate": 0,
     "miskatonicmysteries:oceanic_gold_pillar_split": 0
   },
+  "sortnum": 5,
   "pages": [
     {
       "type": "text",
-      "text": "Oceanic Gold has a pearlescent shimmer and is engraved with aquatic images, from sea creatures to other images evocative of the sea. It may be found in lost treasure chests, or acquired from some traders. On top of having significant ritual uses, Oceanic Gold can be used to make several decorative blocks with a nautical flare, using a Stonecutter."
+      "text": "$(item)Oceanic Gold$() has a pearlescent shimmer and is engraved with aquatic images, from sea creatures to other images evocative of the sea. It may be found in lost treasure chests, or acquired from some traders. On top of having significant ritual uses, Oceanic Gold can be used to make several decorative blocks with a nautical flare, using a Stonecutter."
     },
     {
       "type": "crafting",

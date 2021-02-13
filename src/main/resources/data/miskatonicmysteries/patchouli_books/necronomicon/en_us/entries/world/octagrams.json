@@ -1,0 +1,30 @@
+{
+  "name": "Octagrams",
+  "category": "miskatonicmysteries:world",
+  "icon": "miskatonicmysteries:shub_chalk",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "text",
+      "text": "$(item)Octagrams$() are eight-pointed shapes of interlocking stars and octagons, drawn with chalk and adorned with additional glyphs to help direct the correct form of energy of the Outer Ones to this specific point in the universe.$(br)As this mouthful description implies, they are used for $(l:miskatonicmysteries:rites/rites_intro)$(marked)Rites$()."
+    },
+    {
+      "type": "miskatonicmysteries:chemistry",
+      "recipe": "miskatonicmysteries:chemistry/shub_chalk",
+      "header": "Chalk Creation (Shub)",
+      "text": "$(item)Chalk$() is alchemically created.$(br2)$(o)Perhaps someone more versed in the sciences could teach you on the device used for this?$()"
+    },
+    {
+      "type": "miskatonicmysteries:chemistry",
+      "recipe": "miskatonicmysteries:chemistry/hastur_chalk",
+      "header": "Chalk Creation (Hastur)",
+      "text": "Chalks exist in different colors, in accordance to the Great Old Ones.$(br)Using the proper Octagram is essential for casting a Rite."
+    },
+    {
+      "type": "miskatonicmysteries:chemistry",
+      "recipe": "miskatonicmysteries:chemistry/cthulhu_chalk",
+      "header": "Chalk Creation (Cthulhu)",
+      "text": ""
+    }
+  ]
+}

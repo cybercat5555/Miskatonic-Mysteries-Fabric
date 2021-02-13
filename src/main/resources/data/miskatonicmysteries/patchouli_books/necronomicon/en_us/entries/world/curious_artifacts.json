@@ -5,6 +5,7 @@
   "extra_recipe_mappings": {
     "miskatonicmysteries:incantation_yog": 1
   },
+  "sortnum": 3,
   "pages": [
     {
       "type": "text",
