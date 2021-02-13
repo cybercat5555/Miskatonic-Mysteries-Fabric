@@ -10,7 +10,7 @@
     {
       "type": "miskatonicmysteries:rite",
       "rite": "miskatonicmysteries:regeneration",
-      "text": ""
+      "text": "Learning this Spell Effect requires a nearby Altar containing a Necronomicon with $(l:miskatonicmysteries:world/occult_knowledge#witch_secret)$(marked)a Witches Secret$()."
     }
   ]
 }
