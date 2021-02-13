@@ -117,6 +117,9 @@ public class Constants {
         public static final String MARKER_POS = "MarkerPosition";
         public static final String VILLAGE_POS = "VillagePosition";
         public static final String SPELL_BURNOUT = "SpellBurnout";
+        public static final String BROAD_SWING = "BroadSwing";
+        public static final String OWNER = "Owner";
+        public static final String TARGET = "Target";
     }
 
     public static class DataTrackers {

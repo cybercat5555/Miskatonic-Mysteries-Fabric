@@ -122,7 +122,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         if (amount >= getHealth() && !source.isOutOfWorld()) {
             PlayerEntity entity = (PlayerEntity) (Object) this;
             if (InventoryUtil.getSlotForItemInHotbar(entity, MMObjects.RE_AGENT_SYRINGE) >= 0) {
-                entity.inventory.removeStack(InventoryUtil.getSlotForItemInHotbar(entity, MMObjects.RE_AGENT_SYRINGE), 1);
+                entity.inventory.getStack(InventoryUtil.getSlotForItemInHotbar(entity, MMObjects.RE_AGENT_SYRINGE)).decrement(1);
                 if (LazarusStatusEffect.revive(entity)) {
                     dead = false;
                     removed = false;

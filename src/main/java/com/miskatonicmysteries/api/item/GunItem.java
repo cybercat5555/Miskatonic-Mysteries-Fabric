@@ -114,7 +114,7 @@ public abstract class GunItem extends Item {
         for (int i = 0; i < getMaxShots() - startCount; i++) {
             int slot = user.inventory.getSlotWithStack(stack);
             if (slot >= 0) {
-                user.inventory.removeStack(slot, 1);
+                user.inventory.getStack(slot).decrement(1);
                 bullets++;
             }
         }

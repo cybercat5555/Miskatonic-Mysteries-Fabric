@@ -105,6 +105,7 @@
   "entity.miskatonicmysteries.phantasma": "Phantasma",
   "entity.miskatonicmysteries.aberration": "Aberration",
   "entity.miskatonicmysteries.tattered_prince": "Tattered Prince",
+  "entity.miskatonicmysteries.energy_tentacle": "Energy Tentacle",
   "comment4": "TOOLTIPS",
   "tooltip.miskatonicmysteries.gun_loaded": "Loaded (%d/%d)",
   "tooltip.miskatonicmysteries.gun_not_loaded": "Not Loaded (%d/%d)",

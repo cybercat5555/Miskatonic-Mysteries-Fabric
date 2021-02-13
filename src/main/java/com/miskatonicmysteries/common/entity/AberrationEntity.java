@@ -48,7 +48,7 @@ public class AberrationEntity extends PhantasmaEntity implements Monster {
         } else {
             this.handSwingTicks = 0;
         }
-        this.handSwingProgress = (float) this.handSwingTicks / 20F;
+        this.handSwingProgress = (float) this.handSwingTicks / 20;
         super.tickMovement();
     }
 
@@ -85,15 +85,10 @@ public class AberrationEntity extends PhantasmaEntity implements Monster {
         return super.tryAttack(target);
     }
 
-    @Override
-    public void swingHand(Hand hand, boolean bl) {
-        super.swingHand(hand, bl);
-    }
-
     public <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
         float limbSwingAmount = event.getLimbSwingAmount();
         boolean isMoving = !(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F);
-        if (isAttacking() && !isDead() && handSwinging) { //somehow not synced properly???
+        if (isAttacking() && !isDead() && handSwinging) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("attack", true));
             return PlayState.CONTINUE;
         }
