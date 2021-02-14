@@ -75,8 +75,9 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
             return false;
         } else if (isInvulnerable()) {
             return true;
-        } else
-            return damageSource != DamageSource.MAGIC && damageSource != DamageSource.GENERIC && !(damageSource.getAttacker() instanceof PlayerEntity);
+        } else {
+            return damageSource != DamageSource.MAGIC && damageSource != DamageSource.GENERIC && damageSource.getAttacker() == null;
+        }
     }
 
     @Override
