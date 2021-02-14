@@ -22,7 +22,9 @@ import java.util.List;
 
 public class PrinceSummoningRite extends SummoningRite {
     public PrinceSummoningRite() {
-        super(new Identifier(Constants.MOD_ID, "summon_prince"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.75F, 0, MMEntities.TATTERED_PRINCE, Ingredient.ofItems(Items.DIAMOND));
+        super(new Identifier(Constants.MOD_ID, "summon_prince"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.75F, 0, MMEntities.TATTERED_PRINCE,
+                Ingredient.ofItems(MMObjects.INCANTATION_YOG), Ingredient.ofItems(MMObjects.YELLOW_SIGN_LOOM_PATTERN), Ingredient.ofItems(Items.ANCIENT_DEBRIS), Ingredient.fromTag(Constants.Tags.OCEANIC_GOLD_BLOCKS_ITEM),
+                Ingredient.ofItems(Items.GOLDEN_HELMET), Ingredient.ofItems(Items.DIAMOND), Ingredient.fromTag(Constants.Tags.HASTUR_CULTIST_OFFERINGS), Ingredient.ofItems(MMObjects.ORNATE_DAGGER));
     }
 
     @Override

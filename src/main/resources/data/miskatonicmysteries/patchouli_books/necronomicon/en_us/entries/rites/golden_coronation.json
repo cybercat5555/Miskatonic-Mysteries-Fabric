@@ -1,0 +1,20 @@
+{
+  "name": "Golden Coronation",
+  "category": "miskatonicmysteries:rites",
+  "icon": "minecraft:gold_ingot",
+  "advancement": "miskatonicmysteries:hastur/hare_rama",
+  "pages": [
+    {
+      "type": "text",
+      "text": "The $(marked)Golden Coronation$() is an essential part of ascension. It is used to summon a $(l:miskatonicmysteries:bestiary/prince)$(marked)Tattered Prince$() from the depths of Carcosa.$(br)The Rite will require four loyal $(marked)Serfs$() nearby, as well as $(l:miskatonicmysteries:world/occult_knowledge#hastur_knowledge)$(marked)their secret$(). These Serfs are usually manually recruited, but they can also just think very highly of you.$(br)Once started, the Rite will require a sufficient sacrifice to establish a connection."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "stage": 1,
+      "affiliation": "miskatonicmysteries:hastur",
+      "rite": "miskatonicmysteries:summon_prince",
+      "obfuscated_text": "give them blood, gallons of the stuff",
+      "text": "We recommend using a sheep or a pig rather than a villager, as Serfs are not very enthusiastic about manslaughter."
+    }
+  ]
+}

@@ -5,8 +5,8 @@
   "advancement": "miskatonicmysteries:hastur/hare_krishna",
   "sortnum": 3,
   "extra_recipe_mappings": {
-    "miskatonicmysteries:hastur_statue_stone": 4,
-    "miskatonicmysteries:hastur_statue_terracotta": 4
+    "miskatonicmysteries:hastur_statue_stone": 3,
+    "miskatonicmysteries:hastur_statue_terracotta": 3
   },
   "pages": [
     {
@@ -33,18 +33,10 @@
     },
     {
       "type": "miskatonicmysteries:obfuscated",
-      "stage": 2,
+      "stage": 1,
       "affiliation": "miskatonicmysteries:hastur",
-      "obfuscated_text": "Recruit Serfs if you want ig, it is quite useful for the following rite which requires loyal serfs. recruiting a villager requires them to be either a cleric or a nitwit",
-      "text": "As a Serf, you can $(marked)recruit$() other Villagers. The Villager must either be a Nitwit or a Cleric. Freshly recruited Villagers are usually very loyal, which comes in handy in the following step to the first $(marked)Blessing$(), which requires a few loyal Serfs. Note that recruiting new Serfs is optional, as any Serf who thinks highly of you may help you with that."
-    },
-    {
-      "type": "miskatonicmysteries:rite",
-      "stage": 2,
-      "affiliation": "miskatonicmysteries:hastur",
-      "rite": "miskatonicmysteries:golden_flock",
-      "obfuscated_text": "The humanoids must have their minds melt for it to be reshaped",
-      "text": "The converted Villager must be under the effect of $(marked)Mania$(), best achieved with the $(l:miskatonicmysteries:rites/hysteria)$(marked)Hysteria$() Rite."
+      "obfuscated_text": "Hail the prince and kiss his cheek, or else your ascent will look bleak.",
+      "text": "The next step is somewhat more elaborate-$(br)In order to receive the first blessing, one must summon a $(l:miskatonicmysteries:bestiary/prince)$(marked)Tattered Prince$(), using the $(l:miskatonicmysteries:rites/golden_coronation)$(marked)Golden Coronation$().$(br)Once summoned, you may let him bless you by talking to him."
     }
   ]
 }
