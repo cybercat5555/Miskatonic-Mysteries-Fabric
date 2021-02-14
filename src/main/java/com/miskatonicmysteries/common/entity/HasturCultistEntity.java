@@ -160,7 +160,9 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public void equipStack(EquipmentSlot slot, ItemStack stack) {
-        if (getEquippedStack(slot).isEmpty()) super.equipStack(slot, stack);
+        if (getEquippedStack(slot).isEmpty()) {
+            super.equipStack(slot, stack);
+        }
     }
 
     @Override

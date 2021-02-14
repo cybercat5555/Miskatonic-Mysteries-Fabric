@@ -22,7 +22,7 @@ public class ObfuscatedTextComponent implements ICustomComponent {
     transient BookTextRenderer textRender;
     transient ObfuscatedBookTextRenderer alternateTextRender;
     transient boolean obfuscated;
-    transient String renderedText;
+    transient String actualTextString;
     transient String obfuscatedTextString;
     transient int actualStage;
     transient Affiliation actualAffiliation;
@@ -31,6 +31,7 @@ public class ObfuscatedTextComponent implements ICustomComponent {
     IVariable obfuscatedText;
     IVariable affiliation;
     IVariable stage;
+    transient boolean hasHeader;
 
     @Override
     public void build(int componentX, int componentY, int pageNum) {
@@ -40,7 +41,7 @@ public class ObfuscatedTextComponent implements ICustomComponent {
 
     @Override
     public void onDisplayed(IComponentRenderContext context) {
-        textRender = new BookTextRenderer((GuiBook) context.getGui(), renderedText, x, y);
+        textRender = new BookTextRenderer((GuiBook) context.getGui(), actualTextString, x, y);
         obfuscated = !canPlayerRead(actualStage, actualAffiliation);
         alternateTextRender = new ObfuscatedBookTextRenderer((GuiBook) context.getGui(), obfuscatedTextString, x, y);
     }
@@ -64,7 +65,7 @@ public class ObfuscatedTextComponent implements ICustomComponent {
         String affiliationString = lookup.apply(affiliation).asString();
         actualAffiliation = affiliationString == null ? null : MMRegistries.AFFILIATIONS.get(affiliationString.contains(":") ? new Identifier(affiliationString) : new Identifier(Constants.MOD_ID, affiliationString));
         actualStage = lookup.apply(stage).asNumber(-1).intValue();
-        renderedText = lookup.apply(text).asString("");
-        obfuscatedTextString = lookup.apply(obfuscatedText).asString(renderedText);
+        actualTextString = lookup.apply(text).asString("");
+        obfuscatedTextString = lookup.apply(obfuscatedText).asString(actualTextString);
     }
 }

@@ -13,6 +13,8 @@ import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.village.VillagerData;
+import net.minecraft.village.VillagerProfession;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +30,11 @@ public class RecruitTask extends Task<VillagerEntity> {
     }
 
     private boolean isRecipientQualified(VillagerEntity entity, LivingEntity recipient) {
-        return recipient instanceof VillagerEntity && recipient.distanceTo(entity) <= 4;
+        if (recipient instanceof VillagerEntity) {
+            VillagerData data = ((VillagerEntity) recipient).getVillagerData();
+            return (data.getProfession().equals(VillagerProfession.NONE) || data.getProfession().equals(VillagerProfession.NITWIT)) && recipient.distanceTo(entity) <= 4;
+        }
+        return false;
     }
 
     @Override

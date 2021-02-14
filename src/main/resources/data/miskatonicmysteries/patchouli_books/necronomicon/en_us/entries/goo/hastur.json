@@ -2,15 +2,29 @@
   "name": "The Yellow King",
   "category": "miskatonicmysteries:great_old_ones",
   "icon": "miskatonicmysteries:hastur_statue_terracotta",
+  "sortnum": 2,
   "pages": [
     {
       "type": "text",
-      "text": "Followers of the $(l:miskatonicmysteries:goo/hastur)$(marked)Yellow King$() call themselves “Yellow Serfs”, as they work for their king on what they consider his land and execute his will, which despite how dour it sound, tends to revolve around curing the sick and injured, devising new masterworks in his name, and spreading his influence, to encourage others to do the same."
+      "text": "$(marked)The Yellow King$() is known to associate with mortals fairly frequently, often acting as a noble king, and even a protector of shepherds.$(br)He is marked by the $(marked)Yellow Sign$(), a sigil which induces madness and paranoia in those that gaze upon it.$(br)Unlike the other Gods, he often has little interest in building up cults."
     },
     {
-      "type": "miskatonicmysteries:rite",
-      "rite": "miskatonicmysteries:hysteria",
-      "text": "Definitely make sure to cast this while sneaking to not accidentally start it normally."
+      "type": "text",
+      "text": "His very aura is known to grant people amazing artistic skills, be it only to express their unending fascination.$(br)Worshipers often feel the need to spread the Sign far and wide, inducting others. The King’s followers are all artists, and some are also known to be blessed with some of the strongest of all magics that the Old Ones can bestow on mortals."
+    },
+    {
+      "type": "miskatonicmysteries:obfuscated",
+      "title": "The King's Shadow",
+      "obfuscated_title": "King Shadow",
+      "stage": 1,
+      "obfuscated_text": "$(br2)King is art and a lot of it like daffodils and rosemary and caviar from the dirty pond no thoughts head empty only art",
+      "text": "$(br2)The Yellow King, in many ways, is the expression of the creation of art as a whole. Those feeling the royal exertion of the fields of daffodils and primroses are possessed with the need to create art and express their inner thoughts, be they rational or not."
+    },
+    {
+      "type": "miskatonicmysteries:obfuscated",
+      "stage": 1,
+      "obfuscated_text": "Art is truest, for it is all that we see$(br)Keep remaking, never let it be$(br)You searched for true power, but now all you found$(br)Is the beauty in it, immensely profound.",
+      "text": "The art is thus a conduit, encouraging others to feed the cycle of creation.$(br)Everything is beautiful, everything is art, everything has to be created, and everything has to be digested in the hearts and minds of everyone else. Understood, read, and later mutated and changed until it is nothing but a simulacra of itself."
     }
   ]
 }

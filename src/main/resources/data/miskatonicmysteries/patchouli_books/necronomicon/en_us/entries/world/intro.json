@@ -6,14 +6,20 @@
   "pages": [
     {
       "type": "text",
-      "text": "FNORD"
+      "text": "Welcome reader, to the fine arts of the invisible! This book, filled with the thoughts and experiences of many generations of practitioners, is meant to guide you through this unseen world and let you see beyond it.$(br)As a practitioner, or $(marked)Entheator$() as we like to call ourselves, there are several things we want future readers to know."
+    },
+    {
+      "type": "text",
+      "text": "The invisible arts focus a lot around our $(marked)Great Old Ones$(), ancient forces, entities, even places, if you will. They are outlined in another section of this book, though you should be aware that most Entheators affiliate with specific Old Ones.$(br)Entheators conduct their power using mostly $(marked)Rites$(), $(marked)Spells$() and sometimes even a dedicated $(marked)Ascension$() as a Name of a Great Old One."
+    },
+    {
+      "type": "text",
+      "text": "Within this book, you will find pages like the following that you might not yet understand. That's understandable, and given enough time and dedication, a Great Old One may reveal the secret needed for you to read the entry...$(br2)These types of entry will usually appear on a Great Old One's road to ascension."
     },
     {
       "type": "miskatonicmysteries:obfuscated",
-      "text": "Lorem ipsum docet iawigoagwj oi hgoaiwhgoawigh awgahowghawgihaw gaohwgouawghoaiwg awoggawigawo awhoawfhoawg",
-      "obfuscated_text": "OBFUSCATED TEXT moment. HOW",
-      "affiliation": "miskatonicmysteries:hastur",
-      "stage": 1
+      "stage": 1,
+      "text": "If you can read this, you are probably ready for the higher mysteries of the art; remember that whatever path you chose is final. Only true death can separate you from it. $(br2)Unless?"
     }
   ]
 }

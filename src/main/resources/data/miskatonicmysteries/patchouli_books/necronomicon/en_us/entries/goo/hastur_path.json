@@ -1,0 +1,50 @@
+{
+  "name": "The Golden Path",
+  "category": "miskatonicmysteries:great_old_ones",
+  "icon": "miskatonicmysteries:hastur_statue_gold",
+  "advancement": "miskatonicmysteries:hastur/hare_krishna",
+  "sortnum": 3,
+  "extra_recipe_mappings": {
+    "miskatonicmysteries:hastur_statue_stone": 4,
+    "miskatonicmysteries:hastur_statue_terracotta": 4
+  },
+  "pages": [
+    {
+      "type": "text",
+      "text": "As one travels the paths of villages and backroads of towns, they might notice strange figures like dancers adorned in the yellowest of robes, often with obscured faces.$(br)These are the $(l:miskatonicmysteries:bestiary/serfs)$(marked)Serfs and Vassals of the Yellow King$()."
+    },
+    {
+      "type": "text",
+      "text": "Protective of the villagers and welcoming to outsiders, these Serfs are often seen devoting themselves to art and protection, and often do not wish to be disturbed. However, those with antlered crowns are willing to help initiate others. Peruse their goods and their Masterpieces, and find yourself set on their path, eventually."
+    },
+    {
+      "type": "text",
+      "text": "In order to master art, one must first understand and appreciate it. Find fellow enthusiasts and discuss the art. If you don’t forget proper etiquette, they may eventually be willing to $(l:miskatonicmysteries:world/occult_knowledge#hastur_knowledge)$(marked)share their secrets$() in this book.$(br)Use this knowledge to cast the $(marked)Sculptor's Rite$(). Place this book on an $(l:miskatonicmysteries:world/altars)$(marked)Altar$() nearby, pick your material -$(marked)Stone$() or pure $(marked)Terracotta$()- and cast the Rite."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "anchor": "sculptor_rite",
+      "rite": "miskatonicmysteries:sculptor_rite",
+      "text": "The Rite will be very, $(o)very$() painful, so make sure you do not die."
+    },
+    {
+      "type": "text",
+      "text": "Give your newly created piece of art to a $(marked)Yellow Vassal$(). They will quickly introduce you, setting your path towards the Yellow King.$(br2)From there on, your ascent is most likely set in stone. You do not have any of the King's powers yet, but soon you will."
+    },
+    {
+      "type": "miskatonicmysteries:obfuscated",
+      "stage": 2,
+      "affiliation": "miskatonicmysteries:hastur",
+      "obfuscated_text": "Recruit Serfs if you want ig, it is quite useful for the following rite which requires loyal serfs. recruiting a villager requires them to be either a cleric or a nitwit",
+      "text": "As a Serf, you can $(marked)recruit$() other Villagers. The Villager must either be a Nitwit or a Cleric. Freshly recruited Villagers are usually very loyal, which comes in handy in the following step to the first $(marked)Blessing$(), which requires a few loyal Serfs. Note that recruiting new Serfs is optional, as any Serf who thinks highly of you may help you with that."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "stage": 2,
+      "affiliation": "miskatonicmysteries:hastur",
+      "rite": "miskatonicmysteries:golden_flock",
+      "obfuscated_text": "The humanoids must have their minds melt for it to be reshaped",
+      "text": "The converted Villager must be under the effect of $(marked)Mania$(), best achieved with the $(l:miskatonicmysteries:rites/hysteria)$(marked)Hysteria$() Rite."
+    }
+  ]
+}

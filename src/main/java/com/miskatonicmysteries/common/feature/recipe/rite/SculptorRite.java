@@ -64,8 +64,8 @@ public class SculptorRite extends Rite {
         if (octagram.tickCount > 0 && octagram.tickCount % 40 == 0 && octagram.tickCount <= 120) {
             World world = octagram.getWorld();
             if (!world.isClient) {
-                octagram.getOriginalCaster().damage(DamageSource.MAGIC, octagram.getOriginalCaster().getMaxHealth() / 2.5F);
-                octagram.getOriginalCaster().addStatusEffect(new StatusEffectInstance(MMStatusEffects.BLEED, 400, 2, true, false, false));
+                octagram.getOriginalCaster().damage(DamageSource.MAGIC, octagram.getOriginalCaster().getMaxHealth() / 3F);
+                octagram.getOriginalCaster().addStatusEffect(new StatusEffectInstance(MMStatusEffects.BLEED, 400, 1, true, false, false));
                 world.playSound(null, octagram.getPos(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.PLAYERS, 0.8F, 1.0F);
             } else {
                 Vec3d pos = octagram.getSummoningPos().add(0, 0.25F * octagram.tickCount / 40F, 0);
