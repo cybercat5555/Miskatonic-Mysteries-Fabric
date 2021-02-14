@@ -270,7 +270,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
                 }
                 tentacle.refreshPositionAndAngles(getX() + random.nextGaussian(), getY(), getZ() + random.nextGaussian(), 0.0F, 0.0F);
                 tentacle.setHeadYaw(random.nextInt(360));
-                tentacle.initialize((ServerWorld) world, world.getLocalDifficulty(getBlockPos()), SpawnReason.REINFORCEMENT, null, null);
+                tentacle.initialize((ServerWorld) world, world.getLocalDifficulty(getBlockPos()), SpawnReason.MOB_SUMMONED, null, null);
                 ((ServerWorld) world).spawnEntityAndPassengers(tentacle);
             }
         }

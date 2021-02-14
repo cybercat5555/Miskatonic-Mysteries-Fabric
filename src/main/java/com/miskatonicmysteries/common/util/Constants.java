@@ -117,6 +117,7 @@ public class Constants {
         public static final String OWNER = "Owner";
         public static final String TARGET = "Target";
         public static final String APPEASE_TICKS = "AppeaseTicks";
+        public static final String MONSTER = "isMonster";
     }
 
     public static class DataTrackers {

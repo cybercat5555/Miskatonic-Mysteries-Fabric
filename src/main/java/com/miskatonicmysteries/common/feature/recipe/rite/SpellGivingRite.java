@@ -25,12 +25,10 @@ import java.util.Random;
 
 public class SpellGivingRite extends AscensionLockedRite {
     private final SpellEffect grantedEffect;
-    private final String knowledge;
 
     public SpellGivingRite(SpellEffect effect, String knowledge, Identifier id, @Nullable Affiliation octagram, int stage, Ingredient... ingredients) {
         super(id, octagram, knowledge, 0.25F, stage, ingredients);
         this.grantedEffect = effect;
-        this.knowledge = knowledge;
     }
 
     @Override

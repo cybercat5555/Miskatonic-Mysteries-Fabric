@@ -6,10 +6,7 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.FollowTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -25,7 +22,10 @@ import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -40,6 +40,7 @@ import java.util.UUID;
 
 public abstract class TentacleEntity extends PathAwareEntity implements Affiliated, IAnimatable {
     private LivingEntity owner;
+    private boolean monster = false;
     private static final TrackedData<Optional<UUID>> OWNER = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
     private static final TrackedData<Optional<UUID>> SPECIFIC_TARGET = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
     private static final TrackedData<Boolean> BROAD_SWING = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -49,6 +50,14 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 
     protected TentacleEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    @Override
+    public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+        if (spawnReason != SpawnReason.MOB_SUMMONED) {
+            monster = true;
+        }
+        return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
     }
 
     @Override
@@ -78,12 +87,14 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
                 return true;
             }
         }
-
         if (getTargetUUID().isPresent() && getTargetUUID().get().equals(target.getUuid())) {
             return true;
         }
+        if (monster && !(target instanceof Monster)) {
+            return true;
+        }
         Affiliation affiliation = MiskatonicMysteriesAPI.getNonNullAffiliation(target, true);
-        if (target instanceof Monster && (getAffiliation(false) == MMAffiliations.NONE || affiliation == getAffiliation(true))) {
+        if ((!monster && target instanceof Monster) && (getAffiliation(false) == MMAffiliations.NONE || affiliation != getAffiliation(true))) {
             return true;
         }
         return target instanceof ProtagonistEntity;
@@ -122,6 +133,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         if (getTargetUUID().isPresent()) {
             tag.putUuid(Constants.NBT.TARGET, getTargetUUID().get());
         }
+        tag.putBoolean(Constants.NBT.MONSTER, monster);
     }
 
     @Override
@@ -130,6 +142,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         dataTracker.set(BROAD_SWING, tag.getBoolean(Constants.NBT.BROAD_SWING));
         dataTracker.set(OWNER, tag.contains(Constants.NBT.OWNER) ? Optional.of(tag.getUuid(Constants.NBT.OWNER)) : Optional.empty());
         dataTracker.set(SPECIFIC_TARGET, tag.contains(Constants.NBT.TARGET) ? Optional.of(tag.getUuid(Constants.NBT.TARGET)) : Optional.empty());
+        monster = tag.getBoolean(Constants.NBT.MONSTER);
     }
 
     @Override
@@ -259,7 +272,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 
     @Override
     protected boolean isDisallowedInPeaceful() {
-        return true;
+        return monster;
     }
 
     @Override

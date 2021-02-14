@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "minecraft:phantom",
-    "minecraft:enderman"
+    "minecraft:enderman",
+    "miskatonicmysteries:energy_tentacle"
   ]
 }
