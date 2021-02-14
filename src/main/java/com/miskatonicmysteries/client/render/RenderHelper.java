@@ -4,6 +4,7 @@ import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import ladysnake.satin.api.util.RenderLayerHelper;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.render.*;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
@@ -14,11 +15,12 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class RenderHelper extends RenderLayer {
-    private static final List<RenderLayer> PORTAL_LAYERS = IntStream.range(1, 17).mapToObj(RenderLayer::getEndPortal).collect(Collectors.toList());
+    public static final List<RenderLayer> PORTAL_LAYERS = IntStream.range(1, 17).mapToObj(RenderLayer::getEndPortal).collect(Collectors.toList());
     public static final RenderPhase.Transparency AURA_TRANSPARENCY = new RenderPhase.Transparency(Constants.MOD_ID + ":aura_transparency", () -> {
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
@@ -118,6 +120,10 @@ public class RenderHelper extends RenderLayer {
         vertexConsumer.vertex(matrix4f, size, 0, size).color(r, g, b, rgb[3]).next();
         vertexConsumer.vertex(matrix4f, size, 0, 0).color(r, g, b, rgb[3]).next();
         vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, rgb[3]).next();
+    }
+
+    public static void renderModelAsPortal(VertexConsumerProvider provider, MatrixStack matrices, int light, int overlay, Model model, float[] rgb, float alpha, Random random, int layer) {
+        model.render(matrices, provider.getBuffer(PORTAL_LAYERS.get(layer)), light, overlay, rgb[0], rgb[1], rgb[2], alpha);
     }
 
     public static int getDepthFromDistance(double distance) {

@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.registry;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.rite.*;
+import com.miskatonicmysteries.common.feature.recipe.rite.summon.PrinceSummoningRite;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -19,6 +20,7 @@ public class MMRites {
     public static final Rite HYSTERIA = new HysteriaRite();
     public static final Rite SCULPTOR_RITE = new SculptorRite();
     public static final Rite GOLDEN_FLOCK_RITE = new GoldenFlockRite();
+    public static final Rite SUMMON_PRINCE_RITE = new PrinceSummoningRite();
 
     public static final Rite REGENERATION_SPELL_RITE = new SpellGivingRite(MMSpellEffects.HEAL, Constants.Misc.WITCH_KNOWLEDGE, new Identifier(Constants.MOD_ID, "regeneration"), null, 0,
             Ingredient.ofItems(Items.GLISTERING_MELON_SLICE), Ingredient.ofItems(MMObjects.OCEANIC_GOLD), Ingredient.ofItems(Items.SPONGE), Ingredient.ofItems(Items.GOLDEN_APPLE), Ingredient.ofItems(Items.GHAST_TEAR));
@@ -34,6 +36,7 @@ public class MMRites {
         register(HYSTERIA);
         register(SCULPTOR_RITE);
         register(GOLDEN_FLOCK_RITE);
+        register(SUMMON_PRINCE_RITE);
 
         register(REGENERATION_SPELL_RITE);
         register(RESISTANCE_SPELL_RITE);

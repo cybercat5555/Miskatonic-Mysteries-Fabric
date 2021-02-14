@@ -234,6 +234,7 @@
   "rite.miskatonicmysteries.regeneration": "Learn Heal",
   "rite.miskatonicmysteries.resistance": "Learn Resistance",
   "rite.miskatonicmysteries.knockback": "Learn Knockback",
+  "rite.miskatonicmysteries.summon_prince": "Golden Coronation",
   "comment11": "CONFIG",
   "text.autoconfig.miskatonicmysteries.title": "Miskatonic Mysteries Config",
   "text.autoconfig.miskatonicmysteries.option.modUpdateInterval": "Semi-Trivial Update Interval",

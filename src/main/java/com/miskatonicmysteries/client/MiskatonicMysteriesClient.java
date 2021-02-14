@@ -5,6 +5,7 @@ import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.item.GunItem;
 import com.miskatonicmysteries.client.gui.HUDHandler;
+import com.miskatonicmysteries.client.model.entity.TatteredPrinceRenderer;
 import com.miskatonicmysteries.client.model.entity.phantasma.AberrationModel;
 import com.miskatonicmysteries.client.model.entity.phantasma.PhantasmaModel;
 import com.miskatonicmysteries.client.render.ResourceHandler;
