@@ -25,8 +25,7 @@ import java.util.Random;
 
 public class GoldenFlockRite extends AscensionLockedRite {
     public GoldenFlockRite() {
-        super(new Identifier(Constants.MOD_ID, "golden_flock"), MMAffiliations.HASTUR, 0.5F, 1, Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
-
+        super(new Identifier(Constants.MOD_ID, "golden_flock"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.5F, 1, Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
     }
 
     @Override

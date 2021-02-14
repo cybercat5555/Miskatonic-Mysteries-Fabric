@@ -14,16 +14,24 @@ import javax.annotation.Nullable;
 public abstract class AscensionLockedRite extends Rite {
     private final int stage;
     private final Affiliation ascensionAffiliation;
+    private final String knowledge;
 
-    public AscensionLockedRite(Identifier id, @Nullable Affiliation octagram, float investigatorChance, int stage, Ingredient... ingredients) {
+    public AscensionLockedRite(Identifier id, @Nullable Affiliation octagram, String knowledge, float investigatorChance, int stage, Ingredient... ingredients) {
         super(id, octagram, investigatorChance, ingredients);
         this.stage = stage;
         this.ascensionAffiliation = octagram;
+        this.knowledge = knowledge;
     }
 
     @Override
     public boolean canCast(OctagramBlockEntity octagram) {
         if (super.canCast(octagram)) {
+            if (!octagram.doesNearestAltarHaveKnowledge(knowledge)) {
+                if (octagram.getOriginalCaster() != null) {
+                    octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.knowledge"), true);
+                }
+                return false;
+            }
             if (Ascendant.of(octagram.getOriginalCaster()).isPresent()) {
                 Ascendant ascendant = Ascendant.of(octagram.getOriginalCaster()).get();
                 if (ascensionAffiliation != null && !ascensionAffiliation.equals(MiskatonicMysteriesAPI.getNonNullAffiliation(octagram.getOriginalCaster(), false))) {
