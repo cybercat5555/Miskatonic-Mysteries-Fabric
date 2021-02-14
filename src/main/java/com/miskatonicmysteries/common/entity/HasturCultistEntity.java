@@ -135,6 +135,9 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
             }
             return ActionResult.SUCCESS;
         }
+        if (isLoyalTo(player)) {
+            world.sendEntityStatus(this, (byte) 14);
+        }
         return super.interactMob(player, hand);
     }
 
@@ -434,5 +437,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         return isAscended();
     }
 
-
+    public boolean isLoyalTo(PlayerEntity player) {
+        return getReputation(player) >= 50;
+    }
 }

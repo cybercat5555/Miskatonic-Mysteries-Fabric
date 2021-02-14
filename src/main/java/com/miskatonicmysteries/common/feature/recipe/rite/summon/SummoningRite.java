@@ -52,7 +52,6 @@ public abstract class SummoningRite<T extends Entity> extends AscensionLockedRit
             entity.updatePositionAndAngles(pos.x, pos.y, pos.z, direction.asRotation() + 180, 90);
             addDataToSummon(world, octagram, entity);
             world.spawnEntityAndPassengers(entity);
-            octagram.sync();
         }
         super.onFinished(octagram);
     }
@@ -66,22 +65,23 @@ public abstract class SummoningRite<T extends Entity> extends AscensionLockedRit
     @Override
     public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
         super.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
-        float alpha = entity.tickCount > 20 ? 1 : entity.tickCount / (float) 20;
-        float[] rgb = entity.getAffiliation(true).getColor();
-        renderPortalOctagram(alpha, rgb, entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
-        Model model = getRenderedModel(entity);
-        double distance = entity.getPos().getSquaredDistance(dispatcher.camera.getPos(), true);
-        int renderDepth = Math.max(RenderHelper.getDepthFromDistance(distance) - 14, 1);
-        matrixStack.translate(1.5, 1.5, 1.5);
-        matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180));
-        matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180));
-        RenderSystem.enableBlend();
-        alpha = entity.tickCount / 200F;
-        model.render(matrixStack, ResourceHandler.TOTAL_DARK.getSprite().getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderHelper.getTransparency())), 0, overlay, 0, 0, 0, alpha);
-        for (int i = 0; i < renderDepth; i++) {
-            RenderHelper.renderModelAsPortal(vertexConsumers, matrixStack, light, overlay, model, rgb, alpha, entity.getWorld().random, i + 11);
+        if (entity.tickCount > 0) {
+            float alpha = entity.tickCount > 20 ? 1 : entity.tickCount / (float) 20;
+            float[] rgb = entity.getAffiliation(true).getColor();
+            renderPortalOctagram(alpha, rgb, entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
+            Model model = getRenderedModel(entity);
+            double distance = entity.getPos().getSquaredDistance(dispatcher.camera.getPos(), true);
+            int renderDepth = Math.max(RenderHelper.getDepthFromDistance(distance) - 15 + (4 * entity.tickCount / tickCount), 0);
+            matrixStack.translate(1.5, 1.5, 1.5);
+            matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180));
+            matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180));
+            RenderSystem.enableBlend();
+            alpha = entity.tickCount / 200F;
+            model.render(matrixStack, ResourceHandler.TOTAL_DARK.getSprite().getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderHelper.getTransparency())), 0, overlay, 0, 0, 0, alpha);
+            for (int i = 0; i < renderDepth; i++) {
+                RenderHelper.renderModelAsPortal(vertexConsumers, matrixStack, light, overlay, model, rgb, alpha, entity.getWorld().random, i + 11);
+            }
         }
-        RenderSystem.defaultBlendFunc();
     }
 
     @Environment(EnvType.CLIENT)

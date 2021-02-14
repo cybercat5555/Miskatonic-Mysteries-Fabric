@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:cow",
+    "minecraft:sheep",
+    "minecraft:pig",
+    "minecraft:mooshroom",
+    "minecraft:villager",
+    "minecraft:player"
+  ]
+}

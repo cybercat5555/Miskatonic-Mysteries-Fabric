@@ -142,6 +142,7 @@
   "message.miskatonicmysteries.ascension_stage_fail": "You are not yet ready to cast this",
   "message.miskatonicmysteries.spell_rite_fail": "You already know this spell effect",
   "message.miskatonicmysteries.rite_fail.knowledge": "You lack the knowledge to cast this",
+  "message.miskatonicmysteries.summon_prince_fail.cultists": "This Rite needs at least 4 loyal Serfs (%d nearby)",
   "comment6": "COMMANDS",
   "miskatonicmysteries.command.stats": "Showing Miskatonic Mysteries statistics for player %s:",
   "miskatonicmysteries.command.miskatonicmysteries.get_sanity": "%s's sanity level is %d",

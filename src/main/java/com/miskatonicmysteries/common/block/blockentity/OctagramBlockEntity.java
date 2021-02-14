@@ -47,9 +47,29 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
     public Pair<Identifier, BlockPos> boundPos = null;
     public boolean triggered;
     public Entity targetedEntity = null;
+    /**
+     * Octagram flags may be used by Rites
+     * Reserved flags:
+     * 1 - Bloody (has something been sacrificed nearby?)
+     */
+    private byte octagramFlags;
+
     public OctagramBlockEntity() {
         super(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
 
+    }
+
+    public void setFlag(int index, boolean value) {
+        if (value) {
+            octagramFlags |= 1 << index;
+        } else {
+            octagramFlags &= ~(1 << index);
+        }
+        markDirty();
+    }
+
+    public boolean getFlag(int index) {
+        return (octagramFlags & 1 << index) != 0;
     }
 
     @Override
@@ -68,6 +88,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
             tag.putLong(Constants.NBT.POSITION, boundPos.getSecond().asLong());
         }
         tag.putBoolean(Constants.NBT.TRIGGERED, triggered);
+        tag.putByte(Constants.NBT.FLAGS, octagramFlags);
         return super.toTag(tag);
     }
 
@@ -89,6 +110,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
             boundPos = new Pair<>(new Identifier(tag.getString(Constants.NBT.DIMENSION)), BlockPos.fromLong(tag.getLong(Constants.NBT.POSITION)));
         }
         triggered = tag.getBoolean(Constants.NBT.TRIGGERED);
+        octagramFlags = tag.getByte(Constants.NBT.FLAGS);
         super.fromTag(state, tag);
     }
 
@@ -128,9 +150,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
             if (currentRite.shouldContinue(this)) {
                 currentRite.tick(this);
                 if (currentRite.isFinished(this)) {
-                    if (!world.isClient) {
-                        sync();
-                    }
+
                     if (getOriginalCaster() instanceof ServerPlayerEntity) {
                         MMCriteria.RITE_CAST.trigger((ServerPlayerEntity) getOriginalCaster(), currentRite);
                     }
@@ -143,13 +163,17 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
                         tickCount = 0;
                         currentRite = null;
                         targetedEntity = null;
+                        setFlag(0, false);
                     }
-
+                    if (!world.isClient) {
+                        sync();
+                    }
                 }
             } else {
                 currentRite.onCancelled(this);
                 originalCaster = null;
                 currentRite = null;
+                setFlag(0, false);
                 if (!world.isClient) {
                     sync();
                 }

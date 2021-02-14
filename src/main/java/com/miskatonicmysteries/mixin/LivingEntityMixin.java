@@ -2,6 +2,7 @@ package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.api.interfaces.Appeasable;
 import com.miskatonicmysteries.api.interfaces.DropManipulator;
+import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.Entity;
@@ -10,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,6 +29,24 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
+    }
+
+    @Inject(method = "onKilledBy", at = @At("HEAD"))
+    private void onKilledBy(@Nullable LivingEntity adversary, CallbackInfo ci) {
+        if (!world.isClient && getType().isIn(Constants.Tags.VALID_SACRIFICES)) {
+            Iterable<BlockPos> positions = BlockPos.iterateOutwards(getBlockPos(), 6, 6, 6);
+            for (BlockPos position : positions) {
+                if (world.getBlockEntity(position) instanceof OctagramBlockEntity) {
+                    OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(position);
+                    if (octagram.currentRite != null) {
+                        octagram.setFlag(0, true);
+                        octagram.markDirty();
+                        octagram.sync();
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override
