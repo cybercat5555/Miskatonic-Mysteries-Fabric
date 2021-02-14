@@ -2,17 +2,13 @@ package com.miskatonicmysteries.common.entity.ai.task;
 
 import com.google.common.collect.ImmutableMap;
 import com.miskatonicmysteries.api.interfaces.CastingMob;
-import com.miskatonicmysteries.api.registry.SpellEffect;
-import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.registry.MMSpellEffects;
-import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -37,25 +33,13 @@ public class CastSpellTask extends Task<VillagerEntity> {
     protected void run(ServerWorld world, VillagerEntity entity, long time) {
         if (entity instanceof CastingMob) {
             timer = 60;
-            SpellEffect effect = MMSpellEffects.KNOCKBACK;
-            SpellMedium medium = MMSpellMediums.MOB_TARGET;
-            LivingEntity target = getTarget(entity);
-            int intensity = 1 + entity.getRandom().nextInt(2);
-            if (entity.getRandom().nextBoolean() && entity.getHealth() < entity.getMaxHealth()) {
-                effect = MMSpellEffects.HEAL;
-                medium = MMSpellMediums.GROUP;
-            } else if (entity.getRandom().nextBoolean() && target.distanceTo(entity) > 12) {
-                effect = MMSpellEffects.DAMAGE;
-                medium = MMSpellMediums.BOLT;
-                intensity = 1;
+            Spell spell = ((CastingMob) entity).selectSpell();
+            if (spell.effect == MMSpellEffects.DAMAGE) {
                 timer = 40;
-            } else if (!entity.hasStatusEffect(StatusEffects.RESISTANCE)) {
-                effect = MMSpellEffects.RESISTANCE;
-                medium = MMSpellMediums.GROUP;
             }
-            ((CastingMob) entity).setCurrentSpell(new Spell(medium, effect, intensity));
+            ((CastingMob) entity).setCurrentSpell(spell);
             ((CastingMob) entity).setCastTime(timer);
-            LookTargetUtil.lookAt(entity, target);
+            LookTargetUtil.lookAt(entity, getTarget(entity));
         }
     }
 }

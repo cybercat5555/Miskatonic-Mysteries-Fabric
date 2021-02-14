@@ -4,13 +4,12 @@ import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.CastingMob;
 import com.miskatonicmysteries.api.item.MMBookItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.entity.brain.HasturCultistBrain;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
-import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.registry.MMEntities;
-import com.miskatonicmysteries.common.registry.MMObjects;
-import com.miskatonicmysteries.common.registry.MMTrades;
+import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.LivingEntityAccessor;
 import com.mojang.serialization.Dynamic;
@@ -24,6 +23,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
@@ -399,8 +399,22 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public Spell selectSpell() {
-        //return null because it's already handled in the very specific task
-        return null;
+        SpellEffect effect = MMSpellEffects.KNOCKBACK;
+        SpellMedium medium = MMSpellMediums.MOB_TARGET;
+        LivingEntity target = getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
+        int intensity = 1 + getRandom().nextInt(2);
+        if (getRandom().nextBoolean() && getHealth() < getMaxHealth()) {
+            effect = MMSpellEffects.HEAL;
+            medium = MMSpellMediums.GROUP;
+        } else if (getRandom().nextBoolean() && target.distanceTo(this) > 6) {
+            effect = MMSpellEffects.DAMAGE;
+            medium = MMSpellMediums.BOLT;
+            intensity = 1;
+        } else if (!hasStatusEffect(StatusEffects.RESISTANCE)) {
+            effect = MMSpellEffects.RESISTANCE;
+            medium = MMSpellMediums.GROUP;
+        }
+        return new Spell(medium, effect, intensity);
     }
 
     @Override

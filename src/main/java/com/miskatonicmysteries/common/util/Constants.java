@@ -58,7 +58,6 @@ public class Constants {
         public static final Tag<Item> YELLOW_DYE = TagRegistry.item(new Identifier(MOD_ID, "yellow_dye"));
         public static final Tag<Item> RITE_TOOLS = TagRegistry.item(new Identifier(MOD_ID, "rite_tools"));
         public static final Tag<Item> HASTUR_CULTIST_OFFERINGS = TagRegistry.item(new Identifier(MOD_ID, "hastur_cultist_offerings"));
-        public static final Tag<Item> SCULPTOR_RITE_INGREDIENTS = TagRegistry.item(new Identifier(MOD_ID, "sculptor_rite_ingredients"));
         public static final Tag<EntityType<?>> BURNED_VEIL_MOBS = TagRegistry.entityType(new Identifier(MOD_ID, "burned_veil_mobs"));
         public static final Tag<EntityType<?>> BROKEN_VEIL_MOBS = TagRegistry.entityType(new Identifier(MOD_ID, "broken_veil_mobs"));
     }
@@ -113,9 +112,6 @@ public class Constants {
         public static final String RADIUS = "Radius";
         public static final String ENERGY = "Energy";
         public static final String PLAYER_NAME = "PlayerName";
-        public static final String MARKED_VILLAGES = "MarkedVillages";
-        public static final String MARKER_POS = "MarkerPosition";
-        public static final String VILLAGE_POS = "VillagePosition";
         public static final String SPELL_BURNOUT = "SpellBurnout";
         public static final String BROAD_SWING = "BroadSwing";
         public static final String OWNER = "Owner";

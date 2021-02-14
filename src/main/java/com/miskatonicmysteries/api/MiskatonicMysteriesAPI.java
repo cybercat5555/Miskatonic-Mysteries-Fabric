@@ -121,7 +121,7 @@ public class MiskatonicMysteriesAPI {
     }
 
     public static boolean isDefiniteAffiliated(Object object) {
-        return Affiliated.of(object).isPresent() && Affiliated.of(object).get().getAffiliation(false) != MMAffiliations.NONE;
+        return Affiliated.of(object).isPresent() && Affiliated.of(object).get().getAffiliation(false) != MMAffiliations.NONE && Affiliated.of(object).get().isSupernatural();
     }
 
     public static boolean isImmuneToYellowSign(LivingEntity entity) {

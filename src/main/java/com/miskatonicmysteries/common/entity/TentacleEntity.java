@@ -66,7 +66,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         this.targetSelector.add(0, new FollowTargetGoal<>(this, LivingEntity.class, 10, false, false, this::isValidTarget));
     }
 
-    private boolean isValidTarget(LivingEntity target) {
+    protected boolean isValidTarget(LivingEntity target) {
         if (getOwnerUUID().isPresent()) {
             if (target.getUuid().equals(getOwnerUUID().get())) {
                 if (owner == null) {
@@ -78,17 +78,15 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
                 return true;
             }
         }
+
         if (getTargetUUID().isPresent() && getTargetUUID().get().equals(target.getUuid())) {
             return true;
         }
-        if (target instanceof Monster) {
+        Affiliation affiliation = MiskatonicMysteriesAPI.getNonNullAffiliation(target, true);
+        if (target instanceof Monster && (getAffiliation(false) == MMAffiliations.NONE || affiliation == getAffiliation(true))) {
             return true;
         }
-        if (target instanceof TentacleEntity && ((TentacleEntity) target).getOwnerUUID().equals(getOwnerUUID())) {
-            return false;
-        }
-        Affiliation affiliation = MiskatonicMysteriesAPI.getNonNullAffiliation(target, true);
-        return getAffiliation(true) == MMAffiliations.NONE && affiliation != getAffiliation(true);
+        return target instanceof ProtagonistEntity;
     }
 
     @Override
