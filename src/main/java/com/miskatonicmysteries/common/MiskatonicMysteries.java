@@ -40,6 +40,7 @@ public class MiskatonicMysteries implements ModInitializer {
         MMTrades.init();
         MMCriteria.init();
         MMRecipes.init();
+        MMInsanityEvents.init();
         TrinketSlots.addSlot(SlotGroups.HEAD, Slots.MASK, new Identifier("trinkets", "textures/item/empty_trinket_slot_mask.png"));
         TrackedDataHandlerRegistry.register(MiskatonicMysteriesAPI.AFFILIATION_TRACKER);
         ArgumentTypes.register("insanity_event", ModCommand.InsanityEventArgumentType.class, new ConstantArgumentSerializer(IdentifierArgumentType::identifier));

@@ -8,12 +8,16 @@ import net.minecraft.util.Identifier;
 public class InsanityEvent {
     public final float baseChance;
     public final int insanityThreshold;
-    public final Identifier id;
+    private final Identifier id;
 
     public InsanityEvent(Identifier id, float baseChance, int insanityThreshold) {
         this.id = id;
         this.baseChance = baseChance;
         this.insanityThreshold = insanityThreshold;
+    }
+
+    public Identifier getId() {
+        return id;
     }
 
     public boolean execute(PlayerEntity playerEntity, Sanity sanity) {

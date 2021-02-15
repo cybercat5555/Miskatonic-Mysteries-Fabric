@@ -57,11 +57,13 @@ public class Constants {
         public static final Tag<Item> RED_MEAT = TagRegistry.item(new Identifier(MOD_ID, "red_meat"));
         public static final Tag<Item> YELLOW_DYE = TagRegistry.item(new Identifier(MOD_ID, "yellow_dye"));
         public static final Tag<Item> RITE_TOOLS = TagRegistry.item(new Identifier(MOD_ID, "rite_tools"));
+        public static final Tag<Item> GROSS_FOOD = TagRegistry.item(new Identifier(MOD_ID, "gross_food"));
 
         public static final Tag<Item> HASTUR_CULTIST_OFFERINGS = TagRegistry.item(new Identifier(MOD_ID, "hastur_cultist_offerings"));
         public static final Tag<EntityType<?>> BURNED_VEIL_MOBS = TagRegistry.entityType(new Identifier(MOD_ID, "burned_veil_mobs"));
         public static final Tag<EntityType<?>> BROKEN_VEIL_MOBS = TagRegistry.entityType(new Identifier(MOD_ID, "broken_veil_mobs"));
         public static final Tag<EntityType<?>> VALID_SACRIFICES = TagRegistry.entityType(new Identifier(MOD_ID, "valid_sacrifices"));
+
     }
 
     public static class NBT {

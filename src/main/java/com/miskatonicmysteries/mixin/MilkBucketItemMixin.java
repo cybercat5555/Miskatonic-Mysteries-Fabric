@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MilkBucketItem.class)
 public class MilkBucketItemMixin {
     @Unique
-    private static final StatusEffect[] persistentStatusEffects = {MMStatusEffects.MANIA, MMStatusEffects.OVERMEDICATED};
+    private static final StatusEffect[] persistentStatusEffects = {MMStatusEffects.MANIA, MMStatusEffects.OVERMEDICATED, MMStatusEffects.EXOTIC_CRAVINGS};
 
     @Inject(method = "finishUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;clearStatusEffects()Z"), cancellable = true)
     private void finishUsing(ItemStack stack, World world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir) {

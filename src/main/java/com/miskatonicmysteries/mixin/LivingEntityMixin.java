@@ -8,8 +8,10 @@ import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -49,6 +51,19 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
         }
     }
 
+    @Inject(method = "eatFood", at = @At("HEAD"), cancellable = true)
+    private void eatFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
+        if (hasStatusEffect(MMStatusEffects.EXOTIC_CRAVINGS)) {
+            if (!stack.getItem().isIn(Constants.Tags.GROSS_FOOD)) {
+                damage(DamageSource.STARVE, 4);
+            } else {
+                StatusEffectInstance instance = getStatusEffect(MMStatusEffects.EXOTIC_CRAVINGS);
+                removeStatusEffect(MMStatusEffects.EXOTIC_CRAVINGS);
+                addStatusEffect(new StatusEffectInstance(instance.getEffectType(), instance.getDuration() - (200 - instance.getAmplifier() * 40), instance.getAmplifier(), false, true));
+            }
+        }
+    }
+
     @Override
     public boolean hasOverridenDrops() {
         return overrideDrops;
@@ -74,6 +89,15 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 
     @Shadow
     public abstract @Nullable StatusEffectInstance getStatusEffect(StatusEffect effect);
+
+    @Shadow
+    public abstract boolean damage(DamageSource source, float amount);
+
+    @Shadow
+    public abstract boolean removeStatusEffect(StatusEffect type);
+
+    @Shadow
+    public abstract boolean addStatusEffect(StatusEffectInstance effect);
 
     @Inject(method = "heal", at = @At("HEAD"), cancellable = true)
     private void preventHeal(float amount, CallbackInfo callbackInfo) {
