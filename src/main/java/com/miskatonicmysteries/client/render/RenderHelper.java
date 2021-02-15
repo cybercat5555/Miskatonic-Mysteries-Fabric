@@ -60,7 +60,7 @@ public class RenderHelper extends RenderLayer {
 
     public static final RenderLayer AURA_LAYER = RenderLayer.of(Constants.MOD_ID + ":aura_layer", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, AURA_PARAMS);
     public static final RenderLayer TRANSPARENCY_LAYER = RenderLayer.of(Constants.MOD_ID + ":transparent", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, TRANSPARENCY_PARAMS);
-    public static final RenderLayer BOLT_LAYER = RenderLayer.of(Constants.MOD_ID + ":bolt", VertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, false, true, RenderLayerHelper.copyPhaseParameters(getLightning(), builder -> builder.transparency(TRANSLUCENT_TRANSPARENCY)));
+    public static final RenderLayer BOLT_LAYER = RenderLayer.of(Constants.MOD_ID + ":bolt", VertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, false, true, RenderLayerHelper.copyPhaseParameters(getLightning(), builder -> builder.transparency(AURA_TRANSPARENCY)));
 
     public RenderHelper(String name, VertexFormat vertexFormat, int drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, Runnable startAction, Runnable endAction) {
         super(name, vertexFormat, drawMode, expectedBufferSize, hasCrumbling, translucent, startAction, endAction);

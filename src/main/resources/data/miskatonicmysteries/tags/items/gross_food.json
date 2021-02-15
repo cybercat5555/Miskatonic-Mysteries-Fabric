@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecraft:raw_chicken",
+    "minecraft:chicken",
     "minecraft:spider_eye",
     "minecraft:rotten_flesh"
   ]

@@ -14,6 +14,7 @@ import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.goal.*;
@@ -27,8 +28,10 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.Hand;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -42,6 +45,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nullable;
+import java.util.EnumSet;
 
 public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable, Affiliated, CastingMob {
     private final ServerBossBar bossBar;
@@ -56,11 +60,6 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
         bossBar = new ServerBossBar(getDisplayName(), BossBar.Color.YELLOW, BossBar.Style.PROGRESS);
         ((MobNavigation) this.getNavigation()).setCanPathThroughDoors(true); //probably make own navigation that allows re-size, or do teleport ig
         this.getNavigation().setCanSwim(true);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
     }
 
     @Override
@@ -104,7 +103,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
         this.goalSelector.add(0, new LongDoorInteractGoal(this, false));
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new CastSpellGoal<>(this));
-        this.goalSelector.add(3, new MeleeAttackGoal(this, 1.2D, false));
+        this.goalSelector.add(3, new SwingAtTargetGoal());
         this.goalSelector.add(4, new LookAroundGoal(this));
         this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 12));
         this.goalSelector.add(6, new WanderAroundFarGoal(this, 1.0D));
@@ -147,7 +146,9 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 20, this::animationPredicate));
+        //separate controllers so the tentacles can always move independently
+        data.addAnimationController(new AnimationController<>(this, "main_controller", 20, this::animationPredicate));
+        data.addAnimationController(new AnimationController<>(this, "movement_controller", 20, this::movementAnimationPredicate));
     }
 
     @Override
@@ -156,14 +157,33 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     }
 
     public <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
-        if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("walking", true));
+        if (getHandSwingProgress(1) > 0) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("attack_melee", false));
             return PlayState.CONTINUE;
         }
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+        if (getCastTime() > 0) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("attack_yeet_loop", true));
+            return PlayState.CONTINUE;
+        }
+        if (event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("walking_upper", true));
+            return PlayState.CONTINUE;
+        }
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("body_idle", true));
         return PlayState.CONTINUE;
     }
 
+    public <P extends IAnimatable> PlayState movementAnimationPredicate(AnimationEvent<P> event) {
+        float limbSwingAmount = event.getLimbSwingAmount();
+        boolean isMoving = !(limbSwingAmount > -0.4F && limbSwingAmount < 0.4F);
+        if (isMoving) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("walking_lower", true));
+            return PlayState.CONTINUE;
+        } else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("tentacle_idle", true));
+        }
+        return PlayState.CONTINUE;
+    }
 
     @Override
     public boolean canBeLeashedBy(PlayerEntity player) {
@@ -178,7 +198,21 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 
     @Override
     public void tickMovement() {
-        this.tickHandSwing();
+        int maxProgress = 40;
+        int hitTick = 20;
+        if (this.handSwinging) {
+            ++this.handSwingTicks;
+            if (handSwingTicks == hitTick && getTarget() != null) {
+                tryAttack(getTarget());
+            }
+            if (this.handSwingTicks >= maxProgress) {
+                this.handSwingTicks = 0;
+                this.handSwinging = false;
+            }
+        } else {
+            this.handSwingTicks = 0;
+        }
+        this.handSwingProgress = (float) this.handSwingTicks / maxProgress;
         super.tickMovement();
     }
 
@@ -245,5 +279,67 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     @Override
     public boolean isSupernatural() {
         return true;
+    }
+
+    public class SwingAtTargetGoal extends Goal {
+        private int updateCountdownTicks;
+
+        public SwingAtTargetGoal() {
+            this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+        }
+
+        public boolean canStart() {
+            return getTarget() != null;
+        }
+
+        public boolean shouldContinue() {
+            if (!canStart()) {
+                return false;
+            } else {
+                LivingEntity target = getTarget();
+                return !(target instanceof PlayerEntity) || !target.isSpectator() && !((PlayerEntity) target).isCreative();
+            }
+        }
+
+        public void start() {
+            setAttacking(true);
+            updateCountdownTicks = 0;
+        }
+
+        public void stop() {
+            LivingEntity livingEntity = getTarget();
+            if (!EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(livingEntity)) {
+                setTarget(null);
+            }
+            setAttacking(false);
+            getNavigation().stop();
+        }
+
+        public void tick() {
+            LivingEntity target = getTarget();
+            double d = squaredDistanceTo(target);
+            this.updateCountdownTicks = Math.max(this.updateCountdownTicks - 1, 0);
+            if ((canSee(target)) && this.updateCountdownTicks <= 0 || squaredDistanceTo(target) >= 1.0D || getRandom().nextFloat() < 0.05F) {
+                this.updateCountdownTicks = 4 + getRandom().nextInt(7);
+                if (d > 1024.0D) {
+                    this.updateCountdownTicks += 10;
+                } else if (d > 256.0D) {
+                    this.updateCountdownTicks += 5;
+                }
+
+                if (!getNavigation().startMovingTo(target, 1)) {
+                    this.updateCountdownTicks += 15;
+                }
+            }
+
+            getLookControl().lookAt(target, 30, 30);
+            if (this.getSquaredMaxAttackDistance(target) >= squaredDistanceTo(target) && !handSwinging) {
+                swingHand(Hand.MAIN_HAND);
+            }
+        }
+
+        protected double getSquaredMaxAttackDistance(LivingEntity entity) {
+            return (getWidth() * 2.0F * getWidth() * 2.0F + entity.getWidth());
+        }
     }
 }
