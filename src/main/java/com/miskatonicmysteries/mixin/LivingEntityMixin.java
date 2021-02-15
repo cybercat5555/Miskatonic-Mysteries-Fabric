@@ -2,6 +2,7 @@ package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.api.interfaces.Appeasable;
 import com.miskatonicmysteries.api.interfaces.DropManipulator;
+import com.miskatonicmysteries.api.interfaces.Hallucination;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
@@ -124,6 +125,15 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
     private void appease(EntityType<?> type, CallbackInfoReturnable<Boolean> cir) {
         if (Appeasable.of(this).isPresent() && Appeasable.of(this).get().isAppeased()) {
             cir.setReturnValue(false);
+        }
+    }
+
+    @Inject(method = "damage", at = @At("TAIL"), cancellable = true)
+    private void hit(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if (Hallucination.of(this).isPresent() && Hallucination.of(this).get().getHallucinationTarget().isPresent()) {
+            if (source.getAttacker() != null) {
+                remove();
+            }
         }
     }
 }

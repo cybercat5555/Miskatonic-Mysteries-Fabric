@@ -2,6 +2,8 @@ package com.miskatonicmysteries.mixin.client;
 
 import com.google.common.collect.ImmutableList;
 import com.miskatonicmysteries.common.registry.MMParticles;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.particle.ParticleTextureSheet;
 import net.minecraft.client.texture.TextureManager;
@@ -16,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
+@Environment(EnvType.CLIENT)
 @Mixin(ParticleManager.class)
 public class ParticleManagerMixin {
     @Mutable

@@ -123,6 +123,7 @@ public class Constants {
         public static final String APPEASE_TICKS = "AppeaseTicks";
         public static final String MONSTER = "isMonster";
         public static final String FLAGS = "Flags";
+        public static final String HALLUCINATION = "Hallucination";
     }
 
     public static class DataTrackers {
@@ -144,7 +145,6 @@ public class Constants {
         public static final int MAX_BLESSINGS = 3;
 
         public static final TrackedData<Float> RESONANCE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
-
     }
 
     public static class DamageSources extends DamageSource {

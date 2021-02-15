@@ -32,11 +32,6 @@ public class CommandDrivenInsanityEvent extends InsanityEvent implements DataSer
         return true;
     }
 
-    @Override
-    public Identifier getId() {
-        return id;
-    }
-
     public static class Serializer extends DataSerializable.DataReader<InsanityEvent> {
         @Override
         public InsanityEvent readFromJson(Identifier id, JsonObject json) {

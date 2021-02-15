@@ -6,8 +6,10 @@
   "mixins": [
     "BlockMixin",
     "BrewingRecipeRegistryAccessor",
+    "CreeperEntityMixin",
     "CropMixin",
     "DataLoadMixin",
+    "EntityMixin",
     "ItemMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",
@@ -28,6 +30,7 @@
   ],
   "client": [
     "client.ClientPlayNetworkHandlerMixin",
+    "client.MobEntityRendererMixin",
     "client.ParticleManagerMixin",
     "client.PlayerModelMixin"
   ],
