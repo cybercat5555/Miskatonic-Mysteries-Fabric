@@ -1,6 +1,0 @@
-{
-  "type": "miskatonicmysteries:insanity_event",
-  "baseChance": 0.6,
-  "insanityThreshold": 940,
-  "function": "miskatonicmysteries:scary_sound"
-}
