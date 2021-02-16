@@ -95,6 +95,10 @@ public class MiskatonicMysteriesAPI {
         if (ascendant.isPresent() && affiliated.isPresent() && canLevelUp(ascendant.get(), affiliated.get(), stage, affiliation)) {
             ascendant.ifPresent(a -> a.setAscensionStage(stage));
             affiliated.ifPresent(a -> a.setAffiliation(affiliation, false));
+            SpellCaster.of(player).ifPresent(caster -> {
+                caster.setMaxSpells(caster.getMaxSpells() + player.getRandom().nextInt(2));
+                caster.setPowerPool(caster.getPowerPool() + 1 + player.getRandom().nextInt(2));
+            });
             if (player instanceof ServerPlayerEntity) {
                 MMCriteria.LEVEL_UP.trigger((ServerPlayerEntity) player, affiliation, stage);
             }

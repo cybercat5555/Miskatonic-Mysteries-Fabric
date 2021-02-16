@@ -16,7 +16,7 @@
     {
       "type": "text",
       "title": "Intensity",
-      "text": "Intensity may have one of the following three levels: weak, medium and strong. As the name implies, it affects the intensity of the cast spell's effect. Additionally, more intense spells will usually drain the user more. $(br)Casters only have a limited pool of power to choose from, so spend those points wisely."
+      "text": "Intensity may have one of the following three levels: weak, medium and strong. As the name implies, it affects the intensity of the cast spell's effect. Additionally, more intense spells will usually drain the user more. $(br)Casters only have a limited pool of power to choose from, so spend those points wisely. Maximum available power may increase through ascension."
     },
     {
       "type": "text",
