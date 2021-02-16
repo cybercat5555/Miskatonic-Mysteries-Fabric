@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.api.registry;
 
-import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
@@ -25,7 +24,7 @@ public class Affiliation {
         blessingPool.addAll(Arrays.asList(blessings));
     }
 
-    public Blessing findRandomBlessing(LivingEntity entity, Affiliated affiliated, Ascendant ascendant) {
+    public Blessing findRandomBlessing(LivingEntity entity, Ascendant ascendant) {
         List<Blessing> possibleBlessings = blessingPool.stream().filter(blessing -> !ascendant.getBlessings().contains(blessing)).collect(Collectors.toList());
         return possibleBlessings.size() > 0 ? possibleBlessings.get(entity.getRandom().nextInt(possibleBlessings.size())) : null;
     }

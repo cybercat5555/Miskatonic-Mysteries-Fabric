@@ -84,7 +84,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
         if (!player.world.isClient && getBlessingTicks() <= 0 && MiskatonicMysteriesAPI.canLevelUp(Ascendant.of(player).get(), Affiliated.of(player).get(), 2, getAffiliation(false))) {
             Vec3d pos = Util.getYawRelativePos(getPos().add(0, 2, 0), 2.5, yaw, 0);
             Vec3d motionVec = new Vec3d(pos.x - player.getX(), pos.y - player.getY(), pos.z - player.getZ());
-            if (motionVec.length() < 2.5) {
+            if (motionVec.length() < 4) {
                 setBlessTarget(player);
                 dataTracker.set(BLESSING_TIME, 0);
                 return ActionResult.SUCCESS;
@@ -126,8 +126,8 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     @Override
     public void tick() {
         if (world.isClient && getBlessingTicks() > 0) {
-            Vec3d pos = Util.getYawRelativePos(getPos().add(0, 2, 0), 2.5, yaw, 0);
-            world.addParticle(MMParticles.AMBIENT, pos.x + random.nextGaussian() * 1.5F, pos.y + random.nextFloat() * 1.5F, random.nextGaussian() * 1.5F, 1, random.nextFloat(), 0);
+            Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, yaw, 0);
+            world.addParticle(MMParticles.AMBIENT, pos.x + random.nextGaussian() * 1.5F, pos.y + 2 + random.nextFloat() * 1.5F, pos.z + random.nextGaussian() * 1.5F, 1, random.nextFloat(), 0);
         }
         super.tick();
     }
@@ -377,12 +377,10 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
             getLookControl().lookAt(target, 40, 40);
             Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, yaw, 0);
             Vec3d motionVec = new Vec3d(pos.x - target.getX(), pos.y + 2 - target.getY(), pos.z - target.getZ());
-            motionVec = motionVec.multiply(0.2F);
-            if (motionVec.length() > 0.1) {
-                target.setVelocity(motionVec);
-                target.velocityModified = true;
-                target.velocityDirty = true;
-            }
+            motionVec = motionVec.normalize().multiply(0.1F);
+            target.setVelocity(motionVec);
+            target.velocityModified = true;
+            target.velocityDirty = true;
             decreaseBlessingTicks();
             if (getBlessingTicks() <= 0) {
                 HasturAscensionHandler.blessThroughPrince(getBlessTarget(), TatteredPrinceEntity.this);

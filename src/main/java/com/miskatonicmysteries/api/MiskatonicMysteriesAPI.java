@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 import javax.annotation.Nullable;
@@ -126,5 +127,19 @@ public class MiskatonicMysteriesAPI {
 
     public static boolean isImmuneToYellowSign(LivingEntity entity) {
         return getNonNullAffiliation(entity, false).equals(MMAffiliations.HASTUR) && getAscensionStage(entity) >= HasturAscensionHandler.SIGN_IMMUNITY_STAGE;
+    }
+
+    public static boolean grantBlessing(PlayerEntity player, Affiliation affiliation) {
+        Ascendant ascendant = Ascendant.of(player).get();
+        if (ascendant.getBlessings().size() < Constants.DataTrackers.MAX_BLESSINGS) {
+            Blessing blessingGranted = affiliation.findRandomBlessing(player, ascendant);
+            if (blessingGranted != null) {
+                ascendant.addBlessing(blessingGranted);
+                ascendant.syncBlessingData();
+                player.sendMessage(new TranslatableText("message.miskatonicmysteries.new_blessing", new TranslatableText(blessingGranted.getTranslationString())), true);
+                return true;
+            }
+        }
+        return false;
     }
 }
