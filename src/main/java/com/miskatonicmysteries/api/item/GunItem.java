@@ -43,7 +43,9 @@ public abstract class GunItem extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
         if (!canUse(user)) {
-            if (world.isClient) user.sendMessage(new TranslatableText("message.heavy_gun.needs_offhand"), true);
+            if (world.isClient) {
+                user.sendMessage(new TranslatableText("message.heavy_gun.needs_offhand"), true);
+            }
             return TypedActionResult.fail(stack);
         }
         if (user.isSneaking()) {

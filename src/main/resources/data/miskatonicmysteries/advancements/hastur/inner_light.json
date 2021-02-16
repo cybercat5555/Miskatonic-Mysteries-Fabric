@@ -1,0 +1,32 @@
+{
+  "parent": "miskatonicmysteries:hastur/conversion",
+  "display": {
+    "icon": {
+      "item": "minecraft:torch"
+    },
+    "title": {
+      "translate": "advancements.miskatonicmysteries.inner_light.title"
+    },
+    "description": {
+      "translate": "advancements.miskatonicmysteries.inner_light.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "leveled_up": {
+      "trigger": "miskatonicmysteries:level_up",
+      "conditions": {
+        "affiliation": "miskatonicmysteries:hastur",
+        "stage": 2
+      }
+    }
+  },
+  "requirements": [
+    [
+      "leveled_up"
+    ]
+  ]
+}

@@ -1,17 +1,22 @@
 package com.miskatonicmysteries.common.entity;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.api.interfaces.CastingMob;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.entity.ai.CastSpellGoal;
 import com.miskatonicmysteries.common.feature.spell.Spell;
+import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.Util;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -31,7 +36,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -50,10 +57,13 @@ import java.util.EnumSet;
 public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable, Affiliated, CastingMob {
     private final ServerBossBar bossBar;
     private final AnimationFactory factory = new AnimationFactory(this);
-    protected static final TrackedData<Integer> CASTING_TIME_LEFT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> CASTING_TIME_LEFT = DataTracker.registerData(TatteredPrinceEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    protected static final TrackedData<Integer> BLESSING_TIME = DataTracker.registerData(TatteredPrinceEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
     @Nullable
     public Spell currentSpell;
+
+    public LivingEntity blessTarget;
 
     public TatteredPrinceEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
@@ -66,6 +76,21 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     protected void initDataTracker() {
         super.initDataTracker();
         dataTracker.startTracking(CASTING_TIME_LEFT, 0);
+        dataTracker.startTracking(BLESSING_TIME, 0);
+    }
+
+    @Override
+    protected ActionResult interactMob(PlayerEntity player, Hand hand) {
+        if (!player.world.isClient && getBlessingTicks() <= 0 && MiskatonicMysteriesAPI.canLevelUp(Ascendant.of(player).get(), Affiliated.of(player).get(), 2, getAffiliation(false))) {
+            Vec3d pos = Util.getYawRelativePos(getPos().add(0, 2, 0), 2.5, yaw, 0);
+            Vec3d motionVec = new Vec3d(pos.x - player.getX(), pos.y - player.getY(), pos.z - player.getZ());
+            if (motionVec.length() < 2.5) {
+                setBlessTarget(player);
+                dataTracker.set(BLESSING_TIME, 0);
+                return ActionResult.SUCCESS;
+            }
+        }
+        return super.interactMob(player, hand);
     }
 
     @Override
@@ -99,14 +124,24 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     }
 
     @Override
+    public void tick() {
+        if (world.isClient && getBlessingTicks() > 0) {
+            Vec3d pos = Util.getYawRelativePos(getPos().add(0, 2, 0), 2.5, yaw, 0);
+            world.addParticle(MMParticles.AMBIENT, pos.x + random.nextGaussian() * 1.5F, pos.y + random.nextFloat() * 1.5F, random.nextGaussian() * 1.5F, 1, random.nextFloat(), 0);
+        }
+        super.tick();
+    }
+
+    @Override
     protected void initGoals() {
         this.goalSelector.add(0, new LongDoorInteractGoal(this, false));
         this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(2, new CastSpellGoal<>(this));
-        this.goalSelector.add(3, new SwingAtTargetGoal());
-        this.goalSelector.add(4, new LookAroundGoal(this));
-        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 12));
-        this.goalSelector.add(6, new WanderAroundFarGoal(this, 1.0D));
+        this.goalSelector.add(2, new BlessGoal());
+        this.goalSelector.add(3, new CastSpellGoal<>(this));
+        this.goalSelector.add(4, new SwingAtTargetGoal());
+        this.goalSelector.add(5, new LookAroundGoal(this));
+        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 12));
+        this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
         this.targetSelector.add(0, new RevengeGoal(this, TatteredPrinceEntity.class));
         super.initGoals();
     }
@@ -157,6 +192,10 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     }
 
     public <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
+        if (getBlessingTicks() > 0) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("bless", false));
+            return PlayState.CONTINUE;
+        }
         if (getHandSwingProgress(1) > 0) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("attack_melee", false));
             return PlayState.CONTINUE;
@@ -224,6 +263,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
             CompoundTag spell = currentSpell.toTag(new CompoundTag());
             tag.put(Constants.NBT.SPELL, spell);
         }
+        //don't save blessing stuff to tag
     }
 
     @Override
@@ -271,6 +311,27 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
         return new Spell(medium, effect, 2 + world.random.nextInt(3));
     }
 
+    public void setBlessTarget(LivingEntity blessTarget) {
+        this.blessTarget = blessTarget;
+    }
+
+    public @Nullable
+    LivingEntity getBlessTarget() {
+        return blessTarget;
+    }
+
+    public void startBlessing() {
+        dataTracker.set(BLESSING_TIME, 84 + 20); //animation time + transition ticks
+    }
+
+    public void decreaseBlessingTicks() {
+        dataTracker.set(BLESSING_TIME, getBlessingTicks() - 1);
+    }
+
+    public int getBlessingTicks() {
+        return dataTracker.get(BLESSING_TIME);
+    }
+
     @Override
     public Affiliation getAffiliation(boolean apparent) {
         return MMAffiliations.HASTUR;
@@ -279,6 +340,54 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     @Override
     public boolean isSupernatural() {
         return true;
+    }
+
+    public class BlessGoal extends Goal {
+        public BlessGoal() {
+            setControls(EnumSet.of(Control.MOVE, Control.LOOK));
+        }
+
+        @Override
+        public boolean canStart() {
+            return !isAttacking() && getBlessTarget() != null && getBlessingTicks() == 0;
+        }
+
+        @Override
+        public void start() {
+            startBlessing();
+        }
+
+        @Override
+        public boolean shouldContinue() {
+            return getBlessTarget() != null && getBlessingTicks() > 0;
+        }
+
+        @Override
+        public void stop() {
+            setBlessTarget(null);
+        }
+
+        @Override
+        public void tick() {
+            if (getBlessTarget() == null || getBlessTarget().isDead()) {
+                stop();
+                return;
+            }
+            LivingEntity target = getBlessTarget();
+            getLookControl().lookAt(target, 40, 40);
+            Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, yaw, 0);
+            Vec3d motionVec = new Vec3d(pos.x - target.getX(), pos.y + 2 - target.getY(), pos.z - target.getZ());
+            motionVec = motionVec.multiply(0.2F);
+            if (motionVec.length() > 0.1) {
+                target.setVelocity(motionVec);
+                target.velocityModified = true;
+                target.velocityDirty = true;
+            }
+            decreaseBlessingTicks();
+            if (getBlessingTicks() <= 0) {
+                HasturAscensionHandler.blessThroughPrince(getBlessTarget(), TatteredPrinceEntity.this);
+            }
+        }
     }
 
     public class SwingAtTargetGoal extends Goal {

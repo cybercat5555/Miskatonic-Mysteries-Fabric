@@ -25,6 +25,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
 
@@ -128,5 +129,14 @@ public class Util {
             }
         }
         return null;
+    }
+
+    public static Vec3d getYawRelativePos(Vec3d originPos, double distance, float yaw, float pitch) {
+        float yawRadians = yaw * 0.017453292F;
+        float pitchRadians = pitch * 0.017453292F;
+        double x = distance * (-MathHelper.sin(yawRadians) * MathHelper.cos(pitchRadians));
+        double y = distance * -MathHelper.sin(pitchRadians);
+        double z = distance * (MathHelper.cos(yawRadians) * MathHelper.cos(pitchRadians));
+        return originPos.add(x, y, z);
     }
 }
