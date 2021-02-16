@@ -1,12 +1,7 @@
 package com.miskatonicmysteries.common.feature;
 
-import com.miskatonicmysteries.api.interfaces.Ascendant;
-import com.miskatonicmysteries.api.interfaces.Sanity;
-import com.miskatonicmysteries.api.interfaces.SpellCaster;
-import com.miskatonicmysteries.api.registry.Blessing;
-import com.miskatonicmysteries.api.registry.InsanityEvent;
-import com.miskatonicmysteries.api.registry.SpellEffect;
-import com.miskatonicmysteries.api.registry.SpellMedium;
+import com.miskatonicmysteries.api.interfaces.*;
+import com.miskatonicmysteries.api.registry.*;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
@@ -92,6 +87,21 @@ public class ModCommand {
                 .then(CommandManager.literal("getNBT").executes(context -> giveWorldNBT(context)))
                 .then(CommandManager.literal("clear").executes(context -> clearWorldNBT(context))));
 
+        LiteralArgumentBuilder ascensionBuilder = CommandManager.literal("ascension");
+        ascensionBuilder.then(CommandManager.literal("get")
+                .executes(context -> giveAscensionFeedback(context, context.getSource().getPlayer()))
+                .then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(context -> giveAscensionFeedback(context, EntityArgumentType.getPlayer(context, "player")))));
+
+        LiteralArgumentBuilder setAscensionBuilder = CommandManager.literal("set");
+        for (Identifier id : MMRegistries.AFFILIATIONS.getIds()) {
+            setAscensionBuilder.then(CommandManager.literal(id.toString())
+                    .executes(context -> setAscension(context, id, Ascendant.of(context.getSource().getPlayer()).get().getAscensionStage(), context.getSource().getPlayer()))
+                    .then(CommandManager.argument("stage", IntegerArgumentType.integer(0, 10)).executes(context -> setAscension(context, id, IntegerArgumentType.getInteger(context, "stage"), context.getSource().getPlayer()))
+                            .then(CommandManager.argument("player", EntityArgumentType.player()).executes(context -> setAscension(context, id, IntegerArgumentType.getInteger(context, "stage"), EntityArgumentType.getPlayer(context, "player"))))));
+        }
+        ascensionBuilder.then(setAscensionBuilder);
+        builder.then(ascensionBuilder);
         LiteralArgumentBuilder spellBuilder = CommandManager.literal("spells");
         spellBuilder.then(CommandManager.literal("setMax").then(CommandManager.argument("value", IntegerArgumentType.integer(0, Constants.DataTrackers.SPELL_CAP)).executes(context -> setMaxSpells(context, IntegerArgumentType.getInteger(context, "value"), context.getSource().getPlayer()))
                 .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> setMaxSpells(context, IntegerArgumentType.getInteger(context, "value"), EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[EntityArgumentType.getPlayers(context, "player").size()]))))));
@@ -214,7 +224,7 @@ public class ModCommand {
     private static int addSanityExpansion(CommandContext<ServerCommandSource> context, String name, int value, ServerPlayerEntity... players) {
         for (ServerPlayerEntity player : players) {
             Sanity.of(player).ifPresent(sanity -> {
-                boolean contains = sanity.getSanityCapExpansions().keySet().contains(name);
+                boolean contains = sanity.getSanityCapExpansions().containsKey(name);
                 if (contains) {
                     context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.add_sanity_expansion.contains_failure", name, player.getDisplayName()));
                 } else {
@@ -437,6 +447,42 @@ public class ModCommand {
             }
 
         }
+        return 0;
+    }
+
+    private static int giveAscensionFeedback(CommandContext<ServerCommandSource> context, ServerPlayerEntity... players) throws CommandSyntaxException {
+        for (ServerPlayerEntity player : players) {
+            if (Ascendant.of(player).isPresent() && Affiliated.of(player).isPresent()) {
+                Affiliation affiliation = Affiliated.of(player).get().getAffiliation(false);
+                Affiliation apparentAffiliation = Affiliated.of(player).get().getAffiliation(true);
+                int stage = Ascendant.of(player).get().getAscensionStage();
+                if (player.equals(context.getSource().getPlayer())) {
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_ascension.self"), false);
+                } else {
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_ascension", player.getDisplayName()), false);
+                }
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_ascension.apparent_path", apparentAffiliation.getId()), false);
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_ascension.path", affiliation.getId()), false);
+                context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_ascension.stage", stage), false);
+            }
+
+        }
+        return 0;
+    }
+
+    private static int setAscension(CommandContext<ServerCommandSource> context, Identifier affiliation, int stage, ServerPlayerEntity... players) throws CommandSyntaxException {
+        for (ServerPlayerEntity player : players) {
+            if (Ascendant.of(player).isPresent() && Affiliated.of(player).isPresent()) {
+                MalleableAffiliated.of(player).get().setAffiliation(MMRegistries.AFFILIATIONS.get(affiliation), false);
+                Ascendant.of(player).get().setAscensionStage(stage);
+                if (player.equals(context.getSource().getPlayer())) {
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.set_ascension.self", affiliation, stage), false);
+                } else {
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.set_ascension", player.getDisplayName(), affiliation, stage), false);
+                }
+            }
+
+        }
         return 16;
     }
 
@@ -445,6 +491,7 @@ public class ModCommand {
         giveSanityFeedback(context, player);
         giveMaxSanityFeedback(context, player);
         giveBlessingFeedback(context, player);
+        giveAscensionFeedback(context, player);
         return 0;
     }
 
