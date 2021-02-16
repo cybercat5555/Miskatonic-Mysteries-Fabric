@@ -1,0 +1,27 @@
+{
+  "name": "The Yellow Blessings",
+  "category": "miskatonicmysteries:great_old_ones",
+  "icon": "miskatonicmysteries:hastur_statue_gold",
+  "advancement": "miskatonicmysteries:hastur/inner_light",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Entheators ascending under the $(l:miskatonicmyteries:goo/hastur)$(marked)King of Carcosa$() may be granted several $(marked)Blessings during their journey. Unlike most other Blessings, these do not have an exact impact on the body, but they may be noticeable nonetheless."
+    },
+    {
+      "type": "text",
+      "title": "Magic Boost",
+      "text": "This rather universal Blessing increases magic capability. The available pool of power during $(marked)Spell Creation$() is additionally increased, new mediums are unlocked and intensity occasionally heightened."
+    },
+    {
+      "type": "text",
+      "title": "Charming Personality",
+      "text": "When blessed with $(marked)Charming Personality$(), $(marked)Villagers$() won't think bad of you, ever. Additionally, social interaction energizes you."
+    },
+    {
+      "type": "text",
+      "title": "Royal Entourage",
+      "text": "This Blessing will force nearby Serfs to aid you in slaughter, or to protect you. It also grants access to the $(marked)Group$() Spell Medium."
+    }
+  ]
+}
