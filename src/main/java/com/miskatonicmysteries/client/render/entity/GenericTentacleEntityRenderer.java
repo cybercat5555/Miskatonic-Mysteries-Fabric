@@ -15,8 +15,8 @@ import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
 import java.awt.*;
 
-public class GenericTentacleRenderer extends GeoEntityRenderer<TentacleEntity> {
-    public GenericTentacleRenderer(EntityRenderDispatcher dispatcher) {
+public class GenericTentacleEntityRenderer extends GeoEntityRenderer<TentacleEntity> {
+    public GenericTentacleEntityRenderer(EntityRenderDispatcher dispatcher) {
         super(dispatcher, new TentacleModel(new Identifier(Constants.MOD_ID, "textures/entity/tentacle/generic.png")));
         this.shadowRadius = 0;
     }

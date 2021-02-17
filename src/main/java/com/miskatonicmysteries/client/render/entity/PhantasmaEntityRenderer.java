@@ -14,9 +14,9 @@ import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
 import java.awt.*;
 
-public class PhantasmaRenderer extends GeoEntityRenderer<PhantasmaEntity> {
+public class PhantasmaEntityRenderer extends GeoEntityRenderer<PhantasmaEntity> {
 
-    public PhantasmaRenderer(EntityRenderDispatcher dispatcher, AnimatedGeoModel<PhantasmaEntity> model) {
+    public PhantasmaEntityRenderer(EntityRenderDispatcher dispatcher, AnimatedGeoModel<PhantasmaEntity> model) {
         super(dispatcher, model);
         this.shadowRadius = 0;
     }

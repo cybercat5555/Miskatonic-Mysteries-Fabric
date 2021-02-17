@@ -32,6 +32,7 @@ public class MMEntities {
     public static final EntityType<AberrationEntity> ABERRATION = FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, AberrationEntity::new).dimensions(EntityDimensions.fixed(0.7F, 0.7F)).trackRangeBlocks(16).build();
     public static final EntityType<TatteredPrinceEntity> TATTERED_PRINCE = FabricEntityTypeBuilder.create(SpawnGroup.MISC, TatteredPrinceEntity::new).dimensions(EntityDimensions.fixed(1.5F, 4)).trackRangeBlocks(48).build();
     public static final EntityType<GenericTentacleEntity> GENERIC_TENTACLE = FabricEntityTypeBuilder.create(SpawnGroup.MISC, GenericTentacleEntity::new).dimensions(EntityDimensions.fixed(0.5F, 2)).trackRangeBlocks(16).build();
+    public static final EntityType<HasturEntity> HASTUR = FabricEntityTypeBuilder.create(SpawnGroup.MISC, HasturEntity::new).dimensions(EntityDimensions.fixed(3, 9)).trackRangeBlocks(48).build();
 
     public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
     public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create().id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW).build();
@@ -81,7 +82,6 @@ public class MMEntities {
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.65F)
                 .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.4F));
 
-
         RegistryUtil.register(Registry.ENTITY_TYPE, "tattered_prince", TATTERED_PRINCE);
         FabricDefaultAttributeRegistry.register(TATTERED_PRINCE, PathAwareEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 250)
@@ -103,6 +103,17 @@ public class MMEntities {
                 .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 6)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1));
+
+        RegistryUtil.register(Registry.ENTITY_TYPE, "hastur", HASTUR);
+        FabricDefaultAttributeRegistry.register(HASTUR, PathAwareEntity.createMobAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 250)
+                .add(EntityAttributes.GENERIC_ARMOR, 9)
+                .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, 10)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.24D)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24)
+                .add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 3)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.8F));
         RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
     }
 }

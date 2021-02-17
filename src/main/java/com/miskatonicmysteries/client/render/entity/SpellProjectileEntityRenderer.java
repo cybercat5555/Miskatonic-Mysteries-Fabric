@@ -11,9 +11,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
-public class SpellProjectileRenderer extends EntityRenderer<SpellProjectileEntity> {
+public class SpellProjectileEntityRenderer extends EntityRenderer<SpellProjectileEntity> {
 
-    public SpellProjectileRenderer(EntityRenderDispatcher entityRenderDispatcher) {
+    public SpellProjectileEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
         super(entityRenderDispatcher);
     }
 

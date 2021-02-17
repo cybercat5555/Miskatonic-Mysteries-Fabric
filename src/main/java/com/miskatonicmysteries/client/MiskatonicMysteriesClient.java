@@ -62,12 +62,13 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 
         EntityRendererRegistry.INSTANCE.register(MMEntities.PROTAGONIST, (entityRenderDispatcher, context) -> new ProtagonistEntityRender(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.HASTUR_CULTIST, (entityRenderDispatcher, context) -> new HasturCultistEntityRender(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.SPELL_PROJECTILE, (entityRenderDispatcher, context) -> new SpellProjectileRenderer(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.BOLT, (entityRenderDispatcher, context) -> new BoltRenderer(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.PHANTASMA, (entityRenderDispatcher, context) -> new PhantasmaRenderer(entityRenderDispatcher, new PhantasmaModel()));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.ABERRATION, (entityRenderDispatcher, context) -> new PhantasmaRenderer(entityRenderDispatcher, new AberrationModel()));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.SPELL_PROJECTILE, (entityRenderDispatcher, context) -> new SpellProjectileEntityRenderer(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.BOLT, (entityRenderDispatcher, context) -> new BoltEntityRenderer(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.PHANTASMA, (entityRenderDispatcher, context) -> new PhantasmaEntityRenderer(entityRenderDispatcher, new PhantasmaModel()));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.ABERRATION, (entityRenderDispatcher, context) -> new PhantasmaEntityRenderer(entityRenderDispatcher, new AberrationModel()));
         EntityRendererRegistry.INSTANCE.register(MMEntities.TATTERED_PRINCE, (entityRenderDispatcher, context) -> new TatteredPrinceRenderer(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.GENERIC_TENTACLE, (entityRenderDispatcher, context) -> new GenericTentacleRenderer(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.GENERIC_TENTACLE, (entityRenderDispatcher, context) -> new GenericTentacleEntityRenderer(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.HASTUR, (entityRenderDispatcher, context) -> new HasturEntityRenderer(entityRenderDispatcher));
 
         PacketHandler.registerS2C();
         new ShaderHandler().init();

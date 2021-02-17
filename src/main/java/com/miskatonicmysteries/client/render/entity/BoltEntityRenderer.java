@@ -15,8 +15,8 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.Random;
 
-public class BoltRenderer extends EntityRenderer<BoltEntity> {
-    public BoltRenderer(EntityRenderDispatcher entityRenderDispatcher) {
+public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
+    public BoltEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
         super(entityRenderDispatcher);
     }
 
