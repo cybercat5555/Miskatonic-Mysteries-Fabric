@@ -17,6 +17,7 @@ public class MMStatusEffects {
     public static final StatusEffect BLEED = new BleedStatusEffect();
     public static final StatusEffect RESONANCE = new ResonanceStatusEffect();
     public static final StatusEffect EXOTIC_CRAVINGS = new ResonanceStatusEffect();
+    public static final StatusEffect ULTRA_VIOLENCE = new UltraViolenceStatusEffect();
 
     static class Potions {
         public static final Potion RESONANCE = new Potion(new StatusEffectInstance(MMStatusEffects.RESONANCE, 3600, 0));
@@ -32,6 +33,7 @@ public class MMStatusEffects {
         RegistryUtil.register(Registry.STATUS_EFFECT, "bleed", BLEED);
         RegistryUtil.register(Registry.STATUS_EFFECT, "resonance", RESONANCE);
         RegistryUtil.register(Registry.STATUS_EFFECT, "exotic_cravings", EXOTIC_CRAVINGS);
+        RegistryUtil.register(Registry.STATUS_EFFECT, "ultra_violence", ULTRA_VIOLENCE);
 
         RegistryUtil.register(Registry.POTION, "resonance", MMStatusEffects.Potions.RESONANCE);
         RegistryUtil.register(Registry.POTION, "resonance_long", MMStatusEffects.Potions.LONG_RESONANCE);
