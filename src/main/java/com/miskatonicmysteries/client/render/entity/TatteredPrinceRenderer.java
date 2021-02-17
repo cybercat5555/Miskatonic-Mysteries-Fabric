@@ -1,5 +1,7 @@
-package com.miskatonicmysteries.client.model.entity;
+package com.miskatonicmysteries.client.render.entity;
 
+import com.miskatonicmysteries.client.model.entity.TatteredPrinceDummyModel;
+import com.miskatonicmysteries.client.model.entity.TatteredPrinceModel;
 import com.miskatonicmysteries.common.entity.TatteredPrinceEntity;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;

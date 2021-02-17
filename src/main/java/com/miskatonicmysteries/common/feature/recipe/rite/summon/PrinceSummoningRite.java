@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.feature.recipe.rite.summon;
 
-import com.miskatonicmysteries.client.model.entity.TatteredPrinceRenderer;
+import com.miskatonicmysteries.client.render.entity.TatteredPrinceRenderer;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.spell.Spell;
