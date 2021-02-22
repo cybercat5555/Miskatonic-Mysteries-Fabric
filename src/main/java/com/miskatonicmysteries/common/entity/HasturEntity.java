@@ -114,6 +114,7 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
 
     @Override
     protected void initGoals() {
+        //redo movement, simus will instead phase around
         this.goalSelector.add(0, new FindHomeGoal());
         this.goalSelector.add(1, new ChangeActiveStateGoal());
         this.goalSelector.add(3, new WanderAroundHomeGoal(this));

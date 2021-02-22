@@ -38,7 +38,7 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
     public static final TrackedData<Float> RESONANCE = DataTracker.registerData(PhantasmaEntity.class, TrackedDataHandlerRegistry.FLOAT);
     public static final TrackedData<Integer> VARIATION = DataTracker.registerData(PhantasmaEntity.class, TrackedDataHandlerRegistry.INTEGER);
 
-    private AnimationFactory factory = new AnimationFactory(this);
+    private final AnimationFactory factory = new AnimationFactory(this);
 
     public PhantasmaEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
@@ -89,17 +89,17 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
 
     @Override
     public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 0, this::animationPredicate));
+        data.addAnimationController(new AnimationController<>(this, "controller", 20, this::animationPredicate));
     }
 
     public <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
-        /*float limbSwingAmount = event.getLimbSwingAmount();
+        float limbSwingAmount = event.getLimbSwingAmount();
         boolean isMoving = !(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F);
         if (isMoving) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("floating", true));
-        }else{*/
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
-        // }
+        } else {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+        }
         return PlayState.CONTINUE;
     }
 

@@ -42,7 +42,9 @@ repositories {
 	maven {
 		url 'https://server.bbkr.space/artifactory/libs-release/'
 	}
-	maven { url 'https://repo.repsy.io/mvn/gandiber/geckolib' }
+	maven {
+		url 'https://repo.repsy.io/mvn/gandiber/geckolib'
+	}
 }
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
