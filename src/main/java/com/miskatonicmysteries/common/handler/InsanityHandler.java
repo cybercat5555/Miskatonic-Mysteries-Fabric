@@ -26,8 +26,9 @@ public class InsanityHandler {
     }
 
     public static void handleInsanityEvents(PlayerEntity player) {
-        Sanity.of(player).ifPresent(sanity -> {
-            float insanityFactor = 1F - calculateSanityFactor(sanity);
+        Optional<Sanity> optionalSanity = Sanity.of(player);
+        float insanityFactor = 1F - calculateSanityFactor(optionalSanity);
+        optionalSanity.ifPresent(sanity -> {
             if (player.getRandom().nextFloat() < (0.1F + (0.1F * insanityFactor))) {
                 InsanityEvent event = findInsanityEvent(player, sanity, insanityFactor);
                 if (event != null) {
@@ -50,8 +51,8 @@ public class InsanityHandler {
         return null;
     }
 
-    public static float calculateSanityFactor(Sanity sanity) {
-        return sanity.getSanity() / (float) SANITY_CAP;
+    public static float calculateSanityFactor(Optional<Sanity> sanity) {
+        return sanity.map(value -> value.getSanity() / (float) SANITY_CAP).orElse(1F);
     }
 
     public static void handleClientSideBlockChange(ClientPlayerEntity player, World world, BlockState state, BlockPos pos, Random random) {

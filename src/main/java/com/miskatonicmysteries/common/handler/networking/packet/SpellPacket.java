@@ -21,10 +21,11 @@ import net.minecraft.util.Identifier;
 public class SpellPacket {
     public static final Identifier ID = new Identifier(Constants.MOD_ID, "spell");
 
-    public static void send(LivingEntity caster, CompoundTag spellTag) {
+    public static void send(LivingEntity caster, CompoundTag spellTag, boolean backfires) {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
         data.writeCompoundTag(spellTag);
         data.writeInt(caster.getEntityId());
+        data.writeBoolean(backfires);
         PacketHandler.sendToPlayers(caster.world, caster, data, ID);
     }
 
@@ -38,15 +39,17 @@ public class SpellPacket {
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
         CompoundTag spellTag = packetByteBuf.readCompoundTag();
         Entity entity = client.world.getEntityById(packetByteBuf.readInt());
+        boolean backfires = packetByteBuf.readBoolean();
         if (entity instanceof LivingEntity) {
-            client.execute(() -> Spell.fromTag(spellTag).cast((LivingEntity) entity));
+            client.execute(() -> Spell.fromTag(spellTag).cast((LivingEntity) entity, backfires));
         }
     }
 
     public static void handleFromClient(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf packetByteBuf, PacketSender sender) {
         Spell spell = Spell.fromTag(packetByteBuf.readCompoundTag());
         if (spell != null) {
-            server.execute(() -> spell.cast(player));
+            boolean backfires = spell.effect.backfires(player);
+            server.execute(() -> spell.cast(player, backfires));
         }
     }
 }

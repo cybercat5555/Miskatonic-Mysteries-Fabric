@@ -33,7 +33,7 @@ public class MobSpellPacket {
         SpellEffect effect = MMRegistries.SPELL_EFFECTS.get(packetByteBuf.readIdentifier());
         int intensity = packetByteBuf.readInt();
         if (mob instanceof MobEntity && target instanceof LivingEntity) {
-            client.execute(() -> effect.effect(client.world, (MobEntity) mob, target, target.getPos(), MMSpellMediums.MOB_TARGET, intensity, mob));
+            client.execute(() -> effect.effect(client.world, (MobEntity) mob, target, target.getPos(), MMSpellMediums.MOB_TARGET, intensity, mob, effect.backfires((LivingEntity) mob)));
         }
     }
 }

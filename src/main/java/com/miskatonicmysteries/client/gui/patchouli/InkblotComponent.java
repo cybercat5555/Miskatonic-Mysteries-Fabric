@@ -55,7 +55,7 @@ public class InkblotComponent implements ICustomComponent {
     @Override
     public void onDisplayed(IComponentRenderContext context) {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        alphaFactor = Sanity.of(player).map(InsanityHandler::calculateSanityFactor).orElse(0F);
+        alphaFactor = InsanityHandler.calculateSanityFactor(Sanity.of(player));
         Optional<Affiliated> affiliated = Affiliated.of(player);
         overlay = affiliated.map(this::getOverlayFromAffiliation).orElse(DEFAULT);
     }

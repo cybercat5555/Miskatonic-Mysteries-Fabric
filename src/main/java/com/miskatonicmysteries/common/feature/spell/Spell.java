@@ -31,7 +31,7 @@ public class Spell {
     }
 
 
-    public boolean cast(LivingEntity caster) {
+    public boolean cast(LivingEntity caster, boolean backfires) {
         Optional<SpellCaster> spellCaster = SpellCaster.of(caster);
         if (spellCaster.isPresent()) {
             float burnout;
@@ -50,10 +50,11 @@ public class Spell {
         }
         caster.world.playSound(caster.getX(), caster.getY(), caster.getZ(), MMSounds.MAGIC, SoundCategory.PLAYERS, 0.85F, (float) caster.getRandom().nextGaussian() * 0.2F + 1.0F, true);
         if (!caster.world.isClient) {
-            SpellPacket.send(caster, toTag(new CompoundTag()));
+            SpellPacket.send(caster, toTag(new CompoundTag()), backfires);
         }
         boolean boost = Ascendant.of(caster).isPresent() && MiskatonicMysteriesAPI.hasBlessing(Ascendant.of(caster).get(), MMBlessings.MAGIC_BOOST);
-        return effect.canCast(caster, medium) && medium.cast(caster.world, caster, effect, boost ? intensity + 1 : intensity);
+
+        return effect.canCast(caster, medium) && medium.cast(caster.world, caster, effect, boost ? intensity + 1 : intensity, backfires);
     }
 
     public CompoundTag toTag(CompoundTag tag) {

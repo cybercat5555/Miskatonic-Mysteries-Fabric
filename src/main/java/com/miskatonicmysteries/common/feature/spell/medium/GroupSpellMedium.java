@@ -16,20 +16,20 @@ public class GroupSpellMedium extends SpellMedium {
     }
 
     @Override
-    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
+    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity, boolean backfires) {
         boolean successfulCast = false;
         if (caster instanceof Affiliated) {
             for (Entity otherEntity : world.getOtherEntities(null, caster.getBoundingBox()
                             .expand(15 + (5 * intensity), 5 + (5 * intensity), 15 + (5 * intensity)),
                     entity -> entity instanceof LivingEntity && MiskatonicMysteriesAPI.getNonNullAffiliation(entity, true).equals(MiskatonicMysteriesAPI.getNonNullAffiliation(caster, false)))) {
-                if (effect.effect(world, caster, otherEntity, otherEntity.getPos(), this, intensity, caster))
+                if (effect.effect(world, caster, otherEntity, otherEntity.getPos(), this, intensity, caster, effect.backfires(caster)))
                     successfulCast = true;
             }
         } else {
             for (Entity otherEntity : world.getOtherEntities(null, caster.getBoundingBox()
                             .expand(15 + (5 * intensity), 5 + (5 * intensity), 15 + (5 * intensity)),
                     entity -> entity.getType().equals(caster.getType()))) {
-                if (effect.effect(world, caster, otherEntity, otherEntity.getPos(), this, intensity, caster))
+                if (effect.effect(world, caster, otherEntity, otherEntity.getPos(), this, intensity, caster, backfires))
                     successfulCast = true;
             }
         }

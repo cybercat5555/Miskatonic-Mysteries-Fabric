@@ -1,5 +1,7 @@
 package com.miskatonicmysteries.api.registry;
 
+import com.miskatonicmysteries.api.interfaces.Sanity;
+import com.miskatonicmysteries.common.handler.InsanityHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.particle.ParticleTypes;
@@ -28,7 +30,7 @@ public abstract class SpellEffect {
     /**
      * @return if the spell was successfully cast
      */
-    public abstract boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium);
+    public abstract boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium, boolean backfires);
 
     public boolean canCast(LivingEntity caster, SpellMedium medium) {
         return castingPredicate.test(caster);
@@ -52,6 +54,10 @@ public abstract class SpellEffect {
                     ((effect.getColor(caster) >> 16) & 255) / 255F,
                     ((effect.getColor(caster) >> 8) & 255) / 255F,
                     (effect.getColor(caster) & 255) / 255F);
+    }
+
+    public boolean backfires(LivingEntity caster) {
+        return caster.getRandom().nextFloat() > InsanityHandler.calculateSanityFactor(Sanity.of(caster)) + 0.5F;
     }
 
     public float getBurnoutMultiplier(int intensity) {

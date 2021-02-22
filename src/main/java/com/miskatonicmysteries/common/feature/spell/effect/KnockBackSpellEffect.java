@@ -19,12 +19,16 @@ public class KnockBackSpellEffect extends SpellEffect {
     }
 
     @Override
-    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
+    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium, boolean backfires) {
         if (target != null) {
             if (world.isClient) {
                 spawnParticleEffectsOnTarget(caster, this, target);
             }
-            applyKnockBack(Math.min(intensity + 1, 20) * 1.75F, secondaryMedium != null ? secondaryMedium : caster, target);
+            if (backfires) {
+                caster.takeKnockback(1, 1, 1);
+            } else {
+                applyKnockBack(Math.min(intensity + 1, 20) * 1.75F, secondaryMedium != null ? secondaryMedium : caster, target);
+            }
             return true;
         }
         return false;
@@ -40,7 +44,6 @@ public class KnockBackSpellEffect extends SpellEffect {
             Vec3d direction = (new Vec3d(
                     MathHelper.sin(caster.yaw * 0.017453292F), Math.sin(caster.pitch * 0.017453292F), (-MathHelper.cos(caster.yaw * 0.017453292F))
             ).normalize().multiply(strength));
-
             target.setVelocity(speed.x / 2.0D - direction.x, speed.y / 2.0D - direction.y, speed.z / 2.0D - direction.z);
         }
     }

@@ -57,7 +57,7 @@ public abstract class VillagerEntityMixin {
 
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     private void playerInteract(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        if (InsanityHandler.calculateSanityFactor(Sanity.of(player).get()) < 0.5F) {
+        if (InsanityHandler.calculateSanityFactor(Sanity.of(player)) < 0.4F) {
             sayNo();
             cir.setReturnValue(ActionResult.success(player.world.isClient));
         }

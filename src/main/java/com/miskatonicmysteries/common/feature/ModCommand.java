@@ -172,7 +172,7 @@ public class ModCommand {
         SpellMedium medium = MMRegistries.SPELL_MEDIUMS.get(mediumId);
         SpellEffect effect = MMRegistries.SPELL_EFFECTS.get(effectId);
         Spell spell = new Spell(medium, effect, intensity);
-        return spell.cast(caster) ? 15 : 0;
+        return spell.cast(caster, effect.backfires(caster)) ? 15 : 0;
     }
 
     private static int spawnProtagonist(CommandContext<ServerCommandSource> context, PlayerEntity player) {

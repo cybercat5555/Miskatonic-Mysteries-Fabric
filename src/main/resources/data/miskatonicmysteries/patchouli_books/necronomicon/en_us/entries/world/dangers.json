@@ -11,6 +11,10 @@
     {
       "type": "text",
       "text": "Not to forget about the mind, which is simply not ready to contain all of this forever. While bounds must be broken at one point, they are needed for some. Sometimes, you will have to compromise, for the sake of your own sanity and life. Becoming too insane may lock you off from $(marked)human interaction$(). It may even hinder you from using the knowledge you've gained, so if you feel your mind slipping away, perhaps consider a rest from the art."
+    },
+    {
+      "type": "text",
+      "text": "Since sanity too low can hinder proper articulation, it will inevitably affect the victim's ability to cast $(l:spells/spells)spells$() and $(l:rites/rite_intro)rites$().$(br)When too insane, they may backfire, with dire consequences."
     }
   ]
 }

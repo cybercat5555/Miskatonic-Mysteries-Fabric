@@ -14,10 +14,10 @@ public class ProjectileSpellMedium extends SpellMedium {
     }
 
     @Override
-    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
+    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity, boolean backfires) {
         if (!world.isClient) {
             SpellProjectileEntity projectile = new SpellProjectileEntity(caster.world, caster, effect, intensity);
-            projectile.setProperties(caster, caster.pitch, caster.headYaw, 0, 1, 0F);
+            projectile.setProperties(caster, caster.pitch, (float) (caster.headYaw + (backfires ? 40 * caster.getRandom().nextGaussian() : 0)), 0, 1, 0);
             projectile.yaw = caster.headYaw;
             projectile.pitch = caster.pitch;
             return world.spawnEntity(projectile);

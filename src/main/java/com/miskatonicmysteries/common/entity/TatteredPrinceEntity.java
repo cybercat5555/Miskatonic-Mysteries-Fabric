@@ -21,7 +21,6 @@ import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.MobNavigation;
 import net.minecraft.entity.boss.BossBar;
@@ -114,11 +113,6 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
             if (currentSpell != null && !world.isClient) {
                 EffectParticlePacket.send(this);
             }
-        }
-        if (!world.isClient && currentSpell != null && getCastTime() <= 0) {
-            currentSpell.cast(this);
-            currentSpell = null;
-            getBrain().remember(MemoryModuleType.ATTACK_COOLING_DOWN, true, 40);
         }
         bossBar.setPercent(getHealth() / getMaxHealth());
     }

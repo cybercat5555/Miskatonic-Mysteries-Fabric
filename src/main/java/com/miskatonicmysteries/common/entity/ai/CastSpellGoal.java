@@ -80,7 +80,7 @@ public class CastSpellGoal<T extends PathAwareEntity & CastingMob> extends Goal 
         }
         entity.setCastTime(entity.getCastTime() - 1);
         if (entity.getCastTime() <= 0) {
-            entity.getCurrentSpell().cast(entity);
+            entity.getCurrentSpell().cast(entity, entity.getCurrentSpell().effect.backfires(entity));
             stop();
             internalCooldown = 40;
         }

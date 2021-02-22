@@ -5,6 +5,7 @@ import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -17,13 +18,17 @@ public class HealSpellEffect extends SpellEffect {
     }
 
     @Override
-    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
+    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium, boolean backfires) {
         if (target != null) {
             if (world.isClient) {
                 spawnParticleEffectsOnTarget(caster, this, target);
             }
             if (!(target instanceof LivingEntity)) return false;
-            ((LivingEntity) target).heal(2.5F * (intensity + 1));
+            if (backfires) {
+                target.damage(DamageSource.magic(target, caster), 2F * (intensity + 1));
+            } else {
+                ((LivingEntity) target).heal(2.5F * (intensity + 1));
+            }
             return true;
         }
         return false;
