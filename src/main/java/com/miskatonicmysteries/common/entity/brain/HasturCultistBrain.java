@@ -165,7 +165,7 @@ public class HasturCultistBrain {
                 new MeetVillagerTask(),
                 new HealthCareTask(),
                 new WalkToNearestVisibleWantedItemTask(f, false, 4),
-                new FindPointOfInterestTask(MMEntities.CONGREGATION_POI, MMEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true, Optional.empty()),
+                new FindPointOfInterestTask(MMEntities.HASTUR_POI, MMEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true, Optional.empty()),
                 new FindPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14)),
                 new ForgetAttackTargetTask<>((livingEntity) -> !isPreferredAttackTarget(cultist, livingEntity)));
     }

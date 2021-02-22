@@ -26,6 +26,7 @@ public class ShaderHandler implements ShaderEffectRenderCallback, ClientTickEven
 
     public static final ManagedShaderProgram HASTUR_SHADER = ShaderEffectManager.getInstance().manageProgram(new Identifier(Constants.MOD_ID, "simulacrum"));
     private static final Uniform1f uniformSTime = HASTUR_SHADER.findUniform1f("STime");
+    private static final Uniform1f disfiguration = HASTUR_SHADER.findUniform1f("disfiguration");
 
     private static int ticks;
 
@@ -53,6 +54,9 @@ public class ShaderHandler implements ShaderEffectRenderCallback, ClientTickEven
     @Override
     public void onEndTick(MinecraftClient client) {
         ticks++;
+        if (client.world != null) {
+            disfiguration.set(client.world.random.nextFloat());
+        }
         if (MiskatonicMysteries.config.client.useShaders && client.player != null) {
             if (client.player.hasStatusEffect(MMStatusEffects.MANIA)
                     && client.player.getStatusEffect(MMStatusEffects.MANIA).getAmplifier() > 0) {

@@ -12,4 +12,5 @@ void main() {
     vec3 rainbow = vec3(sin(STime + shift) + 0.2, cos(STime + shift + 0.5) + 0.2, sin(STime + shift + 4.) + 0.2);
     vec4 tex = texture2D(DiffuseSampler, texCoord);
     gl_FragColor = min(tex * vec4(rainbow, 1.) * 3., vec4(1.)) + tex;
+    //texCoord.x = texCoord.x + sin(STime);
 }
