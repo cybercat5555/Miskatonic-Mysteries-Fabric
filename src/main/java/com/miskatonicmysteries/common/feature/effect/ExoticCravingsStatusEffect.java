@@ -6,8 +6,8 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectType;
 import net.minecraft.entity.effect.StatusEffects;
 
-public class ExoticCravings extends StatusEffect {
-    public ExoticCravings() {
+public class ExoticCravingsStatusEffect extends StatusEffect {
+    public ExoticCravingsStatusEffect() {
         super(StatusEffectType.HARMFUL, 0xAA0000);
     }
 

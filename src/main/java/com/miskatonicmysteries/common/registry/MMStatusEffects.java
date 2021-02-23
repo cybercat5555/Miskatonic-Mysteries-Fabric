@@ -16,7 +16,7 @@ public class MMStatusEffects {
     public static final StatusEffect LAZARUS = new LazarusStatusEffect();
     public static final StatusEffect BLEED = new BleedStatusEffect();
     public static final StatusEffect RESONANCE = new ResonanceStatusEffect();
-    public static final StatusEffect EXOTIC_CRAVINGS = new ResonanceStatusEffect();
+    public static final StatusEffect EXOTIC_CRAVINGS = new ExoticCravingsStatusEffect();
     public static final StatusEffect ULTRA_VIOLENCE = new UltraViolenceStatusEffect();
 
     static class Potions {

@@ -5,7 +5,7 @@
     "dstrgb": "1-srcalpha"
   },
   "vertex": "miskatonicmysteries:nocontext",
-  "fragment": "miskatonicmysteries:rainbow",
+  "fragment": "miskatonicmysteries:simulacrum",
   "attributes": [
     "Position"
   ],
@@ -20,15 +20,25 @@
       "type": "float",
       "count": 1,
       "values": [
-        1.0
+        0.0
       ]
     },
     {
-      "name": "disfiguration",
+      "name": "Frequency",
       "type": "float",
-      "count": 1,
+      "count": 2,
       "values": [
-        1.0
+        100.0,
+        50.0
+      ]
+    },
+    {
+      "name": "WobbleAmount",
+      "type": "float",
+      "count": 2,
+      "values": [
+        0.09,
+        0.09
       ]
     }
   ]

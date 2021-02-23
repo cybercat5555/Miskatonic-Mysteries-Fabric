@@ -126,6 +126,7 @@ public class Constants {
         public static final String HALLUCINATION = "Hallucination";
         public static final String ACTIVE = "Active";
         public static final String LAST_CHANGED = "LastChanged";
+        public static final String PHASING_PROGRESS = "PhasingProgress";
     }
 
     public static class DataTrackers {

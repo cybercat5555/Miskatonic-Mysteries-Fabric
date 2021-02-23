@@ -11,7 +11,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.TargetFinder;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -43,6 +42,8 @@ import java.util.stream.Stream;
 
 public class HasturEntity extends PathAwareEntity implements IAnimatable, Affiliated {
     public static final TrackedData<Boolean> ACTIVE = DataTracker.registerData(HasturEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    public static final TrackedData<Float> PHASING_PROGRESS = DataTracker.registerData(HasturEntity.class, TrackedDataHandlerRegistry.FLOAT);
+
     private @Nullable
     BlockPos homePos = null;
     private int lastChangedStateTicks;
@@ -54,12 +55,13 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
         super(entityType, world);
         ignoreCameraFrustum = true;
         setHomePos(getBlockPos());
-        //oh no i need to make a proper navigator for these alas i must code
+        //teleportation for movement
     }
 
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
+        dataTracker.startTracking(PHASING_PROGRESS, 1F);
         dataTracker.startTracking(ACTIVE, false);
     }
 
@@ -75,12 +77,12 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
     }
 
     private void updateFloating() {
-        if (isFullySubmergedInSolid()) {
+      /*  if (isFullySubmergedInSolid()) {
             onGround = true;
             this.setVelocity(this.getVelocity().add(0, 0.1, 0));
         } else if (onGround) {
             this.setVelocity(this.getVelocity().x, 0, this.getVelocity().z);
-        }
+        }*/
     }
 
     private boolean isFullySubmergedInSolid() { //todo proper collision logic :(
@@ -107,9 +109,9 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
 
     @Override
     public void tickMovement() {
-        noClip = true;
+        //  noClip = true;
         super.tickMovement();
-        noClip = false;
+        //  noClip = false;
     }
 
     @Override
@@ -117,7 +119,7 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
         //redo movement, simus will instead phase around
         this.goalSelector.add(0, new FindHomeGoal());
         this.goalSelector.add(1, new ChangeActiveStateGoal());
-        this.goalSelector.add(3, new WanderAroundHomeGoal(this));
+        this.goalSelector.add(3, new PhaseAroundGoal());
         super.initGoals();
     }
 
@@ -180,6 +182,7 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
             tag.putLong(Constants.NBT.POSITION, getHomePos().asLong());
         }
         tag.putBoolean(Constants.NBT.ACTIVE, isActive());
+        tag.putFloat(Constants.NBT.PHASING_PROGRESS, getPhasingProgress());
         tag.putInt(Constants.NBT.LAST_CHANGED, lastChangedStateTicks);
     }
 
@@ -190,6 +193,7 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
             setHomePos(BlockPos.fromLong(tag.getLong(Constants.NBT.POSITION)));
         }
         setActive(tag.getBoolean(Constants.NBT.ACTIVE));
+        setPhasingProgress(tag.getFloat(Constants.NBT.PHASING_PROGRESS));
         lastChangedStateTicks = tag.getInt(Constants.NBT.LAST_CHANGED);
     }
 
@@ -209,6 +213,14 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
 
     public void setActive(boolean active) {
         dataTracker.set(ACTIVE, active);
+    }
+
+    public void setPhasingProgress(float progress) {
+        dataTracker.set(PHASING_PROGRESS, progress);
+    }
+
+    public float getPhasingProgress() {
+        return dataTracker.get(PHASING_PROGRESS);
     }
 
     public BlockPos getHomePos() {
@@ -274,19 +286,52 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
         }
     }
 
-    public class WanderAroundHomeGoal extends WanderAroundGoal {
-        public WanderAroundHomeGoal(PathAwareEntity pathAwareEntity) {
-            super(pathAwareEntity, 1, 100);
+    public class PhaseAroundGoal extends Goal {
+        private Vec3d target = null;
+
+        public PhaseAroundGoal() {
+            super();
         }
 
         @Override
         public boolean canStart() {
-            return isActive() && super.canStart();
+            if (isActive()) {
+                target = getWarpTarget();
+                return target != null;
+            }
+            return false;
         }
 
         @Override
+        public boolean shouldContinue() {
+            return target != null;
+        }
+
+        @Override
+        public void stop() {
+            setPhasingProgress(0);
+            target = null;
+        }
+
+        @Override
+        public void tick() {
+            if (target != null) {
+                if (squaredDistanceTo(target) > 16) {
+                    setPhasingProgress(getPhasingProgress() + 0.01F);
+                    if (getPhasingProgress() >= 1) {
+                        updatePositionAndAngles(target.x, target.y, target.z, yaw + 90, pitch);
+                    }
+                } else if (getPhasingProgress() > 0) {
+                    setPhasingProgress(getPhasingProgress() - 0.01F);
+                    if (getPhasingProgress() <= 0) {
+                        stop();
+                    }
+                }
+            }
+        }
+
         protected @Nullable
-        Vec3d getWanderTarget() {
+        Vec3d getWarpTarget() {
             if (homePos != null) {
                 Vec3d pos = new Vec3d(homePos.getX(), homePos.getY(), homePos.getZ());
                 if (homePos.getSquaredDistance(getBlockPos()) > 1024) {
