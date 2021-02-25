@@ -15,7 +15,7 @@ public class InfestedWheatCropBlock extends CropBlock {
         super(Settings.copy(Blocks.WHEAT));
     }
 
-
+    @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(AGE);
     }

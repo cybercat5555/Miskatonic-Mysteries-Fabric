@@ -142,12 +142,13 @@ public class TeleportRite extends Rite {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
         return super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
     }
 
-    @Environment(EnvType.CLIENT)
     @Override
+    @Environment(EnvType.CLIENT)
     public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
         float alpha = entity.permanentRiteActive ? 1 : entity.tickCount / (float) ticksNeeded;
         renderPortalOctagram(alpha, entity.getAffiliation(true).getColor(), entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);

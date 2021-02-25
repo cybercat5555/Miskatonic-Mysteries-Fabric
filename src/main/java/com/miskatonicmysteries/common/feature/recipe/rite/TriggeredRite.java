@@ -53,12 +53,13 @@ public abstract class TriggeredRite extends Rite {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
         return !entity.triggered ? 2 : super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
     }
 
-    @Environment(EnvType.CLIENT)
     @Override
+    @Environment(EnvType.CLIENT)
     public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
         if (!entity.triggered) {
             float alpha = entity.tickCount >= ticksNeeded ? 1 : entity.tickCount / (float) ticksNeeded;

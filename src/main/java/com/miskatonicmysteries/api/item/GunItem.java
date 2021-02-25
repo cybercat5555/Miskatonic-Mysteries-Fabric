@@ -60,8 +60,8 @@ public abstract class GunItem extends Item {
         return TypedActionResult.pass(stack);
     }
 
-    @Environment(EnvType.CLIENT)
     @Override
+    @Environment(EnvType.CLIENT)
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
         tooltip.add(new TranslatableText(isLoaded(stack) ? "tooltip.miskatonicmysteries.gun_loaded" : "tooltip.miskatonicmysteries.gun_not_loaded", stack.getTag().getInt(Constants.NBT.SHOTS), getMaxShots()).setStyle(Style.EMPTY.withColor(isLoaded(stack) ? TextColor.fromRgb(0x00FF00) : TextColor.fromRgb(0xFF0000))));
         tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.gun_tip_load").setStyle(Style.EMPTY.withItalic(true).withColor(Formatting.GRAY)));

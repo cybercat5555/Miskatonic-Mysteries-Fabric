@@ -19,7 +19,6 @@ import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
-import java.util.UUID;
 
 import static net.minecraft.state.property.Properties.FACING;
 import static net.minecraft.state.property.Properties.IN_WALL;
@@ -84,15 +83,5 @@ public class YellowSignBlock extends Block {
 
     public boolean isPlacementValid(WorldView world, BlockPos pos, Direction direction) {
         return direction != Direction.DOWN && world.getBlockState(pos.offset(direction.getOpposite())).isSideSolidFullSquare(world, pos, direction);
-    }
-
-    public static class VillageMarker {
-        public UUID player;
-        public BlockPos markerBlockPos;
-
-        public VillageMarker(UUID player, BlockPos markerBlockPos) {
-            this.player = player;
-            this.markerBlockPos = markerBlockPos;
-        }
     }
 }

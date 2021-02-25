@@ -4,6 +4,8 @@ import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import ladysnake.satin.api.util.RenderLayerHelper;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.*;
 import net.minecraft.client.texture.Sprite;
@@ -19,6 +21,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Environment(EnvType.CLIENT)
 public class RenderHelper extends RenderLayer {
     public static final List<RenderLayer> PORTAL_LAYERS = IntStream.range(1, 17).mapToObj(RenderLayer::getEndPortal).collect(Collectors.toList());
     public static final RenderPhase.Transparency AURA_TRANSPARENCY = new RenderPhase.Transparency(Constants.MOD_ID + ":aura_transparency", () -> {

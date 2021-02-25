@@ -56,6 +56,7 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
         return 1.0F;
     }
 
+    @Override
     public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
         return true;
     }
@@ -114,6 +115,7 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
         boolean powered = state.get(POWERED);

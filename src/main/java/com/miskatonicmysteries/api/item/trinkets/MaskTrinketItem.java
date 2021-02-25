@@ -9,6 +9,8 @@ import dev.emi.trinkets.api.Slots;
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;
 import dev.emi.trinkets.api.TrinketsApi;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -58,6 +60,7 @@ public class MaskTrinketItem extends TrinketItem implements Affiliated {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public void render(String slot, MatrixStack matrixStack, VertexConsumerProvider vertexConsumer, int light, PlayerEntityModel<AbstractClientPlayerEntity> model, AbstractClientPlayerEntity player, float headYaw, float headPitch) {
         Trinket.translateToFace(matrixStack, model, player, headYaw, headPitch);
         matrixStack.translate(0, 0.25, 0.3);

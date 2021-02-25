@@ -24,7 +24,7 @@ public abstract class Rite {
     private final List<Ingredient> ingredients = DefaultedList.ofSize(8, Ingredient.EMPTY);
     private final Identifier id;
     private final Affiliation octagramAffiliation;
-    private float investigatorChance;
+    private final float investigatorChance;
 
     public Rite(Identifier id, @Nullable Affiliation octagram, float investigatorChance, Ingredient... ingredients) {
         this.id = id;
@@ -100,11 +100,14 @@ public abstract class Rite {
      *
      * @return bitwise flag combination used for rendering, see above
      */
+
+    @Environment(EnvType.CLIENT)
     public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
         return 2 | 1;
     }
 
-    public static void renderPortalOctagram(float alpha, float origColors[], OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
+    @Environment(EnvType.CLIENT)
+    public static void renderPortalOctagram(float alpha, float[] origColors, OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
         Sprite sprite = ResourceHandler.getOctagramMaskTextureFor(entity).getSprite();
         float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
         matrixStack.push();

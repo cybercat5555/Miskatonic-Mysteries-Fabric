@@ -70,6 +70,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
         if (stack.hasTag() && stack.getTag().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
             CompoundTag compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
@@ -99,6 +100,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         if (world.getBlockEntity(pos) != null) {
             ItemStack stack = getFilledStack();
@@ -113,6 +115,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
         return 1.0F;
     }
 
+    @Override
     public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
         return true;
     }

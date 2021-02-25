@@ -5,6 +5,8 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
@@ -120,6 +122,7 @@ public class SpawnerTrapRite extends TriggeredRite {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
         if (entity.triggered && entity.tickCount > ticksNeeded) {
             float alpha = (entity.tickCount - ticksNeeded) > ticksNeeded ? 1 : (entity.tickCount - ticksNeeded) / (float) ticksNeeded;

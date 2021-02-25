@@ -17,7 +17,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.util.Identifier;
 
 public class MiskatonicMysteries implements ModInitializer {
-    //todo maybe reduce the amount of needed steps? that as in, you will not need to convert a villager, or at least it doesn't count as an ascension step but is somehow required in the process?
     public static MMConfig config;
 
     static {
