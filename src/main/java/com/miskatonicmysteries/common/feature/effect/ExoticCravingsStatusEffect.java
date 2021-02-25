@@ -13,7 +13,9 @@ public class ExoticCravingsStatusEffect extends StatusEffect {
 
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        entity.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 200, 2, true, false, false));
+        if (entity.age % 20 == 0) {
+            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 200, 2, true, false, false));
+        }
     }
 
     @Override

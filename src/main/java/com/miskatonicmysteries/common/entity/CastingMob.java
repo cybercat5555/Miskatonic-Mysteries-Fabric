@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.api.interfaces;
+package com.miskatonicmysteries.common.entity;
 
 import com.miskatonicmysteries.common.feature.spell.Spell;
 

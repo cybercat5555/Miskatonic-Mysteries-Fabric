@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.entity.ai.task;
 
 import com.google.common.collect.ImmutableMap;
-import com.miskatonicmysteries.api.interfaces.CastingMob;
+import com.miskatonicmysteries.common.entity.CastingMob;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import net.minecraft.entity.LivingEntity;

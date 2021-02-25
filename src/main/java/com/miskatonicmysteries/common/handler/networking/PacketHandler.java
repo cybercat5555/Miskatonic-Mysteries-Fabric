@@ -40,6 +40,7 @@ public class PacketHandler {
         ClientPlayNetworking.registerGlobalReceiver(ModifyBlessingPacket.ID, ModifyBlessingPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SoundPacket.ID, SoundPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SyncRiteTargetPacket.ID, SyncRiteTargetPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SyncHeldEntityPacket.ID, SyncHeldEntityPacket::handle);
     }
 
     public static void sendToPlayer(PlayerEntity player, PacketByteBuf data, Identifier packet) {

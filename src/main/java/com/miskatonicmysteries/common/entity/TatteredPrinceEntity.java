@@ -3,7 +3,6 @@ package com.miskatonicmysteries.common.entity;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.Ascendant;
-import com.miskatonicmysteries.api.interfaces.CastingMob;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;

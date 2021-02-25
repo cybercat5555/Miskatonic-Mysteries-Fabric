@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.common.entity;
 
 import com.miskatonicmysteries.api.interfaces.Affiliated;
-import com.miskatonicmysteries.api.interfaces.CastingMob;
 import com.miskatonicmysteries.api.item.MMBookItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
