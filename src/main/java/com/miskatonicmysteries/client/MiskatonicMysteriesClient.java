@@ -33,6 +33,7 @@ import net.minecraft.util.math.BlockPos;
 public class MiskatonicMysteriesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+
         ClientTickEvents.END_CLIENT_TICK.register(minecraftClient -> {
             for (BlockPos blockPos : ResonatorSound.soundInstances.keySet()) {
                 if (ResonatorSound.soundInstances.get(blockPos).isDone()) {
