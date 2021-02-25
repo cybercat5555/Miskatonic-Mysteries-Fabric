@@ -20,16 +20,16 @@ repositories {
 		url = "https://maven.abusedmaster.xyz/"
 	}
 	maven {
-		name "cotton-config"
-		url "http://server.bbkr.space:8081/artifactory/libs-release"
-	}
-	maven {
 		name "Patchouli"
 		url 'https://maven.blamejared.com'
 	}
 	maven {
-		name = 'Mod Menu'
-		url = 'https://maven.fabricmc.net/'
+		name = "Mod Menu"
+		url =  "https://maven.terraformersmc.com/releases"
+	}
+	maven {
+		name = "Cloth Config"
+		url = "https://maven.shedaniel.me/"
 	}
 	maven {
 		name = "Technici4n"
@@ -52,9 +52,7 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "vazkii.patchouli:Patchouli:${project.patchouli_version}"
-	modImplementation "me.shedaniel:RoughlyEnoughItems:${project.rei_version}"
 	modImplementation "io.github.ladysnake:Satin:${project.satin_version}"
-	modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
 
 	modImplementation "io.github.ladysnake:Satin:${project.satin_version}"
 	include "io.github.ladysnake:Satin:${project.satin_version}"
@@ -66,16 +64,19 @@ dependencies {
 	include "me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"
 	
 	modImplementation "com.github.emilyploszaj:trinkets:${project.trinkets_version}"
-	modApi("me.shedaniel.cloth:config-2:${project.cloth_config_version}") {
+	modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
-	include "me.shedaniel.cloth:config-2:${project.cloth_config_version}"
 	modApi("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	include "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
 	modApi include("dev.technici4n:FastTransferLib:${project.ftl_version}")
 	modImplementation "software.bernie.geckolib:${project.geckolib_version}"
+	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${project.rei_version}"
+	modRuntime "me.shedaniel:RoughlyEnoughItems:${project.rei_version}"
 
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 }

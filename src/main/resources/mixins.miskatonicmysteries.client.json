@@ -8,7 +8,7 @@
     "client.MobEntityRendererMixin",
     "client.ParticleManagerMixin",
     "client.PlayerModelMixin"
-  ]
+  ],
   "injectors": {
     "defaultRequire": 1
   }

@@ -26,6 +26,8 @@ public class MiskatonicMysteries implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        //mixins are not the issue so what else is?
+        //maybe try disabling the mod altogether
         MMAffiliations.init();
         MMBlessings.init();
         MMObjects.init();
