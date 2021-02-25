@@ -31,7 +31,14 @@
     ]
   },
   "mixins": [
-    "miskatonicmysteries.mixins.json"
+    {
+      "environment": "*",
+      "config": "mixins.miskatonicmysteries.common.json"
+    },
+    {
+      "environment": "client",
+      "config": "mixins.miskatonicmysteries.client.json"
+    }
   ],
 
   "depends": {

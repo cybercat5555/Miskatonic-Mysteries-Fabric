@@ -28,12 +28,6 @@
     "world.StructurePoolAccessor",
     "world.StructurePoolRegistryMixin"
   ],
-  "client": [
-    "client.ClientPlayNetworkHandlerMixin",
-    "client.MobEntityRendererMixin",
-    "client.ParticleManagerMixin",
-    "client.PlayerModelMixin"
-  ],
   "injectors": {
     "defaultRequire": 1
   }
