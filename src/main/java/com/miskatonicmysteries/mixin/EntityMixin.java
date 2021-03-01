@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.api.interfaces.Hallucination;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
@@ -20,9 +19,7 @@ public class EntityMixin {
     private void playSound(SoundEvent sound, float volume, float pitch, CallbackInfo ci) {
         Hallucination.of(this).ifPresent(hallucination -> {
             if (hallucination.getHallucinationTarget().isPresent()) {
-                if (!world.isClient || !hallucination.getHallucinationTarget().get().equals(MinecraftClient.getInstance().player.getUuid())) {
-                    ci.cancel();
-                }
+                ci.cancel();
             }
         });
     }
