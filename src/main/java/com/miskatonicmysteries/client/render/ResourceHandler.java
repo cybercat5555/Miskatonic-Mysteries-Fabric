@@ -15,6 +15,8 @@ import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderingRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.client.model.Model;
@@ -32,11 +34,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Environment(EnvType.CLIENT)
 public class ResourceHandler {
     public static final SpriteIdentifier DEFAULT_OCTAGRAM = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "block/octagram/generic_octagram"));
     public static final SpriteIdentifier DEFAULT_OCTAGRAM_MASK = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "block/octagram/mask/octagram_mask"));
     public static final SpriteIdentifier AURA_SPRITE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/aura"));
     public static final SpriteIdentifier TOTAL_DARK = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/total_dark"));
+
+    public static final HasturStatueModel HASTUR_STATUE_MODEL = new HasturStatueModel();
 
     public static final Map<Item, SpriteIdentifier> BOOK_SPRITES = new HashMap<>();
     public static final Map<OctagramBlock, SpriteIdentifier> OCTAGRAM_SPRITES = new HashMap<>();

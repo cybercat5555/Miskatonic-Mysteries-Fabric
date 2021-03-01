@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Random;
 
 public class SculptorRite extends Rite {
-    private static final HasturStatueModel MODEL = new HasturStatueModel();
     private final int ticksNeeded = 140;
     private final String knowledge;
 
@@ -142,13 +141,14 @@ public class SculptorRite extends Rite {
         VertexConsumer vertexConsumer = ResourceHandler.STATUE_SPRITES.get(getStatueForIngredients(entity)).getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid);
         matrixStack.translate(1.5F, 0, 1.5F);
         matrixStack.push();
-        MODEL.plinth.visible = entity.tickCount > 40;
-        MODEL.body.visible = entity.tickCount > 80;
-        MODEL.head.visible = entity.tickCount > 120;
+        HasturStatueModel model = ResourceHandler.HASTUR_STATUE_MODEL;
+        model.plinth.visible = entity.tickCount > 40;
+        model.body.visible = entity.tickCount > 80;
+        model.head.visible = entity.tickCount > 120;
         matrixStack.translate(0, 1.5, 0);
         matrixStack.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(180));
         matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180));
-        MODEL.render(matrixStack, vertexConsumer, light, overlay, 1, 1, 1, 1);
+        model.render(matrixStack, vertexConsumer, light, overlay, 1, 1, 1, 1);
         matrixStack.pop();
     }
 
