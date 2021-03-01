@@ -35,7 +35,7 @@ public class DataHandler extends JsonDataLoader {
             String type = JsonHelper.getString((JsonObject) element, "type");
             try{
                 DataSerializable.DataReader reader = DATA_READERS.get(new Identifier(type));
-                if (!reader.getRegistry().containsId(id)) {
+                if (!reader.getRegistry().getIds().contains(id)) {
                     Registry.register(reader.getRegistry(), id, reader.readFromJson(id, (JsonObject) element));
                 }
             }catch (IllegalArgumentException | JsonParseException | NullPointerException exception){

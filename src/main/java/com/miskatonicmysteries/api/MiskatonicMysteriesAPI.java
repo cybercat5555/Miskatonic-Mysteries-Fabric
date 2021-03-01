@@ -31,7 +31,7 @@ public class MiskatonicMysteriesAPI {
 
         public Affiliation read(PacketByteBuf packetByteBuf) {
             Identifier id = packetByteBuf.readIdentifier();
-            return MMRegistries.AFFILIATIONS.containsId(id) ? MMRegistries.AFFILIATIONS.get(id) : MMAffiliations.NONE;
+            return MMRegistries.AFFILIATIONS.getIds().contains(id) ? MMRegistries.AFFILIATIONS.get(id) : MMAffiliations.NONE;
         }
 
         public Affiliation copy(Affiliation affiliation) {

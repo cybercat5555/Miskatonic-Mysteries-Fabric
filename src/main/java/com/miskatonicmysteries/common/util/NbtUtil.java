@@ -31,14 +31,14 @@ public class NbtUtil {
         caster.getLearnedEffects().clear();
         tag.getList(Constants.NBT.SPELL_EFFECTS, 8).forEach(effectString -> {
             Identifier id = new Identifier(effectString.asString());
-            if (MMRegistries.SPELL_EFFECTS.containsId(id)) {
+            if (MMRegistries.SPELL_EFFECTS.getIds().contains(id)) {
                 caster.getLearnedEffects().add(MMRegistries.SPELL_EFFECTS.get(id));
             }
         });
         caster.getLearnedMediums().clear();
         tag.getList(Constants.NBT.SPELL_MEDIUMS, 8).forEach(mediumString -> {
             Identifier id = new Identifier(mediumString.asString());
-            if (MMRegistries.SPELL_MEDIUMS.containsId(id)) {
+            if (MMRegistries.SPELL_MEDIUMS.getIds().contains(id)) {
                 caster.getLearnedMediums().add(MMRegistries.SPELL_MEDIUMS.get(id));
             }
         });
@@ -55,7 +55,7 @@ public class NbtUtil {
         ascendant.getBlessings().clear();
         tag.getList(Constants.NBT.BLESSINGS, 8).forEach(blessings -> {
             Identifier id = new Identifier(blessings.asString());
-            if (MMRegistries.BLESSINGS.containsId(id)) {
+            if (MMRegistries.BLESSINGS.getIds().contains(id)) {
                 ascendant.getBlessings().add(MMRegistries.BLESSINGS.get(id));
             }
         });

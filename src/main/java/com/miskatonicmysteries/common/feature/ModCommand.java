@@ -337,7 +337,7 @@ public class ModCommand {
                 }
             }
         }
-        return MMRegistries.SPELL_EFFECTS.containsId(effect) ? 16 : 0;
+        return 0;
     }
 
     private static int removeSpellEffect(CommandContext<ServerCommandSource> context, Identifier effect, ServerPlayerEntity... players) throws CommandSyntaxException {
@@ -353,7 +353,7 @@ public class ModCommand {
                 }
             }
         }
-        return MMRegistries.SPELL_EFFECTS.containsId(effect) ? 16 : 0;
+        return 0;
     }
 
     private static int learnMedium(CommandContext<ServerCommandSource> context, Identifier medium, ServerPlayerEntity... players) throws CommandSyntaxException {
@@ -369,7 +369,7 @@ public class ModCommand {
                 }
             }
         }
-        return MMRegistries.SPELL_MEDIUMS.containsId(medium) ? 16 : 0;
+        return 0;
     }
 
     private static int removeMedium(CommandContext<ServerCommandSource> context, Identifier medium, ServerPlayerEntity... players) throws CommandSyntaxException {
@@ -385,7 +385,7 @@ public class ModCommand {
                 }
             }
         }
-        return MMRegistries.SPELL_MEDIUMS.containsId(medium) ? 16 : 0;
+        return 0;
     }
 
     private static int addBlessing(CommandContext<ServerCommandSource> context, Identifier blessingId, ServerPlayerEntity... players) throws CommandSyntaxException {
@@ -407,7 +407,7 @@ public class ModCommand {
                 }
             }
         }
-        return MMRegistries.BLESSINGS.containsId(blessingId) ? 16 : 0;
+        return 0;
     }
 
     private static int removeBlessing(CommandContext<ServerCommandSource> context, Identifier blessingId, ServerPlayerEntity... players) throws CommandSyntaxException {
@@ -425,7 +425,7 @@ public class ModCommand {
                 }
             }
         }
-        return MMRegistries.BLESSINGS.containsId(blessingId) ? 16 : 0;
+        return 0;
     }
 
     private static int giveBlessingFeedback(CommandContext<ServerCommandSource> context, ServerPlayerEntity... players) throws CommandSyntaxException {
@@ -483,7 +483,7 @@ public class ModCommand {
             }
 
         }
-        return 16;
+        return 0;
     }
 
     private static int giveStatFeedback(CommandContext<ServerCommandSource> context, ServerPlayerEntity player) throws CommandSyntaxException {

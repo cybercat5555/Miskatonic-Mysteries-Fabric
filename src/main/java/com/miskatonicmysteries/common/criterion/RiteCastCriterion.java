@@ -22,7 +22,7 @@ public class RiteCastCriterion extends AbstractCriterion<RiteCastCriterion.Condi
 
     public RiteCastCriterion.Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
         Identifier riteId = new Identifier(JsonHelper.getString(jsonObject, "rite"));
-        return MMRegistries.RITES.containsId(riteId) ? new RiteCastCriterion.Conditions(extended, MMRegistries.RITES.get(riteId)) : null;
+        return new RiteCastCriterion.Conditions(extended, MMRegistries.RITES.get(riteId));
     }
 
     public void trigger(ServerPlayerEntity player, Rite rite) {

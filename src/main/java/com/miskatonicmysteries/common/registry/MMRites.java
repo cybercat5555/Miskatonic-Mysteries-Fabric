@@ -13,6 +13,8 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import java.util.Arrays;
+
 public class MMRites {
     public static final Rite OPEN_WAY = new TeleportRite();
     public static final Rite BURNED_VEIL = new BurnedVeilRite();
@@ -27,7 +29,7 @@ public class MMRites {
     public static final Rite RESISTANCE_SPELL_RITE = new SpellGivingRite(MMSpellEffects.RESISTANCE, Constants.Misc.WITCH_KNOWLEDGE, new Identifier(Constants.MOD_ID, "resistance"), null, 0,
             Ingredient.ofItems(Items.SCUTE), Ingredient.ofItems(MMObjects.OCEANIC_GOLD), Ingredient.ofItems(Items.IRON_INGOT), Ingredient.ofItems(Items.BEEF), Ingredient.ofItems(Items.QUARTZ), Ingredient.ofItems(Items.DIAMOND));
     public static final Rite KNOCKBACK_SPELL_RITE = new SpellGivingRite(MMSpellEffects.KNOCKBACK, "", new Identifier(Constants.MOD_ID, "knockback"), null, 0,
-            Ingredient.ofItems(Items.FEATHER), Ingredient.ofItems(MMObjects.OCEANIC_GOLD), Ingredient.ofStacks(PotionUtil.setPotion(new ItemStack(Items.POTION), Potions.STRONG_SWIFTNESS)), Ingredient.ofItems(Items.BEEF), Ingredient.ofItems(Items.CHICKEN), Ingredient.ofItems(Items.ARROW));
+            Ingredient.ofItems(Items.FEATHER), Ingredient.ofItems(MMObjects.OCEANIC_GOLD), Ingredient.ofStacks(Arrays.stream(new ItemStack[]{PotionUtil.setPotion(new ItemStack(Items.POTION), Potions.STRONG_SWIFTNESS)})), Ingredient.ofItems(Items.BEEF), Ingredient.ofItems(Items.CHICKEN), Ingredient.ofItems(Items.ARROW));
 
     public static void init() {
         register(OPEN_WAY);
