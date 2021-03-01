@@ -67,10 +67,6 @@ dependencies {
 	modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
-	modApi("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
-		exclude(group: "net.fabricmc.fabric-api")
-	}
-	include "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
 	modApi include("dev.technici4n:FastTransferLib:${project.ftl_version}")
 	modImplementation "software.bernie.geckolib:${project.geckolib_version}"
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"

@@ -4,6 +4,8 @@ import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.client.gui.HUDHandler;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -12,6 +14,7 @@ import net.minecraft.util.math.Vec2f;
 import java.util.ArrayList;
 import java.util.List;
 
+@Environment(EnvType.CLIENT)
 public class SpellHUD extends DrawableHelper {
     private float lastMouseX, lastMouseY;
     private float mouseX, mouseY;

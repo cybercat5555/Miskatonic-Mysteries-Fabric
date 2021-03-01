@@ -4,11 +4,14 @@ import com.miskatonicmysteries.client.gui.EditSpellScreen;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
 
+@Environment(EnvType.CLIENT)
 public class CombinedSpellWidget extends AbstractButtonWidget {
     public EditSpellScreen screen;
     public int index;

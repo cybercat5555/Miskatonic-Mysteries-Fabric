@@ -7,8 +7,8 @@ import com.miskatonicmysteries.common.registry.*;
 import dev.emi.trinkets.api.SlotGroups;
 import dev.emi.trinkets.api.Slots;
 import dev.emi.trinkets.api.TrinketSlots;
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.IdentifierArgumentType;
@@ -26,8 +26,6 @@ public class MiskatonicMysteries implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        //mixins are not the issue so what else is?
-        //maybe try disabling the mod altogether
         MMAffiliations.init();
         MMBlessings.init();
         MMObjects.init();

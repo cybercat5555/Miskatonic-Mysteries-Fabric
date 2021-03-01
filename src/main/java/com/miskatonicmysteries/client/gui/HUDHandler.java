@@ -5,6 +5,8 @@ import com.miskatonicmysteries.client.gui.hud.SpellHUD;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -14,12 +16,14 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.nbt.CompoundTag;
 import org.lwjgl.glfw.GLFW;
 
+@Environment(EnvType.CLIENT)
 public class HUDHandler {
     private static KeyBinding spellSelectionKey;
     public static boolean selectionActive = false;
 
     public static SpellHUD spellHUD;
     public static SpellBurnoutHUD burnoutHUD;
+
     public static void init() {
         spellHUD = new SpellHUD();
         burnoutHUD = new SpellBurnoutHUD();

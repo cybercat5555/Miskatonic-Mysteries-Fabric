@@ -20,9 +20,7 @@ public class EntityMixin {
     private void playSound(SoundEvent sound, float volume, float pitch, CallbackInfo ci) {
         Hallucination.of(this).ifPresent(hallucination -> {
             if (hallucination.getHallucinationTarget().isPresent()) {
-                if (!world.isClient) {
-                    ci.cancel();
-                } else if (!hallucination.getHallucinationTarget().get().equals(MinecraftClient.getInstance().player.getUuid())) {
+                if (!world.isClient || !hallucination.getHallucinationTarget().get().equals(MinecraftClient.getInstance().player.getUuid())) {
                     ci.cancel();
                 }
             }

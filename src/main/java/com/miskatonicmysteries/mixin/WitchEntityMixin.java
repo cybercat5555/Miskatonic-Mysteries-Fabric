@@ -4,6 +4,8 @@ import com.miskatonicmysteries.api.interfaces.Appeasable;
 import com.miskatonicmysteries.api.item.MMBookItem;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -61,6 +63,7 @@ public abstract class WitchEntityMixin extends RaiderEntity implements Appeasabl
         return appeaseTicks;
     }
 
+    @Environment(EnvType.CLIENT)
     @Inject(method = "handleStatus", at = @At("HEAD"), cancellable = true)
     public void handleStatus(byte status, CallbackInfo ci) {
         if (status == 14) {

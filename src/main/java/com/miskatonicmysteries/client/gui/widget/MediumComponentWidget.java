@@ -3,9 +3,12 @@ package com.miskatonicmysteries.client.gui.widget;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.client.gui.EditSpellScreen;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
 
+@Environment(EnvType.CLIENT)
 public class MediumComponentWidget extends SpellComponentWidget {
     public SpellMedium medium;
 

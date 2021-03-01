@@ -3,12 +3,15 @@ package com.miskatonicmysteries.client.gui.widget;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.client.gui.EditSpellScreen;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
+@Environment(EnvType.CLIENT)
 public class SpellComponentWidget extends AbstractButtonWidget {
     public Identifier linkedId;
     public Identifier textureLocation;

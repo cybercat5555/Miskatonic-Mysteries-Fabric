@@ -24,6 +24,8 @@ import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
@@ -35,6 +37,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
+@Environment(EnvType.CLIENT)
 public class MiskatonicMysteriesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {

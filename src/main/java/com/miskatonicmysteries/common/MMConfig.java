@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.common;
 
 import com.miskatonicmysteries.common.util.Constants;
-import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.ConfigEntry;
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 @Config(name = Constants.MOD_ID)
 public class MMConfig implements ConfigData {
