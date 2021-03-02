@@ -140,7 +140,7 @@ public abstract class GunItem extends Item {
         Vec3d vec3d3 = vec3d.add(vec3d2.x * getMaxDistance(), vec3d2.y * getMaxDistance(), vec3d2.z * getMaxDistance());
         HitResult blockHit = world.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, player));
         double distance = Math.pow(getMaxDistance(), 2);
-        EntityHitResult hit = ProjectileUtil.raycast(player, vec3d, vec3d3, player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides(), distance);
+        EntityHitResult hit = ProjectileUtil.getEntityCollision(world, player, vec3d, vec3d3, player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides());
         BlockPos blockPos = new BlockPos(blockHit.getPos());
         if (world.getBlockState(blockPos).getBlock() instanceof Shootable) {
             ((Shootable) world.getBlockState(blockPos).getBlock()).onShot(world, blockPos, player);
