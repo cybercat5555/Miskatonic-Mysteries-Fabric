@@ -126,6 +126,14 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
     }
 
     @Override
+    public void onDeath(DamageSource source) {
+        if (!world.isClient && getTargetUUID().isPresent() && getStage() < Constants.DataTrackers.PROTAGONIST_MAX_LEVEL) {
+            world.sendEntityStatus(this, (byte) 10);
+        }
+        super.onDeath(source);
+    }
+
+    @Override
     protected void updatePostDeath() {
         if (getTargetUUID().isPresent() && getStage() < Constants.DataTrackers.PROTAGONIST_MAX_LEVEL) {
             if (getAttacker() instanceof PlayerEntity || (getAttacker() instanceof TameableEntity && getTargetUUID().isPresent() && getTargetUUID().get().equals(((TameableEntity) getAttacker()).getOwnerUuid()))) {
@@ -133,14 +141,15 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
                     ProtagonistHandler.levelProtagonist(world, this);
                 }
             }
-            if (!world.isClient) {
-                world.sendEntityStatus(this, (byte) 10);
-            }
             remove();
         } else {
             if (!world.isClient) {
                 if (getTargetUUID().isPresent() && getAttacker() instanceof ServerPlayerEntity) {
-                    AdvancementHandler.grantAdvancement(new Identifier(Constants.MOD_ID, "true_villain"), "truly_kill_protagonist", (ServerPlayerEntity) getAttacker());
+                    try {
+                        AdvancementHandler.grantAdvancement(new Identifier(Constants.MOD_ID, "misc/true_villain"), "truly_kill_protagonist", (ServerPlayerEntity) getAttacker());
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
                 }
                 ProtagonistHandler.removeProtagonist(world, this);
             }

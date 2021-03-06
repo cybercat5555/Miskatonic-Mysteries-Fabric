@@ -13,6 +13,7 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class BloodParticlePacket {
@@ -22,6 +23,9 @@ public class BloodParticlePacket {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
         data.writeInt(entity.getEntityId());
         PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
+        if (entity instanceof ServerPlayerEntity) {
+            ServerPlayNetworking.send((ServerPlayerEntity) entity, ID, data);
+        }
     }
 
     @Environment(EnvType.CLIENT)
