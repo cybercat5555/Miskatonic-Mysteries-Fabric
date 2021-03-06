@@ -17,7 +17,7 @@ import net.minecraft.util.Identifier;
 public class ExpandSanityPacket {
     public static final Identifier ID = new Identifier(Constants.MOD_ID, "sanity_expansion");
 
-    public static void send(PlayerEntity player, String name, int amount) { //todo fix internal server error, test first in multiplayer
+    public static void send(PlayerEntity player, String name, int amount) {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
         data.writeString(name);
         data.writeInt(amount);
