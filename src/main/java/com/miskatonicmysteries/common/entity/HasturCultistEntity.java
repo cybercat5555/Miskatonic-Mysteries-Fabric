@@ -186,12 +186,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         super.tick();
     }
 
-
-    @Override
-    public Brain<VillagerEntity> getBrain() {
-        return super.getBrain();
-    }
-
     @Override
     public boolean damage(DamageSource source, float amount) {
         if (amount > 0.0F && ((LivingEntityAccessor) this).callBlockedByShield(source)) {
@@ -214,11 +208,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         return damage;
     }
 
-    @Override
-    public void swingHand(Hand hand) {
-        this.swingHand(hand, true);
-    }
-
     @Override //they are stronk
     protected void knockback(LivingEntity target) {
         target.takeKnockback(target instanceof PlayerEntity ? 1 : 0.5F, target.getX() - this.getX(), target.getZ() - this.getZ());
@@ -230,11 +219,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
             strength -= 0.3F;
         }
         super.takeKnockback(strength, x, z);
-    }
-
-    @Override
-    public boolean isBlocking() {
-        return super.isBlocking();
     }
 
     @Override

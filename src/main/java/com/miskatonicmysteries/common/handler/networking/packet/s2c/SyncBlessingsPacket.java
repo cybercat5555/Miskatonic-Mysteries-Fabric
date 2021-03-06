@@ -1,18 +1,19 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
 import com.miskatonicmysteries.api.interfaces.Ascendant;
-import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.NbtUtil;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class SyncBlessingsPacket {
@@ -23,9 +24,9 @@ public class SyncBlessingsPacket {
         CompoundTag blessingCompound = NbtUtil.writeBlessingData(caster, new CompoundTag());
         data.writeCompoundTag(blessingCompound);
         data.writeInt(entity.getEntityId());
-        PacketHandler.sendToPlayers(entity.world, entity, data, ID);
-        if (entity instanceof PlayerEntity) {
-            PacketHandler.sendToPlayer((PlayerEntity) entity, data, ID);
+        PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
+        if (entity instanceof ServerPlayerEntity) {
+            ServerPlayNetworking.send((ServerPlayerEntity) entity, ID, data);
         }
     }
 

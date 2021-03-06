@@ -51,7 +51,6 @@ public abstract class ItemMixin {
                     Vec3d vec3d = user.getCameraPosVec(1);
                     Vec3d vec3d2 = user.getRotationVec(1);
                     Vec3d vec3d3 = vec3d.add(vec3d2.x * distance, vec3d2.y * distance, vec3d2.z * distance);
-                    //todo change all instances of raycasting to use a non-client method lol, probably packets
                     EntityHitResult hit = ProjectileUtil.getEntityCollision(world, user, vec3d, vec3d3, user.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides());
                     if (hit != null && hit.getEntity() instanceof LivingEntity && ((LivingEntity) hit.getEntity()).canSee(user) && !MiskatonicMysteriesAPI.isImmuneToYellowSign((LivingEntity) hit.getEntity())) {
                         LivingEntity target = (LivingEntity) hit.getEntity();

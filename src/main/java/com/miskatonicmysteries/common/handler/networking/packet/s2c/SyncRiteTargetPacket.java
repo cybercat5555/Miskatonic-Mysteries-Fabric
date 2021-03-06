@@ -1,10 +1,11 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
@@ -16,10 +17,10 @@ public class SyncRiteTargetPacket {
     public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_rite_target");
 
     public static void send(Entity entity, OctagramBlockEntity blockEntity) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeInt(entity.getEntityId());
-        buf.writeLong(blockEntity.getPos().asLong());
-        PacketHandler.sendToPlayers(blockEntity.getWorld(), blockEntity, buf, ID);
+        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+        data.writeInt(entity.getEntityId());
+        data.writeLong(blockEntity.getPos().asLong());
+        PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
     }
 
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {

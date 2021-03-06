@@ -60,16 +60,18 @@ public class HasturCultistBrain {
         Brain<VillagerEntity> brain = entity.getBrain();
         brain.resetPossibleActivities(ImmutableList.of(Activity.MEET, Activity.FIGHT, Activity.IDLE));
 
-        if (entity.isCasting()) {
-            if (entity.currentSpell != null && !entity.world.isClient) {
-                EffectParticlePacket.send(entity);
+        if (!entity.world.isClient) {
+            if (entity.isCasting()) {
+                if (entity.currentSpell != null && !entity.world.isClient) {
+                    EffectParticlePacket.send(entity);
+                }
+                entity.setCastTime(entity.getCastTime() - 1);
             }
-            entity.setCastTime(entity.getCastTime() - 1);
-        }
-        if (!entity.world.isClient && entity.currentSpell != null && entity.getCastTime() <= 0) {
-            entity.currentSpell.cast(entity, entity.currentSpell.effect.backfires(entity));
-            entity.currentSpell = null;
-            entity.getBrain().remember(MemoryModuleType.ATTACK_COOLING_DOWN, true, 40);
+            if (entity.currentSpell != null && entity.getCastTime() <= 0) {
+                entity.currentSpell.cast(entity, entity.currentSpell.effect.backfires(entity));
+                entity.currentSpell = null;
+                entity.getBrain().remember(MemoryModuleType.ATTACK_COOLING_DOWN, true, 40);
+            }
         }
     }
 

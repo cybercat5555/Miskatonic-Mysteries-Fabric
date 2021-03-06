@@ -23,7 +23,6 @@ import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.InventoryUtil;
 import com.miskatonicmysteries.common.util.NbtUtil;
-import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -32,7 +31,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -49,6 +48,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static com.miskatonicmysteries.common.util.Constants.DataTrackers.*;
 
+@SuppressWarnings("ConstantConditions")
 @Mixin(PlayerEntity.class)
 public abstract class PlayerMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant, Resonating {
     public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
@@ -184,17 +184,19 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
 
     @Override
     public void addSanityCapExpansion(String name, int amount) {
-        sanityCapOverrides.putIfAbsent(name, amount);
-        if (!world.isClient) {
-            ExpandSanityPacket.send((PlayerEntity) (Object) this, name, amount);
+        if ((PlayerEntity) (Object) this instanceof ServerPlayerEntity) {
+            sanityCapOverrides.putIfAbsent(name, amount);
+            ExpandSanityPacket.send((ServerPlayerEntity) (Object) this, name, amount);
+            if (getSanity() > getMaxSanity()) {
+                setSanity(getMaxSanity(), true);
+            }
         }
-        if (getSanity() > getMaxSanity()) setSanity(getMaxSanity(), true);
     }
 
     @Override
     public void removeSanityCapExpansion(String name) {
-        sanityCapOverrides.remove(name);
         if (!world.isClient && sanityCapOverrides.containsKey(name)) {
+            sanityCapOverrides.remove(name);
             RemoveExpansionPacket.send((PlayerEntity) (Object) this, name);
         }
     }
@@ -206,12 +208,9 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
 
     @Override
     public void syncSanityData() {
-        sanityCapOverrides.forEach((s, i) -> {
-            PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-            data.writeString(s);
-            data.writeInt(i);
-            ExpandSanityPacket.send((PlayerEntity) (Object) this, s, i);
-        });
+        if (!world.isClient) {
+            sanityCapOverrides.forEach((s, i) -> ExpandSanityPacket.send((PlayerEntity) (Object) this, s, i));
+        }
     }
 
     @Inject(method = "writeCustomDataToTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
@@ -246,16 +245,13 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     public void readMiskData(CompoundTag compoundTag, CallbackInfo info) {
         CompoundTag tag = (CompoundTag) compoundTag.get(Constants.NBT.MISK_DATA);
         if (tag != null) {
-            syncSanityData();
             setSanity(tag.getInt(Constants.NBT.SANITY), true);
             setShocked(tag.getBoolean(Constants.NBT.SHOCKED));
             getSanityCapExpansions().clear();
-            ((ListTag) tag.get(Constants.NBT.SANITY_EXPANSIONS)).forEach(s -> addSanityCapExpansion(((CompoundTag) s).getString("Name"), ((CompoundTag) s).getInt("Amount")));
-
+            ((ListTag) tag.get(Constants.NBT.SANITY_EXPANSIONS)).forEach(s -> sanityCapOverrides.put(((CompoundTag) s).getString("Name"), ((CompoundTag) s).getInt("Amount")));
             setPowerPool(tag.getInt(Constants.NBT.POWER_POOL));
             setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
             setSpellBurnout(tag.getFloat(Constants.NBT.SPELL_BURNOUT));
-            syncSpellData();
             NbtUtil.readSpellData(this, tag);
             setAscensionStage(tag.getInt(Constants.NBT.ASCENSION_STAGE));
 

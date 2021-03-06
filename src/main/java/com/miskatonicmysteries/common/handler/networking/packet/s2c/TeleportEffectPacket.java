@@ -1,10 +1,11 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
-import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
@@ -13,15 +14,14 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 
 public class TeleportEffectPacket {
     public static final Identifier ID = new Identifier(Constants.MOD_ID, "teleport");
 
-    public static void send(Entity entity, BlockPos pos) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeInt(entity.getEntityId());
-        PacketHandler.sendToPlayers(entity.world, pos, buf, ID);
+    public static void send(Entity entity) {
+        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+        data.writeInt(entity.getEntityId());
+        PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
     }
 
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {

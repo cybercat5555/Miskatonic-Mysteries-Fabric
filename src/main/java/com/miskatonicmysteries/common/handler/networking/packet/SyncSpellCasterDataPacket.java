@@ -1,12 +1,12 @@
 package com.miskatonicmysteries.common.handler.networking.packet;
 
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
-import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.NbtUtil;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,7 @@ public class SyncSpellCasterDataPacket {
         if (client) {
             ClientPlayNetworking.send(ID, data);
         } else {
-            PacketHandler.sendToPlayer(user, data, ID);
+            ServerPlayNetworking.send((ServerPlayerEntity) user, ID, data);
         }
     }
 

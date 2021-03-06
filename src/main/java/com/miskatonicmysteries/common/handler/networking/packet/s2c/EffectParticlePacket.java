@@ -1,15 +1,17 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
 import com.miskatonicmysteries.common.entity.CastingMob;
-import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
@@ -22,7 +24,9 @@ public class EffectParticlePacket {
         data.writeDouble(castingMob.getY() + 2.3F);
         data.writeDouble(castingMob.getZ());
         data.writeInt(castingMob.getCurrentSpell().effect.getColor(castingMob));
-        PacketHandler.sendToPlayers(castingMob.world, castingMob, data, ID);
+        if (castingMob.world instanceof ServerWorld) {
+            PlayerLookup.tracking(castingMob).forEach(p -> ServerPlayNetworking.send(p, ID, data));
+        }
     }
 
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {

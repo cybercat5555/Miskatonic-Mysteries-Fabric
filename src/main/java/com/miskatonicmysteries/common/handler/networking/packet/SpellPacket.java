@@ -1,11 +1,12 @@
 package com.miskatonicmysteries.common.handler.networking.packet;
 
 import com.miskatonicmysteries.common.feature.spell.Spell;
-import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -26,7 +27,7 @@ public class SpellPacket {
         data.writeCompoundTag(spellTag);
         data.writeInt(caster.getEntityId());
         data.writeBoolean(backfires);
-        PacketHandler.sendToPlayers(caster.world, caster, data, ID);
+        PlayerLookup.tracking(caster).forEach(p -> ServerPlayNetworking.send(p, ID, data));
     }
 
     public static void sendFromClientPlayer(ClientPlayerEntity caster, CompoundTag spellTag) {

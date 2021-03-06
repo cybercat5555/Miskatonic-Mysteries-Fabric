@@ -1,12 +1,13 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
 import com.miskatonicmysteries.api.registry.SpellEffect;
-import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
@@ -24,7 +25,7 @@ public class MobSpellPacket {
         data.writeInt(caster.getAttacking().getEntityId());
         data.writeIdentifier(effect.getId());
         data.writeInt(intensity);
-        PacketHandler.sendToPlayers(caster.world, caster, data, ID);
+        PlayerLookup.tracking(caster).forEach(p -> ServerPlayNetworking.send(p, ID, data));
     }
 
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {

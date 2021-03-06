@@ -1,10 +1,11 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
-import com.miskatonicmysteries.common.handler.networking.PacketHandler;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
@@ -18,7 +19,7 @@ public class BloodParticlePacket {
     public static void send(LivingEntity entity) {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
         data.writeInt(entity.getEntityId());
-        PacketHandler.sendToPlayers(entity.world, entity, data, ID);
+        PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
     }
 
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {

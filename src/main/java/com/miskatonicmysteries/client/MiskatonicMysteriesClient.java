@@ -19,7 +19,9 @@ import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
 import com.miskatonicmysteries.client.render.entity.*;
 import com.miskatonicmysteries.client.sound.ResonatorSound;
-import com.miskatonicmysteries.common.handler.networking.PacketHandler;
+import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.*;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
@@ -28,6 +30,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
@@ -80,12 +83,26 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         EntityRendererRegistry.INSTANCE.register(MMEntities.TATTERED_PRINCE, (entityRenderDispatcher, context) -> new TatteredPrinceRenderer(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.GENERIC_TENTACLE, (entityRenderDispatcher, context) -> new GenericTentacleEntityRenderer(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.HASTUR, (entityRenderDispatcher, context) -> new HasturEntityRenderer(entityRenderDispatcher));
-
-        PacketHandler.registerS2C();
         new ShaderHandler().init();
 
         ResourceHandler.init();
         StatueBlock.STATUES.forEach(statue -> BuiltinItemRendererRegistry.INSTANCE.register(statue.asItem(), new StatueBlockRender.BuiltinItemStatueRenderer()));
         HUDHandler.init();
+
+        ClientPlayNetworking.registerGlobalReceiver(ExpandSanityPacket.ID, ExpandSanityPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(RemoveExpansionPacket.ID, RemoveExpansionPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SpellPacket.ID, SpellPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(MobSpellPacket.ID, MobSpellPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(InsanityEventPacket.ID, InsanityEventPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(EffectParticlePacket.ID, EffectParticlePacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(BloodParticlePacket.ID, BloodParticlePacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, SyncSpellCasterDataPacket::handleFromServer);
+        ClientPlayNetworking.registerGlobalReceiver(OpenSpellEditorPacket.ID, OpenSpellEditorPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SyncBlessingsPacket.ID, SyncBlessingsPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(ModifyBlessingPacket.ID, ModifyBlessingPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SoundPacket.ID, SoundPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SyncRiteTargetPacket.ID, SyncRiteTargetPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SyncHeldEntityPacket.ID, SyncHeldEntityPacket::handle);
     }
 }

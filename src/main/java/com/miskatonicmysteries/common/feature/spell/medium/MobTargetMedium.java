@@ -18,11 +18,11 @@ public class MobTargetMedium extends SpellMedium {
 
     @Override
     public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity, boolean backfires) {
-        if (caster instanceof MobEntity && caster.getAttacking() != null && !world.isClient) {
+        if (!world.isClient && caster instanceof MobEntity && caster.getAttacking() != null) {
             if (caster.canSee(caster.getAttacking())) {
                 MobSpellPacket.send(caster, effect, intensity);
                 ((MobEntity) caster).lookAtEntity(caster.getAttacking(), 60, 60);
-                return !caster.isDead() && effect.effect(caster.world, caster, caster.getAttacking(), caster.getAttacking().getPos(), this, intensity, caster, backfires);
+                return !caster.isDead() && effect.effect(world, caster, caster.getAttacking(), caster.getAttacking().getPos(), this, intensity, caster, backfires);
             }
         }
         if (caster instanceof PlayerEntity) {

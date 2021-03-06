@@ -9,10 +9,12 @@ import com.miskatonicmysteries.common.entity.ai.MobBowAttackGoal;
 import com.miskatonicmysteries.common.entity.ai.MobCrossbowAttackGoal;
 import com.miskatonicmysteries.common.handler.AdvancementHandler;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.ProtagonistParticlePacket;
+import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.*;
@@ -132,7 +134,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
                 }
             }
             if (!world.isClient) {
-                ProtagonistParticlePacket.send(this);
+                world.sendEntityStatus(this, (byte) 10);
             }
             remove();
         } else {
@@ -298,6 +300,19 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
     @Override
     public boolean cannotDespawn() {
         return true;
+    }
+
+    @Override
+    @Environment(EnvType.CLIENT)
+    public void handleStatus(byte status) {
+        if (status == 10) {
+            for (int i = 0; i < 10; i++)
+                world.addParticle(MMParticles.FLAME, getX() + random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(), getY() + random.nextFloat() * MMEntities.PROTAGONIST.getHeight(), getZ() + random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(), 1, 0, 0);
+            for (int i = 0; i < 15; i++)
+                world.addParticle(ParticleTypes.LARGE_SMOKE, getX() + random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(), getY() + random.nextFloat() * MMEntities.PROTAGONIST.getHeight(), getZ() + random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(), 0, 0, 0);
+        } else {
+            super.handleStatus(status);
+        }
     }
 
     static {

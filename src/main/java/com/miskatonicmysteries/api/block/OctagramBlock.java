@@ -128,9 +128,8 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
             if (octagram.currentRite instanceof TeleportRite && octagram.permanentRiteActive && octagram.tickCount == 0
                     && octagram.boundPos != null) {
                 BlockPos boundPos = octagram.getBoundPos().offset(entity.getMovementDirection());
-                TeleportEffectPacket.send(entity, pos);
                 Util.teleport(octagram.getBoundDimension(), entity, boundPos.getX() + 0.5F, boundPos.getY(), boundPos.getZ() + 0.5F, entity.getHeadYaw(), entity.pitch);
-                TeleportEffectPacket.send(entity, boundPos);
+                TeleportEffectPacket.send(entity);
             }
         }
         super.onEntityCollision(state, world, pos, entity);
