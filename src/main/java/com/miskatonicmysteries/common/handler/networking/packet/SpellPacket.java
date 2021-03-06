@@ -3,6 +3,8 @@ package com.miskatonicmysteries.common.handler.networking.packet;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -30,6 +32,7 @@ public class SpellPacket {
         PlayerLookup.tracking(caster).forEach(p -> ServerPlayNetworking.send(p, ID, data));
     }
 
+    @Environment(EnvType.CLIENT)
     public static void sendFromClientPlayer(ClientPlayerEntity caster, CompoundTag spellTag) {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
         data.writeCompoundTag(spellTag);
@@ -37,6 +40,7 @@ public class SpellPacket {
         ClientPlayNetworking.send(ID, data);
     }
 
+    @Environment(EnvType.CLIENT)
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
         CompoundTag spellTag = packetByteBuf.readCompoundTag();
         Entity entity = client.world.getEntityById(packetByteBuf.readInt());

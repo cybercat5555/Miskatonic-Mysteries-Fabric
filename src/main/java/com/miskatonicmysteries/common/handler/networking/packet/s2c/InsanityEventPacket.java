@@ -4,6 +4,8 @@ import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -22,6 +24,7 @@ public class InsanityEventPacket {
         ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
     }
 
+    @Environment(EnvType.CLIENT)
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
         Identifier id = packetByteBuf.readIdentifier();
         if (client.player != null) {

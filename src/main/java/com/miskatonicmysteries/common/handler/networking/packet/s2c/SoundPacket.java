@@ -3,6 +3,8 @@ package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -22,6 +24,7 @@ public class SoundPacket {
         ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
     }
 
+    @Environment(EnvType.CLIENT)
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
         Entity entity = client.world.getEntityById(packetByteBuf.readInt());
         client.execute(() -> entity.playSound(MMSounds.MAGIC, 1, 1));

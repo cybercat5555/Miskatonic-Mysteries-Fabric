@@ -5,6 +5,8 @@ import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -25,6 +27,7 @@ public class ModifyBlessingPacket {
         ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
     }
 
+    @Environment(EnvType.CLIENT)
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
         Blessing blessing = MMRegistries.BLESSINGS.get(new Identifier(packetByteBuf.readString()));
         boolean add = packetByteBuf.readBoolean();

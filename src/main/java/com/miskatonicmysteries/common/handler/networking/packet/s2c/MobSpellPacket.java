@@ -1,18 +1,11 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
 import com.miskatonicmysteries.api.registry.SpellEffect;
-import com.miskatonicmysteries.common.registry.MMRegistries;
-import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
@@ -26,15 +19,5 @@ public class MobSpellPacket {
         data.writeIdentifier(effect.getId());
         data.writeInt(intensity);
         PlayerLookup.tracking(caster).forEach(p -> ServerPlayNetworking.send(p, ID, data));
-    }
-
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        Entity mob = client.world.getEntityById(packetByteBuf.readInt());
-        Entity target = client.world.getEntityById(packetByteBuf.readInt());
-        SpellEffect effect = MMRegistries.SPELL_EFFECTS.get(packetByteBuf.readIdentifier());
-        int intensity = packetByteBuf.readInt();
-        if (mob instanceof MobEntity && target instanceof LivingEntity) {
-            client.execute(() -> effect.effect(client.world, (MobEntity) mob, target, target.getPos(), MMSpellMediums.MOB_TARGET, intensity, mob, effect.backfires((LivingEntity) mob)));
-        }
     }
 }

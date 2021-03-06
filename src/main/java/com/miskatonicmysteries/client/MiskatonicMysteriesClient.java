@@ -4,6 +4,7 @@ import com.miskatonicmysteries.api.block.AltarBlock;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.item.GunItem;
+import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.client.gui.HUDHandler;
 import com.miskatonicmysteries.client.model.entity.phantasma.AberrationModel;
 import com.miskatonicmysteries.client.model.entity.phantasma.PhantasmaModel;
@@ -22,9 +23,7 @@ import com.miskatonicmysteries.client.sound.ResonatorSound;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.*;
-import com.miskatonicmysteries.common.registry.MMEntities;
-import com.miskatonicmysteries.common.registry.MMObjects;
-import com.miskatonicmysteries.common.registry.MMParticles;
+import com.miskatonicmysteries.common.registry.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -37,6 +36,9 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
@@ -92,7 +94,17 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(ExpandSanityPacket.ID, ExpandSanityPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(RemoveExpansionPacket.ID, RemoveExpansionPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SpellPacket.ID, SpellPacket::handle);
-        ClientPlayNetworking.registerGlobalReceiver(MobSpellPacket.ID, MobSpellPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(MobSpellPacket.ID, (client, networkHandler, packetByteBuf, sender) -> {
+            Entity mob = client.world.getEntityById(packetByteBuf.readInt());
+            Entity target = client.world.getEntityById(packetByteBuf.readInt());
+            SpellEffect effect = MMRegistries.SPELL_EFFECTS.get(packetByteBuf.readIdentifier());
+            int intensity = packetByteBuf.readInt();
+            client.execute(() -> {
+                if (mob instanceof MobEntity && target instanceof LivingEntity) {
+                    effect.effect(client.world, (MobEntity) mob, target, target.getPos(), MMSpellMediums.MOB_TARGET, intensity, mob, effect.backfires((LivingEntity) mob));
+                }
+            });
+        });
         ClientPlayNetworking.registerGlobalReceiver(InsanityEventPacket.ID, InsanityEventPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(EffectParticlePacket.ID, EffectParticlePacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(BloodParticlePacket.ID, BloodParticlePacket::handle);

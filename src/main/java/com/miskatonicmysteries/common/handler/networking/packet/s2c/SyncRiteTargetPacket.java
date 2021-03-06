@@ -3,6 +3,8 @@ package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -23,6 +25,7 @@ public class SyncRiteTargetPacket {
         PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
     }
 
+    @Environment(EnvType.CLIENT)
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
         Entity entity = client.world.getEntityById(packetByteBuf.readInt());
         BlockPos pos = BlockPos.fromLong(packetByteBuf.readLong());
