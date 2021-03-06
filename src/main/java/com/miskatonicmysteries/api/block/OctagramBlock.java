@@ -112,7 +112,6 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                 OctagramBlockEntity octagram = (OctagramBlockEntity) blockEntity;
                 if (octagram.currentRite != null && octagram.currentRite.isPermanent((OctagramBlockEntity) blockEntity)) {
                     octagram.currentRite.onCancelled(octagram);
-
                 }
                 ItemScatterer.spawn(world, pos, octagram.getItems());
                 octagram.sync();

@@ -99,6 +99,8 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
         tickCount = tag.getInt(Constants.NBT.TICK_COUNT);
         if (tag.contains(Constants.NBT.RITE)) {
             currentRite = MMRegistries.RITES.get(new Identifier(tag.getString(Constants.NBT.RITE)));
+        } else {
+            currentRite = null;
         }
         permanentRiteActive = tag.getBoolean(Constants.NBT.PERMANENT_RITE);
         if (tag.contains(Constants.NBT.PLAYER_UUID)) {
@@ -108,20 +110,12 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
         }
         if (tag.contains(Constants.NBT.DIMENSION)) {
             boundPos = new Pair<>(new Identifier(tag.getString(Constants.NBT.DIMENSION)), BlockPos.fromLong(tag.getLong(Constants.NBT.POSITION)));
+        } else {
+            boundPos = null;
         }
         triggered = tag.getBoolean(Constants.NBT.TRIGGERED);
         octagramFlags = tag.getByte(Constants.NBT.FLAGS);
         super.fromTag(state, tag);
-    }
-
-    @Override
-    public CompoundTag toClientTag(CompoundTag compoundTag) {
-        return super.toClientTag(compoundTag);
-    }
-
-    @Override
-    public void fromClientTag(CompoundTag compoundTag) {
-        super.fromClientTag(compoundTag);
     }
 
     @Override

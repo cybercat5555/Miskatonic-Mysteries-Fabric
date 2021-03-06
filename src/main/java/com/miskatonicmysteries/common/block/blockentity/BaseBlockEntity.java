@@ -20,9 +20,4 @@ public abstract class BaseBlockEntity extends BlockEntity implements BlockEntity
         toTag(compoundTag);
         return compoundTag;
     }
-
-    @Override
-    public void markDirty() {
-        super.markDirty();
-    }
 }

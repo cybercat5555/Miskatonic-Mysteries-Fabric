@@ -100,7 +100,7 @@ public class TeleportRite extends Rite {
     @Override
     public void onCancelled(OctagramBlockEntity octagram) {
         OctagramBlockEntity otherOctagram = getBoundOctagram(octagram);
-        if (!octagram.getWorld().isClient && otherOctagram != null) {
+        if (otherOctagram != null && !otherOctagram.getWorld().isClient) {
             otherOctagram.permanentRiteActive = false;
             otherOctagram.currentRite = null;
             otherOctagram.tickCount = 0;
