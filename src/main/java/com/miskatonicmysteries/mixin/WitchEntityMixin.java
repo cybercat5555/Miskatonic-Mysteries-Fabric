@@ -30,6 +30,7 @@ public abstract class WitchEntityMixin extends RaiderEntity implements Appeasabl
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
     private void tryAttack(LivingEntity target, float pullProgress, CallbackInfo ci) {
         if (isAppeased()) {
+            System.out.println("h");
             ci.cancel();
         }
     }

@@ -69,7 +69,6 @@ public abstract class MobEntityMixin extends LivingEntity implements Hallucinati
     private void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         Appeasable.of(this).ifPresent(appeasable -> {
             if ((Object) this instanceof WitchEntity) {
-                setHallucinationTarget(Optional.of(player.getUuid())); //todo that's a test
                 if (appeasable.isAppeased() && getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() && player.getStackInHand(hand).getItem() == MMObjects.NECRONOMICON && !MMBookItem.hasKnowledge(Constants.Misc.WITCH_KNOWLEDGE, player.getStackInHand(hand))) {
                     if (!player.world.isClient) {
                         equipStack(EquipmentSlot.MAINHAND, player.getStackInHand(hand));
