@@ -17,7 +17,6 @@
     "MobEntityMixin",
     "PlayerManagerMixin",
     "PlayerMixin",
-    "ServerPlayerMixin",
     "WitchEntityMixin",
     "ZombieVillagerAccessor",
     "villagers.ActivityAccessor",
