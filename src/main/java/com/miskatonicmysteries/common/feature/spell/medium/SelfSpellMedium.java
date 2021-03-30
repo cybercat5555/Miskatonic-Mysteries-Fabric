@@ -19,6 +19,6 @@ public class SelfSpellMedium extends SpellMedium {
 
     @Override
     public float getBurnoutRate(LivingEntity caster) {
-        return 0.05F;
+        return 0.1F;
     }
 }

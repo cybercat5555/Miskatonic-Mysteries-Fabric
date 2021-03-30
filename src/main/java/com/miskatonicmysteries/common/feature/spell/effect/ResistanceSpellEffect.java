@@ -24,7 +24,7 @@ public class ResistanceSpellEffect extends SpellEffect {
             spawnParticleEffectsOnTarget(caster, this, target);
         }
         if (!(target instanceof LivingEntity)) return false;
-        ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(backfires ? StatusEffects.WEAKNESS : StatusEffects.RESISTANCE, 1200 + 200 * intensity, Math.min(intensity, 2), true, true));
+        ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(backfires ? StatusEffects.WEAKNESS : StatusEffects.RESISTANCE, 200 + 200 * intensity, Math.min(intensity, 2), true, true));
         return true;
     }
 }

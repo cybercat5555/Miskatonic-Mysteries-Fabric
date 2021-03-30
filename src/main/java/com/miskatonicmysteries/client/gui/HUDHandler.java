@@ -63,19 +63,17 @@ public class HUDHandler {
 
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
             MinecraftClient client = MinecraftClient.getInstance();
+            burnoutHUD.render(client, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight(), client.player);
             if (selectionActive) {
                 spellHUD.render(matrixStack, tickDelta);
             }
             if ((!selectionActive || spellHUD.renderedSpells.size() <= 1) && spellHUD.selectedSpell != null) {
                 matrixStack.push();
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                RenderSystem.enableDepthTest();
                 RenderSystem.color4f(1, 1, 1, 0.15F + spellHUD.currentSpellProgress * 0.85F);
                 spellHUD.renderSpellIcon(spellHUD.scaledWidth / 2F, spellHUD.scaledHeight / 2F, matrixStack, spellHUD.selectedSpell);
+                RenderSystem.color4f(1, 1, 1, 1);
                 matrixStack.pop();
             }
-            burnoutHUD.render(client, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight(), client.player);
-        });
+            });
     }
 }

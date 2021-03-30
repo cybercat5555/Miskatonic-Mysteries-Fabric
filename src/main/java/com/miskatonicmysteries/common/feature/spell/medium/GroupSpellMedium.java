@@ -38,6 +38,6 @@ public class GroupSpellMedium extends SpellMedium {
 
     @Override
     public float getBurnoutRate(LivingEntity caster) {
-        return 0.8F;
+        return 0.25F;
     }
 }

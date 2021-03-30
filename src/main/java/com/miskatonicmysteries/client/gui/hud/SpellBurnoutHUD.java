@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.client.gui.hud;
 
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
+import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -14,7 +15,7 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class SpellBurnoutHUD extends DrawableHelper {
-    private static final Identifier VIGNETTE_TEXTURE = new Identifier("textures/misc/vignette.png");
+    private static final Identifier VIGNETTE_TEXTURE = new Identifier(Constants.MOD_ID, "textures/gui/burnout.png");
 
     public void render(MinecraftClient client, int scaledWidth, int scaledHeight, PlayerEntity player) {
         SpellCaster.of(player).ifPresent(caster -> {
