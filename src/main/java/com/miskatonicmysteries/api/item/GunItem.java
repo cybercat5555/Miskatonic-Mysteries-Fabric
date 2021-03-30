@@ -44,7 +44,7 @@ public abstract class GunItem extends Item {
         ItemStack stack = user.getStackInHand(hand);
         if (!canUse(user)) {
             if (world.isClient) {
-                user.sendMessage(new TranslatableText("message.heavy_gun.needs_offhand"), true);
+                user.sendMessage(new TranslatableText("message."+ Constants.MOD_ID + ".heavy_gun.needs_offhand"), true);
             }
             return TypedActionResult.fail(stack);
         }

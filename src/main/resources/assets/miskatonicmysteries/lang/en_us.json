@@ -144,6 +144,7 @@
   "message.miskatonicmysteries.rite_fail.knowledge": "You lack the knowledge to cast this",
   "message.miskatonicmysteries.summon_prince_fail.cultists": "This Rite needs at least 4 loyal Serfs (%d nearby)",
   "message.miskatonicmysteries.new_blessing": "New Blessing: %s",
+
   "comment6": "COMMANDS",
   "miskatonicmysteries.command.stats": "Showing Miskatonic Mysteries statistics for player %s:",
   "miskatonicmysteries.command.miskatonicmysteries.get_sanity": "%s's sanity level is %d",
