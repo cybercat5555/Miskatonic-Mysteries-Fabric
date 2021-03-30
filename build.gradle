@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.4-SNAPSHOT'
+	id 'fabric-loom' version '0.6-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -12,9 +12,6 @@ group = project.maven_group
 
 repositories {
 	jcenter()
-	maven {
-		url "https://jitpack.io"
-	}
 	maven {
 		name = "NerdHubMC"
 		url = "https://maven.abusedmaster.xyz/"
@@ -44,6 +41,9 @@ repositories {
 	}
 	maven {
 		url 'https://repo.repsy.io/mvn/gandiber/geckolib'
+	}
+	maven {
+		url "https://jitpack.io"
 	}
 }
 dependencies {

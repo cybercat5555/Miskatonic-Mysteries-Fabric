@@ -113,7 +113,7 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
                 }
             } else if (getHoldingProgress() > 0) {
                 setHoldingProgress(getHoldingProgress() - 0.016025642F);
-                if (getHoldingProgress() <= 0) {
+                if (getHoldingProgress() <= 0 && !world.isClient) {
                     heldEntity = null;
                     SyncHeldEntityPacket.send(this);
                 }
