@@ -38,10 +38,7 @@ public class GoldenFlockRite extends AscensionLockedRite {
             Vec3d pos = octagram.getSummoningPos();
             octagram.targetedEntity = octagram.getWorld().getClosestEntity(VillagerEntity.class,
                     new TargetPredicate().setPredicate(villager ->
-                            villager instanceof VillagerEntity
-                                    && (((VillagerEntity) villager).getVillagerData().getProfession().equals(VillagerProfession.CLERIC)
-                                    || ((VillagerEntity) villager).getVillagerData().getProfession().equals(VillagerProfession.NITWIT))
-                                    && villager.hasStatusEffect(MMStatusEffects.MANIA)), null, pos.x, pos.y, pos.z, octagram.getSelectionBox().expand(10, 5, 10));
+                            villager instanceof VillagerEntity && villager.hasStatusEffect(MMStatusEffects.MANIA)), null, pos.x, pos.y, pos.z, octagram.getSelectionBox().expand(10, 5, 10));
             if (octagram.targetedEntity != null) {
                 octagram.tickCount = 0;
                 SyncRiteTargetPacket.send(octagram.targetedEntity, octagram);
