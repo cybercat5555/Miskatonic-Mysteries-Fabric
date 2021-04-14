@@ -114,14 +114,18 @@ public class RenderHelper extends RenderLayer {
     }
 
     public static void renderPortalLayer(int layer, World world, Matrix4f matrix4f, VertexConsumerProvider vertexConsumers, float size, float[] rgb) {
+        renderPortalLayer(layer, world, matrix4f, vertexConsumers, size, size,rgb);
+    }
+
+    public static void renderPortalLayer(int layer, World world, Matrix4f matrix4f, VertexConsumerProvider vertexConsumers, float sizeX, float sizeY, float[] rgb) {
         float colorFactor = 2f / (18 - layer);
         float r = (world.random.nextFloat() * 0.5f + rgb[0]) * colorFactor;
         float g = (world.random.nextFloat() * 0.5f + rgb[1]) * colorFactor;
         float b = (world.random.nextFloat() * 0.5f + rgb[2]) * colorFactor;
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(PORTAL_LAYERS.get(layer));
-        vertexConsumer.vertex(matrix4f, 0, 0, size).color(r, g, b, rgb[3]).next();
-        vertexConsumer.vertex(matrix4f, size, 0, size).color(r, g, b, rgb[3]).next();
-        vertexConsumer.vertex(matrix4f, size, 0, 0).color(r, g, b, rgb[3]).next();
+        vertexConsumer.vertex(matrix4f, 0, 0, sizeY).color(r, g, b, rgb[3]).next();
+        vertexConsumer.vertex(matrix4f, sizeX, 0, sizeY).color(r, g, b, rgb[3]).next();
+        vertexConsumer.vertex(matrix4f, sizeX, 0, 0).color(r, g, b, rgb[3]).next();
         vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, rgb[3]).next();
     }
 

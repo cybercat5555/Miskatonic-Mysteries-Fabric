@@ -2,10 +2,12 @@ package com.miskatonicmysteries.common.feature;
 
 import com.miskatonicmysteries.api.interfaces.*;
 import com.miskatonicmysteries.api.registry.*;
+import com.miskatonicmysteries.client.vision.VisionHandler;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ModifyBlessingPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.VisionPacket;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.brigadier.StringReader;
@@ -19,6 +21,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.command.argument.IdentifierArgumentType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -54,7 +57,7 @@ public class ModCommand {
                 .then(CommandManager.literal("sanityExpansion")
                         .then(CommandManager.literal("add")
                                 .then(CommandManager.argument("name", StringArgumentType.string()).then(CommandManager.argument("value", IntegerArgumentType.integer()).executes(context -> addSanityExpansion(context, StringArgumentType.getString(context, "name"), IntegerArgumentType.getInteger(context, "value"), context.getSource().getPlayer()))
-                                        .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> addSanityExpansion(context, StringArgumentType.getString(context, "name"), IntegerArgumentType.getInteger(context, "value"), EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[EntityArgumentType.getPlayers(context, "player").size()])))))))
+                                        .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> addSanityExpansion(context, StringArgumentType.getString(context, "name"), IntegerArgumentType.getInteger(context, "value"), EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[0])))))))
                         .then(CommandManager.literal("remove")
                                 .then(CommandManager.argument("name", StringArgumentType.string()).executes(context -> removeSanityExpansion(context, StringArgumentType.getString(context, "name"), context.getSource().getPlayer()))
                                         .then(CommandManager.argument("player", EntityArgumentType.players()).executes(context -> removeSanityExpansion(context, StringArgumentType.getString(context, "name"), EntityArgumentType.getPlayers(context, "player").toArray(new ServerPlayerEntity[EntityArgumentType.getPlayers(context, "player").size()]))))))
@@ -165,7 +168,22 @@ public class ModCommand {
         }
         builder.then(castingBuilder);
 
+        LiteralArgumentBuilder visionBuilder = CommandManager.literal("playVision");
+        visionBuilder.then(CommandManager.argument("id", IdentifierArgumentType.identifier())
+                .executes(context -> displayVision(context, IdentifierArgumentType.getIdentifier(context, "id"), context.getSource().getPlayer()))
+                .then(CommandManager.argument("players", EntityArgumentType.players())
+                        .executes(context -> displayVision(context, IdentifierArgumentType.getIdentifier(context, "id"), EntityArgumentType.getPlayers(context, "players").toArray(new ServerPlayerEntity[0])))));
+        builder.then(visionBuilder);
+
         CommandRegistrationCallback.EVENT.register((displatcher, b) -> displatcher.register(builder));
+    }
+
+    private static int displayVision(CommandContext<ServerCommandSource> context, Identifier visionId,  ServerPlayerEntity... players) {
+        for (ServerPlayerEntity player : players) {
+            VisionPacket.send(player, visionId);
+            context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.display_vision", visionId.toString(), player.getDisplayName()), true);
+        }
+        return players.length > 0 ? 15 : 0;
     }
 
     private static int castSpell(Identifier mediumId, Identifier effectId, int intensity, LivingEntity caster) {

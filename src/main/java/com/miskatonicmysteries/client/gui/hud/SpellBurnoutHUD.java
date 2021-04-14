@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class SpellBurnoutHUD extends DrawableHelper {
-    private static final Identifier VIGNETTE_TEXTURE = new Identifier(Constants.MOD_ID, "textures/gui/burnout.png");
+    public static final Identifier VIGNETTE_TEXTURE = new Identifier(Constants.MOD_ID, "textures/gui/burnout.png");
 
     public void render(MinecraftClient client, int scaledWidth, int scaledHeight, PlayerEntity player) {
         SpellCaster.of(player).ifPresent(caster -> {
@@ -25,7 +25,7 @@ public class SpellBurnoutHUD extends DrawableHelper {
                 RenderSystem.defaultBlendFunc();
                 RenderSystem.disableDepthTest();
                 RenderSystem.depthMask(false);
-                RenderSystem.color4f(0.8F, 0.2F, 0.25F, burnout);
+                RenderSystem.color4f(1F, 1F, 1F, burnout);
                 client.getTextureManager().bindTexture(VIGNETTE_TEXTURE);
                 Tessellator tessellator = Tessellator.getInstance();
                 BufferBuilder bufferBuilder = tessellator.getBuffer();
