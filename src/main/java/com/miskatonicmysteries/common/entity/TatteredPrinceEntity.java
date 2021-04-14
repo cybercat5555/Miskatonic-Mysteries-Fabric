@@ -10,6 +10,7 @@ import com.miskatonicmysteries.common.entity.ai.CastSpellGoal;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.VisionPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSpellEffects;
@@ -36,6 +37,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -185,7 +187,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     }
 
     public <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
-        if (getBlessingTicks() > 0) {
+        if (getBlessingTicks() > 100) {
             event.getController().setAnimation(new AnimationBuilder().addAnimation("bless", false));
             return PlayState.CONTINUE;
         }
@@ -314,7 +316,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     }
 
     public void startBlessing() {
-        dataTracker.set(BLESSING_TIME, 84 + 20); //animation time + transition ticks
+        dataTracker.set(BLESSING_TIME, 84 + 20 + 100); //animation time + transition ticks + blessing vision part
     }
 
     public void decreaseBlessingTicks() {
@@ -366,11 +368,15 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
                 stop();
                 return;
             }
+
             LivingEntity target = getBlessTarget();
+            if (getBlessingTicks() == 100 && target instanceof ServerPlayerEntity){
+                VisionPacket.send((ServerPlayerEntity) target, new Identifier(Constants.MOD_ID, "hastur_bless"));
+            }
             getLookControl().lookAt(target, 40, 40);
             Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, yaw, 0);
             Vec3d motionVec = new Vec3d(pos.x - target.getX(), pos.y + 2 - target.getY(), pos.z - target.getZ());
-            motionVec = motionVec.normalize().multiply(0.1F);
+            motionVec = motionVec.normalize().multiply(target.isOnGround() ? 0.1F : 0.084F);
             target.setVelocity(motionVec);
             target.velocityModified = true;
             target.velocityDirty = true;

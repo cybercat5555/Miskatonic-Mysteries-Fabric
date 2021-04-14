@@ -4,6 +4,8 @@ import com.miskatonicmysteries.client.gui.hud.SpellBurnoutHUD;
 import com.miskatonicmysteries.client.model.entity.HasturModel;
 import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.BufferBuilder;
@@ -14,13 +16,12 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix4f;
 import software.bernie.geckolib3.model.provider.GeoModelProvider;
-import software.bernie.geckolib3.renderer.geo.IGeoRenderer;
 
-public class HasturBlessingVision extends VisionSequence implements IGeoRenderer {
+@Environment(EnvType.CLIENT)
+public class HasturBlessingVision extends VisionSequence{
     private static final Identifier YELLOW_SIGN_TEXTURE = new Identifier(Constants.MOD_ID, "textures/block/yellow_sign.png");
-    private final int totalLength = 840;
+    private static final int totalLength = 280;
     @Override
     public void render(MinecraftClient client, ClientPlayerEntity player, MatrixStack stack, float tickDelta) {
         ticks++;
@@ -28,15 +29,15 @@ public class HasturBlessingVision extends VisionSequence implements IGeoRenderer
         int height = client.getWindow().getScaledHeight();
         float backgroundProgress;
         float signProgress = 0;
-        if (ticks > 700){
-            backgroundProgress = MathHelper.clamp(1 - (ticks - 700) / 60F, 0, 1);
+        if (ticks > 160){
+            backgroundProgress = MathHelper.clamp(1 - (ticks - 160) / 40F, 0, 1);
         }else{
             backgroundProgress = MathHelper.clamp(ticks / 80F, 0, 1);
         }
-        if (ticks > 720){
-            signProgress = MathHelper.clamp(1 - (ticks - 720) / 100F, 0, 1);
+        if (ticks > 180){
+            signProgress = MathHelper.clamp(1 - (ticks - 180) / 100F, 0, 1);
         }else if (ticks > 20){
-            signProgress =  MathHelper.clamp((ticks - 20) / 300F, 0, 1);
+            signProgress =  MathHelper.clamp((ticks - 20) / 100F, 0, 1);
         }
         float colorProgress = Math.min(signProgress, backgroundProgress);
         Tessellator tessellator = Tessellator.getInstance();
@@ -86,13 +87,12 @@ public class HasturBlessingVision extends VisionSequence implements IGeoRenderer
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         if (ticks >= totalLength - 1){
-            player.sendMessage(new LiteralText("a"), false);
             VisionHandler.setVisionSequence(player, null);
             ticks = 0;
         }
     }
 
-    @Override
+   /* @Override todo if I get to put in the hastur model animation
     public GeoModelProvider getGeoModelProvider() {
         return new HasturModel(new Identifier(Constants.MOD_ID, "textures/entity/hastur/hastur.png"));
     }
@@ -100,5 +100,5 @@ public class HasturBlessingVision extends VisionSequence implements IGeoRenderer
     @Override
     public Identifier getTextureLocation(Object instance) {
         return getGeoModelProvider().getTextureLocation(instance);
-    }
+    }*/
 }
