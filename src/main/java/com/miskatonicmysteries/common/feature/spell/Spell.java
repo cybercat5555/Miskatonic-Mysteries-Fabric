@@ -34,6 +34,7 @@ public class Spell {
     public boolean cast(LivingEntity caster, boolean backfires) {
         Optional<SpellCaster> spellCaster = SpellCaster.of(caster);
         if (spellCaster.isPresent()) {
+            caster.world.playSound(caster.getX(), caster.getY(), caster.getZ(), MMSounds.MAGIC, SoundCategory.PLAYERS, 0.85F, (float) caster.getRandom().nextGaussian() * 0.2F + 1.0F, true);
             float burnout;
             burnout = spellCaster.get().getSpellBurnout() + (medium.getBurnoutRate(caster) * effect.getBurnoutMultiplier(intensity));
             if (burnout > 1) {
@@ -48,7 +49,6 @@ public class Spell {
                 spellCaster.get().setSpellBurnout(burnout);
             }
         }
-        caster.world.playSound(caster.getX(), caster.getY(), caster.getZ(), MMSounds.MAGIC, SoundCategory.PLAYERS, 0.85F, (float) caster.getRandom().nextGaussian() * 0.2F + 1.0F, true);
         if (!caster.world.isClient) {
             SpellPacket.send(caster, toTag(new CompoundTag()), backfires);
         }

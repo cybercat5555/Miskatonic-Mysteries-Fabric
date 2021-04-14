@@ -30,6 +30,9 @@ public class SpellPacket {
         data.writeInt(caster.getEntityId());
         data.writeBoolean(backfires);
         PlayerLookup.tracking(caster).forEach(p -> ServerPlayNetworking.send(p, ID, data));
+        if (caster instanceof ServerPlayerEntity){
+            ServerPlayNetworking.send((ServerPlayerEntity) caster, ID, data);
+        }
     }
 
     @Environment(EnvType.CLIENT)

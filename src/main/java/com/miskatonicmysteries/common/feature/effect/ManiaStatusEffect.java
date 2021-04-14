@@ -1,8 +1,10 @@
 package com.miskatonicmysteries.common.feature.effect;
 
 import com.miskatonicmysteries.api.interfaces.Sanity;
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
+import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
@@ -48,5 +50,10 @@ public class ManiaStatusEffect extends StatusEffect {
         if (entity instanceof MobEntity) {
             entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(8, 3, 8), target -> target instanceof LivingEntity && EntityPredicates.EXCEPT_CREATIVE_SPECTATOR_OR_PEACEFUL.test(target)).stream().findAny().ifPresent(value -> ((MobEntity) entity).setTarget((LivingEntity) value));
         }
+        if (!entity.world.isClient && entity.getRandom().nextFloat() < amplifier * 0.25F)
+        SpellCaster.of(entity).ifPresent(caster -> {
+            caster.learnEffect(MMSpellEffects.MANIA);
+            caster.syncSpellData();
+        });
     }
 }
