@@ -1,0 +1,11 @@
+{
+  "name": "Ignite",
+  "category": "miskatonicmysteries:spells",
+  "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/ignite.png",
+  "pages": [
+    {
+      "type": "text",
+      "text": "A popular spell for combat. This spell, as its name suggests, generates a powerful blast of flames, from the very heat of the caster. It both ignites targets and the terrain around them.$(br)Being quite simple, it is unlocked by default."
+    }
+  ]
+}

@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.handler.ascension;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.block.StatueBlock;
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.entity.TatteredPrinceEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
@@ -23,6 +24,7 @@ public class HasturAscensionHandler {
         if (StatueBlock.isPlayerMade(player.getStackInHand(hand)) && MiskatonicMysteriesAPI.levelUp(player, 1, MMAffiliations.HASTUR)) {
             player.getStackInHand(hand).decrement(1);
             entity.lookAtEntity(player, 40, 40);
+            MiskatonicMysteriesAPI.guaranteeSpellPower(3, SpellCaster.of(player).get());
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 12000, 1, true, true));
             if (!player.world.isClient()) {
                 entity.playSound(SoundEvents.ENTITY_VILLAGER_YES, 1F, 1F);
@@ -45,7 +47,6 @@ public class HasturAscensionHandler {
                 blessTarget.velocityDirty = true;
             }
             MiskatonicMysteriesAPI.grantBlessing((PlayerEntity) blessTarget, MMAffiliations.HASTUR);
-            //maybe add visions potion effect?
         }
     }
 }

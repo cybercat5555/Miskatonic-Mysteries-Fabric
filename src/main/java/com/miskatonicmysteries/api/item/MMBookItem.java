@@ -6,6 +6,7 @@ import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
+import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
@@ -55,6 +56,7 @@ public class MMBookItem extends Item implements Affiliated {
         if (player instanceof ServerPlayerEntity) {
             SpellCaster.of(player).ifPresent(caster -> {
                 caster.learnMedium(MMSpellMediums.SELF);
+                caster.learnEffect(MMSpellEffects.IGNITE);
                 MiskatonicMysteriesAPI.guaranteeSpellPower(2, caster);
             });
             if (special && !InsanityHandler.hasSanityCapExpansion(player, Constants.Misc.NECRONOMICON_EXTENSION)) {

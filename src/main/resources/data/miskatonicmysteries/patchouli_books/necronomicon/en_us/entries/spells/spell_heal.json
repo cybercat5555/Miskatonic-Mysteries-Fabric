@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "A key part of any Entheator's tool kit is a simple Healing spell.$(br)This effect will apply a short $(marked)Regeneration$() effect."
+      "text": "A key part of any Entheator's tool kit is a simple Healing spell.$(br)This effect will restore some health based on its intensity."
     },
     {
       "type": "miskatonicmysteries:rite",

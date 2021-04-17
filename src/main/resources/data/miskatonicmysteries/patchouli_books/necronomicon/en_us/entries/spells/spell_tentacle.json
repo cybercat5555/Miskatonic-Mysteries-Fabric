@@ -3,7 +3,7 @@
   "category": "miskatonicmysteries:spells",
   "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/tentacles.png",
   "advancement": "miskatonicmysteries:recipes/tentacle_spell",
-  "hidden": true,
+  "secret": true,
   "pages": [
     {
       "type": "text",
