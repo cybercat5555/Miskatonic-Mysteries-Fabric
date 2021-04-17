@@ -128,6 +128,7 @@ public class Constants {
         public static final String LAST_CHANGED = "LastChanged";
         public static final String PHASING_PROGRESS = "PhasingProgress";
         public static final String MAX_AGE = "MaxAge";
+        public static final String HOLD_TICKS = "HoldTicks";
     }
 
     public static class DataTrackers {

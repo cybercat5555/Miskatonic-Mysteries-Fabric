@@ -110,7 +110,10 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
     @Inject(method = "writeCustomDataToTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
     private void writeMiscData(CompoundTag compoundTag, CallbackInfo info) {
         compoundTag.putBoolean(Constants.NBT.SHOULD_DROP, hasOverridenDrops());
-        Appeasable.of(this).ifPresent(appeasable -> compoundTag.putInt(Constants.NBT.APPEASE_TICKS, appeasable.getAppeasedTicks()));
+        Appeasable.of(this).ifPresent(appeasable -> {
+            compoundTag.putInt(Constants.NBT.APPEASE_TICKS, appeasable.getAppeasedTicks());
+            compoundTag.putInt(Constants.NBT.HOLD_TICKS, appeasable.getHoldTicks());
+        });
     }
 
     @Inject(method = "readCustomDataFromTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
@@ -118,6 +121,7 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
         setDropOveride(compoundTag.getBoolean(Constants.NBT.SHOULD_DROP));
         Appeasable.of(this).ifPresent(appeasable -> {
             appeasable.setAppeasedTicks(compoundTag.getInt(Constants.NBT.APPEASE_TICKS));
+            appeasable.setHoldTicks(compoundTag.getInt(Constants.NBT.HOLD_TICKS));
         });
     }
 

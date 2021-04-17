@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(WitchEntity.class)
 public abstract class WitchEntityMixin extends RaiderEntity implements Appeasable {
     private int appeaseTicks;
+    private int holdTicks;
 
     protected WitchEntityMixin(EntityType<? extends RaiderEntity> entityType, World world) {
         super(entityType, world);
@@ -30,7 +31,6 @@ public abstract class WitchEntityMixin extends RaiderEntity implements Appeasabl
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
     private void tryAttack(LivingEntity target, float pullProgress, CallbackInfo ci) {
         if (isAppeased()) {
-            System.out.println("h");
             ci.cancel();
         }
     }
@@ -40,9 +40,13 @@ public abstract class WitchEntityMixin extends RaiderEntity implements Appeasabl
         if (!world.isClient && isAppeased()) {
             if (getEquippedStack(EquipmentSlot.MAINHAND).getItem() != MMObjects.NECRONOMICON) {
                 setAppeasedTicks(getAppeasedTicks() - 1);
-            } else if (world.random.nextFloat() < 0.1F) {
-                dropStack(MMBookItem.addKnowledge(Constants.Misc.WITCH_KNOWLEDGE, getEquippedStack(EquipmentSlot.MAINHAND)));
-                equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+            } else {
+                if (getHoldTicks() > 0){
+                    setHoldTicks(getHoldTicks() - 1);
+                }else {
+                    dropStack(MMBookItem.addKnowledge(Constants.Misc.WITCH_KNOWLEDGE, getEquippedStack(EquipmentSlot.MAINHAND)));
+                    equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+                }
             }
             super.tickMovement();
             ci.cancel();
@@ -62,6 +66,16 @@ public abstract class WitchEntityMixin extends RaiderEntity implements Appeasabl
     @Override
     public int getAppeasedTicks() {
         return appeaseTicks;
+    }
+
+    @Override
+    public void setHoldTicks(int holdTicks) {
+        this.holdTicks = holdTicks;
+    }
+
+    @Override
+    public int getHoldTicks() {
+        return holdTicks;
     }
 
     @Environment(EnvType.CLIENT)

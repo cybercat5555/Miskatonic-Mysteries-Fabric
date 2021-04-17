@@ -15,4 +15,8 @@ public interface Appeasable {
     void setAppeasedTicks(int ticks);
 
     int getAppeasedTicks();
+
+    int getHoldTicks();
+
+    void setHoldTicks(int ticks);
 }

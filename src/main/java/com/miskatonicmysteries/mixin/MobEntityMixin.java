@@ -72,6 +72,7 @@ public abstract class MobEntityMixin extends LivingEntity implements Hallucinati
                 if (appeasable.isAppeased() && getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() && player.getStackInHand(hand).getItem() == MMObjects.NECRONOMICON && !MMBookItem.hasKnowledge(Constants.Misc.WITCH_KNOWLEDGE, player.getStackInHand(hand))) {
                     if (!player.world.isClient) {
                         equipStack(EquipmentSlot.MAINHAND, player.getStackInHand(hand));
+                        appeasable.setHoldTicks(80);
                         player.setStackInHand(hand, ItemStack.EMPTY);
                         player.inventory.markDirty();
                     }
