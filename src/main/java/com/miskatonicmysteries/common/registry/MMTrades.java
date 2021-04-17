@@ -27,13 +27,18 @@ public class MMTrades {
     public static void init() {
         TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(MMEntities.PSYCHONAUT, PSYCHONAUT_TRADES);
 
-        TradeOffers.Factory[] wanderingTraderOffers = TradeOffers.WANDERING_TRADER_TRADES.get(1);
-        TradeOffers.Factory[] offers = Arrays.copyOf(wanderingTraderOffers, wanderingTraderOffers.length + 4);
-        offers[wanderingTraderOffers.length] = NECRONOMICON_OFFER;
-        offers[wanderingTraderOffers.length + 1] = OCEANIC_GOLD_OFFER;
-        offers[wanderingTraderOffers.length + 2] = BLOTTER_OFFER;
-        offers[wanderingTraderOffers.length + 3] = ORB_OFFER;
-        TradeOffers.WANDERING_TRADER_TRADES.put(1, offers);
+        TradeOffers.Factory[] wanderingTraderOffers1 = TradeOffers.WANDERING_TRADER_TRADES.get(1);
+        TradeOffers.Factory[] wanderingTraderOffers2 = TradeOffers.WANDERING_TRADER_TRADES.get(2);
+        TradeOffers.Factory[] offers1 = Arrays.copyOf(wanderingTraderOffers1, wanderingTraderOffers1.length + 3);
+        TradeOffers.Factory[] offers2 = Arrays.copyOf(wanderingTraderOffers2, wanderingTraderOffers2.length + 2);
+        offers1[wanderingTraderOffers1.length] = NECRONOMICON_OFFER;
+        offers1[wanderingTraderOffers1.length + 1] = OCEANIC_GOLD_OFFER;
+        offers1[wanderingTraderOffers1.length + 2] = BLOTTER_OFFER;
+
+        offers2[wanderingTraderOffers2.length] = ORB_OFFER;
+        offers2[wanderingTraderOffers2.length + 1] = FLESH_OFFER;
+        TradeOffers.WANDERING_TRADER_TRADES.put(1, offers1);
+        TradeOffers.WANDERING_TRADER_TRADES.put(2, offers2);
     }
 
     public static final List<StatusEffect> POSSIBLE_EFFECTS = Arrays.asList(StatusEffects.NAUSEA, StatusEffects.ABSORPTION, StatusEffects.GLOWING, StatusEffects.HASTE, MANIA, TRANQUILIZED);
@@ -85,6 +90,7 @@ public class MMTrades {
     public static final TradeOffers.Factory YELLOW_SIGN_OFFER = new ProcessItemOffer(new ItemStack(Items.PAPER, 4), 20, new ItemStack(MMObjects.YELLOW_SIGN_LOOM_PATTERN), 1, 50);
 
     public static final TradeOffers.Factory ORB_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.THE_ORB), 10, 1, 20, 0.15F);
+    public static final TradeOffers.Factory FLESH_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.CIRRHOSUS_FLESH), 8, 1, 20, 0.15F);
 
     static {
         PSYCHONAUT_TRADES.put(1, new TradeOffers.Factory[]{SCIENCE_JOURNAL_OFFER, INFESTED_WHEAT_OFFER});

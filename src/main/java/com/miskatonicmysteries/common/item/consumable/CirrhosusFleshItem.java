@@ -3,8 +3,8 @@ package com.miskatonicmysteries.common.item.consumable;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
+import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
-import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
@@ -23,18 +23,15 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class TheOrbItem extends Item {
-    public static final FoodComponent ORB_FOOD = new FoodComponent.Builder().hunger(0).saturationModifier(0)
+public class CirrhosusFleshItem extends Item {
+    public static final FoodComponent BAD_FOOD = new FoodComponent.Builder().hunger(8).saturationModifier(1)
             .alwaysEdible()
-            .statusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 1200, 1), 0.9F)
-            .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 1200, 1), 0.5F)
-            .statusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 2400, 1), 0.4F)
-            .statusEffect(new StatusEffectInstance(StatusEffects.WITHER, 600, 0), 0.25F)
-            .meat() //because the Orb was not cursed enough yet
+            .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 600, 1), 1F)
+            .meat()
             .build();
 
-    public TheOrbItem() {
-        super(new Item.Settings().group(Constants.MM_GROUP).food(ORB_FOOD).maxCount(1).rarity(Rarity.UNCOMMON));
+    public CirrhosusFleshItem() {
+        super(new Settings().group(Constants.MM_GROUP).food(BAD_FOOD).maxCount(1).rarity(Rarity.UNCOMMON));
     }
 
     @Override
@@ -46,13 +43,12 @@ public class TheOrbItem extends Item {
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         if (!world.isClient) {
             Sanity.of(user).ifPresent(sanity -> {
-                sanity.addSanityCapExpansion(Constants.Misc.ATE_ORB_EXTENSION, -50);
+                sanity.addSanityCapExpansion(Constants.Misc.ATE_CIRRHOSUS_FLESH, -25);
                 sanity.setSanity(sanity.getSanity() - 25, true);
                 sanity.syncSanityData();
             });
             SpellCaster.of(user).ifPresent(caster -> {
-                caster.learnMedium(MMSpellMediums.PROJECTILE);
-                MiskatonicMysteriesAPI.guaranteeSpellPower(3, caster);
+                caster.learnEffect(MMSpellEffects.TENTACLES);
                 caster.syncSpellData();
             });
             if (user instanceof ServerPlayerEntity) {
@@ -67,10 +63,5 @@ public class TheOrbItem extends Item {
     @Override
     public UseAction getUseAction(ItemStack stack) {
         return UseAction.EAT;
-    }
-
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 60;
     }
 }

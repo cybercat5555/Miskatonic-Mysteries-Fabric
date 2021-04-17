@@ -175,6 +175,8 @@ public class MMObjects {
 
     public static final Item CHEMICAL_FUEL = new ChemicalFuelItem();
 
+    public static final Item CIRRHOSUS_FLESH = new CirrhosusFleshItem();
+
     public static void init() {
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(MMObjects.INFESTED_WHEAT, 0.7F);
 
@@ -297,5 +299,7 @@ public class MMObjects {
         RegistryUtil.register(Registry.ITEM, "iridescent_pearl", IRIDESCENT_PEARL);
         RegistryUtil.register(Registry.ITEM, "resonate_ooze", RESONATE_OOZE);
         RegistryUtil.register(Registry.ITEM, "chemical_fuel", CHEMICAL_FUEL);
+
+        RegistryUtil.register(Registry.ITEM, "cirrhosus_flesh", CIRRHOSUS_FLESH);
     }
 }

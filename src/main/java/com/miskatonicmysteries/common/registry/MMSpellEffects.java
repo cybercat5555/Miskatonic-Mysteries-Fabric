@@ -10,6 +10,7 @@ public class MMSpellEffects {
     public static final SpellEffect RESISTANCE = new ResistanceSpellEffect();
     public static final SpellEffect KNOCKBACK = new KnockBackSpellEffect();
     public static final SpellEffect MANIA = new ManiaSpellEffect();
+    public static final SpellEffect TENTACLES = new TentacleSpellEffect();
 
 
     public static void init() {
@@ -18,6 +19,7 @@ public class MMSpellEffects {
         register(RESISTANCE);
         register(KNOCKBACK);
         register(MANIA);
+        register(TENTACLES);
     }
 
     private static void register(SpellEffect effect) {

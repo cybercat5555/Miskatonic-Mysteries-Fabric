@@ -30,7 +30,7 @@ public class BoltSpellMedium extends SpellMedium {
             BoltEntity bolt = new BoltEntity(caster, hit != null && hit.getEntity() != null ? hit.getEntity().distanceTo(caster) : blockHit.getPos().distanceTo(caster.getPos()), effect.getColor(caster));
             world.spawnEntity(bolt);
         }
-        if (hit != null && hit.getEntity() != null && (blockHit.squaredDistanceTo(caster) > hit.getEntity().squaredDistanceTo(caster))) {
+        if (hit != null && (blockHit.squaredDistanceTo(caster) > hit.getEntity().squaredDistanceTo(caster))) {
             return effect.effect(world, caster, hit.getEntity(), hit.getPos(), this, intensity, caster, backfires);
         }
         return false;

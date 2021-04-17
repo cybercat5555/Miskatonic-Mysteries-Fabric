@@ -12,7 +12,7 @@
       "type": "text",
       "anchor": "witch_secret",
       "title": "A Witches Secret",
-      "text": "Despite all their madness and debility, $(marked)Witches$() seem to have an extraordinary understanding of the occult outside of Great Old Ones. They will be ready to share their secret after gifting them a potion."
+      "text": "Despite all their madness and debility, $(marked)Witches$() seem to have an extraordinary understanding of the occult outside of Great Old Ones. They will be ready to share their secret after gifting them a potion.$(br)$(o)Try giving them this book!$()"
     },
     {
       "type": "text",

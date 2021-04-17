@@ -127,6 +127,7 @@ public class Constants {
         public static final String ACTIVE = "Active";
         public static final String LAST_CHANGED = "LastChanged";
         public static final String PHASING_PROGRESS = "PhasingProgress";
+        public static final String MAX_AGE = "MaxAge";
     }
 
     public static class DataTrackers {
@@ -183,5 +184,6 @@ public class Constants {
         public static final String NECRONOMICON_EXTENSION = "readBook";
         public static final String ATE_ORB_EXTENSION = "orb";
         public static final String WITCH_KNOWLEDGE = "witch";
+        public static final String ATE_CIRRHOSUS_FLESH = "cirrhosus";
     }
 }

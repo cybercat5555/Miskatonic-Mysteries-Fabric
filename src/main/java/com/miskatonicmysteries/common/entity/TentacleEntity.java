@@ -45,7 +45,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
     private static final TrackedData<Optional<UUID>> SPECIFIC_TARGET = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
     private static final TrackedData<Boolean> BROAD_SWING = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Float> SIZE = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.FLOAT);
-
+    private int maxAge = 600;
     private final AnimationFactory factory = new AnimationFactory(this);
 
     protected TentacleEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
@@ -100,6 +100,10 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         return target instanceof ProtagonistEntity;
     }
 
+    public void setMaxAge(int maxAge) {
+        this.maxAge = maxAge;
+    }
+
     @Override
     public void registerControllers(AnimationData data) {
         data.addAnimationController(new AnimationController<>(this, "controller", 5, this::animationPredicate));
@@ -134,6 +138,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
             tag.putUuid(Constants.NBT.TARGET, getTargetUUID().get());
         }
         tag.putBoolean(Constants.NBT.MONSTER, monster);
+        tag.putInt(Constants.NBT.MAX_AGE, maxAge);
     }
 
     @Override
@@ -143,6 +148,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         dataTracker.set(OWNER, tag.contains(Constants.NBT.OWNER) ? Optional.of(tag.getUuid(Constants.NBT.OWNER)) : Optional.empty());
         dataTracker.set(SPECIFIC_TARGET, tag.contains(Constants.NBT.TARGET) ? Optional.of(tag.getUuid(Constants.NBT.TARGET)) : Optional.empty());
         monster = tag.getBoolean(Constants.NBT.MONSTER);
+        maxAge = tag.getInt(Constants.NBT.MAX_AGE);
     }
 
     @Override
@@ -194,7 +200,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 
         if (age < 20) {
             setSize(getSize() + 0.05F);
-        } else if (age > 600) {
+        } else if (age > maxAge) {
             setSize(getSize() - 0.05F);
             if (getSize() < 0) {
                 remove();
