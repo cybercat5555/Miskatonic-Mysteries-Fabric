@@ -23,6 +23,11 @@
       "recipe": "miskatonicmysteries:chemistry/iridescent_pearl",
       "header": "Iridescent Pearl",
       "text": "An alchemically-created pearl that shines a multitude of colours. It is said to resemble the orbs of the Gate-and-Key, and thus contains an atom of his power. However, it is a fragile object and will be destroyed in the rite."
+    },
+    {
+      "type": "text",
+      "title": "Mysterious Traders",
+      "text": "Rumor has it that there are many more curious artifacts sold by traders deeply affiliated with a certain Great Old One who shall remain unnamed.$(br)These traders walk the world, selling their peculiar goods. Keep an eye open for them."
     }
   ]
 }
