@@ -25,7 +25,7 @@ public class ManiaSpellEffect extends SpellEffect {
             spawnParticleEffectsOnTarget(caster, this, target);
         }
         if (!(target instanceof LivingEntity)) return false;
-        ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 200 + 200 * intensity, Math.min(intensity, 2), true, true));
+        ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 200 + 200 * intensity, Math.min(intensity, 2), false, true));
         return true;
     }
 }
