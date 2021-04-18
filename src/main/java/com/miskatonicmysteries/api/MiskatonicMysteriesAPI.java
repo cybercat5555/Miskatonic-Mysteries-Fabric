@@ -3,6 +3,7 @@ package com.miskatonicmysteries.api;
 import com.miskatonicmysteries.api.interfaces.*;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
+import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMCriteria;
@@ -19,6 +20,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -143,6 +146,13 @@ public class MiskatonicMysteriesAPI {
                 player.sendMessage(new TranslatableText("message.miskatonicmysteries.new_blessing", new TranslatableText(blessingGranted.getTranslationString())), true);
                 return true;
             }
+        }
+        return false;
+    }
+
+    public static boolean isWardingMarkNearby(World world, BlockPos pos){
+        if (world instanceof ServerWorld){
+            return MMDimensionalWorldState.get((ServerWorld) world).isMarkNear(pos, 24);
         }
         return false;
     }

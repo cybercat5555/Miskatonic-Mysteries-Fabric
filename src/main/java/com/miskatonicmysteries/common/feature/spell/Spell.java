@@ -10,11 +10,15 @@ import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.registry.MMBlessings;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMSounds;
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 import java.util.Optional;
@@ -33,9 +37,24 @@ public class Spell {
 
     public boolean cast(LivingEntity caster, boolean backfires) {
         Optional<SpellCaster> spellCaster = SpellCaster.of(caster);
+        int intensityMod = 0;
         if (spellCaster.isPresent()) {
             caster.world.playSound(caster.getX(), caster.getY(), caster.getZ(), MMSounds.MAGIC, SoundCategory.PLAYERS, 0.85F, (float) caster.getRandom().nextGaussian() * 0.2F + 1.0F, true);
             float burnout;
+            if (!caster.world.isClient && MiskatonicMysteriesAPI.isWardingMarkNearby(caster.world, caster.getBlockPos())){
+                caster.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 100, 0));
+                if (spellCaster.get().getSpellBurnout() < 0.5F){
+                    spellCaster.get().setSpellBurnout(0.5F);
+                }
+                if (intensity <= 0) {
+                    return false;
+                }else{
+                    intensityMod--;
+                }
+            }
+            if (Ascendant.of(caster).isPresent() && MiskatonicMysteriesAPI.hasBlessing(Ascendant.of(caster).get(), MMBlessings.MAGIC_BOOST)){
+                intensityMod++;
+            }
             burnout = spellCaster.get().getSpellBurnout() + (medium.getBurnoutRate(caster) * effect.getBurnoutMultiplier(intensity));
             if (burnout > 1) {
                 caster.damage(DamageSource.MAGIC, 4);
@@ -52,9 +71,8 @@ public class Spell {
         if (!caster.world.isClient) {
             SpellPacket.send(caster, toTag(new CompoundTag()), backfires);
         }
-        boolean boost = Ascendant.of(caster).isPresent() && MiskatonicMysteriesAPI.hasBlessing(Ascendant.of(caster).get(), MMBlessings.MAGIC_BOOST);
 
-        return effect.canCast(caster, medium) && medium.cast(caster.world, caster, effect, boost ? intensity + 1 : intensity, backfires);
+        return effect.canCast(caster, medium) && medium.cast(caster.world, caster, effect, intensity + intensityMod, backfires);
     }
 
     public CompoundTag toTag(CompoundTag tag) {

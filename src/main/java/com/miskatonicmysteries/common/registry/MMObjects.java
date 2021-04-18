@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.registry;
 import com.miskatonicmysteries.api.block.AltarBlock;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
+import com.miskatonicmysteries.api.block.SignBlock;
 import com.miskatonicmysteries.api.item.BlessedSwordItem;
 import com.miskatonicmysteries.api.item.ChalkItem;
 import com.miskatonicmysteries.api.item.MMBookItem;
@@ -110,6 +111,7 @@ public class MMObjects {
     public static final BlockEntityType<PowerCellBlockEntity> POWER_CELL_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(PowerCellBlockEntity::new, POWER_CELL).build(null);
 
     public static final Block YELLOW_SIGN = new YellowSignBlock();
+    public static final Block WARDING_MARK = new WardingMarkBlock();
 
     public static final Block INFESTED_WHEAT_CROP = new InfestedWheatCropBlock();
     public static final Block BIRCH_LOG = new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, (blockState) -> blockState.get(PillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.SAND : MaterialColor.WHITE).strength(2.0F).sounds(BlockSoundGroup.WOOD));
@@ -242,6 +244,7 @@ public class MMObjects {
         RegistryUtil.registerBlock(CANDLE, "candle");
 
         RegistryUtil.register(Registry.BLOCK, "yellow_sign", YELLOW_SIGN);
+        RegistryUtil.register(Registry.BLOCK, "warding_mark", WARDING_MARK);
         RegistryUtil.register(Registry.BLOCK, "birch_log", BIRCH_LOG);
         RegistryUtil.register(Registry.BLOCK, "infested_wheat", INFESTED_WHEAT_CROP);
 
