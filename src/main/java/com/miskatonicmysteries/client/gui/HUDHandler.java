@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.client.gui;
 
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.client.gui.hud.SpellBurnoutHUD;
 import com.miskatonicmysteries.client.gui.hud.SpellHUD;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
@@ -36,8 +37,11 @@ public class HUDHandler {
         ));
 
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
+
             if (spellSelectionKey.isPressed()) {
-                if (!selectionActive) {
+                if (SpellCaster.of(client.player).map(caster -> caster.getSpellCooldown()).orElse(0) > 0){
+                    selectionActive = false;
+                }else if (!selectionActive) {
                     selectionActive = true;
                     spellHUD.init(client);
                 } else {
@@ -48,6 +52,7 @@ public class HUDHandler {
             }
 
             if (client.player != null && spellHUD.selectedSpell != null) {
+                System.out.println(SpellCaster.of(client.player).map(SpellCaster::getSpellCooldown).orElse(0));
                 if (client.options.keyUse.isPressed()) {
                     spellHUD.currentSpellProgress += 0.1F;
                     if (spellHUD.currentSpellProgress >= 1) {

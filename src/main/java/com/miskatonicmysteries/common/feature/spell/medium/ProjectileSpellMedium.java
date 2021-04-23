@@ -14,10 +14,10 @@ public class ProjectileSpellMedium extends SpellMedium {
     }
 
     @Override
-    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity, boolean backfires) {
+    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
         if (!world.isClient) {
             SpellProjectileEntity projectile = new SpellProjectileEntity(caster.world, caster, effect, intensity);
-            projectile.setProperties(caster, caster.pitch, (float) (caster.headYaw + (backfires ? 40 * caster.getRandom().nextGaussian() : 0)), 0, 1, 0);
+            projectile.setProperties(caster, caster.pitch, (float) (caster.headYaw + 0), 0, 1, 0);
             projectile.yaw = caster.headYaw;
             projectile.pitch = caster.pitch;
             return world.spawnEntity(projectile);
@@ -26,7 +26,7 @@ public class ProjectileSpellMedium extends SpellMedium {
     }
 
     @Override
-    public float getBurnoutRate(LivingEntity caster) {
-        return 0.12F;
+    public float getCooldownModifier(LivingEntity caster) {
+        return 0.9F;
     }
 }

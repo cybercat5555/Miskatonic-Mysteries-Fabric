@@ -115,7 +115,7 @@ public class Constants {
         public static final String RADIUS = "Radius";
         public static final String ENERGY = "Energy";
         public static final String PLAYER_NAME = "PlayerName";
-        public static final String SPELL_BURNOUT = "SpellBurnout";
+        public static final String SPELL_COOLDOWN = "SpellCooldown";
         public static final String BROAD_SWING = "BroadSwing";
         public static final String OWNER = "Owner";
         public static final String TARGET = "Target";
@@ -141,7 +141,7 @@ public class Constants {
         public static final TrackedData<Integer> POWER_POOL = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Integer> MAX_SPELLS = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final TrackedData<Integer> STAGE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
-        public static final TrackedData<Float> SPELL_BURNOUT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
+        public static final TrackedData<Integer> SPELL_COOLDOWN = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
         public static final int SPELL_CAP = 10;
         public static final int MIN_SPELLS = 3;
 

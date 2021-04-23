@@ -24,11 +24,11 @@ import net.minecraft.util.Identifier;
 public class SpellPacket {
     public static final Identifier ID = new Identifier(Constants.MOD_ID, "spell");
 
-    public static void send(LivingEntity caster, CompoundTag spellTag, boolean backfires) {
+    public static void send(LivingEntity caster, CompoundTag spellTag, int intensityMod) {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
         data.writeCompoundTag(spellTag);
+        data.writeInt(intensityMod);
         data.writeInt(caster.getEntityId());
-        data.writeBoolean(backfires);
         PlayerLookup.tracking(caster).forEach(p -> ServerPlayNetworking.send(p, ID, data));
         if (caster instanceof ServerPlayerEntity){
             ServerPlayNetworking.send((ServerPlayerEntity) caster, ID, data);
@@ -45,19 +45,18 @@ public class SpellPacket {
 
     @Environment(EnvType.CLIENT)
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        CompoundTag spellTag = packetByteBuf.readCompoundTag();
+        Spell spell = Spell.fromTag(packetByteBuf.readCompoundTag());
+        spell.intensity += packetByteBuf.readInt();
         Entity entity = client.world.getEntityById(packetByteBuf.readInt());
-        boolean backfires = packetByteBuf.readBoolean();
         if (entity instanceof LivingEntity) {
-            client.execute(() -> Spell.fromTag(spellTag).cast((LivingEntity) entity, backfires));
+            client.execute(() -> spell.cast((LivingEntity) entity));
         }
     }
 
     public static void handleFromClient(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf packetByteBuf, PacketSender sender) {
         Spell spell = Spell.fromTag(packetByteBuf.readCompoundTag());
         if (spell != null) {
-            boolean backfires = spell.effect.backfires(player);
-            server.execute(() -> spell.cast(player, backfires));
+            server.execute(() -> spell.cast(player));
         }
     }
 }

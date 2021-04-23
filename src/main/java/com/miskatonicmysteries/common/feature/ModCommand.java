@@ -2,7 +2,6 @@ package com.miskatonicmysteries.common.feature;
 
 import com.miskatonicmysteries.api.interfaces.*;
 import com.miskatonicmysteries.api.registry.*;
-import com.miskatonicmysteries.client.vision.VisionHandler;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
@@ -190,7 +189,7 @@ public class ModCommand {
         SpellMedium medium = MMRegistries.SPELL_MEDIUMS.get(mediumId);
         SpellEffect effect = MMRegistries.SPELL_EFFECTS.get(effectId);
         Spell spell = new Spell(medium, effect, intensity);
-        return spell.cast(caster, effect.backfires(caster)) ? 15 : 0;
+        return spell.cast(caster) ? 15 : 0;
     }
 
     private static int spawnProtagonist(CommandContext<ServerCommandSource> context, PlayerEntity player) {

@@ -34,9 +34,9 @@ public interface SpellCaster {
 
     void learnMedium(SpellMedium medium);
 
-    float getSpellBurnout();
+    int getSpellCooldown();
 
-    void setSpellBurnout(float burnout);
+    void setSpellCooldown(int ticks);
 
     void syncSpellData();
 }

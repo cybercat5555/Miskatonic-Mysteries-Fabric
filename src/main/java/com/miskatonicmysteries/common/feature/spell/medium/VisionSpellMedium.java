@@ -18,17 +18,17 @@ public class VisionSpellMedium extends SpellMedium {
     }
 
     @Override
-    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity, boolean backfires) {
+    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
         Vec3d vec3d = caster.getCameraPosVec(1);
         Vec3d vec3d2 = caster.getRotationVec(1);
         Vec3d vec3d3 = vec3d.add(vec3d2.x * getMaxDistance(), vec3d2.y * getMaxDistance(), vec3d2.z * getMaxDistance());
         double distance = Math.pow(getMaxDistance(), 2);
         EntityHitResult hit = ProjectileUtil.getEntityCollision(world, caster, vec3d, vec3d3, caster.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides());
         if (hit != null && caster.canSee(hit.getEntity())) {
-            return effect.effect(world, caster, hit.getEntity(), hit.getPos(), this, intensity, caster, backfires);
+            return effect.effect(world, caster, hit.getEntity(), hit.getPos(), this, intensity, caster);
         }else{
             HitResult blockHit = world.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, caster));
-            return effect.effect(world, caster, null, blockHit.getPos(), this, intensity, caster, backfires);
+            return effect.effect(world, caster, null, blockHit.getPos(), this, intensity, caster);
         }
     }
 
@@ -37,7 +37,7 @@ public class VisionSpellMedium extends SpellMedium {
     }
 
     @Override
-    public float getBurnoutRate(LivingEntity caster) {
-        return 0.25F;
+    public float getCooldownModifier(LivingEntity caster) {
+        return 1.5F;
     }
 }

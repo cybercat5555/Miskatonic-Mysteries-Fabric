@@ -83,7 +83,7 @@ public class SpellProjectileEntity extends ThrownEntity {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
         if (getOwner() instanceof LivingEntity && getSpell() != null) {
-            getSpell().effect(world, (LivingEntity) getOwner(), entityHitResult.getEntity(), entityHitResult.getPos(), MMSpellMediums.PROJECTILE, getIntensity(), this, false);
+            getSpell().effect(world, (LivingEntity) getOwner(), entityHitResult.getEntity(), entityHitResult.getPos(), MMSpellMediums.PROJECTILE, getIntensity(), this);
         }
     }
 
@@ -91,7 +91,7 @@ public class SpellProjectileEntity extends ThrownEntity {
     protected void onBlockHit(BlockHitResult blockHitResult) {
         super.onBlockHit(blockHitResult);
         if (getOwner() instanceof LivingEntity && getSpell() != null) {
-            getSpell().effect(world, (LivingEntity) getOwner(), null, blockHitResult.getPos(), MMSpellMediums.PROJECTILE, getIntensity(), this, false);
+            getSpell().effect(world, (LivingEntity) getOwner(), null, blockHitResult.getPos(), MMSpellMediums.PROJECTILE, getIntensity(), this);
         }
     }
 

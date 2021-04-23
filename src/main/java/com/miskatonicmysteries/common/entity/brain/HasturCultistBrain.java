@@ -68,7 +68,7 @@ public class HasturCultistBrain {
                 entity.setCastTime(entity.getCastTime() - 1);
             }
             if (entity.currentSpell != null && entity.getCastTime() <= 0) {
-                entity.currentSpell.cast(entity, entity.currentSpell.effect.backfires(entity));
+                entity.currentSpell.cast(entity);
                 entity.currentSpell = null;
                 entity.getBrain().remember(MemoryModuleType.ATTACK_COOLING_DOWN, true, 40);
             }

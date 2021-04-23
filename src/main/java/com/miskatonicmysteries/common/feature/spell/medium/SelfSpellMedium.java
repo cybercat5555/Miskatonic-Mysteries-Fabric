@@ -13,12 +13,12 @@ public class SelfSpellMedium extends SpellMedium {
     }
 
     @Override
-    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity, boolean backfires) {
-        return !caster.isDead() && effect.effect(world, caster, caster, caster.getPos(), this, intensity, caster, backfires);
+    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
+        return !caster.isDead() && effect.effect(world, caster, caster, caster.getPos(), this, intensity, caster);
     }
 
     @Override
-    public float getBurnoutRate(LivingEntity caster) {
-        return 0.1F;
+    public float getCooldownModifier(LivingEntity caster) {
+        return 0.5F;
     }
 }

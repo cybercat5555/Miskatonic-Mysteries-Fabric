@@ -10,6 +10,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 import java.util.function.Predicate;
 
 public abstract class SpellEffect {
@@ -30,7 +31,7 @@ public abstract class SpellEffect {
     /**
      * @return if the spell was successfully cast
      */
-    public abstract boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium, boolean backfires);
+    public abstract boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium);
 
     public boolean canCast(LivingEntity caster, SpellMedium medium) {
         return castingPredicate.test(caster);
@@ -56,11 +57,11 @@ public abstract class SpellEffect {
                     (effect.getColor(caster) & 255) / 255F);
     }
 
-    public boolean backfires(LivingEntity caster) {
-        return caster.getRandom().nextFloat() > InsanityHandler.calculateSanityFactor(Sanity.of(caster)) + 0.5F;
+    public float getCooldownBase(int intensity) {
+        return 20 + intensity * 10;
     }
 
-    public float getBurnoutMultiplier(int intensity) {
-        return 1 + intensity / 10F;
+    public int calculateSanityPenalty(Random random, int intensity){
+        return random.nextInt(intensity);
     }
 }

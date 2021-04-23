@@ -12,6 +12,7 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public class SpellBurnoutHUD extends DrawableHelper {
@@ -19,8 +20,8 @@ public class SpellBurnoutHUD extends DrawableHelper {
 
     public void render(MinecraftClient client, int scaledWidth, int scaledHeight, PlayerEntity player) {
         SpellCaster.of(player).ifPresent(caster -> {
-            if (caster.getSpellBurnout() > 0.5) {
-                float burnout = (caster.getSpellBurnout() - 0.5F);
+            if (caster.getSpellCooldown() > 0.5) {
+                float burnout = MathHelper.clamp(caster.getSpellCooldown() / 40F, 0, 1F);
                 RenderSystem.enableBlend();
                 RenderSystem.defaultBlendFunc();
                 RenderSystem.disableDepthTest();

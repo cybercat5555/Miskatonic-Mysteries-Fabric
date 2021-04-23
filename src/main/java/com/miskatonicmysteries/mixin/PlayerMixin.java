@@ -92,8 +92,8 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
             }
             setResonance(getResonance() - 0.01F);
         }
-        if (getSpellBurnout() > 0) {
-            setSpellBurnout(getSpellBurnout() - (0.002F + getResonance() * 0.008F));
+        if (getSpellCooldown() > 0) {
+            setSpellCooldown(getSpellCooldown() - 1);
         }
         if (age % MiskatonicMysteries.config.modUpdateInterval == 0) {
             if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.sanity.shockRemoveChance) {
@@ -113,8 +113,9 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
 
     @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"))
     private void manipulateProtagonistDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
-        if (source.getAttacker() instanceof ProtagonistEntity && !(source instanceof Constants.DamageSources.ProtagonistDamageSource))
+        if (source.getAttacker() instanceof ProtagonistEntity && !(source instanceof Constants.DamageSources.ProtagonistDamageSource)) {
             ((PlayerEntity) (Object) this).damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount);
+        }
     }
 
     @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("RETURN"), cancellable = true)
@@ -144,7 +145,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
         dataTracker.startTracking(SHOCKED, false);
         dataTracker.startTracking(STAGE, 0);
         dataTracker.startTracking(POWER_POOL, 0);
-        dataTracker.startTracking(SPELL_BURNOUT, 0F);
+        dataTracker.startTracking(SPELL_COOLDOWN, 0);
         dataTracker.startTracking(MAX_SPELLS, Constants.DataTrackers.MIN_SPELLS);
         dataTracker.startTracking(AFFILIATION, MMAffiliations.NONE);
         dataTracker.startTracking(APPARENT_AFFILIATION, MMAffiliations.NONE);
@@ -230,7 +231,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
 
         tag.putInt(Constants.NBT.POWER_POOL, getPowerPool());
         tag.putInt(Constants.NBT.MAX_SPELLS, getMaxSpells());
-        tag.putFloat(Constants.NBT.SPELL_BURNOUT, getSpellBurnout());
+        tag.putInt(Constants.NBT.SPELL_COOLDOWN, getSpellCooldown());
         NbtUtil.writeSpellData(this, tag);
         tag.putInt(Constants.NBT.ASCENSION_STAGE, getAscensionStage());
         tag.putString(Constants.NBT.AFFILIATION, getAffiliation(false).getId().toString());
@@ -251,7 +252,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
             ((ListTag) tag.get(Constants.NBT.SANITY_EXPANSIONS)).forEach(s -> sanityCapOverrides.put(((CompoundTag) s).getString("Name"), ((CompoundTag) s).getInt("Amount")));
             setPowerPool(tag.getInt(Constants.NBT.POWER_POOL));
             setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
-            setSpellBurnout(tag.getFloat(Constants.NBT.SPELL_BURNOUT));
+            setSpellCooldown(tag.getInt(Constants.NBT.SPELL_COOLDOWN));
             NbtUtil.readSpellData(this, tag);
             setAscensionStage(tag.getInt(Constants.NBT.ASCENSION_STAGE));
 
@@ -325,13 +326,13 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     }
 
     @Override
-    public void setSpellBurnout(float burnout) {
-        this.dataTracker.set(SPELL_BURNOUT, burnout);
+    public void setSpellCooldown(int ticks) {
+        this.dataTracker.set(SPELL_COOLDOWN, ticks);
     }
 
     @Override
-    public float getSpellBurnout() {
-        return dataTracker.get(SPELL_BURNOUT);
+    public int getSpellCooldown() {
+        return dataTracker.get(SPELL_COOLDOWN);
     }
 
     @Override

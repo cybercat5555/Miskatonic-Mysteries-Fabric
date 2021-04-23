@@ -7,7 +7,7 @@ import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -20,16 +20,15 @@ public class TentacleSpellEffect extends SpellEffect {
     }
 
     @Override
-    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium, boolean backfires) {
+    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
         if (pos != null) {
             boolean flag = false;
             if (!world.isClient){
                 for (int i = 0; i < (intensity + 1); i++) {
                     GenericTentacleEntity tentacle = MMEntities.GENERIC_TENTACLE.create(world);
-                    tentacle.setOwner(backfires && target instanceof LivingEntity ? (LivingEntity) target : caster);
                     tentacle.refreshPositionAndAngles(pos.x + world.random.nextGaussian(), pos.y, pos.z + world.random.nextGaussian(), caster.getRandom().nextInt(360), 0);
                     tentacle.setMaxAge(40 + caster.getRandom().nextInt(40) + intensity * 40);
-                    if (target instanceof LivingEntity && !backfires && target != caster) {
+                    if (target instanceof LivingEntity && (target != caster || (target instanceof TameableEntity && ((TameableEntity) target).getOwner() != caster))) {
                         tentacle.setTarget((LivingEntity) target);
                     }
                     world.spawnEntity(tentacle);
@@ -42,7 +41,7 @@ public class TentacleSpellEffect extends SpellEffect {
     }
 
     @Override
-    public float getBurnoutMultiplier(int intensity) {
-        return 1.2F + intensity / 8F;
+    public float getCooldownBase(int intensity) {
+        return 60 + intensity * 20;
     }
 }

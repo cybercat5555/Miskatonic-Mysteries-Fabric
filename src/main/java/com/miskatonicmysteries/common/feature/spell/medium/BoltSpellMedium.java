@@ -19,7 +19,7 @@ public class BoltSpellMedium extends SpellMedium {
     }
 
     @Override
-    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity, boolean backfires) {
+    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
         Vec3d vec3d = caster.getCameraPosVec(1);
         Vec3d vec3d2 = caster.getRotationVec(1);
         Vec3d vec3d3 = vec3d.add(vec3d2.x * getMaxDistance(), vec3d2.y * getMaxDistance(), vec3d2.z * getMaxDistance());
@@ -31,9 +31,9 @@ public class BoltSpellMedium extends SpellMedium {
             world.spawnEntity(bolt);
         }
         if (hit != null && blockHit.squaredDistanceTo(caster) > hit.getEntity().squaredDistanceTo(caster)) {
-            return effect.effect(world, caster, hit.getEntity(), hit.getPos(), this, intensity, caster, backfires);
+            return effect.effect(world, caster, hit.getEntity(), hit.getPos(), this, intensity, caster);
         }else {
-            return effect.effect(world, caster, null, blockHit.getPos(), this, intensity, caster, backfires);
+            return effect.effect(world, caster, null, blockHit.getPos(), this, intensity, caster);
         }
     }
 
@@ -42,7 +42,7 @@ public class BoltSpellMedium extends SpellMedium {
     }
 
     @Override
-    public float getBurnoutRate(LivingEntity caster) {
-        return 0.2F;
+    public float getCooldownModifier(LivingEntity caster) {
+        return 1.5F;
     }
 }

@@ -7,7 +7,6 @@ import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -20,11 +19,13 @@ public class ManiaSpellEffect extends SpellEffect {
     }
 
     @Override
-    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium, boolean backfires) {
+    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
         if (world.isClient && target != null) {
             spawnParticleEffectsOnTarget(caster, this, target);
         }
-        if (!(target instanceof LivingEntity)) return false;
+        if (!(target instanceof LivingEntity)){
+            return false;
+        }
         ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 200 + 200 * intensity, Math.min(intensity, 2), false, true));
         return true;
     }

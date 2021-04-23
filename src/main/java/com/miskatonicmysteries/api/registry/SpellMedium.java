@@ -19,7 +19,9 @@ public abstract class SpellMedium {
         return new Identifier(id.getNamespace(), "textures/gui/spell_widgets/medium/" + id.getPath() + ".png");
     }
 
-    public abstract boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity, boolean backfires);
+    public abstract boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity);
 
-    public abstract float getBurnoutRate(LivingEntity caster);
+    public float getCooldownModifier(LivingEntity caster){
+        return 1;
+    }
 }

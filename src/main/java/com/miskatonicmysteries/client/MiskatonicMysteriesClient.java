@@ -112,7 +112,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
             int intensity = packetByteBuf.readInt();
             client.execute(() -> {
                 if (mob instanceof MobEntity && target instanceof LivingEntity) {
-                    effect.effect(client.world, (MobEntity) mob, target, target.getPos(), MMSpellMediums.MOB_TARGET, intensity, mob, effect.backfires((LivingEntity) mob));
+                    effect.effect(client.world, (MobEntity) mob, target, target.getPos(), MMSpellMediums.MOB_TARGET, intensity, mob);
                 }
             });
         });

@@ -80,8 +80,8 @@ public class MiskatonicMysteries implements ModInitializer {
                 ascendant.getBlessings().addAll(oldAscendant.getBlessings());
             }));
 
-            MalleableAffiliated.of(oldPlayer).ifPresent(oldAffiliation -> MalleableAffiliated.of(player).ifPresent(affiliation -> {
-                affiliation.setAffiliation(oldAffiliation.getAffiliation(false), false);
+            MalleableAffiliated.of(oldPlayer).ifPresent(oldAffiliation -> MalleableAffiliated.of(player).ifPresent(affiliation -> { //todo how does this now get copied what
+                affiliation.setAffiliation(oldAffiliation.getAffiliation(false), false);  //todo reflect changed spell casting by probably redoing documentation here
                 affiliation.setAffiliation(oldAffiliation.getAffiliation(true), true);
             }));
         });

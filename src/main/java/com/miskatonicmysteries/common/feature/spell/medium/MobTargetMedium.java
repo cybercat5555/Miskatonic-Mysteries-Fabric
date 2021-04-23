@@ -17,22 +17,17 @@ public class MobTargetMedium extends SpellMedium {
     }
 
     @Override
-    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity, boolean backfires) {
+    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
         if (!world.isClient && caster instanceof MobEntity && caster.getAttacking() != null) {
             if (caster.canSee(caster.getAttacking())) {
                 MobSpellPacket.send(caster, effect, intensity);
                 ((MobEntity) caster).lookAtEntity(caster.getAttacking(), 60, 60);
-                return !caster.isDead() && effect.effect(world, caster, caster.getAttacking(), caster.getAttacking().getPos(), this, intensity, caster, backfires);
+                return !caster.isDead() && effect.effect(world, caster, caster.getAttacking(), caster.getAttacking().getPos(), this, intensity, caster);
             }
         }
         if (caster instanceof PlayerEntity) {
-            return MMSpellMediums.BOLT.cast(world, caster, effect, intensity, backfires);
+            return MMSpellMediums.BOLT.cast(world, caster, effect, intensity);
         }
         return false;
-    }
-
-    @Override
-    public float getBurnoutRate(LivingEntity caster) {
-        return 0F;
     }
 }

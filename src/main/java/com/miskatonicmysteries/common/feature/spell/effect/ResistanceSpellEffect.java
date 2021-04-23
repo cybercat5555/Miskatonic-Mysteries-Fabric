@@ -19,12 +19,14 @@ public class ResistanceSpellEffect extends SpellEffect {
     }
 
     @Override
-    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium, boolean backfires) {
+    public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
         if (world.isClient && target != null) {
             spawnParticleEffectsOnTarget(caster, this, target);
         }
-        if (!(target instanceof LivingEntity)) return false;
-        ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(backfires ? StatusEffects.WEAKNESS : StatusEffects.RESISTANCE, 200 + 200 * intensity, Math.min(intensity, 2), true, true));
+        if (!(target instanceof LivingEntity)){
+            return false;
+        }
+        ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 200 + 200 * intensity, Math.min(intensity, 2), true, true));
         return true;
     }
 }
