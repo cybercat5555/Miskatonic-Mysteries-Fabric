@@ -32,8 +32,7 @@ public class RiteProcessor implements IComponentProcessor {
             default: {
                 for (int i = 0; i < rite.getIngredients().size(); i++) {
                     if (key.equals("ingredient" + (i + 1))) {
-                        ItemStack[] stack = rite.getIngredients().get(i).getMatchingStacksClient(); //patchouli pls
-                        return stack.length > 0 ? IVariable.from(stack[MinecraftClient.getInstance().world.random.nextInt(stack.length)]) : null;
+                        return IVariable.from(rite.getIngredients().get(i).getMatchingStacksClient()[0]);
                     }
                 }
             }

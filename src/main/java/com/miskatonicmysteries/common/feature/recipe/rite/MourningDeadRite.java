@@ -24,9 +24,11 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.Arrays;
+
 public class MourningDeadRite extends Rite {
     public MourningDeadRite() {
-        super(new Identifier(Constants.MOD_ID, "mourning_dead"), null, 0.1F, Ingredient.ofItems(Items.GHAST_TEAR), Ingredient.ofStacks(PotionUtil.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)), Ingredient.ofItems(Items.BLAZE_POWDER), Ingredient.ofItems(Items.CHARCOAL), Ingredient.ofItems(Items.PHANTOM_MEMBRANE));
+        super(new Identifier(Constants.MOD_ID, "mourning_dead"), null, 0.1F, Ingredient.ofItems(Items.GHAST_TEAR), Ingredient.ofStacks(Arrays.stream(new ItemStack[]{PotionUtil.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)})), Ingredient.ofItems(Items.BLAZE_POWDER), Ingredient.ofItems(Items.CHARCOAL), Ingredient.ofItems(Items.PHANTOM_MEMBRANE));
     }
 
     @Override
