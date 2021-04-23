@@ -62,6 +62,6 @@ public abstract class SpellEffect {
     }
 
     public int calculateSanityPenalty(Random random, int intensity){
-        return random.nextInt(intensity);
+        return random.nextInt(intensity + 1);
     }
 }

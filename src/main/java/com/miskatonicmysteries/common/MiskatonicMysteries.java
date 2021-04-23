@@ -59,7 +59,7 @@ public class MiskatonicMysteries implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, SyncSpellCasterDataPacket::handleFromClient);
         ServerPlayNetworking.registerGlobalReceiver(SpellPacket.ID, SpellPacket::handleFromClient);
 
-        ServerPlayerEvents.COPY_FROM.register((player, oldPlayer, isDead) -> {
+        ServerPlayerEvents.COPY_FROM.register((oldPlayer, player, isDead) -> {
             Sanity.of(oldPlayer).ifPresent(oldSanity -> Sanity.of(player).ifPresent(sanity -> {
                 sanity.setSanity(oldSanity.getSanity(), true);
                 sanity.getSanityCapExpansions().putAll(oldSanity.getSanityCapExpansions());
@@ -80,7 +80,7 @@ public class MiskatonicMysteries implements ModInitializer {
                 ascendant.getBlessings().addAll(oldAscendant.getBlessings());
             }));
 
-            MalleableAffiliated.of(oldPlayer).ifPresent(oldAffiliation -> MalleableAffiliated.of(player).ifPresent(affiliation -> { //todo how does this now get copied what
+            MalleableAffiliated.of(oldPlayer).ifPresent(oldAffiliation -> MalleableAffiliated.of(player).ifPresent(affiliation -> {
                 affiliation.setAffiliation(oldAffiliation.getAffiliation(false), false);  //todo reflect changed spell casting by probably redoing documentation here
                 affiliation.setAffiliation(oldAffiliation.getAffiliation(true), true);
             }));

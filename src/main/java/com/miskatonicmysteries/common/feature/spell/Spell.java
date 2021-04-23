@@ -47,6 +47,7 @@ public class Spell {
                 caster.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 100, 0));
                 cooldownMod += 80;
                 if (intensity <= 0) {
+                    spellCaster.get().setSpellCooldown(100);
                     return false;
                 }else{
                     intensityMod--;

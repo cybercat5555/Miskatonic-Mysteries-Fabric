@@ -52,7 +52,6 @@ public class HUDHandler {
             }
 
             if (client.player != null && spellHUD.selectedSpell != null) {
-                System.out.println(SpellCaster.of(client.player).map(SpellCaster::getSpellCooldown).orElse(0));
                 if (client.options.keyUse.isPressed()) {
                     spellHUD.currentSpellProgress += 0.1F;
                     if (spellHUD.currentSpellProgress >= 1) {
