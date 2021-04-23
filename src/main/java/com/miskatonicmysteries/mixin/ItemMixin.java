@@ -9,6 +9,7 @@ import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Util;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -54,6 +55,9 @@ public abstract class ItemMixin {
                     EntityHitResult hit = ProjectileUtil.getEntityCollision(world, user, vec3d, vec3d3, user.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides());
                     if (hit != null && hit.getEntity() instanceof LivingEntity && ((LivingEntity) hit.getEntity()).canSee(user) && !MiskatonicMysteriesAPI.isImmuneToYellowSign((LivingEntity) hit.getEntity())) {
                         LivingEntity target = (LivingEntity) hit.getEntity();
+                        if (user instanceof MobEntity && target != ((MobEntity) user).getTarget()){
+                           return;
+                        }
                         target.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 200, 1, false, true));
                         Sanity.of(target).ifPresent(sanity -> {
                             sanity.setSanity(((Sanity) target).getSanity() - 5, false);
