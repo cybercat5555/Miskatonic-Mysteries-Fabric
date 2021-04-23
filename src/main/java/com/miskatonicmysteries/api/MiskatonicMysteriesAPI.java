@@ -133,7 +133,7 @@ public class MiskatonicMysteriesAPI {
     }
 
     public static boolean isImmuneToYellowSign(LivingEntity entity) {
-        return getNonNullAffiliation(entity, false).equals(MMAffiliations.HASTUR) && getAscensionStage(entity) >= HasturAscensionHandler.SIGN_IMMUNITY_STAGE;
+        return getNonNullAffiliation(entity, false).equals(MMAffiliations.HASTUR) && (!(entity instanceof PlayerEntity) || getAscensionStage(entity) >= HasturAscensionHandler.SIGN_IMMUNITY_STAGE);
     }
 
     public static boolean grantBlessing(PlayerEntity player, Affiliation affiliation) {
