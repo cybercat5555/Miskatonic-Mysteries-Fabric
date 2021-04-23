@@ -22,6 +22,10 @@
       "type": "text",
       "title": "Casting a Spell",
       "text": "Casting requires the caster to settle on what spell to cast, then focus their energies until it is done. Casting a spell will always drain the caster, and casting too many spells in a short time will cause substantial harm, both physically and mentally. $(br2)$(o)Press $(k:miskatonicmysteries.hud) to select a spell, then hold $(k:use).$()"
+    },
+    {
+      "type": "text",
+      "text": "Always do keep in mind that casting spells often comes with a penality of sorts. This manifests in$(li)a short cooldown based on the spell and its intensity and$(li)gradual loss of sanity, based on the effect itself.$(br2)As such, spells should be used rather carefully."
     }
   ]
 }
