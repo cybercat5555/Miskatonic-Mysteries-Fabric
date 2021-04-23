@@ -133,7 +133,7 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
     }
 
     public boolean isLit() {
-        return world.getBlockState(pos).get(Properties.LIT);
+        return getCachedState().get(Properties.LIT);
     }
 
     public boolean containsPotentialItems() {
