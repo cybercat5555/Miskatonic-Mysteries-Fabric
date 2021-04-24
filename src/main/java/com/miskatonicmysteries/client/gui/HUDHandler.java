@@ -25,6 +25,7 @@ public class HUDHandler {
 
     public static SpellHUD spellHUD;
     public static SpellBurnoutHUD burnoutHUD;
+    public static int tapCooldown;
 
     public static void init() {
         spellHUD = new SpellHUD();
@@ -37,7 +38,9 @@ public class HUDHandler {
         ));
 
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
-
+            if (tapCooldown > 0){
+                tapCooldown--;
+            }
             if (spellSelectionKey.isPressed()) {
                 if (SpellCaster.of(client.player).map(caster -> caster.getSpellCooldown()).orElse(0) > 0){
                     selectionActive = false;
@@ -47,11 +50,13 @@ public class HUDHandler {
                 } else {
                     spellHUD.tick();
                 }
+
             } else {
                 selectionActive = false;
             }
 
             if (client.player != null && spellHUD.selectedSpell != null) {
+
                 if (client.options.keyUse.isPressed()) {
                     spellHUD.currentSpellProgress += 0.1F;
                     if (spellHUD.currentSpellProgress >= 1) {
@@ -61,6 +66,13 @@ public class HUDHandler {
                     }
                 } else {
                     spellHUD.currentSpellProgress = 0;
+                }
+                if (spellSelectionKey.wasPressed()) {
+                    if (tapCooldown > 0 && spellHUD.selectedSpell != null) {
+                        spellHUD.selectedSpell = null;
+                    } else {
+                        tapCooldown = 10;
+                    }
                 }
             }
 
@@ -74,6 +86,9 @@ public class HUDHandler {
             }
             if ((!selectionActive || spellHUD.renderedSpells.size() <= 1) && spellHUD.selectedSpell != null) {
                 matrixStack.push();
+                RenderSystem.enableBlend();
+                RenderSystem.defaultBlendFunc();
+                RenderSystem.enableDepthTest();
                 RenderSystem.color4f(1, 1, 1, 0.15F + spellHUD.currentSpellProgress * 0.85F);
                 spellHUD.renderSpellIcon(spellHUD.scaledWidth / 2F, spellHUD.scaledHeight / 2F, matrixStack, spellHUD.selectedSpell);
                 RenderSystem.color4f(1, 1, 1, 1);
