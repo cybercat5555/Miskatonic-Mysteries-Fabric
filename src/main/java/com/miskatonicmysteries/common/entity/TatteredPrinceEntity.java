@@ -113,6 +113,9 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
         if (isCasting()) {
             if (currentSpell != null && !world.isClient) {
                 EffectParticlePacket.send(this);
+                if (getTarget() == null){
+                    setCastTime(0);
+                }
             }
         }
         bossBar.setPercent(getHealth() / getMaxHealth());
