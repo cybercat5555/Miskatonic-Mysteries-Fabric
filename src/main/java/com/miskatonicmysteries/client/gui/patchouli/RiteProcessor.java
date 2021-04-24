@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
@@ -32,7 +33,8 @@ public class RiteProcessor implements IComponentProcessor {
             default: {
                 for (int i = 0; i < rite.getIngredients().size(); i++) {
                     if (key.equals("ingredient" + (i + 1))) {
-                        return IVariable.from(rite.getIngredients().get(i).getMatchingStacksClient()[0]);
+                        ItemStack[] stacks = rite.getIngredients().get(i).getMatchingStacksClient();
+                        return stacks.length > 0 ? IVariable.from(stacks[0]) : null;
                     }
                 }
             }
