@@ -61,8 +61,10 @@ public class Spell {
             if (Ascendant.of(caster).isPresent() && MiskatonicMysteriesAPI.hasBlessing(Ascendant.of(caster).get(), MMBlessings.MAGIC_BOOST)){
                 intensityMod++;
             }
-            int burnout = MathHelper.clamp(spellCaster.get().getSpellCooldown() + Math.round(medium.getCooldownModifier(caster) * effect.getCooldownBase(intensity)) + cooldownMod, 0, 999);
-            spellCaster.get().setSpellCooldown(burnout);
+            if (spellCaster.isPresent()) {
+                int burnout = MathHelper.clamp(spellCaster.get().getSpellCooldown() + Math.round(medium.getCooldownModifier(caster) * effect.getCooldownBase(intensity)) + cooldownMod, 0, 999);
+                spellCaster.get().setSpellCooldown(burnout);
+            }
             Sanity.of(caster).ifPresent(sanity -> sanity.setSanity(sanity.getSanity() - effect.calculateSanityPenalty(caster.getRandom(), intensity), false));
             SpellPacket.send(caster, toTag(new CompoundTag()), intensityMod);
         }
