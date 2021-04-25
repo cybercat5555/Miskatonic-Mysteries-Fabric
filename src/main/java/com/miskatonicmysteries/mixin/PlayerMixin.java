@@ -3,6 +3,7 @@ package com.miskatonicmysteries.mixin;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.interfaces.*;
+import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.api.registry.SpellEffect;
@@ -23,6 +24,8 @@ import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.InventoryUtil;
 import com.miskatonicmysteries.common.util.NbtUtil;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -389,5 +392,13 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     @Override
     public float getResonance() {
         return dataTracker.get(RESONANCE);
+    }
+
+    @Environment(EnvType.CLIENT)
+    @Inject(method = "shouldRenderName", at = @At("HEAD"), cancellable = true)
+    private void shouldRenderName(CallbackInfoReturnable<Boolean> cir){
+        if (!MaskTrinketItem.getMask((PlayerEntity) (Object) this).isEmpty()){
+            cir.setReturnValue(false);
+        }
     }
 }
