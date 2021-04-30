@@ -28,11 +28,13 @@ public class BlotterItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        user.applyStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 2400, 0));
-        stack.decrement(1);
-        if (user instanceof ServerPlayerEntity) {
-            Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
-            ((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
+        if(!world.isClient) {
+            user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 2400, 0));
+            stack.decrement(1);
+            if (user instanceof ServerPlayerEntity) {
+                Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
+                ((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
+            }
         }
         return stack;
     }
