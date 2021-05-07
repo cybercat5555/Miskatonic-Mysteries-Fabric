@@ -67,6 +67,7 @@ public class MMTrades {
     public static final TradeOffers.Factory TRANQ_OFFER = new ProcessItemOffer(new ItemStack(MMObjects.WAX, 3), 18, new ItemStack(MMObjects.TRANQUILIZER), 2, 35);
     public static final TradeOffers.Factory RE_AGENT_OFFER = new ProcessItemOffer(new ItemStack(Items.ROTTEN_FLESH, 24), 32, new ItemStack(MMObjects.RE_AGENT_SYRINGE), 1, 50);
     public static final TradeOffers.Factory RESONATOR_OFFER = new ProcessItemOffer(new ItemStack(Items.IRON_INGOT, 20), 20, new ItemStack(MMObjects.RESONATOR), 1, 50);
+    public static final TradeOffers.Factory WARDED_PAPER_OFFER = new ProcessItemOffer(new ItemStack(Items.PAPER, 4), 20, new ItemStack(MMObjects.WARDED_PAPER), 1, 50);
 
     //Hastur Cultist Offers
     public static final TradeOffers.Factory NECRONOMICON_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.NECRONOMICON), 6, 3, 8, 0.15F);
@@ -95,9 +96,9 @@ public class MMTrades {
     static {
         PSYCHONAUT_TRADES.put(1, new TradeOffers.Factory[]{SCIENCE_JOURNAL_OFFER, INFESTED_WHEAT_OFFER});
         PSYCHONAUT_TRADES.put(2, new TradeOffers.Factory[]{POWER_CELL_OFFER, CHEMICAL_FUEL_OFFER, BLOTTER_OFFER});
-        PSYCHONAUT_TRADES.put(3, new TradeOffers.Factory[]{NETHER_WART_OFFER, LAUDANUM_OFFER, SUSPICIOUS_OFFER, REVOLVER_OFFER});
-        PSYCHONAUT_TRADES.put(4, new TradeOffers.Factory[]{WARPED_FUNGUS_OFFER, CRIMSON_FUNGUS_OFFER, RESONATE_OOZE_OFFER});
-        PSYCHONAUT_TRADES.put(5, new TradeOffers.Factory[]{RE_AGENT_OFFER, TRANQ_OFFER, RESONATOR_OFFER});
+        PSYCHONAUT_TRADES.put(3, new TradeOffers.Factory[]{NETHER_WART_OFFER, LAUDANUM_OFFER, SUSPICIOUS_OFFER});
+        PSYCHONAUT_TRADES.put(4, new TradeOffers.Factory[]{WARPED_FUNGUS_OFFER, CRIMSON_FUNGUS_OFFER, RESONATE_OOZE_OFFER, TRANQ_OFFER});
+        PSYCHONAUT_TRADES.put(5, new TradeOffers.Factory[]{RE_AGENT_OFFER, REVOLVER_OFFER, RESONATOR_OFFER, WARDED_PAPER_OFFER});
 
         YELLOW_SERF_TRADE.put(1, new TradeOffers.Factory[]{BLOTTER_OFFER, NECRONOMICON_OFFER});
         YELLOW_SERF_TRADE.put(2, new TradeOffers.Factory[]{IRIDESCENT_PEARL_OFFER, OCEANIC_GOLD_OFFER, REVERSE_OCEANIC_GOLD_OFFER});

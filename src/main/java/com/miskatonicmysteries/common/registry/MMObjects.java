@@ -15,10 +15,7 @@ import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.energy.PowerCellBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.energy.ResonatorBlockEntity;
-import com.miskatonicmysteries.common.item.IncantationYogItem;
-import com.miskatonicmysteries.common.item.RevolverItem;
-import com.miskatonicmysteries.common.item.RifleItem;
-import com.miskatonicmysteries.common.item.YellowSignPatternItem;
+import com.miskatonicmysteries.common.item.*;
 import com.miskatonicmysteries.common.item.armor.HasturCultistArmor;
 import com.miskatonicmysteries.common.item.armor.ShubCultistArmor;
 import com.miskatonicmysteries.common.item.consumable.*;
@@ -178,6 +175,7 @@ public class MMObjects {
     public static final Item CHEMICAL_FUEL = new ChemicalFuelItem();
 
     public static final Item CIRRHOSUS_FLESH = new CirrhosusFleshItem();
+    public static final Item WARDED_PAPER = new WardingMarkItem();
 
     public static void init() {
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(MMObjects.INFESTED_WHEAT, 0.7F);
@@ -304,5 +302,6 @@ public class MMObjects {
         RegistryUtil.register(Registry.ITEM, "chemical_fuel", CHEMICAL_FUEL);
 
         RegistryUtil.register(Registry.ITEM, "cirrhosus_flesh", CIRRHOSUS_FLESH);
+        RegistryUtil.register(Registry.ITEM, "warded_paper", CIRRHOSUS_FLESH);
     }
 }
