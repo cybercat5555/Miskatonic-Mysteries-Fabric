@@ -1,5 +1,7 @@
 package com.miskatonicmysteries.common.item.consumable;
 
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
+import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.Criteria;
@@ -35,6 +37,10 @@ public class BlotterItem extends Item {
                 Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
                 ((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
             }
+            SpellCaster.of(user).ifPresent(caster -> {
+                caster.learnEffect(MMSpellEffects.MANIA);
+                caster.syncSpellData();
+            });
         }
         return stack;
     }

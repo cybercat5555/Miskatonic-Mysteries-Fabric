@@ -81,9 +81,13 @@ public class MiskatonicMysteries implements ModInitializer {
             }));
 
             MalleableAffiliated.of(oldPlayer).ifPresent(oldAffiliation -> MalleableAffiliated.of(player).ifPresent(affiliation -> {
-                affiliation.setAffiliation(oldAffiliation.getAffiliation(false), false);  //todo reflect changed spell casting by probably redoing documentation here
+                affiliation.setAffiliation(oldAffiliation.getAffiliation(false), false);
                 affiliation.setAffiliation(oldAffiliation.getAffiliation(true), true);
             }));
         });
+        /*
+        TODO documentation changes
+        unlock some entries when the spell is unlocked by chance (i.e. when consuming a blotter for the first time, unlocking the mania spell entry instead of telling you to do that)
+         */
     }
 }

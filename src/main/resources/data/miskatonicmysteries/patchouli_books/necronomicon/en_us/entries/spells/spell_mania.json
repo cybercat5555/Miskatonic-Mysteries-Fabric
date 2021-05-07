@@ -9,7 +9,7 @@
     },
     {
       "type": "text",
-      "text": "This spell is acquired rather naturally, with a slight chance of learning it when experiencing mania oneself."
+      "text": "This spell is acquired when consuming $(item)Blotters$() for the first time."
     }
   ]
 }
