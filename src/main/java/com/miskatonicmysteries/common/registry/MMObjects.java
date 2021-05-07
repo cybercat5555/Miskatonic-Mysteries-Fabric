@@ -302,6 +302,6 @@ public class MMObjects {
         RegistryUtil.register(Registry.ITEM, "chemical_fuel", CHEMICAL_FUEL);
 
         RegistryUtil.register(Registry.ITEM, "cirrhosus_flesh", CIRRHOSUS_FLESH);
-        RegistryUtil.register(Registry.ITEM, "warded_paper", CIRRHOSUS_FLESH);
+        RegistryUtil.register(Registry.ITEM, "warded_paper", WARDED_PAPER);
     }
 }

@@ -20,7 +20,8 @@ import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public class HUDHandler {
-    private static KeyBinding spellSelectionKey;
+    public static KeyBinding spellSelectionKey;
+    public static KeyBinding quickCastKey;
     public static boolean selectionActive = false;
 
     public static SpellHUD spellHUD;
@@ -36,13 +37,22 @@ public class HUDHandler {
                 GLFW.GLFW_KEY_R,
                 "category." + Constants.MOD_ID
         ));
+        quickCastKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key." + Constants.MOD_ID + ".quick_cast",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_F,
+                "category." + Constants.MOD_ID
+        ));
 
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
             if (tapCooldown > 0){
                 tapCooldown--;
             }
+            if (quickCastKey.wasPressed() && spellHUD.lastSpell != null && SpellCaster.of(client.player).map(SpellCaster::getSpellCooldown).orElse(0) > 0){
+                spellHUD.selectedSpell = spellHUD.lastSpell;
+            }
             if (spellSelectionKey.isPressed()) {
-                if (SpellCaster.of(client.player).map(caster -> caster.getSpellCooldown()).orElse(0) > 0){
+                if (SpellCaster.of(client.player).map(SpellCaster::getSpellCooldown).orElse(0) > 0){
                     selectionActive = false;
                 }else if (!selectionActive) {
                     selectionActive = true;
@@ -56,12 +66,12 @@ public class HUDHandler {
             }
 
             if (client.player != null && spellHUD.selectedSpell != null) {
-
-                if (client.options.keyUse.isPressed()) {
+                if (client.options.keyUse.isPressed() && SpellCaster.of(client.player).map(SpellCaster::getSpellCooldown).orElse(0) <= 0) {
                     spellHUD.currentSpellProgress += 0.1F;
                     if (spellHUD.currentSpellProgress >= 1) {
                         SpellPacket.sendFromClientPlayer(client.player, spellHUD.selectedSpell.toTag(new CompoundTag()));
                         spellHUD.currentSpellProgress = 0;
+                        spellHUD.lastSpell = spellHUD.selectedSpell;
                         spellHUD.selectedSpell = null;
                     }
                 } else {

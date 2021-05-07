@@ -26,6 +26,7 @@ public class SpellHUD extends DrawableHelper {
     public Spell selectedSpell;
     public float currentSpellProgress;
     public int absentTicks;
+    public Spell lastSpell;
 
     public void init(MinecraftClient client) {
         scaledWidth = client.getWindow().getScaledWidth();
@@ -43,6 +44,7 @@ public class SpellHUD extends DrawableHelper {
         mouseY = (float) (client.mouse.getY() * (double) scaledHeight / (double) client.getWindow().getHeight());
         angle = -1;
         selectedSpell = null;
+        lastSpell = null;
     }
 
     public void tick() {

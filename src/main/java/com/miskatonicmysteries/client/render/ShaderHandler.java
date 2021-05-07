@@ -16,7 +16,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.Identifier;
 
-public class ShaderHandler implements ShaderEffectRenderCallback, ClientTickEvents.EndTick {
+public class ShaderHandler {
     public static final ManagedShaderEffect MANIA = ShaderEffectManager.getInstance().manage(new Identifier(Constants.MOD_ID, "shaders/post/mania.json"));
     public static final ManagedShaderEffect RESONANCE = ShaderEffectManager.getInstance().manage(new Identifier(Constants.MOD_ID, "shaders/post/resonance.json"));
     private static final Uniform3f MANIA_PHOSPHOR = MANIA.findUniform3f("Phosphor");
@@ -31,14 +31,13 @@ public class ShaderHandler implements ShaderEffectRenderCallback, ClientTickEven
 
     private static int ticks;
 
-    public void init() {
-        ClientTickEvents.END_CLIENT_TICK.register(this);
-        ShaderEffectRenderCallback.EVENT.register(this);
+    public static void init() {
+        ClientTickEvents.END_CLIENT_TICK.register(ShaderHandler::onEndTick);
+        ShaderEffectRenderCallback.EVENT.register(ShaderHandler::renderShaderEffects);
         EntitiesPreRenderCallback.EVENT.register((camera, frustum, tickDelta) -> uniformSTime.set((ticks + tickDelta) * 0.05f));
     }
 
-    @Override
-    public void renderShaderEffects(float v) {
+    public static void renderShaderEffects(float v) {
         if (MiskatonicMysteries.config.client.useShaders && MinecraftClient.getInstance().player != null) {
             ClientPlayerEntity player = MinecraftClient.getInstance().player;
             if (player.hasStatusEffect(MMStatusEffects.MANIA)) {
@@ -52,8 +51,7 @@ public class ShaderHandler implements ShaderEffectRenderCallback, ClientTickEven
         }
     }
 
-    @Override
-    public void onEndTick(MinecraftClient client) {
+    public static void onEndTick(MinecraftClient client) {
         ticks++;
         if (MiskatonicMysteries.config.client.useShaders && client.player != null) {
             if (client.player.hasStatusEffect(MMStatusEffects.MANIA)

@@ -6,6 +6,7 @@
   "mixins": [
     "BlockMixin",
     "BrewingRecipeRegistryAccessor",
+    "ConduitBlockEntityMixin",
     "CreeperEntityMixin",
     "CropMixin",
     "DataLoadMixin",
