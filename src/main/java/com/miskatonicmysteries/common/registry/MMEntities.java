@@ -33,6 +33,7 @@ public class MMEntities {
     public static final EntityType<TatteredPrinceEntity> TATTERED_PRINCE = FabricEntityTypeBuilder.create(SpawnGroup.MISC, TatteredPrinceEntity::new).dimensions(EntityDimensions.fixed(1.5F, 4)).trackRangeBlocks(48).build();
     public static final EntityType<GenericTentacleEntity> GENERIC_TENTACLE = FabricEntityTypeBuilder.create(SpawnGroup.MISC, GenericTentacleEntity::new).dimensions(EntityDimensions.fixed(0.5F, 2)).trackRangeBlocks(16).build();
 //    public static final EntityType<HasturEntity> HASTUR = FabricEntityTypeBuilder.create(SpawnGroup.MISC, HasturEntity::new).dimensions(EntityDimensions.fixed(3, 9)).trackRangeBlocks(48).build();
+    public static final EntityType<HarrowEntity> HARROW = FabricEntityTypeBuilder.create(SpawnGroup.MISC, HarrowEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F)).trackRangeBlocks(16).build();
 
     public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
     public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create().id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW).build();
@@ -104,6 +105,15 @@ public class MMEntities {
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 6)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1));
 
+        RegistryUtil.register(Registry.ENTITY_TYPE, "harrow", HARROW);
+        FabricDefaultAttributeRegistry.register(HARROW, MobEntity.createMobAttributes()
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 10)
+                .add(EntityAttributes.GENERIC_ARMOR, 4)
+                .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, 10)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 10)
+                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.6F));
       /*  RegistryUtil.register(Registry.ENTITY_TYPE, "hastur", HASTUR);
         FabricDefaultAttributeRegistry.register(HASTUR, PathAwareEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 250)
