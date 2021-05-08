@@ -22,12 +22,14 @@ import org.lwjgl.opengl.GL11;
 public class MMParticles {
     public static final DefaultParticleType FLAME = FabricParticleTypes.simple(true);
     public static final DefaultParticleType AMBIENT = FabricParticleTypes.simple(true);
+    public static final DefaultParticleType AMBIENT_MAGIC = FabricParticleTypes.simple(true);
     public static final DefaultParticleType SHRINKING_MAGIC = FabricParticleTypes.simple(true);
     public static final DefaultParticleType DRIPPING_BLOOD = FabricParticleTypes.simple(true);
 
     public static void init() {
         RegistryUtil.register(Registry.PARTICLE_TYPE, "flame", FLAME);
-        RegistryUtil.register(Registry.PARTICLE_TYPE, "magic_upwards", AMBIENT);
+        RegistryUtil.register(Registry.PARTICLE_TYPE, "ambient", AMBIENT);
+        RegistryUtil.register(Registry.PARTICLE_TYPE, "ambient_magic", AMBIENT_MAGIC);
         RegistryUtil.register(Registry.PARTICLE_TYPE, "magic_shrinking", SHRINKING_MAGIC);
         RegistryUtil.register(Registry.PARTICLE_TYPE, "blood", DRIPPING_BLOOD);
     }

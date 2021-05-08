@@ -12,6 +12,7 @@ public class MMSpellEffects {
     public static final SpellEffect MANIA = new ManiaSpellEffect();
     public static final SpellEffect TENTACLES = new TentacleSpellEffect();
     public static final SpellEffect IGNITE = new FireSpellEffect();
+    public static final SpellEffect HARROWS = new HarrowSpellEffect();
 
 
     public static void init() {
@@ -22,6 +23,7 @@ public class MMSpellEffects {
         register(MANIA);
         register(TENTACLES);
         register(IGNITE);
+        register(HARROWS);
     }
 
     private static void register(SpellEffect effect) {

@@ -9,7 +9,7 @@ import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.MathHelper;
 
 public class AmbientMagicParticle extends AbstractSlowingParticle {
-
+    protected boolean fadeIn = true;
     protected AmbientMagicParticle(ClientWorld clientWorld, double x, double y, double z, float r, float g, float b) {
         super(clientWorld, x, y, z, 0, Math.max(0.01F, clientWorld.random.nextFloat() / 50), 0);
         colorAlpha = 0;
@@ -32,7 +32,7 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
     public void tick() {
         super.tick();
         float lifeRatio = (float) this.age / (float) this.maxAge;
-        this.colorAlpha = lifeRatio >= 0.5F ? 1 - (lifeRatio - 0.5F) * 2 : lifeRatio * 2;
+        this.colorAlpha = fadeIn ? (lifeRatio >= 0.5F ? 1 - (lifeRatio - 0.5F) * 2 : lifeRatio * 2) : 1 - lifeRatio;
         if (lifeRatio >= 1) {
             markDead();
         }
@@ -58,16 +58,36 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
     }
 
     @Environment(EnvType.CLIENT)
-    public static class Factory implements ParticleFactory<DefaultParticleType> {
+    public static class DefaultFactory implements ParticleFactory<DefaultParticleType> {
         private final SpriteProvider spriteProvider;
 
-        public Factory(SpriteProvider spriteProvider) {
+        public DefaultFactory(SpriteProvider spriteProvider) {
             this.spriteProvider = spriteProvider;
         }
 
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z, double r, double g, double b) {
             AmbientMagicParticle particle = new AmbientMagicParticle(clientWorld, x, y, z, (float) r, (float) g, (float) b);
             particle.scale(0.75F + clientWorld.random.nextFloat() / 4F);
+            particle.setSpriteForAge(this.spriteProvider);
+            return particle;
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static class MagicFactory implements ParticleFactory<DefaultParticleType> {
+        private final SpriteProvider spriteProvider;
+
+        public MagicFactory(SpriteProvider spriteProvider) {
+            this.spriteProvider = spriteProvider;
+        }
+
+        public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z, double velX, double velY, double velZ) {
+            AmbientMagicParticle particle = new AmbientMagicParticle(clientWorld, x, y, z,  MathHelper.nextFloat(clientWorld.random, 0.8F, 1F), MathHelper.nextFloat(clientWorld.random, 0.5F, 0.6F), MathHelper.nextFloat(clientWorld.random, 0.05F, 0.1F));
+            particle.scale(MathHelper.nextFloat(clientWorld.random, 0.5F, 0.75F));
+            particle.velocityX = velX;
+            particle.velocityY = velY;
+            particle.velocityZ = velZ;
+            particle.fadeIn = false;
             particle.setSpriteForAge(this.spriteProvider);
             return particle;
         }

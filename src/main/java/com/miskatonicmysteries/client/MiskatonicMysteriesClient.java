@@ -23,8 +23,6 @@ import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
 import com.miskatonicmysteries.client.render.entity.*;
 import com.miskatonicmysteries.client.sound.ResonatorSound;
 import com.miskatonicmysteries.client.vision.VisionHandler;
-import com.miskatonicmysteries.client.vision.VisionSequence;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.*;
@@ -41,13 +39,10 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegi
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -58,7 +53,8 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ParticleFactoryRegistry.getInstance().register(MMParticles.DRIPPING_BLOOD, LeakParticle.BloodFactory::new);
-        ParticleFactoryRegistry.getInstance().register(MMParticles.AMBIENT, AmbientMagicParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(MMParticles.AMBIENT, AmbientMagicParticle.DefaultFactory::new);
+        ParticleFactoryRegistry.getInstance().register(MMParticles.AMBIENT_MAGIC, AmbientMagicParticle.MagicFactory::new);
         ParticleFactoryRegistry.getInstance().register(MMParticles.SHRINKING_MAGIC, ShrinkingMagicParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(MMParticles.FLAME, CandleFlameParticle.Factory::new);
 

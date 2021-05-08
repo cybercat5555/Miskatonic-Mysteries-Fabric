@@ -247,8 +247,7 @@ public class HarrowEntityModel extends EntityModel<HarrowEntity> {
 
     @Override
     public void render(MatrixStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-
-        main.render(matrixStack, buffer, packedLight, packedOverlay);
+        main.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     public void setRotationAngle(ModelPart bone, float x, float y, float z) {
