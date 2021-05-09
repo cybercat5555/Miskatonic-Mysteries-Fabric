@@ -69,6 +69,7 @@ public class SpellHUD extends DrawableHelper {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
+        matrixStack.push();
         matrixStack.translate(scaledWidth / 2F, scaledHeight / 2F, 0);
         if (renderedSpells.size() > 1) {
             double angleSize = 360F / renderedSpells.size();
@@ -98,6 +99,7 @@ public class SpellHUD extends DrawableHelper {
             selectedSpell = renderedSpells.get(0);
             HUDHandler.selectionActive = false;
         }
+        matrixStack.pop();
     }
 
     public void renderSpellIcon(double x, double y, MatrixStack matrixStack, Spell spell) {
