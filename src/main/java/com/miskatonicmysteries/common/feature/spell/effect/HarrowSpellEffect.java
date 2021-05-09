@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.TickDurationMonitor;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -28,7 +29,7 @@ public class HarrowSpellEffect extends SpellEffect {
                 for (int i = 0; i < (intensity + 1); i++) {
                     HarrowEntity harrow = MMEntities.HARROW.create(world);
                     harrow.refreshPositionAndAngles(caster.getParticleX(1), caster.getRandomBodyY(), caster.getParticleZ(1), caster.getHeadYaw(), caster.getPitch(1));
-                    harrow.setLifeTicks(100 + intensity * 100);
+                    harrow.setLifeTicks(400 + intensity * 400);
                     if (target instanceof LivingEntity && (target != caster || (target instanceof TameableEntity && ((TameableEntity) target).getOwner() != caster))) {
                         harrow.setTarget((LivingEntity) target);
                     }
