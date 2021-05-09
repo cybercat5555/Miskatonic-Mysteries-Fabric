@@ -27,7 +27,7 @@ public class TentacleSpellEffect extends SpellEffect {
                 for (int i = 0; i < (intensity + 1); i++) {
                     GenericTentacleEntity tentacle = MMEntities.GENERIC_TENTACLE.create(world);
                     tentacle.refreshPositionAndAngles(pos.x + world.random.nextGaussian(), pos.y, pos.z + world.random.nextGaussian(), caster.getRandom().nextInt(360), 0);
-                    tentacle.setMaxAge(40 + caster.getRandom().nextInt(40) + intensity * 40);
+                    tentacle.setMaxAge(200 + caster.getRandom().nextInt(80) + intensity * 100);
                     if (target instanceof LivingEntity && (target != caster || (target instanceof TameableEntity && ((TameableEntity) target).getOwner() != caster))) {
                         tentacle.setTarget((LivingEntity) target);
                     }

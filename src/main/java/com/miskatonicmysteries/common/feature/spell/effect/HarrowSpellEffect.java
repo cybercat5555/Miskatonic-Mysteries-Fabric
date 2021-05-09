@@ -29,7 +29,7 @@ public class HarrowSpellEffect extends SpellEffect {
                 for (int i = 0; i < (intensity + 1); i++) {
                     HarrowEntity harrow = MMEntities.HARROW.create(world);
                     harrow.refreshPositionAndAngles(caster.getParticleX(1), caster.getRandomBodyY(), caster.getParticleZ(1), caster.getHeadYaw(), caster.getPitch(1));
-                    harrow.setLifeTicks(400 + intensity * 400);
+                    harrow.setLifeTicks(400 + caster.getRandom().nextInt(80) + intensity * 400);
                     if (target instanceof LivingEntity && (target != caster || (target instanceof TameableEntity && ((TameableEntity) target).getOwner() != caster))) {
                         harrow.setTarget((LivingEntity) target);
                     }
@@ -45,6 +45,6 @@ public class HarrowSpellEffect extends SpellEffect {
 
     @Override
     public float getCooldownBase(int intensity) {
-        return 100 + intensity * 80;
+        return 200 + intensity * 200;
     }
 }
