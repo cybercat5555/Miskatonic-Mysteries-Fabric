@@ -247,7 +247,6 @@ public class HarrowEntityModel extends EntityModel<HarrowEntity> {
 
     @Override
     public void render(MatrixStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        System.out.println(alpha);
         main.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 

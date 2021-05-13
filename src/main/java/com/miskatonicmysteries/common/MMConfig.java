@@ -16,6 +16,9 @@ public class MMConfig implements ConfigData {
     public Entities entities = new Entities();
 
     @ConfigEntry.Gui.CollapsibleObject
+    public Items items = new Items();
+
+    @ConfigEntry.Gui.CollapsibleObject
     public Sanity sanity = new Sanity();
 
     @ConfigEntry.Gui.CollapsibleObject
@@ -40,6 +43,10 @@ public class MMConfig implements ConfigData {
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 0, max = 1)
         public float statueEffectChance = 0.4F;
+    }
+
+    public static class Items {
+        public boolean masksConcealNameplates = true;
     }
 
     public static class Sanity {

@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(CropBlock.class)
-public abstract class CropMixin extends Block {
-    public CropMixin(Settings settings) {
+public abstract class CropBlockMixin extends Block {
+    public CropBlockMixin(Settings settings) {
         super(settings);
     }
 

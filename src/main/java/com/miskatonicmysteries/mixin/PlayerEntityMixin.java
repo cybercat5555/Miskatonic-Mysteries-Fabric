@@ -53,7 +53,7 @@ import static com.miskatonicmysteries.common.util.Constants.DataTrackers.*;
 
 @SuppressWarnings("ConstantConditions")
 @Mixin(PlayerEntity.class)
-public abstract class PlayerMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant, Resonating {
+public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant, Resonating {
     public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
 
     private final List<Spell> spells = new ArrayList<>();
@@ -62,7 +62,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
 
     private final List<Blessing> blessings = new ArrayList<>();
 
-    protected PlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
+    protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
 
@@ -397,7 +397,7 @@ public abstract class PlayerMixin extends LivingEntity implements Sanity, Mallea
     @Environment(EnvType.CLIENT)
     @Inject(method = "shouldRenderName", at = @At("HEAD"), cancellable = true)
     private void shouldRenderName(CallbackInfoReturnable<Boolean> cir){
-        if (!MaskTrinketItem.getMask((PlayerEntity) (Object) this).isEmpty()){
+        if (MiskatonicMysteries.config.items.masksConcealNameplates && !MaskTrinketItem.getMask((PlayerEntity) (Object) this).isEmpty()){
             cir.setReturnValue(false);
         }
     }
