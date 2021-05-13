@@ -61,7 +61,8 @@ public class EditSpellScreen extends Screen {
         for (int i = 0; i < spells.length; i++) {
             user.getSpells().add(i, spells[i]);
         }
-        SyncSpellCasterDataPacket.send(true, MinecraftClient.getInstance().player, user);
+        SyncSpellCasterDataPacket.send(true, client.player, user);
+        SpellClientHandler.selectedSpell = null;
         super.onClose();
     }
 
@@ -81,7 +82,6 @@ public class EditSpellScreen extends Screen {
         Arrays.fill(spells, null);
     }
 
-    //have a list of available components, components used in spells are removed from it
     @Override
     protected void init() {
         for (int i = 0; i < user.getMaxSpells(); i++) {

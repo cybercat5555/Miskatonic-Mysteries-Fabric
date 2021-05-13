@@ -20,8 +20,8 @@ public class SpellBurnoutHUD extends DrawableHelper {
 
     public void render(MinecraftClient client, int scaledWidth, int scaledHeight, PlayerEntity player) {
         SpellCaster.of(player).ifPresent(caster -> {
-            if (caster.getSpellCooldown() > 0.5) {
-                float burnout = MathHelper.clamp(caster.getSpellCooldown() / 40F, 0, 1F);
+            if (caster.getSpellCooldown() > 0) {
+                float burnout = MathHelper.clamp(caster.getSpellCooldown() / 80F, 0, 0.5F);
                 RenderSystem.enableBlend();
                 RenderSystem.defaultBlendFunc();
                 RenderSystem.disableDepthTest();
