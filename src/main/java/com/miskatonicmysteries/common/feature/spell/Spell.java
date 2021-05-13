@@ -14,6 +14,7 @@ import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
@@ -61,7 +62,7 @@ public class Spell {
             if (Ascendant.of(caster).isPresent() && MiskatonicMysteriesAPI.hasBlessing(Ascendant.of(caster).get(), MMBlessings.MAGIC_BOOST)){
                 intensityMod++;
             }
-            if (spellCaster.isPresent()) {
+            if (spellCaster.isPresent() && !(caster instanceof PlayerEntity && ((PlayerEntity) caster).isCreative())) {
                 int burnout = MathHelper.clamp(spellCaster.get().getSpellCooldown() + Math.round(medium.getCooldownModifier(caster) * effect.getCooldownBase(intensity)) + cooldownMod, 0, 999);
                 spellCaster.get().setSpellCooldown(burnout);
             }

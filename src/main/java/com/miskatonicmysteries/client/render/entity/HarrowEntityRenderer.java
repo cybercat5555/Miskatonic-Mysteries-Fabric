@@ -23,103 +23,28 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
 import java.awt.*;
 import java.util.Iterator;
 
-public class HarrowEntityRenderer extends LivingEntityRenderer<HarrowEntity, HarrowEntityModel> {
+public class HarrowEntityRenderer extends MobEntityRenderer<HarrowEntity, HarrowEntityModel> {
     private static final Identifier TEXTURE = new Identifier(Constants.MOD_ID, "textures/entity/harrow/harrow.png");
     public HarrowEntityRenderer(EntityRenderDispatcher dispatcher) {
-        super(dispatcher, new HarrowEntityModel(), 0.5F);
-        this.shadowRadius = 0;
+        super(dispatcher, new HarrowEntityModel(), 0F);
     }
 
-    @Override
-    protected boolean hasLabel(HarrowEntity harrowEntity) {
-        return super.hasLabel(harrowEntity) && (harrowEntity.shouldRenderName() || harrowEntity.hasCustomName() && harrowEntity == this.dispatcher.targetedEntity);
-    }
 
     @Override
-    public void render(HarrowEntity harrowEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
-        matrixStack.push();
-        this.model.handSwingProgress = this.getHandSwingProgress(harrowEntity, g);
-        this.model.riding = harrowEntity.hasVehicle();
-        this.model.child = harrowEntity.isBaby();
-        float h = MathHelper.lerpAngleDegrees(g, harrowEntity.prevBodyYaw, harrowEntity.bodyYaw);
-        float j = MathHelper.lerpAngleDegrees(g, harrowEntity.prevHeadYaw, harrowEntity.headYaw);
-        float k = j - h;
-        float o;
-        if (harrowEntity.hasVehicle() && harrowEntity.getVehicle() instanceof LivingEntity) {
-            LivingEntity livingEntity2 = (LivingEntity)harrowEntity.getVehicle();
-            h = MathHelper.lerpAngleDegrees(g, livingEntity2.prevBodyYaw, livingEntity2.bodyYaw);
-            k = j - h;
-            o = MathHelper.wrapDegrees(k);
-            if (o < -85.0F) {
-                o = -85.0F;
-            }
-
-            if (o >= 85.0F) {
-                o = 85.0F;
-            }
-
-            h = j - o;
-            if (o * o > 2500.0F) {
-                h += o * 0.2F;
-            }
-
-            k = j - h;
+    protected void scale(HarrowEntity entity, MatrixStack matrices, float amount) {
+        float scale = 1;
+        if (entity.age < 20){
+            scale = (entity.age + MinecraftClient.getInstance().getTickDelta()) / 20F;
+        }else if (entity.getLifeTicks() < 20){
+            scale = (entity.getLifeTicks() - MinecraftClient.getInstance().getTickDelta()) / 20F;
         }
-
-        float m = MathHelper.lerp(g, harrowEntity.prevPitch, harrowEntity.pitch);
-        float p;
-        if (harrowEntity.getPose() == EntityPose.SLEEPING) {
-            Direction direction = harrowEntity.getSleepingDirection();
-            if (direction != null) {
-                p = harrowEntity.getEyeHeight(EntityPose.STANDING) - 0.1F;
-                matrixStack.translate((float)(-direction.getOffsetX()) * p, 0.0D, (float)(-direction.getOffsetZ()) * p);
-            }
-        }
-
-        o = this.getAnimationProgress(harrowEntity, g);
-        this.setupTransforms(harrowEntity, matrixStack, o, h, g);
-        matrixStack.scale(-1.0F, -1.0F, 1.0F);
-        this.scale(harrowEntity, matrixStack, g);
-        matrixStack.translate(0.0D, -1.5010000467300415D, 0.0D);
-        p = 0.0F;
-        float q = 0.0F;
-        if (!harrowEntity.hasVehicle() && harrowEntity.isAlive()) {
-            p = MathHelper.lerp(g, harrowEntity.lastLimbDistance, harrowEntity.limbDistance);
-            q = harrowEntity.limbAngle - harrowEntity.limbDistance * (1.0F - g);
-            if (harrowEntity.isBaby()) {
-                q *= 3.0F;
-            }
-
-            if (p > 1.0F) {
-                p = 1.0F;
-            }
-        }
-
-        this.model.animateModel(harrowEntity, q, p, g);
-        this.model.setAngles(harrowEntity, q, p, o, k, m);
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        boolean bl = this.isVisible(harrowEntity);
-        boolean bl2 = !bl && !harrowEntity.isInvisibleTo(minecraftClient.player);
-        boolean bl3 = minecraftClient.hasOutline(harrowEntity);
-        RenderLayer renderLayer = this.getRenderLayer(harrowEntity, bl, bl2, bl3);
-        if (renderLayer != null) {
-            VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(renderLayer);
-            int r = getOverlay(harrowEntity, this.getAnimationCounter(harrowEntity, g));
-            float transparency = 1;
-            if (harrowEntity.age < 20){
-                transparency = harrowEntity.age / 20F;
-            }else if (harrowEntity.getLifeTicks() < 20){
-                transparency = harrowEntity.getLifeTicks() / 20F;
-            }
-            this.model.render(matrixStack, vertexConsumer, i, r, 1.0F, 1.0F, 1.0F, transparency);
-        }
-        matrixStack.pop();
-        super.render(harrowEntity, f, g, matrixStack, vertexConsumerProvider, i);
+        matrices.scale(scale, scale, scale);
     }
 
     @Override
@@ -127,7 +52,6 @@ public class HarrowEntityRenderer extends LivingEntityRenderer<HarrowEntity, Har
         matrices.translate(0, -0.25F, 0);
         super.setupTransforms(entity, matrices, animationProgress, bodyYaw, tickDelta);
     }
-
 
     @Override
     protected int getBlockLight(HarrowEntity entity, BlockPos blockPos) {
