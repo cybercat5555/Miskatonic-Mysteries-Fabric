@@ -45,7 +45,7 @@ public class SpellClientHandler {
         ClientLoginConnectionEvents.INIT.register((handler, client) -> SpellClientHandler.selectedSpell = null);
 
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
-            if (spellSelectionKey.isPressed() && client.currentScreen == null) {
+            if (spellSelectionKey.isPressed() && client.currentScreen == null && SpellCaster.of(client.player).map(caster-> !caster.getSpells().isEmpty()).orElse(false)) {
                 client.openScreen(new SpellSelectionScreen());
             }else if (client.player != null && castKey.wasPressed() && selectedSpell != null){
                 if (SpellCaster.of(client.player).map(SpellCaster::getSpellCooldown).orElse(0) <= 0) {
