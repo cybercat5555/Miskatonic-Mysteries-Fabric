@@ -240,9 +240,6 @@ public class HarrowEntityModel extends EntityModel<HarrowEntity> {
         this.mSmallTentacle06_r1.pitch = pitch;
         this.mSmallTentacle05_r1.pitch = pitch;
         this.mSmallTentacle03_r1.pitch = pitch;
-     //   }else{
-     //  }
-        //previously the render function, render code was moved to a method below
     }
 
     @Override

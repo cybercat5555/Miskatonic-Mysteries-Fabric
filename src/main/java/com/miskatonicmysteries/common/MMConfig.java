@@ -4,11 +4,14 @@ import com.miskatonicmysteries.common.util.Constants;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 @Config(name = Constants.MOD_ID)
 public class MMConfig implements ConfigData {
     public int modUpdateInterval = 20;
 
+    @Environment(EnvType.CLIENT)
     @ConfigEntry.Gui.CollapsibleObject
     public Client client = new Client();
 
@@ -24,9 +27,7 @@ public class MMConfig implements ConfigData {
     @ConfigEntry.Gui.CollapsibleObject
     public World world = new World();
 
-    public static class Client {
-        public boolean useShaders = true;
-    }
+
 
     public static class Entities {
         @ConfigEntry.BoundedDiscrete(max = Constants.DataTrackers.SANITY_CAP)
@@ -84,5 +85,18 @@ public class MMConfig implements ConfigData {
 
         @ConfigEntry.Gui.Tooltip(count = 2)
         public float infestedWheatChance = 0.05F;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static class Client {
+        public boolean useShaders = true;
+
+        @ConfigEntry.Gui.CollapsibleObject
+        public CurrentSpellHUD currentSpellHUD = new CurrentSpellHUD();
+
+        public static class CurrentSpellHUD {
+            public int marginX = 32;
+            public int marginY = 32;
+        }
     }
 }

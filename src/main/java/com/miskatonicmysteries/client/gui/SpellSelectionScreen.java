@@ -4,6 +4,8 @@ import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.client.gui.widget.SelectSpellWidget;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Environment(EnvType.CLIENT)
 public class SpellSelectionScreen extends Screen {
     public int openTicks;//used to calculate "blending in" alpha
     private static final int totalRadius = 32;

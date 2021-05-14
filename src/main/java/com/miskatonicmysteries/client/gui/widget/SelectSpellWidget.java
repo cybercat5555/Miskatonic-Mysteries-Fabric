@@ -26,10 +26,18 @@ public class SelectSpellWidget extends AbstractButtonWidget {
 
     @Override
     public void onClick(double mouseX, double mouseY){
-        SpellClientHandler.selectedSpell = spell;
+        if (!isSelected()) {
+            SpellClientHandler.selectedSpell = spell;
+        }else {
+            SpellClientHandler.selectedSpell = null;
+        }
     }
 
-    private Identifier getTexture(int potency){
+    private boolean isSelected(){
+        return SpellClientHandler.selectedSpell == spell;
+    }
+
+    public static Identifier getTexture(int potency){
         return new Identifier(Constants.MOD_ID, String.format("textures/gui/spell_widgets/potency/potency_%d.png", potency));
     }
 
@@ -38,7 +46,7 @@ public class SelectSpellWidget extends AbstractButtonWidget {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         minecraftClient.getTextureManager().bindTexture(getTexture(spell.intensity));
         this.alpha = (screen.openTicks + MinecraftClient.getInstance().getTickDelta()) / 5F;
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, isHovered() && isValidClickButton(0) ? 0.75F : this.alpha);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, Math.min(isHovered() || isSelected() ? 1 : 0.5F, this.alpha));
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
