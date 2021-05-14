@@ -26,9 +26,14 @@ public class HealSpellEffect extends SpellEffect {
             if (!(target instanceof LivingEntity)){
                 return false;
             }
-            ((LivingEntity) target).heal(2.5F * (intensity + 1));
+            ((LivingEntity) target).heal(2F * (intensity + 1));
             return true;
         }
         return false;
+    }
+
+    @Override
+    public float getCooldownBase(int intensity) {
+        return 60 + intensity * 20;
     }
 }

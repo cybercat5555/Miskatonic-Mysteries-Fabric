@@ -87,7 +87,6 @@ public class MMConfig implements ConfigData {
         public float infestedWheatChance = 0.05F;
     }
 
-    @Environment(EnvType.CLIENT)
     public static class Client {
         public boolean useShaders = true;
 
