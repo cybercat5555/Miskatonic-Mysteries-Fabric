@@ -30,6 +30,7 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -122,16 +123,29 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (entity.age % 5 == 0 && !entity.isSneaking() && !world.isClient && world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
+        if (!world.isClient && entity.age % 5 == 0 && !entity.isSneaking() && world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
             OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(pos);
             if (octagram.currentRite instanceof TeleportRite && octagram.permanentRiteActive && octagram.tickCount == 0
                     && octagram.boundPos != null) {
-                BlockPos boundPos = octagram.getBoundPos().offset(entity.getMovementDirection());
-                Util.teleport(octagram.getBoundDimension(), entity, boundPos.getX() + 0.5F, boundPos.getY(), boundPos.getZ() + 0.5F, entity.getHeadYaw(), entity.pitch);
+                Direction direction = getEffectiveDirection(octagram.getBoundDimension().getBlockState(octagram.getBoundPos()), state.get(FACING), entity.getMovementDirection());
+                BlockPos boundPos = octagram.getBoundPos().offset(direction);
+                Util.teleport(octagram.getBoundDimension(), entity, boundPos.getX() + 0.5F, boundPos.getY(), boundPos.getZ() + 0.5F, direction.asRotation(), entity.pitch);
                 TeleportEffectPacket.send(entity);
             }
         }
         super.onEntityCollision(state, world, pos, entity);
+    }
+
+    private static Direction getEffectiveDirection(BlockState state, Direction baseDirection, Direction directionFrom){
+        if (state != null && state.getProperties().contains(FACING)){
+            Direction directionTo = state.get(FACING);
+            float rotationDifference = directionTo.asRotation() - baseDirection.asRotation();
+            if (rotationDifference < 0){
+                rotationDifference += 360;
+            }
+            return Direction.fromRotation(directionFrom.asRotation() + rotationDifference);
+        }
+        return Direction.NORTH;
     }
 
     @Nullable
