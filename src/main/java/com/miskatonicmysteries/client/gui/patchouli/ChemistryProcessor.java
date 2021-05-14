@@ -25,18 +25,18 @@ public class ChemistryProcessor implements IComponentProcessor {
         for (int i = 0; i < recipe.ingredients.size(); i++) {
             if (key.equals("ingredient" + (i + 1))) {
                 ItemStack[] stack = recipe.ingredients.get(i).getMatchingStacksClient(); //patchouli pls
-                return stack.length > 0 ? IVariable.from(stack[MinecraftClient.getInstance().world.random.nextInt(stack.length)]) : null;
+                return stack.length > 0 ? IVariable.from(stack[0]) : null;
             }
         }
         for (int i = 0; i < recipe.output.size(); i++) {
             if (key.equals("output_in" + (i + 1))) {
-                ItemStack stack = recipe.output.get(i).in; //patchouli pls
+                ItemStack stack = recipe.output.get(i).in;
                 return IVariable.from(stack);
             }
         }
         for (int i = 0; i < recipe.output.size(); i++) {
             if (key.equals("output_out" + (i + 1))) {
-                ItemStack stack = recipe.output.get(i).out; //patchouli pls
+                ItemStack stack = recipe.output.get(i).out;
                 return IVariable.from(stack);
             }
         }
