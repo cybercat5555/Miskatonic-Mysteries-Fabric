@@ -2,12 +2,16 @@ package com.miskatonicmysteries.common.util;
 
 import com.miskatonicmysteries.common.feature.world.structures.ModifiableStructurePool;
 import com.miskatonicmysteries.common.registry.MMEntities;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -139,4 +143,14 @@ public class Util {
         double z = distance * (MathHelper.cos(yawRadians) * MathHelper.cos(pitchRadians));
         return originPos.add(x, y, z);
     }
+
+    public static int getSlotWithStack(Inventory inventory, ItemStack stack) {
+        for(int i = 0; i < inventory.size(); ++i) {
+            if (!inventory.getStack(i).isEmpty() && ItemStack.areItemsEqual(stack, inventory.getStack(i))) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 }

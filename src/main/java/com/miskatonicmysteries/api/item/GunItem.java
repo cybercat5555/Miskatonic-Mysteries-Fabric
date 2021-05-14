@@ -4,6 +4,7 @@ import com.miskatonicmysteries.common.block.Shootable;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.Util;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
@@ -114,7 +115,7 @@ public abstract class GunItem extends Item {
         ItemStack stack = new ItemStack(MMObjects.BULLET);
         int bullets = startCount;
         for (int i = 0; i < getMaxShots() - startCount; i++) {
-            int slot = user.inventory.getSlotWithStack(stack);
+            int slot = Util.getSlotWithStack(user.inventory, stack);
             if (slot >= 0) {
                 user.inventory.getStack(slot).decrement(1);
                 bullets++;
