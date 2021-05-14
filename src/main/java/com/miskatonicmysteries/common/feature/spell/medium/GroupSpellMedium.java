@@ -10,6 +10,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class GroupSpellMedium extends SpellMedium {
     public GroupSpellMedium() {
         super(new Identifier(Constants.MOD_ID, "group"));
@@ -18,20 +20,10 @@ public class GroupSpellMedium extends SpellMedium {
     @Override
     public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
         boolean successfulCast = false;
-        if (caster instanceof Affiliated) {
-            for (Entity otherEntity : world.getOtherEntities(null, caster.getBoundingBox()
-                            .expand(15 + (5 * intensity), 5 + (5 * intensity), 15 + (5 * intensity)),
-                    entity -> entity instanceof LivingEntity && MiskatonicMysteriesAPI.getNonNullAffiliation(entity, true).equals(MiskatonicMysteriesAPI.getNonNullAffiliation(caster, false)))) {
-                if (effect.effect(world, caster, otherEntity, otherEntity.getPos(), this, intensity, caster))
-                    successfulCast = true;
-            }
-        } else {
-            for (Entity otherEntity : world.getOtherEntities(null, caster.getBoundingBox()
-                            .expand(15 + (5 * intensity), 5 + (5 * intensity), 15 + (5 * intensity)),
-                    entity -> entity.getType().equals(caster.getType()))) {
-                if (effect.effect(world, caster, otherEntity, otherEntity.getPos(), this, intensity, caster))
-                    successfulCast = true;
-            }
+        List<Entity> entities = world.getOtherEntities(null, caster.getBoundingBox().expand(3 + (4 * intensity), 3 + (4 * intensity), 3 + (4 * intensity)), entity -> entity instanceof LivingEntity);
+        for (Entity otherEntity : entities) {
+            if (effect.effect(world, caster, otherEntity, otherEntity.getPos(), this, intensity, caster))
+                successfulCast = true;
         }
         return !caster.isDead() && successfulCast;
     }
