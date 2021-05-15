@@ -3,6 +3,7 @@ package com.miskatonicmysteries.client;
 import com.miskatonicmysteries.api.block.AltarBlock;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
+import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.api.item.GunItem;
 import com.miskatonicmysteries.api.registry.SpellEffect;
@@ -116,7 +117,12 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
                 }
             });
         });
-        ClientPlayNetworking.registerGlobalReceiver(InsanityEventPacket.ID, InsanityEventPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(InsanityEventPacket.ID, (client, networkHandler, packetByteBuf, sender) -> {
+            Identifier id = packetByteBuf.readIdentifier();
+            if (client.player != null) {
+                client.execute(() -> MMRegistries.INSANITY_EVENTS.get(id).execute(client.player, (Sanity) client.player));
+            }
+        });
         ClientPlayNetworking.registerGlobalReceiver(EffectParticlePacket.ID, EffectParticlePacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(BloodParticlePacket.ID, BloodParticlePacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, (client, networkHandler, packetByteBuf, sender) -> {

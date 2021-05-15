@@ -15,7 +15,9 @@ public class UltraViolenceInsanityEvent extends InsanityEvent {
 
     @Override
     public boolean execute(PlayerEntity playerEntity, Sanity sanity) {
-        playerEntity.addStatusEffect(new StatusEffectInstance(MMStatusEffects.ULTRA_VIOLENCE, 4800, (Constants.DataTrackers.SANITY_CAP - sanity.getSanity()) / 200, true, true));
+        if (!playerEntity.world.isClient) {
+            playerEntity.addStatusEffect(new StatusEffectInstance(MMStatusEffects.ULTRA_VIOLENCE, 4800, (Constants.DataTrackers.SANITY_CAP - sanity.getSanity()) / 200, true, true));
+        }
         return super.execute(playerEntity, sanity);
     }
 
