@@ -22,6 +22,7 @@ import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.IdentifierArgumentType;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class MiskatonicMysteries implements ModInitializer {
@@ -84,6 +85,10 @@ public class MiskatonicMysteries implements ModInitializer {
                 affiliation.setAffiliation(oldAffiliation.getAffiliation(false), false);
                 affiliation.setAffiliation(oldAffiliation.getAffiliation(true), true);
             }));
+        });
+        ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
+            Sanity.of(newPlayer).ifPresent(Sanity::syncSanityData);
+            SpellCaster.of(newPlayer).ifPresent(SpellCaster::syncSpellData);
         });
         /*
         TODO documentation changes

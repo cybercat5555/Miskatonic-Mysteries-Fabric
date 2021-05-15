@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientLoginNetworkHandler;
 import net.minecraft.client.options.KeyBinding;
@@ -47,9 +48,11 @@ public class SpellClientHandler {
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
             if (spellSelectionKey.isPressed() && client.currentScreen == null && SpellCaster.of(client.player).map(caster-> !caster.getSpells().isEmpty()).orElse(false)) {
                 client.openScreen(new SpellSelectionScreen());
-            }else if (client.player != null && castKey.wasPressed() && selectedSpell != null){
-                if (SpellCaster.of(client.player).map(SpellCaster::getSpellCooldown).orElse(0) <= 0) {
+            }else if (client.player != null && selectedSpell != null){
+                if (castKey.wasPressed() && SpellCaster.of(client.player).map(SpellCaster::getSpellCooldown).orElse(0) <= 0) {
                     SpellPacket.sendFromClientPlayer(client.player, selectedSpell.toTag(new CompoundTag()));
+                }else if (client.player.isDead()){
+                    selectedSpell = null;
                 }
             }
         });
