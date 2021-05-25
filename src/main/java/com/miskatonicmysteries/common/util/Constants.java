@@ -130,6 +130,7 @@ public class Constants {
         public static final String MAX_AGE = "MaxAge";
         public static final String HOLD_TICKS = "HoldTicks";
         public static final String WARDING_MARKS = "WardingMarks";
+        public static final String GLIDING = "Gliding";
     }
 
     public static class DataTrackers {

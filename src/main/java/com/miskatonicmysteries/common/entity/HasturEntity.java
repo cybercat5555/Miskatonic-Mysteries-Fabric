@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.entity;
 
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.common.entity.util.EntityHolder;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncHeldEntityPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMEntities;

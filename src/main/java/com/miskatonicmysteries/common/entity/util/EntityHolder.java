@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.common.entity;
+package com.miskatonicmysteries.common.entity.util;
 
 import net.minecraft.entity.Entity;
 
