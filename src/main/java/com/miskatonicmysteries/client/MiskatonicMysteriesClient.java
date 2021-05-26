@@ -3,9 +3,12 @@ package com.miskatonicmysteries.client;
 import com.miskatonicmysteries.api.block.AltarBlock;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
+import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.api.item.GunItem;
+import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.client.gui.EditSpellScreen;
 import com.miskatonicmysteries.client.gui.SpellClientHandler;
@@ -28,6 +31,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.*;
 import com.miskatonicmysteries.common.registry.*;
+import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.NbtUtil;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -40,19 +44,41 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegi
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.text.Style;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import vazkii.patchouli.api.IStyleStack;
+import vazkii.patchouli.api.PatchouliAPI;
+
+import java.util.function.BiFunction;
 
 @Environment(EnvType.CLIENT)
 public class MiskatonicMysteriesClient implements ClientModInitializer {
 
+    public static final Identifier OBFUSCATED_FONT_ID = new Identifier(Constants.MOD_ID, "obfuscated_font");
     @Override
     public void onInitializeClient() {
+        PatchouliAPI.get().registerFunction("obfs", (param, iStyleStack) -> {
+            String[] args = param.split(";");
+            Affiliation affiliation = args[0].equals("") ? null : MMRegistries.AFFILIATIONS.get(new Identifier(args[0]));
+            int stage = args.length > 1 ? Integer.parseInt(args[1]) : 0;
+            boolean hasStage = Ascendant.of(MinecraftClient.getInstance().player).map(ascendant -> ascendant.getAscensionStage() >= stage).orElse(false);
+            boolean hasAffiliation = Affiliated.of(MinecraftClient.getInstance().player).map(affiliated -> affiliation == null || affiliated.getAffiliation(false) == affiliation).orElse(false);
+            boolean canRead = hasStage && hasAffiliation;
+            if (!canRead){
+                iStyleStack.modifyStyle(style -> style.withFormatting(Formatting.OBFUSCATED)); //todo implement custom font once patchy allows that
+                return args.length > 2 ? args[2] : "";
+            }
+            return "";
+        });
+
         ParticleFactoryRegistry.getInstance().register(MMParticles.DRIPPING_BLOOD, LeakParticle.BloodFactory::new);
         ParticleFactoryRegistry.getInstance().register(MMParticles.AMBIENT, AmbientMagicParticle.DefaultFactory::new);
         ParticleFactoryRegistry.getInstance().register(MMParticles.AMBIENT_MAGIC, AmbientMagicParticle.MagicFactory::new);

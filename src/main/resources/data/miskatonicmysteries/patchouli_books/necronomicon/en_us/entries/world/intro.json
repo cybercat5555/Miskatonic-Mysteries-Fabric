@@ -17,9 +17,8 @@
       "text": "Within this book, you will find pages like the following that you might not yet understand. That's understandable, and given enough time and dedication, a Great Old One may reveal the secret needed for you to read the entry...$(br2)These types of entry will usually appear on a Great Old One's road to ascension."
     },
     {
-      "type": "miskatonicmysteries:obfuscated",
-      "stage": 1,
-      "text": "If you can read this, you are probably ready for the higher mysteries of the art; remember that whatever path you chose is final. Only true death can separate you from it. $(br2)Unless?"
+      "type": "text",
+      "text": "$(obfs)If you can read this$(), you are probably ready for the higher mysteries of the art; remember that whatever path you chose is final. Only true death can separate you from it. $(br2)Unless?"
     }
   ]
 }
