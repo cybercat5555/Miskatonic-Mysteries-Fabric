@@ -155,6 +155,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         });
         ClientPlayNetworking.registerGlobalReceiver(OpenSpellEditorPacket.ID, (client, networkHandler, packetByteBuf, sender) -> client.execute(() -> client.openScreen(new EditSpellScreen((SpellCaster) client.player))));
         ClientPlayNetworking.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SyncBiomeMaskPacket.ID, SyncBiomeMaskPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SyncBlessingsPacket.ID, SyncBlessingsPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(ModifyBlessingPacket.ID, ModifyBlessingPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SoundPacket.ID, SoundPacket::handle);

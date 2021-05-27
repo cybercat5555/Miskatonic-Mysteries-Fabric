@@ -4,6 +4,9 @@
   "package": "com.miskatonicmysteries.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "biomes.BiomeArrayMixin",
+    "biomes.ChunkSerializerMixin",
+    "biomes.ThreadedAnvilChunkStorageMixin",
     "BlockMixin",
     "BrewingRecipeRegistryAccessor",
     "ConduitBlockEntityMixin",

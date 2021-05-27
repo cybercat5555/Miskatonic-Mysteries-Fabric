@@ -131,6 +131,7 @@ public class Constants {
         public static final String HOLD_TICKS = "HoldTicks";
         public static final String WARDING_MARKS = "WardingMarks";
         public static final String GLIDING = "Gliding";
+        public static final String BIOME_MASK = "MMBiomeMask";
     }
 
     public static class DataTrackers {

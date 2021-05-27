@@ -91,14 +91,4 @@ public class HasturBlessingVision extends VisionSequence{
             ticks = 0;
         }
     }
-
-   /* @Override todo if I get to put in the hastur model animation
-    public GeoModelProvider getGeoModelProvider() {
-        return new HasturModel(new Identifier(Constants.MOD_ID, "textures/entity/hastur/hastur.png"));
-    }
-
-    @Override
-    public Identifier getTextureLocation(Object instance) {
-        return getGeoModelProvider().getTextureLocation(instance);
-    }*/
 }

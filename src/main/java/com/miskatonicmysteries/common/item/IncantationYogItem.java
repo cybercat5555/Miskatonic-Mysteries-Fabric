@@ -41,7 +41,6 @@ public class IncantationYogItem extends Item {
         super.appendTooltip(stack, world, tooltip, context);
     }
 
-
     @Override
     public Rarity getRarity(ItemStack stack) {
         return getPosition(stack) != null ? Rarity.UNCOMMON : super.getRarity(stack);

@@ -22,6 +22,8 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.Chunk;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -155,5 +157,12 @@ public class MiskatonicMysteriesAPI {
             return MMDimensionalWorldState.get((ServerWorld) world).isMarkNear(pos, 24);
         }
         return false;
+    }
+
+    public static void setBiomeMask(World world, BlockPos pos, Biome biome){
+        Chunk chunk = world.getChunk(pos);
+        int x = pos.getX() - chunk.getPos().x;
+        int z = pos.getZ() - chunk.getPos().z;;
+        ((BiomeMask) chunk.getBiomeArray()).MM_addBiomeMask(x, z, biome);
     }
 }
