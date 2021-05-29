@@ -53,6 +53,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 
     public ByakheeEntity(EntityType<? extends TameableEntity> entityType, World world) {
         super(entityType, world);
+        this.stepHeight = 1;
     }
 
     @Override
