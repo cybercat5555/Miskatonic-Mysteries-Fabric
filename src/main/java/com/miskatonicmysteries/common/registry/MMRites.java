@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.registry;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.rite.*;
+import com.miskatonicmysteries.common.feature.recipe.rite.summon.ByakheeSummoningRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.summon.PrinceSummoningRite;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.item.ItemStack;
@@ -23,6 +24,7 @@ public class MMRites {
     public static final Rite SCULPTOR_RITE = new SculptorRite();
     public static final Rite GOLDEN_FLOCK_RITE = new GoldenFlockRite();
     public static final Rite SUMMON_PRINCE_RITE = new PrinceSummoningRite();
+    public static final Rite SUMMON_BYAKHEE = new ByakheeSummoningRite();
     public static final Rite MOURNING_DEAD_RITE = new MourningDeadRite();
 
     public static final Rite REGENERATION_SPELL_RITE = new SpellGivingRite(MMSpellEffects.HEAL, Constants.Misc.WITCH_KNOWLEDGE, new Identifier(Constants.MOD_ID, "regeneration"), null, 0,
@@ -40,6 +42,7 @@ public class MMRites {
         register(SCULPTOR_RITE);
         register(GOLDEN_FLOCK_RITE);
         register(SUMMON_PRINCE_RITE);
+        register(SUMMON_BYAKHEE);
         register(MOURNING_DEAD_RITE);
 
         register(REGENERATION_SPELL_RITE);

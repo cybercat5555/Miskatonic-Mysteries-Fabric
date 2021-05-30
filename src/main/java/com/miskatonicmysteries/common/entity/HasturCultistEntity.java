@@ -127,7 +127,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
             }
             return ActionResult.SUCCESS;
         }
-        if (player.getStackInHand(hand).getItem().equals(MMObjects.NECRONOMICON) && getReputation(player) >= 25 && !MMBookItem.hasKnowledge(MMAffiliations.HASTUR.getId().getPath(), player.getStackInHand(hand))) {
+        if (player.getStackInHand(hand).getItem().equals(MMObjects.NECRONOMICON) && getReputation(player) >= 10 && !MMBookItem.hasKnowledge(MMAffiliations.HASTUR.getId().getPath(), player.getStackInHand(hand))) {
             MMBookItem.addKnowledge(MMAffiliations.HASTUR.getId().getPath(), player.getStackInHand(hand));
             if (!this.world.isClient()) {
                 this.playSound(SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
