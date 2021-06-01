@@ -1,5 +1,7 @@
 package com.miskatonicmysteries.common.item;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
+import com.miskatonicmysteries.api.interfaces.Knowledge;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
@@ -53,6 +55,8 @@ public class IncantationYogItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        Knowledge.of(user).get().syncKnowledge();
+        MiskatonicMysteriesAPI.addKnowledge("witch", (PlayerEntity) user);
         BlockPos foundPos = null;
         for (BlockPos iterateOutward : BlockPos.iterateOutwards(user.getBlockPos(), 3, 3, 3)) {
             if (world.getBlockEntity(iterateOutward) instanceof OctagramBlockEntity) {

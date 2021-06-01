@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.mixin;
 
 import com.miskatonicmysteries.api.interfaces.Ascendant;
+import com.miskatonicmysteries.api.interfaces.Knowledge;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import net.minecraft.network.ClientConnection;
@@ -18,5 +19,6 @@ public class PlayerManagerMixin {
         Sanity.of(player).ifPresent(Sanity::syncSanityData);
         SpellCaster.of(player).ifPresent(SpellCaster::syncSpellData);
         Ascendant.of(player).ifPresent(Ascendant::syncBlessingData);
+        Knowledge.of(player).ifPresent(Knowledge::syncKnowledge);
     }
 }

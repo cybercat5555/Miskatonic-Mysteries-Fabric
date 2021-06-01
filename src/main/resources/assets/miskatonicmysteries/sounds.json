@@ -52,5 +52,11 @@
     "sounds": [
       "mob/ghast/fireball4"
     ]
+  },
+  "pling": {
+    "subtitle": "subtitles.miskatonicmysteries.pling",
+    "sounds": [
+      "random/orb"
+    ]
   }
 }

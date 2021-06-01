@@ -83,18 +83,6 @@ public class MMBookItem extends Item implements Affiliated {
         }
     }
 
-    public static ItemStack addKnowledge(String knowledge, ItemStack stack) {
-        if (stack.getTag() == null) stack.setTag(new CompoundTag());
-        if (!stack.getTag().contains(Constants.NBT.KNOWLEDGE))
-            stack.getTag().put(Constants.NBT.KNOWLEDGE, new ListTag());
-        stack.getTag().getList(Constants.NBT.KNOWLEDGE, 8).add(StringTag.of(knowledge));
-        return stack;
-    }
-
-    public static boolean hasKnowledge(String knowledge, ItemStack book) {
-        return book.getTag() != null && book.getTag().contains(Constants.NBT.KNOWLEDGE) && book.getTag().getList(Constants.NBT.KNOWLEDGE, 8).stream().anyMatch(tag -> tag.asString().equals(knowledge));
-    }
-
     @Override
     public Affiliation getAffiliation(boolean apparent) {
         return affiliation;

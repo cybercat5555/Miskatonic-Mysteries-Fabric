@@ -17,6 +17,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterD
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ExpandSanityPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBlessingsPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncKnowledgePacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
@@ -34,6 +35,8 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -41,6 +44,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -53,14 +57,16 @@ import static com.miskatonicmysteries.common.util.Constants.DataTrackers.*;
 
 @SuppressWarnings("ConstantConditions")
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant, Resonating {
+public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant, Resonating, Knowledge {
     public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
 
-    private final List<Spell> spells = new ArrayList<>();
-    private final Set<SpellEffect> learnedEffects = new HashSet<>();
-    private final Set<SpellMedium> learnedMediums = new HashSet<>();
+    @Unique private final List<Spell> spells = new ArrayList<>();
+    @Unique private final Set<SpellEffect> learnedEffects = new HashSet<>();
+    @Unique private final Set<SpellMedium> learnedMediums = new HashSet<>();
 
-    private final List<Blessing> blessings = new ArrayList<>();
+    @Unique private final List<Blessing> blessings = new ArrayList<>();
+
+    @Unique private final List<String> knowledge = new ArrayList<>();
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -242,6 +248,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
         tag.putFloat(Constants.NBT.RESONANCE, getResonance());
         NbtUtil.writeBlessingData(this, tag);
+        ListTag knowledgeList = new ListTag();
+        for (String knowledgeId : knowledge) {
+            knowledgeList.add(StringTag.of(knowledgeId));
+        }
+        tag.put(Constants.NBT.KNOWLEDGE, knowledgeList);
+
         compoundTag.put(Constants.NBT.MISK_DATA, tag);
     }
 
@@ -261,9 +273,17 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
             setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.AFFILIATION))), false);
             setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.APPARENT_AFFILIATION))), true);
-            NbtUtil.readBlessingData(this, tag);
 
             setResonance(tag.getFloat(Constants.NBT.RESONANCE));
+
+            NbtUtil.readBlessingData(this, tag);
+
+            ListTag knowledgeList = tag.getList(Constants.NBT.KNOWLEDGE, 8);
+            knowledge.clear();
+            for (Tag knowledgeTag : knowledgeList) {
+                knowledge.add(knowledgeTag.asString());
+            }
+
         }
     }
 
@@ -392,6 +412,33 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
     @Override
     public float getResonance() {
         return dataTracker.get(RESONANCE);
+    }
+
+    @Override
+    public boolean hasKnowledge(String knowledge) {
+        return this.knowledge.contains(knowledge);
+    }
+
+    @Override
+    public void addKnowledge(String knowledge) {
+        this.knowledge.add(knowledge);
+    }
+
+    @Override
+    public void syncKnowledge() {
+        if (!world.isClient){
+            SyncKnowledgePacket.send(this, this);
+        }
+    }
+
+    @Override
+    public void clearKnowledge() {
+        knowledge.clear();
+    }
+
+    @Override
+    public List<String> getKnowledge() {
+        return knowledge;
     }
 
     @Environment(EnvType.CLIENT)

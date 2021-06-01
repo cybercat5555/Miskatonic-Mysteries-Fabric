@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.block.blockentity;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
-import com.miskatonicmysteries.api.item.MMBookItem;
 import com.miskatonicmysteries.api.item.armor.CultistArmor;
 import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
@@ -266,16 +266,10 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
         boundPos = new Pair<>(world.getRegistryKey().getValue(), pos);
     }
 
-    public boolean doesNearestAltarHaveKnowledge(String knowledge) {
+    public boolean doesCasterHaveKnowledge(String knowledge) {
         if (knowledge.isEmpty()) {
             return true;
         }
-        for (BlockPos blockPos : BlockPos.iterateOutwards(pos, 8, 8, 8)) {
-            BlockEntity entity = world.getBlockEntity(blockPos);
-            if (entity instanceof AltarBlockEntity && MMBookItem.hasKnowledge(knowledge, ((AltarBlockEntity) entity).getStack(0))) {
-                return true;
-            }
-        }
-        return false;
+        return MiskatonicMysteriesAPI.hasKnowledge(knowledge, getOriginalCaster());
     }
 }

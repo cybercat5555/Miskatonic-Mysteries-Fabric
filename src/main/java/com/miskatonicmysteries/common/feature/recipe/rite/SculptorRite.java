@@ -49,7 +49,7 @@ public class SculptorRite extends Rite {
     @Override
     public boolean canCast(OctagramBlockEntity octagram) {
         if (super.canCast(octagram)) {
-            if (!octagram.doesNearestAltarHaveKnowledge(knowledge)) {
+            if (!octagram.doesCasterHaveKnowledge(knowledge)) {
                 if (octagram.getOriginalCaster() != null) {
                     octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.knowledge"), true);
                 }

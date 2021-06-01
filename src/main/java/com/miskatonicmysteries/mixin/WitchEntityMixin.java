@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.mixin;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Appeasable;
-import com.miskatonicmysteries.api.item.MMBookItem;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
@@ -31,24 +31,6 @@ public abstract class WitchEntityMixin extends RaiderEntity implements Appeasabl
     @Inject(method = "attack", at = @At("HEAD"), cancellable = true)
     private void tryAttack(LivingEntity target, float pullProgress, CallbackInfo ci) {
         if (isAppeased()) {
-            ci.cancel();
-        }
-    }
-
-    @Inject(method = "tickMovement", at = @At("HEAD"), cancellable = true)
-    private void tickMovement(CallbackInfo ci) {
-        if (!world.isClient && isAppeased()) {
-            if (getEquippedStack(EquipmentSlot.MAINHAND).getItem() != MMObjects.NECRONOMICON) {
-                setAppeasedTicks(getAppeasedTicks() - 1);
-            } else {
-                if (getHoldTicks() > 0){
-                    setHoldTicks(getHoldTicks() - 1);
-                }else {
-                    dropStack(MMBookItem.addKnowledge(Constants.Misc.WITCH_KNOWLEDGE, getEquippedStack(EquipmentSlot.MAINHAND)));
-                    equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-                }
-            }
-            super.tickMovement();
             ci.cancel();
         }
     }

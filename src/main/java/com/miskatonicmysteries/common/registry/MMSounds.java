@@ -15,6 +15,7 @@ public class MMSounds {
     public static final SoundEvent INCANTATION_BIND_SUCCESS = new SoundEvent(new Identifier(Constants.MOD_ID, "incantation_bound"));
     public static final SoundEvent MAGIC = new SoundEvent(new Identifier(Constants.MOD_ID, "spell_cast"));
     public static final SoundEvent RESONATOR_HUMMING = new SoundEvent(new Identifier(Constants.MOD_ID, "resonator"));
+    public static final SoundEvent PLING = new SoundEvent(new Identifier(Constants.MOD_ID, "pling"));
 
     public static void init() {
         RegistryUtil.register(Registry.SOUND_EVENT, "gun_shot", GUN_SHOT);
@@ -25,5 +26,6 @@ public class MMSounds {
         RegistryUtil.register(Registry.SOUND_EVENT, "rite_triggered", PRIMED_RITE_TRIGGERED);
         RegistryUtil.register(Registry.SOUND_EVENT, "spell_cast", MAGIC);
         RegistryUtil.register(Registry.SOUND_EVENT, "resonator", RESONATOR_HUMMING);
+        RegistryUtil.register(Registry.SOUND_EVENT, "pling", PLING);
     }
 }

@@ -3,10 +3,7 @@ package com.miskatonicmysteries.client;
 import com.miskatonicmysteries.api.block.AltarBlock;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
-import com.miskatonicmysteries.api.interfaces.Affiliated;
-import com.miskatonicmysteries.api.interfaces.Ascendant;
-import com.miskatonicmysteries.api.interfaces.Sanity;
-import com.miskatonicmysteries.api.interfaces.SpellCaster;
+import com.miskatonicmysteries.api.interfaces.*;
 import com.miskatonicmysteries.api.item.GunItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
@@ -46,6 +43,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
@@ -57,6 +55,7 @@ import net.minecraft.util.math.BlockPos;
 import vazkii.patchouli.api.IStyleStack;
 import vazkii.patchouli.api.PatchouliAPI;
 
+import java.util.ArrayList;
 import java.util.function.BiFunction;
 
 @Environment(EnvType.CLIENT)
@@ -77,6 +76,10 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
                 return args.length > 2 ? args[2] : "";
             }
             return "";
+        });
+        PatchouliAPI.get().registerFunction("expandknowledge", (param, iStyleStack) -> {
+            int index = Integer.parseInt(param);
+            return Knowledge.of(MinecraftClient.getInstance().player).map(knowledge -> index < knowledge.getKnowledge().size() ? "\u2022" + I18n.translate("knowledge.miskatonicmysteries."+ knowledge.getKnowledge().get(index)) : "").orElse("");
         });
 
         ParticleFactoryRegistry.getInstance().register(MMParticles.DRIPPING_BLOOD, LeakParticle.BloodFactory::new);
@@ -157,6 +160,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SyncBiomeMaskPacket.ID, SyncBiomeMaskPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SyncBlessingsPacket.ID, SyncBlessingsPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SyncKnowledgePacket.ID, SyncKnowledgePacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(ModifyBlessingPacket.ID, ModifyBlessingPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SoundPacket.ID, SoundPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SyncRiteTargetPacket.ID, SyncRiteTargetPacket::handle);

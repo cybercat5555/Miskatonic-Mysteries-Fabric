@@ -5,9 +5,11 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMCriteria;
 import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.entity.LivingEntity;
@@ -15,6 +17,9 @@ import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -164,5 +169,24 @@ public class MiskatonicMysteriesAPI {
         int x = pos.getX() - chunk.getPos().x;
         int z = pos.getZ() - chunk.getPos().z;;
         ((BiomeMask) chunk.getBiomeArray()).MM_addBiomeMask(x, z, biome);
+    }
+
+    public static boolean addKnowledge(String knowledgeId, PlayerEntity player) {
+        if (!hasKnowledge(knowledgeId, player)) {
+            if (!player.world.isClient) {
+                Knowledge.of(player).ifPresent(knowledge -> {
+                    knowledge.addKnowledge(knowledgeId);
+                    knowledge.syncKnowledge();
+                });
+                player.sendMessage(new TranslatableText("message.miskatonicmysteries.added_knowledge"), true);
+                SoundPacket.send(player);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean hasKnowledge(String knowledgeId, PlayerEntity player) {
+        return Knowledge.of(player).map(knowledge -> knowledge.hasKnowledge(knowledgeId)).orElse(false);
     }
 }

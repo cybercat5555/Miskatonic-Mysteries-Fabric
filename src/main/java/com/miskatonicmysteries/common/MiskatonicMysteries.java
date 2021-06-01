@@ -1,10 +1,7 @@
 package com.miskatonicmysteries.common;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
-import com.miskatonicmysteries.api.interfaces.Ascendant;
-import com.miskatonicmysteries.api.interfaces.MalleableAffiliated;
-import com.miskatonicmysteries.api.interfaces.Sanity;
-import com.miskatonicmysteries.api.interfaces.SpellCaster;
+import com.miskatonicmysteries.api.interfaces.*;
 import com.miskatonicmysteries.common.feature.ModCommand;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
@@ -89,10 +86,18 @@ public class MiskatonicMysteries implements ModInitializer {
                 affiliation.setAffiliation(oldAffiliation.getAffiliation(false), false);
                 affiliation.setAffiliation(oldAffiliation.getAffiliation(true), true);
             }));
+
+            Knowledge.of(oldPlayer).ifPresent(oldKnowledge -> Knowledge.of(player).ifPresent(knowledge -> {
+                for (String knowledgeId : oldKnowledge.getKnowledge()) {
+                    knowledge.addKnowledge(knowledgeId);
+                }
+                knowledge.syncKnowledge();
+            }));
         });
         ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
             Sanity.of(newPlayer).ifPresent(Sanity::syncSanityData);
             SpellCaster.of(newPlayer).ifPresent(SpellCaster::syncSpellData);
+            Knowledge.of(newPlayer).ifPresent(Knowledge::syncKnowledge);
         });
         /*
         TODO documentation changes

@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.mixin;
 
 import com.google.common.collect.ImmutableSet;
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Appeasable;
 import com.miskatonicmysteries.api.interfaces.Hallucination;
-import com.miskatonicmysteries.api.item.MMBookItem;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.EntityType;
@@ -69,18 +69,12 @@ public abstract class MobEntityMixin extends LivingEntity implements Hallucinati
     private void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         Appeasable.of(this).ifPresent(appeasable -> {
             if ((Object) this instanceof WitchEntity) {
-                if (appeasable.isAppeased() && getEquippedStack(EquipmentSlot.MAINHAND).isEmpty() && player.getStackInHand(hand).getItem() == MMObjects.NECRONOMICON && !MMBookItem.hasKnowledge(Constants.Misc.WITCH_KNOWLEDGE, player.getStackInHand(hand))) {
-                    if (!player.world.isClient) {
-                        equipStack(EquipmentSlot.MAINHAND, player.getStackInHand(hand));
-                        appeasable.setHoldTicks(80);
-                        player.setStackInHand(hand, ItemStack.EMPTY);
-                        player.inventory.markDirty();
-                    }
-                } else if (!appeasable.isAppeased() && player.getStackInHand(hand).getItem() == Items.POTION && !FORBIDDEN_POTIONS.contains(PotionUtil.getPotion(player.getStackInHand(hand)))) {
+                if (!appeasable.isAppeased() && player.getStackInHand(hand).getItem() == Items.POTION && !FORBIDDEN_POTIONS.contains(PotionUtil.getPotion(player.getStackInHand(hand)))) {
                     player.getStackInHand(hand).decrement(1);
                     appeasable.setAppeasedTicks(200 + player.getRandom().nextInt(200));
                     playAmbientSound();
                     player.world.sendEntityStatus(this, (byte) 14);
+                    MiskatonicMysteriesAPI.addKnowledge(Constants.Misc.WITCH_KNOWLEDGE, player);
                 }
             }
         });

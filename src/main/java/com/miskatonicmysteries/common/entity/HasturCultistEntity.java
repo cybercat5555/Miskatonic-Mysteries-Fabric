@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.entity;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
-import com.miskatonicmysteries.api.item.MMBookItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
@@ -127,18 +127,19 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
             }
             return ActionResult.SUCCESS;
         }
-        if (player.getStackInHand(hand).getItem().equals(MMObjects.NECRONOMICON) && getReputation(player) >= 10 && !MMBookItem.hasKnowledge(MMAffiliations.HASTUR.getId().getPath(), player.getStackInHand(hand))) {
-            MMBookItem.addKnowledge(MMAffiliations.HASTUR.getId().getPath(), player.getStackInHand(hand));
-            if (!this.world.isClient()) {
-                this.playSound(SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
-                world.spawnEntity(new ExperienceOrbEntity(world, getX(), getY(), getZ(), 5));
-            }
-            return ActionResult.SUCCESS;
-        }
         if (isLoyalTo(player)) {
             world.sendEntityStatus(this, (byte) 14);
         }
         return super.interactMob(player, hand);
+    }
+
+    @Override
+    public void trade(TradeOffer offer) {
+        if (!world.isClient && random.nextInt(10) < getReputation(getCurrentCustomer()) && MiskatonicMysteriesAPI.addKnowledge(MMAffiliations.HASTUR.getId().getPath(), getCurrentCustomer())){
+            world.spawnEntity(new ExperienceOrbEntity(world, getX(), getY(), getZ(), 5));
+        }
+        //todo implement Knowledge trait in player
+        super.trade(offer);
     }
 
     @Override
@@ -422,6 +423,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     }
 
     public boolean isLoyalTo(PlayerEntity player) {
-        return getReputation(player) >= 50;
+        return getReputation(player) >= 20 || MiskatonicMysteriesAPI.hasKnowledge(MMAffiliations.HASTUR.getId().getPath(), player);
     }
 }
