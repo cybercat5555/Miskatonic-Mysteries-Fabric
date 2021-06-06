@@ -40,8 +40,10 @@ public class CurrentSpellHUD extends DrawableHelper {
                 drawTexture(matrixStack, 0, 0, 0, 0, 26, 26, 26, 26);
                 client.getTextureManager().bindTexture(SpellClientHandler.selectedSpell.effect.getTextureLocation());
                 drawTexture(matrixStack, 4, 4, 0, 0, 18, 18, 18, 18);
-                if (Screen.hasShiftDown() && shiftTicks < 10) {
-                    this.shiftTicks++;
+                if (Screen.hasShiftDown()) {
+                    if (shiftTicks < 10) {
+                        this.shiftTicks++;
+                    }
                 }else if (this.shiftTicks > 0){
                     this.shiftTicks --;
                 }
@@ -52,7 +54,7 @@ public class CurrentSpellHUD extends DrawableHelper {
                     matrixStack.push();
                     client.getTextureManager().bindTexture(SpellClientHandler.selectedSpell.medium.getTextureLocation());
                     matrixStack.translate(x, y, 0);
-                    RenderSystem.color4f(1.0F, 1.0F, 1.0F, (shiftTicks + (Screen.hasShiftDown() ? -tickDelta : tickDelta))/ 10F);
+                    RenderSystem.color4f(1.0F, 1.0F, 1.0F, (shiftTicks + (Screen.hasShiftDown() ?  tickDelta : -tickDelta))/ 10F);
                     drawTexture(matrixStack, 5, 2, 0, 0, 18, 18, 18, 18);
                     matrixStack.pop();
                 }

@@ -6,19 +6,19 @@
   "pages": [
     {
       "type": "text",
-      "text": "Welcome reader, to the fine arts of the invisible! This book, filled with the thoughts and experiences of many generations of practitioners, is meant to guide you through this unseen world and let you see beyond it.$(br)As a practitioner, or $(marked)Entheator$() as we like to call ourselves, there are several things we want future readers to know."
+      "text": "Welcome reader, to the fine arts of the invisible! This book, filled with the thoughts and experiences of many generations of practitioners, is meant to guide you through this unseen world and let you see beyond it.$(br)As you may have noticed, this book is divided into five category, each meant to guide you through certain aspects."
     },
     {
       "type": "text",
-      "text": "The invisible arts focus a lot around our $(marked)Great Old Ones$(), ancient forces, entities, even places, if you will. They are outlined in another section of this book, though you should be aware that most Entheators affiliate with specific Old Ones.$(br)Entheators conduct their power using mostly $(marked)Rites$(), $(marked)Spells$() and sometimes even a dedicated $(marked)Ascension$() as a Name of a Great Old One."
+      "text": "This category focuses an the basics. You should read each of its entries carefully, as most of this $(m)mod$() builds on it. Additional entries will unlock over time as you collect $(marked)advancements$().$(br2)$(o)Keep in mind that you cannot expect one particularly occult book to convey all knowledge needed. Perhaps you will find out more from a somewhat scientific perspective.$()"
     },
     {
       "type": "text",
-      "text": "Within this book, you will find pages like the following that you might not yet understand. That's understandable, and given enough time and dedication, a Great Old One may reveal the secret needed for you to read the entry...$(br2)These types of entry will usually appear on a Great Old One's road to ascension."
+      "text": "Additionally to entries appearing with advancements, some entries may be partially $(marked)obfuscated$(). Here an artistic interpretation of said obfuscation: $(br)$(obfs:;69)jafiagshuaighailglakg aguluasjkgö afgugagaö auögaö öhgalsugf aliagf f agfuaf aöfiahsifhö asgfugf aglfaf$()$(br)Of course, obfuscation does not have to be permanent. You may easily get rid of it by reshaping your mind and widening your understanding of the Great Old Ones."
     },
     {
       "type": "text",
-      "text": "$(obfs)If you can read this$(), you are probably ready for the higher mysteries of the art; remember that whatever path you chose is final. Only true death can separate you from it. $(br2)Unless?"
+      "text": "Naturally, this happens through the process of $(ml:world/ascension)ascension$(), so make sure to check some obfuscated entries when having ascended a bit further.$(br)Keep in mind that a lot of knowledge is locked behind affiliation to a Great Old One. Since you can only be affiliated to one Great Old One at a time, you should wisely pick which path to choose."
     }
   ]
 }

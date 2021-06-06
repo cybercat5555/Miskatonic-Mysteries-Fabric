@@ -2,6 +2,7 @@ package com.miskatonicmysteries.api.item;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.interfaces.Knowledge;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.api.registry.Affiliation;
@@ -59,6 +60,7 @@ public class MMBookItem extends Item implements Affiliated {
                 caster.learnEffect(MMSpellEffects.IGNITE);
                 MiskatonicMysteriesAPI.guaranteeSpellPower(2, caster);
             });
+            Knowledge.of(player).ifPresent(Knowledge::syncKnowledge);
             if (special && !InsanityHandler.hasSanityCapExpansion(player, Constants.Misc.NECRONOMICON_EXTENSION)) {
                 Sanity.of(player).ifPresent(sanity -> sanity.addSanityCapExpansion(Constants.Misc.NECRONOMICON_EXTENSION, -10));
 

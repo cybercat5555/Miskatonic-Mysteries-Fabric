@@ -1,0 +1,18 @@
+{
+  "name": "Byakhee",
+  "category": "miskatonicmysteries:bestiary",
+  "icon": "minecraft:saddle",
+  "advancement": "miskatonicmysteries:hastur/hare_rama",
+  "pages": [
+    {
+      "type": "text",
+      "text": "The Byakhee is a chimeric species, containing bat, bird, and insect anatomy, and $(o)something else$(). These beasts are only known to ride the golden winds of Carcosa, under its twin black-suns. However, they may be summoned to physical space with through a $(ml:rites/dragon_of_carcosa)rite$(), though a sacrifice is required in order to create an entryway for the Byakhee to pass."
+    },
+    {
+      "type": "entity",
+      "entity": "miskatonicmysteries:byakhee",
+      "scale": 0.5,
+      "text": "The Byakhee can be tamed and saddled like one would with a $(marked)Horse$(). Additionally, you may put $(item)Yellow Carpet$() on it."
+    }
+  ]
+}

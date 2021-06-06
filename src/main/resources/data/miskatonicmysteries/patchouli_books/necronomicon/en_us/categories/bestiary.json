@@ -1,6 +1,6 @@
 {
   "name": "Bestiary",
-  "description": "FNORD",
+  "description": "The people and beasts of the world.",
   "icon": "miskatonicmysteries:textures/gui/icons/bestiary.png",
   "sortnum": 4
 }

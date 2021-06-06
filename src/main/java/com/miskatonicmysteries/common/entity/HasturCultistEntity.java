@@ -138,7 +138,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         if (!world.isClient && random.nextInt(10) < getReputation(getCurrentCustomer()) && MiskatonicMysteriesAPI.addKnowledge(MMAffiliations.HASTUR.getId().getPath(), getCurrentCustomer())){
             world.spawnEntity(new ExperienceOrbEntity(world, getX(), getY(), getZ(), 5));
         }
-        //todo implement Knowledge trait in player
         super.trade(offer);
     }
 

@@ -2,23 +2,14 @@
   "name": "Occult Knowledge",
   "category": "miskatonicmysteries:world",
   "icon": "minecraft:paper",
-  "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "A lot of knowledge in this world cannot be described using mere words. Sometimes, one has to experience it by themselves. Such $(marked)Occult Knowledge$() is stored in this book once acquired, and is usually used in $(marked)Rites$(). "
+      "text": "A lot of knowledge in this world cannot be described using mere words. Sometimes, one has to experience it by themselves. Such $(marked)occult knowledge$() is often used in $(ml:rites/rite_intro)rites$(), especially when dealing with $(ml:world/ascension)ascension$().$(br)Each piece of knowledge is acquired uniquely; for example, you can try giving a $(marked)Witch$() a potion. Surely they'll be happy about it."
     },
     {
       "type": "text",
-      "anchor": "witch_secret",
-      "title": "A Witches Secret",
-      "text": "Despite all their madness and debility, $(marked)Witches$() seem to have an extraordinary understanding of the occult outside of Great Old Ones. They will be ready to share their secret after gifting them a potion.$(br)$(o)Try giving them this book!$()"
-    },
-    {
-      "type": "text",
-      "anchor": "hastur_knowledge",
-      "title": "Knowledge of Hastur",
-      "text": "$(marked)Yellow Vassals$() are dedicated worshippers of the Yellow King, and always in for a talk. They may share what they know after building a good reputation among them."
+      "text": "This entry will also list your $(marked)current knowledge$():$(br)$(expandknowledge:0)$(br)$(expandknowledge:1)$(br)$(expandknowledge:2)$(br)$(expandknowledge:3)$(br)$(expandknowledge:4)$(br)$(expandknowledge:5)$(br)$(expandknowledge:6)$(br)$(expandknowledge:7)$(br)$(expandknowledge:8)$(br)$(expandknowledge:9)$(br)$(expandknowledge:10)$(br)$(o)You probably don't have any knowledge should this page be empty.$()"
     }
   ]
 }

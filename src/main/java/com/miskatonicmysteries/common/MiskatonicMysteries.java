@@ -101,6 +101,7 @@ public class MiskatonicMysteries implements ModInitializer {
         });
         /*
         TODO documentation changes
+        todo some natural sanity regen
         unlock some entries when the spell is unlocked by chance (i.e. when consuming a blotter for the first time, unlocking the mania spell entry instead of telling you to do that)
          */
     }

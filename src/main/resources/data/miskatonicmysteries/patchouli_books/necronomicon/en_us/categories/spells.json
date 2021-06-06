@@ -1,6 +1,6 @@
 {
   "name": "Spells",
-  "description": "FNORD",
+  "description": "A collection of spells.",
   "icon": "miskatonicmysteries:textures/gui/icons/spells.png",
   "sortnum": 2
 }

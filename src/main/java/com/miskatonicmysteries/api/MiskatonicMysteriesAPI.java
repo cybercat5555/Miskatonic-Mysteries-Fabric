@@ -178,6 +178,7 @@ public class MiskatonicMysteriesAPI {
                     knowledge.addKnowledge(knowledgeId);
                     knowledge.syncKnowledge();
                 });
+                MMCriteria.KNOWLEDGE.trigger((ServerPlayerEntity) player, knowledgeId);
                 player.sendMessage(new TranslatableText("message.miskatonicmysteries.added_knowledge"), true);
                 SoundPacket.send(player);
                 return true;

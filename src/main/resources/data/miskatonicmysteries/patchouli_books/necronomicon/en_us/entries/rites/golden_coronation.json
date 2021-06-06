@@ -6,15 +6,12 @@
   "pages": [
     {
       "type": "text",
-      "text": "The $(marked)Golden Coronation$() is an essential part of ascension. It is used to summon a $(l:miskatonicmysteries:bestiary/prince)$(marked)Tattered Prince$() from the depths of Carcosa.$(br)The Rite will require four loyal $(marked)Serfs$() nearby, as well as $(l:miskatonicmysteries:world/occult_knowledge#hastur_knowledge)$(marked)their secret$(). These Serfs are usually manually recruited, but they can also just think very highly of you.$(br)Once started, the Rite will require a sufficient sacrifice to establish a connection."
+      "text": "The $(marked)Golden Coronation$() is an essential part of ascension. It is used to summon a $(ml:miskatonicmysteries:bestiary/prince)Tattered Prince$() from the depths of $(marked)Carcosa$().$(br)The rite will require four loyal $(ml:bestiary/serfs)Serfs$() nearby, as well as $(ml:miskatonicmysteries:world/occult_knowledge)their secret$(). These Serfs are usually manually recruited, but they can also just think very highly of you.$(br)Once started, the rite will require a sufficient sacrifice to establish a connection."
     },
     {
       "type": "miskatonicmysteries:rite",
-      "stage": 1,
-      "affiliation": "miskatonicmysteries:hastur",
       "rite": "miskatonicmysteries:summon_prince",
-      "obfuscated_text": "give them blood, gallons of the stuff",
-      "text": "We recommend using a sheep or a pig rather than a villager, as Serfs are not very enthusiastic about manslaughter.$(br)Any kind of Hastur Statue may be used as ingredient in this Rite."
+      "text": "We recommend using a Sheep or a Pig rather than a Villager, as Serfs are not very enthusiastic about manslaughter."
     }
   ]
 }

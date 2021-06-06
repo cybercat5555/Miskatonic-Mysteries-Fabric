@@ -2,7 +2,7 @@
   "name": "Summon Tentacle",
   "category": "miskatonicmysteries:spells",
   "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/tentacles.png",
-  "advancement": "miskatonicmysteries:recipes/tentacle_spell",
+  "advancement": "miskatonicmysteries:recipes/secret_knowledge/tentacle_spell",
   "secret": true,
   "pages": [
     {

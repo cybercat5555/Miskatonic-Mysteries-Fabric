@@ -1,0 +1,21 @@
+{
+  "name": "Sculptor Rite",
+  "category": "miskatonicmysteries:rites",
+  "icon": "miskatonicmysteries:hastur_statue_stone",
+  "advancement": "miskatonicmysteries:hastur/hare_krishna",
+  "extra_recipe_mappings": {
+    "miskatonicmysteries:hastur_statue_stone": 1,
+    "miskatonicmysteries:hastur_statue_terracotta": 1
+  },
+  "pages": [
+    {
+      "type": "text",
+      "text": "The $(marked)Sculptor Rite$() is a common practice among $(ml:bestiary/serfs)Yellow Serfs$(), allowing them to fabricate idols of $(ml:goo/hastur)Hastur$(). This process also serves as initiation by giving its product to a $(ml:bestiary/serfs)Yellow Vassal$()."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "rite": "miskatonicmysteries:sculptor_rite",
+      "text": "This rite will require the majority of your energy, so do not start it at low health."
+    }
+  ]
+}

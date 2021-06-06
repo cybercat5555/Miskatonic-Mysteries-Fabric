@@ -34,7 +34,7 @@ public class RiteProcessor implements IComponentProcessor {
                 for (int i = 0; i < rite.getIngredients().size(); i++) {
                     if (key.equals("ingredient" + (i + 1))) {
                         ItemStack[] stacks = rite.getIngredients().get(i).getMatchingStacksClient();
-                        return stacks.length > 0 ? IVariable.from(stacks[0]) : null;
+                        return IVariable.from(stacks);
                     }
                 }
             }

@@ -53,7 +53,7 @@ public class ChemistrySetCategory implements RecipeCategory<ChemistrySetCategory
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 4, startPoint.y - 6)).entries(recipeDisplay.getInputEntries().get(2)).markInput());
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 22, startPoint.y - 6)).entries(recipeDisplay.getInputEntries().get(3)).markInput());
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 4, startPoint.y + 12)).entries(recipeDisplay.getInputEntries().get(4)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 22, startPoint.y + 12)).markInput());//this is always empty because i am a horrible person
+        widgets.add(Widgets.createSlot(new Point(startPoint.x + 22, startPoint.y + 12)).entries(recipeDisplay.getInputEntries().get(5)).markInput());
         widgets.add(Widgets.createArrow(new Point(startPoint.x + 39, startPoint.y - 6)).animationDurationTicks(100));
 
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 66, startPoint.y - 6)).entries(recipeDisplay.getResultingEntries().get(0)).markOutput());

@@ -79,7 +79,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         });
         PatchouliAPI.get().registerFunction("expandknowledge", (param, iStyleStack) -> {
             int index = Integer.parseInt(param);
-            return Knowledge.of(MinecraftClient.getInstance().player).map(knowledge -> index < knowledge.getKnowledge().size() ? "\u2022" + I18n.translate("knowledge.miskatonicmysteries."+ knowledge.getKnowledge().get(index)) : "").orElse("");
+            return Knowledge.of(MinecraftClient.getInstance().player).map(knowledge -> index < knowledge.getKnowledge().size() ? "\u2022 " + I18n.translate("knowledge.miskatonicmysteries."+ knowledge.getKnowledge().get(index)) : "").orElse("");
         });
 
         ParticleFactoryRegistry.getInstance().register(MMParticles.DRIPPING_BLOOD, LeakParticle.BloodFactory::new);

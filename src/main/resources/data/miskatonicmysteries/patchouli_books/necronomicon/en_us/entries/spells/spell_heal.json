@@ -2,15 +2,16 @@
   "name": "Healing",
   "category": "miskatonicmysteries:spells",
   "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/heal.png",
+  "advancement": "miskatonicmysteries:recipes/hidden_knowledge/witch_secret",
   "pages": [
     {
       "type": "text",
-      "text": "A key part of any Entheator's tool kit is a simple Healing spell.$(br)This effect will restore some health based on its intensity."
+      "text": "A key part of any Entheator's tool kit is a simple $(marked)healing spell$().$(br)This effect will restore some health based on its intensity."
     },
     {
       "type": "miskatonicmysteries:rite",
       "rite": "miskatonicmysteries:regeneration",
-      "text": "Learning this Spell Effect requires a nearby $(l:miskatonicmysteries:world/altars)$(marked)Altar$() containing a Necronomicon with $(l:miskatonicmysteries:world/occult_knowledge#witch_secret)$(marked)a Witches Secret$()."
+      "text": "Learning this spell effect requires $(ml:world/occult_knowledge)a Witches Secret$()."
     }
   ]
 }

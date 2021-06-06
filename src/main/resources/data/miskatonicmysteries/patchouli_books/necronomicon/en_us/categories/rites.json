@@ -1,6 +1,6 @@
 {
   "name": "Rites",
-  "description": "FNORD",
+  "description": "A collection of all rites cast with an $(ml:world/octagrams)Octagram$().",
   "icon": "miskatonicmysteries:textures/gui/icons/rites.png",
   "sortnum": 1
 }

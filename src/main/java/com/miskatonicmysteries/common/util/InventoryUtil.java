@@ -27,7 +27,9 @@ public class InventoryUtil {
                     break;
                 }
             }
-            if (!found) return false;
+            if (!found){
+                return false;
+            }
         }
         return true;
     }

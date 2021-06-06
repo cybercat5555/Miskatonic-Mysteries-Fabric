@@ -9,12 +9,10 @@
   "dont_generate_book": true,
   "show_progress": false,
   "custom_book_item": "miskatonicmysteries:necronomicon",
-  "advancement_namespaces": [
-    "miskatonicmysteries"
-  ],
   "macros": {
-    "$(marked)": "$(#840A00)",
-    "$(item)": "$(#840A00)"
+    "$(marked)": "$(#EE0000)",
+    "$(item)": "$(#840A00)",
+    "$(ml:": "$(marked)$(l:"
   },
   "advancements_tab": "miskatonicmysteries:root"
 }
