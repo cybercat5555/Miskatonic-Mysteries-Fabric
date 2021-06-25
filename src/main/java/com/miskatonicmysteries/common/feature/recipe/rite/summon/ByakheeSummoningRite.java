@@ -7,6 +7,8 @@ import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Model;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
@@ -62,6 +64,7 @@ public class ByakheeSummoningRite extends SummoningRite {
         super.onFinished(octagram);
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
     protected Model getRenderedModel(OctagramBlockEntity entity) {
         return ByakheeEntityRenderer.MODEL;

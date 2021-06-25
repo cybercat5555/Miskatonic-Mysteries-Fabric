@@ -19,7 +19,6 @@ public abstract class CropBlockMixin extends Block {
         super(settings);
     }
 
-    @Environment(EnvType.CLIENT)
     @Inject(method = "withAge", at = @At("HEAD"), cancellable = true)
     public void infestedWheatWithAge(int age, CallbackInfoReturnable<BlockState> cir) {
         if (getDefaultState().getBlock() == Blocks.WHEAT && age == 6 && Math.random() < MiskatonicMysteries.config.world.infestedWheatChance) {
