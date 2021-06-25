@@ -13,18 +13,18 @@
       "text": "His very aura is known to grant people amazing artistic skills, be it only to express their unending fascination.$(br)Worshipers often feel the need to spread the Sign far and wide, inducting others. The King’s followers are all artists, and some are also known to be blessed with some of the strongest of all magics that the Old Ones can bestow on mortals."
     },
     {
-      "type": "miskatonicmysteries:obfuscated",
+      "type": "text",
       "title": "The King's Shadow",
       "obfuscated_title": "King Shadow",
       "stage": 1,
       "obfuscated_text": "$(br2)King is art and a lot of it like daffodils and rosemary and caviar from the dirty pond no thoughts head empty only art",
-      "text": "$(br2)The Yellow King, in many ways, is the expression of the creation of art as a whole. Those feeling the royal exertion of the fields of daffodils and primroses are possessed with the need to create art and express their inner thoughts, be they rational or not."
+      "text": "$(obfs:;1)$(br2)The Yellow King, in many ways, is the expression of the creation of art as a whole. Those feeling the royal exertion of the fields of daffodils and primroses are possessed with the need to create art and express their inner thoughts, be they rational or not."
     },
     {
-      "type": "miskatonicmysteries:obfuscated",
+      "type": "text",
       "stage": 1,
       "obfuscated_text": "Art is truest, for it is all that we see$(br)Keep remaking, never let it be$(br)You searched for true power, but now all you found$(br)Is the beauty in it, immensely profound.",
-      "text": "The art is thus a conduit, encouraging others to feed the cycle of creation.$(br)Everything is beautiful, everything is art, everything has to be created, and everything has to be digested in the hearts and minds of everyone else. Understood, read, and later mutated and changed until it is nothing but a simulacra of itself."
+      "text": "$(obfs:;1)The art is thus a conduit, encouraging others to feed the cycle of creation.$(br)Everything is beautiful, everything is art, everything has to be created, and everything has to be digested in the hearts and minds of everyone else. Understood, read, and later mutated and changed until it is nothing but a simulacra of itself."
     }
   ]
 }

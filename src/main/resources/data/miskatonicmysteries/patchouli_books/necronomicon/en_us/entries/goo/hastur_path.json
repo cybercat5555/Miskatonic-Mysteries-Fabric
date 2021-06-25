@@ -32,18 +32,18 @@
       "text": "Give your newly created piece of art to a $(marked)Yellow Vassal$(). They will quickly introduce you, setting your path towards the Yellow King.$(br2)From there on, your ascent is most likely set in stone. You do not have any of the King's powers yet, but soon you will."
     },
     {
-      "type": "miskatonicmysteries:obfuscated",
+      "type": "text",
       "stage": 1,
       "affiliation": "miskatonicmysteries:hastur",
       "obfuscated_text": "Hail the prince and kiss his cheek, or else your ascent will look bleak.",
-      "text": "The next step is somewhat more elaborate-$(br)In order to receive the first blessing, one must summon a $(l:miskatonicmysteries:bestiary/prince)$(marked)Tattered Prince$(), using the $(l:miskatonicmysteries:rites/golden_coronation)$(marked)Golden Coronation$().$(br)Once summoned, you may let him bless you by talking to him."
+      "text": "$(obfs:miskatonicmysteries:hastur;1)The next step is somewhat more elaborate-$(br)In order to receive the first blessing, one must summon a $(l:miskatonicmysteries:bestiary/prince)$(marked)Tattered Prince$(), using the $(l:miskatonicmysteries:rites/golden_coronation)$(marked)Golden Coronation$().$(br)Once summoned, you may let him bless you by talking to him."
     },
     {
-      "type": "miskatonicmysteries:obfuscated",
+      "type": "text",
       "stage": 2,
       "affiliation": "miskatonicmysteries:hastur",
       "obfuscated_text": "lol im too lazy to actually finish this so here have this for now",
-      "text": "For now, you feel yourself limited... perhaps the stars are not properly aligned yet?"
+      "text": "$(obfs:miskatonicmysteries:hastur;2)For now, you feel yourself limited... perhaps the stars are not properly aligned yet?"
     }
   ]
 }

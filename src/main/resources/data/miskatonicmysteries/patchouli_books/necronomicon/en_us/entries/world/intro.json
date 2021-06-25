@@ -18,7 +18,7 @@
     },
     {
       "type": "text",
-      "text": "$(obfs)If you can read this$(), you are probably ready for the higher mysteries of the art; remember that whatever path you chose is final. Only true death can separate you from it. $(br2)Unless?"
+      "text": "$(obfs:;1)If you can read this, you are probably ready for the higher mysteries of the art; remember that whatever path you chose is final. Only true death can separate you from it. $(br2)Unless?"
     }
   ]
 }
