@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "miskatonicmysteries",
-  "version": "${project.mod_version}",
+  "version": "${version}",
   "contact": {
     "sources": "https://github.com/cybercat5555/Miskatonic-Mysteries-Fabric",
     "issues": "https://github.com/cybercat5555/Miskatonic-Mysteries-Fabric/issues"
