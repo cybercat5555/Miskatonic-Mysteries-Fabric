@@ -10,7 +10,7 @@
     },
     {
       "type": "miskatonicmysteries:rite",
-      "rite": "miskatonicmysteries:summon_harrow",
+      "rite": "miskatonicmysteries:harrows",
       "text": "Learning this spell effect requires $(ml:world/occult_knowledge)Evoker Gossip$(). It also requires minor ascension progress."
     }
   ]
