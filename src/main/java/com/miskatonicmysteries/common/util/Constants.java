@@ -188,6 +188,7 @@ public class Constants {
         public static final String NECRONOMICON_EXTENSION = "readBook";
         public static final String ATE_ORB_EXTENSION = "orb";
         public static final String WITCH_KNOWLEDGE = "witch";
+        public static final String EVOKER_KNOWLEDGE = "evoker";
         public static final String ATE_CIRRHOSUS_FLESH = "cirrhosus";
     }
 }

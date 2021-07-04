@@ -1,0 +1,16 @@
+{
+  "name": "Damage",
+  "category": "miskatonicmysteries:spells",
+  "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/damage.png",
+  "pages": [
+    {
+      "type": "text",
+      "text": "This spell generates a burst of concentrated energy, which deals raw damage to those hit by it. It is a common yet powerful spell in the right hands."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "rite": "miskatonicmysteries:damage",
+      "text": "As this spell is very basic, it is unlocked by default."
+    }
+  ]
+}

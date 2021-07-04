@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableSet;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Appeasable;
 import com.miskatonicmysteries.api.interfaces.Hallucination;
-import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -70,7 +69,7 @@ public abstract class MobEntityMixin extends LivingEntity implements Hallucinati
         Appeasable.of(this).ifPresent(appeasable -> {
             if ((Object) this instanceof WitchEntity) {
                 if (!appeasable.isAppeased() && player.getStackInHand(hand).getItem() == Items.POTION && !FORBIDDEN_POTIONS.contains(PotionUtil.getPotion(player.getStackInHand(hand)))) {
-                    player.getStackInHand(hand).decrement(1);
+                    setStackInHand(Hand.MAIN_HAND, player.getStackInHand(hand).split(1));
                     appeasable.setAppeasedTicks(200 + player.getRandom().nextInt(200));
                     playAmbientSound();
                     player.world.sendEntityStatus(this, (byte) 14);

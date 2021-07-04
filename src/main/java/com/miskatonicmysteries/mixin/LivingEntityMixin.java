@@ -6,6 +6,8 @@ import com.miskatonicmysteries.api.interfaces.Hallucination;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -14,6 +16,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -112,7 +115,6 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
         compoundTag.putBoolean(Constants.NBT.SHOULD_DROP, hasOverridenDrops());
         Appeasable.of(this).ifPresent(appeasable -> {
             compoundTag.putInt(Constants.NBT.APPEASE_TICKS, appeasable.getAppeasedTicks());
-            compoundTag.putInt(Constants.NBT.HOLD_TICKS, appeasable.getHoldTicks());
         });
     }
 
@@ -121,7 +123,6 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
         setDropOveride(compoundTag.getBoolean(Constants.NBT.SHOULD_DROP));
         Appeasable.of(this).ifPresent(appeasable -> {
             appeasable.setAppeasedTicks(compoundTag.getInt(Constants.NBT.APPEASE_TICKS));
-            appeasable.setHoldTicks(compoundTag.getInt(Constants.NBT.HOLD_TICKS));
         });
     }
 
@@ -138,6 +139,20 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
             if (source.getAttacker() != null) {
                 remove();
             }
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    @Inject(method = "handleStatus", at = @At("HEAD"), cancellable = true)
+    public void handleStatus(byte status, CallbackInfo ci) {
+        if (this instanceof Appeasable && status == 14) {
+            for (int i = 0; i < 5; ++i) {
+                double d = this.random.nextGaussian() * 0.02D;
+                double e = this.random.nextGaussian() * 0.02D;
+                double f = this.random.nextGaussian() * 0.02D;
+                this.world.addParticle(ParticleTypes.HAPPY_VILLAGER, this.getParticleX(1.0D), this.getRandomBodyY() + 1.0D, this.getParticleZ(1.0D), d, e, f);
+            }
+            ci.cancel();
         }
     }
 }

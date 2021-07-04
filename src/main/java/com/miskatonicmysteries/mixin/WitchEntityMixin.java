@@ -22,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(WitchEntity.class)
 public abstract class WitchEntityMixin extends RaiderEntity implements Appeasable {
     private int appeaseTicks;
-    private int holdTicks;
 
     protected WitchEntityMixin(EntityType<? extends RaiderEntity> entityType, World world) {
         super(entityType, world);
@@ -48,30 +47,5 @@ public abstract class WitchEntityMixin extends RaiderEntity implements Appeasabl
     @Override
     public int getAppeasedTicks() {
         return appeaseTicks;
-    }
-
-    @Override
-    public void setHoldTicks(int holdTicks) {
-        this.holdTicks = holdTicks;
-    }
-
-    @Override
-    public int getHoldTicks() {
-        return holdTicks;
-    }
-
-    @Environment(EnvType.CLIENT)
-    @Inject(method = "handleStatus", at = @At("HEAD"), cancellable = true)
-    public void handleStatus(byte status, CallbackInfo ci) {
-        if (status == 14) {
-            for (int i = 0; i < 5; ++i) {
-                double d = this.random.nextGaussian() * 0.02D;
-                double e = this.random.nextGaussian() * 0.02D;
-                double f = this.random.nextGaussian() * 0.02D;
-                this.world.addParticle(ParticleTypes.HAPPY_VILLAGER, this.getParticleX(1.0D), this.getRandomBodyY() + 1.0D, this.getParticleZ(1.0D), d, e, f);
-            }
-            ci.cancel();
-        }
-        super.handleStatus(status);
     }
 }

@@ -1,12 +1,14 @@
 package com.miskatonicmysteries.common.entity;
 
 import com.miskatonicmysteries.common.registry.MMParticles;
+import com.miskatonicmysteries.common.registry.MMSounds;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -14,7 +16,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -57,8 +59,8 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
         }else{
             remove();
         }
-        if (world.isClient && world.random.nextBoolean()){
-            world.addParticle(MMParticles.AMBIENT_MAGIC, getParticleX(1), getRandomBodyY(), getParticleZ(1F), -getVelocity().x, -getVelocity().y, -getVelocity().z);
+        if (world.isClient && age % 4 == 0){
+            world.addParticle(MMParticles.AMBIENT_MAGIC, getParticleX(1F), getRandomBodyY(), getParticleZ(1F), -getVelocity().x, -getVelocity().y, -getVelocity().z);
         }
     }
 
@@ -146,18 +148,18 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
         return dataTracker.get(LIFETICKS);
     }
 
-   /* protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_VEX_AMBIENT;
+    protected SoundEvent getAmbientSound() {
+        return MMSounds.HARROW_AMBIENT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_VEX_DEATH;
+        return MMSounds.HARROW_DEATH;
     }
 
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundEvents.ENTITY_VEX_HURT;
+        return MMSounds.HARROW_HURT;
     }
-*/
+
     @Nullable
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
         this.initEquipment(difficulty);
@@ -241,7 +243,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
             Vec3d vec3d = livingEntity.getCameraPosVec(1.0F);
             moveControl.moveTo(vec3d.x, vec3d.y, vec3d.z, 1.0D);
             setCharging(true);
-            playSound(SoundEvents.ENTITY_VEX_CHARGE, 1.0F, 1.0F);
+            playSound(MMSounds.HARROW_CHARGE, 1.0F, 1.0F);
         }
 
 

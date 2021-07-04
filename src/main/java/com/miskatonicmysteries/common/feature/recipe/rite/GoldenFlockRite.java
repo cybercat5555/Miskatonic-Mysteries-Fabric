@@ -9,6 +9,7 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.passive.VillagerEntity;
+import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
@@ -25,7 +26,8 @@ import java.util.Random;
 
 public class GoldenFlockRite extends AscensionLockedRite {
     public GoldenFlockRite() {
-        super(new Identifier(Constants.MOD_ID, "golden_flock"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.5F, 1, Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
+        super(new Identifier(Constants.MOD_ID, "golden_flock"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.5F, 1,
+                Ingredient.ofItems(MMObjects.OCEANIC_GOLD), Ingredient.ofItems(Items.YELLOW_WOOL), Ingredient.ofItems(Items.YELLOW_WOOL), Ingredient.ofItems(Items.YELLOW_WOOL), Ingredient.ofItems(MMObjects.ORNATE_DAGGER));
     }
 
     @Override

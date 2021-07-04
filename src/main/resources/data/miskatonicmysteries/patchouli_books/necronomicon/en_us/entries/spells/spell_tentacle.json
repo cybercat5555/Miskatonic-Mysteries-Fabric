@@ -2,7 +2,7 @@
   "name": "Summon Tentacle",
   "category": "miskatonicmysteries:spells",
   "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/tentacles.png",
-  "advancement": "miskatonicmysteries:recipes/secret_knowledge/tentacle_spell",
+  "advancement": "miskatonicmysteries:recipes/hidden_knowledge/tentacle_spell",
   "secret": true,
   "pages": [
     {
@@ -12,7 +12,7 @@
     {
       "type": "spotlight",
       "item": "miskatonicmysteries:cirrhosus_flesh",
-      "text": "This spell is acquired through the consumption of $(item)Cirrhosus Flesh$()"
+      "text": "This spell is acquired through the consumption of $(item)Cirrhosus Flesh$()."
     }
   ]
 }

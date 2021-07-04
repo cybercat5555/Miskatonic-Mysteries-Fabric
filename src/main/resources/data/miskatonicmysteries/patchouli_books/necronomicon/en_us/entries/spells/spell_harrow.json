@@ -1,0 +1,17 @@
+{
+  "name": "Summon Harrow",
+  "category": "miskatonicmysteries:spells",
+  "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/harrow.png",
+  "advancement": "miskatonicmysteries:recipes/hidden_knowledge/evoker_gossip",
+  "pages": [
+    {
+      "type": "text",
+      "text": "This spell mimics the $(marked)Evoker$()'s Vex summoning attack in its primal form. The so-called $(marked)Harrows$() summoned by this spell will target whatever their summoner is targeting, for as long as they are able to exist."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "rite": "miskatonicmysteries:summon_harrow",
+      "text": "Learning this spell effect requires $(ml:world/occult_knowledge)Evoker Gossip$(). It also requires minor ascension progress."
+    }
+  ]
+}

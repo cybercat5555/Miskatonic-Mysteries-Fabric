@@ -1,16 +1,16 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "witch_secret": {
+    "evoker_secret": {
       "trigger": "miskatonicmysteries:knowledge",
       "conditions": {
-        "knowledge": "witch"
+        "knowledge": "evoker"
       }
     }
   },
   "requirements": [
     [
-      "witch_secret"
+      "evoker_secret"
     ]
   ]
 }

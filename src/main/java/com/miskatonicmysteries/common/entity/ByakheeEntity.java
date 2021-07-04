@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.entity;
 
 import com.miskatonicmysteries.common.entity.util.InputAware;
+import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -174,7 +175,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
     public void saddle(@Nullable SoundCategory sound) {
         this.items.setStack(0, new ItemStack(Items.SADDLE));
         if (sound != null) {
-            this.world.playSoundFromEntity(null, this, SoundEvents.ENTITY_HORSE_SADDLE, sound, 0.5F, 1.0F); //todo byakhee sounds
+            this.world.playSoundFromEntity(null, this, MMSounds.BYAKHEE_SADDLE, sound, 0.5F, 1.0F);
         }
         updateSaddle();
     }
