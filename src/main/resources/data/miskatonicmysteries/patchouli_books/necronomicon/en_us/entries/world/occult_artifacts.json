@@ -35,7 +35,7 @@
       "anchor": "incantation_yog",
       "title": "Incantation",
       "item": "miskatonicmysteries:incantation_yog",
-      "text": "The Gate-and-Key isn't primarily worshipped in this world, not anymore; however, older civilizations have left one particularly powerful and commonly used incantation, able to hold an exact position in space. Using this binds it to the position of a nearby $(ml:world/octagrams)Octagram$(), which may be used in practices such as the $(ml:miskatonicmysteries:rites/rite_teleport)Rite of the Open Way.$()"
+      "text": "The Gate-and-Key isn't primarily worshipped in this world, not anymore; however, older civilizations have left one particularly powerful and commonly used incantation, able to hold an exact position in space. Using this binds it to the position of a nearby $(ml:world/octagrams)Octagram$(), which may be used in practices such as the $(ml:rites/teleport)Rite of the Open Way$()."
     },
     {
       "type": "text",

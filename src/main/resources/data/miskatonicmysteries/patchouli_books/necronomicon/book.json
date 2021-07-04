@@ -11,7 +11,7 @@
   "custom_book_item": "miskatonicmysteries:necronomicon",
   "macros": {
     "$(marked)": "$(#EE0000)",
-    "$(item)": "$(#840A00)",
+    "$(item)": "$(#EE0000)",
     "$(ml:": "$(marked)$(l:"
   },
   "advancements_tab": "miskatonicmysteries:root"

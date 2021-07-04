@@ -12,7 +12,7 @@
       "type": "entity",
       "entity": "miskatonicmysteries:tattered_prince",
       "offset": 0.15,
-      "text": "Much like $(l:bestiary/serfs)Yellow Serfs$(), he is very protective, and will cast powerful spells for defense. "
+      "text": "Much like $(ml:bestiary/serfs)Yellow Serfs$(), he is very protective, and will cast powerful spells for defense. "
     }
   ]
 }

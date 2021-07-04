@@ -23,7 +23,7 @@
       "title": "Act Two",
       "type": "text",
       "advancement": "miskatonicmysteries:hastur/hare_rama",
-      "text": "The next is a bit more elaborate. Perform a $(ml)Yellow Coronation$() and bring forth a $(ml:bestiary/prince)Tattered Prince$(). He will be your guiding hand in this ascension. Once summoned, he will also grant you your first $(ml:goo/hastur_blessings)blessing$(), provided you interact with him. Keep him around, for he will give you two more blessings once entertained enough."
+      "text": "The next is a bit more elaborate. Perform a $(ml:rites/golden_coronation)Golden Coronation$() and bring forth a $(ml:bestiary/prince)Tattered Prince$(). He will be your guiding hand in this ascension. Once summoned, he will also grant you your first $(ml:goo/hastur_blessings)blessing$(), provided you interact with him. Keep him around, for he will give you two more blessings once entertained enough."
     }
   ]
 }

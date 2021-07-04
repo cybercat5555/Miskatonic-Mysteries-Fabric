@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "For a multitude of reasons, many Elder Gods do not choose to manifest on Earth. However, they are very aware they have worshipers, and even though they are largely indifferent to worshipers and non-worshipers in most cases, they will often send $(marked)Emissaries$() to act in place of them as figureheads of worship, to act as guardians for cults."
+      "text": "For a multitude of reasons, many Elder Gods do not choose to manifest on Earth. However, they are very aware they have worshipers, and even though they are largely indifferent to worshipers and non-worshipers in most cases, they will often send $(marked)emissaries$() to act in place of them as figureheads of worship, to act as guardians for cults."
     },
     {
       "type": "text",
@@ -14,7 +14,7 @@
     },
     {
       "type": "text",
-      "text": "Emissaries often live in the realm of their master, but certain Rites can allow them passage to this realm.$(br2)$(o)Most worshipers falsely assume the Emissaries are the actual Elder God, which is why most effigies of Elder Gods actually depict their Emissaries.$()"
+      "text": "Emissaries often live in the realm of their master, but certain $(ml:rites/rite_intro)rites$() can allow them passage to this realm.$(br2)$(o)Most worshipers falsely assume the emissaries are the actual Elder God, which is why most effigies of Elder Gods actually depict their emissaries.$()"
     }
   ]
 }

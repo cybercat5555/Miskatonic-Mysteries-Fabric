@@ -11,7 +11,7 @@
     {
       "type": "text",
       "title": "Magic Boost",
-      "text": "This rather universal blessing increases magic capability. The available pool of power during $(marked)Spell Creation$() is additionally increased, new mediums are unlocked and intensity occasionally heightened."
+      "text": "This rather universal blessing increases magic capability. The available pool of power during $(ml:spells/spells)spell creation$() is additionally increased, new mediums are unlocked and intensity occasionally heightened."
     },
     {
       "type": "text",

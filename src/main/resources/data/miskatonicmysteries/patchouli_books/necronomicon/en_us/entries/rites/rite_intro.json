@@ -10,17 +10,17 @@
     },
     {
       "type": "text",
-      "text": "However, all of that is easier said than done; rites are supernatural and as such cannot be reduced to general terms.$(br)Some rites require $(ml:miskatonicmysteries:world/occult_knowledge)special knowledge$(), provided by the original caster.$(br)Sometimes, a rite will call on one specific Great Old One. This requires a matching Octagram"
+      "text": "However, all of that is easier said than done; rites are supernatural and as such cannot be reduced to general terms.$(br)Some rites require $(ml:miskatonicmysteries:world/occult_knowledge)special knowledge$(), provided by the original caster.$(br)Sometimes, a rite will call on one specific Great Old One. This requires a matching Octagram."
     },
     {
       "type": "text",
-      "text": "Additionally, most rites may be easily noticed, so be weary. Using $(l:miskatonicmysteries:world/occult_decor)$(item)Occult Paraphernalia$() may help with this, though it could also make it worse."
+      "text": "Additionally, most rites may be easily noticed, so be weary. Using $(ml:world/occult_decor)occult paraphernalia$() may help with this, though it could also make it worse."
     },
     {
       "type": "text",
       "title": "Triggered Rites",
       "anchor": "triggered_rites",
-      "text": "Lastly, one last thing to note: rites are, in theory, very versatile.$(br)For example, some rites may be cast as a $(marked)triggered rite$(). They aren't truly active until something steps on them. A rite that allows this may be cast as such by $(marked)sneaking$() while starting it, otherwise it will activate normally."
+      "text": "Lastly, one last thing to note: rites are, in theory, very versatile.$(br)For example, some rites may be cast as a $(marked)triggered rite$(). They are not truly active until something steps on them. A rite that allows this may be cast as such by $(marked)sneaking$() while starting it, otherwise it will activate normally."
     }
   ]
 }

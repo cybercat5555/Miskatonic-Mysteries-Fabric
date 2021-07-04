@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "While often considered to be stored in special books that only chosen ones can read and weld, in reality anyone can possess these powers, assuming they allow themselves to open up to these energies.$(br)Spells are simply created by putting this book on an $(l:miskatonicmysteries:world/occult_decor#altar)$(marked)altar$() and selecting the effect, the medium, and the intensity.$(br)The final product is placed in a free spell slot."
+      "text": "While often considered to be stored in special books that only chosen ones can read and wield, in reality anyone can possess these powers, assuming they allow themselves to open up to these energies.$(br)Spells are simply created by putting this book on an $(ml:world/occult_decor#altar)Altar$() and selecting the effect, the medium, and the intensity.$(br)The final product is placed in a free spell slot."
     },
     {
       "type": "text",

@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "A sinister $(l:miskatonicmysteries:rites/rite_intro#triggered_rite)$(t:Triggered Rites)$(marked)triggered rite$() used as protection or trap. $(br)By creating a modified form of a warp point held under tension, one can allow creatures from the $(marked)Otherwhere$() to enter this realm once a soul passes near, or if the rite is forcefully activated. In short, when a living being passes by the Octagram, it will spawn forth a group of otherworldly horrors."
+      "text": "A sinister $(ml:rites/rite_intro#triggered_rite)$(t:Triggered Rites)$(marked)triggered rite$() used as protection or trap. $(br)By creating a modified form of a warp point held under tension, one can allow creatures from the $(marked)Otherwhere$() to enter this realm once a soul passes near, or if the rite is forcefully activated. In short, when a living being passes by the Octagram, it will spawn forth a group of otherworldly horrors."
     },
     {
       "type": "miskatonicmysteries:rite",
