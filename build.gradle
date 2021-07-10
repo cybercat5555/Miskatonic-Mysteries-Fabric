@@ -1,31 +1,49 @@
 plugins {
-	id 'fabric-loom' version '0.6-SNAPSHOT'
-	id 'maven-publish'
+	id "fabric-loom" version "0.8-SNAPSHOT"
+	id "maven-publish"
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
 
 archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
 repositories {
-	jcenter()
+	maven {
+		name = "Ladysnake Mods (& Trinkets)"
+		url = "https://ladysnake.jfrog.io/artifactory/mods"
+		content {
+			includeGroup "io.github.ladysnake"
+			includeGroupByRegex "io\\.github\\.onyxstudios.*"
+		}
+	}
+	maven {
+		name "Patchouli"
+		url "https://maven.blamejared.com"
+	}
+	maven {
+		name "geckolib"
+		url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+	}
+	maven {
+		name "Banner++"
+		url "https://server.bbkr.space/artifactory/libs-release/"
+	}
+
+	maven {
+		name = "Mod Menu (& Trinkets)"
+		url =  "https://maven.terraformersmc.com/releases"
+	}
+
 	maven {
 		name = "NerdHubMC"
 		url = "https://maven.abusedmaster.xyz/"
 	}
+
 	maven {
-		name "Patchouli"
-		url 'https://maven.blamejared.com'
-	}
-	maven {
-		name = "Mod Menu"
-		url =  "https://maven.terraformersmc.com/releases"
-	}
-	maven {
-		name = "Cloth Config"
+		name = "Cloth Stuff & REI"
 		url = "https://maven.shedaniel.me/"
 	}
 	maven {
@@ -37,12 +55,6 @@ repositories {
 		}
 	}
 	maven {
-		url 'https://server.bbkr.space/artifactory/libs-release/'
-	}
-	maven {
-		url 'https://repo.repsy.io/mvn/gandiber/geckolib'
-	}
-	maven {
 		url "https://jitpack.io"
 	}
 }
@@ -51,28 +63,36 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modImplementation "vazkii.patchouli:Patchouli:${project.patchouli_version}"
-	modImplementation "io.github.ladysnake:Satin:${project.satin_version}"
 
-	modImplementation "io.github.ladysnake:Satin:${project.satin_version}"
-	include "io.github.ladysnake:Satin:${project.satin_version}"
+	modImplementation "vazkii.patchouli:Patchouli:${project.patchouli_version}"
+
+	modImplementation "io.github.ladysnake:satin:${project.satin_version}"
+	include "io.github.ladysnake:satin:${project.satin_version}"
 
 	modImplementation "io.github.fablabsmc:bannerpp:${project.bannerpp_version}"
 	include "io.github.fablabsmc:bannerpp:${project.bannerpp_version}"
 
-	modApi "me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"
-	include "me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"
-	
-	modImplementation "com.github.emilyploszaj:trinkets:${project.trinkets_version}"
-	modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
-		exclude(group: "net.fabricmc.fabric-api")
-	}
+	modImplementation "dev.emi:trinkets:${project.trinkets_version}"
+
 	modApi include("dev.technici4n:FastTransferLib:${project.ftl_version}")
-	modImplementation "software.bernie.geckolib:${project.geckolib_version}"
+	modImplementation("software.bernie.geckolib:${project.geckolib_version}:dev") {
+		exclude(group: "com.terraformersmc.modmenu")
+		exclude(group: "io.github.prospector")
+		exclude(group: "me.shedaniel")
+		exclude(group: "net.fabricmc")
+	}
+
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${project.rei_version}"
-	modRuntime "me.shedaniel:RoughlyEnoughItems:${project.rei_version}"
+	modRuntime "me.shedaniel:RoughlyEnoughItems-runtime:${project.rei_version}"
+
+	modApi "me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"
+	include "me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"
+	
+	modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 }
