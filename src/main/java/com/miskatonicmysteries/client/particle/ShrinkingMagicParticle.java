@@ -39,10 +39,10 @@ public class ShrinkingMagicParticle extends SpriteBillboardParticle {
         super.tick();
     }
 
-    public int getColorMultiplier(float tint) {
+    public int getBrightness(float tint) {
         float f = ((float) this.age + tint) / (float) this.maxAge;
         f = MathHelper.clamp(f, 0.0F, 1.0F);
-        int i = super.getColorMultiplier(tint);
+        int i = super.getBrightness(tint);
         int j = i & 255;
         int k = i >> 16 & 255;
         j += (int) (f * 15.0F * 16.0F);

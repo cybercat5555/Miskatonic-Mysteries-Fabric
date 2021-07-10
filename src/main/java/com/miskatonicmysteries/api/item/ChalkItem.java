@@ -8,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
@@ -73,9 +73,9 @@ public class ChalkItem extends BlockItem {
 
     private BlockState placeFromTag(BlockPos pos, World world, ItemStack stack, BlockState state) {
         BlockState blockState = state;
-        CompoundTag compoundTag = stack.getTag();
+        NbtCompound compoundTag = stack.getTag();
         if (compoundTag != null) {
-            CompoundTag compoundTag2 = compoundTag.getCompound("BlockStateTag");
+            NbtCompound compoundTag2 = compoundTag.getCompound("BlockStateTag");
             StateManager<Block, BlockState> stateManager = state.getBlock().getStateManager();
             Iterator var9 = compoundTag2.getKeys().iterator();
 

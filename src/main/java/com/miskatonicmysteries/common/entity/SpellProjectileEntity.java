@@ -11,7 +11,7 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -49,15 +49,15 @@ public class SpellProjectileEntity extends ThrownEntity {
 
 
     @Override
-    protected void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    protected void writeCustomDataToNbt(NbtCompound tag) {
+        super.writeCustomDataToNbt(tag);
         tag.putInt(Constants.NBT.INTENSITY, getIntensity());
         tag.putString(Constants.NBT.SPELL_EFFECT, dataTracker.get(EFFECT));
     }
 
     @Override
-    protected void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    protected void readCustomDataFromNbt(NbtCompound tag) {
+        super.readCustomDataFromNbt(tag);
         setIntensity(tag.getInt(Constants.NBT.INTENSITY));
         setSpell(MMRegistries.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))));
     }

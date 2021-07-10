@@ -14,7 +14,7 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
@@ -46,7 +46,7 @@ public abstract class ItemMixin {
     public void tickShield(World world, LivingEntity user, ItemStack stack, int remainingUseTicks, CallbackInfo info) {
         if (!world.isClient && stack.getItem() instanceof ShieldItem && user.getRandom().nextInt(MiskatonicMysteries.config.modUpdateInterval) == 0) {
             if (stack.hasTag() && stack.getTag().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) != null) {
-                CompoundTag compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
+                NbtCompound compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
                 if (compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) && Util.isValidYellowSign(compoundTag.getList(Constants.NBT.BANNER_PP_TAG, 10))) {
                     int distance = 16 * 16;
                     Vec3d vec3d = user.getCameraPosVec(1);

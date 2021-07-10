@@ -75,9 +75,9 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
         this.head = new ModelPart(this, 0, 0);
         this.head.setPivot(0.0F, 0.0F, 0.0F);
         this.head.addCuboid(-4.0F, -10.0F, -4.0F, 8.0F, 10.0F, 8.0F, 0.0F, 0.0F, 0.0F);
-        this.torso = new ModelPart(this, 16, 20);
-        this.torso.setPivot(0.0F, 0.0F, 0.0F);
-        this.torso.addCuboid(-4.0F, 0.0F, -3.0F, 8.0F, 12.0F, 6.0F, 0.0F, 0.0F, 0.0F);
+        this.body = new ModelPart(this, 16, 20);
+        this.body.setPivot(0.0F, 0.0F, 0.0F);
+        this.body.addCuboid(-4.0F, 0.0F, -3.0F, 8.0F, 12.0F, 6.0F, 0.0F, 0.0F, 0.0F);
         this.leftMaskPlate = new ModelPart(this, 68, 0);
         this.leftMaskPlate.setPivot(0.0F, -4.4F, -4.9F);
         this.leftMaskPlate.addCuboid(-0.1F, -2.5F, -0.5F, 4.0F, 7.0F, 1.0F, 0.0F, 0.0F, 0.0F);
@@ -128,7 +128,7 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
         this.head.addChild(this.nose);
         this.head.addChild(this.rightMaskPlate);
         this.head.addChild(this.hoodLSide02);
-        helmet.visible = false;
+        hat.visible = false;
     }
 
     @Override
@@ -176,7 +176,7 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
         //if (!armsFolded) {
-            ImmutableList.of(this.rightLeg, this.leftArm, this.robe, this.head, this.torso, this.rightArm, this.leftLeg).forEach((ModelPart) -> {
+            ImmutableList.of(this.rightLeg, this.leftArm, this.robe, this.head, this.body, this.rightArm, this.leftLeg).forEach((ModelPart) -> {
                 ModelPart.render(matrices, vertices, light, overlay, red, green, blue, alpha);
             });
         /*} else {

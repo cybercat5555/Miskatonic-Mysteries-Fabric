@@ -6,7 +6,7 @@ import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.Direction;
 import team.reborn.energy.Energy;
@@ -23,15 +23,15 @@ public class PowerCellBlockEntity extends BaseBlockEntity implements Tickable, E
     public static final int MAX_STORAGE = 32000;
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
+    public NbtCompound writeNbt(NbtCompound tag) {
         tag.putDouble(Constants.NBT.ENERGY, energy);
-        return super.toTag(tag);
+        return super.writeNbt(tag);
     }
 
     @Override
-    public void fromTag(BlockState state, CompoundTag tag) {
+    public void readNbt(BlockState state, NbtCompound tag) {
         energy = tag.getDouble(Constants.NBT.ENERGY);
-        super.fromTag(state, tag);
+        super.readNbt(state, tag);
     }
 
 

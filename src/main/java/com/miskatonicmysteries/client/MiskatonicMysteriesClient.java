@@ -52,16 +52,11 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.text.Style;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import vazkii.patchouli.api.IStyleStack;
 import vazkii.patchouli.api.PatchouliAPI;
-
-import java.util.ArrayList;
-import java.util.function.BiFunction;
 
 @Environment(EnvType.CLIENT)
 public class MiskatonicMysteriesClient implements ClientModInitializer {
@@ -159,7 +154,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(EffectParticlePacket.ID, EffectParticlePacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(BloodParticlePacket.ID, BloodParticlePacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, (client, networkHandler, packetByteBuf, sender) -> {
-            NbtTag tag = packetByteBuf.readCompoundTag();
+            NbtCompound tag = packetByteBuf.readNbt();
             client.execute(() -> SpellCaster.of(client.player).ifPresent(caster -> NbtUtil.readSpellData(caster, tag)));
         });
         ClientPlayNetworking.registerGlobalReceiver(OpenSpellEditorPacket.ID, (client, networkHandler, packetByteBuf, sender) -> client.execute(() -> client.openScreen(new EditSpellScreen((SpellCaster) client.player))));

@@ -29,7 +29,7 @@ public class ChemicalFuelItem extends Item {
         private final ItemDispenserBehavior defaultBehavior = new ItemDispenserBehavior();
 
         protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-            BlockPos pos = pointer.getBlockPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
+            BlockPos pos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
             if (pointer.getWorld().getBlockEntity(pos) instanceof PowerCellBlockEntity) {
                 PowerCellBlockEntity cell = (PowerCellBlockEntity) pointer.getWorld().getBlockEntity(pos);
                 if (cell.getStored(EnergySide.UNKNOWN) < cell.getMaxStoredPower()) {

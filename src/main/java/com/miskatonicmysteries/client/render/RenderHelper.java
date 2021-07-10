@@ -36,9 +36,9 @@ public class RenderHelper extends RenderLayer {
     });
 
     public static final MultiPhaseParameters TRANSPARENCY_PARAMS = MultiPhaseParameters.builder()
-            .shadeModel(new RenderPhase.ShadeModel(false))
+            .shadeModel(new ShadeModel(false))
             .texture(BLOCK_ATLAS_TEXTURE)
-            .diffuseLighting(new RenderPhase.DiffuseLighting(true))
+            .diffuseLighting(new DiffuseLighting(true))
             .transparency(new Transparency(Constants.MOD_ID + ":translucency", () -> {
                 RenderSystem.depthMask(false);
                 RenderSystem.enableBlend();
@@ -53,9 +53,9 @@ public class RenderHelper extends RenderLayer {
             .build(true);
 
     public static final MultiPhaseParameters AURA_PARAMS = MultiPhaseParameters.builder()
-            .shadeModel(new RenderPhase.ShadeModel(false))
+            .shadeModel(new ShadeModel(false))
             .texture(BLOCK_ATLAS_TEXTURE)
-            .diffuseLighting(new RenderPhase.DiffuseLighting(true))
+            .diffuseLighting(new DiffuseLighting(true))
             .transparency(AURA_TRANSPARENCY)
             .alpha(RenderPhase.ONE_TENTH_ALPHA)
             .lightmap(new Lightmap(true))

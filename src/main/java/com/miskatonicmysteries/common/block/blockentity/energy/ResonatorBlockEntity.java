@@ -13,7 +13,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Tickable;
@@ -40,21 +40,21 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements Tickable, E
     private static final int MAX_EFFECTIVE_RUNTIME = 1200;
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
+    public NbtCompound writeNbt(NbtCompound tag) {
         tag.putFloat(Constants.NBT.RADIUS, radius);
         tag.putFloat(Constants.NBT.INTENSITY, intensity);
         tag.putDouble(Constants.NBT.ENERGY, energy);
         tag.putInt(Constants.NBT.TICK_COUNT, ticksRan);
-        return super.toTag(tag);
+        return super.writeNbt(tag);
     }
 
     @Override
-    public void fromTag(BlockState state, CompoundTag tag) {
+    public void readNbt(BlockState state, NbtCompound tag) {
         radius = tag.getFloat(Constants.NBT.RADIUS);
         intensity = tag.getFloat(Constants.NBT.INTENSITY);
         energy = tag.getDouble(Constants.NBT.ENERGY);
         ticksRan = tag.getInt(Constants.NBT.TICK_COUNT);
-        super.fromTag(state, tag);
+        super.readNbt(state, tag);
     }
 
 

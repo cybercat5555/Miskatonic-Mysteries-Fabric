@@ -74,8 +74,8 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
     }
 
     @Override
-    public VoxelShape getVisualShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return super.getVisualShape(state, world, pos, context);
+    public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return super.getCameraCollisionShape(state, world, pos, context);
     }
 
     @Override

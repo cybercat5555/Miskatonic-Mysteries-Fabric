@@ -32,7 +32,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -230,7 +230,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 
     @Nullable
     @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
         return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
     }
 
@@ -255,24 +255,24 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     }
 
     @Override
-    public void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    public void writeCustomDataToNbt(NbtCompound tag) {
+        super.writeCustomDataToNbt(tag);
         tag.putInt(Constants.NBT.CASTING, getCastTime());
         if (currentSpell != null) {
-            CompoundTag spell = currentSpell.toTag(new CompoundTag());
+            NbtCompound spell = currentSpell.toTag(new NbtCompound());
             tag.put(Constants.NBT.SPELL, spell);
         }
         //don't save blessing stuff to tag
     }
 
     @Override
-    public void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    public void readCustomDataFromNbt(NbtCompound tag) {
+        super.readCustomDataFromNbt(tag);
         if (hasCustomName()) {
             bossBar.setName(getDisplayName());
         }
         if (tag.contains(Constants.NBT.SPELL)) {
-            currentSpell = Spell.fromTag((CompoundTag) tag.get(Constants.NBT.SPELL));
+            currentSpell = Spell.fromTag((NbtCompound) tag.get(Constants.NBT.SPELL));
         }
         setCastTime(tag.getInt(Constants.NBT.CASTING));
     }

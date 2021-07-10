@@ -6,7 +6,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
 
 public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory {
@@ -17,16 +17,16 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBloc
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
-        Inventories.toTag(tag, ITEMS);
-        return super.toTag(tag);
+    public NbtCompound writeNbt(NbtCompound tag) {
+        Inventories.writeNbt(tag, ITEMS);
+        return super.writeNbt(tag);
     }
 
     @Override
-    public void fromTag(BlockState state, CompoundTag tag) {
+    public void readNbt(BlockState state, NbtCompound tag) {
         ITEMS.clear();
-        Inventories.fromTag(tag, ITEMS);
-        super.fromTag(state, tag);
+        Inventories.readNbt(tag, ITEMS);
+        super.readNbt(state, tag);
     }
 
     @Override

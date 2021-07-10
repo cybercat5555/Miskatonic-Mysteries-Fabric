@@ -4,7 +4,7 @@ import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 
 import java.util.Arrays;
@@ -29,12 +29,12 @@ public class Affiliation {
         return possibleBlessings.size() > 0 ? possibleBlessings.get(entity.getRandom().nextInt(possibleBlessings.size())) : null;
     }
 
-    public CompoundTag toTag(CompoundTag tag) {
+    public NbtCompound toTag(NbtCompound tag) {
         tag.putString(Constants.NBT.AFFILIATION, id.toString());
         return tag;
     }
 
-    public static Affiliation fromTag(CompoundTag tag) {
+    public static Affiliation fromTag(NbtCompound tag) {
         return MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.AFFILIATION)));
     }
 

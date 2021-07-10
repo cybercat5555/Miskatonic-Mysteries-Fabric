@@ -20,8 +20,8 @@ public class SyncHeldEntityPacket {
 
     public static <T extends LivingEntity & EntityHolder> void send(T mob) {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeInt(mob.getEntityId());
-        data.writeInt(mob.getHeldEntity() == null ? -1 : mob.getHeldEntity().getEntityId());
+        data.writeInt(mob.getId());
+        data.writeInt(mob.getHeldEntity() == null ? -1 : mob.getHeldEntity().getId());
         PlayerLookup.tracking(mob).forEach(p -> ServerPlayNetworking.send(p, ID, data));
     }
 

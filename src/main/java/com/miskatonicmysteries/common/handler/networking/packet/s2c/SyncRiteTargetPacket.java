@@ -20,7 +20,7 @@ public class SyncRiteTargetPacket {
 
     public static void send(Entity entity, OctagramBlockEntity blockEntity) {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeInt(entity.getEntityId());
+        data.writeInt(entity.getId());
         data.writeLong(blockEntity.getPos().asLong());
         PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
     }

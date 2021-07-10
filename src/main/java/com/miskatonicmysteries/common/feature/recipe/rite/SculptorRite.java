@@ -19,7 +19,6 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -31,6 +30,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -146,8 +146,8 @@ public class SculptorRite extends Rite {
         model.body.visible = entity.tickCount > 80;
         model.head.visible = entity.tickCount > 120;
         matrixStack.translate(0, 1.5, 0);
-        matrixStack.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(180));
-        matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180));
+        matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(180));
+        matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(180));
         model.render(matrixStack, vertexConsumer, light, overlay, 1, 1, 1, 1);
         matrixStack.pop();
     }
@@ -166,9 +166,9 @@ public class SculptorRite extends Rite {
                 }
             }
             matrixStack.push();
-            matrixStack.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(0.125F * i * 360F));
+            matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(0.125F * i * 360F));
             matrixStack.translate(0, 0, -1.1);
-            matrixStack.multiply(Vector3f.NEGATIVE_X.getDegreesQuaternion(90));
+            matrixStack.multiply(Vec3f.NEGATIVE_X.getDegreesQuaternion(90));
             MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(i), ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrixStack, vertexConsumers);
             matrixStack.pop();
         }

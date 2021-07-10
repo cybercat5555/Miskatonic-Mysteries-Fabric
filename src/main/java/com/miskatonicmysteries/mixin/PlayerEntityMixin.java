@@ -33,10 +33,10 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -224,14 +224,14 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
     }
 
     @Inject(method = "writeCustomDataToTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
-    private void writeMiskData(CompoundTag compoundTag, CallbackInfo info) {
-        CompoundTag tag = new CompoundTag();
+    private void writeMiskData(NbtCompound compoundTag, CallbackInfo info) {
+        NbtCompound tag = new NbtCompound();
 
         tag.putInt(Constants.NBT.SANITY, getSanity());
         tag.putBoolean(Constants.NBT.SHOCKED, isShocked());
-        ListTag expansions = new ListTag();
+        NbtList expansions = new NbtList();
         getSanityCapExpansions().forEach((s, i) -> {
-            CompoundTag expansionTag = new CompoundTag();
+            NbtCompound expansionTag = new NbtCompound();
             expansionTag.putString("Name", s);
             expansionTag.putInt("Amount", i);
             expansions.add(expansionTag);
@@ -248,9 +248,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
         tag.putFloat(Constants.NBT.RESONANCE, getResonance());
         NbtUtil.writeBlessingData(this, tag);
-        ListTag knowledgeList = new ListTag();
+        NbtList knowledgeList = new NbtList();
         for (String knowledgeId : knowledge) {
-            knowledgeList.add(StringTag.of(knowledgeId));
+            knowledgeList.add(NbtString.of(knowledgeId));
         }
         tag.put(Constants.NBT.KNOWLEDGE, knowledgeList);
 
@@ -258,13 +258,13 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
     }
 
     @Inject(method = "readCustomDataFromTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
-    public void readMiskData(CompoundTag compoundTag, CallbackInfo info) {
-        CompoundTag tag = (CompoundTag) compoundTag.get(Constants.NBT.MISK_DATA);
+    public void readMiskData(NbtCompound compoundTag, CallbackInfo info) {
+        NbtCompound tag = (NbtCompound) compoundTag.get(Constants.NBT.MISK_DATA);
         if (tag != null) {
             setSanity(tag.getInt(Constants.NBT.SANITY), true);
             setShocked(tag.getBoolean(Constants.NBT.SHOCKED));
             getSanityCapExpansions().clear();
-            ((ListTag) tag.get(Constants.NBT.SANITY_EXPANSIONS)).forEach(s -> sanityCapOverrides.put(((CompoundTag) s).getString("Name"), ((CompoundTag) s).getInt("Amount")));
+            ((NbtList) tag.get(Constants.NBT.SANITY_EXPANSIONS)).forEach(s -> sanityCapOverrides.put(((NbtCompound) s).getString("Name"), ((NbtCompound) s).getInt("Amount")));
             setPowerPool(tag.getInt(Constants.NBT.POWER_POOL));
             setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
             setSpellCooldown(tag.getInt(Constants.NBT.SPELL_COOLDOWN));
@@ -278,9 +278,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
             NbtUtil.readBlessingData(this, tag);
 
-            ListTag knowledgeList = tag.getList(Constants.NBT.KNOWLEDGE, 8);
+            NbtList knowledgeList = tag.getList(Constants.NBT.KNOWLEDGE, 8);
             knowledge.clear();
-            for (Tag knowledgeTag : knowledgeList) {
+            for (NbtElement knowledgeTag : knowledgeList) {
                 knowledge.add(knowledgeTag.asString());
             }
 

@@ -14,8 +14,8 @@ public class MobSpellPacket {
 
     public static void send(LivingEntity caster, SpellEffect effect, int intensity) {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeInt(caster.getEntityId());
-        data.writeInt(caster.getAttacking().getEntityId());
+        data.writeInt(caster.getId());
+        data.writeInt(caster.getAttacking().getId());
         data.writeIdentifier(effect.getId());
         data.writeInt(intensity);
         PlayerLookup.tracking(caster).forEach(p -> ServerPlayNetworking.send(p, ID, data));

@@ -8,13 +8,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class SelectSpellWidget extends AbstractButtonWidget {
+public class SelectSpellWidget extends ClickableWidget {
     public Spell spell;
     public SpellSelectionScreen screen;
     private int hoverTicks = 0;
@@ -69,7 +69,7 @@ public class SelectSpellWidget extends AbstractButtonWidget {
             drawTexture(matrices, 5, 2, 0, 0, 18, 18, 18, 18);
             matrices.pop();
         }
-        this.renderBg(matrices, minecraftClient, mouseX, mouseY);
+        this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
 
 
     }

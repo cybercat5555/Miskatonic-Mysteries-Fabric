@@ -17,7 +17,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
@@ -103,7 +103,7 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
     @Override
     public void appendTooltip(ItemStack stack, @org.jetbrains.annotations.Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
         if (stack.hasTag() && stack.getTag().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
-            CompoundTag compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
+            NbtCompound compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
             if (compoundTag != null && compoundTag.contains(Constants.NBT.PLAYER_NAME)) {
                 tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.created_by", compoundTag.getString(Constants.NBT.PLAYER_NAME)).formatted(Formatting.GRAY));
             }
@@ -116,9 +116,9 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
             return stack;
         }
         if (!stack.hasTag()) {
-            stack.setTag(new CompoundTag());
+            stack.setTag(new NbtCompound());
         }
-        CompoundTag blockEntityTag = new CompoundTag();
+        NbtCompound blockEntityTag = new NbtCompound();
         blockEntityTag.putString(Constants.NBT.PLAYER_NAME, player.getName().asString());
         blockEntityTag.putUuid(Constants.NBT.PLAYER_UUID, player.getUuid());
         stack.getTag().put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
@@ -143,7 +143,7 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
     }
 
     @Override
-    public VoxelShape getVisualShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return VoxelShapes.empty();
     }
 

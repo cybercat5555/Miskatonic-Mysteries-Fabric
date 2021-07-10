@@ -87,7 +87,7 @@ public class CultistRobesModel extends BipedEntityModel<LivingEntity> {
         //body
         armorBody = new ModelPart(this);
         armorBody.setPivot(0.0F, 0.0F, 0.0F);
-        torso.addChild(armorBody);
+        body.addChild(armorBody);
         armorBody.setTextureOffset(0, 81).addCuboid(-4.5F, -0.01F, -2.5F, 9.0F, 12.0F, 5.0F, 0.0F, false);
         armorBody.setTextureOffset(1, 104).addCuboid(-1.5F, 4.5F, -3.0F, 3.0F, 3.0F, 1.0F, 0.0F, false);
         armorBody.setTextureOffset(8, 109).addCuboid(2.55F, -0.75F, -2.65F, 1.0F, 1.0F, 5.0F, 0.0F, false);
@@ -407,7 +407,7 @@ public class CultistRobesModel extends BipedEntityModel<LivingEntity> {
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
         head.visible = slot == EquipmentSlot.HEAD;
-        helmet.visible = slot == EquipmentSlot.HEAD;
+        hat.visible = slot == EquipmentSlot.HEAD;
         hoodShawl.visible = slot == EquipmentSlot.CHEST && wearingHood;
         armorBody.visible = slot == EquipmentSlot.CHEST;
         leftArm.visible = slot == EquipmentSlot.CHEST;

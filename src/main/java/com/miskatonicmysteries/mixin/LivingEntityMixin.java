@@ -15,7 +15,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -111,7 +111,7 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
     }
 
     @Inject(method = "writeCustomDataToTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
-    private void writeMiscData(CompoundTag compoundTag, CallbackInfo info) {
+    private void writeMiscData(NbtCompound compoundTag, CallbackInfo info) {
         compoundTag.putBoolean(Constants.NBT.SHOULD_DROP, hasOverridenDrops());
         Appeasable.of(this).ifPresent(appeasable -> {
             compoundTag.putInt(Constants.NBT.APPEASE_TICKS, appeasable.getAppeasedTicks());
@@ -119,7 +119,7 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
     }
 
     @Inject(method = "readCustomDataFromTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
-    public void readMiscData(CompoundTag compoundTag, CallbackInfo info) {
+    public void readMiscData(NbtCompound compoundTag, CallbackInfo info) {
         setDropOveride(compoundTag.getBoolean(Constants.NBT.SHOULD_DROP));
         Appeasable.of(this).ifPresent(appeasable -> {
             appeasable.setAppeasedTicks(compoundTag.getInt(Constants.NBT.APPEASE_TICKS));

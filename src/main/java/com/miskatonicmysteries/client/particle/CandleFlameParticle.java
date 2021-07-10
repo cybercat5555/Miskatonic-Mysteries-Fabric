@@ -27,10 +27,10 @@ public class CandleFlameParticle extends AbstractSlowingParticle {
         return this.scale * (1.0F - f * f * 0.5F);
     }
 
-    public int getColorMultiplier(float tint) {
+    public int getBrightness(float tint) {
         float f = ((float) this.age + tint) / (float) this.maxAge;
         f = MathHelper.clamp(f, 0.0F, 1.0F);
-        int i = super.getColorMultiplier(tint);
+        int i = super.getBrightness(tint);
         int j = i & 255;
         int k = i >> 16 & 255;
         j += (int) (f * 15.0F * 16.0F);

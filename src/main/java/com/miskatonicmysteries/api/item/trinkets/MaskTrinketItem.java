@@ -9,6 +9,7 @@ import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;
 import dev.emi.trinkets.api.TrinketsApi;
+import java.util.Optional;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -34,7 +35,7 @@ public class MaskTrinketItem extends TrinketItem implements Affiliated {
 
 
     public static ItemStack getMask(PlayerEntity player) {
-        var masks = TrinketsApi.getTrinketComponent(player)
+        Optional masks = TrinketsApi.getTrinketComponent(player)
                 .map(component ->
                         component.getEquipped(stack -> stack.getItem() instanceof MaskTrinketItem));
         if (masks.isPresent() && !masks.get().isEmpty()){

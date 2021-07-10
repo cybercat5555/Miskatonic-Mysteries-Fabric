@@ -48,6 +48,6 @@ public class MediumComponentWidget extends SpellComponentWidget {
         drawTexture(matrices, this.x + 7, this.y + 7, 0, 0, 18, 18, 18, 18);
         minecraftClient.getTextureManager().bindTexture(EditSpellScreen.BOOK_TEXTURE);
         drawTexture(matrices, this.x, this.y, 26, 182 + (isSelected() ? 39 : 0), 32, 32, 512, 256);
-        this.renderBg(matrices, minecraftClient, mouseX, mouseY);
+        this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
     }
 }

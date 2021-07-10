@@ -20,7 +20,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -106,7 +106,7 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
                 //this works, now do something to allow longer holding, probably count the holding ticks and increase those instead, extrapolate the height from that
                 //also get the held entity from the ai actually etc. and handle all that stuff properly
                 Vec3d heldPosition = Util.getYawRelativePos(getPos(), 4, headYaw, 0);
-                heldEntity.updatePosition(heldPosition.getX(), heldPosition.getY() + 4F * getHoldingProgress(), heldPosition.getZ());
+                heldEntity.setPosition(heldPosition.getX(), heldPosition.getY() + 4F * getHoldingProgress(), heldPosition.getZ());
                 heldEntity.fallDistance = 0;
                 setHoldingProgress(getHoldingProgress() + 0.016025642F);
                 if (getHoldingProgress() >= 1) {
@@ -195,15 +195,15 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
 
     @Nullable
     @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
         setHomePos(getBlockPos());
         return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
     }
 
 
     @Override
-    public void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    public void writeCustomDataToNbt(NbtCompound tag) {
+        super.writeCustomDataToNbt(tag);
         if (getHomePos() != null) {
             tag.putLong(Constants.NBT.POSITION, getHomePos().asLong());
         }
@@ -213,8 +213,8 @@ public class HasturEntity extends PathAwareEntity implements IAnimatable, Affili
     }
 
     @Override
-    public void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    public void readCustomDataFromNbt(NbtCompound tag) {
+        super.readCustomDataFromNbt(tag);
         if (tag.contains(Constants.NBT.POSITION)) {
             setHomePos(BlockPos.fromLong(tag.getLong(Constants.NBT.POSITION)));
         }

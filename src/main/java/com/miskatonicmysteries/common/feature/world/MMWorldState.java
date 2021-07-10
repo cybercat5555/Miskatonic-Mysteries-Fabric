@@ -4,9 +4,9 @@ import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.world.PersistentState;
@@ -53,11 +53,11 @@ public class MMWorldState extends PersistentState {
     }
 
     @Override
-    public void fromTag(CompoundTag tag) {
-        ListTag protagonistList = (ListTag) tag.get(PROTAGONISTS);
+    public void fromNbt(NbtCompound tag) {
+        NbtList protagonistList = (NbtList) tag.get(PROTAGONISTS);
         if (protagonistList != null) {
-            for (Tag baseTag : protagonistList) {
-                CompoundTag compoundTag = (CompoundTag) baseTag;
+            for (NbtElement baseTag : protagonistList) {
+                NbtCompound compoundTag = (NbtCompound) baseTag;
                 protagonistMap.put(compoundTag.getUuid(PLAYER_UUID), ProtagonistEntity.ProtagonistData.fromTag(compoundTag));
 
             }
@@ -65,10 +65,10 @@ public class MMWorldState extends PersistentState {
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
-        ListTag protagonistList = new ListTag();
+    public NbtCompound writeNbt(NbtCompound tag) {
+        NbtList protagonistList = new NbtList();
         protagonistMap.forEach((uuid, protagonistData) -> {
-            CompoundTag compoundTag = new CompoundTag();
+            NbtCompound compoundTag = new NbtCompound();
             compoundTag.putUuid(PLAYER_UUID, uuid);
             protagonistData.toTag(compoundTag);
             protagonistList.add(compoundTag);

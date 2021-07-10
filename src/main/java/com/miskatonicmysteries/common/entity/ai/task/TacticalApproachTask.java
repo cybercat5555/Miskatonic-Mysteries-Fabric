@@ -28,7 +28,7 @@ public class TacticalApproachTask extends Task<MobEntity> {
     @Override
     protected void run(ServerWorld serverWorld, MobEntity mob, long l) {
         LivingEntity livingEntity = mob.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
-        if (!mob.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_COOLING_DOWN).isPresent() && LookTargetUtil.isVisibleInMemory(mob, livingEntity) && LookTargetUtil.method_25940(mob, livingEntity, 1)) {
+        if (!mob.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_COOLING_DOWN).isPresent() && LookTargetUtil.isVisibleInMemory(mob, livingEntity) && LookTargetUtil.isTargetWithinAttackRange(mob, livingEntity, 1)) {
             this.forgetWalkTarget(mob);
         } else {
             this.rememberWalkTarget(mob, livingEntity);

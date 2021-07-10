@@ -15,9 +15,9 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientLoginNetworkHandler;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
@@ -50,7 +50,7 @@ public class SpellClientHandler {
                 client.openScreen(new SpellSelectionScreen());
             }else if (client.player != null && selectedSpell != null){
                 if (castKey.wasPressed() && SpellCaster.of(client.player).map(SpellCaster::getSpellCooldown).orElse(0) <= 0) {
-                    SpellPacket.sendFromClientPlayer(client.player, selectedSpell.toTag(new CompoundTag()));
+                    SpellPacket.sendFromClientPlayer(client.player, selectedSpell.toTag(new NbtCompound()));
                 }else if (client.player.isDead()){
                     selectedSpell = null;
                 }

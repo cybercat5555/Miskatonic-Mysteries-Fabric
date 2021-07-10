@@ -42,9 +42,9 @@ public class ProtagonistEntityModel extends BipedEntityModel<ProtagonistEntity> 
         this.rightArm = new ModelPart(this, 28, 48);
         this.rightArm.setPivot(-5.0F, 2.0F, 0.0F);
         this.rightArm.addCuboid(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.torso = new ModelPart(this, 16, 20);
-        this.torso.setPivot(0.0F, 0.0F, 0.0F);
-        this.torso.addCuboid(-4.0F, 0.0F, -3.0F, 8.0F, 12.0F, 6.0F, 0.0F, 0.0F, 0.0F);
+        this.body = new ModelPart(this, 16, 20);
+        this.body.setPivot(0.0F, 0.0F, 0.0F);
+        this.body.addCuboid(-4.0F, 0.0F, -3.0F, 8.0F, 12.0F, 6.0F, 0.0F, 0.0F, 0.0F);
         this.brim = new ModelPart(this, 40, 38);
         this.brim.setPivot(0.0F, 0.0F, 0.0F);
         this.brim.addCuboid(-5.5F, -5.5F, -7.0F, 11.0F, 11.0F, 1.0F, 0.0F, 0.0F, 0.0F);
@@ -78,17 +78,17 @@ public class ProtagonistEntityModel extends BipedEntityModel<ProtagonistEntity> 
         this.setRotateAngle(cigar, 0.0F, -0.5235987755982988F, 0.0F);
         this.rightLeg.addChild(this.holster);
         this.head.addChild(this.nose);
-        this.torso.addChild(this.rightArm);
+        this.body.addChild(this.rightArm);
         this.head.addChild(this.brim);
-        this.torso.addChild(this.head);
-        this.torso.addChild(this.leftArm);
-        this.torso.addChild(this.leftLeg);
+        this.body.addChild(this.head);
+        this.body.addChild(this.leftArm);
+        this.body.addChild(this.leftLeg);
         this.head.addChild(this.hat);
         this.cigar.addChild(this.pipe);
-        this.torso.addChild(this.rightLeg);
-        this.torso.addChild(this.coat);
+        this.body.addChild(this.rightLeg);
+        this.body.addChild(this.coat);
         this.head.addChild(this.cigar);
-        helmet.visible = false;
+        hat.visible = false;
     }
 
     @Override
@@ -119,7 +119,7 @@ public class ProtagonistEntityModel extends BipedEntityModel<ProtagonistEntity> 
 
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-        ImmutableList.of(this.torso).forEach((ModelPart) -> {
+        ImmutableList.of(this.body).forEach((ModelPart) -> {
             ModelPart.render(matrices, vertices, light, overlay, red, green, blue, alpha);
         });
         super.render(matrices, vertices, light, overlay, red, green, blue, alpha);

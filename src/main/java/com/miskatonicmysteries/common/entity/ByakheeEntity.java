@@ -28,7 +28,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -78,29 +78,29 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
     }
 
     @Override
-    public void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    public void writeCustomDataToNbt(NbtCompound tag) {
+        super.writeCustomDataToNbt(tag);
         tag.putBoolean(Constants.NBT.GLIDING, isGliding());
         if (!this.items.getStack(0).isEmpty()) {
-            tag.put("SaddleItem", this.items.getStack(0).toTag(new CompoundTag()));
+            tag.put("SaddleItem", this.items.getStack(0).writeNbt(new NbtCompound()));
         }
         if (!this.items.getStack(1).isEmpty()){
-            tag.put("DecoItem", this.items.getStack(1).toTag(new CompoundTag()));
+            tag.put("DecoItem", this.items.getStack(1).writeNbt(new NbtCompound()));
         }
     }
 
     @Override
-    public void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    public void readCustomDataFromNbt(NbtCompound tag) {
+        super.readCustomDataFromNbt(tag);
         setGliding(tag.getBoolean(Constants.NBT.GLIDING));
         if (tag.contains("SaddleItem", 10)) {
-            ItemStack itemStack = ItemStack.fromTag(tag.getCompound("SaddleItem"));
+            ItemStack itemStack = ItemStack.fromNbt(tag.getCompound("SaddleItem"));
             if (itemStack.getItem() == Items.SADDLE) {
                 this.items.setStack(0, itemStack);
             }
         }
         if (tag.contains("DecoItem", 10)) {
-            ItemStack itemStack = ItemStack.fromTag(tag.getCompound("DecoItem"));
+            ItemStack itemStack = ItemStack.fromNbt(tag.getCompound("DecoItem"));
             if (itemStack.getItem() == Items.YELLOW_CARPET) {
                 this.items.setStack(1, itemStack);
             }
@@ -112,7 +112,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
     public boolean tryAttack(Entity target) {
         boolean bl = target.damage(DamageSource.mob(this), (float)((int)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)));
         if (bl) {
-            this.dealDamage(this, target);
+            this.applyDamageEffects(this, target);
         }
         return bl;
     }
@@ -282,7 +282,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
                     this.setVelocity(Vec3d.ZERO);
                 }
 
-                this.method_29242(this, false);
+                this.updateLimbs(this, false);
             } else {
                 this.flyingSpeed = 0.02F;
                 super.travel(movementInput);
@@ -303,7 +303,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 
     @Override
     public void updatePassengerPosition(Entity passenger) {
-        PositionUpdater updater = Entity::updatePosition;
+        PositionUpdater updater = Entity::setPosition;
         float x = MathHelper.sin(this.bodyYaw * 0.017453292F);
         float z = MathHelper.cos(this.bodyYaw * 0.017453292F);
         updater.accept(passenger, this.getX() + x * 0.5, this.getY() + this.getMountedHeightOffset() + passenger.getHeightOffset(), this.getZ() - z * 0.5F);

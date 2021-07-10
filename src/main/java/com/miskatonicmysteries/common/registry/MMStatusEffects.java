@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.common.feature.effect.*;
+import com.miskatonicmysteries.common.registry.MMStatusEffects.Potions;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import com.miskatonicmysteries.mixin.BrewingRecipeRegistryAccessor;
 import net.minecraft.entity.effect.StatusEffect;

@@ -20,7 +20,7 @@ public class ProtagonistHandler {
             BlockPos pos = Util.getPossibleMobSpawnPos(world, player, 50, 16, 14);
             if (pos != null) {
                 ProtagonistEntity protagonist = new ProtagonistEntity(MMEntities.PROTAGONIST, world);
-                protagonist.updatePosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                protagonist.setPosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                 protagonist.setTargetUUID(player.getUuid());
                 protagonist.setData(data);
                 protagonist.initialize(world, world.getLocalDifficulty(pos), SpawnReason.EVENT, null, null);
@@ -42,7 +42,7 @@ public class ProtagonistHandler {
         BlockPos pos = Util.getPossibleMobSpawnPos(world, player, 50, 16, 14);
         if (pos != null) {
             ProtagonistEntity protagonist = new ProtagonistEntity(MMEntities.PROTAGONIST, world);
-            protagonist.updatePosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+            protagonist.setPosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
             protagonist.initialize(world, world.getLocalDifficulty(pos), SpawnReason.REINFORCEMENT, null, null);
             world.spawnEntity(protagonist);
             protagonist.refreshPositionAndAngles(pos, 0, 0);

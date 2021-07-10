@@ -23,7 +23,7 @@ public class TeleportEffectPacket {
 
     public static void send(Entity entity) {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeInt(entity.getEntityId());
+        data.writeInt(entity.getId());
         PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
         if (entity instanceof ServerPlayerEntity) {
             ServerPlayNetworking.send((ServerPlayerEntity) entity, ID, data);

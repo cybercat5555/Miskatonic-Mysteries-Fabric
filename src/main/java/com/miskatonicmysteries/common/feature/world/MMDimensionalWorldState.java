@@ -1,10 +1,10 @@
 package com.miskatonicmysteries.common.feature.world;
 
 import com.miskatonicmysteries.common.util.Constants;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
@@ -39,18 +39,18 @@ public class MMDimensionalWorldState extends PersistentState {
         return false;
     }
     @Override
-    public void fromTag(CompoundTag tag) {
-        ListTag wardingMarksList = (ListTag) tag.get(WARDING_MARKS);
+    public void fromNbt(NbtCompound tag) {
+        NbtList wardingMarksList = (NbtList) tag.get(WARDING_MARKS);
         if (wardingMarksList != null) {
-            for (Tag blockTag : wardingMarksList) {
-                wardingMarks.add(NbtHelper.toBlockPos( (CompoundTag) blockTag));
+            for (NbtElement blockTag : wardingMarksList) {
+                wardingMarks.add(NbtHelper.toBlockPos( (NbtCompound) blockTag));
             }
         }
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
-        ListTag wardingMarksList = new ListTag();
+    public NbtCompound writeNbt(NbtCompound tag) {
+        NbtList wardingMarksList = new NbtList();
         for (BlockPos wardingMark : wardingMarks) {
             wardingMarksList.add(NbtHelper.fromBlockPos(wardingMark));
         }

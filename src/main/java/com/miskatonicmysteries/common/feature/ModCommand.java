@@ -23,7 +23,7 @@ import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.IdentifierArgumentType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -203,7 +203,7 @@ public class ModCommand {
     }
 
     private static int giveWorldNBT(CommandContext<ServerCommandSource> context) {
-        context.getSource().sendFeedback(MMWorldState.get(context.getSource().getWorld()).toTag(new CompoundTag()).toText(), false);
+        context.getSource().sendFeedback(MMWorldState.get(context.getSource().getWorld()).writeNbt(new NbtCompound()).toText(), false);
         return 0;
     }
 

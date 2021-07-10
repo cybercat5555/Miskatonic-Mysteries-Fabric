@@ -34,7 +34,7 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
@@ -115,7 +115,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 
     @Nullable
     @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
         setCanPickUpLoot(true);
         if (spawnReason != SpawnReason.EVENT) {
             dataTracker.set(VARIANT, random.nextInt(4));
@@ -239,12 +239,12 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
     }
 
     @Override
-    public void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    public void writeCustomDataToNbt(NbtCompound tag) {
+        super.writeCustomDataToNbt(tag);
         tag.putInt(Constants.NBT.VARIANT, getVariant());
         tag.putInt(Constants.NBT.STAGE, getStage());
-        CompoundTag alternateWeaponTag = new CompoundTag();
-        alternateWeapon.toTag(alternateWeaponTag);
+        NbtCompound alternateWeaponTag = new NbtCompound();
+        alternateWeapon.writeNbt(alternateWeaponTag);
         tag.put(ALTERNATE_WEAPON, alternateWeaponTag);
         tag.putBoolean(Constants.NBT.CHARGING, dataTracker.get(LOADING));
         if (getTargetUUID().isPresent())
@@ -252,11 +252,11 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
     }
 
     @Override
-    public void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    public void readCustomDataFromNbt(NbtCompound tag) {
+        super.readCustomDataFromNbt(tag);
         dataTracker.set(VARIANT, tag.getInt(Constants.NBT.VARIANT));
         setStage(tag.getInt(Constants.NBT.STAGE));
-        alternateWeapon = ItemStack.fromTag((CompoundTag) tag.get(Constants.NBT.ALTERNATE_WEAPON));
+        alternateWeapon = ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.ALTERNATE_WEAPON));
         setCharging(tag.getBoolean(Constants.NBT.CHARGING));
         if (tag.contains(Constants.NBT.PLAYER_UUID))
             setTargetUUID(tag.getUuid(Constants.NBT.PLAYER_UUID));
@@ -402,13 +402,13 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
             this.spawned = spawned;
         }
 
-        public void toTag(CompoundTag compoundTag) {
+        public void toTag(NbtCompound compoundTag) {
             compoundTag.putInt(Constants.NBT.STAGE, level);
             compoundTag.putInt(Constants.NBT.VARIANT, skin);
             compoundTag.putBoolean(Constants.NBT.SPAWNED, spawned);
         }
 
-        public static ProtagonistData fromTag(CompoundTag compoundTag) {
+        public static ProtagonistData fromTag(NbtCompound compoundTag) {
             return new ProtagonistData(compoundTag.getInt(Constants.NBT.STAGE), compoundTag.getInt(Constants.NBT.VARIANT), compoundTag.getBoolean(Constants.NBT.SPAWNED));
         }
     }

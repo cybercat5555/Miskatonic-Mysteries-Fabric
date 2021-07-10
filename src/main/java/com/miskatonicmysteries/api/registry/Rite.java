@@ -11,12 +11,11 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Matrix4f;
-
+import net.minecraft.util.math.Vec3f;
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -118,14 +117,14 @@ public abstract class Rite {
         double distance = entity.getPos().getSquaredDistance(dispatcher.camera.getPos(), true);
         int renderDepth = Math.max(RenderHelper.getDepthFromDistance(distance) - 14, 1);
         matrixStack.translate(1.5, 0, 1.5);
-        matrixStack.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(45));
+        matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(45));
         matrixStack.translate(-0.4, 0.001F, -0.4);
         for (int i = 0; i < renderDepth; i++) {
             RenderHelper.renderPortalLayer(11 + i, entity.getWorld(), matrix4f, vertexConsumers, 0.8F, colors);
         }
         matrixStack.pop();
         matrixStack.translate(1.5, 0, 1.5);
-        matrixStack.multiply(Vector3f.POSITIVE_Y.getRadialQuaternion(((float) entity.getWorld().getTime() + tickDelta) / 20.0F));
+        matrixStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(((float) entity.getWorld().getTime() + tickDelta) / 20.0F));
         matrixStack.translate(-1.5F, 0.0025F, -1.5F);
         RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, vertexConsumers.getBuffer(RenderHelper.getAuraGlowLayer()), light, overlay, colors);
         matrixStack.pop();

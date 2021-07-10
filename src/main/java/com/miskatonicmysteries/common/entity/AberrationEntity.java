@@ -71,8 +71,8 @@ public class AberrationEntity extends PhantasmaEntity implements Monster {
     }
 
     @Override
-    public void dealDamage(LivingEntity attacker, Entity target) {
-        super.dealDamage(attacker, target);
+    public void applyDamageEffects(LivingEntity attacker, Entity target) {
+        super.applyDamageEffects(attacker, target);
     }
 
     @Override

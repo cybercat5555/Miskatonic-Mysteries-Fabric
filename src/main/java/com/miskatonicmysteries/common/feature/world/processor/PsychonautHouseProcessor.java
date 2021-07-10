@@ -35,9 +35,9 @@ public class PsychonautHouseProcessor extends StructureProcessor {
     @Override
     public Structure.StructureBlockInfo process(WorldView worldView, BlockPos pos, BlockPos blockPos, Structure.StructureBlockInfo structureBlockInfo, Structure.StructureBlockInfo structureBlockInfo2, StructurePlacementData structurePlacementData) {
         if (structureBlockInfo2.state.getBlock() instanceof CarpetBlock) {
-            return new Structure.StructureBlockInfo(structureBlockInfo2.pos, CARPETS[random.nextInt(CARPETS.length)].getDefaultState(), structureBlockInfo2.tag);
+            return new Structure.StructureBlockInfo(structureBlockInfo2.pos, CARPETS[random.nextInt(CARPETS.length)].getDefaultState(), structureBlockInfo2.nbt);
         } else if (structureBlockInfo2.state.getBlock() instanceof CandleBlock) {
-            return new Structure.StructureBlockInfo(structureBlockInfo2.pos, structureBlockInfo2.state.with(CandleBlock.COUNT, 1 + random.nextInt(4)), structureBlockInfo2.tag);
+            return new Structure.StructureBlockInfo(structureBlockInfo2.pos, structureBlockInfo2.state.with(CandleBlock.COUNT, 1 + random.nextInt(4)), structureBlockInfo2.nbt);
         }
         return structureBlockInfo2;
     }

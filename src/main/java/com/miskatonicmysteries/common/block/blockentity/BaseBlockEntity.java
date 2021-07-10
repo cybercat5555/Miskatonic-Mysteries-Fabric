@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.block.blockentity;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 
 public abstract class BaseBlockEntity extends BlockEntity implements BlockEntityClientSerializable {
     public BaseBlockEntity(BlockEntityType<?> type) {
@@ -11,13 +11,13 @@ public abstract class BaseBlockEntity extends BlockEntity implements BlockEntity
     }
 
     @Override
-    public void fromClientTag(CompoundTag compoundTag) {
-        fromTag(world.getBlockState(pos), compoundTag);
+    public void fromClientTag(NbtCompound compoundTag) {
+        readNbt(world.getBlockState(pos), compoundTag);
     }
 
     @Override
-    public CompoundTag toClientTag(CompoundTag compoundTag) {
-        toTag(compoundTag);
+    public NbtCompound toClientTag(NbtCompound compoundTag) {
+        writeNbt(compoundTag);
         return compoundTag;
     }
 }

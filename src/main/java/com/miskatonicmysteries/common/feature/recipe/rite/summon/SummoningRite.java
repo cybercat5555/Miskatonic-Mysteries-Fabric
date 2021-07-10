@@ -13,26 +13,25 @@ import net.minecraft.client.model.Model;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-
+import net.minecraft.util.math.Vec3f;
 import javax.annotation.Nullable;
 
 public abstract class SummoningRite<T extends Entity> extends AscensionLockedRite {
     protected int tickCount;
     protected EntityType<T> summon;
     protected @Nullable
-    CompoundTag nbt;
+    NbtCompound nbt;
     protected @Nullable
     EntityData data;
 
@@ -73,8 +72,8 @@ public abstract class SummoningRite<T extends Entity> extends AscensionLockedRit
             double distance = entity.getPos().getSquaredDistance(dispatcher.camera.getPos(), true);
             int renderDepth = Math.max(RenderHelper.getDepthFromDistance(distance) - 15 + (4 * entity.tickCount / tickCount), 0);
             matrixStack.translate(1.5, 1.5, 1.5);
-            matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180));
-            matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(180));
+            matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(180));
+            matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180));
             RenderSystem.enableBlend();
             alpha = entity.tickCount / 200F;
             model.render(matrixStack, ResourceHandler.TOTAL_DARK.getSprite().getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderHelper.getTransparency())), 0, overlay, 0, 0, 0, alpha);

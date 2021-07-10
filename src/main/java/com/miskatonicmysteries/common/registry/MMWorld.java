@@ -28,8 +28,8 @@ public class MMWorld {
     public static final StructureProcessorList NORMAL_PROCESSOR = new StructureProcessorList(Arrays.asList(new PsychonautHouseProcessor(12081980), new RuleStructureProcessor(ImmutableList.of(new StructureProcessorRule(new RandomBlockMatchRuleTest(Blocks.COBBLESTONE, 0.1F), AlwaysTrueRuleTest.INSTANCE, Blocks.MOSSY_COBBLESTONE.getDefaultState())))));
 
     public static void init() {
-        StructurePools.register(new StructurePool(new Identifier(Constants.MOD_ID, "village/common/hastur_cultist"), new Identifier("empty"), ImmutableList.of(Pair.of(StructurePoolElement.method_30425(Constants.MOD_ID + ":village/common/hastur_cultist"), 1)), StructurePool.Projection.RIGID));
-        StructurePools.register(new StructurePool(new Identifier(Constants.MOD_ID, "village/common/hastur_cultist_ascended"), new Identifier("empty"), ImmutableList.of(Pair.of(StructurePoolElement.method_30425(Constants.MOD_ID + ":village/common/hastur_cultist_ascended"), 1)), StructurePool.Projection.RIGID));
+        StructurePools.register(new StructurePool(new Identifier(Constants.MOD_ID, "village/common/hastur_cultist"), new Identifier("empty"), ImmutableList.of(Pair.of(StructurePoolElement.ofLegacySingle(Constants.MOD_ID + ":village/common/hastur_cultist"), 1)), StructurePool.Projection.RIGID));
+        StructurePools.register(new StructurePool(new Identifier(Constants.MOD_ID, "village/common/hastur_cultist_ascended"), new Identifier("empty"), ImmutableList.of(Pair.of(StructurePoolElement.ofLegacySingle(Constants.MOD_ID + ":village/common/hastur_cultist_ascended"), 1)), StructurePool.Projection.RIGID));
     }
 
     public static StructurePool specialInject(StructurePool pool) {

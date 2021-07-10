@@ -10,8 +10,8 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
@@ -31,36 +31,36 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
-        Inventories.toTag(tag, ITEMS);
-        ListTag potentialItemTag = new ListTag();
+    public NbtCompound writeNbt(NbtCompound tag) {
+        Inventories.writeNbt(tag, ITEMS);
+        NbtList potentialItemTag = new NbtList();
         for (int i = 0; i < POTENTIAL_ITEMS.size(); i++) {
             PotentialItem item = POTENTIAL_ITEMS.get(i);
-            CompoundTag compoundTag = new CompoundTag();
+            NbtCompound compoundTag = new NbtCompound();
             compoundTag.putByte("Slot", (byte) i);
             item.toTag(compoundTag);
             potentialItemTag.add(compoundTag);
         }
         tag.put(Constants.NBT.POTENTIAL_ITEMS, potentialItemTag);
         tag.putInt(Constants.NBT.WORK_PROGRESS, workProgress);
-        return super.toTag(tag);
+        return super.writeNbt(tag);
     }
 
     @Override
-    public void fromTag(BlockState state, CompoundTag tag) {
+    public void readNbt(BlockState state, NbtCompound tag) {
         ITEMS.clear();
-        Inventories.fromTag(tag, ITEMS);
-        ListTag listTag = tag.getList(Constants.NBT.POTENTIAL_ITEMS, 10);
+        Inventories.readNbt(tag, ITEMS);
+        NbtList listTag = tag.getList(Constants.NBT.POTENTIAL_ITEMS, 10);
 
         for (int i = 0; i < listTag.size(); ++i) {
-            CompoundTag compoundTag = listTag.getCompound(i);
+            NbtCompound compoundTag = listTag.getCompound(i);
             int j = compoundTag.getByte("Slot") & 255;
             if (j >= 0 && j < POTENTIAL_ITEMS.size()) {
                 POTENTIAL_ITEMS.set(j, PotentialItem.fromTag(compoundTag));
             }
         }
         workProgress = tag.getInt(Constants.NBT.WORK_PROGRESS);
-        super.fromTag(state, tag);
+        super.readNbt(state, tag);
     }
 
 

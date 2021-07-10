@@ -13,7 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
@@ -75,7 +75,7 @@ public class IncantationYogItem extends Item {
             return stack;
         }
         if (!stack.hasTag()) {
-            stack.setTag(new CompoundTag());
+            stack.setTag(new NbtCompound());
         }
         stack.getTag().putLong(Constants.NBT.POSITION, pos.asLong());
         stack.getTag().putString(Constants.NBT.DIMENSION, world.getRegistryKey().getValue().toString());
@@ -93,7 +93,7 @@ public class IncantationYogItem extends Item {
         if (!stack.hasTag() || !stack.getTag().contains(Constants.NBT.DIMENSION)) {
             return null;
         }
-        return world.getServer().getWorld(RegistryKey.of(Registry.DIMENSION, new Identifier(stack.getTag().getString(Constants.NBT.DIMENSION))));
+        return world.getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY, new Identifier(stack.getTag().getString(Constants.NBT.DIMENSION))));
     }
 
     public static void clear(ItemStack stack) {

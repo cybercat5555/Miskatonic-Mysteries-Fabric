@@ -6,13 +6,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class SpellComponentWidget extends AbstractButtonWidget {
+public class SpellComponentWidget extends ClickableWidget {
     public Identifier linkedId;
     public Identifier textureLocation;
     public EditSpellScreen screen;
@@ -58,7 +58,7 @@ public class SpellComponentWidget extends AbstractButtonWidget {
         drawTexture(matrices, this.x, this.y, 0, 182 + (isSelected() ? 39 : 0), 24, 24, 512, 256);
         minecraftClient.getTextureManager().bindTexture(textureLocation);
         drawTexture(matrices, this.x + 3, this.y + 3, 0, 0, 18, 18, 18, 18);
-        this.renderBg(matrices, minecraftClient, mouseX, mouseY);
+        this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
     }
 
     public enum Type {

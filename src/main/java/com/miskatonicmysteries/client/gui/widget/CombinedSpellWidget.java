@@ -7,12 +7,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
 
 @Environment(EnvType.CLIENT)
-public class CombinedSpellWidget extends AbstractButtonWidget {
+public class CombinedSpellWidget extends ClickableWidget {
     public EditSpellScreen screen;
     public int index;
 
@@ -64,6 +64,6 @@ public class CombinedSpellWidget extends AbstractButtonWidget {
             minecraftClient.getTextureManager().bindTexture(screen.spells[index].effect.getTextureLocation());
             drawTexture(matrices, this.x + 19, this.y + 1, 0, 0, 18, 18, 18, 18);
         }
-        this.renderBg(matrices, minecraftClient, mouseX, mouseY);
+        this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
     }
 }

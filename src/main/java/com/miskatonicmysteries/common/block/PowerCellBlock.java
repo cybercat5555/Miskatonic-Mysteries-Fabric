@@ -15,7 +15,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
@@ -73,7 +73,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
     @Environment(EnvType.CLIENT)
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
         if (stack.hasTag() && stack.getTag().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
-            CompoundTag compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
+            NbtCompound compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
             if (compoundTag != null && compoundTag.contains(Constants.NBT.ENERGY)) {
                 tooltip.add(Util.createPowerPercentageText(compoundTag.getDouble(Constants.NBT.ENERGY), PowerCellBlockEntity.MAX_STORAGE));
             }
@@ -104,7 +104,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         if (world.getBlockEntity(pos) != null) {
             ItemStack stack = getFilledStack();
-            stack.getTag().put(Constants.NBT.BLOCK_ENTITY_TAG, world.getBlockEntity(pos).toTag(new CompoundTag()));
+            stack.getTag().put(Constants.NBT.BLOCK_ENTITY_TAG, world.getBlockEntity(pos).writeNbt(new NbtCompound()));
             return stack;
         }
         return super.getPickStack(world, pos, state);
@@ -206,8 +206,8 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 
     public static ItemStack getFilledStack() {
         ItemStack stack = new ItemStack(MMObjects.POWER_CELL);
-        CompoundTag tag = new CompoundTag();
-        CompoundTag blockEntityTag = new CompoundTag();
+        NbtCompound tag = new NbtCompound();
+        NbtCompound blockEntityTag = new NbtCompound();
         blockEntityTag.putDouble(Constants.NBT.ENERGY, PowerCellBlockEntity.MAX_STORAGE);
         tag.put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
         stack.setTag(tag);

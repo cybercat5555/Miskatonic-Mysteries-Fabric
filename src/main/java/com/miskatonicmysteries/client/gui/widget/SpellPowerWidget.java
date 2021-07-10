@@ -5,12 +5,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
 
 @Environment(EnvType.CLIENT)
-public class SpellPowerWidget extends AbstractButtonWidget {
+public class SpellPowerWidget extends ClickableWidget {
     public EditSpellScreen screen;
     public int power;
 
@@ -50,6 +50,6 @@ public class SpellPowerWidget extends AbstractButtonWidget {
         //change texture depending on allocated power and if pressed
         drawTexture(matrices, this.x, this.y, 60 + 32 * power, 182 + (isSelected() ? 39 : 0), this.width, this.height, 512, 256);
 
-        this.renderBg(matrices, minecraftClient, mouseX, mouseY);
+        this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
     }
 }

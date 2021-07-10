@@ -16,7 +16,7 @@ import net.minecraft.entity.mob.WitchEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
 import net.minecraft.util.ActionResult;
@@ -80,12 +80,12 @@ public abstract class MobEntityMixin extends LivingEntity implements Hallucinati
     }
 
     @Inject(method = "readCustomDataFromTag", at = @At("TAIL"))
-    private void readCustomDataFromTag(CompoundTag tag, CallbackInfo callbackInfo) {
+    private void readCustomDataFromTag(NbtCompound tag, CallbackInfo callbackInfo) {
         setHallucinationTarget(!tag.contains(Constants.NBT.HALLUCINATION) ? Optional.empty() : Optional.of(tag.getUuid(Constants.NBT.HALLUCINATION)));
     }
 
     @Inject(method = "writeCustomDataToTag", at = @At("TAIL"))
-    private void writeCustomDataToTag(CompoundTag tag, CallbackInfo callbackInfo) {
+    private void writeCustomDataToTag(NbtCompound tag, CallbackInfo callbackInfo) {
         if (getHallucinationTarget().isPresent()) {
             tag.putUuid(Constants.NBT.HALLUCINATION, getHallucinationTarget().get());
         }

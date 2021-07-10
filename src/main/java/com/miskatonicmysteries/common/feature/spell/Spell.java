@@ -15,7 +15,7 @@ import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -67,20 +67,20 @@ public class Spell {
                 spellCaster.get().setSpellCooldown(burnout);
             }
             Sanity.of(caster).ifPresent(sanity -> sanity.setSanity(sanity.getSanity() - effect.calculateSanityPenalty(caster.getRandom(), intensity), false));
-            SpellPacket.send(caster, toTag(new CompoundTag()), intensityMod);
+            SpellPacket.send(caster, toTag(new NbtCompound()), intensityMod);
         }
 
         return effect.canCast(caster, medium) && medium.cast(caster.world, caster, effect, intensity);
     }
 
-    public CompoundTag toTag(CompoundTag tag) {
+    public NbtCompound toTag(NbtCompound tag) {
         tag.putString(Constants.NBT.SPELL_EFFECT, effect.getId().toString());
         tag.putString(Constants.NBT.SPELL_MEDIUM, medium.getId().toString());
         tag.putInt(Constants.NBT.INTENSITY, intensity);
         return tag;
     }
 
-    public static Spell fromTag(CompoundTag tag) {
+    public static Spell fromTag(NbtCompound tag) {
         return tag.isEmpty() ? null : new Spell(MMRegistries.SPELL_MEDIUMS.get(new Identifier(tag.getString(Constants.NBT.SPELL_MEDIUM))), MMRegistries.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))), tag.getInt(Constants.NBT.INTENSITY));
     }
 }

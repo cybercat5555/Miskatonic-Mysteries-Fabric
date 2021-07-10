@@ -7,8 +7,7 @@ import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundTag;
-
+import net.minecraft.nbt.NbtCompound;
 import java.util.UUID;
 
 public class StatueBlockEntity extends BaseBlockEntity implements Affiliated {
@@ -20,25 +19,25 @@ public class StatueBlockEntity extends BaseBlockEntity implements Affiliated {
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
+    public NbtCompound writeNbt(NbtCompound tag) {
         if (creator != null) {
             tag.putUuid(Constants.NBT.PLAYER_UUID, creator);
         }
         if (creatorName != null) {
             tag.putString(Constants.NBT.PLAYER_NAME, creatorName);
         }
-        return super.toTag(tag);
+        return super.writeNbt(tag);
     }
 
     @Override
-    public void fromTag(BlockState state, CompoundTag tag) {
+    public void readNbt(BlockState state, NbtCompound tag) {
         if (tag.contains(Constants.NBT.PLAYER_UUID)) {
             creator = tag.getUuid(Constants.NBT.PLAYER_UUID);
         }
         if (tag.contains(Constants.NBT.PLAYER_NAME)) {
             creatorName = tag.getString(Constants.NBT.PLAYER_NAME);
         }
-        super.fromTag(state, tag);
+        super.readNbt(state, tag);
     }
 
     @Override

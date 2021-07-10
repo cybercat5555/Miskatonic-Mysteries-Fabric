@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.feature;
 import com.google.gson.JsonObject;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.util.JsonHelper;
@@ -53,17 +53,17 @@ public class PotentialItem {
     public static PotentialItem fromJson(JsonObject jsonElement) {
         JsonObject in = JsonHelper.getObject(jsonElement, "in");
         JsonObject out = JsonHelper.getObject(jsonElement, "out");
-        return new PotentialItem(ShapedRecipe.getItemStack(in), ShapedRecipe.getItemStack(out));
+        return new PotentialItem(ShapedRecipe.getItem(in), ShapedRecipe.getItem(out));
     }
 
-    public CompoundTag toTag(CompoundTag tag) {
-        tag.put(Constants.NBT.RECEIVED_STACK, in.toTag(new CompoundTag()));
-        tag.put(Constants.NBT.REALIZED_STACK, out.toTag(new CompoundTag()));
+    public NbtCompound toTag(NbtCompound tag) {
+        tag.put(Constants.NBT.RECEIVED_STACK, in.writeNbt(new NbtCompound()));
+        tag.put(Constants.NBT.REALIZED_STACK, out.writeNbt(new NbtCompound()));
         return tag;
     }
 
 
-    public static PotentialItem fromTag(CompoundTag tag){
-        return new PotentialItem(ItemStack.fromTag((CompoundTag) tag.get(Constants.NBT.RECEIVED_STACK)), ItemStack.fromTag((CompoundTag) tag.get(Constants.NBT.REALIZED_STACK)));
+    public static PotentialItem fromTag(NbtCompound tag){
+        return new PotentialItem(ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.RECEIVED_STACK)), ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.REALIZED_STACK)));
     }
 }

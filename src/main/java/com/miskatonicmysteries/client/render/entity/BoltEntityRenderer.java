@@ -8,11 +8,10 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
-
+import net.minecraft.util.math.Vec3f;
 import java.util.Random;
 
 public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
@@ -47,8 +46,8 @@ public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
         VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderHelper.getBoltLayer());
         Matrix4f matrix4f = matrices.peek().getModel();
 
-        matrices.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(entity.getYaw(tickDelta)));
-        matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(entity.getPitch(tickDelta)));
+        matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(entity.getYaw(tickDelta)));
+        matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.getPitch(tickDelta)));
         matrices.translate(0, 0, 0.1);
         for (int branches = 0; branches < 5; branches++) {
             float lastOffsetY = 0.0F;

@@ -41,13 +41,13 @@ public class FireSpellEffect extends SpellEffect {
     }
 
     private boolean lightFire(World world, BlockPos center, int range){
-        return BlockPos.Mutable.findClosest(center, range, range, blockPos -> (range >= 2 || world.random.nextBoolean()) && (AbstractFireBlock.method_30032(world, blockPos, Direction.DOWN) || CampfireBlock.method_30035(world.getBlockState(blockPos)))).map(blockPos -> {
+        return BlockPos.Mutable.findClosest(center, range, range, blockPos -> (range >= 2 || world.random.nextBoolean()) && (AbstractFireBlock.canPlaceAt(world, blockPos, Direction.DOWN) || CampfireBlock.canBeLit(world.getBlockState(blockPos)))).map(blockPos -> {
             BlockState blockState = world.getBlockState(blockPos);
-            if (CampfireBlock.method_30035(blockState)) {
+            if (CampfireBlock.canBeLit(blockState)) {
                 world.setBlockState(blockPos, blockState.with(Properties.LIT, true), 11);
                 return true;
             } else {
-                if (AbstractFireBlock.method_30032(world, blockPos, Direction.DOWN)) {
+                if (AbstractFireBlock.canPlaceAt(world, blockPos, Direction.DOWN)) {
                     BlockState blockState2 = AbstractFireBlock.getState(world, blockPos);
                     world.setBlockState(blockPos, blockState2, 11);
                     return true;

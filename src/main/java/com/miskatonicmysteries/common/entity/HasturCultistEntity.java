@@ -15,7 +15,6 @@ import com.miskatonicmysteries.mixin.LivingEntityAccessor;
 import com.mojang.serialization.Dynamic;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.Durations;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.pathing.MobNavigation;
@@ -30,8 +29,8 @@ import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -39,6 +38,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.IntRange;
 import net.minecraft.village.*;
 import net.minecraft.world.LocalDifficulty;
@@ -52,7 +52,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     protected static final TrackedData<Integer> VARIANT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
     protected static final TrackedData<Integer> CASTING_TIME_LEFT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
     //anger
-    private static final IntRange ANGER_TIME_RANGE = Durations.betweenSeconds(80, 120);
+    private static final IntRange ANGER_TIME_RANGE = TimeHelper.betweenSeconds(80, 120);
     private int angerTime;
     @Nullable
     private UUID targetUuid;
@@ -234,10 +234,10 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     public static ItemStack createYellowSignShield() {
         ItemStack stack = new ItemStack(Items.SHIELD);
-        CompoundTag tag = stack.getOrCreateSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
+        NbtCompound tag = stack.getOrCreateSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
         tag.putInt(Constants.NBT.BANNER_BASE, DyeColor.BLACK.getId());
-        ListTag bannerpptag = new ListTag();
-        CompoundTag yellowTag = new CompoundTag();
+        NbtList bannerpptag = new NbtList();
+        NbtCompound yellowTag = new NbtCompound();
         yellowTag.putString(Constants.NBT.BANNER_PATTERN, Constants.MOD_ID + ":yellow_sign");
         yellowTag.putInt(Constants.NBT.BANNER_COLOR, DyeColor.YELLOW.getId());
         bannerpptag.add(yellowTag);
@@ -265,7 +265,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Nullable
     @Override
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
         entityData = super.initialize(world, difficulty, spawnReason, entityData, entityTag);
         if ((spawnReason == SpawnReason.STRUCTURE && getVariant() != 2) || spawnReason == SpawnReason.CONVERSION) {
             dataTracker.set(VARIANT, random.nextInt(2));
@@ -306,30 +306,30 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     }
 
     @Override
-    public void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    public void writeCustomDataToNbt(NbtCompound tag) {
+        super.writeCustomDataToNbt(tag);
         tag.putInt(Constants.NBT.VARIANT, getVariant());
         tag.putInt(Constants.NBT.CASTING, getCastTime());
         if (currentSpell != null) {
-            CompoundTag spell = currentSpell.toTag(new CompoundTag());
+            NbtCompound spell = currentSpell.toTag(new NbtCompound());
             tag.put(Constants.NBT.SPELL, spell);
         }
         if (world instanceof ServerWorld) {
-            angerToTag(tag);
+            writeAngerToNbt(tag);
         }
     }
 
 
     @Override
-    public void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    public void readCustomDataFromNbt(NbtCompound tag) {
+        super.readCustomDataFromNbt(tag);
         dataTracker.set(VARIANT, tag.getInt(Constants.NBT.VARIANT));
         if (tag.contains(Constants.NBT.SPELL)) {
-            currentSpell = Spell.fromTag((CompoundTag) tag.get(Constants.NBT.SPELL));
+            currentSpell = Spell.fromTag((NbtCompound) tag.get(Constants.NBT.SPELL));
         }
         setCastTime(tag.getInt(Constants.NBT.CASTING));
         if (this.world instanceof ServerWorld) {
-            angerFromTag((ServerWorld) world, tag);
+            readAngerFromNbt((ServerWorld) world, tag);
             this.reinitializeBrain((ServerWorld) this.world);
         }
     }

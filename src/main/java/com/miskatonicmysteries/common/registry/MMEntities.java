@@ -149,7 +149,7 @@ public class MMEntities {
 
         DispenserBlock.registerBehavior(Items.YELLOW_CARPET, new FallibleItemDispenserBehavior() {
             public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-                BlockPos blockPos = pointer.getBlockPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
+                BlockPos blockPos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
                 List<LivingEntity> list = pointer.getWorld().getEntitiesByClass(ByakheeEntity.class, new Box(blockPos), (entity) -> entity instanceof ByakheeEntity && !((ByakheeEntity) entity).isDecorated());
                 if (!list.isEmpty()) {
                     ByakheeEntity entity = ((ByakheeEntity) list.get(0));

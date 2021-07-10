@@ -10,8 +10,8 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3f;
 
 public class ChemistrySetBlockRender extends BlockEntityRenderer<ChemistrySetBlockEntity> {
     public ChemistrySetBlockRender(BlockEntityRenderDispatcher dispatcher) {
@@ -24,7 +24,7 @@ public class ChemistrySetBlockRender extends BlockEntityRenderer<ChemistrySetBlo
         matrices.push();
         Direction direction = entity.getWorld().getBlockState(entity.getPos()).get(HorizontalFacingBlock.FACING);
         matrices.translate(0.5, 0.5, 0.5); //subtract 0.5 from everything below i guess
-        matrices.multiply(Vector3f.NEGATIVE_Y.getDegreesQuaternion(direction.asRotation()));
+        matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(direction.asRotation()));
         //bottom center
         matrices.push();
         matrices.translate(-0.05, -0.10, -0.05);

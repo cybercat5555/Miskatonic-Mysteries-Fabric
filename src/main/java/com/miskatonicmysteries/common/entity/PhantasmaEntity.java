@@ -18,7 +18,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.LocalDifficulty;
@@ -69,7 +69,7 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
     }
 
     @Override
-    public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+    public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
         setResonance(Math.max(world.getRandom().nextFloat(), 0.2F));
         dataTracker.set(VARIATION, world.getRandom().nextInt(getMaxVariants()));
         return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
@@ -110,15 +110,15 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
     }
 
     @Override
-    public void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    public void writeCustomDataToNbt(NbtCompound tag) {
+        super.writeCustomDataToNbt(tag);
         tag.putFloat(Constants.NBT.RESONANCE, getResonance());
         tag.putInt(Constants.NBT.VARIANT, getVariation());
     }
 
     @Override
-    public void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    public void readCustomDataFromNbt(NbtCompound tag) {
+        super.readCustomDataFromNbt(tag);
         setResonance(tag.getFloat(Constants.NBT.RESONANCE));
         dataTracker.set(VARIATION, MathHelper.clamp(tag.getInt(Constants.NBT.VARIANT), 0, getMaxVariants() - 1));
     }

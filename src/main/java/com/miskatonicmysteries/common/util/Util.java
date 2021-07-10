@@ -12,9 +12,9 @@ import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkTicketType;
@@ -40,39 +40,39 @@ public class Util {
     public static StructurePool tryAddElementToPool(Identifier targetPool, StructurePool pool, String elementId, StructurePool.Projection projection, int weight, StructureProcessorList processorList) {
         if (targetPool.equals(pool.getId())) {
             ModifiableStructurePool modPool = new ModifiableStructurePool(pool);
-            modPool.addStructurePoolElement(StructurePoolElement.method_30426(elementId, processorList).apply(projection), weight);
+            modPool.addStructurePoolElement(StructurePoolElement.ofProcessedLegacySingle(elementId, processorList).apply(projection), weight);
             return modPool.getStructurePool();
         }
         return pool;
     }
 
-    public static boolean isValidYellowSign(ListTag bannerListTag) {
+    public static boolean isValidYellowSign(NbtList bannerListTag) {
         if (bannerListTag.isEmpty()) return false;
-        CompoundTag found = null;
-        for (Tag tag : bannerListTag) {
-            if (tag instanceof CompoundTag && ((CompoundTag) tag).getString(Constants.NBT.BANNER_PATTERN).equals(Constants.MOD_ID + ":yellow_sign")) {
-                found = (CompoundTag) tag;
+        NbtCompound found = null;
+        for (NbtElement tag : bannerListTag) {
+            if (tag instanceof NbtCompound && ((NbtCompound) tag).getString(Constants.NBT.BANNER_PATTERN).equals(Constants.MOD_ID + ":yellow_sign")) {
+                found = (NbtCompound) tag;
                 break;
             }
         }
         return found != null && DyeColor.byId(found.getInt(Constants.NBT.BANNER_COLOR)) == DyeColor.YELLOW;
     }
 
-    public static boolean isValidYellowSign(CompoundTag compoundTag) {
+    public static boolean isValidYellowSign(NbtCompound compoundTag) {
         return compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) && Util.isValidYellowSign(compoundTag.getList(Constants.NBT.BANNER_PP_TAG, 10));
     }
 
     public static void teleport(ServerWorld world, Entity target, double x, double y, double z, float yaw, float pitch) {
         if (target instanceof ServerPlayerEntity) {
             ChunkPos chunkPos = new ChunkPos(new BlockPos(x, y, z));
-            world.getChunkManager().addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 1, target.getEntityId());
+            world.getChunkManager().addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 1, target.getId());
             target.stopRiding();
             if (((ServerPlayerEntity) target).isSleeping()) {
                 ((ServerPlayerEntity) target).wakeUp(true, true);
             }
 
             if (world == target.world) {
-                ((ServerPlayerEntity) target).networkHandler.teleportRequest(x, y, z, yaw, pitch, EnumSet.noneOf(PlayerPositionLookS2CPacket.Flag.class));
+                ((ServerPlayerEntity) target).networkHandler.requestTeleport(x, y, z, yaw, pitch, EnumSet.noneOf(PlayerPositionLookS2CPacket.Flag.class));
             } else {
                 ((ServerPlayerEntity) target).teleport(world, x, y, z, yaw, pitch);
             }

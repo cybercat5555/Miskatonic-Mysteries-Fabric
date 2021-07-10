@@ -22,7 +22,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -73,8 +73,8 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
-        Inventories.toTag(tag, ITEMS);
+    public NbtCompound writeNbt(NbtCompound tag) {
+        Inventories.writeNbt(tag, ITEMS);
         tag.putInt(Constants.NBT.TICK_COUNT, tickCount);
         if (currentRite != null) {
             tag.putString(Constants.NBT.RITE, currentRite.getId().toString());
@@ -89,13 +89,13 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
         }
         tag.putBoolean(Constants.NBT.TRIGGERED, triggered);
         tag.putByte(Constants.NBT.FLAGS, octagramFlags);
-        return super.toTag(tag);
+        return super.writeNbt(tag);
     }
 
     @Override
-    public void fromTag(BlockState state, CompoundTag tag) {
+    public void readNbt(BlockState state, NbtCompound tag) {
         ITEMS.clear();
-        Inventories.fromTag(tag, ITEMS);
+        Inventories.readNbt(tag, ITEMS);
         tickCount = tag.getInt(Constants.NBT.TICK_COUNT);
         if (tag.contains(Constants.NBT.RITE)) {
             currentRite = MMRegistries.RITES.get(new Identifier(tag.getString(Constants.NBT.RITE)));
@@ -115,7 +115,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
         }
         triggered = tag.getBoolean(Constants.NBT.TRIGGERED);
         octagramFlags = tag.getByte(Constants.NBT.FLAGS);
-        super.fromTag(state, tag);
+        super.readNbt(state, tag);
     }
 
     @Override
@@ -259,7 +259,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
     }
 
     public ServerWorld getBoundDimension() {
-        return boundPos != null && !world.isClient ? world.getServer().getWorld(RegistryKey.of(Registry.DIMENSION, boundPos.getFirst())) : null;
+        return boundPos != null && !world.isClient ? world.getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY, boundPos.getFirst())) : null;
     }
 
     public void bind(World world, BlockPos pos) {

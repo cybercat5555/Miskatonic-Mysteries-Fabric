@@ -1,6 +1,9 @@
 package com.miskatonicmysteries.common.entity;
 
+import com.miskatonicmysteries.common.entity.HarrowEntity.ChargeTargetGoal;
 import com.miskatonicmysteries.common.entity.HarrowEntity.HarrowMoveControl;
+import com.miskatonicmysteries.common.entity.HarrowEntity.LookAtTargetGoal;
+import com.miskatonicmysteries.common.entity.HarrowEntity.TrackOwnerTargetGoal;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import net.minecraft.entity.*;
@@ -16,7 +19,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -66,7 +69,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
     }
 
     @Override
-    protected int getCurrentExperience(PlayerEntity player) {
+    protected int getXpToDrop(PlayerEntity player) {
         return owner instanceof PlayerEntity ? 0 : experiencePoints;
     }
 
@@ -96,16 +99,16 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
     }
 
     @Override
-    public void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    public void readCustomDataFromNbt(NbtCompound tag) {
+        super.readCustomDataFromNbt(tag);
         if (tag.contains("LifeTicks")) {
             this.setLifeTicks(tag.getInt("LifeTicks"));
         }
     }
     
     @Override
-    public void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    public void writeCustomDataToNbt(NbtCompound tag) {
+        super.writeCustomDataToNbt(tag);
         tag.putInt("LifeTicks", this.getLifeTicks());
     }
 
@@ -162,7 +165,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
     }
 
     @Nullable
-    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
         this.initEquipment(difficulty);
         this.updateEnchantments(difficulty);
         return super.initialize(world, difficulty, spawnReason, entityData, entityTag);

@@ -20,7 +20,7 @@ public class SoundPacket {
 
     public static void send(PlayerEntity player) {
         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeInt(player.getEntityId());
+        data.writeInt(player.getId());
         ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
     }
 

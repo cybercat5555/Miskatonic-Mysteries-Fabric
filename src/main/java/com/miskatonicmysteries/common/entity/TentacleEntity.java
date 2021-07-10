@@ -17,7 +17,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
@@ -53,7 +53,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
     }
 
     @Override
-    public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable CompoundTag entityTag) {
+    public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
         if (spawnReason != SpawnReason.MOB_SUMMONED) {
             monster = true;
         }
@@ -128,8 +128,8 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
     }
 
     @Override
-    public void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    public void writeCustomDataToNbt(NbtCompound tag) {
+        super.writeCustomDataToNbt(tag);
         tag.putBoolean(Constants.NBT.BROAD_SWING, isBroadSwing());
         if (getOwnerUUID().isPresent()) {
             tag.putUuid(Constants.NBT.OWNER, getOwnerUUID().get());
@@ -142,8 +142,8 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
     }
 
     @Override
-    public void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    public void readCustomDataFromNbt(NbtCompound tag) {
+        super.readCustomDataFromNbt(tag);
         dataTracker.set(BROAD_SWING, tag.getBoolean(Constants.NBT.BROAD_SWING));
         dataTracker.set(OWNER, tag.contains(Constants.NBT.OWNER) ? Optional.of(tag.getUuid(Constants.NBT.OWNER)) : Optional.empty());
         dataTracker.set(SPECIFIC_TARGET, tag.contains(Constants.NBT.TARGET) ? Optional.of(tag.getUuid(Constants.NBT.TARGET)) : Optional.empty());
@@ -236,7 +236,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
                 ((LivingEntity) target).takeKnockback(g * 0.5F, MathHelper.sin(this.yaw * 0.017453292F), (-MathHelper.cos(this.yaw * 0.017453292F)));
                 this.setVelocity(this.getVelocity().multiply(0.6D, 1.0D, 0.6D));
             }
-            this.dealDamage(this, target);
+            this.applyDamageEffects(this, target);
             this.onAttacking(target);
         }
 

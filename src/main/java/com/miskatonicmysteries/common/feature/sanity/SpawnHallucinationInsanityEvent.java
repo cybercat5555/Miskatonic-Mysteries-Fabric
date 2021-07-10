@@ -30,12 +30,12 @@ public class SpawnHallucinationInsanityEvent extends InsanityEvent {
             ServerWorld world = (ServerWorld) player.world;
             BlockPos pos = Util.getPossibleMobSpawnPos(world, player, 50, 16, 14);
             if (pos != null) {
-                List<SpawnSettings.SpawnEntry> entry = world.getBiome(pos).getSpawnSettings().getSpawnEntry(SpawnGroup.MONSTER);
+                List<SpawnSettings.SpawnEntry> entry = world.getBiome(pos).getSpawnSettings().getSpawnEntries(SpawnGroup.MONSTER);
                 EntityType<?> type = entry.get(world.random.nextInt(entry.size())).type;
                 Entity entity = type.create(world);
                 if (entity instanceof MobEntity) {
                     MobEntity mob = (MobEntity) entity;
-                    mob.updatePosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
+                    mob.setPosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     mob.setTarget(player);
                     Hallucination.of(mob).ifPresent(hallucination -> hallucination.setHallucinationTarget(Optional.of(player.getUuid())));
                     mob.initialize(world, world.getLocalDifficulty(pos), SpawnReason.EVENT, null, null);

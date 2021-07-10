@@ -14,7 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
@@ -76,7 +76,7 @@ public abstract class GunItem extends Item {
 
     public static boolean isLoading(ItemStack stack) {
         if (!stack.hasTag()) {
-            stack.setTag(new CompoundTag());
+            stack.setTag(new NbtCompound());
             stack.getTag().putBoolean(Constants.NBT.LOADING, false);
             return false;
         }
@@ -85,7 +85,7 @@ public abstract class GunItem extends Item {
 
     public static ItemStack setLoading(ItemStack stack, boolean loading) {
         if (!stack.hasTag()) {
-            stack.setTag(new CompoundTag());
+            stack.setTag(new NbtCompound());
         }
         stack.getTag().putBoolean(Constants.NBT.LOADING, loading);
         return stack;
@@ -99,7 +99,7 @@ public abstract class GunItem extends Item {
 
     public ItemStack loadGun(ItemStack stack, World world, LivingEntity user) {
         if (!stack.hasTag()) {
-            stack.setTag(new CompoundTag());
+            stack.setTag(new NbtCompound());
         }
 
         int generatedShots = user instanceof PlayerEntity && !((PlayerEntity) user).isCreative() ? loadBullets((PlayerEntity) user, stack.getTag().getInt(Constants.NBT.SHOTS)) : getMaxShots();
@@ -165,7 +165,7 @@ public abstract class GunItem extends Item {
     }
 
     public static boolean isLoaded(ItemStack stack) {
-        if (!stack.hasTag()) stack.setTag(new CompoundTag());
+        if (!stack.hasTag()) stack.setTag(new NbtCompound());
         return stack.getTag().getInt(Constants.NBT.SHOTS) > 0;
     }
 

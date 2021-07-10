@@ -110,7 +110,7 @@ public class MMObjects {
     public static final Block WARDING_MARK = new WardingMarkBlock();
 
     public static final Block INFESTED_WHEAT_CROP = new InfestedWheatCropBlock();
-    public static final Block BIRCH_LOG = new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, (blockState) -> blockState.get(PillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.SAND : MaterialColor.WHITE).strength(2.0F).sounds(BlockSoundGroup.WOOD));
+    public static final Block BIRCH_LOG = new PillarBlock(AbstractBlock.Settings.of(Material.WOOD, (blockState) -> blockState.get(PillarBlock.AXIS) == Direction.Axis.Y ? MapColor.PALE_YELLOW : MapColor.WHITE).strength(2.0F).sounds(BlockSoundGroup.WOOD));
 
     public static final LoomPattern YELLOW_SIGN_BANNER = new LoomPattern(true);
     public static final Item YELLOW_SIGN_LOOM_PATTERN = new YellowSignPatternItem();
