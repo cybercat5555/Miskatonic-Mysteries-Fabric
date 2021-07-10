@@ -146,10 +146,6 @@ public class ResourceHandler {
         return STATUE_SPRITES.getOrDefault(statue.getWorld().getBlockState(statue.getPos()).getBlock(), new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("")));
     }
 
-    public static Model getMaskModel(Item mask) {
-        return MASK_MODELS.getOrDefault(mask, new CreeperEntityModel<>());
-    }
-
     public static SpriteIdentifier getMatchingOctagramTexture(Affiliation affiliation) {
         if (affiliation == null || affiliation == MMAffiliations.NONE) {
             return ResourceHandler.DEFAULT_OCTAGRAM;

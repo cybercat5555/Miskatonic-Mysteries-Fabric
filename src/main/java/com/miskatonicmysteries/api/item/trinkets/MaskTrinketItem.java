@@ -5,7 +5,7 @@ import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.MalleableAffiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import dev.emi.trinkets.api.Slots;
+import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;
 import dev.emi.trinkets.api.TrinketsApi;
@@ -17,56 +17,41 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
 public class MaskTrinketItem extends TrinketItem implements Affiliated {
-    private final Identifier texture;
     private final Affiliation affiliation;
     private final boolean verySpecial;
 
-    public MaskTrinketItem(Identifier texture, Affiliation affiliation, boolean verySpecial, Settings settings) {
+    public MaskTrinketItem(Affiliation affiliation, boolean verySpecial, Settings settings) {
         super(settings);
-        this.texture = texture;
         this.affiliation = affiliation;
         this.verySpecial = verySpecial;
     }
 
 
     public static ItemStack getMask(PlayerEntity player) {
-        for (int i = 0; i < TrinketsApi.getTrinketsInventory(player).size(); i++) {
-            ItemStack stack = TrinketsApi.getTrinketsInventory(player).getStack(i);
-            if (stack.getItem() instanceof MaskTrinketItem){
-                return stack;
-            }
+        var masks = TrinketsApi.getTrinketComponent(player)
+                .map(component ->
+                        component.getEquipped(stack -> stack.getItem() instanceof MaskTrinketItem));
+        if (masks.isPresent() && !masks.get().isEmpty()){
+            return masks.get().get(0).getRight();
         }
         return ItemStack.EMPTY;
     }
 
     @Override
-    public void onEquip(PlayerEntity player, ItemStack stack) {
-        MalleableAffiliated.of(player).ifPresent(affiliation -> affiliation.setAffiliation(this.affiliation, true));
+    public void onEquip(ItemStack stack, SlotReference slot, LivingEntity entity) {
+        MalleableAffiliated.of(entity).ifPresent(affiliation -> affiliation.setAffiliation(this.affiliation, true));
     }
 
     @Override
-    public void onUnequip(PlayerEntity player, ItemStack stack) {
-        //update affiliation based on equipment left
-        Affiliation apparentAffiliation = MiskatonicMysteriesAPI.getApparentAffiliationFromEquipment(stack, player);
-        MalleableAffiliated.of(player).ifPresent(affiliation -> affiliation.setAffiliation(apparentAffiliation, true));
-    }
-
-    @Override
-    public boolean canWearInSlot(String group, String slot) {
-        return slot.equals(Slots.MASK);
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public void render(String slot, MatrixStack matrixStack, VertexConsumerProvider vertexConsumer, int light, PlayerEntityModel<AbstractClientPlayerEntity> model, AbstractClientPlayerEntity player, float headYaw, float headPitch) {
-        Trinket.translateToFace(matrixStack, model, player, headYaw, headPitch);
-        matrixStack.translate(0, 0.25, 0.3);
-        ResourceHandler.getMaskModel(this).render(matrixStack, vertexConsumer.getBuffer(RenderLayer.getEntityCutout(texture)), light, OverlayTexture.DEFAULT_UV, 1, 1, 1, 1);
+    public void onUnequip(ItemStack stack, SlotReference slot, LivingEntity entity) {
+        Affiliation apparentAffiliation = MiskatonicMysteriesAPI.getApparentAffiliationFromEquipment(stack, entity);
+        MalleableAffiliated.of(entity).ifPresent(affiliation -> affiliation.setAffiliation(apparentAffiliation, true));
     }
 
     @Override

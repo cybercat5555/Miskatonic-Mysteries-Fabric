@@ -9,17 +9,13 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMCriteria;
 import com.miskatonicmysteries.common.registry.MMRegistries;
-import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -53,15 +49,15 @@ public class MiskatonicMysteriesAPI {
         return Affiliated.of(obj).map(affiliated -> affiliated.getAffiliation(apparent)).orElse(MMAffiliations.NONE);
     }
 
-    public static Affiliation getApparentAffiliationFromEquipment(@Nullable ItemStack exclude, PlayerEntity player) {
-        Inventory trinkets = TrinketsApi.getTrinketsInventory(player);
-        for (int i = 0; i < trinkets.size(); i++) {
-            ItemStack stack = trinkets.getStack(i);
-            if (stack.equals(exclude)) {
-                continue;
-            }
-            if (stack.getItem() instanceof Affiliated) {
-                return ((Affiliated) stack.getItem()).getAffiliation(true);
+    public static Affiliation getApparentAffiliationFromEquipment(@Nullable ItemStack exclude, LivingEntity entity) {
+        var trinkets = TrinketsApi.getTrinketComponent(entity)
+                .map(component ->
+                        component.getEquipped(stack -> !stack.equals(exclude) && stack.getItem() instanceof Affiliated));
+
+        if (trinkets.isPresent() && trinkets.get().size() > 0){
+            Item trinket = trinkets.get().get(0).getRight().getItem();
+            if (trinket instanceof Affiliated a){
+                return a.getAffiliation(true);
             }
         }
         return MMAffiliations.NONE;

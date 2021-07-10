@@ -9,6 +9,9 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.client.gui.EditSpellScreen;
 import com.miskatonicmysteries.client.gui.SpellClientHandler;
+import com.miskatonicmysteries.client.model.armor.HasturMaskModel;
+import com.miskatonicmysteries.client.model.armor.ShubAlternateMaskModel;
+import com.miskatonicmysteries.client.model.armor.ShubMaskModel;
 import com.miskatonicmysteries.client.model.entity.phantasma.AberrationModel;
 import com.miskatonicmysteries.client.model.entity.phantasma.PhantasmaModel;
 import com.miskatonicmysteries.client.particle.AmbientMagicParticle;
@@ -22,6 +25,7 @@ import com.miskatonicmysteries.client.render.blockentity.ChemistrySetBlockRender
 import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
 import com.miskatonicmysteries.client.render.entity.*;
+import com.miskatonicmysteries.client.render.trinket.MaskTrinketRenderer;
 import com.miskatonicmysteries.client.sound.ResonatorSound;
 import com.miskatonicmysteries.client.vision.VisionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
@@ -30,6 +34,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.*;
 import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.NbtUtil;
+import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -95,6 +100,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
                 }
             }
         });
+        registerTrinketRenderers();
         FabricModelPredicateProviderRegistry.register(MMObjects.RIFLE, new Identifier("loading"), (stack, world, entity) -> GunItem.isLoading(stack) ? 1 : 0);
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.CANDLE, RenderLayer.getCutout());
@@ -153,7 +159,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(EffectParticlePacket.ID, EffectParticlePacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(BloodParticlePacket.ID, BloodParticlePacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, (client, networkHandler, packetByteBuf, sender) -> {
-            CompoundTag tag = packetByteBuf.readCompoundTag();
+            NbtTag tag = packetByteBuf.readCompoundTag();
             client.execute(() -> SpellCaster.of(client.player).ifPresent(caster -> NbtUtil.readSpellData(caster, tag)));
         });
         ClientPlayNetworking.registerGlobalReceiver(OpenSpellEditorPacket.ID, (client, networkHandler, packetByteBuf, sender) -> client.execute(() -> client.openScreen(new EditSpellScreen((SpellCaster) client.player))));
@@ -166,5 +172,12 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(SyncRiteTargetPacket.ID, SyncRiteTargetPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(SyncHeldEntityPacket.ID, SyncHeldEntityPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(VisionPacket.ID, VisionPacket::handle);
+    }
+
+    private void registerTrinketRenderers() {
+        TrinketRendererRegistry.registerRenderer(MMObjects.ELEGANT_MASK, new MaskTrinketRenderer(new HasturMaskModel(), new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png")));
+        TrinketRendererRegistry.registerRenderer(MMObjects.FERAL_MASK, new MaskTrinketRenderer(new ShubMaskModel(), new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png")));
+        TrinketRendererRegistry.registerRenderer(MMObjects.WILD_MASK, new MaskTrinketRenderer(new ShubAlternateMaskModel(), new Identifier(Constants.MOD_ID, "textures/model/mask/wild_mask.png")));
+
     }
 }

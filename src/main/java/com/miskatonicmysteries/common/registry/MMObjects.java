@@ -3,7 +3,6 @@ package com.miskatonicmysteries.common.registry;
 import com.miskatonicmysteries.api.block.AltarBlock;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
-import com.miskatonicmysteries.api.block.SignBlock;
 import com.miskatonicmysteries.api.item.BlessedSwordItem;
 import com.miskatonicmysteries.api.item.ChalkItem;
 import com.miskatonicmysteries.api.item.MMBookItem;
@@ -155,9 +154,9 @@ public class MMObjects {
     public static final Item HASTUR_CULTIST_SPAWN_EGG = new SpawnEggItem(MMEntities.HASTUR_CULTIST, 0xEAC800, 0xFFFFFF, new Item.Settings().group(Constants.MM_GROUP));
     public static final Item PHANTASMA_SPAWN_EGG = new SpawnEggItem(MMEntities.PHANTASMA, 0x77329F, 0xDA329F, new Item.Settings().group(Constants.MM_GROUP));
 
-    public static final Item ELEGANT_MASK = new MaskTrinketItem(new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png"), MMAffiliations.HASTUR, false, new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
-    public static final Item FERAL_MASK = new MaskTrinketItem(new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png"), MMAffiliations.SHUB, false, new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
-    public static final Item WILD_MASK = new MaskTrinketItem(new Identifier(Constants.MOD_ID, "textures/model/mask/wild_mask.png"), MMAffiliations.SHUB, false, new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
+    public static final Item ELEGANT_MASK = new MaskTrinketItem(MMAffiliations.HASTUR, false, new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
+    public static final Item FERAL_MASK = new MaskTrinketItem(MMAffiliations.SHUB, false, new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
+    public static final Item WILD_MASK = new MaskTrinketItem(MMAffiliations.SHUB, false, new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
 
     public static final Item YELLOW_HOOD = new HasturCultistArmor(EquipmentSlot.HEAD);
     public static final Item YELLOW_ROBE = new HasturCultistArmor(EquipmentSlot.CHEST);
