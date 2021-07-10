@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.entity;
 
+import com.miskatonicmysteries.common.entity.HarrowEntity.HarrowMoveControl;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import net.minecraft.entity.*;
@@ -78,11 +79,11 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
     protected void initGoals() {
         super.initGoals();
         this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(1, new HarrowEntity.ChargeTargetGoal());
-        this.goalSelector.add(2, new HarrowEntity.LookAtTargetGoal());
+        this.goalSelector.add(1, new ChargeTargetGoal());
+        this.goalSelector.add(2, new LookAtTargetGoal());
         this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 3.0F, 1.0F));
         this.goalSelector.add(4, new LookAtEntityGoal(this, MobEntity.class, 8.0F));
-        this.targetSelector.add(1, new HarrowEntity.TrackOwnerTargetGoal(this));
+        this.targetSelector.add(1, new TrackOwnerTargetGoal(this));
         this.targetSelector.add(2, new RevengeGoal(this));
         this.targetSelector.add(3, new FollowTargetGoal<>(this, PlayerEntity.class, 10, false, false, (living) -> getOwner() == null));
     }
@@ -188,7 +189,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 
     class LookAtTargetGoal extends Goal {
         public LookAtTargetGoal() {
-            this.setControls(EnumSet.of(Goal.Control.MOVE));
+            this.setControls(EnumSet.of(Control.MOVE));
         }
 
         @Override
@@ -220,7 +221,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 
     class ChargeTargetGoal extends Goal {
         public ChargeTargetGoal() {
-            this.setControls(EnumSet.of(Goal.Control.MOVE));
+            this.setControls(EnumSet.of(Control.MOVE));
         }
 
         @Override
@@ -276,11 +277,11 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 
         @Override
         public void tick() {
-            if (this.state == MoveControl.State.MOVE_TO) {
+            if (this.state == State.MOVE_TO) {
                 Vec3d vec3d = new Vec3d(this.targetX - getX(), this.targetY - getY(), this.targetZ - getZ());
                 double d = vec3d.length();
                 if (d < getBoundingBox().getAverageSideLength()) {
-                    this.state = MoveControl.State.WAIT;
+                    this.state = State.WAIT;
                     setVelocity(getVelocity().multiply(0.5D));
                 } else {
                     setVelocity(getVelocity().add(vec3d.multiply(this.speed * 0.05D / d)));

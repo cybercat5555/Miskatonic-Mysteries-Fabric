@@ -20,9 +20,9 @@ public class RiteCastCriterion extends AbstractCriterion<RiteCastCriterion.Condi
         return ID;
     }
 
-    public RiteCastCriterion.Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
+    public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
         Identifier riteId = new Identifier(JsonHelper.getString(jsonObject, "rite"));
-        return new RiteCastCriterion.Conditions(extended, MMRegistries.RITES.get(riteId));
+        return new Conditions(extended, MMRegistries.RITES.get(riteId));
     }
 
     public void trigger(ServerPlayerEntity player, Rite rite) {

@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 
 public class BlotterItem extends Item {
     public BlotterItem() {
-        super(new Item.Settings().group(Constants.MM_GROUP));
+        super(new Settings().group(Constants.MM_GROUP));
     }
 
     @Override

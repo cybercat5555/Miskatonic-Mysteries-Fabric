@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class YellowSignPatternItem extends LoomPatternItem {
     public YellowSignPatternItem() {
-        super(MMObjects.YELLOW_SIGN_BANNER, new Item.Settings().group(Constants.MM_GROUP).maxCount(1).rarity(Rarity.UNCOMMON));
+        super(MMObjects.YELLOW_SIGN_BANNER, new Settings().group(Constants.MM_GROUP).maxCount(1).rarity(Rarity.UNCOMMON));
     }
 
 

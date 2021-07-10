@@ -10,7 +10,7 @@ import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.IntRange;
-
+import com.miskatonicmysteries.common.entity.ai.MobCrossbowAttackGoal.Stage;
 import java.util.EnumSet;
 
 //copy-paste vanilla classes to avoid vicious hackery
@@ -29,7 +29,7 @@ public class MobCrossbowAttackGoal<T extends PathAwareEntity & RangedAttackMob &
         this.actor = actor;
         this.speed = speed;
         this.squaredRange = range * range;
-        this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+        this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
     }
 
     public boolean canStart() {

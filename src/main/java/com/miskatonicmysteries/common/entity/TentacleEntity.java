@@ -288,7 +288,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 
     public class SwingAtTargetGoal extends Goal {
         public SwingAtTargetGoal() {
-            this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+            this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
         }
 
         public boolean canStart() {

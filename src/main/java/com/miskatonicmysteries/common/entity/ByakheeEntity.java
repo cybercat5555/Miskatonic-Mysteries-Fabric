@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.entity;
 
+import com.miskatonicmysteries.common.entity.ByakheeEntity.BondWithPlayerGoal;
 import com.miskatonicmysteries.common.entity.util.InputAware;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
@@ -302,7 +303,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 
     @Override
     public void updatePassengerPosition(Entity passenger) {
-        Entity.PositionUpdater updater = Entity::updatePosition;
+        PositionUpdater updater = Entity::updatePosition;
         float x = MathHelper.sin(this.bodyYaw * 0.017453292F);
         float z = MathHelper.cos(this.bodyYaw * 0.017453292F);
         updater.accept(passenger, this.getX() + x * 0.5, this.getY() + this.getMountedHeightOffset() + passenger.getHeightOffset(), this.getZ() - z * 0.5F);
@@ -357,7 +358,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
         private double targetZ;
 
         public BondWithPlayerGoal() {
-            this.setControls(EnumSet.of(Goal.Control.MOVE));
+            this.setControls(EnumSet.of(Control.MOVE));
         }
 
         public boolean canStart() {

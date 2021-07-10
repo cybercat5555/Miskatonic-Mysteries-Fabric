@@ -72,7 +72,7 @@ public class CommandDrivenRite extends Rite implements DataSerializable<Rite> {
         return super.getId();
     }
 
-    public static class Serializer extends DataSerializable.DataReader<Rite> {
+    public static class Serializer extends DataReader<Rite> {
         @Override
         public Rite readFromJson(Identifier id, JsonObject json) {
             return new CommandDrivenRite(id, JsonHelper.hasElement(json, "affiliation") ? MMRegistries.AFFILIATIONS.get(new Identifier(JsonHelper.getString(json, "affiliation"))) : null, new Identifier(JsonHelper.getString(json, "tick")), new Identifier(JsonHelper.getString(json, "result")), JsonHelper.getInt(json, "duration", 100), JsonHelper.getFloat(json, "investigatorChance", 0.25F), readIngredients(JsonHelper.getArray(json, "ingredients")));

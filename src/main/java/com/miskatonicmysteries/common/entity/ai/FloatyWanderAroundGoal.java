@@ -14,7 +14,7 @@ public class FloatyWanderAroundGoal extends Goal {
     private int chance;
 
     public FloatyWanderAroundGoal(PathAwareEntity entity, int chance) {
-        this.setControls(EnumSet.of(Goal.Control.MOVE));
+        this.setControls(EnumSet.of(Control.MOVE));
         this.entity = entity;
         this.chance = chance;
     }

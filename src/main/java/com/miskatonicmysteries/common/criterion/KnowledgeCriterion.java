@@ -20,9 +20,9 @@ public class KnowledgeCriterion extends AbstractCriterion<KnowledgeCriterion.Con
         return ID;
     }
 
-    public KnowledgeCriterion.Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
+    public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
         String knowledge = (JsonHelper.getString(jsonObject, "knowledge"));
-        return new KnowledgeCriterion.Conditions(extended, knowledge);
+        return new Conditions(extended, knowledge);
     }
 
     public void trigger(ServerPlayerEntity player, String knowledge) {

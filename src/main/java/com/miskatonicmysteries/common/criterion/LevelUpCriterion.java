@@ -20,10 +20,10 @@ public class LevelUpCriterion extends AbstractCriterion<LevelUpCriterion.Conditi
         return ID;
     }
 
-    public LevelUpCriterion.Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
+    public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
         Identifier affiliationId = new Identifier(JsonHelper.getString(jsonObject, "affiliation"));
         int stage = JsonHelper.getInt(jsonObject, "stage", -1);
-        return new LevelUpCriterion.Conditions(extended, MMRegistries.AFFILIATIONS.get(affiliationId), stage);
+        return new Conditions(extended, MMRegistries.AFFILIATIONS.get(affiliationId), stage);
     }
 
     public void trigger(ServerPlayerEntity player, Affiliation affiliation, int stage) {

@@ -34,7 +34,7 @@ public class TheOrbItem extends Item {
             .build();
 
     public TheOrbItem() {
-        super(new Item.Settings().group(Constants.MM_GROUP).food(ORB_FOOD).maxCount(1).rarity(Rarity.UNCOMMON));
+        super(new Settings().group(Constants.MM_GROUP).food(ORB_FOOD).maxCount(1).rarity(Rarity.UNCOMMON));
     }
 
     @Override

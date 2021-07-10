@@ -42,7 +42,7 @@ public class InsanityInducer implements DataSerializable<InsanityInducer> {
         return id;
     }
 
-    public static class Serializer extends DataSerializable.DataReader<InsanityInducer> {
+    public static class Serializer extends DataReader<InsanityInducer> {
         @Override
         public InsanityInducer readFromJson(Identifier id, JsonObject json) {
             return new InsanityInducer(id, JsonHelper.getInt(json, "sanityPenalty"), JsonHelper.getBoolean(json, "decreasesSanityCap", false), JsonHelper.getBoolean(json, "withShock", false), JsonHelper.getBoolean(json, "ignoreFactors", false), Ingredient.fromJson(JsonHelper.getObject(json, "inducer")));

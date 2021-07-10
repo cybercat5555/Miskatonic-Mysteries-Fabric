@@ -35,12 +35,12 @@ public class MMStatusEffects {
         RegistryUtil.register(Registry.STATUS_EFFECT, "exotic_cravings", EXOTIC_CRAVINGS);
         RegistryUtil.register(Registry.STATUS_EFFECT, "ultra_violence", ULTRA_VIOLENCE);
 
-        RegistryUtil.register(Registry.POTION, "resonance", MMStatusEffects.Potions.RESONANCE);
-        RegistryUtil.register(Registry.POTION, "resonance_long", MMStatusEffects.Potions.LONG_RESONANCE);
-        RegistryUtil.register(Registry.POTION, "resonance_strong", MMStatusEffects.Potions.STRONG_RESONANCE);
+        RegistryUtil.register(Registry.POTION, "resonance", Potions.RESONANCE);
+        RegistryUtil.register(Registry.POTION, "resonance_long", Potions.LONG_RESONANCE);
+        RegistryUtil.register(Registry.POTION, "resonance_strong", Potions.STRONG_RESONANCE);
 
-        BrewingRecipeRegistryAccessor.invokeRegister(net.minecraft.potion.Potions.WATER, MMObjects.RESONATE_OOZE, MMStatusEffects.Potions.RESONANCE);
-        BrewingRecipeRegistryAccessor.invokeRegister(MMStatusEffects.Potions.RESONANCE, Items.REDSTONE, MMStatusEffects.Potions.LONG_RESONANCE);
-        BrewingRecipeRegistryAccessor.invokeRegister(MMStatusEffects.Potions.RESONANCE, Items.GLOWSTONE_DUST, MMStatusEffects.Potions.STRONG_RESONANCE);
+        BrewingRecipeRegistryAccessor.invokeRegister(net.minecraft.potion.Potions.WATER, MMObjects.RESONATE_OOZE, Potions.RESONANCE);
+        BrewingRecipeRegistryAccessor.invokeRegister(Potions.RESONANCE, Items.REDSTONE, Potions.LONG_RESONANCE);
+        BrewingRecipeRegistryAccessor.invokeRegister(Potions.RESONANCE, Items.GLOWSTONE_DUST, Potions.STRONG_RESONANCE);
     }
 }

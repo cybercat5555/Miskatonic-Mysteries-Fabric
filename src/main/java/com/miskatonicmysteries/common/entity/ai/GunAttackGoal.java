@@ -19,7 +19,7 @@ public class GunAttackGoal extends Goal {
 
     public GunAttackGoal(MobEntity protagonist) {
         this.entity = protagonist;
-        this.setControls(EnumSet.of(Goal.Control.LOOK, Control.MOVE));
+        this.setControls(EnumSet.of(Control.LOOK, Control.MOVE));
     }
 
     @Override

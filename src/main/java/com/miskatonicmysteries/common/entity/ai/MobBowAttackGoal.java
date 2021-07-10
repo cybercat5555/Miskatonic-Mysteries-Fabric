@@ -27,7 +27,7 @@ public class MobBowAttackGoal<T extends PathAwareEntity & RangedAttackMob> exten
         this.speed = speed;
         this.attackInterval = attackInterval;
         this.squaredRange = range * range;
-        this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+        this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
     }
 
     public void setAttackInterval(int attackInterval) {

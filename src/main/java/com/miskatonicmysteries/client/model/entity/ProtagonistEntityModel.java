@@ -93,8 +93,8 @@ public class ProtagonistEntityModel extends BipedEntityModel<ProtagonistEntity> 
 
     @Override
     public void animateModel(ProtagonistEntity livingEntity, float f, float g, float h) {
-        this.rightArmPose = BipedEntityModel.ArmPose.EMPTY;
-        this.leftArmPose = BipedEntityModel.ArmPose.EMPTY;
+        this.rightArmPose = ArmPose.EMPTY;
+        this.leftArmPose = ArmPose.EMPTY;
         ItemStack itemStack = livingEntity.getStackInHand(Hand.MAIN_HAND);
         if ((itemStack.getItem() instanceof BowItem || itemStack.getItem() instanceof GunItem) && livingEntity.isAttacking()) {
             if (livingEntity.getMainArm() == Arm.RIGHT) {

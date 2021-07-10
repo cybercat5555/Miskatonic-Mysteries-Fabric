@@ -395,7 +395,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
         private int updateCountdownTicks;
 
         public SwingAtTargetGoal() {
-            this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+            this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
         }
 
         public boolean canStart() {

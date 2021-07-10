@@ -17,7 +17,7 @@ import net.minecraft.util.Hand;
 
 public class ReAgentItem extends Item {
     public ReAgentItem() {
-        super(new Item.Settings().group(Constants.MM_GROUP).recipeRemainder(MMObjects.SYRINGE).maxCount(1));
+        super(new Settings().group(Constants.MM_GROUP).recipeRemainder(MMObjects.SYRINGE).maxCount(1));
     }
 
     @Override

@@ -24,7 +24,7 @@ import java.util.stream.IntStream;
 @Environment(EnvType.CLIENT)
 public class RenderHelper extends RenderLayer {
     public static final List<RenderLayer> PORTAL_LAYERS = IntStream.range(1, 17).mapToObj(RenderLayer::getEndPortal).collect(Collectors.toList());
-    public static final RenderPhase.Transparency AURA_TRANSPARENCY = new RenderPhase.Transparency(Constants.MOD_ID + ":aura_transparency", () -> {
+    public static final Transparency AURA_TRANSPARENCY = new Transparency(Constants.MOD_ID + ":aura_transparency", () -> {
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
@@ -35,11 +35,11 @@ public class RenderHelper extends RenderLayer {
         RenderSystem.defaultBlendFunc();
     });
 
-    public static final MultiPhaseParameters TRANSPARENCY_PARAMS = RenderLayer.MultiPhaseParameters.builder()
+    public static final MultiPhaseParameters TRANSPARENCY_PARAMS = MultiPhaseParameters.builder()
             .shadeModel(new RenderPhase.ShadeModel(false))
             .texture(BLOCK_ATLAS_TEXTURE)
             .diffuseLighting(new RenderPhase.DiffuseLighting(true))
-            .transparency(new RenderPhase.Transparency(Constants.MOD_ID + ":translucency", () -> {
+            .transparency(new Transparency(Constants.MOD_ID + ":translucency", () -> {
                 RenderSystem.depthMask(false);
                 RenderSystem.enableBlend();
                 RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
@@ -49,16 +49,16 @@ public class RenderHelper extends RenderLayer {
                 RenderSystem.disableBlend();
                 RenderSystem.defaultBlendFunc();
             }))
-            .lightmap(new RenderPhase.Lightmap(true))
+            .lightmap(new Lightmap(true))
             .build(true);
 
-    public static final RenderLayer.MultiPhaseParameters AURA_PARAMS = RenderLayer.MultiPhaseParameters.builder()
+    public static final MultiPhaseParameters AURA_PARAMS = MultiPhaseParameters.builder()
             .shadeModel(new RenderPhase.ShadeModel(false))
             .texture(BLOCK_ATLAS_TEXTURE)
             .diffuseLighting(new RenderPhase.DiffuseLighting(true))
             .transparency(AURA_TRANSPARENCY)
             .alpha(RenderPhase.ONE_TENTH_ALPHA)
-            .lightmap(new RenderPhase.Lightmap(true))
+            .lightmap(new Lightmap(true))
             .build(true);
 
     public static final RenderLayer AURA_LAYER = RenderLayer.of(Constants.MOD_ID + ":aura_layer", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, AURA_PARAMS);
@@ -82,7 +82,7 @@ public class RenderHelper extends RenderLayer {
     }
 
     public static RenderLayer getEnergyTentacleLayer(Identifier texture) {
-        RenderPhase.Transparency TRANSPARENCY = new RenderPhase.Transparency("translucent_transparency", () -> {
+        Transparency TRANSPARENCY = new Transparency("translucent_transparency", () -> {
             RenderSystem.enableBlend();
             RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.disableLighting();
@@ -90,7 +90,7 @@ public class RenderHelper extends RenderLayer {
             RenderSystem.disableBlend();
             RenderSystem.defaultBlendFunc();
         });
-        RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).transparency(TRANSPARENCY).diffuseLighting(ENABLE_DIFFUSE_LIGHTING).alpha(ONE_TENTH_ALPHA).cull(DISABLE_CULLING).lightmap(ENABLE_LIGHTMAP).overlay(ENABLE_OVERLAY_COLOR).build(true);
+        MultiPhaseParameters multiPhaseParameters = MultiPhaseParameters.builder().texture(new Texture(texture, false, false)).transparency(TRANSPARENCY).diffuseLighting(ENABLE_DIFFUSE_LIGHTING).alpha(ONE_TENTH_ALPHA).cull(DISABLE_CULLING).lightmap(ENABLE_LIGHTMAP).overlay(ENABLE_OVERLAY_COLOR).build(true);
         return of(Constants.MOD_ID + ":energy_tentacle", VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL, 7, 256, true, true, multiPhaseParameters);
     }
 
