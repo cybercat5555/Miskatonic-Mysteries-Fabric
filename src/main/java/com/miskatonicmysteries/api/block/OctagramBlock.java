@@ -13,6 +13,8 @@ import com.miskatonicmysteries.common.util.InventoryUtil;
 import com.miskatonicmysteries.common.util.Util;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -129,7 +131,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                     && octagram.boundPos != null) {
                 Direction direction = getEffectiveDirection(octagram.getBoundDimension().getBlockState(octagram.getBoundPos()), state.get(FACING), entity.getMovementDirection());
                 BlockPos boundPos = octagram.getBoundPos().offset(direction);
-                Util.teleport(octagram.getBoundDimension(), entity, boundPos.getX() + 0.5F, boundPos.getY(), boundPos.getZ() + 0.5F, direction.asRotation(), entity.pitch);
+                Util.teleport(octagram.getBoundDimension(), entity, boundPos.getX() + 0.5F, boundPos.getY(), boundPos.getZ() + 0.5F, direction.asRotation(), entity.getPitch());
                 TeleportEffectPacket.send(entity);
             }
         }
@@ -150,10 +152,15 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 
     @Nullable
     @Override
-    public BlockEntity createBlockEntity(BlockView world) {
-        return new OctagramBlockEntity();
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new OctagramBlockEntity(pos, state);
     }
 
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return (world1, pos, state1, blockEntity) -> OctagramBlockEntity.tick((OctagramBlockEntity) blockEntity);
+    }
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         for (int i = 0; i < 8; i++) {

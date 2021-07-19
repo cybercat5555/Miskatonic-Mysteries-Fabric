@@ -13,10 +13,10 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.SpawnSettings;
 
-import java.util.List;
 import java.util.Optional;
 
 public class SpawnHallucinationInsanityEvent extends InsanityEvent {
@@ -28,13 +28,11 @@ public class SpawnHallucinationInsanityEvent extends InsanityEvent {
     public boolean execute(PlayerEntity player, Sanity sanity) {
         if (!player.world.isClient) {
             ServerWorld world = (ServerWorld) player.world;
-            BlockPos pos = Util.getPossibleMobSpawnPos(world, player, 50, 16, 14);
+            BlockPos pos = Util.getPossibleMobSpawnPos(world, player, 50, 16, 14, EntityType.ARMOR_STAND); //dummy entity type
             if (pos != null) {
-                List<SpawnSettings.SpawnEntry> entry = world.getBiome(pos).getSpawnSettings().getSpawnEntries(SpawnGroup.MONSTER);
-                EntityType<?> type = entry.get(world.random.nextInt(entry.size())).type;
-                Entity entity = type.create(world);
-                if (entity instanceof MobEntity) {
-                    MobEntity mob = (MobEntity) entity;
+                Pool<SpawnSettings.SpawnEntry> entryPool = world.getBiome(pos).getSpawnSettings().getSpawnEntries(SpawnGroup.MONSTER);
+                Entity entity = entryPool.getOrEmpty(world.random).map(spawnEntry -> spawnEntry.type.create(world)).orElse(null);
+                if (entity instanceof MobEntity mob) {
                     mob.setPosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
                     mob.setTarget(player);
                     Hallucination.of(mob).ifPresent(hallucination -> hallucination.setHallucinationTarget(Optional.of(player.getUuid())));

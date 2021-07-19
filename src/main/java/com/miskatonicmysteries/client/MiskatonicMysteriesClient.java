@@ -9,6 +9,7 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.client.gui.EditSpellScreen;
 import com.miskatonicmysteries.client.gui.SpellClientHandler;
+import com.miskatonicmysteries.client.model.MMModels;
 import com.miskatonicmysteries.client.model.armor.HasturMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubAlternateMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubMaskModel;
@@ -47,15 +48,19 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.UnclampedModelPredicateProvider;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 import vazkii.patchouli.api.PatchouliAPI;
 
 @Environment(EnvType.CLIENT)
@@ -64,6 +69,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
     public static final Identifier OBFUSCATED_FONT_ID = new Identifier(Constants.MOD_ID, "obfuscated_font");
     @Override
     public void onInitializeClient() {
+        MMModels.init();
         PatchouliAPI.get().registerFunction("obfs", (param, iStyleStack) -> {
             String[] args = param.split(";");
             Affiliation affiliation = args[0].equals("") ? null : MMRegistries.AFFILIATIONS.get(new Identifier(args[0]));
@@ -96,7 +102,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
             }
         });
         registerTrinketRenderers();
-        FabricModelPredicateProviderRegistry.register(MMObjects.RIFLE, new Identifier("loading"), (stack, world, entity) -> GunItem.isLoading(stack) ? 1 : 0);
+        FabricModelPredicateProviderRegistry.register(MMObjects.RIFLE, new Identifier("loading"), (stack, world, entity, seed) -> GunItem.isLoading(stack) ? 1 : 0);
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.CANDLE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.RESONATOR, RenderLayer.getTranslucent());
@@ -113,9 +119,9 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         BlockEntityRendererRegistry.INSTANCE.register(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, OctagramBlockRender::new);
         BlockEntityRendererRegistry.INSTANCE.register(MMObjects.STATUE_BLOCK_ENTITY_TYPE, StatueBlockRender::new);
 
-        EntityRendererRegistry.INSTANCE.register(MMEntities.PROTAGONIST, (entityRenderDispatcher, context) -> new ProtagonistEntityRender(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.HASTUR_CULTIST, (entityRenderDispatcher, context) -> new HasturCultistEntityRender(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.SPELL_PROJECTILE, (entityRenderDispatcher, context) -> new SpellProjectileEntityRenderer(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.PROTAGONIST, (context) -> new ProtagonistEntityRender(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.HASTUR_CULTIST, (context) -> new HasturCultistEntityRender(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.SPELL_PROJECTILE, (context) -> new SpellProjectileEntityRenderer(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.BOLT, (entityRenderDispatcher, context) -> new BoltEntityRenderer(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.PHANTASMA, (entityRenderDispatcher, context) -> new PhantasmaEntityRenderer(entityRenderDispatcher, new PhantasmaModel()));
         EntityRendererRegistry.INSTANCE.register(MMEntities.ABERRATION, (entityRenderDispatcher, context) -> new PhantasmaEntityRenderer(entityRenderDispatcher, new AberrationModel()));

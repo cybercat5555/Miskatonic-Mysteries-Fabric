@@ -8,7 +8,7 @@ import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.recipe.Ingredient;
@@ -54,13 +54,13 @@ public abstract class TriggeredRite extends Rite {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
-        return !entity.triggered ? 2 : super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
+    public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
+        return !entity.triggered ? 2 : super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
     }
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
+    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
         if (!entity.triggered) {
             float alpha = entity.tickCount >= ticksNeeded ? 1 : entity.tickCount / (float) ticksNeeded;
             matrixStack.translate(0, 0.001F, 0);

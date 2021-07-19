@@ -1,11 +1,11 @@
 package com.miskatonicmysteries.common.util;
 
 import com.miskatonicmysteries.common.feature.world.structures.ModifiableStructurePool;
-import com.miskatonicmysteries.common.registry.MMEntities;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.PathAwareEntity;
@@ -97,7 +97,7 @@ public class Util {
                 target.refreshPositionAndAngles(x, y, z, f, g);
                 target.setHeadYaw(f);
                 world.onDimensionChanged(target);
-                entity.removed = true;
+                entity.setRemoved(Entity.RemovalReason.CHANGED_DIMENSION);
             }
         }
 
@@ -119,7 +119,7 @@ public class Util {
     }
 
     @Nullable
-    public static BlockPos getPossibleMobSpawnPos(ServerWorld world, PlayerEntity player, int tries, int radius, int zoneRadius) {
+    public static BlockPos getPossibleMobSpawnPos(ServerWorld world, PlayerEntity player, int tries, int radius, int zoneRadius, EntityType<?> type) {
         BlockPos.Mutable mutable = new BlockPos.Mutable();
 
         for (int j = 0; j < tries; ++j) {
@@ -128,7 +128,7 @@ public class Util {
             int l = (int) player.getZ() + MathHelper.floor(MathHelper.sin(f) * radius) + world.random.nextInt(zoneRadius);
             int m = world.getTopY(Heightmap.Type.WORLD_SURFACE, k, l);
             mutable.set(k, m, l);
-            if (world.isRegionLoaded(mutable.getX() - 10, mutable.getY() - 10, mutable.getZ() - 10, mutable.getX() + 10, mutable.getY() + 10, mutable.getZ() + 10) && world.getChunkManager().shouldTickChunk(new ChunkPos(mutable)) && (SpawnHelper.canSpawn(SpawnRestriction.Location.ON_GROUND, world, mutable, MMEntities.PROTAGONIST) || world.getBlockState(mutable.down()).isOf(Blocks.SNOW) && world.getBlockState(mutable).isAir())) {
+            if (SpawnHelper.canSpawn(SpawnRestriction.Location.ON_GROUND, world, mutable, type)){
                 return mutable;
             }
         }
@@ -152,5 +152,4 @@ public class Util {
         }
         return -1;
     }
-
 }

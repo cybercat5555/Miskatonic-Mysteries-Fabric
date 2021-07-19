@@ -8,7 +8,7 @@ import com.miskatonicmysteries.common.registry.MMSounds;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -123,12 +123,12 @@ public class SpawnerTrapRite extends TriggeredRite {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
+    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
         if (entity.triggered && entity.tickCount > ticksNeeded) {
             float alpha = (entity.tickCount - ticksNeeded) > ticksNeeded ? 1 : (entity.tickCount - ticksNeeded) / (float) ticksNeeded;
-            renderPortalOctagram(alpha, color, entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
+            renderPortalOctagram(alpha, color, entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
         } else {
-            super.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
+            super.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
         }
     }
 }

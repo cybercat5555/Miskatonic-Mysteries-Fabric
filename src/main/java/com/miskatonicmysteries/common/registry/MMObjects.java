@@ -7,6 +7,7 @@ import com.miskatonicmysteries.api.item.BlessedSwordItem;
 import com.miskatonicmysteries.api.item.ChalkItem;
 import com.miskatonicmysteries.api.item.MMBookItem;
 import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
+import com.miskatonicmysteries.common.block.CandleBlock;
 import com.miskatonicmysteries.common.block.*;
 import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
@@ -22,6 +23,7 @@ import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPattern;
 import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatterns;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -37,7 +39,7 @@ import net.minecraft.util.registry.Registry;
 
 public class MMObjects {
     public static final Block CHEMISTRY_SET = new ChemistrySetBlock();
-    public static final BlockEntityType<ChemistrySetBlockEntity> CHEMISTRY_SET_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(ChemistrySetBlockEntity::new, CHEMISTRY_SET).build(null);
+    public static final BlockEntityType<ChemistrySetBlockEntity> CHEMISTRY_SET_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create(ChemistrySetBlockEntity::new, CHEMISTRY_SET).build(null);
 
     public static final Block BLACKSTONE_ALTAR = new AltarBlock(true, AbstractBlock.Settings.copy(Blocks.BLACKSTONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
     public static final Block CORAL_ALTAR = new AltarBlock(true, AbstractBlock.Settings.copy(Blocks.DEAD_BRAIN_CORAL_BLOCK).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
@@ -47,7 +49,7 @@ public class MMObjects {
     public static final Block PRISMARINE_ALTAR = new AltarBlock(false, AbstractBlock.Settings.copy(Blocks.PRISMARINE).luminance(state -> 8));
     public static final Block SANDSTONE_ALTAR = new AltarBlock(true, AbstractBlock.Settings.copy(Blocks.SANDSTONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
     public static final Block STONE_ALTAR = new AltarBlock(true, AbstractBlock.Settings.copy(Blocks.STONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
-    public static final BlockEntityType<AltarBlockEntity> ALTAR_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(AltarBlockEntity::new, AltarBlock.ALTARS.toArray(new AltarBlock[AltarBlock.ALTARS.size()])).build(null);
+    public static final BlockEntityType<AltarBlockEntity> ALTAR_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create(AltarBlockEntity::new, AltarBlock.ALTARS.toArray(new AltarBlock[AltarBlock.ALTARS.size()])).build(null);
 
     public static final Block OCTAGRAM_SIDES = new OctagramBlock.BlockOuterOctagram();
     public static final OctagramBlock CTHULHU_OCTAGRAM = new OctagramBlock(MMAffiliations.CTHULHU);
@@ -57,7 +59,7 @@ public class MMObjects {
     public static final ChalkItem CTHULHU_CHALK = new ChalkItem(CTHULHU_OCTAGRAM, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
     public static final ChalkItem HASTUR_CHALK = new ChalkItem(HASTUR_OCTAGRAM, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
     public static final ChalkItem SHUB_CHALK = new ChalkItem(SHUB_OCTAGRAM, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
-    public static final BlockEntityType<OctagramBlockEntity> OCTAGRAM_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(OctagramBlockEntity::new, OctagramBlock.OCTAGRAMS.toArray(new OctagramBlock[OctagramBlock.OCTAGRAMS.size()])).build(null);
+    public static final BlockEntityType<OctagramBlockEntity> OCTAGRAM_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create(OctagramBlockEntity::new, OctagramBlock.OCTAGRAMS.toArray(new OctagramBlock[OctagramBlock.OCTAGRAMS.size()])).build(null);
 
     public static final StatueBlock CTHULHU_STATUE_GOLD = new StatueBlock(MMAffiliations.CTHULHU, true, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
     public static final StatueBlock CTHULHU_STATUE_MOSSY = new StatueBlock(MMAffiliations.CTHULHU, false, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
@@ -73,7 +75,7 @@ public class MMObjects {
     public static final StatueBlock SHUB_STATUE_MOSSY = new StatueBlock(MMAffiliations.SHUB, false, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
     public static final StatueBlock SHUB_STATUE_BLACKSTONE = new StatueBlock(MMAffiliations.SHUB, false, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
     public static final StatueBlock SHUB_STATUE_STONE = new StatueBlock(MMAffiliations.SHUB, false, AbstractBlock.Settings.copy(Blocks.STONE));
-    public static final BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(StatueBlockEntity::new, StatueBlock.STATUES.toArray(new StatueBlock[StatueBlock.STATUES.size()])).build(null);
+    public static final BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create(StatueBlockEntity::new, StatueBlock.STATUES.toArray(new StatueBlock[StatueBlock.STATUES.size()])).build(null);
 
     public static final Block STONE_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));
     public static final Block MOSSY_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
@@ -101,10 +103,10 @@ public class MMObjects {
     public static final Block CANDLE = new CandleBlock();
 
     public static final Block RESONATOR = new ResonatorBlock();
-    public static final BlockEntityType<ResonatorBlockEntity> RESONATOR_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(ResonatorBlockEntity::new, RESONATOR).build(null);
+    public static final BlockEntityType<ResonatorBlockEntity> RESONATOR_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create((pos, state) -> new ResonatorBlockEntity(), RESONATOR).build(null);
 
     public static final Block POWER_CELL = new PowerCellBlock();
-    public static final BlockEntityType<PowerCellBlockEntity> POWER_CELL_BLOCK_ENTITY_TYPE = BlockEntityType.Builder.create(PowerCellBlockEntity::new, POWER_CELL).build(null);
+    public static final BlockEntityType<PowerCellBlockEntity> POWER_CELL_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create((pos, state) -> new PowerCellBlockEntity(), POWER_CELL).build(null);
 
     public static final Block YELLOW_SIGN = new YellowSignBlock();
     public static final Block WARDING_MARK = new WardingMarkBlock();

@@ -8,14 +8,16 @@ import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.math.BlockPos;
+
 import java.util.UUID;
 
 public class StatueBlockEntity extends BaseBlockEntity implements Affiliated {
     public UUID creator = null;
     public String creatorName;
 
-    public StatueBlockEntity() {
-        super(MMObjects.STATUE_BLOCK_ENTITY_TYPE);
+    public StatueBlockEntity(BlockPos pos, BlockState state) {
+        super(MMObjects.STATUE_BLOCK_ENTITY_TYPE, pos, state);
     }
 
     @Override
@@ -30,14 +32,14 @@ public class StatueBlockEntity extends BaseBlockEntity implements Affiliated {
     }
 
     @Override
-    public void readNbt(BlockState state, NbtCompound tag) {
+    public void readNbt(NbtCompound tag) {
         if (tag.contains(Constants.NBT.PLAYER_UUID)) {
             creator = tag.getUuid(Constants.NBT.PLAYER_UUID);
         }
         if (tag.contains(Constants.NBT.PLAYER_NAME)) {
             creatorName = tag.getString(Constants.NBT.PLAYER_NAME);
         }
-        super.readNbt(state, tag);
+        super.readNbt(tag);
     }
 
     @Override

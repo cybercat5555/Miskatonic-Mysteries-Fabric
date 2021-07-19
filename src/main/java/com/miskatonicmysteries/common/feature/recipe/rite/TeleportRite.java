@@ -9,7 +9,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -143,14 +143,14 @@ public class TeleportRite extends Rite {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
-        return super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
+    public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
+        return super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
     }
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
+    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
         float alpha = entity.permanentRiteActive ? 1 : entity.tickCount / (float) ticksNeeded;
-        renderPortalOctagram(alpha, entity.getAffiliation(true).getColor(), entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
+        renderPortalOctagram(alpha, entity.getAffiliation(true).getColor(), entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
     }
 }

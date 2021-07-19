@@ -36,7 +36,7 @@ public class InventoryUtil {
 
     public static int getSlotForItemInHotbar(PlayerEntity player, Item item) {
         for (int i = 0; i < 9; i++) {
-            if (player.inventory.getStack(i).getItem().equals(item)) return i;
+            if (player.getInventory().getStack(i).getItem().equals(item)) return i;
         }
         return -1;
     }

@@ -8,9 +8,6 @@ import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterD
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
 import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;
-import dev.emi.trinkets.api.SlotGroups;
-import dev.emi.trinkets.api.Slots;
-import dev.emi.trinkets.api.TrinketSlots;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
@@ -23,7 +20,6 @@ import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
 
 public class MiskatonicMysteries implements ModInitializer {
     public static MMConfig config;
@@ -50,7 +46,6 @@ public class MiskatonicMysteries implements ModInitializer {
         MMRecipes.init();
         MMInsanityEvents.init();
         MMParticles.init();
-        TrinketSlots.addSlot(SlotGroups.HEAD, Slots.MASK, new Identifier("trinkets", "textures/item/empty_trinket_slot_mask.png"));
         TrackedDataHandlerRegistry.register(MiskatonicMysteriesAPI.AFFILIATION_TRACKER);
         ArgumentTypes.register("insanity_event", ModCommand.InsanityEventArgumentType.class, new ConstantArgumentSerializer(IdentifierArgumentType::identifier));
         ModCommand.setup();

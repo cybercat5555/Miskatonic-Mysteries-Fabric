@@ -17,7 +17,6 @@ import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
@@ -26,7 +25,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -37,7 +35,7 @@ import net.minecraft.world.World;
 
 import java.util.UUID;
 
-public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory, Affiliated, Tickable {
+public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory, Affiliated{
     private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(8, ItemStack.EMPTY);
     public int tickCount;
     public boolean permanentRiteActive;
@@ -54,8 +52,8 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
      */
     private byte octagramFlags;
 
-    public OctagramBlockEntity() {
-        super(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE);
+    public OctagramBlockEntity(BlockPos pos, BlockState state) {
+        super(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, pos, state);
 
     }
 
@@ -93,7 +91,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
     }
 
     @Override
-    public void readNbt(BlockState state, NbtCompound tag) {
+    public void readNbt(NbtCompound tag) {
         ITEMS.clear();
         Inventories.readNbt(tag, ITEMS);
         tickCount = tag.getInt(Constants.NBT.TICK_COUNT);
@@ -115,7 +113,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
         }
         triggered = tag.getBoolean(Constants.NBT.TRIGGERED);
         octagramFlags = tag.getByte(Constants.NBT.FLAGS);
-        super.readNbt(state, tag);
+        super.readNbt(tag);
     }
 
     @Override
@@ -138,41 +136,40 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
         return ITEMS;
     }
 
-    @Override
-    public void tick() {
-        if (currentRite != null) {
-            if (currentRite.shouldContinue(this)) {
-                currentRite.tick(this);
-                if (currentRite.isFinished(this)) {
+    public static void tick(OctagramBlockEntity blockEntity) {
+        if (blockEntity.currentRite != null) {
+            if (blockEntity.currentRite.shouldContinue(blockEntity)) {
+                blockEntity.currentRite.tick(blockEntity);
+                if (blockEntity.currentRite.isFinished(blockEntity)) {
 
-                    if (getOriginalCaster() instanceof ServerPlayerEntity) {
-                        MMCriteria.RITE_CAST.trigger((ServerPlayerEntity) getOriginalCaster(), currentRite);
+                    if (blockEntity.getOriginalCaster() instanceof ServerPlayerEntity) {
+                        MMCriteria.RITE_CAST.trigger((ServerPlayerEntity) blockEntity.getOriginalCaster(), blockEntity.currentRite);
                     }
-                    handleInvestigators();
-                    if (currentRite.isPermanent(this)) {
-                        permanentRiteActive = true;
-                        currentRite.onFinished(this);
+                    blockEntity.handleInvestigators();
+                    if (blockEntity.currentRite.isPermanent(blockEntity)) {
+                        blockEntity.permanentRiteActive = true;
+                        blockEntity.currentRite.onFinished(blockEntity);
                     } else {
-                        currentRite.onFinished(this);
-                        tickCount = 0;
-                        currentRite = null;
-                        targetedEntity = null;
-                        setFlag(0, false);
+                        blockEntity.currentRite.onFinished(blockEntity);
+                        blockEntity.tickCount = 0;
+                        blockEntity.currentRite = null;
+                        blockEntity.targetedEntity = null;
+                        blockEntity.setFlag(0, false);
                     }
-                    if (!world.isClient) {
-                        sync();
+                    if (!blockEntity.world.isClient) {
+                        blockEntity.sync();
                     }
                 }
             } else {
-                currentRite.onCancelled(this);
-                originalCaster = null;
-                currentRite = null;
-                setFlag(0, false);
-                if (!world.isClient) {
-                    sync();
+                blockEntity.currentRite.onCancelled(blockEntity);
+                blockEntity.originalCaster = null;
+                blockEntity.currentRite = null;
+                blockEntity.setFlag(0, false);
+                if (!blockEntity.world.isClient) {
+                    blockEntity.sync();
                 }
             }
-            markDirty();
+            blockEntity.markDirty();
         }
     }
 
@@ -183,9 +180,9 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
             if (MiskatonicMysteries.config.entities.subtlety) {
                 for (BlockPos blockPos : BlockPos.iterateOutwards(pos, 8, 8, 8)) {
                     Block block = world.getBlockState(blockPos).getBlock();
-                    if (block.isIn(Constants.Tags.SUBTLE_BLOCKS)) {
+                    if (Constants.Tags.SUBTLE_BLOCKS.contains(block)) {
                         subtlety += 0.05F;
-                    } else if (block.isIn(Constants.Tags.SUSPICIOUS_BLOCKS)) {
+                    } else if (Constants.Tags.SUSPICIOUS_BLOCKS.contains(block)) {
                         subtlety -= 0.05F;
                     }
                     if (subtlety >= 0.35F) {
@@ -236,7 +233,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
                 setStack(i, new ItemStack(getStack(i).getItem().getRecipeRemainder()));
                 continue;
             }
-            if (!getStack(i).isEmpty() && getStack(i).getItem().isIn(Constants.Tags.RITE_TOOLS)) {
+            if (!getStack(i).isEmpty() && Constants.Tags.RITE_TOOLS.contains(getStack(i).getItem())) {
                 if (getStack(i).getItem() instanceof IncantationYogItem) {
                     IncantationYogItem.clear(getStack(i));
                 }

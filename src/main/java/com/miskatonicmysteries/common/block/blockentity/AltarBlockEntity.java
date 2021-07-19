@@ -8,12 +8,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.BlockPos;
 
 public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory {
     private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
-    public AltarBlockEntity() {
-        super(MMObjects.ALTAR_BLOCK_ENTITY_TYPE);
+    public AltarBlockEntity(BlockPos pos, BlockState state) {
+        super(MMObjects.ALTAR_BLOCK_ENTITY_TYPE, pos, state);
     }
 
     @Override
@@ -22,11 +23,12 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBloc
         return super.writeNbt(tag);
     }
 
+
     @Override
-    public void readNbt(BlockState state, NbtCompound tag) {
+    public void readNbt(NbtCompound nbt) {
         ITEMS.clear();
-        Inventories.readNbt(tag, ITEMS);
-        super.readNbt(state, tag);
+        Inventories.readNbt(nbt, ITEMS);
+        super.readNbt(nbt);
     }
 
     @Override
@@ -49,7 +51,7 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBloc
 
     @Override
     public boolean isValid(int slot, ItemStack stack) {
-        return stack.getItem().isIn(Constants.Tags.ALTAR_BOOKS);
+        return Constants.Tags.ALTAR_BOOKS.contains(stack.getItem());
     }
 
     public Item getBook() {

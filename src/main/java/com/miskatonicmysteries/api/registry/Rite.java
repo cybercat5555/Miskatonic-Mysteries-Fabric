@@ -8,7 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.recipe.Ingredient;
@@ -81,11 +81,11 @@ public abstract class Rite {
 
 
     @Environment(EnvType.CLIENT)
-    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
+    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
     }
 
     @Environment(EnvType.CLIENT)
-    public void renderRiteItems(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
+    public void renderRiteItems(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
     }
 
     /**
@@ -99,14 +99,13 @@ public abstract class Rite {
      *
      * @return bitwise flag combination used for rendering, see above
      */
-
     @Environment(EnvType.CLIENT)
-    public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
+    public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
         return 2 | 1;
     }
 
     @Environment(EnvType.CLIENT)
-    public static void renderPortalOctagram(float alpha, float[] origColors, OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
+    public static void renderPortalOctagram(float alpha, float[] origColors, OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
         Sprite sprite = ResourceHandler.getOctagramMaskTextureFor(entity).getSprite();
         float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
         matrixStack.push();
@@ -114,7 +113,7 @@ public abstract class Rite {
         RenderHelper.renderTexturedPlane(3, sprite, matrixStack, sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(alpha < 1 ? RenderHelper.getTransparency() : RenderLayer.getCutout())), light, overlay, new float[]{1, 1, 1, alpha});
         matrixStack.push();
         Matrix4f matrix4f = matrixStack.peek().getModel();
-        double distance = entity.getPos().getSquaredDistance(dispatcher.camera.getPos(), true);
+        double distance = entity.getPos().getSquaredDistance(context.getRenderDispatcher().camera.getPos(), true);
         int renderDepth = Math.max(RenderHelper.getDepthFromDistance(distance) - 14, 1);
         matrixStack.translate(1.5, 0, 1.5);
         matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(45));

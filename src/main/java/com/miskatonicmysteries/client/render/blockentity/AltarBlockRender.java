@@ -9,15 +9,17 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.BookModel;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Vec3f;
 
-public class AltarBlockRender extends BlockEntityRenderer<AltarBlockEntity> {
-    private final BookModel book = new BookModel();
+public class AltarBlockRender implements BlockEntityRenderer<AltarBlockEntity> {
+    private final BookModel book;
 
-    public AltarBlockRender(BlockEntityRenderDispatcher dispatcher) {
-        super(dispatcher);
+    public AltarBlockRender(BlockEntityRendererFactory.Context context) {
+        this.book = new BookModel(context.getLayerModelPart(EntityModelLayers.BOOK));
     }
 
     @Override

@@ -11,7 +11,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
@@ -62,14 +62,14 @@ public abstract class SummoningRite<T extends Entity> extends AscensionLockedRit
     }
 
     @Override
-    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRenderDispatcher dispatcher) {
-        super.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
+    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
+        super.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
         if (entity.tickCount > 0) {
             float alpha = entity.tickCount > 20 ? 1 : entity.tickCount / (float) 20;
             float[] rgb = entity.getAffiliation(true).getColor();
-            renderPortalOctagram(alpha, rgb, entity, tickDelta, matrixStack, vertexConsumers, light, overlay, dispatcher);
+            renderPortalOctagram(alpha, rgb, entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
             Model model = getRenderedModel(entity);
-            double distance = entity.getPos().getSquaredDistance(dispatcher.camera.getPos(), true);
+            double distance = entity.getPos().getSquaredDistance(context.camera.getPos(), true);
             int renderDepth = Math.max(RenderHelper.getDepthFromDistance(distance) - 15 + (4 * entity.tickCount / tickCount), 0);
             matrixStack.translate(1.5, 1.5, 1.5);
             matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(180));

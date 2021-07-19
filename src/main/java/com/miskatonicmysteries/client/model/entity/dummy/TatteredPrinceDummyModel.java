@@ -2,7 +2,7 @@
 // Exported for Minecraft version 1.15
 // Paste this class into your mod and generate all required imports
 
-package com.miskatonicmysteries.client.model.entity;
+package com.miskatonicmysteries.client.model.entity.dummy;
 
 import com.miskatonicmysteries.common.entity.TatteredPrinceEntity;
 import net.fabricmc.api.EnvType;

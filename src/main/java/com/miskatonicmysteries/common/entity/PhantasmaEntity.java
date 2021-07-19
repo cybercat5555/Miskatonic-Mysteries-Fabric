@@ -58,7 +58,7 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
         if (age > 100) {
             setResonance(getResonance() - 0.005F);
             if (getResonance() <= 0) {
-                remove();
+                remove(RemovalReason.DISCARDED);
             }
         }
     }
@@ -154,5 +154,10 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
         };
         flightNavigation.setCanSwim(false);
         return flightNavigation;
+    }
+
+    @Override
+    public boolean isInAir() {
+        return true;
     }
 }

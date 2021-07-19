@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.common.entity;
 
-import com.miskatonicmysteries.common.entity.ByakheeEntity.BondWithPlayerGoal;
 import com.miskatonicmysteries.common.entity.util.InputAware;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
@@ -13,7 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Saddleable;
-import net.minecraft.entity.ai.TargetFinder;
+import net.minecraft.entity.ai.NoPenaltyTargeting;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -21,7 +20,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -235,8 +233,8 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 
     protected void putPlayerOnBack(PlayerEntity player) {
         if (!this.world.isClient) {
-            player.yaw = this.yaw;
-            player.pitch = this.pitch;
+            player.setYaw(getYaw());
+            player.setPitch(getPitch());
             player.startRiding(this);
         }
     }
@@ -246,11 +244,11 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
         if (this.isAlive()) {
             if (this.hasPassengers() && canBeControlledByRider() && isSaddled()) {
                 LivingEntity livingEntity = (LivingEntity) this.getPrimaryPassenger();
-                this.yaw = livingEntity.yaw;
-                this.prevYaw = this.yaw;
-                this.pitch = livingEntity.pitch * 0.5F;
-                this.setRotation(this.yaw, this.pitch);
-                this.bodyYaw = this.yaw;
+                this.setYaw(livingEntity.getYaw());
+                this.prevYaw = this.getYaw();
+                this.setPitch(livingEntity.getPitch() * 0.5F);
+                this.setRotation(this.getYaw(), this.getPitch());
+                this.bodyYaw = this.getYaw();
                 this.headYaw = this.bodyYaw;
                 float f = livingEntity.sidewaysSpeed * 0.5F;
                 float g = livingEntity.forwardSpeed;
@@ -262,8 +260,8 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
                     this.setVelocity(vec3d.x, vec3d.y, vec3d.z);
                     this.velocityDirty = true;
                     if (g > 0.0F) {
-                        float i = MathHelper.sin(this.yaw * 0.017453292F);
-                        float j = MathHelper.cos(this.yaw * 0.017453292F);
+                        float i = MathHelper.sin(this.getYaw() * 0.017453292F);
+                        float j = MathHelper.cos(this.getYaw() * 0.017453292F);
                         this.setVelocity(this.getVelocity().add(-0.01F * i, 0.0D, 0.01F * j));
                     }
                 }
@@ -363,7 +361,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 
         public boolean canStart() {
             if (!isTamed() && hasPassengers()) {
-                Vec3d vec3d = TargetFinder.findTarget(ByakheeEntity.this, 5, 4);
+                Vec3d vec3d = NoPenaltyTargeting.find(ByakheeEntity.this, 5, 4);
                 if (vec3d == null) {
                     return false;
                 } else {

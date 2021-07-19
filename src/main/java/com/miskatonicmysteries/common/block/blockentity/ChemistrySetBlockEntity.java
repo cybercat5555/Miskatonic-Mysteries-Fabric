@@ -17,25 +17,25 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Tickable;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.BlockPos;
 
-public class ChemistrySetBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory, Tickable {
-    private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(6, ItemStack.EMPTY);
-    private final DefaultedList<PotentialItem> POTENTIAL_ITEMS = DefaultedList.ofSize(3, PotentialItem.EMPTY);
+public class ChemistrySetBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory {
+    private final DefaultedList<ItemStack> items = DefaultedList.ofSize(6, ItemStack.EMPTY);
+    private final DefaultedList<PotentialItem> potentialItems = DefaultedList.ofSize(3, PotentialItem.EMPTY);
     public int workProgress;
     public int[] smokeColor = {0, 0, 0};
 
-    public ChemistrySetBlockEntity() {
-        super(MMObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
+    public ChemistrySetBlockEntity(BlockPos pos, BlockState state) {
+        super(MMObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE, pos, state);
     }
 
     @Override
     public NbtCompound writeNbt(NbtCompound tag) {
-        Inventories.writeNbt(tag, ITEMS);
+        Inventories.writeNbt(tag, items);
         NbtList potentialItemTag = new NbtList();
-        for (int i = 0; i < POTENTIAL_ITEMS.size(); i++) {
-            PotentialItem item = POTENTIAL_ITEMS.get(i);
+        for (int i = 0; i < potentialItems.size(); i++) {
+            PotentialItem item = potentialItems.get(i);
             NbtCompound compoundTag = new NbtCompound();
             compoundTag.putByte("Slot", (byte) i);
             item.toTag(compoundTag);
@@ -47,47 +47,47 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
     }
 
     @Override
-    public void readNbt(BlockState state, NbtCompound tag) {
-        ITEMS.clear();
-        Inventories.readNbt(tag, ITEMS);
+    public void readNbt(NbtCompound tag) {
+        items.clear();
+        Inventories.readNbt(tag, items);
         NbtList listTag = tag.getList(Constants.NBT.POTENTIAL_ITEMS, 10);
 
         for (int i = 0; i < listTag.size(); ++i) {
             NbtCompound compoundTag = listTag.getCompound(i);
             int j = compoundTag.getByte("Slot") & 255;
-            if (j >= 0 && j < POTENTIAL_ITEMS.size()) {
-                POTENTIAL_ITEMS.set(j, PotentialItem.fromTag(compoundTag));
+            if (j >= 0 && j < potentialItems.size()) {
+                potentialItems.set(j, PotentialItem.fromTag(compoundTag));
             }
         }
         workProgress = tag.getInt(Constants.NBT.WORK_PROGRESS);
-        super.readNbt(state, tag);
+        super.readNbt(tag);
     }
 
-
-    @Override
-    public void tick() {
-        if (isLit() && canWork()) {
-            ChemistryRecipe recipe = MMRecipes.getChemistryRecipe(this);
-            workProgress++;
-            if (workProgress >= 100) {
-                world.playSound(null, pos, SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.6F, world.random.nextFloat() * 0.4F + 0.8F);
-                changeSmokeColor(recipe.color);
-                for (int i = 0; i < recipe.output.size(); i++) {
-                    POTENTIAL_ITEMS.set(i, recipe.output.get(i));
+    public static void tick(ChemistrySetBlockEntity blockEntity) {
+        if (blockEntity.isLit()) {
+            if (blockEntity.canWork()) {
+                ChemistryRecipe recipe = MMRecipes.getChemistryRecipe(blockEntity);
+                blockEntity.workProgress++;
+                if (blockEntity.workProgress >= 100) {
+                    blockEntity.world.playSound(null, blockEntity.pos, SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.6F, blockEntity.world.random.nextFloat() * 0.4F + 0.8F);
+                    blockEntity.changeSmokeColor(recipe.color);
+                    for (int i = 0; i < recipe.output.size(); i++) {
+                        blockEntity.potentialItems.set(i, recipe.output.get(i));
+                    }
+                    blockEntity.clear();
+                    blockEntity.finish();
+                    if (!blockEntity.world.isClient) {
+                        blockEntity.sync();
+                    }
                 }
-                clear();
-                finish();
-                if (!world.isClient) {
-                    sync();
+                blockEntity.markDirty();
+            } else {
+                blockEntity.finish();
+                if (!blockEntity.world.isClient) {
+                    blockEntity.sync();
                 }
+                blockEntity.markDirty();
             }
-            markDirty();
-        } else if (isLit()) {
-            finish();
-            if (!world.isClient) {
-                sync();
-            }
-            markDirty();
         }
     }
 
@@ -99,10 +99,10 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 
     public boolean convertPotentialItem(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getStackInHand(hand);
-        for (PotentialItem potentialItem : POTENTIAL_ITEMS) {
+        for (PotentialItem potentialItem : potentialItems) {
             if (potentialItem.canRealize(stack)) {
                 ItemStack realizedStack = potentialItem.realize(stack);
-                POTENTIAL_ITEMS.set(POTENTIAL_ITEMS.indexOf(potentialItem), PotentialItem.EMPTY);
+                potentialItems.set(potentialItems.indexOf(potentialItem), PotentialItem.EMPTY);
                 if (!world.isClient) {
                     world.spawnEntity(new ItemEntity(world, player.getX(), player.getY() + 0.5, player.getZ(), realizedStack));
                 }
@@ -137,7 +137,7 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
     }
 
     public boolean containsPotentialItems() {
-        for (PotentialItem potentialItem : POTENTIAL_ITEMS) {
+        for (PotentialItem potentialItem : potentialItems) {
             if (!potentialItem.isEmpty()) return true;
         }
         return false;
@@ -150,10 +150,10 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 
     @Override
     public DefaultedList<ItemStack> getItems() {
-        return ITEMS;
+        return items;
     }
 
     public DefaultedList<PotentialItem> getPotentialItems() {
-        return POTENTIAL_ITEMS;
+        return potentialItems;
     }
 }

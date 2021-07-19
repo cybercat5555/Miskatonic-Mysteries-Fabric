@@ -185,8 +185,8 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 
     @Nullable
     @Override
-    public BlockEntity createBlockEntity(BlockView world) {
-        return new StatueBlockEntity();
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new StatueBlockEntity(pos, state);
     }
 
     @Override

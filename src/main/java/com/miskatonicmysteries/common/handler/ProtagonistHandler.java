@@ -17,7 +17,7 @@ public class ProtagonistHandler {
         MMWorldState worldState = MMWorldState.get(world);
         ProtagonistEntity.ProtagonistData data = worldState.getProtagonistDataFor(player);
         if (!data.spawned) {
-            BlockPos pos = Util.getPossibleMobSpawnPos(world, player, 50, 16, 14);
+            BlockPos pos = Util.getPossibleMobSpawnPos(world, player, 50, 16, 14, MMEntities.PROTAGONIST);
             if (pos != null) {
                 ProtagonistEntity protagonist = new ProtagonistEntity(MMEntities.PROTAGONIST, world);
                 protagonist.setPosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
@@ -39,7 +39,7 @@ public class ProtagonistHandler {
     }
 
     public static boolean spawnProtagonistReinforcements(ServerWorld world, PlayerEntity player) {
-        BlockPos pos = Util.getPossibleMobSpawnPos(world, player, 50, 16, 14);
+        BlockPos pos = Util.getPossibleMobSpawnPos(world, player, 50, 16, 14, MMEntities.PROTAGONIST);
         if (pos != null) {
             ProtagonistEntity protagonist = new ProtagonistEntity(MMEntities.PROTAGONIST, world);
             protagonist.setPosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);

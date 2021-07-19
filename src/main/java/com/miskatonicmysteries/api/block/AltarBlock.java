@@ -164,7 +164,7 @@ public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, 
 
     @Nullable
     @Override
-    public BlockEntity createBlockEntity(BlockView world) {
-        return new AltarBlockEntity();
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new AltarBlockEntity(pos, state);
     }
 }
