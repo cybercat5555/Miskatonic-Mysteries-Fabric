@@ -31,8 +31,8 @@ public class BoltEntity extends Entity {
 
     public BoltEntity(LivingEntity caster, double length, int color) {
         this(MMEntities.BOLT, caster.world);
-        this.yaw = caster.yaw;
-        this.pitch = caster.pitch;
+        setYaw(caster.getYaw());
+        setPitch(caster.getPitch());
         setPos(caster.getX(), caster.getEyeY(), caster.getZ());
         setLength((float) length);
         setColor(color);
@@ -64,7 +64,7 @@ public class BoltEntity extends Entity {
     public void tick() {
         ambientTick--;
         if (ambientTick < 0) {
-            remove();
+            remove(RemovalReason.DISCARDED);
         }
         super.tick();
     }

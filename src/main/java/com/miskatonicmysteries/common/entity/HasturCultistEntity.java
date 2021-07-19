@@ -32,14 +32,13 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TimeHelper;
-import net.minecraft.util.math.IntRange;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.village.*;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -52,7 +51,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     protected static final TrackedData<Integer> VARIANT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
     protected static final TrackedData<Integer> CASTING_TIME_LEFT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
     //anger
-    private static final IntRange ANGER_TIME_RANGE = TimeHelper.betweenSeconds(80, 120);
+    private static final UniformIntProvider ANGER_TIME_RANGE = TimeHelper.betweenSeconds(80, 120);
     private int angerTime;
     @Nullable
     private UUID targetUuid;
@@ -121,7 +120,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         if (getAttacking() != null) {
             return ActionResult.FAIL;
         }
-        if (getVariant() == 2 && player.getStackInHand(hand).getItem().isIn(Constants.Tags.HASTUR_CULTIST_OFFERINGS)) {
+        if (getVariant() == 2 && Constants.Tags.HASTUR_CULTIST_OFFERINGS.contains(player.getStackInHand(hand).getItem())) {
             if (HasturAscensionHandler.offerArtToCultist(player, hand, this)) {
                 getGossip().startGossip(player.getUuid(), VillageGossipType.MAJOR_POSITIVE, 25);
             }
@@ -215,7 +214,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     }
 
     @Override
-    public void takeKnockback(float strength, double x, double z) {
+    public void takeKnockback(double strength, double x, double z) {
         if (isBlocking()) {
             strength -= 0.3F;
         }
@@ -357,7 +356,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public void chooseRandomAngerTime() {
-        setAngerTime(ANGER_TIME_RANGE.choose(this.random));
+        setAngerTime(ANGER_TIME_RANGE.get(this.random));
     }
 
     @Override

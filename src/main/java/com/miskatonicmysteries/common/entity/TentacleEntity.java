@@ -203,7 +203,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         } else if (age > maxAge) {
             setSize(getSize() - 0.05F);
             if (getSize() < 0) {
-                remove();
+                remove(RemovalReason.KILLED);
             }
         }
     }
@@ -233,7 +233,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         boolean damage = target.damage(DamageSource.mob(this), f);
         if (damage) {
             if (g > 0.0F && target instanceof LivingEntity) {
-                ((LivingEntity) target).takeKnockback(g * 0.5F, MathHelper.sin(this.yaw * 0.017453292F), (-MathHelper.cos(this.yaw * 0.017453292F)));
+                ((LivingEntity) target).takeKnockback(g * 0.5F, MathHelper.sin(this.getYaw() * 0.017453292F), (-MathHelper.cos(this.getYaw() * 0.017453292F)));
                 this.setVelocity(this.getVelocity().multiply(0.6D, 1.0D, 0.6D));
             }
             this.applyDamageEffects(this, target);

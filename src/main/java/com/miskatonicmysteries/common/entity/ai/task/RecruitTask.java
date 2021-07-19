@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.registry.MMEntities;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.brain.Brain;
@@ -50,7 +51,7 @@ public class RecruitTask extends Task<VillagerEntity> {
             }
             VillagerEntity recipient = (VillagerEntity) brain.getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).get();
             HasturCultistEntity cultist = MMEntities.HASTUR_CULTIST.create(world);
-            cultist.refreshPositionAndAngles(recipient.getX(), recipient.getY(), recipient.getZ(), recipient.yaw, recipient.pitch);
+            cultist.refreshPositionAndAngles(recipient.getX(), recipient.getY(), recipient.getZ(), recipient.getYaw(), recipient.getPitch());
             cultist.initialize(world, world.getLocalDifficulty(cultist.getBlockPos()), SpawnReason.CONVERSION, null, null);
             cultist.setAiDisabled(recipient.isAiDisabled());
             if (recipient.hasCustomName()) {
@@ -63,7 +64,7 @@ public class RecruitTask extends Task<VillagerEntity> {
             recipient.releaseTicketFor(MemoryModuleType.JOB_SITE);
             recipient.releaseTicketFor(MemoryModuleType.POTENTIAL_JOB_SITE);
             recipient.releaseTicketFor(MemoryModuleType.MEETING_POINT);
-            recipient.remove();
+            recipient.remove(Entity.RemovalReason.DISCARDED);
             brain.forget(MemoryModuleType.INTERACTION_TARGET);
             cultist.reinitializeBrain(world);
         }

@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.client.model.entity;
 
-import com.miskatonicmysteries.common.entity.HasturEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.model.AnimatedGeoModel;

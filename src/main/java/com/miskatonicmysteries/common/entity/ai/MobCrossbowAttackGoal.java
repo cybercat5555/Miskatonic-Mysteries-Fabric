@@ -9,20 +9,21 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.math.IntRange;
-import com.miskatonicmysteries.common.entity.ai.MobCrossbowAttackGoal.Stage;
+import net.minecraft.util.TimeHelper;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
+
 import java.util.EnumSet;
 
 //copy-paste vanilla classes to avoid vicious hackery
 public class MobCrossbowAttackGoal<T extends PathAwareEntity & RangedAttackMob & CrossbowUser> extends Goal {
-    public static final IntRange field_25696 = new IntRange(20, 40);
+    public static final UniformIntProvider COOLDOWN_RANGE = TimeHelper.betweenSeconds(1, 2);
     private final T actor;
     private Stage stage;
     private final double speed;
     private final float squaredRange;
     private int seeingTargetTicker;
     private int chargedTicksLeft;
-    private int field_25697;
+    private int cooldown;
 
     public MobCrossbowAttackGoal(T actor, double speed, float range) {
         this.stage = Stage.UNCHARGED;
@@ -79,13 +80,13 @@ public class MobCrossbowAttackGoal<T extends PathAwareEntity & RangedAttackMob &
             double d = this.actor.squaredDistanceTo(livingEntity);
             boolean bl3 = (d > (double)this.squaredRange || this.seeingTargetTicker < 5) && this.chargedTicksLeft == 0;
             if (bl3) {
-                --this.field_25697;
-                if (this.field_25697 <= 0) {
+                --this.cooldown;
+                if (this.cooldown <= 0) {
                     this.actor.getNavigation().startMovingTo(livingEntity, this.isUncharged() ? this.speed : this.speed * 0.5D);
-                    this.field_25697 = field_25696.choose(this.actor.getRandom());
+                    this.cooldown = COOLDOWN_RANGE.get(this.actor.getRandom());
                 }
             } else {
-                this.field_25697 = 0;
+                this.cooldown = 0;
                 this.actor.getNavigation().stop();
             }
 

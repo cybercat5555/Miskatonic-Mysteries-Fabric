@@ -48,19 +48,15 @@ import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.UnclampedModelPredicateProvider;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import org.jetbrains.annotations.Nullable;
 import vazkii.patchouli.api.PatchouliAPI;
 
 @Environment(EnvType.CLIENT)
@@ -127,7 +123,6 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         EntityRendererRegistry.INSTANCE.register(MMEntities.ABERRATION, (entityRenderDispatcher, context) -> new PhantasmaEntityRenderer(entityRenderDispatcher, new AberrationModel()));
         EntityRendererRegistry.INSTANCE.register(MMEntities.TATTERED_PRINCE, (entityRenderDispatcher, context) -> new TatteredPrinceRenderer(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.GENERIC_TENTACLE, (entityRenderDispatcher, context) -> new GenericTentacleEntityRenderer(entityRenderDispatcher));
-     //   EntityRendererRegistry.INSTANCE.register(MMEntities.HASTUR, (entityRenderDispatcher, context) -> new HasturEntityRenderer(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.HARROW, (entityRenderDispatcher, context) -> new HarrowEntityRenderer(entityRenderDispatcher));
         EntityRendererRegistry.INSTANCE.register(MMEntities.BYAKHEE, (entityRenderDispatcher, context) -> new ByakheeEntityRenderer(entityRenderDispatcher));
         ShaderHandler.init();

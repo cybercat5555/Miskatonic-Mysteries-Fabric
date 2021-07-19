@@ -100,7 +100,7 @@ public class HasturCultistBrain {
     }
 
     private static boolean shouldAttack(LivingEntity target) {
-        return EntityPredicates.EXCEPT_CREATIVE_SPECTATOR_OR_PEACEFUL.test(target);
+        return EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(target);
     }
 
 

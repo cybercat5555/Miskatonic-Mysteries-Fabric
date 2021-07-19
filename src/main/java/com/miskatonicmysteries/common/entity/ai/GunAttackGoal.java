@@ -24,7 +24,7 @@ public class GunAttackGoal extends Goal {
 
     @Override
     public boolean canStart() {
-        return entity.getTarget() != null && entity.isHolding(item -> item instanceof GunItem);
+        return entity.getTarget() != null && entity.isHolding(stack -> stack.getItem() instanceof GunItem);
     }
 
     @Override

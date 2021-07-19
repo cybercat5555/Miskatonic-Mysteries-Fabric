@@ -83,7 +83,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     @Override
     protected ActionResult interactMob(PlayerEntity player, Hand hand) {
         if (!player.world.isClient && getBlessingTicks() <= 0 && MiskatonicMysteriesAPI.canLevelUp(Ascendant.of(player).get(), Affiliated.of(player).get(), 2, getAffiliation(false))) {
-            Vec3d pos = Util.getYawRelativePos(getPos().add(0, 2, 0), 2.5, yaw, 0);
+            Vec3d pos = Util.getYawRelativePos(getPos().add(0, 2, 0), 2.5, getYaw(), 0);
             Vec3d motionVec = new Vec3d(pos.x - player.getX(), pos.y - player.getY(), pos.z - player.getZ());
             if (motionVec.length() < 4) {
                 setBlessTarget(player);
@@ -125,7 +125,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     @Override
     public void tick() {
         if (world.isClient && getBlessingTicks() > 0) {
-            Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, yaw, 0);
+            Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, getYaw(), 0);
             world.addParticle(MMParticles.AMBIENT, pos.x + random.nextGaussian() * 1.5F, pos.y + 2 + random.nextFloat() * 1.5F, pos.z + random.nextGaussian() * 1.5F, 1, random.nextFloat(), 0);
         }
         super.tick();
@@ -378,7 +378,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
                 VisionPacket.send((ServerPlayerEntity) target, new Identifier(Constants.MOD_ID, "hastur_bless"));
             }
             getLookControl().lookAt(target, 40, 40);
-            Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, yaw, 0);
+            Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, getYaw(), 0);
             Vec3d motionVec = new Vec3d(pos.x - target.getX(), pos.y + 2 - target.getY(), pos.z - target.getZ());
             motionVec = motionVec.normalize().multiply(target.isOnGround() ? 0.1F : 0.084F);
             target.setVelocity(motionVec);

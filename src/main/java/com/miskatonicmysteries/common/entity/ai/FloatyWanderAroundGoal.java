@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.entity.ai;
 
-import net.minecraft.entity.ai.TargetFinder;
+import net.minecraft.entity.ai.FuzzyTargeting;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.util.math.BlockPos;
@@ -36,8 +36,6 @@ public class FloatyWanderAroundGoal extends Goal {
 
     @Nullable
     private Vec3d getRandomLocation() {
-        Vec3d vec3d3 = entity.getRotationVec(0.0F);
-        Vec3d vec3d4 = TargetFinder.findAirTarget(entity, 8, 7, vec3d3, 1.5707964F, 3, 1);
-        return vec3d4 != null ? vec3d4 : TargetFinder.findGroundTarget(entity, 8, 4, 2, vec3d3, 1.5707963705062866D);
+        return FuzzyTargeting.find(entity, 8, 7); //todo check this
     }
 }

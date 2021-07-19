@@ -61,7 +61,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
         if (getLifeTicks() > 0) {
             setLifeTicks(getLifeTicks() - 1);
         }else{
-            remove();
+            remove(RemovalReason.KILLED);
         }
         if (world.isClient && age % 4 == 0){
             world.addParticle(MMParticles.AMBIENT_MAGIC, getParticleX(1F), getRandomBodyY(), getParticleZ(1F), -getVelocity().x, -getVelocity().y, -getVelocity().z);
@@ -172,7 +172,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
     }
 
     class TrackOwnerTargetGoal extends TrackTargetGoal {
-        private final TargetPredicate TRACK_OWNER_PREDICATE = (new TargetPredicate()).includeHidden().ignoreDistanceScalingFactor();
+        private final TargetPredicate TRACK_OWNER_PREDICATE = TargetPredicate.createNonAttackable().ignoreVisibility().ignoreDistanceScalingFactor();
 
         public TrackOwnerTargetGoal(PathAwareEntity mob) {
             super(mob, false);
@@ -290,13 +290,13 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
                     setVelocity(getVelocity().add(vec3d.multiply(this.speed * 0.05D / d)));
                     if (getTarget() == null) {
                         Vec3d vec3d2 = getVelocity();
-                        yaw = -((float) MathHelper.atan2(vec3d2.x, vec3d2.z)) * 57.295776F;
+                        setYaw(-((float) MathHelper.atan2(vec3d2.x, vec3d2.z)) * 57.295776F);
                     } else {
                         double e = getTarget().getX() - getX();
                         double f = getTarget().getZ() - getZ();
-                        yaw = -((float)MathHelper.atan2(e, f)) * 57.295776F;
+                        setYaw(-((float)MathHelper.atan2(e, f)) * 57.295776F);
                     }
-                    bodyYaw = yaw;
+                    setBodyYaw(getYaw());
                 }
 
             }

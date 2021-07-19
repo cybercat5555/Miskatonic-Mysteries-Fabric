@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.client.model.entity.HasturModel;
-import com.miskatonicmysteries.common.entity.HasturEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;

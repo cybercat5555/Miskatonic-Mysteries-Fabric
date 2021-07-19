@@ -100,12 +100,12 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
     }
 
     public void removeAfterTargetKill() {
-        for (int i = 0; i < 10; i++)
-            world.addParticle(MMParticles.FLAME, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 1, 0, 0);
-        for (int i = 0; i < 15; i++)
-            world.addParticle(ParticleTypes.LARGE_SMOKE, getX() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, getY() + random.nextFloat() * getDimensions(EntityPose.STANDING).height, getZ() + random.nextGaussian() * getDimensions(EntityPose.STANDING).width, 0, 0, 0);
+        for (int i = 0; i < 10; i++) {
+            world.addParticle(MMParticles.FLAME, getParticleX(1), getRandomBodyY(), getParticleZ(1), 1, 0, 0);
+            world.addParticle(ParticleTypes.LARGE_SMOKE, getParticleX(1), getRandomBodyY(), getParticleZ(1), 0, 0, 0);
+        }
         ProtagonistHandler.removeProtagonist(world, this);
-        remove();
+        remove(RemovalReason.KILLED);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
                     ProtagonistHandler.levelProtagonist(world, this);
                 }
             }
-            remove();
+            remove(RemovalReason.KILLED);
         } else {
             if (!world.isClient) {
                 if (getTargetUUID().isPresent() && getAttacker() instanceof ServerPlayerEntity) {
@@ -155,7 +155,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
             }
             ++this.deathTime;
             if (this.deathTime == 40) {
-                this.remove();
+                this.remove(RemovalReason.KILLED);
 
                 for (int i = 0; i < 20; ++i) {
                     double d = this.random.nextGaussian() * 0.02D;
@@ -207,10 +207,11 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
     }
 
     @Override
-    public void remove() {
-        if (!world.isClient && getTargetUUID().isPresent())
+    public void remove(RemovalReason reason) {
+        if (!world.isClient && getTargetUUID().isPresent() && reason != RemovalReason.CHANGED_DIMENSION) {
             ProtagonistHandler.setSpawnState(this, false);
-        super.remove();
+        }
+        super.remove(reason);
     }
 
     public int getVariant() {
@@ -281,7 +282,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
         double d = target.getX() - getX();
         double e = target.getBodyY(0.3333333333333333D) - persistentProjectileEntity.getY();
         double f = target.getZ() - getZ();
-        double g = MathHelper.sqrt(d * d + f * f);
+        double g = MathHelper.sqrt((float) (d * d + f * f));
         persistentProjectileEntity.setVelocity(d, e + g * 0.20000000298023224D, f, 1.6F, (float) (14 - world.getDifficulty().getId() * 4));
         playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, 1.0F / (getRandom().nextFloat() * 0.4F + 0.8F));
         world.spawnEntity(persistentProjectileEntity);

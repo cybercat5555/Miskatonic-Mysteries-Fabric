@@ -44,7 +44,7 @@ public class SpellProjectileEntity extends ThrownEntity {
     @Override
     protected void onCollision(HitResult hitResult) {
         super.onCollision(hitResult);
-        remove();
+        remove(RemovalReason.DISCARDED);
     }
 
 
