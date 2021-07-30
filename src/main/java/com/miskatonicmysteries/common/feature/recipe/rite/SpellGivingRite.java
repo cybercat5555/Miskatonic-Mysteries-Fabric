@@ -91,12 +91,7 @@ public class SpellGivingRite extends AscensionLockedRite {
         } else {
             Vec3d pos = player.getPos();
             for (int i = 0; i < 5; i++) {
-                BoltEntity bolt = MMEntities.BOLT.create(octagram.getWorld());
-                bolt.setPos(pos.x, pos.y + 0.5F, pos.z);
-                bolt.yaw = player.getRandom().nextInt(360);
-                bolt.pitch = player.getRandom().nextInt(360);
-                bolt.setColor(grantedEffect.getColor(player));
-                octagram.getWorld().spawnEntity(bolt);
+                spawnBolt(player, pos, octagram.getWorld(), 0.5F, player.getRandom());
             }
             player.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 100 + octagram.getWorld().random.nextInt(200), 1));
             Sanity.of(player).ifPresent(sanity -> {
@@ -111,16 +106,20 @@ public class SpellGivingRite extends AscensionLockedRite {
         super.onFinished(octagram);
     }
 
+    private void spawnBolt(PlayerEntity player, Vec3d pos, World world, float height, Random random) {
+        BoltEntity bolt = MMEntities.BOLT.create(world);
+        bolt.setPos(pos.x, pos.y + height, pos.z);
+        bolt.setYaw(random.nextInt(360));
+        bolt.setPitch(random.nextInt(360));
+        bolt.setColor(grantedEffect.getColor(player));
+        world.spawnEntity(bolt);
+    }
+
     private void spawnParticles(World world, Vec3d pos, Random random, int ticks, PlayerEntity player) {
         if (!world.isClient) {
             if (ticks % 40 == 0) {
                 for (int i = 0; i < 2; i++) {
-                    BoltEntity bolt = MMEntities.BOLT.create(world);
-                    bolt.setPos(pos.x, pos.y + 1.5F, pos.z);
-                    bolt.yaw = random.nextInt(360);
-                    bolt.pitch = random.nextInt(360);
-                    bolt.setColor(grantedEffect.getColor(player));
-                    world.spawnEntity(bolt);
+                    spawnBolt(player, pos, world, 1.5F, random);
                 }
             }
         } else {

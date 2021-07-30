@@ -1,27 +1,7 @@
 package com.miskatonicmysteries.client.compat.rei.entry;
 
-import com.google.common.collect.Maps;
-import me.shedaniel.math.Point;
-import me.shedaniel.math.Rectangle;
-import me.shedaniel.rei.api.EntryStack;
-import me.shedaniel.rei.api.fractions.Fraction;
-import me.shedaniel.rei.api.widgets.Slot;
-import me.shedaniel.rei.api.widgets.Tooltip;
-import me.shedaniel.rei.api.widgets.Widgets;
-import me.shedaniel.rei.gui.entries.RecipeEntry;
-import me.shedaniel.rei.utils.CollectionUtils;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-public class SimpleOctagramEntry extends RecipeEntry {
+public class SimpleOctagramEntry {}//todo
+     /*extends RecipeEntry {
     private static final Comparator<EntryStack> ENTRY_COMPARATOR = Comparator.comparingLong(EntryStack::hashCode);
     private List<Slot> inputWidgets;
 
@@ -111,4 +91,4 @@ public class SimpleOctagramEntry extends RecipeEntry {
     public int getItemsPerLine() {
         return 4;
     }
-}
+}*/

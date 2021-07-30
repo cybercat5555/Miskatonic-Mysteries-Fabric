@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncRiteTargetPacket;
 import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -39,8 +40,8 @@ public class GoldenFlockRite extends AscensionLockedRite {
             octagram.tickCount++;
             Vec3d pos = octagram.getSummoningPos();
             octagram.targetedEntity = octagram.getWorld().getClosestEntity(VillagerEntity.class,
-                    new TargetPredicate().setPredicate(villager ->
-                            villager instanceof VillagerEntity && villager.hasStatusEffect(MMStatusEffects.MANIA)), null, pos.x, pos.y, pos.z, octagram.getSelectionBox().expand(10, 5, 10));
+                    TargetPredicate.createNonAttackable().setPredicate(villager -> villager instanceof VillagerEntity && villager.hasStatusEffect(MMStatusEffects.MANIA)),
+                    null, pos.x, pos.y, pos.z, octagram.getSelectionBox().expand(10, 5, 10));
             if (octagram.targetedEntity != null) {
                 octagram.tickCount = 0;
                 SyncRiteTargetPacket.send(octagram.targetedEntity, octagram);
@@ -111,7 +112,7 @@ public class GoldenFlockRite extends AscensionLockedRite {
                 VillagerEntity recipient = (VillagerEntity) octagram.targetedEntity;
                 ServerWorld world = (ServerWorld) octagram.getWorld();
                 HasturCultistEntity cultist = MMEntities.HASTUR_CULTIST.create(world);
-                cultist.refreshPositionAndAngles(recipient.getX(), recipient.getY(), recipient.getZ(), recipient.yaw, recipient.pitch);
+                cultist.refreshPositionAndAngles(recipient.getX(), recipient.getY(), recipient.getZ(), recipient.getYaw(), recipient.getPitch());
                 cultist.initialize(world, world.getLocalDifficulty(cultist.getBlockPos()), SpawnReason.CONVERSION, null, null);
                 cultist.setAiDisabled(recipient.isAiDisabled());
                 if (recipient.hasCustomName()) {
@@ -126,7 +127,7 @@ public class GoldenFlockRite extends AscensionLockedRite {
                 recipient.releaseTicketFor(MemoryModuleType.JOB_SITE);
                 recipient.releaseTicketFor(MemoryModuleType.POTENTIAL_JOB_SITE);
                 recipient.releaseTicketFor(MemoryModuleType.MEETING_POINT);
-                recipient.remove();
+                recipient.remove(Entity.RemovalReason.DISCARDED);
                 cultist.reinitializeBrain(world);
                 if (octagram.getOriginalCaster() != null) {
                     cultist.getGossip().startGossip(octagram.getOriginalCaster().getUuid(), VillageGossipType.MAJOR_POSITIVE, 50);

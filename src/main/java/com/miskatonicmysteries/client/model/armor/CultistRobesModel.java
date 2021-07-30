@@ -6,24 +6,23 @@ package com.miskatonicmysteries.client.model.armor;
 
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 
 public class CultistRobesModel extends BipedEntityModel<LivingEntity> {
-    private final EquipmentSlot slot;
+   /* private final EquipmentSlot slot;
     private final boolean wearingBoots, wearingHood, wearingSkirt;
     private final ModelPart armorBody;
     private final ModelPart lowerLeftSkirt;
     private final ModelPart lowerRightSkirt;
     private final ModelPart hoodShawl;
-    private final ModelPart lowerBodySkirt;
+    private final ModelPart lowerBodySkirt;*/
 
-    public CultistRobesModel(EquipmentSlot slot, boolean wearingBoots, boolean wearingHood, boolean wearingSkirt) {
-        super(RenderLayer::getArmorCutoutNoCull, 1, 0, 128, 128);
-        this.slot = slot;
+    public CultistRobesModel(ModelPart root, EquipmentSlot slot, boolean wearingBoots, boolean wearingHood, boolean wearingSkirt) {
+        super(root, RenderLayer::getArmorCutoutNoCull);
+    }
+        /*this.slot = slot;
         this.wearingBoots = wearingBoots;
         this.wearingHood = wearingHood;
         this.wearingSkirt = wearingSkirt;
@@ -402,9 +401,9 @@ public class CultistRobesModel extends BipedEntityModel<LivingEntity> {
         tunicLeft6.setPivot(0.01F, 10.0F, -1.0F);
         tunicLeft5.addChild(tunicLeft6);
         setRotationAngle(tunicLeft6, 0.2618F, 0.0F, 0.0F);
-    }
+    }*/
 
-    @Override
+   /* @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
         head.visible = slot == EquipmentSlot.HEAD;
         hat.visible = slot == EquipmentSlot.HEAD;
@@ -418,11 +417,11 @@ public class CultistRobesModel extends BipedEntityModel<LivingEntity> {
         lowerLeftSkirt.visible = !wearingBoots;
         lowerRightSkirt.visible = !wearingBoots;
         super.render(matrices, vertices, light, overlay, red, green, blue, alpha);
-    }
+    }*/
 
-    private void setRotationAngle(ModelPart bone, float x, float y, float z) {
+    /*private void setRotationAngle(ModelPart bone, float x, float y, float z) {
         bone.pitch = x;
         bone.yaw = y;
         bone.roll = z;
-    }
+    }*/
 }

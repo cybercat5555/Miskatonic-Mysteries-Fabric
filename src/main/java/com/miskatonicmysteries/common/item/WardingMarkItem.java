@@ -2,7 +2,6 @@ package com.miskatonicmysteries.common.item;
 
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
-import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatternItem;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -30,13 +29,12 @@ public class WardingMarkItem extends Item {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        if (context.getPlayer() != null && context.getPlayer().getOffHandStack().getItem().isIn(Constants.Tags.WARDING_MARK_DYE)) {
+        if (context.getPlayer() != null && Constants.Tags.WARDING_MARK_DYE.contains(context.getPlayer().getOffHandStack().getItem())) {
             ActionResult actionResult = this.place(new ItemPlacementContext(context));
             context.getPlayer().getOffHandStack().decrement(1);
             return !actionResult.isAccepted() && this.isFood() ? this.use(context.getWorld(), context.getPlayer(), context.getHand()).getResult() : actionResult;
         }
         return ActionResult.FAIL;
-
     }
 
     public ActionResult place(ItemPlacementContext context) {
@@ -56,20 +54,19 @@ public class WardingMarkItem extends Item {
                 BlockState blockState2 = world.getBlockState(blockPos);
                 Block block = blockState2.getBlock();
                 if (block == blockState.getBlock()) {
-                    if (playerEntity instanceof ServerPlayerEntity) {
-                        Criteria.PLACED_BLOCK.trigger((ServerPlayerEntity) playerEntity, blockPos, itemStack);
+                    if (playerEntity instanceof ServerPlayerEntity sp) {
+                        Criteria.PLACED_BLOCK.trigger(sp, blockPos, itemStack);
                     }
                 }
                 BlockSoundGroup blockSoundGroup = blockState2.getSoundGroup();
                 world.playSound(playerEntity, blockPos, this.getPlaceSound(blockState2), SoundCategory.BLOCKS, (blockSoundGroup.getVolume() + 1.0F) / 2.0F, blockSoundGroup.getPitch() * 0.8F);
-                if (playerEntity == null || !playerEntity.abilities.creativeMode) {
+                if (playerEntity == null || !playerEntity.isCreative()) {
                     itemStack.decrement(1);
                 }
                 block.onPlaced(world, blockPos, blockState, playerEntity, itemStack);
 
                 return ActionResult.success(world.isClient);
             }
-
         }
     }
 

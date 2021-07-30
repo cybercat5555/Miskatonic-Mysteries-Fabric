@@ -73,12 +73,12 @@ public class MMConfig implements ConfigData {
 
     public static class World {
 
-        @ConfigEntry.BoundedDiscrete(max = 500)
+        @ConfigEntry.BoundedDiscrete(max = 150)
         @ConfigEntry.Gui.Tooltip(count = 2)
         @ConfigEntry.Gui.RequiresRestart
         public int psychonautHouseWeight = 3;
 
-        @ConfigEntry.BoundedDiscrete(max = 1000)
+        @ConfigEntry.BoundedDiscrete(max = 150)
         @ConfigEntry.Gui.Tooltip(count = 2)
         @ConfigEntry.Gui.RequiresRestart
         public int hasturShrineWeight = 60;

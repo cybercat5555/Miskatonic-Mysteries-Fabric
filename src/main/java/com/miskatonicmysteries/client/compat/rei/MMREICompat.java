@@ -1,55 +1,50 @@
 package com.miskatonicmysteries.client.compat.rei;
 
 import com.miskatonicmysteries.api.item.ChalkItem;
+import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.compat.rei.category.ChemistrySetCategory;
 import com.miskatonicmysteries.client.compat.rei.category.OctagramRiteCategory;
-import com.miskatonicmysteries.common.registry.MMRecipes;
-import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.common.util.Constants;
-import me.shedaniel.rei.api.EntryStack;
-import me.shedaniel.rei.api.RecipeHelper;
-import me.shedaniel.rei.api.plugins.REIPluginV0;
-import net.minecraft.client.MinecraftClient;
+import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
+import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
+import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
+import me.shedaniel.rei.api.client.registry.display.DynamicDisplayGenerator;
+import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import me.shedaniel.rei.api.common.entry.EntryStack;
+import me.shedaniel.rei.api.common.util.EntryStacks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class MMREICompat implements REIPluginV0 {
-    private static final Identifier ID = new Identifier(Constants.MOD_ID, "rei");
+public class MMREICompat implements REIClientPlugin {
+    public static final CategoryIdentifier<ChemistrySetCategory.ChemistryDisplay> CHEMISTRY = CategoryIdentifier.of(new Identifier(Constants.MOD_ID, "chemistry"));
+    public static final CategoryIdentifier<OctagramRiteCategory.OctagramDisplay> OCTAGRAM_RITE = CategoryIdentifier.of(new Identifier(Constants.MOD_ID, "octagram_rite"));
 
-    @Override
-    public void registerPluginCategories(RecipeHelper recipeHelper) {
-        recipeHelper.registerCategory(new ChemistrySetCategory());
-        recipeHelper.registerCategory(new OctagramRiteCategory());
-    }
 
     @Override
-    public void registerRecipeDisplays(RecipeHelper recipeHelper) {
-        World world = MinecraftClient.getInstance().world;
-        if (world != null) {
-            world.getRecipeManager().listAllOfType(MMRecipes.CHEMISTRY_RECIPE).forEach(recipe -> recipeHelper.registerDisplay(new ChemistrySetCategory.Display(recipe)));
-        }
-        MMRegistries.RITES.forEach((rite) -> recipeHelper.registerDisplay(new OctagramRiteCategory.Display(rite)));
-    }
-
-    @Override
-    public Identifier getPluginIdentifier() {
-        return ID;
-    }
-
-    @Override
-    public void registerOthers(RecipeHelper recipeHelper) {
-
-        recipeHelper.registerWorkingStations(ChemistrySetCategory.ID, ChemistrySetCategory.LOGO);
-        List<EntryStack> validChalks = new ArrayList<>();
+    public void registerCategories(CategoryRegistry registry) {
+        registry.add(new ChemistrySetCategory());
+        registry.addWorkstations(CHEMISTRY, ChemistrySetCategory.ICON);
+        registry.removePlusButton(CHEMISTRY);
+        registry.add(new OctagramRiteCategory());
+        List<EntryStack<ItemStack>> validChalks = new ArrayList<>();
         Registry.ITEM.forEach(item -> {
             if (item instanceof ChalkItem) {
-                validChalks.add(EntryStack.create(item));
+                validChalks.add(EntryStacks.of(item));
             }
         });
-        recipeHelper.registerWorkingStations(OctagramRiteCategory.ID, validChalks.toArray(new EntryStack[0]));
+        registry.addWorkstations(OCTAGRAM_RITE,  validChalks.toArray(new EntryStack[0]));
+        registry.removePlusButton(OCTAGRAM_RITE);
+    }
+
+    @Override
+    public void registerDisplays(DisplayRegistry registry) {
+        registry.registerFiller(ChemistryRecipe.class, ChemistrySetCategory.ChemistryDisplay::new);
+        registry.registerFiller(Rite.class, OctagramRiteCategory.OctagramDisplay::new); //todo since this is not a recipe, it is not filled properly
     }
 }

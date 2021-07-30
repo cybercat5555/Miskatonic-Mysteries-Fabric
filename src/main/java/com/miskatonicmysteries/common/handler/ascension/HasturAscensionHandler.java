@@ -39,7 +39,7 @@ public class HasturAscensionHandler {
     public static void blessThroughPrince(LivingEntity blessTarget, TatteredPrinceEntity prince) {
         if (blessTarget instanceof PlayerEntity && MiskatonicMysteriesAPI.levelUp((PlayerEntity) blessTarget, 2, MMAffiliations.HASTUR)) {
             prince.playSound(MMSounds.MAGIC, 1, 1);
-            Vec3d pos = Util.getYawRelativePos(prince.getPos(), 3, prince.yaw, prince.pitch);
+            Vec3d pos = Util.getYawRelativePos(prince.getPos(), 3, prince.getYaw(), prince.getPitch());
             Vec3d motionVec = new Vec3d(pos.x - blessTarget.getX(), pos.y + 2 - blessTarget.getY(), pos.z - blessTarget.getZ());
             if (motionVec.length() > 0.1) {
                 blessTarget.setVelocity(motionVec);

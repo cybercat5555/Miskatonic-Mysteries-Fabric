@@ -2,8 +2,9 @@ package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.registry.Rite;
-import com.miskatonicmysteries.client.model.block.HasturStatueModel;
+import com.miskatonicmysteries.client.model.block.StatueModel;
 import com.miskatonicmysteries.client.render.ResourceHandler;
+import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.registry.*;
@@ -141,7 +142,7 @@ public class SculptorRite extends Rite {
         VertexConsumer vertexConsumer = ResourceHandler.STATUE_SPRITES.get(getStatueForIngredients(entity)).getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid);
         matrixStack.translate(1.5F, 0, 1.5F);
         matrixStack.push();
-        HasturStatueModel model = ResourceHandler.HASTUR_STATUE_MODEL;
+        StatueModel model = StatueBlockRender.MODELS.get(MMAffiliations.HASTUR);
         model.plinth.visible = entity.tickCount > 40;
         model.body.visible = entity.tickCount > 80;
         model.head.visible = entity.tickCount > 120;
@@ -150,6 +151,9 @@ public class SculptorRite extends Rite {
         matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(180));
         model.render(matrixStack, vertexConsumer, light, overlay, 1, 1, 1, 1);
         matrixStack.pop();
+        model.plinth.visible = true;
+        model.body.visible = true;
+        model.head.visible = true;
     }
 
     @Override
@@ -169,7 +173,7 @@ public class SculptorRite extends Rite {
             matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(0.125F * i * 360F));
             matrixStack.translate(0, 0, -1.1);
             matrixStack.multiply(Vec3f.NEGATIVE_X.getDegreesQuaternion(90));
-            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(i), ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrixStack, vertexConsumers);
+            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(i), ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrixStack, vertexConsumers, (int) entity.getPos().asLong());
             matrixStack.pop();
         }
     }

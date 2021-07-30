@@ -103,10 +103,10 @@ public class MMObjects {
     public static final Block CANDLE = new CandleBlock();
 
     public static final Block RESONATOR = new ResonatorBlock();
-    public static final BlockEntityType<ResonatorBlockEntity> RESONATOR_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create((pos, state) -> new ResonatorBlockEntity(), RESONATOR).build(null);
+    public static final BlockEntityType<ResonatorBlockEntity> RESONATOR_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create(ResonatorBlockEntity::new, RESONATOR).build(null);
 
     public static final Block POWER_CELL = new PowerCellBlock();
-    public static final BlockEntityType<PowerCellBlockEntity> POWER_CELL_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create((pos, state) -> new PowerCellBlockEntity(), POWER_CELL).build(null);
+    public static final BlockEntityType<PowerCellBlockEntity> POWER_CELL_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create(PowerCellBlockEntity::new, POWER_CELL).build(null);
 
     public static final Block YELLOW_SIGN = new YellowSignBlock();
     public static final Block WARDING_MARK = new WardingMarkBlock();

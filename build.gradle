@@ -72,7 +72,7 @@ dependencies {
 	modImplementation "io.github.fablabsmc:bannerpp:${project.bannerpp_version}"
 	include "io.github.fablabsmc:bannerpp:${project.bannerpp_version}"
 
-	modImplementation "dev.emi:trinkets:${project.trinkets_version}"
+	modImplementation "com.github.emilyalexandra:trinkets:${trinkets_version}"
 
 	modApi include("dev.technici4n:FastTransferLib:${project.ftl_version}")
 	modImplementation("software.bernie.geckolib:${project.geckolib_version}:dev") {
@@ -84,8 +84,9 @@ dependencies {
 
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
-	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${project.rei_version}"
-	modRuntime "me.shedaniel:RoughlyEnoughItems-runtime:${project.rei_version}"
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
+	modRuntime "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+
 
 	modApi "me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"
 	include "me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"

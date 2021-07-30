@@ -24,7 +24,6 @@ import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-import org.lwjgl.opengl.GL11;
 
 import java.util.*;
 
@@ -85,22 +84,22 @@ public class EditSpellScreen extends Screen {
     @Override
     protected void init() {
         for (int i = 0; i < user.getMaxSpells(); i++) {
-            addButton(new CombinedSpellWidget((this.width - 192) / 4 + 254, 48 + (20 * i), i, this));
+            addDrawableChild(new CombinedSpellWidget((this.width - 192) / 4 + 254, 48 + (20 * i), i, this));
         }
 
         for (int i = 0; i < learnedEffects.size(); i++) {
-            addButton(new SpellComponentWidget((this.width - 192) / 4 + 30 * (i % 4), 64 + (30 * (i / 4)), learnedEffects.get(i), this));
+            addDrawableChild(new SpellComponentWidget((this.width - 192) / 4 + 30 * (i % 4), 64 + (30 * (i / 4)), learnedEffects.get(i), this));
         }
 
-        addButton(new MediumComponentWidget((this.width - 192) / 4 + 128, 50 + 32, MMSpellMediums.SELF, this));
-        addButton(new MediumComponentWidget((this.width - 192) / 4 + 140 + 64, 50 + 32, MMSpellMediums.PROJECTILE, this));
-        addButton(new MediumComponentWidget((this.width - 192) / 4 + 138, 34 + 3 * 32, MMSpellMediums.BOLT, this));
-        addButton(new MediumComponentWidget((this.width - 192) / 4 + 130 + 64, 34 + 3 * 32, MMSpellMediums.GROUP, this));
-        addButton(new MediumComponentWidget((this.width - 192) / 4 + 134 + 32, 30 + 32, MMSpellMediums.VISION, this));
+        addDrawableChild(new MediumComponentWidget((this.width - 192) / 4 + 128, 50 + 32, MMSpellMediums.SELF, this));
+        addDrawableChild(new MediumComponentWidget((this.width - 192) / 4 + 140 + 64, 50 + 32, MMSpellMediums.PROJECTILE, this));
+        addDrawableChild(new MediumComponentWidget((this.width - 192) / 4 + 138, 34 + 3 * 32, MMSpellMediums.BOLT, this));
+        addDrawableChild(new MediumComponentWidget((this.width - 192) / 4 + 130 + 64, 34 + 3 * 32, MMSpellMediums.GROUP, this));
+        addDrawableChild(new MediumComponentWidget((this.width - 192) / 4 + 134 + 32, 30 + 32, MMSpellMediums.VISION, this));
 
-        addButton(new SpellPowerWidget((this.width - 192) / 4 + 134, 38 + 4 * 32, 0, this));
-        addButton(new SpellPowerWidget((this.width - 192) / 4 + 134 + 32, 38 + 4 * 32, 1, this));
-        addButton(new SpellPowerWidget((this.width - 192) / 4 + 134 + 64, 38 + 4 * 32, 2, this));
+        addDrawableChild(new SpellPowerWidget((this.width - 192) / 4 + 134, 38 + 4 * 32, 0, this));
+        addDrawableChild(new SpellPowerWidget((this.width - 192) / 4 + 134 + 32, 38 + 4 * 32, 1, this));
+        addDrawableChild(new SpellPowerWidget((this.width - 192) / 4 + 134 + 64, 38 + 4 * 32, 2, this));
     }
 
 
@@ -116,16 +115,15 @@ public class EditSpellScreen extends Screen {
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-        RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569F);
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.client.getTextureManager().bindTexture(BOOK_TEXTURE);
-
+        //todo RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569F); shader?
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, BOOK_TEXTURE);
         drawTexture(matrices, (this.width - 192) / 4 - 16, 32, 0, 0, 270, 180, 512, 256);
         drawTexture(matrices, (this.width - 192) / 4 + 134 + 31, 36 + 2 * 32, 174, 204, 34, 34, 512, 256);
         drawTexture(matrices, (this.width - 192) / 4 + 134 + 32, 36 + 2 * 32, 242, 204, 34, 34, 512, 256);
         float powerPercentage = availablePower / (float) user.getMaxSpells();
         matrices.push();
-        RenderSystem.color4f(1, 1, 1, powerPercentage);
+        RenderSystem.setShaderColor(1, 1, 1, powerPercentage);
         drawTexture(matrices, (this.width - 192) / 4 + 134 + 31, 36 + 2 * 32, 208, 204, 34, 34, 512, 256);
         matrices.pop();
         drawCenteredText(textRenderer, matrices, new TranslatableText(Constants.MOD_ID + ".gui.spell_effects"), (this.width - 192) / 4 + 58, 48, 0x111111);

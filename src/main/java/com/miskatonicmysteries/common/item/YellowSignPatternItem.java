@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
@@ -30,7 +29,7 @@ public class YellowSignPatternItem extends LoomPatternItem {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        if (context.getPlayer() != null && context.getPlayer().getOffHandStack().getItem().isIn(Constants.Tags.YELLOW_DYE)) {
+        if (context.getPlayer() != null && Constants.Tags.YELLOW_DYE.contains(context.getPlayer().getOffHandStack().getItem())) {
             ActionResult actionResult = this.place(new ItemPlacementContext(context));
             context.getPlayer().getOffHandStack().decrement(1);
             return !actionResult.isAccepted() && this.isFood() ? this.use(context.getWorld(), context.getPlayer(), context.getHand()).getResult() : actionResult;
@@ -56,13 +55,13 @@ public class YellowSignPatternItem extends LoomPatternItem {
                 BlockState blockState2 = world.getBlockState(blockPos);
                 Block block = blockState2.getBlock();
                 if (block == blockState.getBlock()) {
-                    if (playerEntity instanceof ServerPlayerEntity) {
-                        Criteria.PLACED_BLOCK.trigger((ServerPlayerEntity) playerEntity, blockPos, itemStack);
+                    if (playerEntity instanceof ServerPlayerEntity sp) {
+                        Criteria.PLACED_BLOCK.trigger(sp, blockPos, itemStack);
                     }
                 }
                 BlockSoundGroup blockSoundGroup = blockState2.getSoundGroup();
                 world.playSound(playerEntity, blockPos, this.getPlaceSound(blockState2), SoundCategory.BLOCKS, (blockSoundGroup.getVolume() + 1.0F) / 2.0F, blockSoundGroup.getPitch() * 0.8F);
-                if (playerEntity == null || !playerEntity.abilities.creativeMode) {
+                if (playerEntity == null || !playerEntity.isCreative()) {
                     itemStack.decrement(1);
                 }
                 block.onPlaced(world, blockPos, blockState, playerEntity, itemStack);

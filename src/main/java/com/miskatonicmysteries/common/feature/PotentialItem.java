@@ -53,7 +53,7 @@ public class PotentialItem {
     public static PotentialItem fromJson(JsonObject jsonElement) {
         JsonObject in = JsonHelper.getObject(jsonElement, "in");
         JsonObject out = JsonHelper.getObject(jsonElement, "out");
-        return new PotentialItem(ShapedRecipe.getItem(in), ShapedRecipe.getItem(out));
+        return new PotentialItem(new ItemStack(ShapedRecipe.getItem(in)), new ItemStack(ShapedRecipe.getItem(out)));
     }
 
     public NbtCompound toTag(NbtCompound tag) {

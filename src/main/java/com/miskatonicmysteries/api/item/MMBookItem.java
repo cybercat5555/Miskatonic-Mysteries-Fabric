@@ -73,7 +73,7 @@ public class MMBookItem extends Item implements Affiliated {
     public void appendTooltip(ItemStack stack, World worldIn, List<Text> tooltip, TooltipContext flagIn) {
         super.appendTooltip(stack, worldIn, tooltip, flagIn);
         Book book = getBook();
-        if (book != null && book.contents != null) {
+        if (book != null && book.getContents() != null) {
             tooltip.add(book.getSubtitle().formatted(Formatting.GRAY));
         }
         if (stack.getTag() != null && stack.getTag().contains(Constants.NBT.KNOWLEDGE)) {

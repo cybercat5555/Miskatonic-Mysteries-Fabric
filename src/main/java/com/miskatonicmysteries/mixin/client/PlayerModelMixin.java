@@ -27,7 +27,7 @@ public abstract class PlayerModelMixin {
     @Shadow
     public BipedEntityModel.ArmPose rightArmPose;
 
-    @Inject(method = "method_30155(Lnet/minecraft/entity/LivingEntity;)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "positionLeftArm", at = @At("HEAD"), cancellable = true)
     private void setGunAnglesLeft(LivingEntity entity, CallbackInfo info) {
         if (entity.getActiveItem().getItem() instanceof GunItem && leftArmPose == BipedEntityModel.ArmPose.BOW_AND_ARROW) {
             GunItem gun = (GunItem) entity.getActiveItem().getItem();
@@ -43,7 +43,7 @@ public abstract class PlayerModelMixin {
         }
     }
 
-    @Inject(method = "method_30154(Lnet/minecraft/entity/LivingEntity;)V", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "positionRightArm", at = @At("HEAD"), cancellable = true)
     private void setGunAnglesRight(LivingEntity entity, CallbackInfo info) {
         if (entity.getActiveItem().getItem() instanceof GunItem && rightArmPose == BipedEntityModel.ArmPose.BOW_AND_ARROW) {
             GunItem gun = (GunItem) entity.getActiveItem().getItem();

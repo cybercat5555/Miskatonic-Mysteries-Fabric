@@ -115,16 +115,16 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         BlockEntityRendererRegistry.INSTANCE.register(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, OctagramBlockRender::new);
         BlockEntityRendererRegistry.INSTANCE.register(MMObjects.STATUE_BLOCK_ENTITY_TYPE, StatueBlockRender::new);
 
-        EntityRendererRegistry.INSTANCE.register(MMEntities.PROTAGONIST, (context) -> new ProtagonistEntityRender(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.HASTUR_CULTIST, (context) -> new HasturCultistEntityRender(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.SPELL_PROJECTILE, (context) -> new SpellProjectileEntityRenderer(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.BOLT, (entityRenderDispatcher, context) -> new BoltEntityRenderer(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.PHANTASMA, (entityRenderDispatcher, context) -> new PhantasmaEntityRenderer(entityRenderDispatcher, new PhantasmaModel()));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.ABERRATION, (entityRenderDispatcher, context) -> new PhantasmaEntityRenderer(entityRenderDispatcher, new AberrationModel()));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.TATTERED_PRINCE, (entityRenderDispatcher, context) -> new TatteredPrinceRenderer(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.GENERIC_TENTACLE, (entityRenderDispatcher, context) -> new GenericTentacleEntityRenderer(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.HARROW, (entityRenderDispatcher, context) -> new HarrowEntityRenderer(entityRenderDispatcher));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.BYAKHEE, (entityRenderDispatcher, context) -> new ByakheeEntityRenderer(entityRenderDispatcher));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.PROTAGONIST, ProtagonistEntityRender::new);
+        EntityRendererRegistry.INSTANCE.register(MMEntities.HASTUR_CULTIST, HasturCultistEntityRender::new);
+        EntityRendererRegistry.INSTANCE.register(MMEntities.SPELL_PROJECTILE, SpellProjectileEntityRenderer::new);
+        EntityRendererRegistry.INSTANCE.register(MMEntities.BOLT, BoltEntityRenderer::new);
+        EntityRendererRegistry.INSTANCE.register(MMEntities.PHANTASMA, (context) -> new PhantasmaEntityRenderer(context, new PhantasmaModel()));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.ABERRATION, (context) -> new PhantasmaEntityRenderer(context, new AberrationModel()));
+        EntityRendererRegistry.INSTANCE.register(MMEntities.TATTERED_PRINCE, TatteredPrinceRenderer::new);
+        EntityRendererRegistry.INSTANCE.register(MMEntities.GENERIC_TENTACLE, GenericTentacleEntityRenderer::new);
+        EntityRendererRegistry.INSTANCE.register(MMEntities.HARROW, HarrowEntityRenderer::new);
+        EntityRendererRegistry.INSTANCE.register(MMEntities.BYAKHEE, ByakheeEntityRenderer::new);
         ShaderHandler.init();
 
         ResourceHandler.init();
@@ -171,9 +171,9 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
     }
 
     private void registerTrinketRenderers() {
-        TrinketRendererRegistry.registerRenderer(MMObjects.ELEGANT_MASK, new MaskTrinketRenderer(new HasturMaskModel(), new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png")));
-        TrinketRendererRegistry.registerRenderer(MMObjects.FERAL_MASK, new MaskTrinketRenderer(new ShubMaskModel(), new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png")));
-        TrinketRendererRegistry.registerRenderer(MMObjects.WILD_MASK, new MaskTrinketRenderer(new ShubAlternateMaskModel(), new Identifier(Constants.MOD_ID, "textures/model/mask/wild_mask.png")));
+        TrinketRendererRegistry.registerRenderer(MMObjects.ELEGANT_MASK, new MaskTrinketRenderer((ctx) -> new HasturMaskModel(ctx.getModelPart(MMModels.HASTUR_MASK)), new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png")));
+        TrinketRendererRegistry.registerRenderer(MMObjects.FERAL_MASK, new MaskTrinketRenderer((ctx) -> new ShubMaskModel(ctx.getModelPart(MMModels.SHUB_MASK)), new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png")));
+        TrinketRendererRegistry.registerRenderer(MMObjects.WILD_MASK, new MaskTrinketRenderer((ctx) -> new ShubAlternateMaskModel(ctx.getModelPart(MMModels.SHUB_ALT_MASK)), new Identifier(Constants.MOD_ID, "textures/model/mask/wild_mask.png")));
 
     }
 }

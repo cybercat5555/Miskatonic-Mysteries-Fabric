@@ -2,6 +2,7 @@ package com.miskatonicmysteries.mixin.world;
 
 import com.miskatonicmysteries.common.registry.MMObjects;
 import net.minecraft.structure.OceanMonumentGenerator;
+import net.minecraft.structure.StructurePiece;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
@@ -17,9 +18,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Random;
 
 @Mixin(OceanMonumentGenerator.CoreRoom.class)
-public abstract class OceanMonumentMixin extends OceanMonumentGenerator.Piece {
-    public OceanMonumentMixin(StructurePieceType structurePieceType, int i) {
-        super(structurePieceType, i);
+public abstract class OceanMonumentMixin extends StructurePiece {
+    private OceanMonumentMixin(StructurePieceType type, int length, BlockBox boundingBox) {
+        super(type, length, boundingBox);
     }
 
     @Inject(method = "generate",

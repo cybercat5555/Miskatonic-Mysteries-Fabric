@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
@@ -50,7 +51,7 @@ public class SpellComponentWidget extends ClickableWidget {
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, isHovered() ? 0.75F : this.alpha);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, isHovered() ? 0.75F : this.alpha);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
@@ -59,6 +60,11 @@ public class SpellComponentWidget extends ClickableWidget {
         minecraftClient.getTextureManager().bindTexture(textureLocation);
         drawTexture(matrices, this.x + 3, this.y + 3, 0, 0, 18, 18, 18, 18);
         this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
+    }
+
+    @Override
+    public void appendNarrations(NarrationMessageBuilder builder) {
+        super.appendDefaultNarrations(builder);
     }
 
     public enum Type {

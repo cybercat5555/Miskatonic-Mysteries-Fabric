@@ -132,10 +132,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
         if (amount >= getHealth() && !source.isOutOfWorld()) {
             PlayerEntity entity = (PlayerEntity) (Object) this;
             if (InventoryUtil.getSlotForItemInHotbar(entity, MMObjects.RE_AGENT_SYRINGE) >= 0) {
-                entity.inventory.getStack(InventoryUtil.getSlotForItemInHotbar(entity, MMObjects.RE_AGENT_SYRINGE)).decrement(1);
+                entity.getInventory().getStack(InventoryUtil.getSlotForItemInHotbar(entity, MMObjects.RE_AGENT_SYRINGE)).decrement(1);
                 if (LazarusStatusEffect.revive(entity)) {
                     dead = false;
-                    removed = false;
+                    unsetRemoved();
                     infoReturnable.setReturnValue(false);
                     infoReturnable.cancel();
                 }
@@ -223,7 +223,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
         }
     }
 
-    @Inject(method = "writeCustomDataToTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
+    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void writeMiskData(NbtCompound compoundTag, CallbackInfo info) {
         NbtCompound tag = new NbtCompound();
 
@@ -257,7 +257,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
         compoundTag.put(Constants.NBT.MISK_DATA, tag);
     }
 
-    @Inject(method = "readCustomDataFromTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
+    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     public void readMiskData(NbtCompound compoundTag, CallbackInfo info) {
         NbtCompound tag = (NbtCompound) compoundTag.get(Constants.NBT.MISK_DATA);
         if (tag != null) {

@@ -87,7 +87,7 @@ public class SpawnerTrapRite extends TriggeredRite {
                         ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 1200, 0, true, true));
                         if (entity instanceof MobEntity) {
                             ((MobEntity) entity).initialize((ServerWorld) world, world.getLocalDifficulty(entity.getBlockPos()), SpawnReason.EVENT, null, null);
-                            entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(8, 3, 8), target -> target instanceof LivingEntity && !(target instanceof Monster) && EntityPredicates.EXCEPT_CREATIVE_SPECTATOR_OR_PEACEFUL.test(target)).stream().findAny().ifPresent(value -> ((MobEntity) entity).setTarget((LivingEntity) value));
+                            entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(8, 3, 8), target -> target instanceof LivingEntity && !(target instanceof Monster) && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(target)).stream().findAny().ifPresent(value -> ((MobEntity) entity).setTarget((LivingEntity) value));
                         }
                         ((DropManipulator) entity).setDropOveride(true);
                     }

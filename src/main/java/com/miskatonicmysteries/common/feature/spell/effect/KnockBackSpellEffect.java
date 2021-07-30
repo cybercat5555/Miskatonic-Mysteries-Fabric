@@ -38,7 +38,7 @@ public class KnockBackSpellEffect extends SpellEffect {
             target.velocityDirty = true;
             Vec3d speed = target.getVelocity();
             Vec3d direction = (new Vec3d(
-                    MathHelper.sin(caster.yaw * 0.017453292F), Math.sin(caster.pitch * 0.017453292F), (-MathHelper.cos(caster.yaw * 0.017453292F))
+                    MathHelper.sin(caster.getYaw() * 0.017453292F), Math.sin(caster.getPitch() * 0.017453292F), (-MathHelper.cos(caster.getYaw() * 0.017453292F))
             ).normalize().multiply(strength));
             target.setVelocity(speed.x / 2.0D - direction.x, speed.y / 2.0D - direction.y, speed.z / 2.0D - direction.z);
         }

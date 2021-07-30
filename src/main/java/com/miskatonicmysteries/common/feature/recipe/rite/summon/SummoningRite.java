@@ -69,7 +69,7 @@ public abstract class SummoningRite<T extends Entity> extends AscensionLockedRit
             float[] rgb = entity.getAffiliation(true).getColor();
             renderPortalOctagram(alpha, rgb, entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
             Model model = getRenderedModel(entity);
-            double distance = entity.getPos().getSquaredDistance(context.camera.getPos(), true);
+            double distance = entity.getPos().getSquaredDistance(context.getRenderDispatcher().camera.getPos(), true);
             int renderDepth = Math.max(RenderHelper.getDepthFromDistance(distance) - 15 + (4 * entity.tickCount / tickCount), 0);
             matrixStack.translate(1.5, 1.5, 1.5);
             matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(180));

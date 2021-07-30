@@ -10,7 +10,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class ByakheeDecoFeatureRenderer extends FeatureRenderer<ByakheeEntity, ByakheeEntityModel> {
-    private static final ByakheeEntityModel DECO_MODEL = new ByakheeEntityModel();
     public static final Identifier DECO_TEXTURE = new Identifier(Constants.MOD_ID, "textures/entity/byakhee/byakhee_deco.png");
 
     public ByakheeDecoFeatureRenderer(FeatureRendererContext<ByakheeEntity, ByakheeEntityModel> context) {
@@ -20,7 +19,7 @@ public class ByakheeDecoFeatureRenderer extends FeatureRenderer<ByakheeEntity, B
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ByakheeEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         if (entity.isDecorated()) {
-            render(getContextModel(), DECO_MODEL, getTexture(entity), matrices, vertexConsumers, light, entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch, tickDelta, 1, 1, 1);
+            render(getContextModel(), getContextModel(), getTexture(entity), matrices, vertexConsumers, light, entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch, tickDelta, 1, 1, 1);
         }
     }
 

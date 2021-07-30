@@ -99,6 +99,6 @@ public class PrinceSummoningRite extends SummoningRite {
 
     @Override
     protected Model getRenderedModel(OctagramBlockEntity entity) {
-        return TatteredPrinceRenderer.DUMMY_PRINCE_MODEL;
+        return TatteredPrinceRenderer.dummyPrinceModel;
     }
 }

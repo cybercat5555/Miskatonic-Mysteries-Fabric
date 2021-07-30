@@ -4,24 +4,16 @@ import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.MalleableAffiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
-import com.miskatonicmysteries.client.render.ResourceHandler;
 import dev.emi.trinkets.api.SlotReference;
-import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketItem;
 import dev.emi.trinkets.api.TrinketsApi;
-import java.util.Optional;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.model.PlayerEntityModel;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
+
+import java.util.List;
+import java.util.Optional;
 
 public class MaskTrinketItem extends TrinketItem implements Affiliated {
     private final Affiliation affiliation;
@@ -35,7 +27,7 @@ public class MaskTrinketItem extends TrinketItem implements Affiliated {
 
 
     public static ItemStack getMask(PlayerEntity player) {
-        Optional masks = TrinketsApi.getTrinketComponent(player)
+        Optional<List<Pair<SlotReference, ItemStack>>> masks = TrinketsApi.getTrinketComponent(player)
                 .map(component ->
                         component.getEquipped(stack -> stack.getItem() instanceof MaskTrinketItem));
         if (masks.isPresent() && !masks.get().isEmpty()){

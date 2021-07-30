@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -18,8 +19,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Environment(EnvType.CLIENT)
 @Mixin(MobEntityRenderer.class)
 public abstract class MobEntityRendererMixin<T extends MobEntity, M extends EntityModel<T>> extends LivingEntityRenderer<T, M> {
-    public MobEntityRendererMixin(EntityRenderDispatcher dispatcher, M model, float shadowRadius) {
-        super(dispatcher, model, shadowRadius);
+    private MobEntityRendererMixin(EntityRendererFactory.Context context, M model, float shadowRadius) {
+        super(context, model, shadowRadius);
     }
 
     @Inject(method = "shouldRender", at = @At("RETURN"), cancellable = true)

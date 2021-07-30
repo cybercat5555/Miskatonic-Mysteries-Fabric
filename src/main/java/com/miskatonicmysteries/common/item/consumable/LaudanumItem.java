@@ -41,11 +41,10 @@ public class LaudanumItem extends Item {
         if (stack.isEmpty()) {
             return new ItemStack(Items.GLASS_BOTTLE);
         } else {
-            if (user instanceof PlayerEntity && !((PlayerEntity) user).abilities.creativeMode) {
+            if (user instanceof PlayerEntity player && !player.isCreative()) {
                 ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
-                PlayerEntity playerEntity = (PlayerEntity) user;
-                if (!playerEntity.inventory.insertStack(itemStack)) {
-                    playerEntity.dropItem(itemStack, false);
+                if (!player.getInventory().insertStack(itemStack)) {
+                    player.dropItem(itemStack, false);
                 }
             }
 

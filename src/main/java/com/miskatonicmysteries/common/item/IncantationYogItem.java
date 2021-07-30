@@ -55,8 +55,6 @@ public class IncantationYogItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        Knowledge.of(user).get().syncKnowledge();
-        MiskatonicMysteriesAPI.addKnowledge("witch", (PlayerEntity) user);
         BlockPos foundPos = null;
         for (BlockPos iterateOutward : BlockPos.iterateOutwards(user.getBlockPos(), 3, 3, 3)) {
             if (world.getBlockEntity(iterateOutward) instanceof OctagramBlockEntity) {

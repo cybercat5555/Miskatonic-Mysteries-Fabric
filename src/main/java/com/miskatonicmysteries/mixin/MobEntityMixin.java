@@ -79,12 +79,12 @@ public abstract class MobEntityMixin extends LivingEntity implements Hallucinati
         });
     }
 
-    @Inject(method = "readCustomDataFromTag", at = @At("TAIL"))
+    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     private void readCustomDataFromTag(NbtCompound tag, CallbackInfo callbackInfo) {
         setHallucinationTarget(!tag.contains(Constants.NBT.HALLUCINATION) ? Optional.empty() : Optional.of(tag.getUuid(Constants.NBT.HALLUCINATION)));
     }
 
-    @Inject(method = "writeCustomDataToTag", at = @At("TAIL"))
+    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void writeCustomDataToTag(NbtCompound tag, CallbackInfo callbackInfo) {
         if (getHallucinationTarget().isPresent()) {
             tag.putUuid(Constants.NBT.HALLUCINATION, getHallucinationTarget().get());
@@ -96,10 +96,10 @@ public abstract class MobEntityMixin extends LivingEntity implements Hallucinati
         dataTracker.startTracking(HALLUCINATION_UUID, Optional.empty());
     }
 
-    @Inject(method = "canTarget(Lnet/minecraft/entity/LivingEntity;)Z", at = @At("HEAD"), cancellable = true)
-    private void handleAttack(LivingEntity target, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "setTarget", at = @At("HEAD"), cancellable = true)
+    private void handleAttack(LivingEntity target, CallbackInfo ci) {
         if (getHallucinationTarget().isPresent() && !target.getUuid().equals(getHallucinationTarget().get())) {
-            cir.setReturnValue(false);
+            ci.cancel();
         }
     }
 }

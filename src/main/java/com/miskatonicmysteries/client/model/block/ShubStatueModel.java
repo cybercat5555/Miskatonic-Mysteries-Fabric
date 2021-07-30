@@ -1,490 +1,308 @@
 package com.miskatonicmysteries.client.model.block;
 
-import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.Model;
-import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.util.math.MatrixStack;
 
 /**
  * statue_shub - cybecat5555
  * Created using Tabula 8.0.0
  */
 @Environment(EnvType.CLIENT)
-public class ShubStatueModel extends Model {
-    public ModelPart plinth;
-    public ModelPart body;
-    public ModelPart chest;
-    public ModelPart lTentacle00a;
-    public ModelPart lTentacle01a;
-    public ModelPart rTentacle00a;
-    public ModelPart rTentacle01a;
-    public ModelPart lTentacle02a;
-    public ModelPart rTentacle02a;
-    public ModelPart boobs;
-    public ModelPart lArm01;
-    public ModelPart rArm01;
-    public ModelPart head;
-    public ModelPart lTentacle03a;
-    public ModelPart rTentacle03a;
-    public ModelPart lArm02;
-    public ModelPart lHoof01;
-    public ModelPart lHoof02;
-    public ModelPart rArm02;
-    public ModelPart rHoof01;
-    public ModelPart rHoof02;
-    public ModelPart snout;
-    public ModelPart snoutSnope;
-    public ModelPart lHorn00;
-    public ModelPart rHorn00;
-    public ModelPart lEar;
-    public ModelPart rEar;
-    public ModelPart lHorn01a;
-    public ModelPart lHorn01b;
-    public ModelPart lHorn02a;
-    public ModelPart lHorn02b;
-    public ModelPart lHorn03;
-    public ModelPart rHorn01a;
-    public ModelPart rHorn01b;
-    public ModelPart rHorn02a;
-    public ModelPart rHorn02b;
-    public ModelPart rHorn03;
-    public ModelPart lTentacle03b;
-    public ModelPart lTentacle03c;
-    public ModelPart lTentacle03d;
-    public ModelPart rTentacle03b;
-    public ModelPart rTentacle03c;
-    public ModelPart rTentacle03d;
-    public ModelPart lTentacle00b;
-    public ModelPart lTentacle00c;
-    public ModelPart lTentacle00d;
-    public ModelPart lTentacle00e;
-    public ModelPart lTentacle00f;
-    public ModelPart lTentacle01b;
-    public ModelPart lTentacle01c;
-    public ModelPart lTentacle01d;
-    public ModelPart lTentacle01e;
-    public ModelPart lTentacle01f;
-    public ModelPart rTentacle00b;
-    public ModelPart rTentacle00c;
-    public ModelPart rTentacle00d;
-    public ModelPart rTentacle00e;
-    public ModelPart rTentacle00f;
-    public ModelPart rTentacle01b;
-    public ModelPart rTentacle01c;
-    public ModelPart rTentacle01d;
-    public ModelPart rTentacle01e;
-    public ModelPart rTentacle01f;
-    public ModelPart lTentacle02b;
-    public ModelPart lTentacle02c;
-    public ModelPart lTentacle02d;
-    public ModelPart lTentacle02e;
-    public ModelPart rTentacle02b;
-    public ModelPart rTentacle02c;
-    public ModelPart rTentacle02d;
-    public ModelPart rTentacle02e;
+public class ShubStatueModel extends StatueModel {
 
-    public ShubStatueModel() {
-        super(RenderLayer::getEntitySolid);
-        this.textureWidth = 64;
-        this.textureHeight = 32;
-        this.lTentacle02c = new ModelPart(this, 52, 10);
-        this.lTentacle02c.setPivot(0.0F, 0.0F, 1.6F);
-        this.lTentacle02c.addCuboid(-1.01F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle02c, -0.4363323129985824F, 0.0F, 0.0F);
-        this.snout = new ModelPart(this, 45, 25);
-        this.snout.setPivot(0.0F, -1.0F, -1.9F);
-        this.snout.addCuboid(-1.5F, -1.8F, -2.2F, 3.0F, 3.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(snout, 0.17453292519943295F, 0.0F, 0.0F);
-        this.rHorn02b = new ModelPart(this, 55, 0);
-        this.rHorn02b.mirror = true;
-        this.rHorn02b.setPivot(0.0F, 0.0F, 0.0F);
-        this.rHorn02b.addCuboid(-0.7F, -1.7F, -0.49F, 1.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.lTentacle00f = new ModelPart(this, 51, 17);
-        this.lTentacle00f.setPivot(0.0F, 0.0F, 2.8F);
-        this.lTentacle00f.addCuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle00f, 0.5235987755982988F, 0.0F, 0.0F);
-        this.lTentacle03a = new ModelPart(this, 41, 12);
-        this.lTentacle03a.setPivot(-1.3F, -2.7F, 1.6F);
-        this.lTentacle03a.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle03a, -0.6108652381980153F, -0.6108652381980153F, 0.5235987755982988F);
-        this.rHorn01b = new ModelPart(this, 50, 0);
-        this.rHorn01b.mirror = true;
-        this.rHorn01b.setPivot(0.0F, 0.0F, 0.0F);
-        this.rHorn01b.addCuboid(-0.8F, -2.0F, -0.49F, 1.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.rTentacle03c = new ModelPart(this, 51, 17);
-        this.rTentacle03c.mirror = true;
-        this.rTentacle03c.setPivot(0.0F, 0.0F, 3.3F);
-        this.rTentacle03c.addCuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle03c, 0.3490658503988659F, 0.0F, 0.0F);
-        this.rTentacle02e = new ModelPart(this, 51, 17);
-        this.rTentacle02e.mirror = true;
-        this.rTentacle02e.setPivot(0.0F, 0.0F, 2.8F);
-        this.rTentacle02e.addCuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle02e, 0.5235987755982988F, 0.0F, 0.0F);
-        this.rHoof01 = new ModelPart(this, 32, 13);
-        this.rHoof01.mirror = true;
-        this.rHoof01.setPivot(-0.3F, 3.95F, -0.6F);
-        this.rHoof01.addCuboid(-0.5F, -0.5F, -0.8F, 1.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rHoof01, 0.3490658503988659F, 0.03490658503988659F, 0.13962634015954636F);
-        this.lTentacle00c = new ModelPart(this, 41, 12);
-        this.lTentacle00c.setPivot(0.0F, 0.0F, 1.6F);
-        this.lTentacle00c.addCuboid(-1.01F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle00c, -0.4363323129985824F, 0.0F, 0.0F);
-        this.rHorn01a = new ModelPart(this, 50, 0);
-        this.rHorn01a.mirror = true;
-        this.rHorn01a.setPivot(0.2F, -1.5F, 0.11F);
-        this.rHorn01a.addCuboid(-0.2F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rHorn01a, -0.10471975511965977F, 0.0F, -0.4363323129985824F);
-        this.rTentacle01a = new ModelPart(this, 41, 4);
-        this.rTentacle01a.mirror = true;
-        this.rTentacle01a.setPivot(0.9F, -1.8F, 0.7F);
-        this.rTentacle01a.addCuboid(-1.5F, -1.5F, -1.0F, 3.0F, 3.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle01a, -0.45378560551852565F, 0.13962634015954636F, -0.08726646259971647F);
-        this.lHorn03 = new ModelPart(this, 55, 0);
-        this.lHorn03.setPivot(0.0F, -1.6F, 0.0F);
-        this.lHorn03.addCuboid(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lHorn03, 0.0F, 0.0F, -0.2617993877991494F);
-        this.lTentacle01c = new ModelPart(this, 41, 12);
-        this.lTentacle01c.setPivot(0.0F, 0.0F, 1.6F);
-        this.lTentacle01c.addCuboid(-1.01F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle01c, -0.5235987755982988F, 0.0F, 0.0F);
-        this.rHorn03 = new ModelPart(this, 55, 0);
-        this.rHorn03.mirror = true;
-        this.rHorn03.setPivot(0.0F, -1.6F, 0.0F);
-        this.rHorn03.addCuboid(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rHorn03, 0.0F, 0.0F, 0.2617993877991494F);
-        this.lHorn02a = new ModelPart(this, 55, 0);
-        this.lHorn02a.setPivot(0.1F, -1.9F, 0.11F);
-        this.lHorn02a.addCuboid(-0.7F, -1.7F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lHorn02a, -0.10471975511965977F, 0.0F, 0.4363323129985824F);
-        this.body = new ModelPart(this, 19, 17);
-        this.body.setPivot(0.0F, 16.2F, 0.8F);
-        this.body.addCuboid(-2.5F, -4.0F, -1.5F, 5.0F, 4.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(body, 0.4363323129985824F, 0.0F, 0.0F);
-        this.lTentacle01a = new ModelPart(this, 41, 4);
-        this.lTentacle01a.setPivot(-0.9F, -1.8F, 0.7F);
-        this.lTentacle01a.addCuboid(-1.5F, -1.5F, -1.0F, 3.0F, 3.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle01a, -0.45378560551852565F, -0.13962634015954636F, 0.08726646259971647F);
-        this.lTentacle02a = new ModelPart(this, 41, 12);
-        this.lTentacle02a.setPivot(-1.3F, -5.0F, 0.6F);
-        this.lTentacle02a.addCuboid(-1.0F, -1.0F, 0.4F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle02a, -0.22689280275926282F, -0.9599310885968813F, 0.0F);
-        this.lTentacle02b = new ModelPart(this, 41, 12);
-        this.lTentacle02b.setPivot(0.0F, 0.0F, 1.6F);
-        this.lTentacle02b.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle02b, -0.6981317007977318F, -0.3141592653589793F, 0.3141592653589793F);
-        this.rTentacle01b = new ModelPart(this, 41, 12);
-        this.rTentacle01b.mirror = true;
-        this.rTentacle01b.setPivot(0.0F, -0.4F, 2.5F);
-        this.rTentacle01b.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle01b, -0.5235987755982988F, -0.13962634015954636F, 0.0F);
-        this.lHoof02 = new ModelPart(this, 32, 13);
-        this.lHoof02.setPivot(-0.7F, 4.1F, -0.6F);
-        this.lHoof02.addCuboid(-0.5F, -0.5F, -0.8F, 1.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lHoof02, 0.3490658503988659F, 0.03490658503988659F, -0.13962634015954636F);
-        this.lTentacle03d = new ModelPart(this, 51, 17);
-        this.lTentacle03d.setPivot(0.0F, 0.0F, 2.8F);
-        this.lTentacle03d.addCuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle03d, 0.5235987755982988F, 0.0F, 0.0F);
-        this.lHoof01 = new ModelPart(this, 32, 13);
-        this.lHoof01.setPivot(0.4F, 3.95F, -0.6F);
-        this.lHoof01.addCuboid(-0.5F, -0.5F, -0.8F, 1.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lHoof01, 0.3490658503988659F, -0.03490658503988659F, -0.13962634015954636F);
-        this.rHorn00 = new ModelPart(this, 43, 0);
-        this.rHorn00.mirror = true;
-        this.rHorn00.setPivot(-1.5F, -2.8F, 1.0F);
-        this.rHorn00.addCuboid(-1.0F, -2.0F, -0.4F, 2.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rHorn00, -0.3141592653589793F, 0.2617993877991494F, -0.8028514559173915F);
-        this.lHorn01b = new ModelPart(this, 50, 0);
-        this.lHorn01b.setPivot(0.0F, 0.0F, 0.0F);
-        this.lHorn01b.addCuboid(-0.3F, -2.0F, -0.49F, 1.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.rTentacle01c = new ModelPart(this, 41, 12);
-        this.rTentacle01c.mirror = true;
-        this.rTentacle01c.setPivot(0.0F, 0.0F, 1.6F);
-        this.rTentacle01c.addCuboid(-0.99F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle01c, -0.5235987755982988F, 0.0F, 0.0F);
-        this.lTentacle03b = new ModelPart(this, 52, 10);
-        this.lTentacle03b.setPivot(0.0F, 0.0F, 1.1F);
-        this.lTentacle03b.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle03b, -0.4363323129985824F, -0.5235987755982988F, 0.0F);
-        this.rTentacle03d = new ModelPart(this, 51, 17);
-        this.rTentacle03d.mirror = true;
-        this.rTentacle03d.setPivot(0.0F, 0.0F, 2.8F);
-        this.rTentacle03d.addCuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle03d, 0.5235987755982988F, 0.0F, 0.0F);
-        this.lHorn01a = new ModelPart(this, 50, 0);
-        this.lHorn01a.setPivot(-0.1F, -1.5F, 0.11F);
-        this.lHorn01a.addCuboid(-0.8F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lHorn01a, -0.10471975511965977F, 0.0F, 0.4363323129985824F);
-        this.rHorn02a = new ModelPart(this, 55, 0);
-        this.rHorn02a.mirror = true;
-        this.rHorn02a.setPivot(0.0F, -1.9F, 0.11F);
-        this.rHorn02a.addCuboid(-0.4F, -1.7F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rHorn02a, -0.10471975511965977F, 0.0F, -0.4363323129985824F);
-        this.rHoof02 = new ModelPart(this, 32, 13);
-        this.rHoof02.mirror = true;
-        this.rHoof02.setPivot(0.8F, 4.1F, -0.6F);
-        this.rHoof02.addCuboid(-0.5F, -0.5F, -0.8F, 1.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rHoof02, 0.3490658503988659F, -0.03490658503988659F, 0.13962634015954636F);
-        this.rTentacle03a = new ModelPart(this, 41, 12);
-        this.rTentacle03a.mirror = true;
-        this.rTentacle03a.setPivot(1.3F, -2.7F, 1.6F);
-        this.rTentacle03a.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle03a, -0.6108652381980153F, 0.6108652381980153F, -0.5235987755982988F);
-        this.rTentacle02b = new ModelPart(this, 41, 12);
-        this.rTentacle02b.mirror = true;
-        this.rTentacle02b.setPivot(0.0F, 0.0F, 1.6F);
-        this.rTentacle02b.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle02b, -0.6981317007977318F, 0.3141592653589793F, -0.3141592653589793F);
-        this.rTentacle00c = new ModelPart(this, 41, 12);
-        this.rTentacle00c.mirror = true;
-        this.rTentacle00c.setPivot(0.0F, 0.0F, 1.6F);
-        this.rTentacle00c.addCuboid(-0.99F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle00c, -0.4363323129985824F, 0.0F, 0.0F);
-        this.lTentacle02d = new ModelPart(this, 40, 17);
-        this.lTentacle02d.setPivot(0.0F, 0.0F, 3.3F);
-        this.lTentacle02d.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle02d, 0.6981317007977318F, 0.0F, 0.0F);
-        this.chest = new ModelPart(this, 0, 17);
-        this.chest.setPivot(0.0F, -4.3F, 0.0F);
-        this.chest.addCuboid(-3.0F, -4.0F, -1.5F, 6.0F, 5.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(chest, -0.17453292519943295F, 0.0F, 0.0F);
-        this.boobs = new ModelPart(this, 0, 28);
-        this.boobs.setPivot(0.0F, -2.9F, -0.7F);
-        this.boobs.addCuboid(-2.5F, 0.0F, -1.0F, 5.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(boobs, -1.0471975511965976F, 0.0F, 0.0F);
-        this.lTentacle01b = new ModelPart(this, 41, 12);
-        this.lTentacle01b.setPivot(0.0F, -0.4F, 2.5F);
-        this.lTentacle01b.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle01b, -0.5235987755982988F, 0.13962634015954636F, 0.0F);
-        this.lArm01 = new ModelPart(this, 33, 0);
-        this.lArm01.setPivot(2.1F, -3.5F, 0.4F);
-        this.lArm01.addCuboid(0.2F, -0.5F, -1.0F, 2.0F, 4.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lArm01, -0.4363323129985824F, 0.0F, 0.17453292519943295F);
-        this.rTentacle00e = new ModelPart(this, 40, 17);
-        this.rTentacle00e.mirror = true;
-        this.rTentacle00e.setPivot(0.0F, -0.1F, 3.5F);
-        this.rTentacle00e.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle00e, 0.5235987755982988F, 0.0F, 0.0F);
-        this.lTentacle01e = new ModelPart(this, 40, 17);
-        this.lTentacle01e.setPivot(0.0F, -0.1F, 3.5F);
-        this.lTentacle01e.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle01e, 0.6981317007977318F, 0.0F, 0.0F);
-        this.lTentacle00e = new ModelPart(this, 40, 17);
-        this.lTentacle00e.setPivot(0.0F, -0.1F, 3.5F);
-        this.lTentacle00e.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle00e, 0.5235987755982988F, 0.0F, 0.0F);
-        this.lTentacle00d = new ModelPart(this, 52, 10);
-        this.lTentacle00d.setPivot(0.0F, 0.0F, 1.6F);
-        this.lTentacle00d.addCuboid(-0.909F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle00d, -0.5759586531581287F, 0.0F, 0.0F);
-        this.lTentacle01d = new ModelPart(this, 52, 10);
-        this.lTentacle01d.setPivot(0.0F, 0.0F, 1.6F);
-        this.lTentacle01d.addCuboid(-0.99F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle01d, -0.4363323129985824F, 0.0F, 0.0F);
-        this.rTentacle00a = new ModelPart(this, 41, 4);
-        this.rTentacle00a.mirror = true;
-        this.rTentacle00a.setPivot(1.5F, -1.5F, -1.1F);
-        this.rTentacle00a.addCuboid(-1.5F, -1.5F, -1.0F, 3.0F, 3.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle00a, -0.45378560551852565F, 0.2617993877991494F, -0.08726646259971647F);
-        this.rTentacle00f = new ModelPart(this, 51, 17);
-        this.rTentacle00f.mirror = true;
-        this.rTentacle00f.setPivot(0.0F, 0.0F, 2.8F);
-        this.rTentacle00f.addCuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle00f, 0.5235987755982988F, 0.0F, 0.0F);
-        this.snoutSnope = new ModelPart(this, 45, 25);
-        this.snoutSnope.setPivot(0.0F, -2.9F, -1.9F);
-        this.snoutSnope.addCuboid(-1.51F, -0.6F, -2.5F, 3.0F, 1.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(snoutSnope, 0.3490658503988659F, 0.0F, 0.0F);
-        this.lHorn00 = new ModelPart(this, 43, 0);
-        this.lHorn00.setPivot(1.5F, -2.8F, 1.0F);
-        this.lHorn00.addCuboid(-1.0F, -2.0F, -0.4F, 2.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lHorn00, -0.3141592653589793F, -0.2617993877991494F, 0.8028514559173915F);
-        this.plinth = new ModelPart(this, 0, 0);
-        this.plinth.setPivot(0.0F, 24.0F, 0.0F);
-        this.plinth.addCuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, 0.0F, 0.0F);
-        this.rTentacle00d = new ModelPart(this, 52, 10);
-        this.rTentacle00d.mirror = true;
-        this.rTentacle00d.setPivot(0.0F, 0.0F, 1.6F);
-        this.rTentacle00d.addCuboid(-1.01F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle00d, -0.5759586531581287F, 0.0F, 0.0F);
-        this.lTentacle00a = new ModelPart(this, 41, 4);
-        this.lTentacle00a.setPivot(-1.5F, -1.5F, -1.1F);
-        this.lTentacle00a.addCuboid(-1.5F, -1.5F, -1.0F, 3.0F, 3.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle00a, -0.45378560551852565F, -0.2617993877991494F, 0.08726646259971647F);
-        this.lTentacle00b = new ModelPart(this, 41, 12);
-        this.lTentacle00b.setPivot(0.0F, -0.4F, 2.5F);
-        this.lTentacle00b.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle00b, -0.40142572795869574F, -0.2617993877991494F, 0.0F);
-        this.rTentacle02a = new ModelPart(this, 41, 12);
-        this.rTentacle02a.mirror = true;
-        this.rTentacle02a.setPivot(1.3F, -5.0F, 0.6F);
-        this.rTentacle02a.addCuboid(-1.0F, -1.0F, 0.4F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle02a, -0.22689280275926282F, 0.9599310885968813F, 0.0F);
-        this.lTentacle01f = new ModelPart(this, 51, 17);
-        this.lTentacle01f.setPivot(0.0F, 0.0F, 2.8F);
-        this.lTentacle01f.addCuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle01f, 0.40142572795869574F, 0.0F, 0.0F);
-        this.lTentacle03c = new ModelPart(this, 51, 17);
-        this.lTentacle03c.setPivot(0.0F, 0.0F, 3.3F);
-        this.lTentacle03c.addCuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle03c, 0.3490658503988659F, 0.0F, 0.0F);
-        this.rEar = new ModelPart(this, 56, 24);
-        this.rEar.mirror = true;
-        this.rEar.setPivot(-2.0F, -2.1F, 0.7F);
-        this.rEar.addCuboid(-2.0F, -1.0F, -0.5F, 2.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rEar, 0.5235987755982988F, 0.0F, -0.3141592653589793F);
-        this.lEar = new ModelPart(this, 56, 24);
-        this.lEar.setPivot(2.0F, -2.1F, 0.7F);
-        this.lEar.addCuboid(0.0F, -1.0F, -0.5F, 2.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lEar, 0.5235987755982988F, 0.0F, 0.3141592653589793F);
-        this.lHorn02b = new ModelPart(this, 55, 0);
-        this.lHorn02b.setPivot(0.0F, 0.0F, 0.0F);
-        this.lHorn02b.addCuboid(-0.4F, -1.7F, -0.49F, 1.0F, 2.0F, 1.0F, 0.0F, 0.0F, 0.0F);
-        this.rArm02 = new ModelPart(this, 32, 6);
-        this.rArm02.mirror = true;
-        this.rArm02.setPivot(-1.0F, 3.3F, 0.0F);
-        this.rArm02.addCuboid(-0.7F, 0.0F, -1.0F, 2.0F, 4.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rArm02, -0.22689280275926282F, 0.0F, 0.0F);
-        this.head = new ModelPart(this, 25, 24);
-        this.head.setPivot(0.0F, -4.4F, 0.0F);
-        this.head.addCuboid(-2.5F, -3.6F, -2.0F, 5.0F, 4.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.rTentacle02c = new ModelPart(this, 52, 10);
-        this.rTentacle02c.mirror = true;
-        this.rTentacle02c.setPivot(0.0F, 0.0F, 1.6F);
-        this.rTentacle02c.addCuboid(-1.01F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle02c, -0.4363323129985824F, 0.0F, 0.0F);
-        this.rTentacle00b = new ModelPart(this, 41, 12);
-        this.rTentacle00b.mirror = true;
-        this.rTentacle00b.setPivot(0.0F, -0.4F, 2.5F);
-        this.rTentacle00b.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle00b, -0.40142572795869574F, 0.2617993877991494F, 0.0F);
-        this.rTentacle01e = new ModelPart(this, 40, 17);
-        this.rTentacle01e.mirror = true;
-        this.rTentacle01e.setPivot(0.0F, -0.1F, 3.5F);
-        this.rTentacle01e.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle01e, 0.6981317007977318F, 0.0F, 0.0F);
-        this.lTentacle02e = new ModelPart(this, 51, 17);
-        this.lTentacle02e.setPivot(0.0F, 0.0F, 2.8F);
-        this.lTentacle02e.addCuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lTentacle02e, 0.5235987755982988F, 0.0F, 0.0F);
-        this.rArm01 = new ModelPart(this, 33, 0);
-        this.rArm01.mirror = true;
-        this.rArm01.setPivot(-2.5F, -3.5F, 0.4F);
-        this.rArm01.addCuboid(-1.8F, -0.5F, -1.0F, 2.0F, 4.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rArm01, -0.4363323129985824F, 0.0F, -0.17453292519943295F);
-        this.lArm02 = new ModelPart(this, 32, 6);
-        this.lArm02.setPivot(1.3F, 3.3F, 0.0F);
-        this.lArm02.addCuboid(-1.2F, 0.0F, -1.0F, 2.0F, 4.0F, 2.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(lArm02, -0.22689280275926282F, 0.0F, 0.0F);
-        this.rTentacle03b = new ModelPart(this, 52, 10);
-        this.rTentacle03b.mirror = true;
-        this.rTentacle03b.setPivot(0.0F, 0.0F, 1.1F);
-        this.rTentacle03b.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle03b, -0.4363323129985824F, 0.5235987755982988F, 0.0F);
-        this.rTentacle01f = new ModelPart(this, 51, 17);
-        this.rTentacle01f.mirror = true;
-        this.rTentacle01f.setPivot(0.0F, 0.0F, 2.8F);
-        this.rTentacle01f.addCuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle01f, 0.40142572795869574F, 0.0F, 0.0F);
-        this.rTentacle01d = new ModelPart(this, 52, 10);
-        this.rTentacle01d.mirror = true;
-        this.rTentacle01d.setPivot(0.0F, 0.0F, 1.6F);
-        this.rTentacle01d.addCuboid(-1.01F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle01d, -0.4363323129985824F, 0.0F, 0.0F);
-        this.rTentacle02d = new ModelPart(this, 40, 17);
-        this.rTentacle02d.mirror = true;
-        this.rTentacle02d.setPivot(0.0F, 0.0F, 3.3F);
-        this.rTentacle02d.addCuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 3.0F, 0.0F, 0.0F, 0.0F);
-        this.setRotateAngle(rTentacle02d, 0.6981317007977318F, 0.0F, 0.0F);
-        this.lTentacle02b.addChild(this.lTentacle02c);
-        this.head.addChild(this.snout);
-        this.rHorn02a.addChild(this.rHorn02b);
-        this.lTentacle00e.addChild(this.lTentacle00f);
-        this.chest.addChild(this.lTentacle03a);
-        this.rHorn01a.addChild(this.rHorn01b);
-        this.rTentacle03b.addChild(this.rTentacle03c);
-        this.rTentacle02d.addChild(this.rTentacle02e);
-        this.rArm02.addChild(this.rHoof01);
-        this.lTentacle00b.addChild(this.lTentacle00c);
-        this.rHorn00.addChild(this.rHorn01a);
-        this.body.addChild(this.rTentacle01a);
-        this.lHorn02a.addChild(this.lHorn03);
-        this.lTentacle01b.addChild(this.lTentacle01c);
-        this.rHorn02a.addChild(this.rHorn03);
-        this.lHorn01a.addChild(this.lHorn02a);
-        this.body.addChild(this.lTentacle01a);
-        this.body.addChild(this.lTentacle02a);
-        this.lTentacle02a.addChild(this.lTentacle02b);
-        this.rTentacle01a.addChild(this.rTentacle01b);
-        this.lArm02.addChild(this.lHoof02);
-        this.lTentacle03c.addChild(this.lTentacle03d);
-        this.lArm02.addChild(this.lHoof01);
-        this.head.addChild(this.rHorn00);
-        this.lHorn01a.addChild(this.lHorn01b);
-        this.rTentacle01b.addChild(this.rTentacle01c);
-        this.lTentacle03a.addChild(this.lTentacle03b);
-        this.rTentacle03c.addChild(this.rTentacle03d);
-        this.lHorn00.addChild(this.lHorn01a);
-        this.rHorn01a.addChild(this.rHorn02a);
-        this.rArm02.addChild(this.rHoof02);
-        this.chest.addChild(this.rTentacle03a);
-        this.rTentacle02a.addChild(this.rTentacle02b);
-        this.rTentacle00b.addChild(this.rTentacle00c);
-        this.lTentacle02c.addChild(this.lTentacle02d);
-        this.body.addChild(this.chest);
-        this.chest.addChild(this.boobs);
-        this.lTentacle01a.addChild(this.lTentacle01b);
-        this.chest.addChild(this.lArm01);
-        this.rTentacle00d.addChild(this.rTentacle00e);
-        this.lTentacle01d.addChild(this.lTentacle01e);
-        this.lTentacle00d.addChild(this.lTentacle00e);
-        this.lTentacle00c.addChild(this.lTentacle00d);
-        this.lTentacle01c.addChild(this.lTentacle01d);
-        this.body.addChild(this.rTentacle00a);
-        this.rTentacle00e.addChild(this.rTentacle00f);
-        this.head.addChild(this.snoutSnope);
-        this.head.addChild(this.lHorn00);
-        this.rTentacle00c.addChild(this.rTentacle00d);
-        this.body.addChild(this.lTentacle00a);
-        this.lTentacle00a.addChild(this.lTentacle00b);
-        this.body.addChild(this.rTentacle02a);
-        this.lTentacle01e.addChild(this.lTentacle01f);
-        this.lTentacle03b.addChild(this.lTentacle03c);
-        this.head.addChild(this.rEar);
-        this.head.addChild(this.lEar);
-        this.lHorn02a.addChild(this.lHorn02b);
-        this.rArm01.addChild(this.rArm02);
-        this.chest.addChild(this.head);
-        this.rTentacle02b.addChild(this.rTentacle02c);
-        this.rTentacle00a.addChild(this.rTentacle00b);
-        this.rTentacle01d.addChild(this.rTentacle01e);
-        this.lTentacle02d.addChild(this.lTentacle02e);
-        this.chest.addChild(this.rArm01);
-        this.lArm01.addChild(this.lArm02);
-        this.rTentacle03a.addChild(this.rTentacle03b);
-        this.rTentacle01e.addChild(this.rTentacle01f);
-        this.rTentacle01c.addChild(this.rTentacle01d);
-        this.rTentacle02c.addChild(this.rTentacle02d);
+    public ShubStatueModel(ModelPart root) {
+        super(RenderLayer::getEntitySolid, root, root.getChild("body"), root.getChild("plinth"), root.getChild("body").getChild("chest").getChild("head"));
     }
 
-    @Override
-    public void render(MatrixStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        ImmutableList.of(this.body, this.plinth).forEach((modelRenderer) -> {
-            modelRenderer.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        });
-    }
-
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    public void setRotateAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.pitch = x;
-        modelRenderer.yaw = y;
-        modelRenderer.roll = z;
+    public static TexturedModelData getTexturedModelData(){
+        ModelData data = new ModelData();
+        ModelPartData root = data.getRoot();
+        ModelPartData body = root.addChild("body",
+                ModelPartBuilder.create()
+                        .uv(19, 17).cuboid(-2.5F, -4.0F, -1.5F, 5.0F, 4.0F, 3.0F),
+                ModelTransform.of(0.0F, 16.2F, 0.8F, 0.43633232F, 0.0F, 0.0F));
+        ModelPartData rTentacle01a = body.addChild("rTentacle01a",
+                ModelPartBuilder.create()
+                        .uv(41, 4).mirrored(true).cuboid(-1.5F, -1.5F, -1.0F, 3.0F, 3.0F, 4.0F),
+                ModelTransform.of(0.9F, -1.8F, 0.7F, -0.4537856F, 0.13962634F, -0.08726646F));
+        ModelPartData rTentacle01b = rTentacle01a.addChild("rTentacle01b",
+                ModelPartBuilder.create()
+                        .uv(41, 12).mirrored(true).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.0F, -0.4F, 2.5F, -0.5235988F, -0.13962634F, 0.0F));
+        ModelPartData rTentacle01c = rTentacle01b.addChild("rTentacle01c",
+                ModelPartBuilder.create()
+                        .uv(41, 12).mirrored(true).cuboid(-0.99F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.6F, -0.5235988F, 0.0F, 0.0F));
+        ModelPartData rTentacle01d = rTentacle01c.addChild("rTentacle01d",
+                ModelPartBuilder.create()
+                        .uv(52, 10).mirrored(true).cuboid(-1.01F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.6F, -0.43633232F, 0.0F, 0.0F));
+        ModelPartData rTentacle01e = rTentacle01d.addChild("rTentacle01e",
+                ModelPartBuilder.create()
+                        .uv(40, 17).mirrored(true).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 3.0F),
+                ModelTransform.of(0.0F, -0.1F, 3.5F, 0.6981317F, 0.0F, 0.0F));
+        rTentacle01e.addChild("rTentacle01f",
+                ModelPartBuilder.create()
+                        .uv(51, 17).mirrored(true).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F),
+                ModelTransform.of(0.0F, 0.0F, 2.8F, 0.40142572F, 0.0F, 0.0F));
+        ModelPartData lTentacle01a = body.addChild("lTentacle01a",
+                ModelPartBuilder.create()
+                        .uv(41, 4).cuboid(-1.5F, -1.5F, -1.0F, 3.0F, 3.0F, 4.0F),
+                ModelTransform.of(-0.9F, -1.8F, 0.7F, -0.4537856F, -0.13962634F, 0.08726646F));
+        ModelPartData lTentacle01b = lTentacle01a.addChild("lTentacle01b",
+                ModelPartBuilder.create()
+                        .uv(41, 12).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.0F, -0.4F, 2.5F, -0.5235988F, 0.13962634F, 0.0F));
+        ModelPartData lTentacle01c = lTentacle01b.addChild("lTentacle01c",
+                ModelPartBuilder.create()
+                        .uv(41, 12).cuboid(-1.01F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.6F, -0.5235988F, 0.0F, 0.0F));
+        ModelPartData lTentacle01d = lTentacle01c.addChild("lTentacle01d",
+                ModelPartBuilder.create()
+                        .uv(52, 10).cuboid(-0.99F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.6F, -0.43633232F, 0.0F, 0.0F));
+        ModelPartData lTentacle01e = lTentacle01d.addChild("lTentacle01e",
+                ModelPartBuilder.create()
+                        .uv(40, 17).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 3.0F),
+                ModelTransform.of(0.0F, -0.1F, 3.5F, 0.6981317F, 0.0F, 0.0F));
+        lTentacle01e.addChild("lTentacle01f",
+                ModelPartBuilder.create()
+                        .uv(51, 17).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F),
+                ModelTransform.of(0.0F, 0.0F, 2.8F, 0.40142572F, 0.0F, 0.0F));
+        ModelPartData lTentacle02a = body.addChild("lTentacle02a",
+                ModelPartBuilder.create()
+                        .uv(41, 12).cuboid(-1.0F, -1.0F, 0.4F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(-1.3F, -5.0F, 0.6F, -0.2268928F, -0.9599311F, 0.0F));
+        ModelPartData lTentacle02b = lTentacle02a.addChild("lTentacle02b",
+                ModelPartBuilder.create()
+                        .uv(41, 12).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.6F, -0.6981317F, -0.31415927F, 0.31415927F));
+        ModelPartData lTentacle02c = lTentacle02b.addChild("lTentacle02c",
+                ModelPartBuilder.create()
+                        .uv(52, 10).cuboid(-1.01F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.6F, -0.43633232F, 0.0F, 0.0F));
+        ModelPartData lTentacle02d = lTentacle02c.addChild("lTentacle02d",
+                ModelPartBuilder.create()
+                        .uv(40, 17).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 3.0F),
+                ModelTransform.of(0.0F, 0.0F, 3.3F, 0.6981317F, 0.0F, 0.0F));
+        lTentacle02d.addChild("lTentacle02e",
+                ModelPartBuilder.create()
+                        .uv(51, 17).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F),
+                ModelTransform.of(0.0F, 0.0F, 2.8F, 0.5235988F, 0.0F, 0.0F));
+        ModelPartData chest = body.addChild("chest",
+                ModelPartBuilder.create()
+                        .uv(0, 17).cuboid(-3.0F, -4.0F, -1.5F, 6.0F, 5.0F, 3.0F),
+                ModelTransform.of(0.0F, -4.3F, 0.0F, -0.17453292F, 0.0F, 0.0F));
+        ModelPartData lTentacle03a = chest.addChild("lTentacle03a",
+                ModelPartBuilder.create()
+                        .uv(41, 12).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(-1.3F, -2.7F, 1.6F, -0.61086524F, -0.61086524F, 0.5235988F));
+        ModelPartData lTentacle03b = lTentacle03a.addChild("lTentacle03b",
+                ModelPartBuilder.create()
+                        .uv(52, 10).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.1F, -0.43633232F, -0.5235988F, 0.0F));
+        ModelPartData lTentacle03c = lTentacle03b.addChild("lTentacle03c",
+                ModelPartBuilder.create()
+                        .uv(51, 17).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F),
+                ModelTransform.of(0.0F, 0.0F, 3.3F, 0.34906584F, 0.0F, 0.0F));
+        lTentacle03c.addChild("lTentacle03d",
+                ModelPartBuilder.create()
+                        .uv(51, 17).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F),
+                ModelTransform.of(0.0F, 0.0F, 2.8F, 0.5235988F, 0.0F, 0.0F));
+        ModelPartData rTentacle03a = chest.addChild("rTentacle03a",
+                ModelPartBuilder.create()
+                        .uv(41, 12).mirrored(true).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(1.3F, -2.7F, 1.6F, -0.61086524F, 0.61086524F, -0.5235988F));
+        ModelPartData rTentacle03b = rTentacle03a.addChild("rTentacle03b",
+                ModelPartBuilder.create()
+                        .uv(52, 10).mirrored(true).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.1F, -0.43633232F, 0.5235988F, 0.0F));
+        ModelPartData rTentacle03c = rTentacle03b.addChild("rTentacle03c",
+                ModelPartBuilder.create()
+                        .uv(51, 17).mirrored(true).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F),
+                ModelTransform.of(0.0F, 0.0F, 3.3F, 0.34906584F, 0.0F, 0.0F));
+        rTentacle03c.addChild("rTentacle03d",
+                ModelPartBuilder.create()
+                        .uv(51, 17).mirrored(true).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F),
+                ModelTransform.of(0.0F, 0.0F, 2.8F, 0.5235988F, 0.0F, 0.0F));
+        chest.addChild("boobs",
+                ModelPartBuilder.create()
+                        .uv(0, 28).cuboid(-2.5F, 0.0F, -1.0F, 5.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.0F, -2.9F, -0.7F, -1.0471976F, 0.0F, 0.0F));
+        ModelPartData lArm01 = chest.addChild("lArm01",
+                ModelPartBuilder.create()
+                        .uv(33, 0).cuboid(0.2F, -0.5F, -1.0F, 2.0F, 4.0F, 2.0F),
+                ModelTransform.of(2.1F, -3.5F, 0.4F, -0.43633232F, 0.0F, 0.17453292F));
+        ModelPartData lArm02 = lArm01.addChild("lArm02",
+                ModelPartBuilder.create()
+                        .uv(32, 6).cuboid(-1.2F, 0.0F, -1.0F, 2.0F, 4.0F, 2.0F),
+                ModelTransform.of(1.3F, 3.3F, 0.0F, -0.2268928F, 0.0F, 0.0F));
+        lArm02.addChild("lHoof02",
+                ModelPartBuilder.create()
+                        .uv(32, 13).cuboid(-0.5F, -0.5F, -0.8F, 1.0F, 2.0F, 2.0F),
+                ModelTransform.of(-0.7F, 4.1F, -0.6F, 0.34906584F, 0.034906585F, -0.13962634F));
+        lArm02.addChild("lHoof01",
+                ModelPartBuilder.create()
+                        .uv(32, 13).cuboid(-0.5F, -0.5F, -0.8F, 1.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.4F, 3.95F, -0.6F, 0.34906584F, -0.034906585F, -0.13962634F));
+        ModelPartData head = chest.addChild("head",
+                ModelPartBuilder.create()
+                        .uv(25, 24).cuboid(-2.5F, -3.6F, -2.0F, 5.0F, 4.0F, 4.0F),
+                ModelTransform.of(0.0F, -4.4F, 0.0F, 0.0F, 0.0F, 0.0F));
+        head.addChild("snout",
+                ModelPartBuilder.create()
+                        .uv(45, 25).cuboid(-1.5F, -1.8F, -2.2F, 3.0F, 3.0F, 3.0F),
+                ModelTransform.of(0.0F, -1.0F, -1.9F, 0.17453292F, 0.0F, 0.0F));
+        ModelPartData rHorn00 = head.addChild("rHorn00",
+                ModelPartBuilder.create()
+                        .uv(43, 0).mirrored(true).cuboid(-1.0F, -2.0F, -0.4F, 2.0F, 2.0F, 1.0F),
+                ModelTransform.of(-1.5F, -2.8F, 1.0F, -0.31415927F, 0.2617994F, -0.80285144F));
+        ModelPartData rHorn01a = rHorn00.addChild("rHorn01a",
+                ModelPartBuilder.create()
+                        .uv(50, 0).mirrored(true).cuboid(-0.2F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F),
+                ModelTransform.of(0.2F, -1.5F, 0.11F, -0.10471976F, 0.0F, -0.43633232F));
+        rHorn01a.addChild("rHorn01b",
+                ModelPartBuilder.create()
+                        .uv(50, 0).mirrored(true).cuboid(-0.8F, -2.0F, -0.49F, 1.0F, 2.0F, 1.0F),
+                ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        ModelPartData rHorn02a = rHorn01a.addChild("rHorn02a",
+                ModelPartBuilder.create()
+                        .uv(55, 0).mirrored(true).cuboid(-0.4F, -1.7F, -0.5F, 1.0F, 2.0F, 1.0F),
+                ModelTransform.of(0.0F, -1.9F, 0.11F, -0.10471976F, 0.0F, -0.43633232F));
+        rHorn02a.addChild("rHorn02b",
+                ModelPartBuilder.create()
+                        .uv(55, 0).mirrored(true).cuboid(-0.7F, -1.7F, -0.49F, 1.0F, 2.0F, 1.0F),
+                ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        rHorn02a.addChild("rHorn03",
+                ModelPartBuilder.create()
+                        .uv(55, 0).mirrored(true).cuboid(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F),
+                ModelTransform.of(0.0F, -1.6F, 0.0F, 0.0F, 0.0F, 0.2617994F));
+        head.addChild("snoutSnope",
+                ModelPartBuilder.create()
+                        .uv(45, 25).cuboid(-1.51F, -0.6F, -2.5F, 3.0F, 1.0F, 3.0F),
+                ModelTransform.of(0.0F, -2.9F, -1.9F, 0.34906584F, 0.0F, 0.0F));
+        ModelPartData lHorn00 = head.addChild("lHorn00",
+                ModelPartBuilder.create()
+                        .uv(43, 0).cuboid(-1.0F, -2.0F, -0.4F, 2.0F, 2.0F, 1.0F),
+                ModelTransform.of(1.5F, -2.8F, 1.0F, -0.31415927F, -0.2617994F, 0.80285144F));
+        ModelPartData lHorn01a = lHorn00.addChild("lHorn01a",
+                ModelPartBuilder.create()
+                        .uv(50, 0).cuboid(-0.8F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F),
+                ModelTransform.of(-0.1F, -1.5F, 0.11F, -0.10471976F, 0.0F, 0.43633232F));
+        ModelPartData lHorn02a = lHorn01a.addChild("lHorn02a",
+                ModelPartBuilder.create()
+                        .uv(55, 0).cuboid(-0.7F, -1.7F, -0.5F, 1.0F, 2.0F, 1.0F),
+                ModelTransform.of(0.1F, -1.9F, 0.11F, -0.10471976F, 0.0F, 0.43633232F));
+        lHorn02a.addChild("lHorn03",
+                ModelPartBuilder.create()
+                        .uv(55, 0).cuboid(-0.5F, -2.0F, -0.5F, 1.0F, 2.0F, 1.0F),
+                ModelTransform.of(0.0F, -1.6F, 0.0F, 0.0F, 0.0F, -0.2617994F));
+        lHorn02a.addChild("lHorn02b",
+                ModelPartBuilder.create()
+                        .uv(55, 0).cuboid(-0.4F, -1.7F, -0.49F, 1.0F, 2.0F, 1.0F),
+                ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        lHorn01a.addChild("lHorn01b",
+                ModelPartBuilder.create()
+                        .uv(50, 0).cuboid(-0.3F, -2.0F, -0.49F, 1.0F, 2.0F, 1.0F),
+                ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        head.addChild("rEar",
+                ModelPartBuilder.create()
+                        .uv(56, 24).mirrored(true).cuboid(-2.0F, -1.0F, -0.5F, 2.0F, 2.0F, 1.0F),
+                ModelTransform.of(-2.0F, -2.1F, 0.7F, 0.5235988F, 0.0F, -0.31415927F));
+        head.addChild("lEar",
+                ModelPartBuilder.create()
+                        .uv(56, 24).cuboid(0.0F, -1.0F, -0.5F, 2.0F, 2.0F, 1.0F),
+                ModelTransform.of(2.0F, -2.1F, 0.7F, 0.5235988F, 0.0F, 0.31415927F));
+        ModelPartData rArm01 = chest.addChild("rArm01",
+                ModelPartBuilder.create()
+                        .uv(33, 0).mirrored(true).cuboid(-1.8F, -0.5F, -1.0F, 2.0F, 4.0F, 2.0F),
+                ModelTransform.of(-2.5F, -3.5F, 0.4F, -0.43633232F, 0.0F, -0.17453292F));
+        ModelPartData rArm02 = rArm01.addChild("rArm02",
+                ModelPartBuilder.create()
+                        .uv(32, 6).mirrored(true).cuboid(-0.7F, 0.0F, -1.0F, 2.0F, 4.0F, 2.0F),
+                ModelTransform.of(-1.0F, 3.3F, 0.0F, -0.2268928F, 0.0F, 0.0F));
+        rArm02.addChild("rHoof01",
+                ModelPartBuilder.create()
+                        .uv(32, 13).mirrored(true).cuboid(-0.5F, -0.5F, -0.8F, 1.0F, 2.0F, 2.0F),
+                ModelTransform.of(-0.3F, 3.95F, -0.6F, 0.34906584F, 0.034906585F, 0.13962634F));
+        rArm02.addChild("rHoof02",
+                ModelPartBuilder.create()
+                        .uv(32, 13).mirrored(true).cuboid(-0.5F, -0.5F, -0.8F, 1.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.8F, 4.1F, -0.6F, 0.34906584F, -0.034906585F, 0.13962634F));
+        ModelPartData rTentacle00a = body.addChild("rTentacle00a",
+                ModelPartBuilder.create()
+                        .uv(41, 4).mirrored(true).cuboid(-1.5F, -1.5F, -1.0F, 3.0F, 3.0F, 4.0F),
+                ModelTransform.of(1.5F, -1.5F, -1.1F, -0.4537856F, 0.2617994F, -0.08726646F));
+        ModelPartData rTentacle00b = rTentacle00a.addChild("rTentacle00b",
+                ModelPartBuilder.create()
+                        .uv(41, 12).mirrored(true).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.0F, -0.4F, 2.5F, -0.40142572F, 0.2617994F, 0.0F));
+        ModelPartData rTentacle00c = rTentacle00b.addChild("rTentacle00c",
+                ModelPartBuilder.create()
+                        .uv(41, 12).mirrored(true).cuboid(-0.99F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.6F, -0.43633232F, 0.0F, 0.0F));
+        ModelPartData rTentacle00d = rTentacle00c.addChild("rTentacle00d",
+                ModelPartBuilder.create()
+                        .uv(52, 10).mirrored(true).cuboid(-1.01F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.6F, -0.57595867F, 0.0F, 0.0F));
+        ModelPartData rTentacle00e = rTentacle00d.addChild("rTentacle00e",
+                ModelPartBuilder.create()
+                        .uv(40, 17).mirrored(true).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 3.0F),
+                ModelTransform.of(0.0F, -0.1F, 3.5F, 0.5235988F, 0.0F, 0.0F));
+        rTentacle00e.addChild("rTentacle00f",
+                ModelPartBuilder.create()
+                        .uv(51, 17).mirrored(true).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F),
+                ModelTransform.of(0.0F, 0.0F, 2.8F, 0.5235988F, 0.0F, 0.0F));
+        ModelPartData lTentacle00a = body.addChild("lTentacle00a",
+                ModelPartBuilder.create()
+                        .uv(41, 4).cuboid(-1.5F, -1.5F, -1.0F, 3.0F, 3.0F, 4.0F),
+                ModelTransform.of(-1.5F, -1.5F, -1.1F, -0.4537856F, -0.2617994F, 0.08726646F));
+        ModelPartData lTentacle00b = lTentacle00a.addChild("lTentacle00b",
+                ModelPartBuilder.create()
+                        .uv(41, 12).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.0F, -0.4F, 2.5F, -0.40142572F, -0.2617994F, 0.0F));
+        ModelPartData lTentacle00c = lTentacle00b.addChild("lTentacle00c",
+                ModelPartBuilder.create()
+                        .uv(41, 12).cuboid(-1.01F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.6F, -0.43633232F, 0.0F, 0.0F));
+        ModelPartData lTentacle00d = lTentacle00c.addChild("lTentacle00d",
+                ModelPartBuilder.create()
+                        .uv(52, 10).cuboid(-0.909F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.6F, -0.57595867F, 0.0F, 0.0F));
+        ModelPartData lTentacle00e = lTentacle00d.addChild("lTentacle00e",
+                ModelPartBuilder.create()
+                        .uv(40, 17).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 3.0F),
+                ModelTransform.of(0.0F, -0.1F, 3.5F, 0.5235988F, 0.0F, 0.0F));
+        lTentacle00e.addChild("lTentacle00f",
+                ModelPartBuilder.create()
+                        .uv(51, 17).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F),
+                ModelTransform.of(0.0F, 0.0F, 2.8F, 0.5235988F, 0.0F, 0.0F));
+        ModelPartData rTentacle02a = body.addChild("rTentacle02a",
+                ModelPartBuilder.create()
+                        .uv(41, 12).mirrored(true).cuboid(-1.0F, -1.0F, 0.4F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(1.3F, -5.0F, 0.6F, -0.2268928F, 0.9599311F, 0.0F));
+        ModelPartData rTentacle02b = rTentacle02a.addChild("rTentacle02b",
+                ModelPartBuilder.create()
+                        .uv(41, 12).mirrored(true).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 2.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.6F, -0.6981317F, 0.31415927F, -0.31415927F));
+        ModelPartData rTentacle02c = rTentacle02b.addChild("rTentacle02c",
+                ModelPartBuilder.create()
+                        .uv(52, 10).mirrored(true).cuboid(-1.01F, -1.0F, 0.0F, 2.0F, 2.0F, 4.0F),
+                ModelTransform.of(0.0F, 0.0F, 1.6F, -0.43633232F, 0.0F, 0.0F));
+        ModelPartData rTentacle02d = rTentacle02c.addChild("rTentacle02d",
+                ModelPartBuilder.create()
+                        .uv(40, 17).mirrored(true).cuboid(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 3.0F),
+                ModelTransform.of(0.0F, 0.0F, 3.3F, 0.6981317F, 0.0F, 0.0F));
+        rTentacle02d.addChild("rTentacle02e",
+                ModelPartBuilder.create()
+                        .uv(51, 17).mirrored(true).cuboid(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 3.0F),
+                ModelTransform.of(0.0F, 0.0F, 2.8F, 0.5235988F, 0.0F, 0.0F));
+        root.addChild("plinth",
+                ModelPartBuilder.create()
+                        .cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F),
+                ModelTransform.of(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        return TexturedModelData.of(data, 64, 32);
     }
 }

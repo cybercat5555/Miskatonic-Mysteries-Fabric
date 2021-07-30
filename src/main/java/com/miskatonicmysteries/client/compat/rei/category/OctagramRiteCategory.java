@@ -1,22 +1,28 @@
 package com.miskatonicmysteries.client.compat.rei.category;
 
 import com.miskatonicmysteries.api.registry.Rite;
-import com.miskatonicmysteries.client.compat.rei.entry.SimpleOctagramEntry;
+import com.miskatonicmysteries.client.compat.rei.MMREICompat;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
-import me.shedaniel.rei.api.EntryStack;
-import me.shedaniel.rei.api.RecipeCategory;
-import me.shedaniel.rei.api.RecipeDisplay;
-import me.shedaniel.rei.api.widgets.Label;
-import me.shedaniel.rei.api.widgets.Widgets;
-import me.shedaniel.rei.gui.entries.RecipeEntry;
-import me.shedaniel.rei.gui.widget.Widget;
+import me.shedaniel.rei.api.client.gui.Renderer;
+import me.shedaniel.rei.api.client.gui.widgets.Label;
+import me.shedaniel.rei.api.client.gui.widgets.Widget;
+import me.shedaniel.rei.api.client.gui.widgets.Widgets;
+import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
+import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import me.shedaniel.rei.api.common.display.Display;
+import me.shedaniel.rei.api.common.entry.EntryIngredient;
+import me.shedaniel.rei.api.common.entry.EntryStack;
+import me.shedaniel.rei.api.common.util.EntryIngredients;
+import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
@@ -24,19 +30,26 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OctagramRiteCategory implements RecipeCategory<OctagramRiteCategory.Display> {
+public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategory.OctagramDisplay> {
+    public static final TranslatableText TITLE = new TranslatableText("rei.miskatonicmysteries.octagram_rite");
     public static final Identifier ID = new Identifier(Constants.MOD_ID, "octagram_rite");
-    public static final EntryStack LOGO = EntryStack.create(MMObjects.SHUB_CHALK);
+    public static final EntryStack<ItemStack> ICON = EntryStacks.of(MMObjects.CHEMISTRY_SET);
 
     @Override
-    public @NotNull Identifier getIdentifier() {
-        return ID;
+    public Renderer getIcon() {
+        return ICON;
     }
 
     @Override
-    public @NotNull EntryStack getLogo() {
-        return LOGO;
+    public Text getTitle() {
+        return TITLE;
     }
+
+    @Override
+    public CategoryIdentifier<? extends OctagramRiteCategory.OctagramDisplay> getCategoryIdentifier() {
+        return MMREICompat.OCTAGRAM_RITE;
+    }
+
 
     @Override
     public int getDisplayHeight() {
@@ -44,12 +57,7 @@ public class OctagramRiteCategory implements RecipeCategory<OctagramRiteCategory
     }
 
     @Override
-    public @NotNull String getCategoryName() {
-        return I18n.translate("rei." + ID.toString().replaceAll(":", "."));
-    }
-
-    @Override
-    public @NotNull List<Widget> setupDisplay(Display recipeDisplay, Rectangle bounds) {
+    public @NotNull List<Widget> setupDisplay(OctagramDisplay recipeDisplay, Rectangle bounds) {
         List<Widget> widgets = new ArrayList<>();
         Point startPoint = new Point(bounds.getCenterX() - 32, bounds.getCenterY() - 6);
         widgets.add(Widgets.createRecipeBase(bounds));
@@ -89,18 +97,19 @@ public class OctagramRiteCategory implements RecipeCategory<OctagramRiteCategory
         return widgets;
     }
 
-    @Override
-    public @NotNull RecipeEntry getSimpleRenderer(Display recipe) {
-        return SimpleOctagramEntry.from(recipe::getInputEntries);
+  /*  @Override
+    public DisplayRenderer getDisplayRenderer(OctagramDisplay display) {
+        return SimpleOctagramEntry.from(display.input);
     }
+*/
 
-    public static class Display implements RecipeDisplay {
-        private final List<List<EntryStack>> input;
-        private final List<List<EntryStack>> output;
+    public static class OctagramDisplay implements Display {
+        private final List<EntryIngredient> input;
+        private final List<EntryIngredient> output;
         private final Rite rite;
 
-        public Display(Rite recipe) {
-            input = EntryStack.ofIngredients(recipe.getIngredients());
+        public OctagramDisplay(Rite recipe) {
+            input = EntryIngredients.ofIngredients(recipe.getIngredients());
             output = new ArrayList<>();
             rite = recipe;
         }
@@ -110,18 +119,18 @@ public class OctagramRiteCategory implements RecipeCategory<OctagramRiteCategory
         }
 
         @Override
-        public @NotNull List<List<EntryStack>> getInputEntries() {
-            return input;
-        }
-
-        @Override
-        public @NotNull List<List<EntryStack>> getResultingEntries() {
+        public List<EntryIngredient> getOutputEntries() {
             return output;
         }
 
         @Override
-        public @NotNull Identifier getRecipeCategory() {
-            return ID;
+        public CategoryIdentifier<?> getCategoryIdentifier() {
+            return MMREICompat.OCTAGRAM_RITE;
+        }
+
+        @Override
+        public List<EntryIngredient> getInputEntries() {
+            return input;
         }
     }
 }

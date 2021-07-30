@@ -6,18 +6,18 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
+import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import java.awt.*;
 
 public class PhantasmaEntityRenderer extends GeoEntityRenderer<PhantasmaEntity> {
 
-    public PhantasmaEntityRenderer(EntityRenderDispatcher dispatcher, AnimatedGeoModel<PhantasmaEntity> model) {
-        super(dispatcher, model);
+    public PhantasmaEntityRenderer(EntityRendererFactory.Context context, AnimatedGeoModel<PhantasmaEntity> model) {
+        super(context, model);
         this.shadowRadius = 0;
     }
 

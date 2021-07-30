@@ -41,11 +41,11 @@ public class InkblotComponent implements ICustomComponent {
         ms.translate(x, y, 0);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569F);
-        RenderSystem.color4f(1F, 1F, 1F, 0.8F + 0.2F * alphaFactor);
+       //todo RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569F);
+        RenderSystem.setShaderColor(1F, 1F, 1F, 0.8F + 0.2F * alphaFactor);
         DrawableHelper.drawTexture(ms, 0, 0, 0, 0, 270, 180, 512, 256);
 
-        RenderSystem.color4f(1F, 1F, 1F, 1 - alphaFactor);
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1 - alphaFactor);
         textureManager.bindTexture(overlay);
         DrawableHelper.drawTexture(ms, 0, 0, 0, 0, 270, 180, 512, 256);
         RenderSystem.disableBlend();

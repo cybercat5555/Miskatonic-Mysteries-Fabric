@@ -67,6 +67,6 @@ public class ByakheeSummoningRite extends SummoningRite {
     @Environment(EnvType.CLIENT)
     @Override
     protected Model getRenderedModel(OctagramBlockEntity entity) {
-        return ByakheeEntityRenderer.MODEL;
+        return ByakheeEntityRenderer.byakheeEntityModel;
     }
 }

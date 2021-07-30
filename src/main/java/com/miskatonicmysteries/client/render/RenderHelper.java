@@ -16,19 +16,18 @@ import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Environment(EnvType.CLIENT)
 public class RenderHelper extends RenderLayer {
-    public static final List<RenderLayer> PORTAL_LAYERS = IntStream.range(1, 17).mapToObj(RenderLayer::getEndPortal).collect(Collectors.toList());
+    public static final List<RenderLayer> PORTAL_LAYERS = Arrays.asList(RenderLayer.getEndPortal()); //todo fix this because only one layer is required for now
     public static final Transparency AURA_TRANSPARENCY = new Transparency(Constants.MOD_ID + ":aura_transparency", () -> {
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
-        RenderSystem.disableLighting();
+    //    RenderSystem.disableLighting(); todo all commented out parts
     }, () -> {
         RenderSystem.depthMask(true);
         RenderSystem.disableBlend();
@@ -36,9 +35,9 @@ public class RenderHelper extends RenderLayer {
     });
 
     public static final MultiPhaseParameters TRANSPARENCY_PARAMS = MultiPhaseParameters.builder()
-            .shadeModel(new ShadeModel(false))
+          //  .shadeModel(new ShadeModel(false))
             .texture(BLOCK_ATLAS_TEXTURE)
-            .diffuseLighting(new DiffuseLighting(true))
+      //      .diffuseLighting(new DiffuseLighting(true))
             .transparency(new Transparency(Constants.MOD_ID + ":translucency", () -> {
                 RenderSystem.depthMask(false);
                 RenderSystem.enableBlend();
@@ -53,19 +52,19 @@ public class RenderHelper extends RenderLayer {
             .build(true);
 
     public static final MultiPhaseParameters AURA_PARAMS = MultiPhaseParameters.builder()
-            .shadeModel(new ShadeModel(false))
+           // .shadeModel(new ShadeModel(false))
             .texture(BLOCK_ATLAS_TEXTURE)
-            .diffuseLighting(new DiffuseLighting(true))
+     //       .diffuseLighting(new DiffuseLighting(true))
             .transparency(AURA_TRANSPARENCY)
-            .alpha(RenderPhase.ONE_TENTH_ALPHA)
+       //     .alpha(RenderPhase.ONE_TENTH_ALPHA)
             .lightmap(new Lightmap(true))
             .build(true);
 
-    public static final RenderLayer AURA_LAYER = RenderLayer.of(Constants.MOD_ID + ":aura_layer", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, AURA_PARAMS);
-    public static final RenderLayer TRANSPARENCY_LAYER = RenderLayer.of(Constants.MOD_ID + ":transparent", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, TRANSPARENCY_PARAMS);
-    public static final RenderLayer BOLT_LAYER = RenderLayer.of(Constants.MOD_ID + ":bolt", VertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, false, true, RenderLayerHelper.copyPhaseParameters(getLightning(), builder -> builder.transparency(AURA_TRANSPARENCY)));
+    public static final RenderLayer AURA_LAYER = RenderLayer.getLightning(); //RenderLayer.of(Constants.MOD_ID + ":aura_layer", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, AURA_PARAMS);
+    public static final RenderLayer TRANSPARENCY_LAYER = RenderLayer.getLightning();//RenderLayer.of(Constants.MOD_ID + ":transparent", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, TRANSPARENCY_PARAMS);
+    public static final RenderLayer BOLT_LAYER =  RenderLayer.getLightning();// RenderLayer.of(Constants.MOD_ID + ":bolt", VertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, false, true, RenderLayerHelper.copyPhaseParameters(getLightning(), builder -> builder.transparency(AURA_TRANSPARENCY)));
 
-    public RenderHelper(String name, VertexFormat vertexFormat, int drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, Runnable startAction, Runnable endAction) {
+    public RenderHelper(String name, VertexFormat vertexFormat, VertexFormat.DrawMode drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, Runnable startAction, Runnable endAction) {
         super(name, vertexFormat, drawMode, expectedBufferSize, hasCrumbling, translucent, startAction, endAction);
     }
 
@@ -85,13 +84,14 @@ public class RenderHelper extends RenderLayer {
         Transparency TRANSPARENCY = new Transparency("translucent_transparency", () -> {
             RenderSystem.enableBlend();
             RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-            RenderSystem.disableLighting();
+       //     RenderSystem.disableLighting();
         }, () -> {
             RenderSystem.disableBlend();
             RenderSystem.defaultBlendFunc();
         });
-        MultiPhaseParameters multiPhaseParameters = MultiPhaseParameters.builder().texture(new Texture(texture, false, false)).transparency(TRANSPARENCY).diffuseLighting(ENABLE_DIFFUSE_LIGHTING).alpha(ONE_TENTH_ALPHA).cull(DISABLE_CULLING).lightmap(ENABLE_LIGHTMAP).overlay(ENABLE_OVERLAY_COLOR).build(true);
-        return of(Constants.MOD_ID + ":energy_tentacle", VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL, 7, 256, true, true, multiPhaseParameters);
+      //  MultiPhaseParameters multiPhaseParameters = MultiPhaseParameters.builder().texture(new Texture(texture, false, false)).transparency(TRANSPARENCY).diffuseLighting(ENABLE_DIFFUSE_LIGHTING).alpha(ONE_TENTH_ALPHA).cull(DISABLE_CULLING).lightmap(ENABLE_LIGHTMAP).overlay(ENABLE_OVERLAY_COLOR).build(true);
+        //todo
+        return RenderLayer.getLightning();//RenderLayer.of(Constants.MOD_ID + ":energy_tentacle", VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL, 7, 256, true, true, multiPhaseParameters);
     }
 
     public static void renderTexturedPlane(float size, Sprite sprite, MatrixStack matrices, VertexConsumer buffer, int light, int overlay, float[] rgba) {
@@ -122,7 +122,7 @@ public class RenderHelper extends RenderLayer {
         float r = (world.random.nextFloat() * 0.5f + rgb[0]) * colorFactor;
         float g = (world.random.nextFloat() * 0.5f + rgb[1]) * colorFactor;
         float b = (world.random.nextFloat() * 0.5f + rgb[2]) * colorFactor;
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(PORTAL_LAYERS.get(layer));
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(PORTAL_LAYERS.get(0));
         vertexConsumer.vertex(matrix4f, 0, 0, sizeY).color(r, g, b, rgb[3]).next();
         vertexConsumer.vertex(matrix4f, sizeX, 0, sizeY).color(r, g, b, rgb[3]).next();
         vertexConsumer.vertex(matrix4f, sizeX, 0, 0).color(r, g, b, rgb[3]).next();
@@ -130,7 +130,7 @@ public class RenderHelper extends RenderLayer {
     }
 
     public static void renderModelAsPortal(VertexConsumerProvider provider, MatrixStack matrices, int light, int overlay, Model model, float[] rgb, float alpha, Random random, int layer) {
-        model.render(matrices, provider.getBuffer(PORTAL_LAYERS.get(layer)), light, overlay, rgb[0], rgb[1], rgb[2], alpha);
+        model.render(matrices, provider.getBuffer(PORTAL_LAYERS.get(0)), light, overlay, rgb[0], rgb[1], rgb[2], alpha);
     }
 
     public static int getDepthFromDistance(double distance) {

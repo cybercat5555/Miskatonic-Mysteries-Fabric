@@ -3,6 +3,7 @@ package com.miskatonicmysteries.mixin.biomes;
 import com.miskatonicmysteries.api.interfaces.BiomeMask;
 import net.minecraft.util.collection.IndexedIterable;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.HeightLimitView;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeArray;
 import org.jetbrains.annotations.Nullable;
@@ -17,12 +18,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BiomeArray.class)
 public class BiomeArrayMixin implements BiomeMask {
-    @Shadow @Final private IndexedIterable<Biome> field_25831;
+    @Shadow @Final private IndexedIterable<Biome> biomes;
     @Unique private static final int HORIZONTAL_SECTION_COUNT = (int)Math.round(Math.log(16.0D) / Math.log(2.0D)) - 2;
+    @Unique private static final int HORIZONTAL_BIT_MASK = (1 << HORIZONTAL_SECTION_COUNT) - 1;
+
     @Unique private Biome[] mmBiomeMasks;
-    @Inject(method = "<init>(Lnet/minecraft/util/collection/IndexedIterable;[Lnet/minecraft/world/biome/Biome;)V", at = @At("TAIL"))
-    private void init(IndexedIterable<Biome> indexedIterable, Biome[] biomes, CallbackInfo ci){
-        mmBiomeMasks = new Biome[biomes.length];
+    @Inject(method = "<init>(Lnet/minecraft/util/collection/IndexedIterable;Lnet/minecraft/world/HeightLimitView;[Lnet/minecraft/world/biome/Biome;)V", at = @At("TAIL"))
+    private void init(IndexedIterable<Biome> biomes, HeightLimitView world, Biome[] data, CallbackInfo ci){
+        mmBiomeMasks = new Biome[data.length];
     }
     @Inject(method = "getBiomeForNoiseGen", at = @At("HEAD"), cancellable = true)
     private void getBiomeForNoiseGen(int biomeX, int biomeY, int biomeZ, CallbackInfoReturnable<Biome> cir){
@@ -34,15 +37,15 @@ public class BiomeArrayMixin implements BiomeMask {
 
     @Override
     public void MM_addBiomeMask(int biomeX, int biomeZ, Biome biome) {
-        int i = biomeX & BiomeArray.HORIZONTAL_BIT_MASK;
-        int j = biomeZ & BiomeArray.HORIZONTAL_BIT_MASK;
+        int i = biomeX & HORIZONTAL_BIT_MASK;
+        int j = biomeZ & HORIZONTAL_BIT_MASK;
         this.mmBiomeMasks[j << HORIZONTAL_SECTION_COUNT | i] = biome;
     }
 
     @Override
     public @Nullable Biome MM_getMaskedBiome(int biomeX, int biomeZ) {
-        int i = biomeX & BiomeArray.HORIZONTAL_BIT_MASK;
-        int j = biomeZ & BiomeArray.HORIZONTAL_BIT_MASK;
+        int i = biomeX & HORIZONTAL_BIT_MASK;
+        int j = biomeZ & HORIZONTAL_BIT_MASK;
         return this.mmBiomeMasks[j << HORIZONTAL_SECTION_COUNT | i];
     }
 
@@ -55,7 +58,7 @@ public class BiomeArrayMixin implements BiomeMask {
             if (biome == null){
                 is[i] = -1;
             }else {
-                is[i] = this.field_25831.getRawId(this.mmBiomeMasks[i]);
+                is[i] = this.biomes.getRawId(this.mmBiomeMasks[i]);
             }
         }
 

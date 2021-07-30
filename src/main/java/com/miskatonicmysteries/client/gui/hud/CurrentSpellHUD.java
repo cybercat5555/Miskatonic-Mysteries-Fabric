@@ -33,7 +33,7 @@ public class CurrentSpellHUD extends DrawableHelper {
                 matrixStack.translate(scaledWidth - MiskatonicMysteries.config.client.currentSpellHUD.marginX, scaledHeight - MiskatonicMysteries.config.client.currentSpellHUD.marginY, 0);
                 client.getTextureManager().bindTexture(SelectSpellWidget.getTexture(SpellClientHandler.selectedSpell.intensity));
                 this.alpha = 1 - shiftTicks / 20F;
-                RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
+                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
                 RenderSystem.enableBlend();
                 RenderSystem.defaultBlendFunc();
                 RenderSystem.enableDepthTest();
@@ -54,7 +54,7 @@ public class CurrentSpellHUD extends DrawableHelper {
                     matrixStack.push();
                     client.getTextureManager().bindTexture(SpellClientHandler.selectedSpell.medium.getTextureLocation());
                     matrixStack.translate(x, y, 0);
-                    RenderSystem.color4f(1.0F, 1.0F, 1.0F, (shiftTicks + (Screen.hasShiftDown() ?  tickDelta : -tickDelta))/ 10F);
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, (shiftTicks + (Screen.hasShiftDown() ?  tickDelta : -tickDelta))/ 10F);
                     drawTexture(matrixStack, 5, 2, 0, 0, 18, 18, 18, 18);
                     matrixStack.pop();
                 }

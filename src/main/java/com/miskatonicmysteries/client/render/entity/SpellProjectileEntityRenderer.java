@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.registry.MMParticles;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
@@ -13,8 +14,8 @@ import net.minecraft.util.math.Vec3d;
 
 public class SpellProjectileEntityRenderer extends EntityRenderer<SpellProjectileEntity> {
 
-    public SpellProjectileEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
-        super(entityRenderDispatcher);
+    public SpellProjectileEntityRenderer(EntityRendererFactory.Context context) {
+        super(context);
     }
 
     @Override

@@ -27,8 +27,8 @@ public class SpellSelectionScreen extends Screen {
     }
 
     @Override
-    public void init(MinecraftClient client, int width, int height) {
-        super.init(client, width, height);
+    protected void init() {
+        super.init();
         SpellCaster.of(client.player).ifPresent(caster -> {
             List<Spell> spells = caster.getSpells().stream().filter(Objects::nonNull).collect(Collectors.toList());
             double angleSize = (Math.PI * 2) / spells.size();
@@ -38,7 +38,7 @@ public class SpellSelectionScreen extends Screen {
                 double angle = angleSize * i + Math.PI;
                 double x = centerX + (Math.sin(angle) * totalRadius);
                 double y = centerY + (Math.cos(angle) * totalRadius);
-                addButton(new SelectSpellWidget((int) Math.round(x), (int) Math.round(y), this, spells.get(i)));
+                addDrawable(new SelectSpellWidget((int) Math.round(x), (int) Math.round(y), this, spells.get(i)));
             }
         });
     }

@@ -71,7 +71,7 @@ public class ChemicalFuelItem extends Item {
                 if (context.getPlayer().getStackInHand(context.getHand()).isEmpty()) {
                     context.getPlayer().setStackInHand(context.getHand(), itemStack);
                 } else {
-                    if (!context.getPlayer().inventory.insertStack(itemStack)) {
+                    if (!context.getPlayer().getInventory().insertStack(itemStack)) {
                         context.getPlayer().dropItem(itemStack, false);
                     }
                 }
@@ -88,19 +88,18 @@ public class ChemicalFuelItem extends Item {
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 300, 0));
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 600, 0));
             stack.decrement(1);
-            if (user instanceof ServerPlayerEntity) {
-                Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
-                ((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
+            if (user instanceof ServerPlayerEntity sp) {
+                Criteria.CONSUME_ITEM.trigger(sp, stack);
+                sp.incrementStat(Stats.USED.getOrCreateStat(this));
             }
         }
         if (stack.isEmpty()) {
             return new ItemStack(Items.GLASS_BOTTLE);
         } else {
-            if (user instanceof PlayerEntity && !((PlayerEntity) user).abilities.creativeMode) {
+            if (user instanceof PlayerEntity player && !player.isCreative()) {
                 ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
-                PlayerEntity playerEntity = (PlayerEntity) user;
-                if (!playerEntity.inventory.insertStack(itemStack)) {
-                    playerEntity.dropItem(itemStack, false);
+                if (!player.getInventory().insertStack(itemStack)) {
+                    player.dropItem(itemStack, false);
                 }
             }
 

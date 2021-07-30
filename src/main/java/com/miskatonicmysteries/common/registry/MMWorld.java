@@ -8,6 +8,7 @@ import com.miskatonicmysteries.common.util.Util;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PaneBlock;
+import net.minecraft.structure.PlainsVillageData;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
 import net.minecraft.structure.pool.StructurePools;
@@ -45,8 +46,9 @@ public class MMWorld {
         pool = Util.tryAddElementToPool(new Identifier("village/desert/zombie/houses"), pool, Constants.MOD_ID + ":village/desert/zombie/houses/desert_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.ZOMBIE_PROCESSOR);
         pool = Util.tryAddElementToPool(new Identifier("village/taiga/zombie/houses"), pool, Constants.MOD_ID + ":village/taiga/zombie/houses/taiga_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.ZOMBIE_PROCESSOR);
 
-        pool = Util.tryAddElementToPool(new Identifier("village/savanna/town_centers"), pool, Constants.MOD_ID + ":village/savanna/town_centers/savanna_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
+        //todo fix shrines crashing the game directly after startup
         pool = Util.tryAddElementToPool(new Identifier("village/plains/town_centers"), pool, Constants.MOD_ID + ":village/plains/town_centers/plains_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
+        pool = Util.tryAddElementToPool(new Identifier("village/savanna/town_centers"), pool, Constants.MOD_ID + ":village/savanna/town_centers/savanna_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
         pool = Util.tryAddElementToPool(new Identifier("village/snowy/town_centers"), pool, Constants.MOD_ID + ":village/snowy/town_centers/snowy_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
         pool = Util.tryAddElementToPool(new Identifier("village/taiga/town_centers"), pool, Constants.MOD_ID + ":village/taiga/town_centers/taiga_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
         pool = Util.tryAddElementToPool(new Identifier("village/desert/town_centers"), pool, Constants.MOD_ID + ":village/desert/town_centers/desert_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);

@@ -19,11 +19,11 @@ public abstract class CultistArmor extends ArmorItem implements Affiliated {
 
     public abstract Identifier getArmorTexture(ItemStack stack, EquipmentSlot slot);
 
-    @Environment(EnvType.CLIENT)
+  /*  @Environment(EnvType.CLIENT)
     public BipedEntityModel<LivingEntity> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, BipedEntityModel<LivingEntity> original) {
         return new CultistRobesModel(armorSlot, !entityLiving.getEquippedStack(EquipmentSlot.FEET).isEmpty(),
                 entityLiving.getEquippedStack(EquipmentSlot.HEAD).getItem() instanceof CultistArmor,
                 entityLiving.getEquippedStack(EquipmentSlot.LEGS).getItem() instanceof CultistArmor);
-    }
+    }*///todo
 
 }

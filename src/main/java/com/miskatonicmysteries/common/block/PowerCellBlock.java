@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.block;
 
+import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.energy.PowerCellBlockEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
@@ -8,6 +9,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -192,9 +195,16 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
         return false;
     }
 
+    @Nullable
     @Override
-    public BlockEntity createBlockEntity(BlockView world) {
-        return new PowerCellBlockEntity();
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new PowerCellBlockEntity(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return (world1, pos, state1, blockEntity) -> PowerCellBlockEntity.tick((PowerCellBlockEntity) blockEntity);
     }
 
     @Override

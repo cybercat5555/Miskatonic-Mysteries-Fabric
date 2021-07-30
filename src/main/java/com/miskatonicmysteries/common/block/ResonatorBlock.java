@@ -1,11 +1,14 @@
 package com.miskatonicmysteries.common.block;
 
+import com.miskatonicmysteries.common.block.blockentity.energy.PowerCellBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.energy.ResonatorBlockEntity;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -27,6 +30,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
+import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.EnergySide;
 
 import java.util.Random;
@@ -141,9 +145,16 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
         return false;
     }
 
+    @Nullable
     @Override
-    public BlockEntity createBlockEntity(BlockView world) {
-        return new ResonatorBlockEntity();
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new ResonatorBlockEntity(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+        return (world1, pos, state1, blockEntity) -> ResonatorBlockEntity.tick((ResonatorBlockEntity) blockEntity);
     }
 
     @Override

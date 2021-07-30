@@ -21,8 +21,8 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
     @Inject(method = "tickRiding", at = @At("TAIL"))
     private void tickRiding(CallbackInfo ci){
-        if (getVehicle() instanceof InputAware){
-            ((InputAware) getVehicle()).handleInput(jumping);
+        if (getVehicle() instanceof InputAware a){
+            a.handleInput(jumping);
         }
     }
 }

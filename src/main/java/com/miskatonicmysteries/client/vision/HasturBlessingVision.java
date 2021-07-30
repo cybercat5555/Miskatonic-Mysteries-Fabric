@@ -1,22 +1,16 @@
 package com.miskatonicmysteries.client.vision;
 
 import com.miskatonicmysteries.client.gui.hud.SpellBurnoutHUD;
-import com.miskatonicmysteries.client.model.entity.HasturModel;
 import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import software.bernie.geckolib3.model.provider.GeoModelProvider;
 
 @Environment(EnvType.CLIENT)
 public class HasturBlessingVision extends VisionSequence{
@@ -48,11 +42,11 @@ public class HasturBlessingVision extends VisionSequence{
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
         //background
-        RenderSystem.shadeModel(7425);
+       // RenderSystem.shadeModel(7425); todo what this these calls do
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
         RenderSystem.defaultBlendFunc();
-        bufferBuilder.begin(7, VertexFormats.POSITION_COLOR);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         bufferBuilder.vertex(0.0D, height, 0.0D).color(colorProgress * 0.5F, colorProgress * 0.5F, 0F, backgroundProgress).next();
         bufferBuilder.vertex(width,height, 0.0D).color(colorProgress * 0.5F, colorProgress * 0.5F, 0F, backgroundProgress).next();
         bufferBuilder.vertex(width, 0.0D, -90.0D).color(0, 0, 0F, backgroundProgress).next();
@@ -60,22 +54,22 @@ public class HasturBlessingVision extends VisionSequence{
         bufferBuilder.end();
         BufferRenderer.draw(bufferBuilder);
         RenderSystem.enableTexture();
-        RenderSystem.shadeModel(7424);
+       // RenderSystem.shadeModel(7424);
 
-        RenderSystem.color4f(1F, 1F, 1F, signProgress);
+        RenderSystem.setShaderColor(1F, 1F, 1F, signProgress);
         client.getTextureManager().bindTexture(YELLOW_SIGN_TEXTURE);
         float signX = width / 2F - 64;
         float signY = height / 2F - 64;
-        bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
         bufferBuilder.vertex(signX, signY + 128, -90.0D).texture(0.0F, 1.0F).next();
         bufferBuilder.vertex(signX + 128,signY + 128, -90.0D).texture(1.0F, 1.0F).next();
         bufferBuilder.vertex(signX + 128, signY, -90.0D).texture(1.0F, 0.0F).next();
         bufferBuilder.vertex(signX, signY, -90.0D).texture(0.0F, 0.0F).next();
         tessellator.draw();
         //render vignette
-        RenderSystem.color4f(1F, 1F, 1F, colorProgress * 0.75F);
+        RenderSystem.setShaderColor(1F, 1F, 1F, colorProgress * 0.75F);
         client.getTextureManager().bindTexture(SpellBurnoutHUD.VIGNETTE_TEXTURE);
-        bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
         bufferBuilder.vertex(0.0D, height, -90.0D).texture(0.0F, 1.0F).next();
         bufferBuilder.vertex(width,height, -90.0D).texture(1.0F, 1.0F).next();
         bufferBuilder.vertex(width, 0.0D, -90.0D).texture(1.0F, 0.0F).next();
@@ -84,7 +78,7 @@ public class HasturBlessingVision extends VisionSequence{
 
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         if (ticks >= totalLength - 1){
             VisionHandler.setVisionSequence(player, null);

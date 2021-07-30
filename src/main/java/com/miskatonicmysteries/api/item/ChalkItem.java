@@ -58,10 +58,9 @@ public class ChalkItem extends BlockItem {
 
                     BlockSoundGroup blockSoundGroup = blockState2.getSoundGroup();
                     world.playSound(playerEntity, blockPos, this.getPlaceSound(blockState2), SoundCategory.BLOCKS, (blockSoundGroup.getVolume() + 1.0F) / 2.0F, blockSoundGroup.getPitch() * 0.8F);
-                    if (playerEntity == null || !playerEntity.abilities.creativeMode) {
+                    if (playerEntity == null || !playerEntity.isCreative()) {
                         if (playerEntity != null) {
-                            itemStack.damage(1, playerEntity, (e) -> {
-                            });
+                            itemStack.damage(1, playerEntity, (e) -> {});
                         }
                     }
 

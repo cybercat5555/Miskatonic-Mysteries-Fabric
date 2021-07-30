@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 import static com.miskatonicmysteries.common.util.Constants.NBT.PLAYER_UUID;
@@ -22,9 +21,6 @@ import static com.miskatonicmysteries.common.util.Constants.NBT.PROTAGONISTS;
 
 public class MMWorldState extends PersistentState {
     private final Map<UUID, ProtagonistEntity.ProtagonistData> protagonistMap = new HashMap<>();
-    public MMWorldState() {
-        super(Constants.MOD_ID);
-    }
 
     public void addProtagonist(PlayerEntity player, ProtagonistEntity.ProtagonistData data) {
         protagonistMap.put(player.getUuid(), data);
@@ -52,16 +48,16 @@ public class MMWorldState extends PersistentState {
         return protagonistMap.get(protagonist.getTargetUUID().get());
     }
 
-    @Override
-    public void fromNbt(NbtCompound tag) {
+    public static MMWorldState fromNbt(NbtCompound tag) {
+        MMWorldState state = new MMWorldState();
         NbtList protagonistList = (NbtList) tag.get(PROTAGONISTS);
         if (protagonistList != null) {
             for (NbtElement baseTag : protagonistList) {
                 NbtCompound compoundTag = (NbtCompound) baseTag;
-                protagonistMap.put(compoundTag.getUuid(PLAYER_UUID), ProtagonistEntity.ProtagonistData.fromTag(compoundTag));
-
+                state.protagonistMap.put(compoundTag.getUuid(PLAYER_UUID), ProtagonistEntity.ProtagonistData.fromTag(compoundTag));
             }
         }
+        return state;
     }
 
     @Override
@@ -79,16 +75,12 @@ public class MMWorldState extends PersistentState {
     }
 
     public static MMWorldState get(World world) {
-        return Objects.requireNonNull(Objects.requireNonNull(world.getServer()).getWorld(World.OVERWORLD)).getPersistentStateManager().getOrCreate(() -> new MMWorldState(), Constants.MOD_ID);
+        return world.getServer().getOverworld().getPersistentStateManager().getOrCreate(MMWorldState::fromNbt, MMWorldState::new, Constants.MOD_ID);
     }
-
 
     public Text clear() {
         protagonistMap.clear();
         markDirty();
         return new TranslatableText("miskatonicmysteries.command.clear_data");
     }
-
-
-
 }

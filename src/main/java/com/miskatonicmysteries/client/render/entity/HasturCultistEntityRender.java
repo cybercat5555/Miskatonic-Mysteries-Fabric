@@ -1,34 +1,38 @@
 package com.miskatonicmysteries.client.render.entity;
 
+import com.miskatonicmysteries.client.model.MMModels;
 import com.miskatonicmysteries.client.model.entity.AscendedHasturCultistEntityModel;
 import com.miskatonicmysteries.client.model.entity.HasturCultistEntityModel;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
 import net.minecraft.client.render.entity.feature.HeldItemFeatureRenderer;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.render.entity.model.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class HasturCultistEntityRender extends MobEntityRenderer<HasturCultistEntity, HasturCultistEntityModel> {
-    public static final AscendedHasturCultistEntityModel ASCENDED_MODEL = new AscendedHasturCultistEntityModel();
-    public static final HasturCultistEntityModel NORMAL_MODEL = new HasturCultistEntityModel();
+    private final AscendedHasturCultistEntityModel ascendedModel;
+    private final HasturCultistEntityModel normalModel;
 
-    public HasturCultistEntityRender(EntityRenderDispatcher entityRenderDispatcher) {
-        super(entityRenderDispatcher, NORMAL_MODEL, 0.5F);
+    public HasturCultistEntityRender(EntityRendererFactory.Context context) {
+        super(context, new HasturCultistEntityModel(context.getPart(MMModels.HASTUR_CULTIST)), 0.5F);
         this.addFeature(new HeldItemFeatureRenderer<>(this));
-        this.addFeature(new ArmorFeatureRenderer<>(this, new BipedEntityModel<>(0.5F), new BipedEntityModel<>(1F)));
+        this.addFeature(new ArmorFeatureRenderer<>(this, new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_INNER_ARMOR)), new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_OUTER_ARMOR))));
+        this.normalModel = model;
+        this.ascendedModel = new AscendedHasturCultistEntityModel(context.getPart(MMModels.ASCENDED_HASTUR_CULTIST));
     }
 
     @Override
     public void render(HasturCultistEntity mobEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         if (mobEntity.isAscended()) {
-            model = ASCENDED_MODEL;
+            model = ascendedModel;
         } else {
-            model = NORMAL_MODEL;
+            model = normalModel;
         }
         super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
     }

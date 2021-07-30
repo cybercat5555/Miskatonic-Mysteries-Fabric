@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
@@ -46,7 +47,7 @@ public class SelectSpellWidget extends ClickableWidget {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
         minecraftClient.getTextureManager().bindTexture(getTexture(spell.intensity));
         this.alpha = (screen.openTicks + MinecraftClient.getInstance().getTickDelta()) / 5F;
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, Math.min(isHovered() || isSelected() ? 1 : 0.5F, this.alpha));
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, Math.min(isHovered() || isSelected() ? 1 : 0.5F, this.alpha));
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
@@ -65,12 +66,15 @@ public class SelectSpellWidget extends ClickableWidget {
             matrices.push();
             minecraftClient.getTextureManager().bindTexture(spell.medium.getTextureLocation());
             matrices.translate(x, y, 0);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, (hoverTicks + (isHovered() ? -delta : delta))/ 10F);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, (hoverTicks + (isHovered() ? -delta : delta))/ 10F);
             drawTexture(matrices, 5, 2, 0, 0, 18, 18, 18, 18);
             matrices.pop();
         }
         this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
+    }
 
-
+    @Override
+    public void appendNarrations(NarrationMessageBuilder builder) {
+        super.appendDefaultNarrations(builder);
     }
 }

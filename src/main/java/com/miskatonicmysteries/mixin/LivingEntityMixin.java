@@ -58,7 +58,7 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
     @Inject(method = "eatFood", at = @At("HEAD"), cancellable = true)
     private void eatFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
         if (hasStatusEffect(MMStatusEffects.EXOTIC_CRAVINGS)) {
-            if (!stack.getItem().isIn(Constants.Tags.GROSS_FOOD)) {
+            if (!Constants.Tags.GROSS_FOOD.contains(stack.getItem())) {
                 damage(DamageSource.STARVE, 4);
             } else {
                 StatusEffectInstance instance = getStatusEffect(MMStatusEffects.EXOTIC_CRAVINGS);
@@ -110,7 +110,7 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
         }
     }
 
-    @Inject(method = "writeCustomDataToTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
+    @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void writeMiscData(NbtCompound compoundTag, CallbackInfo info) {
         compoundTag.putBoolean(Constants.NBT.SHOULD_DROP, hasOverridenDrops());
         Appeasable.of(this).ifPresent(appeasable -> {
@@ -118,7 +118,7 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
         });
     }
 
-    @Inject(method = "readCustomDataFromTag(Lnet/minecraft/nbt/CompoundTag;)V", at = @At("TAIL"))
+    @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     public void readMiscData(NbtCompound compoundTag, CallbackInfo info) {
         setDropOveride(compoundTag.getBoolean(Constants.NBT.SHOULD_DROP));
         Appeasable.of(this).ifPresent(appeasable -> {
@@ -137,7 +137,7 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
     private void hit(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (Hallucination.of(this).isPresent() && Hallucination.of(this).get().getHallucinationTarget().isPresent()) {
             if (source.getAttacker() != null) {
-                remove();
+                remove(RemovalReason.DISCARDED);
             }
         }
     }
