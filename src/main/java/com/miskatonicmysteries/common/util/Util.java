@@ -1,9 +1,6 @@
 package com.miskatonicmysteries.common.util;
 
 import com.miskatonicmysteries.common.feature.world.structures.ModifiableStructurePool;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
