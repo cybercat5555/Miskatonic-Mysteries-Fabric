@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.world.processor.PsychonautHouseProcessor;
 import com.miskatonicmysteries.common.util.Constants;
-import com.miskatonicmysteries.common.util.Util;
+import com.miskatonicmysteries.common.util.RegistryUtil;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PaneBlock;
@@ -33,23 +33,23 @@ public class MMWorld {
     }
 
     public static StructurePool specialInject(StructurePool pool) {
-        pool = Util.tryAddElementToPool(new Identifier("village/plains/houses"), pool, Constants.MOD_ID + ":village/plains/houses/plains_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.NORMAL_PROCESSOR);
-        pool = Util.tryAddElementToPool(new Identifier("village/savanna/houses"), pool, Constants.MOD_ID + ":village/savanna/houses/savanna_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.NORMAL_PROCESSOR);
-        pool = Util.tryAddElementToPool(new Identifier("village/snowy/houses"), pool, Constants.MOD_ID + ":village/snowy/houses/snowy_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.NORMAL_PROCESSOR);
-        pool = Util.tryAddElementToPool(new Identifier("village/desert/houses"), pool, Constants.MOD_ID + ":village/desert/houses/desert_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.NORMAL_PROCESSOR);
-        pool = Util.tryAddElementToPool(new Identifier("village/taiga/houses"), pool, Constants.MOD_ID + ":village/taiga/houses/taiga_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.NORMAL_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/plains/houses"), pool, Constants.MOD_ID + ":village/plains/houses/plains_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.NORMAL_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/savanna/houses"), pool, Constants.MOD_ID + ":village/savanna/houses/savanna_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.NORMAL_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/snowy/houses"), pool, Constants.MOD_ID + ":village/snowy/houses/snowy_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.NORMAL_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/desert/houses"), pool, Constants.MOD_ID + ":village/desert/houses/desert_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.NORMAL_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/taiga/houses"), pool, Constants.MOD_ID + ":village/taiga/houses/taiga_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.NORMAL_PROCESSOR);
 
-        pool = Util.tryAddElementToPool(new Identifier("village/plains/zombie/houses"), pool, Constants.MOD_ID + ":village/plains/zombie/houses/plains_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.ZOMBIE_PROCESSOR);
-        pool = Util.tryAddElementToPool(new Identifier("village/savanna/zombie/houses"), pool, Constants.MOD_ID + ":village/savanna/zombie/houses/savanna_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.ZOMBIE_PROCESSOR);
-        pool = Util.tryAddElementToPool(new Identifier("village/snowy/zombie/houses"), pool, Constants.MOD_ID + ":village/snowy/zombie/houses/snowy_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.ZOMBIE_PROCESSOR);
-        pool = Util.tryAddElementToPool(new Identifier("village/desert/zombie/houses"), pool, Constants.MOD_ID + ":village/desert/zombie/houses/desert_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.ZOMBIE_PROCESSOR);
-        pool = Util.tryAddElementToPool(new Identifier("village/taiga/zombie/houses"), pool, Constants.MOD_ID + ":village/taiga/zombie/houses/taiga_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.ZOMBIE_PROCESSOR);
-
-        pool = Util.tryAddElementToPool(new Identifier("village/plains/town_centers"), pool, Constants.MOD_ID + ":village/plains/town_centers/plains_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
-        pool = Util.tryAddElementToPool(new Identifier("village/savanna/town_centers"), pool, Constants.MOD_ID + ":village/savanna/town_centers/savanna_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
-        pool = Util.tryAddElementToPool(new Identifier("village/snowy/town_centers"), pool, Constants.MOD_ID + ":village/snowy/town_centers/snowy_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
-        pool = Util.tryAddElementToPool(new Identifier("village/taiga/town_centers"), pool, Constants.MOD_ID + ":village/taiga/town_centers/taiga_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
-        pool = Util.tryAddElementToPool(new Identifier("village/desert/town_centers"), pool, Constants.MOD_ID + ":village/desert/town_centers/desert_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/plains/zombie/houses"), pool, Constants.MOD_ID + ":village/plains/zombie/houses/plains_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.ZOMBIE_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/savanna/zombie/houses"), pool, Constants.MOD_ID + ":village/savanna/zombie/houses/savanna_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.ZOMBIE_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/snowy/zombie/houses"), pool, Constants.MOD_ID + ":village/snowy/zombie/houses/snowy_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.ZOMBIE_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/desert/zombie/houses"), pool, Constants.MOD_ID + ":village/desert/zombie/houses/desert_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.ZOMBIE_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/taiga/zombie/houses"), pool, Constants.MOD_ID + ":village/taiga/zombie/houses/taiga_psychonaut", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.psychonautHouseWeight, MMWorld.ZOMBIE_PROCESSOR);
+        
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/plains/town_centers"), pool, Constants.MOD_ID + ":village/plains/town_centers/plains_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/savanna/town_centers"), pool, Constants.MOD_ID + ":village/savanna/town_centers/savanna_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/snowy/town_centers"), pool, Constants.MOD_ID + ":village/snowy/town_centers/snowy_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/taiga/town_centers"), pool, Constants.MOD_ID + ":village/taiga/town_centers/taiga_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
+        pool = RegistryUtil.tryAddElementToPool(new Identifier("village/desert/town_centers"), pool, Constants.MOD_ID + ":village/desert/town_centers/desert_shrine", StructurePool.Projection.RIGID, MiskatonicMysteries.config.world.hasturShrineWeight, MMWorld.NORMAL_PROCESSOR);
         return pool;
     }
 }

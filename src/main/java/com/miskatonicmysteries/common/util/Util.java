@@ -34,14 +34,6 @@ import javax.annotation.Nullable;
 import java.util.EnumSet;
 
 public class Util {
-    public static StructurePool tryAddElementToPool(Identifier targetPool, StructurePool pool, String elementId, StructurePool.Projection projection, int weight, StructureProcessorList processorList) {
-        if (targetPool.equals(pool.getId())) {
-            ModifiableStructurePool modPool = new ModifiableStructurePool(pool);
-            modPool.addStructurePoolElement(StructurePoolElement.ofProcessedLegacySingle(elementId, processorList).apply(projection), weight);
-            return modPool.getStructurePool();
-        }
-        return pool;
-    }
 
     public static boolean isValidYellowSign(NbtList bannerListTag) {
         if (bannerListTag.isEmpty()) return false;
