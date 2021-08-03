@@ -47,10 +47,6 @@ public class Util {
         return found != null && DyeColor.byId(found.getInt(Constants.NBT.BANNER_COLOR)) == DyeColor.YELLOW;
     }
 
-    public static boolean isValidYellowSign(NbtCompound compoundTag) {
-        return compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) && Util.isValidYellowSign(compoundTag.getList(Constants.NBT.BANNER_PP_TAG, 10));
-    }
-
     public static void teleport(ServerWorld world, Entity target, double x, double y, double z, float yaw, float pitch) {
         if (target instanceof ServerPlayerEntity) {
             ChunkPos chunkPos = new ChunkPos(new BlockPos(x, y, z));
