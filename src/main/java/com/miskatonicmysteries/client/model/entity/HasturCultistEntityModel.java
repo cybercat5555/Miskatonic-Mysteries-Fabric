@@ -19,10 +19,18 @@ import net.minecraft.util.math.MathHelper;
 @Environment(EnvType.CLIENT)
 public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEntity> {
     private final ModelPart root;
+    protected final ModelPart rightArmFolded;
+    protected final ModelPart leftArmFolded;
+    protected final ModelPart middleArmFolded;
 
     public HasturCultistEntityModel(ModelPart root) {
         super(root);
         this.root = root;
+        this.rightArmFolded = root.getChild("rightArmFolded");
+        this.leftArmFolded = rightArmFolded.getChild("leftArmFolded");
+        this.middleArmFolded = root.getChild("middleArmFolded");
+        this.rightArmFolded.visible = false;
+        this.middleArmFolded.visible = false;
     }
 
     public static TexturedModelData getTexturedModelData(){
@@ -123,6 +131,17 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
             ArmPose tempPose = rightArmPose;
             rightArmPose = leftArmPose;
             leftArmPose = tempPose;
+        }
+        if (rightArmPose == ArmPose.EMPTY && leftArmPose == ArmPose.EMPTY && !livingEntity.isCasting()){
+            middleArmFolded.visible = true;
+            rightArmFolded.visible = true;
+            leftArm.visible = false;
+            rightArm.visible = false;
+        }else{
+            middleArmFolded.visible = false;
+            rightArmFolded.visible = false;
+            leftArm.visible = true;
+            rightArm.visible = true;
         }
         super.animateModel(livingEntity, f, g, h);
     }

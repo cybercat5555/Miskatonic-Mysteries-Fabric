@@ -85,35 +85,35 @@ public class ByakheeEntityModel extends EntityModel<ByakheeEntity> {
                 ModelTransform.of(0.0F, 3.2F, -1.0F, 0.2618F, 0.0F, 0.0F));
         ModelPartData lLeg01 = lowerBody.addChild("lLeg01",
                 ModelPartBuilder.create()
-                        .uv(66, 0).cuboid(-2.3F, -1.1F, -3.0F, 5.0F, 11.0F, 6.0F),
+                        .uv(66, 0).mirrored(true).cuboid(-2.3F, -1.1F, -3.0F, 5.0F, 11.0F, 6.0F),
                 ModelTransform.of(3.9F, -1.4F, 15.1F, -0.5236F, -0.576F, -0.1222F));
         ModelPartData lLeg02 = lLeg01.addChild("lLeg02",
                 ModelPartBuilder.create()
-                        .uv(64, 19).cuboid(-2.0F, -0.4F, -2.5F, 4.0F, 4.0F, 5.0F),
+                        .uv(64, 19).mirrored(true).cuboid(-2.0F, -0.4F, -2.5F, 4.0F, 4.0F, 5.0F),
                 ModelTransform.of(0.3F, 10.0F, -0.1F, 0.0F, 0.0F, 0.0F));
         ModelPartData lLeg03 = lLeg02.addChild("lLeg03",
                 ModelPartBuilder.create()
-                        .uv(51, 1).cuboid(-1.5F, -2.2F, -1.5F, 3.0F, 11.0F, 3.0F),
+                        .uv(51, 1).mirrored(true).cuboid(-1.5F, -2.2F, -1.5F, 3.0F, 11.0F, 3.0F),
                 ModelTransform.of(0.0F, 4.1F, 0.8F, 0.7156F, 0.0F, 0.0873F));
         ModelPartData lFoot = lLeg03.addChild("lFoot",
                 ModelPartBuilder.create()
-                        .uv(83, 21).cuboid(-2.0F, 0.0F, -2.8F, 4.0F, 2.0F, 5.0F),
+                        .uv(83, 21).mirrored(true).cuboid(-2.0F, 0.0F, -2.8F, 4.0F, 2.0F, 5.0F),
                 ModelTransform.of(0.0F, 8.5F, -0.5F, -0.0175F, 0.0F, -0.0524F));
         lFoot.addChild("lFootClaw01",
                 ModelPartBuilder.create()
-                        .uv(1, 7).cuboid(-0.5F, -0.5F, -4.0F, 1.0F, 2.0F, 6.0F),
+                        .uv(1, 7).mirrored(true).cuboid(-0.5F, -0.5F, -4.0F, 1.0F, 2.0F, 6.0F),
                 ModelTransform.of(-1.3F, 0.5F, -2.6F, 0.1396F, 0.2094F, 0.0F));
         lFoot.addChild("lFootClaw02",
                 ModelPartBuilder.create()
-                        .uv(1, 7).cuboid(-0.5F, -0.5F, -4.5F, 1.0F, 2.0F, 6.0F),
+                        .uv(1, 7).mirrored(true).cuboid(-0.5F, -0.5F, -4.5F, 1.0F, 2.0F, 6.0F),
                 ModelTransform.of(0.0F, 0.5F, -2.6F, 0.1396F, 0.0F, 0.0F));
         lFoot.addChild("lFootClaw03",
                 ModelPartBuilder.create()
-                        .uv(1, 7).cuboid(-0.5F, -0.5F, -4.0F, 1.0F, 2.0F, 6.0F),
+                        .uv(1, 7).mirrored(true).cuboid(-0.5F, -0.5F, -4.0F, 1.0F, 2.0F, 6.0F),
                 ModelTransform.of(1.3F, 0.5F, -2.6F, 0.1222F, -0.2618F, 0.0F));
         lFoot.addChild("lWebbing",
                 ModelPartBuilder.create()
-                        .uv(110, 110).cuboid(-2.0F, 0.0F, -4.0F, 4.0F, 0.0F, 5.0F),
+                        .uv(110, 110).mirrored(true).cuboid(-2.0F, 0.0F, -4.0F, 4.0F, 0.0F, 5.0F),
                 ModelTransform.of(0.0F, 1.0F, -2.0F, 0.0F, 0.0F, 0.0F));
         ModelPartData rLeg01 = lowerBody.addChild("rLeg01",
                 ModelPartBuilder.create()
@@ -149,123 +149,123 @@ public class ByakheeEntityModel extends EntityModel<ByakheeEntity> {
                 ModelTransform.of(0.0F, 1.0F, -2.0F, 0.0F, 0.0F, 0.0F));
         ModelPartData lArm01 = chest.addChild("lArm01",
                 ModelPartBuilder.create()
-                        .uv(0, 82).cuboid(0.0F, -1.5F, -2.0F, 18.0F, 4.0F, 4.0F),
+                        .uv(0, 82).mirrored(true).cuboid(0.0F, -1.5F, -2.0F, 18.0F, 4.0F, 4.0F),
                 ModelTransform.of(6.0F, -4.0F, -3.0F, 0.0F, -0.2618F, 0.4363F));
         lArm01.addChild("lArmShoulder",
                 ModelPartBuilder.create()
-                        .uv(0, 99).cuboid(-4.5F, -2.0F, -2.5F, 8.0F, 4.0F, 5.0F),
+                        .uv(0, 99).mirrored(true).cuboid(-4.5F, -2.0F, -2.5F, 8.0F, 4.0F, 5.0F),
                 ModelTransform.of(4.0F, -1.0F, 0.0F, 0.0F, 0.0F, 0.1222F));
         ModelPartData lArm02 = lArm01.addChild("lArm02",
                 ModelPartBuilder.create()
-                        .uv(0, 91).cuboid(0.0F, -1.5F, -1.5F, 28.0F, 3.0F, 3.0F),
+                        .uv(0, 91).mirrored(true).cuboid(0.0F, -1.5F, -1.5F, 28.0F, 3.0F, 3.0F),
                 ModelTransform.of(17.0F, 0.5F, 0.0F, 0.0F, 0.6545F, 0.9163F));
         ModelPartData lWingTine01a = lArm02.addChild("lWingTine01a",
                 ModelPartBuilder.create()
-                        .uv(34, 111).cuboid(-1.0F, -1.4F, -1.0F, 3.0F, 11.0F, 2.0F),
+                        .uv(34, 111).mirrored(true).cuboid(-1.0F, -1.4F, -1.0F, 3.0F, 11.0F, 2.0F),
                 ModelTransform.of(26.6F, 0.2F, -0.1F, 1.5708F, -0.6545F, 0.0873F));
         ModelPartData lWingTine01b = lWingTine01a.addChild("lWingTine01b",
                 ModelPartBuilder.create()
-                        .uv(45, 111).cuboid(-1.0F, 0.1F, -0.5F, 2.0F, 15.0F, 1.0F),
+                        .uv(45, 111).mirrored(true).cuboid(-1.0F, 0.1F, -0.5F, 2.0F, 15.0F, 1.0F),
                 ModelTransform.of(0.8F, 9.2F, 0.0F, 0.0F, 0.0F, 0.0873F));
         lWingTine01b.addChild("lWingTine01c",
                 ModelPartBuilder.create()
-                        .uv(54, 111).cuboid(0.0F, 0.1F, -0.49F, 1.0F, 15.0F, 1.0F),
+                        .uv(54, 111).mirrored(true).cuboid(0.0F, 0.1F, -0.49F, 1.0F, 15.0F, 1.0F),
                 ModelTransform.of(0.0F, 14.6F, 0.0F, 0.0F, 0.0F, 0.192F));
         lWingTine01a.addChild("lWingEdge01",
                 ModelPartBuilder.create()
-                        .uv(66, 82).cuboid(-17.9F, -1.5F, -0.4F, 20.0F, 45.0F, 0.0F),
+                        .uv(66, 82).mirrored(true).cuboid(-17.9F, -1.5F, -0.4F, 20.0F, 45.0F, 0.0F),
                 ModelTransform.of(-0.8F, 0.0F, 0.5F, 0.0F, 0.0F, 0.1047F));
         ModelPartData lWingTine02a = lArm02.addChild("lWingTine02a",
                 ModelPartBuilder.create()
-                        .uv(34, 111).cuboid(-1.0F, -1.4F, -1.0F, 3.0F, 11.0F, 2.0F),
+                        .uv(34, 111).mirrored(true).cuboid(-1.0F, -1.4F, -1.0F, 3.0F, 11.0F, 2.0F),
                 ModelTransform.of(26.6F, 0.0F, 0.9F, 1.5708F, -0.7854F, 0.1309F));
         ModelPartData lWingTine02b = lWingTine02a.addChild("lWingTine02b",
                 ModelPartBuilder.create()
-                        .uv(45, 111).cuboid(-1.0F, 0.1F, -0.5F, 2.0F, 15.0F, 1.0F),
+                        .uv(45, 111).mirrored(true).cuboid(-1.0F, 0.1F, -0.5F, 2.0F, 15.0F, 1.0F),
                 ModelTransform.of(0.8F, 9.2F, 0.0F, 0.0F, 0.0F, 0.0873F));
         lWingTine02b.addChild("lWingTine02c",
                 ModelPartBuilder.create()
-                        .uv(54, 111).cuboid(-0.4F, 0.1F, -0.49F, 1.0F, 11.0F, 1.0F),
+                        .uv(54, 111).mirrored(true).cuboid(-0.4F, 0.1F, -0.49F, 1.0F, 11.0F, 1.0F),
                 ModelTransform.of(0.0F, 14.6F, 0.0F, 0.0F, 0.0F, 0.192F));
         lWingTine02a.addChild("lWingEdge02",
                 ModelPartBuilder.create()
-                        .uv(66, 82).cuboid(-17.9F, -1.5F, -0.5F, 20.0F, 45.0F, 0.0F),
+                        .uv(66, 82).mirrored(true).cuboid(-17.9F, -1.5F, -0.5F, 20.0F, 45.0F, 0.0F),
                 ModelTransform.of(-0.8F, 0.0F, 0.5F, 0.0F, 0.0F, 0.1047F));
         ModelPartData lWingTine03a = lArm02.addChild("lWingTine03a",
                 ModelPartBuilder.create()
-                        .uv(34, 111).cuboid(-1.0F, -1.4F, -1.0F, 3.0F, 11.0F, 2.0F),
+                        .uv(34, 111).mirrored(true).cuboid(-1.0F, -1.4F, -1.0F, 3.0F, 11.0F, 2.0F),
                 ModelTransform.of(26.6F, -0.3F, 0.9F, 1.5708F, -0.9163F, 0.1745F));
         ModelPartData lWingTine03b = lWingTine03a.addChild("lWingTine03b",
                 ModelPartBuilder.create()
-                        .uv(45, 111).cuboid(-1.0F, 0.1F, -0.5F, 2.0F, 15.0F, 1.0F),
+                        .uv(45, 111).mirrored(true).cuboid(-1.0F, 0.1F, -0.5F, 2.0F, 15.0F, 1.0F),
                 ModelTransform.of(0.8F, 9.2F, 0.0F, 0.0F, 0.0F, 0.0873F));
         lWingTine03b.addChild("lWingTine03c",
                 ModelPartBuilder.create()
-                        .uv(54, 111).cuboid(-0.4F, 0.1F, -0.49F, 1.0F, 11.0F, 1.0F),
+                        .uv(54, 111).mirrored(true).cuboid(-0.4F, 0.1F, -0.49F, 1.0F, 11.0F, 1.0F),
                 ModelTransform.of(0.0F, 14.6F, 0.0F, 0.0F, 0.0F, 0.192F));
         lWingTine03a.addChild("lWingEdge03",
                 ModelPartBuilder.create()
-                        .uv(66, 82).cuboid(-17.9F, -2.0F, 0.1F, 20.0F, 45.0F, 0.0F),
+                        .uv(66, 82).mirrored(true).cuboid(-17.9F, -2.0F, 0.1F, 20.0F, 45.0F, 0.0F),
                 ModelTransform.of(-0.8F, 0.0F, 0.0F, 0.0F, 0.0F, 0.1047F));
         ModelPartData lWingTine04a = lArm02.addChild("lWingTine04a",
                 ModelPartBuilder.create()
-                        .uv(34, 111).cuboid(-1.0F, -1.4F, -1.0F, 3.0F, 11.0F, 2.0F),
+                        .uv(34, 111).mirrored(true).cuboid(-1.0F, -1.4F, -1.0F, 3.0F, 11.0F, 2.0F),
                 ModelTransform.of(14.6F, 0.1F, 0.9F, 1.6232F, -0.6109F, 0.0F));
         ModelPartData lWingTine04b = lWingTine04a.addChild("lWingTine04b",
                 ModelPartBuilder.create()
-                        .uv(45, 111).cuboid(-1.0F, 0.1F, -0.5F, 2.0F, 17.0F, 1.0F),
+                        .uv(45, 111).mirrored(true).cuboid(-1.0F, 0.1F, -0.5F, 2.0F, 17.0F, 1.0F),
                 ModelTransform.of(0.8F, 9.2F, 0.0F, 0.0F, 0.0F, 0.0873F));
         lWingTine04b.addChild("lWingTine04c",
                 ModelPartBuilder.create()
-                        .uv(27, 109).cuboid(-1.0F, 0.1F, -0.49F, 2.0F, 8.0F, 1.0F),
+                        .uv(27, 109).mirrored(true).cuboid(-1.0F, 0.1F, -0.49F, 2.0F, 8.0F, 1.0F),
                 ModelTransform.of(0.0F, 16.6F, 0.0F, 0.0349F, 0.0F, 0.192F));
         lWingTine04a.addChild("lWingMembrane01",
                 ModelPartBuilder.create()
-                        .uv(94, 32).cuboid(-10.2F, -0.1F, 0.2F, 16.0F, 33.0F, 0.0F),
+                        .uv(94, 32).mirrored(true).cuboid(-10.2F, -0.1F, 0.2F, 16.0F, 33.0F, 0.0F),
                 ModelTransform.of(-2.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.192F));
         ModelPartData lWingTine05a = lArm02.addChild("lWingTine05a",
                 ModelPartBuilder.create()
-                        .uv(34, 111).cuboid(-1.0F, -1.4F, -1.0F, 3.0F, 11.0F, 2.0F),
+                        .uv(34, 111).mirrored(true).cuboid(-1.0F, -1.4F, -1.0F, 3.0F, 11.0F, 2.0F),
                 ModelTransform.of(10.6F, 0.1F, 0.9F, 1.6057F, -0.6894F, 0.0F));
         ModelPartData lWingTine05b = lWingTine05a.addChild("lWingTine05b",
                 ModelPartBuilder.create()
-                        .uv(45, 111).cuboid(-1.0F, 0.1F, -0.5F, 2.0F, 17.0F, 1.0F),
+                        .uv(45, 111).mirrored(true).cuboid(-1.0F, 0.1F, -0.5F, 2.0F, 17.0F, 1.0F),
                 ModelTransform.of(0.8F, 9.2F, 0.0F, 0.0F, 0.0F, 0.0873F));
         lWingTine05b.addChild("lWingTine05c",
                 ModelPartBuilder.create()
-                        .uv(27, 109).cuboid(-1.0F, 0.1F, -0.49F, 2.0F, 8.0F, 1.0F),
+                        .uv(27, 109).mirrored(true).cuboid(-1.0F, 0.1F, -0.49F, 2.0F, 8.0F, 1.0F),
                 ModelTransform.of(0.0F, 16.6F, 0.0F, 0.0349F, 0.0F, 0.192F));
         lWingTine05a.addChild("lWingMembrane02",
                 ModelPartBuilder.create()
-                        .uv(127, 32).cuboid(-10.2F, -0.1F, 0.2F, 16.0F, 33.0F, 0.0F),
+                        .uv(127, 32).mirrored(true).cuboid(-10.2F, -0.1F, 0.2F, 16.0F, 33.0F, 0.0F),
                 ModelTransform.of(-2.0F, 0.0F, 0.0F, 0.0F, -0.2618F, 0.2182F));
         lArm02.addChild("lWingMembrane03",
                 ModelPartBuilder.create()
-                        .uv(29, 32).cuboid(-8.0F, 0.8F, 0.2F, 16.0F, 0.0F, 32.0F),
+                        .uv(29, 32).mirrored(true).cuboid(-8.0F, 0.8F, 0.2F, 16.0F, 0.0F, 32.0F),
                 ModelTransform.of(18.0F, -0.5F, 0.0F, 0.0436F, -0.6109F, 0.2182F));
         ModelPartData lHand = lArm02.addChild("lHand",
                 ModelPartBuilder.create()
-                        .uv(83, 21).cuboid(-2.0F, -1.0F, -4.8F, 4.0F, 2.0F, 5.0F),
+                        .uv(83, 21).mirrored(true).cuboid(-2.0F, -1.0F, -4.8F, 4.0F, 2.0F, 5.0F),
                 ModelTransform.of(26.0F, -0.5F, -0.5F, 0.8552F, -0.3491F, -1.6144F));
         lHand.addChild("lHandClaw01",
                 ModelPartBuilder.create()
-                        .uv(1, 7).cuboid(-0.5F, -0.5F, -4.0F, 1.0F, 2.0F, 6.0F),
+                        .uv(1, 7).mirrored(true).cuboid(-0.5F, -0.5F, -4.0F, 1.0F, 2.0F, 6.0F),
                 ModelTransform.of(-1.3F, -0.5F, -4.6F, 0.0873F, 0.4363F, 0.0F));
         lHand.addChild("lHandClaw02",
                 ModelPartBuilder.create()
-                        .uv(1, 7).cuboid(-0.5F, -0.5F, -4.5F, 1.0F, 2.0F, 6.0F),
+                        .uv(1, 7).mirrored(true).cuboid(-0.5F, -0.5F, -4.5F, 1.0F, 2.0F, 6.0F),
                 ModelTransform.of(0.0F, -0.5F, -4.6F, 0.0873F, 0.2618F, 0.0F));
         lHand.addChild("lHandClaw03",
                 ModelPartBuilder.create()
-                        .uv(1, 7).cuboid(-0.5F, -0.5F, -4.2F, 1.0F, 2.0F, 6.0F),
+                        .uv(1, 7).mirrored(true).cuboid(-0.5F, -0.5F, -4.2F, 1.0F, 2.0F, 6.0F),
                 ModelTransform.of(1.3F, -0.5F, -4.6F, 0.0873F, 0.0873F, 0.0F));
         lHand.addChild("lHandClaw04",
                 ModelPartBuilder.create()
-                        .uv(1, 7).cuboid(-0.5F, -0.5F, -4.0F, 1.0F, 2.0F, 6.0F),
+                        .uv(1, 7).mirrored(true).cuboid(-0.5F, -0.5F, -4.0F, 1.0F, 2.0F, 6.0F),
                 ModelTransform.of(2.3F, -0.5F, -4.3F, 0.0873F, -0.1745F, 0.0F));
         lArm01.addChild("lWingMembrane04",
                 ModelPartBuilder.create()
-                        .uv(160, 32).cuboid(-8.0F, -0.1F, 0.2F, 22.0F, 26.0F, 0.0F),
+                        .uv(160, 32).mirrored(true).cuboid(-8.0F, -0.1F, 0.2F, 22.0F, 26.0F, 0.0F),
                 ModelTransform.of(8.0F, 0.2F, 0.0F, 1.6057F, 0.0F, 0.0F));
         ModelPartData rArm01 = chest.addChild("rArm01",
                 ModelPartBuilder.create()
@@ -405,7 +405,7 @@ public class ByakheeEntityModel extends EntityModel<ByakheeEntity> {
                 ModelTransform.of(0.0F, -0.3F, -12.0F, -0.7854F, 0.0F, 0.0F));
         head.addChild("rLead_r1",
                 ModelPartBuilder.create()
-                        .uv(246, 54).cuboid(-0.75F, -49.5F, -2.0F, 0.0F, 49.0F, 2.0F),
+                        .uv(246, 54).mirrored(true).cuboid(-0.75F, -49.5F, -2.0F, 0.0F, 49.0F, 2.0F),
                 ModelTransform.of(-3.5F, 13.45F, 0.0F, -0.2182F, 0.0F, -0.0698F));
         head.addChild("lLead_r1",
                 ModelPartBuilder.create()
@@ -413,7 +413,7 @@ public class ByakheeEntityModel extends EntityModel<ByakheeEntity> {
                 ModelTransform.of(3.0F, 13.45F, 0.0F, -0.2182F, 0.0F, 0.0698F));
         head.addChild("lEye",
                 ModelPartBuilder.create()
-                        .uv(236, 25).cuboid(0.0F, -3.5F, -2.0F, 3.0F, 7.0F, 5.0F),
+                        .uv(236, 25).mirrored(true).cuboid(0.0F, -3.5F, -2.0F, 3.0F, 7.0F, 5.0F),
                 ModelTransform.of(3.0F, 1.7F, -3.0F, 0.0F, 0.0F, 0.0F));
         head.addChild("rEye",
                 ModelPartBuilder.create()
@@ -429,7 +429,7 @@ public class ByakheeEntityModel extends EntityModel<ByakheeEntity> {
                 ModelTransform.of(0.0F, 0.0F, -4.0F, 0.1745F, 0.0F, 0.0F));
         beakTop01.addChild("lBeakFang",
                 ModelPartBuilder.create()
-                        .uv(129, 89).cuboid(0.0F, -6.0F, -0.3F, 0.0F, 9.0F, 4.0F),
+                        .uv(129, 89).mirrored(true).cuboid(0.0F, -6.0F, -0.3F, 0.0F, 9.0F, 4.0F),
                 ModelTransform.of(2.6F, 10.0F, 0.0F, 0.0F, 0.0F, 0.0F));
         beakTop01.addChild("rBeakFang",
                 ModelPartBuilder.create()
@@ -445,7 +445,7 @@ public class ByakheeEntityModel extends EntityModel<ByakheeEntity> {
                 ModelTransform.of(2.0F, 1.0F, -4.0F, -0.2618F, 0.0F, 0.0F));
         head.addChild("rHeadFur",
                 ModelPartBuilder.create()
-                        .uv(150, 94).cuboid(-1.0F, -8.0F, -6.0F, 2.0F, 12.0F, 6.0F),
+                        .uv(150, 94).mirrored(true).cuboid(-1.0F, -8.0F, -6.0F, 2.0F, 12.0F, 6.0F),
                 ModelTransform.of(-2.5F, 1.0F, -4.0F, -0.2618F, 0.0F, 0.0F));
         neck03.addChild("fur01",
                 ModelPartBuilder.create()

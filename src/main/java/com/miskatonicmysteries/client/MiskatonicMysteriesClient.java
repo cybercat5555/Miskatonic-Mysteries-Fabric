@@ -174,6 +174,5 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         TrinketRendererRegistry.registerRenderer(MMObjects.ELEGANT_MASK, new MaskTrinketRenderer((ctx) -> new HasturMaskModel(ctx.getModelPart(MMModels.HASTUR_MASK)), new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png")));
         TrinketRendererRegistry.registerRenderer(MMObjects.FERAL_MASK, new MaskTrinketRenderer((ctx) -> new ShubMaskModel(ctx.getModelPart(MMModels.SHUB_MASK)), new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png")));
         TrinketRendererRegistry.registerRenderer(MMObjects.WILD_MASK, new MaskTrinketRenderer((ctx) -> new ShubAlternateMaskModel(ctx.getModelPart(MMModels.SHUB_ALT_MASK)), new Identifier(Constants.MOD_ID, "textures/model/mask/wild_mask.png")));
-
     }
 }

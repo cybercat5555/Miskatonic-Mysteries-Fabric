@@ -26,7 +26,7 @@ public class HasturMaskModel extends Model {
                 ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
         ModelPartData leftMaskPlate = armorHead.addChild("leftMaskPlate",
                 ModelPartBuilder.create()
-                        .uv(1, 0).cuboid(-3.9F, -1.2F, -0.5F, 4.0F, 5.0F, 1.0F),
+                        .uv(1, 0).mirrored(true).cuboid(-3.9F, -1.2F, -0.5F, 4.0F, 5.0F, 1.0F),
                 ModelTransform.of(0.0F, -5.3F, -4.9F, -0.1222F, 0.1396F, 0.0F));
         ModelPartData strapL = leftMaskPlate.addChild("strapL",
                 ModelPartBuilder.create()
