@@ -56,12 +56,23 @@ public class ChemistrySetCategory implements DisplayCategory<ChemistrySetCategor
         List<Widget> widgets = new ArrayList<>();
         Point startPoint = new Point(bounds.getCenterX() - 64, bounds.getCenterY() - 2);
         widgets.add(Widgets.createRecipeBase(bounds));
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 4, startPoint.y - 24)).entries(recipeDisplay.getInputEntries().get(0)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 22, startPoint.y - 24)).entries(recipeDisplay.getInputEntries().get(1)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 4, startPoint.y - 6)).entries(recipeDisplay.getInputEntries().get(2)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 22, startPoint.y - 6)).entries(recipeDisplay.getInputEntries().get(3)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 4, startPoint.y + 12)).entries(recipeDisplay.getInputEntries().get(4)).markInput());
-        widgets.add(Widgets.createSlot(new Point(startPoint.x + 22, startPoint.y + 12)).entries(recipeDisplay.getInputEntries().get(5)).markInput());
+        List<EntryIngredient> input = recipeDisplay.getInputEntries();
+        widgets.add(Widgets.createSlot(new Point(startPoint.x + 4, startPoint.y - 24)).entries(input.get(0)).markInput());
+        if (input.size() > 1) {
+            widgets.add(Widgets.createSlot(new Point(startPoint.x + 22, startPoint.y - 24)).entries(recipeDisplay.getInputEntries().get(1)).markInput());
+            if (input.size() > 2) {
+                widgets.add(Widgets.createSlot(new Point(startPoint.x + 4, startPoint.y - 6)).entries(recipeDisplay.getInputEntries().get(2)).markInput());
+                if (input.size() > 3) {
+                    widgets.add(Widgets.createSlot(new Point(startPoint.x + 22, startPoint.y - 6)).entries(recipeDisplay.getInputEntries().get(3)).markInput());
+                    if (input.size() > 4) {
+                        widgets.add(Widgets.createSlot(new Point(startPoint.x + 4, startPoint.y + 12)).entries(recipeDisplay.getInputEntries().get(4)).markInput());
+                        if (input.size() > 5) {
+                            widgets.add(Widgets.createSlot(new Point(startPoint.x + 22, startPoint.y + 12)).entries(recipeDisplay.getInputEntries().get(5)).markInput());
+                        }
+                    }
+                }
+            }
+        }
         widgets.add(Widgets.createArrow(new Point(startPoint.x + 39, startPoint.y - 6)).animationDurationTicks(100));
 
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 66, startPoint.y - 6)).entries(recipeDisplay.getOutputEntries().get(0)).markOutput());

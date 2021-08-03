@@ -97,12 +97,6 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
         return widgets;
     }
 
-  /*  @Override
-    public DisplayRenderer getDisplayRenderer(OctagramDisplay display) {
-        return SimpleOctagramEntry.from(display.input);
-    }
-*/
-
     public static class OctagramDisplay implements Display {
         private final List<EntryIngredient> input;
         private final List<EntryIngredient> output;
