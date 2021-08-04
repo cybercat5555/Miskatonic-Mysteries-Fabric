@@ -35,18 +35,15 @@ public class InkblotComponent implements ICustomComponent {
 
     @Override
     public void render(MatrixStack ms, IComponentRenderContext context, float pticks, int mouseX, int mouseY) {
-        TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
-        textureManager.bindTexture(BASE);
+        RenderSystem.setShaderTexture(0, BASE);
         ms.push();
         ms.translate(x, y, 0);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-       //todo RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569F);
         RenderSystem.setShaderColor(1F, 1F, 1F, 0.8F + 0.2F * alphaFactor);
         DrawableHelper.drawTexture(ms, 0, 0, 0, 0, 270, 180, 512, 256);
-
         RenderSystem.setShaderColor(1F, 1F, 1F, 1 - alphaFactor);
-        textureManager.bindTexture(overlay);
+        RenderSystem.setShaderTexture(0, overlay);
         DrawableHelper.drawTexture(ms, 0, 0, 0, 0, 270, 180, 512, 256);
         RenderSystem.disableBlend();
         ms.pop();

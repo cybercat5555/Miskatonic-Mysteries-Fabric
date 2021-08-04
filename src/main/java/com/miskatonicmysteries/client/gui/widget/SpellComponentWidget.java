@@ -55,9 +55,9 @@ public class SpellComponentWidget extends ClickableWidget {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        minecraftClient.getTextureManager().bindTexture(EditSpellScreen.BOOK_TEXTURE);
+        RenderSystem.setShaderTexture(0, EditSpellScreen.BOOK_TEXTURE);
         drawTexture(matrices, this.x, this.y, 0, 182 + (isSelected() ? 39 : 0), 24, 24, 512, 256);
-        minecraftClient.getTextureManager().bindTexture(textureLocation);
+        RenderSystem.setShaderTexture(0, textureLocation);
         drawTexture(matrices, this.x + 3, this.y + 3, 0, 0, 18, 18, 18, 18);
         this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
     }

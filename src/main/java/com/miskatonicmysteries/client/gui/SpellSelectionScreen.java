@@ -38,7 +38,7 @@ public class SpellSelectionScreen extends Screen {
                 double angle = angleSize * i + Math.PI;
                 double x = centerX + (Math.sin(angle) * totalRadius);
                 double y = centerY + (Math.cos(angle) * totalRadius);
-                addDrawable(new SelectSpellWidget((int) Math.round(x), (int) Math.round(y), this, spells.get(i)));
+                addDrawableChild(new SelectSpellWidget((int) Math.round(x), (int) Math.round(y), this, spells.get(i)));
             }
         });
     }

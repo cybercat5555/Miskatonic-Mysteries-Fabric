@@ -42,7 +42,7 @@ public class SpellPowerWidget extends ClickableWidget {
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        minecraftClient.getTextureManager().bindTexture(EditSpellScreen.BOOK_TEXTURE);
+        RenderSystem.setShaderTexture(0, EditSpellScreen.BOOK_TEXTURE);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, isHovered() && isValidClickButton(0) ? 0.75F : !isValidClickButton(0) ? 0.25F : this.alpha);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();

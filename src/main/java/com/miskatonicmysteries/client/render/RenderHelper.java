@@ -3,18 +3,15 @@ package com.miskatonicmysteries.client.render;
 import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import ladysnake.satin.api.util.RenderLayerHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.*;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
 
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +59,6 @@ public class RenderHelper extends RenderLayer {
 
     public static final RenderLayer AURA_LAYER = RenderLayer.getLightning(); //RenderLayer.of(Constants.MOD_ID + ":aura_layer", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, AURA_PARAMS);
     public static final RenderLayer TRANSPARENCY_LAYER = RenderLayer.getLightning();//RenderLayer.of(Constants.MOD_ID + ":transparent", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, TRANSPARENCY_PARAMS);
-    public static final RenderLayer BOLT_LAYER =  RenderLayer.getLightning();// RenderLayer.of(Constants.MOD_ID + ":bolt", VertexFormats.POSITION_COLOR, GL11.GL_QUADS, 256, false, true, RenderLayerHelper.copyPhaseParameters(getLightning(), builder -> builder.transparency(AURA_TRANSPARENCY)));
 
     public RenderHelper(String name, VertexFormat vertexFormat, VertexFormat.DrawMode drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, Runnable startAction, Runnable endAction) {
         super(name, vertexFormat, drawMode, expectedBufferSize, hasCrumbling, translucent, startAction, endAction);
@@ -73,25 +69,7 @@ public class RenderHelper extends RenderLayer {
     }
 
     public static RenderLayer getTransparency() {
-        return TRANSPARENCY_LAYER;
-    }
-
-    public static RenderLayer getBoltLayer() {
-        return BOLT_LAYER;
-    }
-
-    public static RenderLayer getEnergyTentacleLayer(Identifier texture) {
-        Transparency TRANSPARENCY = new Transparency("translucent_transparency", () -> {
-            RenderSystem.enableBlend();
-            RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-       //     RenderSystem.disableLighting();
-        }, () -> {
-            RenderSystem.disableBlend();
-            RenderSystem.defaultBlendFunc();
-        });
-      //  MultiPhaseParameters multiPhaseParameters = MultiPhaseParameters.builder().texture(new Texture(texture, false, false)).transparency(TRANSPARENCY).diffuseLighting(ENABLE_DIFFUSE_LIGHTING).alpha(ONE_TENTH_ALPHA).cull(DISABLE_CULLING).lightmap(ENABLE_LIGHTMAP).overlay(ENABLE_OVERLAY_COLOR).build(true);
-        //todo
-        return RenderLayer.getLightning();//RenderLayer.of(Constants.MOD_ID + ":energy_tentacle", VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL, 7, 256, true, true, multiPhaseParameters);
+        return RenderLayer.getTranslucent();
     }
 
     public static void renderTexturedPlane(float size, Sprite sprite, MatrixStack matrices, VertexConsumer buffer, int light, int overlay, float[] rgba) {

@@ -2,7 +2,7 @@
   "processor": "com.miskatonicmysteries.client.gui.patchouli.RiteProcessor",
   "components": [
     {
-      "type": "image",
+      "type": "patchouli:image",
       "image": "#octagram",
       "x": 21,
       "y": 15,
@@ -15,61 +15,61 @@
       "scale": 1.5
     },
     {
-      "type": "item",
+      "type": "patchouli:item",
       "item": "#ingredient1",
       "x": 49,
       "y": 15
     },
     {
-      "type": "item",
+      "type": "patchouli:item",
       "item": "#ingredient2",
       "x": 49,
       "y": 71
     },
     {
-      "type": "item",
+      "type": "patchouli:item",
       "item": "#ingredient3",
       "x": 20,
       "y": 42
     },
     {
-      "type": "item",
+      "type": "patchouli:item",
       "item": "#ingredient4",
       "x": 78,
       "y": 42
     },
     {
-      "type": "item",
+      "type": "patchouli:item",
       "item": "#ingredient5",
       "x": 30,
       "y": 25
     },
     {
-      "type": "item",
+      "type": "patchouli:item",
       "item": "#ingredient6",
       "x": 68,
       "y": 62
     },
     {
-      "type": "item",
+      "type": "patchouli:item",
       "item": "#ingredient7",
       "x": 30,
       "y": 62
     },
     {
-      "type": "item",
+      "type": "patchouli:item",
       "item": "#ingredient8",
       "x": 68,
       "y": 25
     },
     {
-      "type": "header",
+      "type": "patchouli:header",
       "x": -1,
       "y": 0,
       "text": "#rite_name"
     },
     {
-      "type": "text",
+      "type": "patchouli:text",
       "x": 0,
       "y": 100,
       "text": "#text"

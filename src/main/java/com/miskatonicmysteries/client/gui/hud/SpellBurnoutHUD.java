@@ -28,7 +28,7 @@ public class SpellBurnoutHUD extends DrawableHelper {
                 RenderSystem.disableDepthTest();
                 RenderSystem.depthMask(false);
                 RenderSystem.setShaderColor(1F, 1F, 1F, burnout);
-                client.getTextureManager().bindTexture(VIGNETTE_TEXTURE);
+                RenderSystem.setShaderTexture(0, VIGNETTE_TEXTURE);
                 Tessellator tessellator = Tessellator.getInstance();
                 BufferBuilder bufferBuilder = tessellator.getBuffer();
                 bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);

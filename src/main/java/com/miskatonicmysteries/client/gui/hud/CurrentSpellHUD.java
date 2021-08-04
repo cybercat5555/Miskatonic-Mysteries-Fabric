@@ -31,14 +31,14 @@ public class CurrentSpellHUD extends DrawableHelper {
             SpellCaster.of(player).ifPresent(caster -> {
                 matrixStack.push();
                 matrixStack.translate(scaledWidth - MiskatonicMysteries.config.client.currentSpellHUD.marginX, scaledHeight - MiskatonicMysteries.config.client.currentSpellHUD.marginY, 0);
-                client.getTextureManager().bindTexture(SelectSpellWidget.getTexture(SpellClientHandler.selectedSpell.intensity));
+                RenderSystem.setShaderTexture(0, SelectSpellWidget.getTexture(SpellClientHandler.selectedSpell.intensity));
                 this.alpha = 1 - shiftTicks / 20F;
                 RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
                 RenderSystem.enableBlend();
                 RenderSystem.defaultBlendFunc();
                 RenderSystem.enableDepthTest();
                 drawTexture(matrixStack, 0, 0, 0, 0, 26, 26, 26, 26);
-                client.getTextureManager().bindTexture(SpellClientHandler.selectedSpell.effect.getTextureLocation());
+                RenderSystem.setShaderTexture(0, SpellClientHandler.selectedSpell.effect.getTextureLocation());
                 drawTexture(matrixStack, 4, 4, 0, 0, 18, 18, 18, 18);
                 if (Screen.hasShiftDown()) {
                     if (shiftTicks < 10) {
@@ -52,7 +52,7 @@ public class CurrentSpellHUD extends DrawableHelper {
                     double x = Math.sin(ticks) * 16;
                     double y = Math.cos(ticks) * 16;
                     matrixStack.push();
-                    client.getTextureManager().bindTexture(SpellClientHandler.selectedSpell.medium.getTextureLocation());
+                    RenderSystem.setShaderTexture(0, SpellClientHandler.selectedSpell.medium.getTextureLocation());
                     matrixStack.translate(x, y, 0);
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, (shiftTicks + (Screen.hasShiftDown() ?  tickDelta : -tickDelta))/ 10F);
                     drawTexture(matrixStack, 5, 2, 0, 0, 18, 18, 18, 18);

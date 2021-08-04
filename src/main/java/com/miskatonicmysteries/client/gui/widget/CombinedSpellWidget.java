@@ -44,7 +44,7 @@ public class CombinedSpellWidget extends ClickableWidget {
     @Override
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        minecraftClient.getTextureManager().bindTexture(EditSpellScreen.BOOK_TEXTURE);
+        RenderSystem.setShaderTexture(0, EditSpellScreen.BOOK_TEXTURE);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, isHovered() && isValidClickButton(0) ? 0.75F : this.alpha);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -60,9 +60,9 @@ public class CombinedSpellWidget extends ClickableWidget {
             for (int i = 0; i < screen.spells[index].intensity + 1; i++) {
                 drawTexture(matrices, this.x + 38, this.y + 14 - 6 * i, 352, 96, 9, 5, 512, 256);
             }
-            minecraftClient.getTextureManager().bindTexture(screen.spells[index].medium.getTextureLocation());
+            RenderSystem.setShaderTexture(0, screen.spells[index].medium.getTextureLocation());
             drawTexture(matrices, this.x + 1, this.y + 1, 0, 0, 18, 18, 18, 18);
-            minecraftClient.getTextureManager().bindTexture(screen.spells[index].effect.getTextureLocation());
+            RenderSystem.setShaderTexture(0, screen.spells[index].effect.getTextureLocation());
             drawTexture(matrices, this.x + 19, this.y + 1, 0, 0, 18, 18, 18, 18);
         }
         this.renderBackground(matrices, minecraftClient, mouseX, mouseY);

@@ -2,6 +2,7 @@ package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.common.entity.BoltEntity;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -44,7 +45,7 @@ public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
         }
         float[] offsetsY = new float[segmentNumber];
         float[] offsetsX = new float[segmentNumber];
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderHelper.getBoltLayer());
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getLightning());
         Matrix4f matrix4f = matrices.peek().getModel();
 
         matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(entity.getYaw(tickDelta)));

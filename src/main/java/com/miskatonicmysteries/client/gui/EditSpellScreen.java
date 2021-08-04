@@ -115,7 +115,6 @@ public class EditSpellScreen extends Screen {
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-        //todo RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569F); shader?
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, BOOK_TEXTURE);
         drawTexture(matrices, (this.width - 192) / 4 - 16, 32, 0, 0, 270, 180, 512, 256);

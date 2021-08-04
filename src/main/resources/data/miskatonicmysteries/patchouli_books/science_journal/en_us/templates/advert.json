@@ -1,13 +1,13 @@
 {
   "components": [
     {
-      "type": "text",
+      "type": "patchouli:text",
       "x": 0,
       "y": -4,
       "text": "#text"
     },
     {
-      "type": "image",
+      "type": "patchouli:image",
       "image": "#advert",
       "x": 6,
       "y": 42,
