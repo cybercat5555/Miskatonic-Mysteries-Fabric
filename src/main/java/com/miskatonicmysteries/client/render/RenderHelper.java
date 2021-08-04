@@ -1,133 +1,51 @@
 package com.miskatonicmysteries.client.render;
 
-import com.miskatonicmysteries.common.util.Constants;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Model;
-import net.minecraft.client.render.*;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.World;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 @Environment(EnvType.CLIENT)
 public class RenderHelper extends RenderLayer {
-    public static final List<RenderLayer> PORTAL_LAYERS = Arrays.asList(RenderLayer.getEndPortal()); //todo fix this because only one layer is required for now
-    public static final Transparency AURA_TRANSPARENCY = new Transparency(Constants.MOD_ID + ":aura_transparency", () -> {
-        RenderSystem.depthMask(false);
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
-    //    RenderSystem.disableLighting(); todo all commented out parts
-    }, () -> {
-        RenderSystem.depthMask(true);
-        RenderSystem.disableBlend();
-        RenderSystem.defaultBlendFunc();
-    });
-
-    public static final MultiPhaseParameters TRANSPARENCY_PARAMS = MultiPhaseParameters.builder()
-          //  .shadeModel(new ShadeModel(false))
-            .texture(BLOCK_ATLAS_TEXTURE)
-      //      .diffuseLighting(new DiffuseLighting(true))
-            .transparency(new Transparency(Constants.MOD_ID + ":translucency", () -> {
-                RenderSystem.depthMask(false);
-                RenderSystem.enableBlend();
-                RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-
-            }, () -> {
-                RenderSystem.depthMask(true);
-                RenderSystem.disableBlend();
-                RenderSystem.defaultBlendFunc();
-            }))
-            .lightmap(new Lightmap(true))
-            .build(true);
-
-    public static final MultiPhaseParameters AURA_PARAMS = MultiPhaseParameters.builder()
-           // .shadeModel(new ShadeModel(false))
-            .texture(BLOCK_ATLAS_TEXTURE)
-     //       .diffuseLighting(new DiffuseLighting(true))
-            .transparency(AURA_TRANSPARENCY)
-       //     .alpha(RenderPhase.ONE_TENTH_ALPHA)
-            .lightmap(new Lightmap(true))
-            .build(true);
-
-    public static final RenderLayer AURA_LAYER = RenderLayer.getLightning(); //RenderLayer.of(Constants.MOD_ID + ":aura_layer", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, AURA_PARAMS);
-    public static final RenderLayer TRANSPARENCY_LAYER = RenderLayer.getLightning();//RenderLayer.of(Constants.MOD_ID + ":transparent", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, GL11.GL_QUADS, 128, true, true, TRANSPARENCY_PARAMS);
 
     public RenderHelper(String name, VertexFormat vertexFormat, VertexFormat.DrawMode drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, Runnable startAction, Runnable endAction) {
         super(name, vertexFormat, drawMode, expectedBufferSize, hasCrumbling, translucent, startAction, endAction);
     }
 
-    public static RenderLayer getAuraGlowLayer() {
-        return AURA_LAYER;
-    }
-
     public static RenderLayer getTransparency() {
-        return RenderLayer.getTranslucent();
+        return RenderLayer.getTranslucentNoCrumbling();
     }
 
     public static void renderTexturedPlane(float size, Sprite sprite, MatrixStack matrices, VertexConsumer buffer, int light, int overlay, float[] rgba) {
         Matrix4f mat = matrices.peek().getModel();
-        buffer.vertex(mat, 0, 0, size).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMinU(), sprite.getMaxV()).light(light).overlay(overlay).normal(1, 1, 1).next();
-        buffer.vertex(mat, size, 0, size).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMaxU(), sprite.getMaxV()).light(light).overlay(overlay).normal(1, 1, 1).next();
-        buffer.vertex(mat, size, 0, 0).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMaxU(), sprite.getMinV()).light(light).overlay(overlay).normal(1, 1, 1).next();
-        buffer.vertex(mat, 0, 0, 0).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMinU(), sprite.getMinV()).light(light).overlay(overlay).normal(1, 1, 1).next();
+        buffer.vertex(mat, 0, 0, size).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMinU(), sprite.getMaxV()).light(light).overlay(overlay).normal(0, 1, 0).next();
+        buffer.vertex(mat, size, 0, size).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMaxU(), sprite.getMaxV()).light(light).overlay(overlay).normal(0, 1, 0).next();
+        buffer.vertex(mat, size, 0, 0).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMaxU(), sprite.getMinV()).light(light).overlay(overlay).normal(0, 1, 0).next();
+        buffer.vertex(mat, 0, 0, 0).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMinU(), sprite.getMinV()).light(light).overlay(overlay).normal(0, 1, 0).next();
     }
 
-    public static void renderFullPortal(Camera camera, World world, BlockPos pos, MatrixStack matrices, VertexConsumerProvider vertexConsumers, float size, float[] rgb) {
-        matrices.push();
-        double distance = pos.getSquaredDistance(camera.getPos(), true);
-        int renderDepth = getDepthFromDistance(distance);
-        Matrix4f matrix4f = matrices.peek().getModel();
-        for (int i = 0; i < renderDepth; ++i) {
-            renderPortalLayer(i, world, matrix4f, vertexConsumers, size, rgb);
-        }
-        matrices.pop();
-    }
 
-    public static void renderPortalLayer(int layer, World world, Matrix4f matrix4f, VertexConsumerProvider vertexConsumers, float size, float[] rgb) {
-        renderPortalLayer(layer, world, matrix4f, vertexConsumers, size, size,rgb);
-    }
-
-    public static void renderPortalLayer(int layer, World world, Matrix4f matrix4f, VertexConsumerProvider vertexConsumers, float sizeX, float sizeY, float[] rgb) {
-        float colorFactor = 2f / (18 - layer);
-        float r = (world.random.nextFloat() * 0.5f + rgb[0]) * colorFactor;
-        float g = (world.random.nextFloat() * 0.5f + rgb[1]) * colorFactor;
-        float b = (world.random.nextFloat() * 0.5f + rgb[2]) * colorFactor;
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(PORTAL_LAYERS.get(0));
+    public static void renderPortalLayer(World world, Matrix4f matrix4f, VertexConsumerProvider vertexConsumers, float sizeX, float sizeY, float[] rgb) {
+        float r = (world.random.nextFloat() * 0.5f + rgb[0]);
+        float g = (world.random.nextFloat() * 0.5f + rgb[1]);
+        float b = (world.random.nextFloat() * 0.5f + rgb[2]);
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEndPortal());
         vertexConsumer.vertex(matrix4f, 0, 0, sizeY).color(r, g, b, rgb[3]).next();
         vertexConsumer.vertex(matrix4f, sizeX, 0, sizeY).color(r, g, b, rgb[3]).next();
         vertexConsumer.vertex(matrix4f, sizeX, 0, 0).color(r, g, b, rgb[3]).next();
         vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, rgb[3]).next();
     }
 
-    public static void renderModelAsPortal(VertexConsumerProvider provider, MatrixStack matrices, int light, int overlay, Model model, float[] rgb, float alpha, Random random, int layer) {
-        model.render(matrices, provider.getBuffer(PORTAL_LAYERS.get(0)), light, overlay, rgb[0], rgb[1], rgb[2], alpha);
-    }
-
-    public static int getDepthFromDistance(double distance) {
-        if (distance > 36864) {
-            return 1;
-        } else if (distance > 25600) {
-            return 3;
-        } else if (distance > 16384) {
-            return 5;
-        } else if (distance > 9216) {
-            return 7;
-        } else if (distance > 4096) {
-            return 9;
-        } else if (distance > 1024) {
-            return 11;
-        } else if (distance > 576) {
-            return 13;
-        } else {
-            return distance > 256 ? 14 : 15;
-        }
+    public static void renderModelAsPortal(VertexConsumerProvider provider, MatrixStack matrices, int light, int overlay, Model model, float[] rgb, float alpha) {
+        model.render(matrices, provider.getBuffer(RenderLayer.getEndPortal()), light, overlay, rgb[0], rgb[1], rgb[2], alpha);
     }
 }

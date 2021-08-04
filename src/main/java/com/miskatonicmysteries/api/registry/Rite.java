@@ -90,7 +90,7 @@ public abstract class Rite {
     }
 
     /**
-     * Called in {@link com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender}OctagramBlockRender before anything else.
+     * Called in {@link com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender} before anything else.
      * Used to set up very special rendering
      * Flags:
      * 2 - Render Items
@@ -109,24 +109,21 @@ public abstract class Rite {
     public static void renderPortalOctagram(float alpha, float[] origColors, OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
         Sprite sprite = ResourceHandler.getOctagramMaskTextureFor(entity).getSprite();
         float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
+
         matrixStack.push();
         matrixStack.translate(0, 0.001F, 0);
-        RenderHelper.renderTexturedPlane(3, sprite, matrixStack, sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(alpha < 1 ? RenderHelper.getTransparency() : RenderLayer.getCutout())), light, overlay, new float[]{1, 1, 1, alpha});
+        RenderHelper.renderTexturedPlane(3, sprite, matrixStack, sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderHelper.getTransparency())), light, overlay, new float[]{1, 1, 1, alpha});
         matrixStack.push();
         Matrix4f matrix4f = matrixStack.peek().getModel();
-        double distance = entity.getPos().getSquaredDistance(context.getRenderDispatcher().camera.getPos(), true);
-        int renderDepth = Math.max(RenderHelper.getDepthFromDistance(distance) - 14, 1);
         matrixStack.translate(1.5, 0, 1.5);
         matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(45));
         matrixStack.translate(-0.4, 0.001F, -0.4);
-        for (int i = 0; i < renderDepth; i++) {
-            RenderHelper.renderPortalLayer(11 + i, entity.getWorld(), matrix4f, vertexConsumers, 0.8F, colors);
-        }
+        RenderHelper.renderPortalLayer(entity.getWorld(), matrix4f, vertexConsumers, 0.8F, 0.8F, colors);
         matrixStack.pop();
         matrixStack.translate(1.5, 0, 1.5);
         matrixStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(((float) entity.getWorld().getTime() + tickDelta) / 20.0F));
         matrixStack.translate(-1.5F, 0.0025F, -1.5F);
-        RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, vertexConsumers.getBuffer(RenderHelper.getAuraGlowLayer()), light, overlay, colors);
+        RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, vertexConsumers.getBuffer(RenderHelper.getTransparency()), light, overlay, colors);
         matrixStack.pop();
     }
 

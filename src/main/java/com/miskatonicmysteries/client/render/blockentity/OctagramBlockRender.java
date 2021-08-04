@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.client.render.blockentity;
 
+import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
@@ -38,6 +39,7 @@ public class OctagramBlockRender implements BlockEntityRenderer<OctagramBlockEnt
         if ((overrideRender & 1) == 1) {
             RenderHelper.renderTexturedPlane(3, sprite, matrixStack, buffer, light, overlay, new float[]{1, 1, 1, 1});
         }
+        Rite.renderPortalOctagram(0.8F, new float[]{1, 1, 1, 1}, entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
         if (entity.currentRite != null) {
             entity.currentRite.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
         }
