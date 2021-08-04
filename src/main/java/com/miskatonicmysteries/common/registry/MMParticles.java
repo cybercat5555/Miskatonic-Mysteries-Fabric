@@ -51,10 +51,6 @@ public class MMParticles {
                 RenderSystem.depthMask(false);
                 RenderSystem.enableBlend();
                 RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-                //todo set shaders properly
-             //   RenderSystem.alphaFunc(GL11.GL_GREATER, 0.003921569F);
-              //  RenderSystem.disableLighting();
-
                 textureManager.bindTexture(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
                 AbstractTexture tex = textureManager.getTexture(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
                 tex.setFilter(true, false);
@@ -66,7 +62,6 @@ public class MMParticles {
                 AbstractTexture tex = MinecraftClient.getInstance().getTextureManager().getTexture(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
                 tex.setFilter(false, false);
                 tessellator.draw();
-            //    RenderSystem.defaultAlphaFunc();
                 RenderSystem.disableBlend();
                 RenderSystem.depthMask(true);
             }

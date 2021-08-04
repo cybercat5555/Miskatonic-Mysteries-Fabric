@@ -49,7 +49,6 @@ public class MMModels {
 
     @SuppressWarnings("UnstableApiUsage")
     public static void init(){
-        //todo fix models
         EntityModelLayerRegistry.registerModelLayer(BYAKHEE, ByakheeEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(HARROW, HarrowEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(HASTUR_CULTIST, HasturCultistEntityModel::getTexturedModelData);

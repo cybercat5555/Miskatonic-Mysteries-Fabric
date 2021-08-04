@@ -36,45 +36,9 @@ public class HasturBlessingVision extends VisionSequence{
         float colorProgress = Math.min(signProgress, backgroundProgress);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
-
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        //background
-       // RenderSystem.shadeModel(7425); todo what this these calls do
-        RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
-        RenderSystem.defaultBlendFunc();
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-        bufferBuilder.vertex(0.0D, height, 0.0D).color(colorProgress * 0.5F, colorProgress * 0.5F, 0F, backgroundProgress).next();
-        bufferBuilder.vertex(width,height, 0.0D).color(colorProgress * 0.5F, colorProgress * 0.5F, 0F, backgroundProgress).next();
-        bufferBuilder.vertex(width, 0.0D, -90.0D).color(0, 0, 0F, backgroundProgress).next();
-        bufferBuilder.vertex(0.0D, 0.0D, -90.0D).color(0, 0, 0F, backgroundProgress).next();
-        bufferBuilder.end();
-        BufferRenderer.draw(bufferBuilder);
-        RenderSystem.enableTexture();
-       // RenderSystem.shadeModel(7424);
-
-        RenderSystem.setShaderColor(1F, 1F, 1F, signProgress);
-        client.getTextureManager().bindTexture(YELLOW_SIGN_TEXTURE);
-        float signX = width / 2F - 64;
-        float signY = height / 2F - 64;
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        bufferBuilder.vertex(signX, signY + 128, -90.0D).texture(0.0F, 1.0F).next();
-        bufferBuilder.vertex(signX + 128,signY + 128, -90.0D).texture(1.0F, 1.0F).next();
-        bufferBuilder.vertex(signX + 128, signY, -90.0D).texture(1.0F, 0.0F).next();
-        bufferBuilder.vertex(signX, signY, -90.0D).texture(0.0F, 0.0F).next();
-        tessellator.draw();
-        //render vignette
-        RenderSystem.setShaderColor(1F, 1F, 1F, colorProgress * 0.75F);
-        client.getTextureManager().bindTexture(SpellBurnoutHUD.VIGNETTE_TEXTURE);
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        bufferBuilder.vertex(0.0D, height, -90.0D).texture(0.0F, 1.0F).next();
-        bufferBuilder.vertex(width,height, -90.0D).texture(1.0F, 1.0F).next();
-        bufferBuilder.vertex(width, 0.0D, -90.0D).texture(1.0F, 0.0F).next();
-        bufferBuilder.vertex(0.0D, 0.0D, -90.0D).texture(0.0F, 0.0F).next();
-        tessellator.draw();
+        drawBackground(width, height, backgroundProgress, colorProgress, bufferBuilder);
+        drawSign(width, height, signProgress, tessellator, bufferBuilder);
+        drawVignette(width, height, colorProgress, tessellator, bufferBuilder);
 
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
@@ -84,5 +48,44 @@ public class HasturBlessingVision extends VisionSequence{
             VisionHandler.setVisionSequence(player, null);
             ticks = 0;
         }
+    }
+
+    private void drawSign(int width, int height, float signProgress, Tessellator tessellator, BufferBuilder bufferBuilder) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1F, 1F, 1F, signProgress);
+        RenderSystem.setShaderTexture(0, YELLOW_SIGN_TEXTURE);
+        float signX = width / 2F - 64;
+        float signY = height / 2F - 64;
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+        bufferBuilder.vertex(signX, signY + 128, -90.0D).texture(0.0F, 1.0F).next();
+        bufferBuilder.vertex(signX + 128,signY + 128, -90.0D).texture(1.0F, 1.0F).next();
+        bufferBuilder.vertex(signX + 128, signY, -90.0D).texture(1.0F, 0.0F).next();
+        bufferBuilder.vertex(signX, signY, -90.0D).texture(0.0F, 0.0F).next();
+        tessellator.draw();
+    }
+
+    private void drawVignette(int width, int height, float colorProgress, Tessellator tessellator, BufferBuilder bufferBuilder) {
+        RenderSystem.setShaderColor(1F, 1F, 1F, colorProgress * 0.75F);
+        RenderSystem.setShaderTexture(0, SpellBurnoutHUD.VIGNETTE_TEXTURE);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+        bufferBuilder.vertex(0.0D, height, -90.0D).texture(0.0F, 1.0F).next();
+        bufferBuilder.vertex(width, height, -90.0D).texture(1.0F, 1.0F).next();
+        bufferBuilder.vertex(width, 0.0D, -90.0D).texture(1.0F, 0.0F).next();
+        bufferBuilder.vertex(0.0D, 0.0D, -90.0D).texture(0.0F, 0.0F).next();
+        tessellator.draw();
+    }
+
+    private void drawBackground(int width, int height, float backgroundProgress, float colorProgress, BufferBuilder bufferBuilder) {
+        RenderSystem.disableTexture();
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+        bufferBuilder.vertex(0.0D, height, 0.0D).color(colorProgress * 0.5F, colorProgress * 0.5F, 0F, backgroundProgress).next();
+        bufferBuilder.vertex(width, height, 0.0D).color(colorProgress * 0.5F, colorProgress * 0.5F, 0F, backgroundProgress).next();
+        bufferBuilder.vertex(width, 0.0D, -90.0D).color(0, 0, 0F, backgroundProgress).next();
+        bufferBuilder.vertex(0.0D, 0.0D, -90.0D).color(0, 0, 0F, backgroundProgress).next();
+        bufferBuilder.end();
+        BufferRenderer.draw(bufferBuilder);
     }
 }

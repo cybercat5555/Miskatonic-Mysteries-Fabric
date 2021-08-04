@@ -36,6 +36,6 @@ public class FloatyWanderAroundGoal extends Goal {
 
     @Nullable
     private Vec3d getRandomLocation() {
-        return FuzzyTargeting.find(entity, 8, 7); //todo check this
+        return FuzzyTargeting.find(entity, 8, 7);
     }
 }
