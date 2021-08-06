@@ -42,11 +42,15 @@ public class YellowSignPatternItem extends LoomPatternItem {
     public ActionResult useOnBlock(ItemUsageContext context) {
         if (context.getPlayer() != null && Constants.Tags.YELLOW_DYE.contains(context.getPlayer().getOffHandStack().getItem())) {
             ActionResult actionResult = this.place(new ItemPlacementContext(context));
-            context.getPlayer().getOffHandStack().decrement(1);
-            return !actionResult.isAccepted() && this.isFood() ? this.use(context.getWorld(), context.getPlayer(), context.getHand()).getResult() : actionResult;
+            if(actionResult.isAccepted()){
+                if (!context.getPlayer().isCreative()) {
+                    context.getPlayer().getOffHandStack().decrement(1);
+                }
+                return ActionResult.SUCCESS;
+            }
+            return this.isFood() ? this.use(context.getWorld(), context.getPlayer(), context.getHand()).getResult() : actionResult;
         }
         return ActionResult.FAIL;
-
     }
 
     public ActionResult place(ItemPlacementContext context) {
@@ -72,9 +76,6 @@ public class YellowSignPatternItem extends LoomPatternItem {
                 }
                 BlockSoundGroup blockSoundGroup = blockState2.getSoundGroup();
                 world.playSound(playerEntity, blockPos, this.getPlaceSound(blockState2), SoundCategory.BLOCKS, (blockSoundGroup.getVolume() + 1.0F) / 2.0F, blockSoundGroup.getPitch() * 0.8F);
-                if (playerEntity == null || !playerEntity.isCreative()) {
-                    itemStack.decrement(1);
-                }
                 block.onPlaced(world, blockPos, blockState, playerEntity, itemStack);
 
                 return ActionResult.success(world.isClient);
