@@ -60,7 +60,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
     }
 
     public PowerCellBlock() {
-        super(Settings.of(Material.METAL).strength(1F, 4F).nonOpaque().requiresTool()
+        super(Settings.of(Material.METAL).strength(2F, 4F).nonOpaque().requiresTool()
                 .allowsSpawning((state, world, pos, type) -> false).solidBlock((state, world, pos) -> false)
                 .suffocates((state, world, pos) -> false)
                 .blockVision((state, world, pos) -> false));

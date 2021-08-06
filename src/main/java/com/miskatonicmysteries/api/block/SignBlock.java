@@ -1,25 +1,18 @@
 package com.miskatonicmysteries.api.block;
 
-import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
-import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Random;
 
 import static net.minecraft.state.property.Properties.FACING;
 import static net.minecraft.state.property.Properties.IN_WALL;

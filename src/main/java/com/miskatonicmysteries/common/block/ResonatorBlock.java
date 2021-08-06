@@ -41,7 +41,7 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
     public static final VoxelShape SHAPE = createCuboidShape(2, 0, 2, 14, 24, 14);
 
     public ResonatorBlock() {
-        super(Settings.of(Material.METAL).nonOpaque().requiresTool().strength(1F, 4F)
+        super(Settings.of(Material.METAL).nonOpaque().requiresTool().strength(2F, 4F)
                 .allowsSpawning((state, world, pos, type) -> false).solidBlock((state, world, pos) -> false)
                 .suffocates((state, world, pos) -> false)
                 .blockVision((state, world, pos) -> false)

@@ -47,7 +47,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
     private final Affiliation affiliation;
 
     public OctagramBlock(Affiliation affiliation) {
-        super(Settings.of(Material.CARPET).nonOpaque().noCollision());
+        super(Settings.of(Material.CARPET).nonOpaque().noCollision().hardness(1).resistance(3F));
         OCTAGRAMS.add(this);
         this.affiliation = affiliation;
     }
@@ -212,7 +212,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
         public static IntProperty NUMBER = IntProperty.of("number", 0, 7);
 
         public BlockOuterOctagram() {
-            super(Settings.of(Material.CARPET).nonOpaque().noCollision());
+            super(Settings.of(Material.CARPET).nonOpaque().noCollision().hardness(1).resistance(3F));
             setDefaultState(getDefaultState().with(NUMBER, 0));
         }
 
