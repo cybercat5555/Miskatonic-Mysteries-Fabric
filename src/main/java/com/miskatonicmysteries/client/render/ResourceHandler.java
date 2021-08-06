@@ -69,7 +69,7 @@ public class ResourceHandler {
 
         addStatueTextureFor(MMObjects.SHUB_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_gold"));
         addStatueTextureFor(MMObjects.SHUB_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_mossy"));
-        addStatueTextureFor(MMObjects.SHUB_STATUE_BLACKSTONE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_blackstone"));
+        addStatueTextureFor(MMObjects.SHUB_STATUE_DEEPSLATE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_deepslate"));
         addStatueTextureFor(MMObjects.SHUB_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_stone"));
 
       /*  List<Item> armors = Registry.ITEM.stream()

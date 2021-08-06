@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.common.block;
 
-import com.miskatonicmysteries.common.block.blockentity.energy.PowerCellBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.energy.ResonatorBlockEntity;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import net.fabricmc.api.EnvType;

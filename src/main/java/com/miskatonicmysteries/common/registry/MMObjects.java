@@ -71,9 +71,9 @@ public class MMObjects {
     public static final StatueBlock HASTUR_STATUE_TERRACOTTA = new StatueBlock(MMAffiliations.HASTUR, false, AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
     public static final StatueBlock HASTUR_STATUE_STONE = new StatueBlock(MMAffiliations.HASTUR, false, AbstractBlock.Settings.copy(Blocks.STONE));
 
-    public static final StatueBlock SHUB_STATUE_GOLD = new StatueBlock(MMAffiliations.SHUB, false, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+    public static final StatueBlock SHUB_STATUE_GOLD = new StatueBlock(MMAffiliations.SHUB, true, AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
     public static final StatueBlock SHUB_STATUE_MOSSY = new StatueBlock(MMAffiliations.SHUB, false, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
-    public static final StatueBlock SHUB_STATUE_BLACKSTONE = new StatueBlock(MMAffiliations.SHUB, false, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
+    public static final StatueBlock SHUB_STATUE_DEEPSLATE = new StatueBlock(MMAffiliations.SHUB, false, AbstractBlock.Settings.copy(Blocks.DEEPSLATE));
     public static final StatueBlock SHUB_STATUE_STONE = new StatueBlock(MMAffiliations.SHUB, false, AbstractBlock.Settings.copy(Blocks.STONE));
     public static final BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create(StatueBlockEntity::new, StatueBlock.STATUES.toArray(new StatueBlock[StatueBlock.STATUES.size()])).build(null);
 
@@ -214,7 +214,7 @@ public class MMObjects {
         RegistryUtil.registerBlock(HASTUR_STATUE_STONE, "hastur_statue_stone");
         RegistryUtil.registerBlock(SHUB_STATUE_GOLD, "shub_statue_gold");
         RegistryUtil.registerBlock(SHUB_STATUE_MOSSY, "shub_statue_mossy");
-        RegistryUtil.registerBlock(SHUB_STATUE_BLACKSTONE, "shub_statue_blackstone");
+        RegistryUtil.registerBlock(SHUB_STATUE_DEEPSLATE, "shub_statue_deepslate");
         RegistryUtil.registerBlock(SHUB_STATUE_STONE, "shub_statue_stone");
 
         RegistryUtil.registerBlock(STONE_CTHULHU_MURAL, "stone_cthulhu_mural");
