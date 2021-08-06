@@ -24,7 +24,7 @@ public class ChemistrySetBlockRender implements BlockEntityRenderer<ChemistrySet
         int lightAbove = WorldRenderer.getLightmapCoordinates(entity.getWorld(), entity.getPos().up());
         int seed = (int) entity.getPos().asLong();
         matrices.push();
-        Direction direction = entity.getWorld().getBlockState(entity.getPos()).get(HorizontalFacingBlock.FACING);
+        Direction direction = entity.getCachedState().get(HorizontalFacingBlock.FACING);
         matrices.translate(0.5, 0.5, 0.5);
         matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(direction.asRotation()));
         //bottom center

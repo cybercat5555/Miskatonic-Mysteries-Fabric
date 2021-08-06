@@ -31,7 +31,7 @@ public class StatueBlockRender implements BlockEntityRenderer<StatueBlockEntity>
     @Override
     public void render(StatueBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
-        int rotation = entity.getWorld().getBlockState(entity.getPos()).get(Properties.ROTATION);
+        int rotation = entity.getCachedState().get(Properties.ROTATION);
         matrices.translate(0.5, 1.5, 0.5);
         matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion((0.125F / 2F) * rotation * 360F));
         matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(180));

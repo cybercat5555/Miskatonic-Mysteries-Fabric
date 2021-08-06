@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.client.render.blockentity;
 
-import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
@@ -29,7 +28,7 @@ public class OctagramBlockRender implements BlockEntityRenderer<OctagramBlockEnt
         Sprite sprite = ResourceHandler.getOctagramTextureFor(entity).getSprite();
         VertexConsumer buffer = sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped()));
         matrixStack.push();
-        Direction direction = entity.getWorld().getBlockState(entity.getPos()).get(HorizontalFacingBlock.FACING);
+        Direction direction = entity.getCachedState().get(HorizontalFacingBlock.FACING);
         byte overrideRender = entity.currentRite != null ? entity.currentRite.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context) : 3;
         matrixStack.push();
         matrixStack.translate(0.5, 0, 0.5);
