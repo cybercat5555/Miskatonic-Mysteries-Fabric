@@ -21,7 +21,9 @@
       "conditions": {
         "items": [
           {
-            "item": "miskatonicmysteries:chemistry_set"
+            "items": [
+              "miskatonicmysteries:chemistry_set"
+            ]
           }
         ]
       }

@@ -16,18 +16,20 @@
     "hidden": false
   },
   "criteria": {
-    "blotter": {
+    "eat_blot": {
       "trigger": "minecraft:consume_item",
       "conditions": {
         "item": {
-          "item": "miskatonicmysteries:blotter"
+          "items": [
+            "miskatonicmysteries:blotter"
+          ]
         }
       }
     }
   },
   "requirements": [
     [
-      "blotter"
+      "eat_blot"
     ]
   ]
 }

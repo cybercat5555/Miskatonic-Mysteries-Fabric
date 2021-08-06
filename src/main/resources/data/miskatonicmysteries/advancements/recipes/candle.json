@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "miskatonicmysteries:wax"
+            "items": [
+              "miskatonicmysteries:wax"
+            ]
           }
         ]
       }
