@@ -2,24 +2,31 @@ package com.miskatonicmysteries.common.item;
 
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class WardingMarkItem extends Item {
     public WardingMarkItem() {
@@ -88,5 +95,13 @@ public class WardingMarkItem extends Item {
 
     protected SoundEvent getPlaceSound(BlockState state) {
         return state.getSoundGroup().getPlaceSound();
+    }
+
+    @Override
+    @Environment(EnvType.CLIENT)
+    public void appendTooltip(ItemStack stack, World world, List<Text> lines, TooltipContext ctx) {
+        super.appendTooltip(stack, world, lines, ctx);
+        lines.add(new TranslatableText("item.%s.%s.tooltip".formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath())).formatted(Formatting.GRAY));
+        lines.add(new TranslatableText("tooltip.%s.place_instruction".formatted(Constants.MOD_ID), "§b" + I18n.translate(Items.GLOW_INK_SAC.getTranslationKey()) + "§8").formatted(Formatting.GRAY));
     }
 }
