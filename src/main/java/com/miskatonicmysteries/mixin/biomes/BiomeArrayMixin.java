@@ -63,7 +63,7 @@ public class BiomeArrayMixin implements BiomeMask {
             if (biome == null) {
                 is[i] = -1;
             } else {
-                is[i] = this.biomes.getRawId(biome); //why does it give -1????
+                is[i] = this.biomes.getRawId(biome);
             }
         }
 
@@ -72,8 +72,10 @@ public class BiomeArrayMixin implements BiomeMask {
 
     @Override
     public void MM_setBiomeMask(IndexedIterable<Biome> biomesById, int[] mask) {
-        for (int i = 0; i < mask.length; ++i) {
-            this.mmBiomeMasks[i] = biomesById.get(mask[i]);
+        if (mmBiomeMasks != null && mmBiomeMasks.length >= mask.length) {
+            for (int i = 0; i < mask.length; i++) {
+                this.mmBiomeMasks[i] = biomesById.get(mask[i]);
+            }
         }
     }
 }

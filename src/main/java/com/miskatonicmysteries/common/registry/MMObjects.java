@@ -155,6 +155,11 @@ public class MMObjects {
     public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(MMEntities.PROTAGONIST, 4137472, 14592, new Item.Settings().group(Constants.MM_GROUP));
     public static final Item HASTUR_CULTIST_SPAWN_EGG = new SpawnEggItem(MMEntities.HASTUR_CULTIST, 0xEAC800, 0xFFFFFF, new Item.Settings().group(Constants.MM_GROUP));
     public static final Item PHANTASMA_SPAWN_EGG = new SpawnEggItem(MMEntities.PHANTASMA, 0x77329F, 0xDA329F, new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item ABERRATION_SPAWN_EGG = new SpawnEggItem(MMEntities.ABERRATION, 0x77329F, 0x8c2066, new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item BYAKHEE_SPAWN_EGG = new SpawnEggItem(MMEntities.BYAKHEE, 0x5a6049, 0xEAC800, new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item TATTERED_PRINCE_SPAWN_EGG = new SpawnEggItem(MMEntities.TATTERED_PRINCE, 0xEAC800, 0xFF0000, new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item TENTACLE_SPAWN_EGG = new SpawnEggItem(MMEntities.GENERIC_TENTACLE, 0xf9da5c, 0xefc623, new Item.Settings().group(Constants.MM_GROUP));
+    public static final Item HARROW_SPAWN_EGG = new SpawnEggItem(MMEntities.HARROW, 0xefc623, 0xf9da5c, new Item.Settings().group(Constants.MM_GROUP));
 
     public static final Item ELEGANT_MASK = new MaskTrinketItem(MMAffiliations.HASTUR, false, new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
     public static final Item FERAL_MASK = new MaskTrinketItem(MMAffiliations.SHUB, false, new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
@@ -282,6 +287,11 @@ public class MMObjects {
         RegistryUtil.register(Registry.ITEM, "protagonist_spawn_egg", PROTAGONIST_SPAWN_EGG);
         RegistryUtil.register(Registry.ITEM, "hastur_cultist_spawn_egg", HASTUR_CULTIST_SPAWN_EGG);
         RegistryUtil.register(Registry.ITEM, "phantasma_spawn_egg", PHANTASMA_SPAWN_EGG);
+        RegistryUtil.register(Registry.ITEM, "aberration_spawn_egg", ABERRATION_SPAWN_EGG);
+        RegistryUtil.register(Registry.ITEM, "byakhee_spawn_egg", BYAKHEE_SPAWN_EGG);
+        RegistryUtil.register(Registry.ITEM, "tattered_prince_spawn_egg", TATTERED_PRINCE_SPAWN_EGG);
+        RegistryUtil.register(Registry.ITEM, "tentacle_spawn_egg", TENTACLE_SPAWN_EGG);
+        RegistryUtil.register(Registry.ITEM, "harrow_spawn_egg", HARROW_SPAWN_EGG);
 
         RegistryUtil.register(Registry.ITEM, "elegant_mask", ELEGANT_MASK);
         RegistryUtil.register(Registry.ITEM, "feral_mask", FERAL_MASK);
