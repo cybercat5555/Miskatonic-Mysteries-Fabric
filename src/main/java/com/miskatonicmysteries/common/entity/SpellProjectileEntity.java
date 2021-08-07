@@ -62,21 +62,21 @@ public class SpellProjectileEntity extends ThrownEntity {
         setSpell(MMRegistries.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))));
     }
 
-    public void setSpell(SpellEffect effect) {
-        dataTracker.set(EFFECT, effect == null ? "" : effect.getId().toString());
-    }
-
     @Nullable
     public SpellEffect getSpell() {
         return MMRegistries.SPELL_EFFECTS.get(new Identifier(dataTracker.get(EFFECT)));
     }
 
-    public void setIntensity(int intensity) {
-        dataTracker.set(INTENSITY, intensity);
+    public void setSpell(SpellEffect effect) {
+        dataTracker.set(EFFECT, effect == null ? "" : effect.getId().toString());
     }
 
     public int getIntensity() {
         return dataTracker.get(INTENSITY);
+    }
+
+    public void setIntensity(int intensity) {
+        dataTracker.set(INTENSITY, intensity);
     }
 
     @Override

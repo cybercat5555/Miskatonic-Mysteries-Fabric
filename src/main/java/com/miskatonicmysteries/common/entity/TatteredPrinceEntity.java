@@ -56,11 +56,10 @@ import javax.annotation.Nullable;
 import java.util.EnumSet;
 
 public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable, Affiliated, CastingMob {
-    private final ServerBossBar bossBar;
-    private final AnimationFactory factory = new AnimationFactory(this);
     protected static final TrackedData<Integer> CASTING_TIME_LEFT = DataTracker.registerData(TatteredPrinceEntity.class, TrackedDataHandlerRegistry.INTEGER);
     protected static final TrackedData<Integer> BLESSING_TIME = DataTracker.registerData(TatteredPrinceEntity.class, TrackedDataHandlerRegistry.INTEGER);
-
+    private final ServerBossBar bossBar;
+    private final AnimationFactory factory = new AnimationFactory(this);
     @Nullable
     public Spell currentSpell;
 
@@ -114,7 +113,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
         if (isCasting()) {
             if (currentSpell != null && !world.isClient) {
                 EffectParticlePacket.send(this);
-                if (getTarget() == null){
+                if (getTarget() == null) {
                     setCastTime(0);
                 }
             }
@@ -278,13 +277,13 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
     }
 
     @Override
-    public void setCastTime(int castTime) {
-        dataTracker.set(CASTING_TIME_LEFT, castTime);
+    public int getCastTime() {
+        return dataTracker.get(CASTING_TIME_LEFT);
     }
 
     @Override
-    public int getCastTime() {
-        return dataTracker.get(CASTING_TIME_LEFT);
+    public void setCastTime(int castTime) {
+        dataTracker.set(CASTING_TIME_LEFT, castTime);
     }
 
     @Override
@@ -310,13 +309,13 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
         return new Spell(medium, effect, 2 + world.random.nextInt(3));
     }
 
-    public void setBlessTarget(LivingEntity blessTarget) {
-        this.blessTarget = blessTarget;
-    }
-
     public @Nullable
     LivingEntity getBlessTarget() {
         return blessTarget;
+    }
+
+    public void setBlessTarget(LivingEntity blessTarget) {
+        this.blessTarget = blessTarget;
     }
 
     public void startBlessing() {
@@ -374,7 +373,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
             }
 
             LivingEntity target = getBlessTarget();
-            if (getBlessingTicks() == 100 && target instanceof ServerPlayerEntity){
+            if (getBlessingTicks() == 100 && target instanceof ServerPlayerEntity) {
                 VisionPacket.send((ServerPlayerEntity) target, new Identifier(Constants.MOD_ID, "hastur_bless"));
             }
             getLookControl().lookAt(target, 40, 40);

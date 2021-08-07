@@ -23,7 +23,7 @@ public class ResistanceSpellEffect extends SpellEffect {
         if (world.isClient && target != null) {
             spawnParticleEffectsOnTarget(caster, this, target);
         }
-        if (!(target instanceof LivingEntity)){
+        if (!(target instanceof LivingEntity)) {
             return false;
         }
         ((LivingEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 200 + 200 * intensity, Math.min(intensity, 2), true, true));

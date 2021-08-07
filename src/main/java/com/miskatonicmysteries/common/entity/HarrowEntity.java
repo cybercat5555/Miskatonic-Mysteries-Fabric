@@ -1,9 +1,5 @@
 package com.miskatonicmysteries.common.entity;
 
-import com.miskatonicmysteries.common.entity.HarrowEntity.ChargeTargetGoal;
-import com.miskatonicmysteries.common.entity.HarrowEntity.HarrowMoveControl;
-import com.miskatonicmysteries.common.entity.HarrowEntity.LookAtTargetGoal;
-import com.miskatonicmysteries.common.entity.HarrowEntity.TrackOwnerTargetGoal;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import net.minecraft.entity.*;
@@ -51,7 +47,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
         super.move(type, movement);
         this.checkBlockCollision();
     }
-    
+
     @Override
     public void tick() {
         this.noClip = true;
@@ -60,10 +56,10 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
         this.setNoGravity(true);
         if (getLifeTicks() > 0) {
             setLifeTicks(getLifeTicks() - 1);
-        }else{
+        } else {
             remove(RemovalReason.KILLED);
         }
-        if (world.isClient && age % 4 == 0){
+        if (world.isClient && age % 4 == 0) {
             world.addParticle(MMParticles.AMBIENT_MAGIC, getParticleX(1F), getRandomBodyY(), getParticleZ(1F), -getVelocity().x, -getVelocity().y, -getVelocity().z);
         }
     }
@@ -90,11 +86,11 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
         this.targetSelector.add(2, new RevengeGoal(this));
         this.targetSelector.add(3, new FollowTargetGoal<>(this, PlayerEntity.class, 10, false, false, (living) -> getOwner() == null));
     }
-    
+
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
-        this.dataTracker.startTracking(HARROW_FLAGS, (byte)0);
+        this.dataTracker.startTracking(HARROW_FLAGS, (byte) 0);
         this.dataTracker.startTracking(LIFETICKS, 100);
     }
 
@@ -105,7 +101,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
             this.setLifeTicks(tag.getInt("LifeTicks"));
         }
     }
-    
+
     @Override
     public void writeCustomDataToNbt(NbtCompound tag) {
         super.writeCustomDataToNbt(tag);
@@ -114,6 +110,10 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 
     public LivingEntity getOwner() {
         return this.owner;
+    }
+
+    public void setOwner(LivingEntity owner) {
+        this.owner = owner;
     }
 
     private boolean areFlagsSet(int mask) {
@@ -129,7 +129,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
             i &= ~mask;
         }
 
-        this.dataTracker.set(HARROW_FLAGS, (byte)(i & 255));
+        this.dataTracker.set(HARROW_FLAGS, (byte) (i & 255));
     }
 
     public boolean isCharging() {
@@ -140,16 +140,12 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
         this.setHarrowFlag(1, charging);
     }
 
-    public void setOwner(LivingEntity owner) {
-        this.owner = owner;
+    public int getLifeTicks() {
+        return dataTracker.get(LIFETICKS);
     }
 
     public void setLifeTicks(int lifeTicks) {
         this.dataTracker.set(LIFETICKS, lifeTicks);
-    }
-
-    public int getLifeTicks(){
-        return dataTracker.get(LIFETICKS);
     }
 
     protected SoundEvent getAmbientSound() {
@@ -208,12 +204,12 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
         @Override
         public void tick() {
             BlockPos blockPos = getBlockPos();
-            for(int i = 0; i < 3; ++i) {
+            for (int i = 0; i < 3; ++i) {
                 BlockPos blockPos2 = blockPos.add(random.nextInt(15) - 7, random.nextInt(11) - 5, random.nextInt(15) - 7);
                 if (world.isAir(blockPos2)) {
-                    moveControl.moveTo((double)blockPos2.getX() + 0.5D, (double)blockPos2.getY() + 0.5D, (double)blockPos2.getZ() + 0.5D, 0.25D);
+                    moveControl.moveTo((double) blockPos2.getX() + 0.5D, (double) blockPos2.getY() + 0.5D, (double) blockPos2.getZ() + 0.5D, 0.25D);
                     if (getTarget() == null) {
-                        getLookControl().lookAt((double)blockPos2.getX() + 0.5D, (double)blockPos2.getY() + 0.5D, (double)blockPos2.getZ() + 0.5D, 180.0F, 20.0F);
+                        getLookControl().lookAt((double) blockPos2.getX() + 0.5D, (double) blockPos2.getY() + 0.5D, (double) blockPos2.getZ() + 0.5D, 180.0F, 20.0F);
                     }
                     break;
                 }
@@ -294,7 +290,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
                     } else {
                         double e = getTarget().getX() - getX();
                         double f = getTarget().getZ() - getZ();
-                        setYaw(-((float)MathHelper.atan2(e, f)) * 57.295776F);
+                        setYaw(-((float) MathHelper.atan2(e, f)) * 57.295776F);
                     }
                     setBodyYaw(getYaw());
                 }

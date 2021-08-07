@@ -27,21 +27,21 @@ public class SelectSpellWidget extends ClickableWidget {
         this.active = true;
     }
 
+    public static Identifier getTexture(int potency) {
+        return new Identifier(Constants.MOD_ID, String.format("textures/gui/spell_widgets/potency/potency_%d.png", potency));
+    }
+
     @Override
-    public void onClick(double mouseX, double mouseY){
+    public void onClick(double mouseX, double mouseY) {
         if (!isSelected()) {
             SpellClientHandler.selectedSpell = spell;
-        }else {
+        } else {
             SpellClientHandler.selectedSpell = null;
         }
     }
 
-    private boolean isSelected(){
+    private boolean isSelected() {
         return SpellClientHandler.selectedSpell == spell;
-    }
-
-    public static Identifier getTexture(int potency){
-        return new Identifier(Constants.MOD_ID, String.format("textures/gui/spell_widgets/potency/potency_%d.png", potency));
     }
 
     @Override
@@ -58,17 +58,17 @@ public class SelectSpellWidget extends ClickableWidget {
         drawTexture(matrices, this.x + 5, this.y + 5, 0, 0, 18, 18, 18, 18);
         if (isHovered() && hoverTicks < 20) {
             hoverTicks++;
-        }else if (hoverTicks > 0){
+        } else if (hoverTicks > 0) {
             hoverTicks--;
         }
-        if (hoverTicks > 0){
+        if (hoverTicks > 0) {
             float ticks = (minecraftClient.world.getTime() + delta) * 0.1F;
             double x = this.x + (Math.sin(ticks)) * 16;
             double y = this.y + (Math.cos(ticks)) * 16;
             matrices.push();
             RenderSystem.setShaderTexture(0, spell.medium.getTextureLocation());
             matrices.translate(x, y, 0);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, (hoverTicks + (isHovered() ? -delta : delta))/ 10F);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, (hoverTicks + (isHovered() ? -delta : delta)) / 10F);
             drawTexture(matrices, 5, 2, 0, 0, 18, 18, 18, 18);
             matrices.pop();
         }

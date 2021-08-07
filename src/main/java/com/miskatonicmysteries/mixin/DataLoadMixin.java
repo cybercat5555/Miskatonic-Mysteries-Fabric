@@ -13,10 +13,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerResourceManager.class)
-public abstract class DataLoadMixin{
-    @Shadow @Final private ReloadableResourceManager resourceManager;
+public abstract class DataLoadMixin {
+    @Shadow
+    @Final
+    private ReloadableResourceManager resourceManager;
+
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void addToConstructor(DynamicRegistryManager registryManager, CommandManager.RegistrationEnvironment commandEnvironment, int functionPermissionLevel, CallbackInfo info){
+    private void addToConstructor(DynamicRegistryManager registryManager, CommandManager.RegistrationEnvironment commandEnvironment, int functionPermissionLevel, CallbackInfo info) {
         this.resourceManager.registerReloader(new DataHandler());
     }
 }

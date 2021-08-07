@@ -7,11 +7,9 @@ package com.miskatonicmysteries.client.model.entity;
 import com.miskatonicmysteries.common.entity.HarrowEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
 
 public class HarrowEntityModel extends EntityModel<HarrowEntity> {
     private final ModelPart root, main;
@@ -22,14 +20,15 @@ public class HarrowEntityModel extends EntityModel<HarrowEntity> {
     private final ModelPart lSmallTentacle01_r1, lSmallTentacle02_r1;
     private final ModelPart rSmallTentacle02_r1, rSmallTentacle02_r2;
     private final ModelPart mSmallTentacle07_r1, mSmallTentacle06_r1, mSmallTentacle05_r1, mSmallTentacle03_r1;
+
     public HarrowEntityModel(ModelPart root) {
-    	super((identifier) -> RenderLayer.getEntityTranslucent(identifier, false));
+        super((identifier) -> RenderLayer.getEntityTranslucent(identifier, false));
         this.root = root;
-    	this.main = root.getChild("main");
-    	this.jaws = main.getChild("jaws");
-    	this.lowerJaw = jaws.getChild("lowerJaw");
-    	ModelPart tentacles = main.getChild("tentacles");
-    	this.lLargeTentacle01 = tentacles.getChild("lLargeTentacle01");
+        this.main = root.getChild("main");
+        this.jaws = main.getChild("jaws");
+        this.lowerJaw = jaws.getChild("lowerJaw");
+        ModelPart tentacles = main.getChild("tentacles");
+        this.lLargeTentacle01 = tentacles.getChild("lLargeTentacle01");
         this.lLargeTentacle02 = lLargeTentacle01.getChild("lLargeTentacle02");
         this.lLargeTentacle03 = lLargeTentacle02.getChild("lLargeTentacle03");
         this.rLargeTentacle01 = tentacles.getChild("rLargeTentacle01");
@@ -50,7 +49,7 @@ public class HarrowEntityModel extends EntityModel<HarrowEntity> {
         this.mSmallTentacle07_r1 = tentacles.getChild("mSmallTentacle07_r1");
     }
 
-    public static TexturedModelData getTexturedModelData(){
+    public static TexturedModelData getTexturedModelData() {
         ModelData data = new ModelData();
         ModelPartData root = data.getRoot();
         ModelPartData main = root.addChild("main",
@@ -175,18 +174,18 @@ public class HarrowEntityModel extends EntityModel<HarrowEntity> {
 
         boolean charging = entity.isCharging();
         float pitch;
-        if (charging){
+        if (charging) {
             pitch = (float) Math.sin(ageInTicks * (Math.PI / 5F)) * 0.25F;
-            this.jaws.pitch = (float) -Math.sin(ageInTicks * (Math.PI / 3F)) * 0.15F ;
-            this.lowerJaw.pitch = (float) Math.sin(ageInTicks * (Math.PI / 3F)) * 0.3F ;
+            this.jaws.pitch = (float) -Math.sin(ageInTicks * (Math.PI / 3F)) * 0.15F;
+            this.lowerJaw.pitch = (float) Math.sin(ageInTicks * (Math.PI / 3F)) * 0.3F;
             this.lLargeTentacle01.pitch = 1.4835F;
             animateTentacle(lLargeTentacle01, lLargeTentacle02, lLargeTentacle03, 1.4835F, 0.0873F, -0.1491F, ageInTicks, 10F, 0.15F);
             animateTentacle(rLargeTentacle01, rLargeTentacle02, rLargeTentacle03, 1.4835F, 0.0873F, -0.1491F, ageInTicks, 10F, 0.15F);
             animateTentacle(mLargeTentacle01, mLargeTentacle01b, mLargeTentacle01c, 1.2654F, 0.3491F, -0.1491F, ageInTicks, 10F, -0.15F);
-        }else{
+        } else {
             pitch = (float) Math.sin(ageInTicks * (Math.PI / 20F)) * 0.05F + 0.1F;
             this.jaws.pitch = 0;
-            this.lowerJaw.pitch = (float) Math.sin(ageInTicks * (Math.PI / 15F)) * 0.05F - 0.1F ;
+            this.lowerJaw.pitch = (float) Math.sin(ageInTicks * (Math.PI / 15F)) * 0.05F - 0.1F;
             animateTentacle(lLargeTentacle01, lLargeTentacle02, lLargeTentacle03, 1.4835F, 0.0873F, -0.1491F, ageInTicks, 25F, 0.05F);
             animateTentacle(rLargeTentacle01, rLargeTentacle02, rLargeTentacle03, 1.4835F, 0.0873F, -0.1491F, ageInTicks, 25F, 0.05F);
             animateTentacle(mLargeTentacle01, mLargeTentacle01b, mLargeTentacle01c, 1.2654F, 0.3491F, -0.1491F, ageInTicks, 25F, -0.05F);
@@ -213,7 +212,7 @@ public class HarrowEntityModel extends EntityModel<HarrowEntity> {
         bone.roll = z;
     }
 
-    private void animateTentacle(ModelPart segment1, ModelPart segment2, ModelPart segment3, float base1, float base2, float base3, float runVar, float speedFac, float distanceMult){
+    private void animateTentacle(ModelPart segment1, ModelPart segment2, ModelPart segment3, float base1, float base2, float base3, float runVar, float speedFac, float distanceMult) {
         float sin = (float) Math.sin(runVar * (Math.PI / speedFac));
         segment1.pitch = base1 + sin * distanceMult;
         segment2.pitch = base2 - sin * distanceMult * 2;

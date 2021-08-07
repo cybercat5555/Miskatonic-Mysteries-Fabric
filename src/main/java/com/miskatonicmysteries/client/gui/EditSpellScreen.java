@@ -30,11 +30,10 @@ import java.util.*;
 @Environment(EnvType.CLIENT)
 public class EditSpellScreen extends Screen {
     public static final Identifier BOOK_TEXTURE = new Identifier(Constants.MOD_ID, "textures/gui/spellbook.png");
-    public Spell[] spells;
-    public SpellCaster user;
     public final List<SpellEffect> learnedEffects = new ArrayList<>();
     public final Set<SpellMedium> learnedMediums = new HashSet<>();
-
+    public Spell[] spells;
+    public SpellCaster user;
     public MediumComponentWidget selectedMedium;
     public SpellComponentWidget selectedEffect;
     public int power = -1;
@@ -52,6 +51,11 @@ public class EditSpellScreen extends Screen {
             }
         }
         updateAvailablePower();
+    }
+
+    public static void drawCenteredText(TextRenderer renderer, MatrixStack stack, Text text, int x, int y, int color) {
+        OrderedText orderedText = text.asOrderedText();
+        renderer.draw(stack, orderedText, (float) (x - renderer.getWidth(orderedText) / 2), (float) y, color);
     }
 
     @Override
@@ -102,7 +106,6 @@ public class EditSpellScreen extends Screen {
         addDrawableChild(new SpellPowerWidget((this.width - 192) / 4 + 134 + 64, 38 + 4 * 32, 2, this));
     }
 
-
     @Override
     public boolean isPauseScreen() {
         return false;
@@ -130,10 +133,5 @@ public class EditSpellScreen extends Screen {
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableBlend();
         super.render(matrices, mouseX, mouseY, delta);
-    }
-
-    public static void drawCenteredText(TextRenderer renderer, MatrixStack stack, Text text, int x, int y, int color) {
-        OrderedText orderedText = text.asOrderedText();
-        renderer.draw(stack, orderedText, (float) (x - renderer.getWidth(orderedText) / 2), (float) y, color);
     }
 }

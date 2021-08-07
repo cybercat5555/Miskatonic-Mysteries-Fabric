@@ -22,10 +22,8 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.source.BiomeAccess;
 import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.chunk.Chunk;
 
@@ -57,9 +55,9 @@ public class MiskatonicMysteriesAPI {
                 .map(component ->
                         component.getEquipped(stack -> !stack.equals(exclude) && stack.getItem() instanceof Affiliated));
 
-        if (trinkets.isPresent() && trinkets.get().size() > 0){
+        if (trinkets.isPresent() && trinkets.get().size() > 0) {
             Item trinket = trinkets.get().get(0).getRight().getItem();
-            if (trinket instanceof Affiliated a){
+            if (trinket instanceof Affiliated a) {
                 return a.getAffiliation(true);
             }
         }
@@ -156,14 +154,14 @@ public class MiskatonicMysteriesAPI {
         return false;
     }
 
-    public static boolean isWardingMarkNearby(World world, BlockPos pos){
-        if (world instanceof ServerWorld){
+    public static boolean isWardingMarkNearby(World world, BlockPos pos) {
+        if (world instanceof ServerWorld) {
             return MMDimensionalWorldState.get((ServerWorld) world).isMarkNear(pos, 24);
         }
         return false;
     }
 
-    public static void setBiomeMask(World world, BlockPos pos, Biome biome){
+    public static void setBiomeMask(World world, BlockPos pos, Biome biome) {
         Chunk chunk = world.getChunk(pos);
         int x = BiomeCoords.fromBlock(pos.getX());
         int z = BiomeCoords.fromBlock(pos.getZ());

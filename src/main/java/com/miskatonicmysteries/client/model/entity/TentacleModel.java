@@ -6,9 +6,9 @@ import net.minecraft.util.Identifier;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 public class TentacleModel extends AnimatedGeoModel<TentacleEntity> {
-    private final Identifier texture;
     private static final Identifier MODEL = new Identifier(Constants.MOD_ID, "geo/tentacle/tentacle.geo.json");
     private static final Identifier ANIMATION = new Identifier(Constants.MOD_ID, "animations/tentacle/tentacle.animation.json");
+    private final Identifier texture;
 
     public TentacleModel(Identifier texture) {
         this.texture = texture;

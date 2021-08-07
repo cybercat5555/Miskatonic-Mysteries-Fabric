@@ -33,6 +33,9 @@ public class Spell {
         this.intensity = intensity;
     }
 
+    public static Spell fromTag(NbtCompound tag) {
+        return tag.isEmpty() ? null : new Spell(MMRegistries.SPELL_MEDIUMS.get(new Identifier(tag.getString(Constants.NBT.SPELL_MEDIUM))), MMRegistries.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))), tag.getInt(Constants.NBT.INTENSITY));
+    }
 
     public boolean cast(LivingEntity caster) {
         Optional<SpellCaster> spellCaster = SpellCaster.of(caster);
@@ -44,22 +47,22 @@ public class Spell {
         if (!caster.world.isClient) {
             int intensityMod = 0;
             int cooldownMod = 0;
-            if (MiskatonicMysteriesAPI.isWardingMarkNearby(caster.world, caster.getBlockPos())){
+            if (MiskatonicMysteriesAPI.isWardingMarkNearby(caster.world, caster.getBlockPos())) {
                 caster.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 100, 0));
                 cooldownMod += 80;
                 if (intensity <= 0) {
                     spellCaster.get().setSpellCooldown(100);
                     return false;
-                }else{
+                } else {
                     intensityMod--;
                 }
             }
-            if (caster.hasStatusEffect(MMStatusEffects.RESONANCE)){
+            if (caster.hasStatusEffect(MMStatusEffects.RESONANCE)) {
                 StatusEffectInstance instance = caster.getStatusEffect(MMStatusEffects.RESONANCE);
                 cooldownMod -= (instance.getAmplifier() + 1) * 20;
                 intensityMod += Math.round(instance.getAmplifier() * 0.75F);
             }
-            if (Ascendant.of(caster).isPresent() && MiskatonicMysteriesAPI.hasBlessing(Ascendant.of(caster).get(), MMBlessings.MAGIC_BOOST)){
+            if (Ascendant.of(caster).isPresent() && MiskatonicMysteriesAPI.hasBlessing(Ascendant.of(caster).get(), MMBlessings.MAGIC_BOOST)) {
                 intensityMod++;
             }
             if (spellCaster.isPresent() && !(caster instanceof PlayerEntity && ((PlayerEntity) caster).isCreative())) {
@@ -78,9 +81,5 @@ public class Spell {
         tag.putString(Constants.NBT.SPELL_MEDIUM, medium.getId().toString());
         tag.putInt(Constants.NBT.INTENSITY, intensity);
         return tag;
-    }
-
-    public static Spell fromTag(NbtCompound tag) {
-        return tag.isEmpty() ? null : new Spell(MMRegistries.SPELL_MEDIUMS.get(new Identifier(tag.getString(Constants.NBT.SPELL_MEDIUM))), MMRegistries.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))), tag.getInt(Constants.NBT.INTENSITY));
     }
 }

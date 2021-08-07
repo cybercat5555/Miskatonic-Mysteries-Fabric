@@ -30,7 +30,7 @@ public class SpellPacket {
         data.writeInt(intensityMod);
         data.writeInt(caster.getId());
         PlayerLookup.tracking(caster).forEach(p -> ServerPlayNetworking.send(p, ID, data));
-        if (caster instanceof ServerPlayerEntity){
+        if (caster instanceof ServerPlayerEntity) {
             ServerPlayNetworking.send((ServerPlayerEntity) caster, ID, data);
         }
     }

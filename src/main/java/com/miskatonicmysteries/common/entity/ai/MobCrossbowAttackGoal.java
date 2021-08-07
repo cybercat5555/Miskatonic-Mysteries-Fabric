@@ -18,9 +18,9 @@ import java.util.EnumSet;
 public class MobCrossbowAttackGoal<T extends PathAwareEntity & RangedAttackMob & CrossbowUser> extends Goal {
     public static final UniformIntProvider COOLDOWN_RANGE = TimeHelper.betweenSeconds(1, 2);
     private final T actor;
-    private Stage stage;
     private final double speed;
     private final float squaredRange;
+    private Stage stage;
     private int seeingTargetTicker;
     private int chargedTicksLeft;
     private int cooldown;
@@ -78,7 +78,7 @@ public class MobCrossbowAttackGoal<T extends PathAwareEntity & RangedAttackMob &
             }
 
             double d = this.actor.squaredDistanceTo(livingEntity);
-            boolean bl3 = (d > (double)this.squaredRange || this.seeingTargetTicker < 5) && this.chargedTicksLeft == 0;
+            boolean bl3 = (d > (double) this.squaredRange || this.seeingTargetTicker < 5) && this.chargedTicksLeft == 0;
             if (bl3) {
                 --this.cooldown;
                 if (this.cooldown <= 0) {
@@ -129,10 +129,10 @@ public class MobCrossbowAttackGoal<T extends PathAwareEntity & RangedAttackMob &
         return this.stage == Stage.UNCHARGED;
     }
 
-    static enum Stage {
+    enum Stage {
         UNCHARGED,
         CHARGING,
         CHARGED,
-        READY_TO_ATTACK;
+        READY_TO_ATTACK
     }
 }

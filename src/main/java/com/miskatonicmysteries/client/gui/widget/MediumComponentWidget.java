@@ -45,7 +45,7 @@ public class MediumComponentWidget extends SpellComponentWidget {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        RenderSystem.setShaderTexture(0,textureLocation);
+        RenderSystem.setShaderTexture(0, textureLocation);
         drawTexture(matrices, this.x + 7, this.y + 7, 0, 0, 18, 18, 18, 18);
         RenderSystem.setShaderTexture(0, EditSpellScreen.BOOK_TEXTURE);
         drawTexture(matrices, this.x, this.y, 26, 182 + (isSelected() ? 39 : 0), 32, 32, 512, 256);

@@ -3,15 +3,15 @@ package com.miskatonicmysteries.common.entity.util;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 
 public interface CastingMob {
-    void setCastTime(int castTime);
-
     int getCastTime();
+
+    void setCastTime(int castTime);
 
     boolean isCasting();
 
-    void setCurrentSpell(Spell spell);
-
     Spell getCurrentSpell();
+
+    void setCurrentSpell(Spell spell);
 
     Spell selectSpell();
 }

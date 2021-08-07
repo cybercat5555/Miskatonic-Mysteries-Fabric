@@ -30,7 +30,7 @@ public class BlotterItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if(!world.isClient) {
+        if (!world.isClient) {
             user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 2400, 0));
             stack.decrement(1);
             if (user instanceof ServerPlayerEntity) {

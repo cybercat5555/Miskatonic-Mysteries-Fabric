@@ -15,23 +15,10 @@ import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
 public class PowerCellBlockEntity extends BaseBlockEntity implements EnergyStorage {
+    public static final int MAX_STORAGE = 32000;
+    private double energy;
     public PowerCellBlockEntity(BlockPos pos, BlockState state) {
         super(MMObjects.POWER_CELL_BLOCK_ENTITY_TYPE, pos, state);
-    }
-
-    private double energy;
-    public static final int MAX_STORAGE = 32000;
-
-    @Override
-    public NbtCompound writeNbt(NbtCompound tag) {
-        tag.putDouble(Constants.NBT.ENERGY, energy);
-        return super.writeNbt(tag);
-    }
-
-    @Override
-    public void readNbt(NbtCompound tag) {
-        energy = tag.getDouble(Constants.NBT.ENERGY);
-        super.readNbt(tag);
     }
 
     public static void tick(PowerCellBlockEntity blockEntity) {
@@ -44,6 +31,18 @@ public class PowerCellBlockEntity extends BaseBlockEntity implements EnergyStora
             }
         }
 
+    }
+
+    @Override
+    public NbtCompound writeNbt(NbtCompound tag) {
+        tag.putDouble(Constants.NBT.ENERGY, energy);
+        return super.writeNbt(tag);
+    }
+
+    @Override
+    public void readNbt(NbtCompound tag) {
+        energy = tag.getDouble(Constants.NBT.ENERGY);
+        super.readNbt(tag);
     }
 
     @Override

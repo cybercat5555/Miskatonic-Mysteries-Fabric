@@ -19,8 +19,9 @@ import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
 public class SpellSelectionScreen extends Screen {
-    public int openTicks;//used to calculate "blending in" alpha
     private static final int totalRadius = 32;
+    public int openTicks;//used to calculate "blending in" alpha
+
     protected SpellSelectionScreen() {
         super(new TranslatableText(Constants.MOD_ID + ".gui.spell_select"));
         this.passEvents = true;
@@ -43,7 +44,7 @@ public class SpellSelectionScreen extends Screen {
         });
     }
 
-    private boolean isSpellSelectionKeyPressed(){
+    private boolean isSpellSelectionKeyPressed() {
         return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), KeyBindingHelper.getBoundKeyOf(SpellClientHandler.spellSelectionKey).getCode());
     }
 
@@ -59,7 +60,7 @@ public class SpellSelectionScreen extends Screen {
             if (openTicks < 5) {
                 openTicks++;
             }
-        }else{
+        } else {
             this.onClose();
         }
     }

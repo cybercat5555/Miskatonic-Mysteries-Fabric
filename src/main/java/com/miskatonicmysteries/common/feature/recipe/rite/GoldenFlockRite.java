@@ -19,7 +19,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.VillageGossipType;
-import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.World;
 
 import java.util.List;

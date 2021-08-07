@@ -57,7 +57,7 @@ public class SignBlock extends Block {
     @Override
     public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
         if (isPlacementValid(ctx.getWorld(), ctx.getBlockPos(), ctx.getSide())) {
-            if (ctx.getSide() != Direction.UP){
+            if (ctx.getSide() != Direction.UP) {
                 return this.getDefaultState().with(FACING, ctx.getSide()).with(IN_WALL, true);
             }
             return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite()).with(IN_WALL, false);

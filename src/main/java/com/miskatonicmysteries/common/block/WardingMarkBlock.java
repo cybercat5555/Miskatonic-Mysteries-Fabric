@@ -17,7 +17,7 @@ public class WardingMarkBlock extends SignBlock {
 
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock() && world instanceof ServerWorld){
+        if (state.getBlock() != newState.getBlock() && world instanceof ServerWorld) {
             MMDimensionalWorldState.get((ServerWorld) world).removeMark(pos);
         }
         super.onStateReplaced(state, world, pos, newState, moved);
@@ -25,7 +25,7 @@ public class WardingMarkBlock extends SignBlock {
 
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-        if (state.getBlock() != oldState.getBlock() && world instanceof ServerWorld){
+        if (state.getBlock() != oldState.getBlock() && world instanceof ServerWorld) {
             MMDimensionalWorldState.get((ServerWorld) world).addMark(pos);
         }
         super.onBlockAdded(state, world, pos, oldState, notify);

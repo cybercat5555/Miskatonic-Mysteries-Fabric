@@ -14,8 +14,8 @@ import java.util.EnumSet;
 public class MobBowAttackGoal<T extends PathAwareEntity & RangedAttackMob> extends Goal {
     private final T actor;
     private final double speed;
-    private int attackInterval;
     private final float squaredRange;
+    private int attackInterval;
     private int cooldown = -1;
     private int targetSeeingTicker;
     private boolean movingToLeft;
@@ -75,7 +75,7 @@ public class MobBowAttackGoal<T extends PathAwareEntity & RangedAttackMob> exten
                 --this.targetSeeingTicker;
             }
 
-            if (d <= (double)this.squaredRange && this.targetSeeingTicker >= 20) {
+            if (d <= (double) this.squaredRange && this.targetSeeingTicker >= 20) {
                 this.actor.getNavigation().stop();
                 ++this.combatTicks;
             } else {
@@ -84,11 +84,11 @@ public class MobBowAttackGoal<T extends PathAwareEntity & RangedAttackMob> exten
             }
 
             if (this.combatTicks >= 20) {
-                if ((double)this.actor.getRandom().nextFloat() < 0.3D) {
+                if ((double) this.actor.getRandom().nextFloat() < 0.3D) {
                     this.movingToLeft = !this.movingToLeft;
                 }
 
-                if ((double)this.actor.getRandom().nextFloat() < 0.3D) {
+                if ((double) this.actor.getRandom().nextFloat() < 0.3D) {
                     this.backward = !this.backward;
                 }
 
@@ -96,9 +96,9 @@ public class MobBowAttackGoal<T extends PathAwareEntity & RangedAttackMob> exten
             }
 
             if (this.combatTicks > -1) {
-                if (d > (double)(this.squaredRange * 0.75F)) {
+                if (d > (double) (this.squaredRange * 0.75F)) {
                     this.backward = false;
-                } else if (d < (double)(this.squaredRange * 0.25F)) {
+                } else if (d < (double) (this.squaredRange * 0.25F)) {
                     this.backward = true;
                 }
 

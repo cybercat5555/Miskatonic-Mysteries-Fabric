@@ -10,8 +10,7 @@
   "description": "Dive into the darkest swirls of insanity with this Lovecraft-themed mod.",
   "authors": [
     "cybercat5555",
-    "Aelpecyem",
-    "MoriyaShiine"
+    "Aelpecyem"
   ],
   "license": "CC BY-NC-ND 4.0",
   "icon": "assets/miskatonicmysteries/icon.png",
@@ -40,7 +39,6 @@
       "config": "mixins.miskatonicmysteries.client.json"
     }
   ],
-
   "depends": {
     "fabricloader": ">=0.10.8",
     "fabric": "*",

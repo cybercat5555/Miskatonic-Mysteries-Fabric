@@ -8,8 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
 
 public interface ImplementedBlockEntityInventory extends Inventory {
-    DefaultedList<ItemStack> getItems();
-
     static ImplementedBlockEntityInventory of(DefaultedList<ItemStack> items) {
         return () -> items;
     }
@@ -18,8 +16,10 @@ public interface ImplementedBlockEntityInventory extends Inventory {
         return of(DefaultedList.ofSize(size, ItemStack.EMPTY));
     }
 
+    DefaultedList<ItemStack> getItems();
+
     @Override
-    default int size(){
+    default int size() {
         return getItems().size();
     }
 
@@ -33,6 +33,7 @@ public interface ImplementedBlockEntityInventory extends Inventory {
         }
         return true;
     }
+
     /**
      * Gets the item in the slot.
      */
@@ -42,7 +43,7 @@ public interface ImplementedBlockEntityInventory extends Inventory {
     }
 
     @Override
-    default void markDirty(){
+    default void markDirty() {
 
     }
 
@@ -54,6 +55,7 @@ public interface ImplementedBlockEntityInventory extends Inventory {
         }
         return result;
     }
+
     /**
      * Removes the current stack in the {@code slot} and returns it.
      */
@@ -61,6 +63,7 @@ public interface ImplementedBlockEntityInventory extends Inventory {
     default ItemStack removeStack(int slot) {
         return Inventories.removeStack(getItems(), slot);
     }
+
     /**
      * Replaces the current stack in the {@code slot} with the provided stack.
      * <p>If the stack is too big for this inventory ({@link Inventory#getMaxCountPerStack()}),
@@ -73,6 +76,7 @@ public interface ImplementedBlockEntityInventory extends Inventory {
         }
         markDirty();
     }
+
     /**
      * Clears {@linkplain #getItems() the item list}}.
      */

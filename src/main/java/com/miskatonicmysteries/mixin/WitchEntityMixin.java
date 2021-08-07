@@ -1,18 +1,10 @@
 package com.miskatonicmysteries.mixin;
 
-import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Appeasable;
-import com.miskatonicmysteries.common.registry.MMObjects;
-import com.miskatonicmysteries.common.util.Constants;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.WitchEntity;
 import net.minecraft.entity.raid.RaiderEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -40,12 +32,12 @@ public abstract class WitchEntityMixin extends RaiderEntity implements Appeasabl
     }
 
     @Override
-    public void setAppeasedTicks(int ticks) {
-        this.appeaseTicks = ticks;
+    public int getAppeasedTicks() {
+        return appeaseTicks;
     }
 
     @Override
-    public int getAppeasedTicks() {
-        return appeaseTicks;
+    public void setAppeasedTicks(int ticks) {
+        this.appeaseTicks = ticks;
     }
 }

@@ -52,17 +52,29 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     protected static final TrackedData<Integer> CASTING_TIME_LEFT = DataTracker.registerData(HasturCultistEntity.class, TrackedDataHandlerRegistry.INTEGER);
     //anger
     private static final UniformIntProvider ANGER_TIME_RANGE = TimeHelper.betweenSeconds(80, 120);
+    @Nullable
+    public Spell currentSpell;
     private int angerTime;
     @Nullable
     private UUID targetUuid;
-
-    @Nullable
-    public Spell currentSpell;
 
     public HasturCultistEntity(EntityType<HasturCultistEntity> type, World world) {
         super(type, world);
         ((MobNavigation) this.getNavigation()).setCanPathThroughDoors(true);
         this.getNavigation().setCanSwim(true);
+    }
+
+    public static ItemStack createYellowSignShield() {
+        ItemStack stack = new ItemStack(Items.SHIELD);
+        NbtCompound tag = stack.getOrCreateSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
+        tag.putInt(Constants.NBT.BANNER_BASE, DyeColor.BLACK.getId());
+        NbtList bannerpptag = new NbtList();
+        NbtCompound yellowTag = new NbtCompound();
+        yellowTag.putString(Constants.NBT.BANNER_PATTERN, Constants.MOD_ID + ":yellow_sign");
+        yellowTag.putInt(Constants.NBT.BANNER_COLOR, DyeColor.YELLOW.getId());
+        bannerpptag.add(yellowTag);
+        tag.put(Constants.NBT.BANNER_PP_TAG, bannerpptag);
+        return stack;
     }
 
     @Override
@@ -94,7 +106,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         this.brain = brain.copy();
         this.initBrain(this.getBrain());
     }
-
 
     private void initBrain(Brain<VillagerEntity> brain) {
         HasturCultistBrain.init(this, brain);
@@ -134,7 +145,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
     @Override
     public void trade(TradeOffer offer) {
-        if (!world.isClient && random.nextInt(10) < getReputation(getCurrentCustomer()) && MiskatonicMysteriesAPI.addKnowledge(MMAffiliations.HASTUR.getId().getPath(), getCurrentCustomer())){
+        if (!world.isClient && random.nextInt(10) < getReputation(getCurrentCustomer()) && MiskatonicMysteriesAPI.addKnowledge(MMAffiliations.HASTUR.getId().getPath(), getCurrentCustomer())) {
             world.spawnEntity(new ExperienceOrbEntity(world, getX(), getY(), getZ(), 5));
         }
         super.trade(offer);
@@ -231,19 +242,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         }
     }
 
-    public static ItemStack createYellowSignShield() {
-        ItemStack stack = new ItemStack(Items.SHIELD);
-        NbtCompound tag = stack.getOrCreateSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
-        tag.putInt(Constants.NBT.BANNER_BASE, DyeColor.BLACK.getId());
-        NbtList bannerpptag = new NbtList();
-        NbtCompound yellowTag = new NbtCompound();
-        yellowTag.putString(Constants.NBT.BANNER_PATTERN, Constants.MOD_ID + ":yellow_sign");
-        yellowTag.putInt(Constants.NBT.BANNER_COLOR, DyeColor.YELLOW.getId());
-        bannerpptag.add(yellowTag);
-        tag.put(Constants.NBT.BANNER_PP_TAG, bannerpptag);
-        return stack;
-    }
-
     @Override
     public void onDeath(DamageSource source) {
         super.onDeath(source);
@@ -328,7 +326,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
         }
         setCastTime(tag.getInt(Constants.NBT.CASTING));
         if (this.world instanceof ServerWorld) {
-            readAngerFromNbt((ServerWorld) world, tag);
+            readAngerFromNbt(world, tag);
             this.reinitializeBrain((ServerWorld) this.world);
         }
     }
@@ -360,13 +358,13 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
     }
 
     @Override
-    public void setCastTime(int castTime) {
-        dataTracker.set(CASTING_TIME_LEFT, castTime);
+    public int getCastTime() {
+        return dataTracker.get(CASTING_TIME_LEFT);
     }
 
     @Override
-    public int getCastTime() {
-        return dataTracker.get(CASTING_TIME_LEFT);
+    public void setCastTime(int castTime) {
+        dataTracker.set(CASTING_TIME_LEFT, castTime);
     }
 
     @Override

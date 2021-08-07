@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.common.feature.effect.*;
-import com.miskatonicmysteries.common.registry.MMStatusEffects.Potions;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import com.miskatonicmysteries.mixin.BrewingRecipeRegistryAccessor;
 import net.minecraft.entity.effect.StatusEffect;
@@ -20,12 +19,6 @@ public class MMStatusEffects {
     public static final StatusEffect EXOTIC_CRAVINGS = new ExoticCravingsStatusEffect();
     public static final StatusEffect ULTRA_VIOLENCE = new UltraViolenceStatusEffect();
 
-    static class Potions {
-        public static final Potion RESONANCE = new Potion(new StatusEffectInstance(MMStatusEffects.RESONANCE, 3600, 0));
-        public static final Potion LONG_RESONANCE = new Potion(new StatusEffectInstance(MMStatusEffects.RESONANCE, 9600, 0));
-        public static final Potion STRONG_RESONANCE = new Potion(new StatusEffectInstance(MMStatusEffects.RESONANCE, 1800, 1));
-    }
-
     public static void init() {
         RegistryUtil.register(Registry.STATUS_EFFECT, "mania", MANIA);
         RegistryUtil.register(Registry.STATUS_EFFECT, "tranquilized", TRANQUILIZED);
@@ -43,5 +36,11 @@ public class MMStatusEffects {
         BrewingRecipeRegistryAccessor.invokeRegister(net.minecraft.potion.Potions.WATER, MMObjects.RESONATE_OOZE, Potions.RESONANCE);
         BrewingRecipeRegistryAccessor.invokeRegister(Potions.RESONANCE, Items.REDSTONE, Potions.LONG_RESONANCE);
         BrewingRecipeRegistryAccessor.invokeRegister(Potions.RESONANCE, Items.GLOWSTONE_DUST, Potions.STRONG_RESONANCE);
+    }
+
+    static class Potions {
+        public static final Potion RESONANCE = new Potion(new StatusEffectInstance(MMStatusEffects.RESONANCE, 3600, 0));
+        public static final Potion LONG_RESONANCE = new Potion(new StatusEffectInstance(MMStatusEffects.RESONANCE, 9600, 0));
+        public static final Potion STRONG_RESONANCE = new Potion(new StatusEffectInstance(MMStatusEffects.RESONANCE, 1800, 1));
     }
 }

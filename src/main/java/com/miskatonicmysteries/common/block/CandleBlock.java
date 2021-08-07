@@ -39,11 +39,11 @@ import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 //this is in many ways just an enhanced sea pickle
 public class CandleBlock extends Block implements Waterloggable {
-    public static IntProperty COUNT = IntProperty.of("count", 1, 4);
     public static final VoxelShape SHAPE_1 = Block.createCuboidShape(6.0D, 0.0D, 6.0D, 10.0D, 6.0D, 10.0D);
     public static final VoxelShape SHAPE_2 = Block.createCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 6.0D, 13.0D);
     public static final VoxelShape SHAPE_3 = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 6.0D, 14.0D);
     public static final VoxelShape SHAPE_4 = Block.createCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 7.0D, 14.0D);
+    public static IntProperty COUNT = IntProperty.of("count", 1, 4);
 
     public CandleBlock() {
         super(Settings.of(Material.WOOL).strength(0.2F, 0.1F).nonOpaque().luminance(state -> state.get(LIT) ? Math.min((int) (Math.sqrt(state.get(COUNT)) * 8), 15) : 0).sounds(BlockSoundGroup.WOOL));

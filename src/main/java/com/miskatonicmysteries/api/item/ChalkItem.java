@@ -26,6 +26,10 @@ public class ChalkItem extends BlockItem {
         super(block, setting);
     }
 
+    protected static <T extends Comparable<T>> BlockState with(BlockState state, Property<T> property, String name) {
+        return property.parse(name).map((value) -> state.with(property, value)).orElse(state);
+    }
+
     @Override
     public ActionResult place(ItemPlacementContext context) {
         if (!context.canPlace()) {
@@ -60,7 +64,8 @@ public class ChalkItem extends BlockItem {
                     world.playSound(playerEntity, blockPos, this.getPlaceSound(blockState2), SoundCategory.BLOCKS, (blockSoundGroup.getVolume() + 1.0F) / 2.0F, blockSoundGroup.getPitch() * 0.8F);
                     if (playerEntity == null || !playerEntity.isCreative()) {
                         if (playerEntity != null) {
-                            itemStack.damage(1, playerEntity, (e) -> {});
+                            itemStack.damage(1, playerEntity, (e) -> {
+                            });
                         }
                     }
 
@@ -93,10 +98,6 @@ public class ChalkItem extends BlockItem {
         }
 
         return blockState;
-    }
-
-    protected static <T extends Comparable<T>> BlockState with(BlockState state, Property<T> property, String name) {
-        return property.parse(name).map((value) -> state.with(property, value)).orElse(state);
     }
 
     @Override

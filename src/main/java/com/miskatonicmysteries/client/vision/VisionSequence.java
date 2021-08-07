@@ -10,8 +10,10 @@ import net.minecraft.client.util.math.MatrixStack;
 @Environment(EnvType.CLIENT)
 public abstract class VisionSequence extends DrawableHelper {
     protected int ticks;
+
     public abstract void render(MinecraftClient client, ClientPlayerEntity player, MatrixStack stack, float tickDelta);
-    public void onStart(ClientPlayerEntity player){
+
+    public void onStart(ClientPlayerEntity player) {
         ticks = 0;
     }
 }

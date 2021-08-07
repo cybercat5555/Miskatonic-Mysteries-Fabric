@@ -23,7 +23,7 @@ public class TentacleSpellEffect extends SpellEffect {
     public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
         if (pos != null) {
             boolean flag = false;
-            if (!world.isClient){
+            if (!world.isClient) {
                 for (int i = 0; i < (intensity + 1); i++) {
                     GenericTentacleEntity tentacle = MMEntities.GENERIC_TENTACLE.create(world);
                     tentacle.refreshPositionAndAngles(pos.x + world.random.nextGaussian(), pos.y, pos.z + world.random.nextGaussian(), caster.getRandom().nextInt(360), 0);

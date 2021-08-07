@@ -55,12 +55,40 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
     protected static final Map<ItemStack, Integer> WEAPON_MAP = new HashMap<>();
     protected static final Map<ItemStack, Integer> ALT_WEAPON_MAP = new HashMap<>();
     protected static final Map<Integer, EntityAttributeModifier> MODIFIER_MAP = new HashMap<>();
-    private static final EntityAttributeModifier DEFAULT_MOD = new EntityAttributeModifier("210caf3b-c286-4142-98d1-136e8b59b1b1", 0, EntityAttributeModifier.Operation.ADDITION);
-
     protected static final TrackedData<Boolean> LOADING = DataTracker.registerData(ProtagonistEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     protected static final TrackedData<Integer> VARIANT = DataTracker.registerData(ProtagonistEntity.class, TrackedDataHandlerRegistry.INTEGER);
     protected static final TrackedData<Integer> STAGE = DataTracker.registerData(ProtagonistEntity.class, TrackedDataHandlerRegistry.INTEGER);
     protected static final TrackedData<Optional<UUID>> TARGET_UUID = DataTracker.registerData(ProtagonistEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+    private static final EntityAttributeModifier DEFAULT_MOD = new EntityAttributeModifier("210caf3b-c286-4142-98d1-136e8b59b1b1", 0, EntityAttributeModifier.Operation.ADDITION);
+
+    static {
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.CHAINMAIL_CHESTPLATE)), 0);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.LEGS, new ItemStack(Items.CHAINMAIL_LEGGINGS)), 0);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.IRON_CHESTPLATE)), 1);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.LEGS, new ItemStack(Items.IRON_LEGGINGS)), 1);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE)), 2);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.LEGS, new ItemStack(Items.DIAMOND_LEGGINGS)), 2);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.NETHERITE_CHESTPLATE)), 3);
+        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.LEGS, new ItemStack(Items.NETHERITE_LEGGINGS)), 3);
+
+        WEAPON_MAP.put(new ItemStack(Items.IRON_SWORD), 0);
+        WEAPON_MAP.put(new ItemStack(Items.IRON_AXE), 0);
+        WEAPON_MAP.put(new ItemStack(Items.DIAMOND_SWORD), 2);
+        WEAPON_MAP.put(new ItemStack(Items.DIAMOND_AXE), 2);
+        WEAPON_MAP.put(new ItemStack(Items.NETHERITE_SWORD), 3);
+        WEAPON_MAP.put(new ItemStack(Items.NETHERITE_AXE), 3);
+
+        ALT_WEAPON_MAP.put(new ItemStack(Items.BOW), 0);
+        ALT_WEAPON_MAP.put(new ItemStack(Items.CROSSBOW), 1);
+        ALT_WEAPON_MAP.put(new ItemStack(MMObjects.REVOLVER), 2);
+        ALT_WEAPON_MAP.put(new ItemStack(MMObjects.RIFLE), 3);
+
+        MODIFIER_MAP.put(0, DEFAULT_MOD);
+        MODIFIER_MAP.put(1, new EntityAttributeModifier("8dd16ced-6e54-4f36-85a6-2fa9db05f08a", 5, EntityAttributeModifier.Operation.ADDITION));
+        MODIFIER_MAP.put(2, new EntityAttributeModifier("abddf77b-7875-42cb-afd1-a90dd15c6174", 10, EntityAttributeModifier.Operation.ADDITION));
+        MODIFIER_MAP.put(3, new EntityAttributeModifier("4b41f63d-4a31-48be-ac60-cea6e8a4e955", 15, EntityAttributeModifier.Operation.ADDITION));
+
+    }
 
     public ItemStack alternateWeapon = ItemStack.EMPTY;
 
@@ -231,12 +259,12 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
         return getTargetUUID().isPresent() ? world.getPlayerByUuid(getTargetUUID().get()) : null;
     }
 
-    public void setTargetUUID(UUID targetUUID) {
-        dataTracker.set(TARGET_UUID, Optional.of(targetUUID));
-    }
-
     public Optional<UUID> getTargetUUID() {
         return dataTracker.get(TARGET_UUID);
+    }
+
+    public void setTargetUUID(UUID targetUUID) {
+        dataTracker.set(TARGET_UUID, Optional.of(targetUUID));
     }
 
     @Override
@@ -288,13 +316,13 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
         world.spawnEntity(persistentProjectileEntity);
     }
 
+    public boolean isCharging() {
+        return dataTracker.get(LOADING);
+    }
+
     @Override
     public void setCharging(boolean charging) {
         dataTracker.set(LOADING, charging);
-    }
-
-    public boolean isCharging() {
-        return dataTracker.get(LOADING);
     }
 
     @Override
@@ -323,35 +351,6 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
         } else {
             super.handleStatus(status);
         }
-    }
-
-    static {
-        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.CHAINMAIL_CHESTPLATE)), 0);
-        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.LEGS, new ItemStack(Items.CHAINMAIL_LEGGINGS)), 0);
-        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.IRON_CHESTPLATE)), 1);
-        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.LEGS, new ItemStack(Items.IRON_LEGGINGS)), 1);
-        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.DIAMOND_CHESTPLATE)), 2);
-        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.LEGS, new ItemStack(Items.DIAMOND_LEGGINGS)), 2);
-        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.NETHERITE_CHESTPLATE)), 3);
-        ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.LEGS, new ItemStack(Items.NETHERITE_LEGGINGS)), 3);
-
-        WEAPON_MAP.put(new ItemStack(Items.IRON_SWORD), 0);
-        WEAPON_MAP.put(new ItemStack(Items.IRON_AXE), 0);
-        WEAPON_MAP.put(new ItemStack(Items.DIAMOND_SWORD), 2);
-        WEAPON_MAP.put(new ItemStack(Items.DIAMOND_AXE), 2);
-        WEAPON_MAP.put(new ItemStack(Items.NETHERITE_SWORD), 3);
-        WEAPON_MAP.put(new ItemStack(Items.NETHERITE_AXE), 3);
-
-        ALT_WEAPON_MAP.put(new ItemStack(Items.BOW), 0);
-        ALT_WEAPON_MAP.put(new ItemStack(Items.CROSSBOW), 1);
-        ALT_WEAPON_MAP.put(new ItemStack(MMObjects.REVOLVER), 2);
-        ALT_WEAPON_MAP.put(new ItemStack(MMObjects.RIFLE), 3);
-
-        MODIFIER_MAP.put(0, DEFAULT_MOD);
-        MODIFIER_MAP.put(1, new EntityAttributeModifier("8dd16ced-6e54-4f36-85a6-2fa9db05f08a", 5, EntityAttributeModifier.Operation.ADDITION));
-        MODIFIER_MAP.put(2, new EntityAttributeModifier("abddf77b-7875-42cb-afd1-a90dd15c6174", 10, EntityAttributeModifier.Operation.ADDITION));
-        MODIFIER_MAP.put(3, new EntityAttributeModifier("4b41f63d-4a31-48be-ac60-cea6e8a4e955", 15, EntityAttributeModifier.Operation.ADDITION));
-
     }
 
     public void setData(ProtagonistData data) {
@@ -403,14 +402,14 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
             this.spawned = spawned;
         }
 
+        public static ProtagonistData fromTag(NbtCompound compoundTag) {
+            return new ProtagonistData(compoundTag.getInt(Constants.NBT.STAGE), compoundTag.getInt(Constants.NBT.VARIANT), compoundTag.getBoolean(Constants.NBT.SPAWNED));
+        }
+
         public void toTag(NbtCompound compoundTag) {
             compoundTag.putInt(Constants.NBT.STAGE, level);
             compoundTag.putInt(Constants.NBT.VARIANT, skin);
             compoundTag.putBoolean(Constants.NBT.SPAWNED, spawned);
-        }
-
-        public static ProtagonistData fromTag(NbtCompound compoundTag) {
-            return new ProtagonistData(compoundTag.getInt(Constants.NBT.STAGE), compoundTag.getInt(Constants.NBT.VARIANT), compoundTag.getBoolean(Constants.NBT.SPAWNED));
         }
     }
 }

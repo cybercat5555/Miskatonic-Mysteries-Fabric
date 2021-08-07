@@ -32,7 +32,6 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -42,14 +41,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityProvider, Affiliated {
-    public static List<OctagramBlock> OCTAGRAMS = new ArrayList<>();
     public static final VoxelShape OUTLINE_SHAPE = createCuboidShape(0, 0, 0, 16, 0.5F, 16);
+    public static List<OctagramBlock> OCTAGRAMS = new ArrayList<>();
     private final Affiliation affiliation;
 
     public OctagramBlock(Affiliation affiliation) {
         super(Settings.of(Material.CARPET).nonOpaque().noCollision().hardness(1).resistance(3F));
         OCTAGRAMS.add(this);
         this.affiliation = affiliation;
+    }
+
+    private static Direction getEffectiveDirection(BlockState state, Direction baseDirection, Direction directionFrom) {
+        if (state != null && state.getProperties().contains(FACING)) {
+            Direction directionTo = state.get(FACING);
+            float rotationDifference = directionTo.asRotation() - baseDirection.asRotation();
+            if (rotationDifference < 0) {
+                rotationDifference += 360;
+            }
+            return Direction.fromRotation(directionFrom.asRotation() + rotationDifference);
+        }
+        return Direction.NORTH;
     }
 
     @Override
@@ -138,18 +149,6 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
         super.onEntityCollision(state, world, pos, entity);
     }
 
-    private static Direction getEffectiveDirection(BlockState state, Direction baseDirection, Direction directionFrom){
-        if (state != null && state.getProperties().contains(FACING)){
-            Direction directionTo = state.get(FACING);
-            float rotationDifference = directionTo.asRotation() - baseDirection.asRotation();
-            if (rotationDifference < 0){
-                rotationDifference += 360;
-            }
-            return Direction.fromRotation(directionFrom.asRotation() + rotationDifference);
-        }
-        return Direction.NORTH;
-    }
-
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
@@ -161,6 +160,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return (world1, pos, state1, blockEntity) -> OctagramBlockEntity.tick((OctagramBlockEntity) blockEntity);
     }
+
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         for (int i = 0; i < 8; i++) {
@@ -214,6 +214,33 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
         public BlockOuterOctagram() {
             super(Settings.of(Material.CARPET).nonOpaque().noCollision().hardness(1).resistance(3F));
             setDefaultState(getDefaultState().with(NUMBER, 0));
+        }
+
+        public static OctagramBlockEntity getOctagram(World world, BlockPos pos, BlockState state) {
+            BlockEntity blockEntity = world.getBlockEntity(pos.add(getOffsetToCenterPos(state.get(NUMBER))));
+            return blockEntity instanceof OctagramBlockEntity ? (OctagramBlockEntity) blockEntity : null;
+        }
+
+        public static BlockPos getOffsetToCenterPos(int index) {
+            switch (index) {
+                default:
+                case 0:
+                    return new BlockPos(0, 0, 1);
+                case 1:
+                    return new BlockPos(-1, 0, 1);
+                case 2:
+                    return new BlockPos(-1, 0, 0);
+                case 3:
+                    return new BlockPos(-1, 0, -1);
+                case 4:
+                    return new BlockPos(0, 0, -1);
+                case 5:
+                    return new BlockPos(1, 0, -1);
+                case 6:
+                    return new BlockPos(1, 0, 0);
+                case 7:
+                    return new BlockPos(1, 0, 1);
+            }
         }
 
         @Override
@@ -280,33 +307,6 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
                 world.breakBlock(pos.add(getOffsetToCenterPos(state.get(NUMBER))), false);
             }
             super.neighborUpdate(state, world, pos, block, fromPos, notify);
-        }
-
-        public static OctagramBlockEntity getOctagram(World world, BlockPos pos, BlockState state) {
-            BlockEntity blockEntity = world.getBlockEntity(pos.add(getOffsetToCenterPos(state.get(NUMBER))));
-            return blockEntity instanceof OctagramBlockEntity ? (OctagramBlockEntity) blockEntity : null;
-        }
-
-        public static BlockPos getOffsetToCenterPos(int index) {
-            switch (index) {
-                default:
-                case 0:
-                    return new BlockPos(0, 0, 1);
-                case 1:
-                    return new BlockPos(-1, 0, 1);
-                case 2:
-                    return new BlockPos(-1, 0, 0);
-                case 3:
-                    return new BlockPos(-1, 0, -1);
-                case 4:
-                    return new BlockPos(0, 0, -1);
-                case 5:
-                    return new BlockPos(1, 0, -1);
-                case 6:
-                    return new BlockPos(1, 0, 0);
-                case 7:
-                    return new BlockPos(1, 0, 1);
-            }
         }
 
         @Override

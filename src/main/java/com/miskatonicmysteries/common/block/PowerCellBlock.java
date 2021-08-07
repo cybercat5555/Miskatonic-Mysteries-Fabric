@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.common.block;
 
-import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.energy.PowerCellBlockEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
@@ -65,6 +64,16 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
                 .suffocates((state, world, pos) -> false)
                 .blockVision((state, world, pos) -> false));
         setDefaultState(getStateManager().getDefaultState().with(WATERLOGGED, false).with(FACING, Direction.NORTH).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false));
+    }
+
+    public static ItemStack getFilledStack() {
+        ItemStack stack = new ItemStack(MMObjects.POWER_CELL);
+        NbtCompound tag = new NbtCompound();
+        NbtCompound blockEntityTag = new NbtCompound();
+        blockEntityTag.putDouble(Constants.NBT.ENERGY, PowerCellBlockEntity.MAX_STORAGE);
+        tag.put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
+        stack.setTag(tag);
+        return stack;
     }
 
     @Override
@@ -212,15 +221,5 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
         if (!world.isClient && world.getBlockEntity(pos) instanceof EnergyStorage && ((EnergyStorage) world.getBlockEntity(pos)).getStored(EnergySide.UNKNOWN) > 64) {
             world.createExplosion(null, pos.getX() + 0.5F, pos.getY() + 0.85F, pos.getZ() + 0.5F, 1F, Explosion.DestructionType.DESTROY);
         }
-    }
-
-    public static ItemStack getFilledStack() {
-        ItemStack stack = new ItemStack(MMObjects.POWER_CELL);
-        NbtCompound tag = new NbtCompound();
-        NbtCompound blockEntityTag = new NbtCompound();
-        blockEntityTag.putDouble(Constants.NBT.ENERGY, PowerCellBlockEntity.MAX_STORAGE);
-        tag.put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
-        stack.setTag(tag);
-        return stack;
     }
 }

@@ -25,6 +25,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
+
 import javax.annotation.Nullable;
 
 public abstract class SummoningRite<T extends Entity> extends AscensionLockedRite {

@@ -6,7 +6,6 @@ import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.util.InventoryUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
@@ -33,6 +32,28 @@ public abstract class Rite {
             this.ingredients.set(i, ingredients[i]);
         }
         this.octagramAffiliation = octagram;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static void renderPortalOctagram(float alpha, float[] origColors, OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
+        Sprite sprite = ResourceHandler.getOctagramMaskTextureFor(entity).getSprite();
+        float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
+
+        matrixStack.push();
+        matrixStack.translate(0, 0.001F, 0);
+        RenderHelper.renderTexturedPlane(3, sprite, matrixStack, sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderHelper.getTransparency())), light, overlay, new float[]{1, 1, 1, alpha});
+        matrixStack.push();
+        Matrix4f matrix4f = matrixStack.peek().getModel();
+        matrixStack.translate(1.5, 0, 1.5);
+        matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(45));
+        matrixStack.translate(-0.4, 0.001F, -0.4);
+        RenderHelper.renderPortalLayer(entity.getWorld(), matrix4f, vertexConsumers, 0.8F, 0.8F, colors);
+        matrixStack.pop();
+        matrixStack.translate(1.5, 0, 1.5);
+        matrixStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(((float) entity.getWorld().getTime() + tickDelta) / 20.0F));
+        matrixStack.translate(-1.5F, 0.0025F, -1.5F);
+        RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, vertexConsumers.getBuffer(RenderHelper.getTransparency()), light, overlay, colors);
+        matrixStack.pop();
     }
 
     public List<Ingredient> getIngredients() {
@@ -80,7 +101,6 @@ public abstract class Rite {
         return (octagramAffiliation == null || octagramAffiliation.equals(octagram.getAffiliation(false))) && InventoryUtil.areItemStackListsExactlyEqual(ingredients, octagram);
     }
 
-
     @Environment(EnvType.CLIENT)
     public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
     }
@@ -103,28 +123,6 @@ public abstract class Rite {
     @Environment(EnvType.CLIENT)
     public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
         return 2 | 1;
-    }
-
-    @Environment(EnvType.CLIENT)
-    public static void renderPortalOctagram(float alpha, float[] origColors, OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
-        Sprite sprite = ResourceHandler.getOctagramMaskTextureFor(entity).getSprite();
-        float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
-
-        matrixStack.push();
-        matrixStack.translate(0, 0.001F, 0);
-        RenderHelper.renderTexturedPlane(3, sprite, matrixStack, sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderHelper.getTransparency())), light, overlay, new float[]{1, 1, 1, alpha});
-        matrixStack.push();
-        Matrix4f matrix4f = matrixStack.peek().getModel();
-        matrixStack.translate(1.5, 0, 1.5);
-        matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(45));
-        matrixStack.translate(-0.4, 0.001F, -0.4);
-        RenderHelper.renderPortalLayer(entity.getWorld(), matrix4f, vertexConsumers, 0.8F, 0.8F, colors);
-        matrixStack.pop();
-        matrixStack.translate(1.5, 0, 1.5);
-        matrixStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(((float) entity.getWorld().getTime() + tickDelta) / 20.0F));
-        matrixStack.translate(-1.5F, 0.0025F, -1.5F);
-        RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, vertexConsumers.getBuffer(RenderHelper.getTransparency()), light, overlay, colors);
-        matrixStack.pop();
     }
 
     public String getTranslationString() {

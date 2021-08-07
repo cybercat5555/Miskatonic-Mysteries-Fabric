@@ -30,6 +30,38 @@ public class IncantationYogItem extends Item {
         super(new Settings().group(Constants.MM_GROUP).maxCount(1));
     }
 
+    public static ItemStack storePosition(ItemStack stack, World world, BlockPos pos) {
+        if (pos == null) {
+            return stack;
+        }
+        if (!stack.hasTag()) {
+            stack.setTag(new NbtCompound());
+        }
+        stack.getTag().putLong(Constants.NBT.POSITION, pos.asLong());
+        stack.getTag().putString(Constants.NBT.DIMENSION, world.getRegistryKey().getValue().toString());
+        return stack;
+    }
+
+    public static BlockPos getPosition(ItemStack stack) {
+        if (!stack.hasTag() || !stack.getTag().contains(Constants.NBT.POSITION)) {
+            return null;
+        }
+        return BlockPos.fromLong(stack.getTag().getLong(Constants.NBT.POSITION));
+    }
+
+    public static ServerWorld getWorld(ServerWorld world, ItemStack stack) {
+        if (!stack.hasTag() || !stack.getTag().contains(Constants.NBT.DIMENSION)) {
+            return null;
+        }
+        return world.getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY, new Identifier(stack.getTag().getString(Constants.NBT.DIMENSION))));
+    }
+
+    public static void clear(ItemStack stack) {
+        if (stack.hasTag()) {
+            stack.getTag().remove(Constants.NBT.POSITION);
+            stack.getTag().remove(Constants.NBT.DIMENSION);
+        }
+    }
 
     @Override
     @Environment(EnvType.CLIENT)
@@ -64,39 +96,6 @@ public class IncantationYogItem extends Item {
             world.playSound(user.getX(), user.getY(), user.getZ(), MMSounds.INCANTATION_BIND_SUCCESS, SoundCategory.PLAYERS, 1, 1, false);
         }
         return storePosition(stack, world, foundPos);
-    }
-
-    public static ItemStack storePosition(ItemStack stack, World world, BlockPos pos) {
-        if (pos == null) {
-            return stack;
-        }
-        if (!stack.hasTag()) {
-            stack.setTag(new NbtCompound());
-        }
-        stack.getTag().putLong(Constants.NBT.POSITION, pos.asLong());
-        stack.getTag().putString(Constants.NBT.DIMENSION, world.getRegistryKey().getValue().toString());
-        return stack;
-    }
-
-    public static BlockPos getPosition(ItemStack stack) {
-        if (!stack.hasTag() || !stack.getTag().contains(Constants.NBT.POSITION)) {
-            return null;
-        }
-        return BlockPos.fromLong(stack.getTag().getLong(Constants.NBT.POSITION));
-    }
-
-    public static ServerWorld getWorld(ServerWorld world, ItemStack stack) {
-        if (!stack.hasTag() || !stack.getTag().contains(Constants.NBT.DIMENSION)) {
-            return null;
-        }
-        return world.getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY, new Identifier(stack.getTag().getString(Constants.NBT.DIMENSION))));
-    }
-
-    public static void clear(ItemStack stack) {
-        if (stack.hasTag()) {
-            stack.getTag().remove(Constants.NBT.POSITION);
-            stack.getTag().remove(Constants.NBT.DIMENSION);
-        }
     }
 
     @Override

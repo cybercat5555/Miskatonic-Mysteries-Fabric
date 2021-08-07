@@ -22,6 +22,22 @@ import static com.miskatonicmysteries.common.util.Constants.NBT.PROTAGONISTS;
 public class MMWorldState extends PersistentState {
     private final Map<UUID, ProtagonistEntity.ProtagonistData> protagonistMap = new HashMap<>();
 
+    public static MMWorldState fromNbt(NbtCompound tag) {
+        MMWorldState state = new MMWorldState();
+        NbtList protagonistList = (NbtList) tag.get(PROTAGONISTS);
+        if (protagonistList != null) {
+            for (NbtElement baseTag : protagonistList) {
+                NbtCompound compoundTag = (NbtCompound) baseTag;
+                state.protagonistMap.put(compoundTag.getUuid(PLAYER_UUID), ProtagonistEntity.ProtagonistData.fromTag(compoundTag));
+            }
+        }
+        return state;
+    }
+
+    public static MMWorldState get(World world) {
+        return world.getServer().getOverworld().getPersistentStateManager().getOrCreate(MMWorldState::fromNbt, MMWorldState::new, Constants.MOD_ID);
+    }
+
     public void addProtagonist(PlayerEntity player, ProtagonistEntity.ProtagonistData data) {
         protagonistMap.put(player.getUuid(), data);
         markDirty();
@@ -48,18 +64,6 @@ public class MMWorldState extends PersistentState {
         return protagonistMap.get(protagonist.getTargetUUID().get());
     }
 
-    public static MMWorldState fromNbt(NbtCompound tag) {
-        MMWorldState state = new MMWorldState();
-        NbtList protagonistList = (NbtList) tag.get(PROTAGONISTS);
-        if (protagonistList != null) {
-            for (NbtElement baseTag : protagonistList) {
-                NbtCompound compoundTag = (NbtCompound) baseTag;
-                state.protagonistMap.put(compoundTag.getUuid(PLAYER_UUID), ProtagonistEntity.ProtagonistData.fromTag(compoundTag));
-            }
-        }
-        return state;
-    }
-
     @Override
     public NbtCompound writeNbt(NbtCompound tag) {
         NbtList protagonistList = new NbtList();
@@ -72,10 +76,6 @@ public class MMWorldState extends PersistentState {
         tag.put(PROTAGONISTS, protagonistList);
 
         return tag;
-    }
-
-    public static MMWorldState get(World world) {
-        return world.getServer().getOverworld().getPersistentStateManager().getOrCreate(MMWorldState::fromNbt, MMWorldState::new, Constants.MOD_ID);
     }
 
     public Text clear() {

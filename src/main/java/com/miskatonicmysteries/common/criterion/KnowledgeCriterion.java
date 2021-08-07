@@ -1,8 +1,6 @@
 package com.miskatonicmysteries.common.criterion;
 
 import com.google.gson.JsonObject;
-import com.miskatonicmysteries.api.registry.Affiliation;
-import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;

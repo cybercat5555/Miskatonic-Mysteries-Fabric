@@ -35,7 +35,7 @@ import net.minecraft.world.World;
 
 import java.util.UUID;
 
-public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory, Affiliated{
+public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory, Affiliated {
     private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(8, ItemStack.EMPTY);
     public int tickCount;
     public boolean permanentRiteActive;
@@ -55,6 +55,43 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
     public OctagramBlockEntity(BlockPos pos, BlockState state) {
         super(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, pos, state);
 
+    }
+
+    public static void tick(OctagramBlockEntity blockEntity) {
+        if (blockEntity.currentRite != null) {
+            if (blockEntity.currentRite.shouldContinue(blockEntity)) {
+                blockEntity.currentRite.tick(blockEntity);
+                if (blockEntity.currentRite.isFinished(blockEntity)) {
+
+                    if (blockEntity.getOriginalCaster() instanceof ServerPlayerEntity) {
+                        MMCriteria.RITE_CAST.trigger((ServerPlayerEntity) blockEntity.getOriginalCaster(), blockEntity.currentRite);
+                    }
+                    blockEntity.handleInvestigators();
+                    if (blockEntity.currentRite.isPermanent(blockEntity)) {
+                        blockEntity.permanentRiteActive = true;
+                        blockEntity.currentRite.onFinished(blockEntity);
+                    } else {
+                        blockEntity.currentRite.onFinished(blockEntity);
+                        blockEntity.tickCount = 0;
+                        blockEntity.currentRite = null;
+                        blockEntity.targetedEntity = null;
+                        blockEntity.setFlag(0, false);
+                    }
+                    if (!blockEntity.world.isClient) {
+                        blockEntity.sync();
+                    }
+                }
+            } else {
+                blockEntity.currentRite.onCancelled(blockEntity);
+                blockEntity.originalCaster = null;
+                blockEntity.currentRite = null;
+                blockEntity.setFlag(0, false);
+                if (!blockEntity.world.isClient) {
+                    blockEntity.sync();
+                }
+            }
+            blockEntity.markDirty();
+        }
     }
 
     public void setFlag(int index, boolean value) {
@@ -134,43 +171,6 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
     @Override
     public DefaultedList<ItemStack> getItems() {
         return ITEMS;
-    }
-
-    public static void tick(OctagramBlockEntity blockEntity) {
-        if (blockEntity.currentRite != null) {
-            if (blockEntity.currentRite.shouldContinue(blockEntity)) {
-                blockEntity.currentRite.tick(blockEntity);
-                if (blockEntity.currentRite.isFinished(blockEntity)) {
-
-                    if (blockEntity.getOriginalCaster() instanceof ServerPlayerEntity) {
-                        MMCriteria.RITE_CAST.trigger((ServerPlayerEntity) blockEntity.getOriginalCaster(), blockEntity.currentRite);
-                    }
-                    blockEntity.handleInvestigators();
-                    if (blockEntity.currentRite.isPermanent(blockEntity)) {
-                        blockEntity.permanentRiteActive = true;
-                        blockEntity.currentRite.onFinished(blockEntity);
-                    } else {
-                        blockEntity.currentRite.onFinished(blockEntity);
-                        blockEntity.tickCount = 0;
-                        blockEntity.currentRite = null;
-                        blockEntity.targetedEntity = null;
-                        blockEntity.setFlag(0, false);
-                    }
-                    if (!blockEntity.world.isClient) {
-                        blockEntity.sync();
-                    }
-                }
-            } else {
-                blockEntity.currentRite.onCancelled(blockEntity);
-                blockEntity.originalCaster = null;
-                blockEntity.currentRite = null;
-                blockEntity.setFlag(0, false);
-                if (!blockEntity.world.isClient) {
-                    blockEntity.sync();
-                }
-            }
-            blockEntity.markDirty();
-        }
     }
 
     private void handleInvestigators() {

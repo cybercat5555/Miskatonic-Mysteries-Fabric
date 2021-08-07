@@ -12,7 +12,7 @@ public interface Appeasable {
 
     boolean isAppeased();
 
-    void setAppeasedTicks(int ticks);
-
     int getAppeasedTicks();
+
+    void setAppeasedTicks(int ticks);
 }

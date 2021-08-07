@@ -22,6 +22,7 @@ public class DataHandler extends JsonDataLoader {
     public static final Map<Identifier, DataSerializable.DataReader> DATA_READERS = new HashMap<>();
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
     private static final Logger LOGGER = LogManager.getLogger();
+
     public DataHandler() {
         super(GSON, Constants.MOD_ID);
         DATA_READERS.put(new Identifier(Constants.MOD_ID, "insanity_inducer"), new InsanityInducer.Serializer());
@@ -33,12 +34,12 @@ public class DataHandler extends JsonDataLoader {
     protected void apply(Map<Identifier, JsonElement> loader, ResourceManager manager, Profiler profiler) {
         loader.forEach((id, element) -> {
             String type = JsonHelper.getString((JsonObject) element, "type");
-            try{
+            try {
                 DataSerializable.DataReader reader = DATA_READERS.get(new Identifier(type));
                 if (!reader.getRegistry().getIds().contains(id)) {
                     Registry.register(reader.getRegistry(), id, reader.readFromJson(id, (JsonObject) element));
                 }
-            }catch (IllegalArgumentException | JsonParseException | NullPointerException exception){
+            } catch (IllegalArgumentException | JsonParseException | NullPointerException exception) {
                 LOGGER.error("Parsing error loading data module {} for Miskatonic Mysteries", id, exception);
                 exception.printStackTrace();
             }

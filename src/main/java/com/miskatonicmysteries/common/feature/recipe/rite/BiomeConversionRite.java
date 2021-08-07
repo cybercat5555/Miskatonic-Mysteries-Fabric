@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
-import com.miskatonicmysteries.api.interfaces.BiomeMask;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import net.fabricmc.api.EnvType;
@@ -13,20 +12,14 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.source.BiomeArray;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.function.Function;
-import java.util.function.IntUnaryOperator;
 
 public class BiomeConversionRite extends AscensionLockedRite {
-    private Function<ServerWorld, Biome> biomeSupplier;
+    private final Function<ServerWorld, Biome> biomeSupplier;
 
     public BiomeConversionRite(Identifier id, @Nullable Affiliation octagram, Function<ServerWorld, Biome> biomeSupplier, String knowledge, int stage, Ingredient... ingredients) {
         super(id, octagram, knowledge, 0, stage, ingredients);
@@ -41,10 +34,10 @@ public class BiomeConversionRite extends AscensionLockedRite {
 
     @Override
     public void tick(OctagramBlockEntity octagram) {
-        if (octagram.tickCount <= 43200){
+        if (octagram.tickCount <= 43200) {
             octagram.tickCount++;
         }
-        if (octagram.getWorld() instanceof ServerWorld serverWorld && serverWorld.getTime() % 20 == 0){
+        if (octagram.getWorld() instanceof ServerWorld serverWorld && serverWorld.getTime() % 20 == 0) {
             Random random = serverWorld.getRandom();
             int radius = octagram.tickCount / 120;
             Biome biome = biomeSupplier.apply(serverWorld);

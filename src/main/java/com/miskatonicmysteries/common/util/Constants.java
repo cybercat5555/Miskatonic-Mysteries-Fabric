@@ -156,10 +156,6 @@ public class Constants {
     }
 
     public static class DamageSources extends DamageSource {
-        protected DamageSources(String name) {
-            super(Constants.MOD_ID + "." + name);
-        }
-
         public static final DamageSource SLEEP = new DamageSources("sleep").setBypassesArmor();
         public static final DamageSource INSANITY = new DamageSources("insanity") {
             @Override
@@ -167,6 +163,9 @@ public class Constants {
                 return new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(3)), entity.getDisplayName());
             }
         }.setBypassesArmor();
+        protected DamageSources(String name) {
+            super(Constants.MOD_ID + "." + name);
+        }
 
         public static class ProtagonistDamageSource extends EntityDamageSource {
             public ProtagonistDamageSource(@Nullable Entity source) {

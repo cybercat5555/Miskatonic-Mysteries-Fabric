@@ -28,7 +28,6 @@ public class MMConfig implements ConfigData {
     public World world = new World();
 
 
-
     public static class Entities {
         @ConfigEntry.BoundedDiscrete(max = Constants.DataTrackers.SANITY_CAP)
         @ConfigEntry.Gui.Tooltip

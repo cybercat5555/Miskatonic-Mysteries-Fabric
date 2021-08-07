@@ -15,11 +15,11 @@ import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.world.World;
 
 public class BoltEntity extends Entity {
-    private int ambientTick;
-    public long seed;
     protected static final TrackedData<Float> LENGTH = DataTracker.registerData(BoltEntity.class, TrackedDataHandlerRegistry.FLOAT);
     protected static final TrackedData<Integer> COLOR = DataTracker.registerData(BoltEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    public long seed;
     public float[] color = {1, 0, 0, 1};
+    private int ambientTick;
 
     public BoltEntity(EntityType<BoltEntity> entityType, World world) {
         super(entityType, world);
@@ -38,20 +38,20 @@ public class BoltEntity extends Entity {
         setColor(color);
     }
 
-    public void setLength(float length) {
-        dataTracker.set(LENGTH, length);
-    }
-
     public float getLength() {
         return dataTracker.get(LENGTH);
     }
 
-    public void setColor(int color) {
-        dataTracker.set(COLOR, color);
+    public void setLength(float length) {
+        dataTracker.set(LENGTH, length);
     }
 
     public int getColor() {
         return dataTracker.get(COLOR);
+    }
+
+    public void setColor(int color) {
+        dataTracker.set(COLOR, color);
     }
 
     @Override

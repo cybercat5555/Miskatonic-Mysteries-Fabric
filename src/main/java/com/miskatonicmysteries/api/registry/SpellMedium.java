@@ -21,7 +21,7 @@ public abstract class SpellMedium {
 
     public abstract boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity);
 
-    public float getCooldownModifier(LivingEntity caster){
+    public float getCooldownModifier(LivingEntity caster) {
         return 1;
     }
 }

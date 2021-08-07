@@ -1,7 +1,16 @@
 {
   "variants": {
-    "axis=y":    { "model": "miskatonicmysteries:block/oceanic_gold_block" },
-    "axis=z":     { "model": "miskatonicmysteries:block/oceanic_gold_block", "x": 90 },
-    "axis=x":     { "model": "miskatonicmysteries:block/oceanic_gold_block", "x": 90, "y": 90 }
+    "axis=y": {
+      "model": "miskatonicmysteries:block/oceanic_gold_block"
+    },
+    "axis=z": {
+      "model": "miskatonicmysteries:block/oceanic_gold_block",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "miskatonicmysteries:block/oceanic_gold_block",
+      "x": 90,
+      "y": 90
+    }
   }
 }

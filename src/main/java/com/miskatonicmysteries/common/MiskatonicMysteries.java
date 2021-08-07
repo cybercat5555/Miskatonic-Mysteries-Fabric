@@ -97,7 +97,7 @@ public class MiskatonicMysteries implements ModInitializer {
         todo some natural sanity regen
         */
         ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register((world, entity, killedEntity) -> {
-            if (entity instanceof PlayerEntity && killedEntity instanceof EvokerEntity){
+            if (entity instanceof PlayerEntity && killedEntity instanceof EvokerEntity) {
                 MiskatonicMysteriesAPI.addKnowledge(Constants.Misc.EVOKER_KNOWLEDGE, (PlayerEntity) entity);
             }
         });

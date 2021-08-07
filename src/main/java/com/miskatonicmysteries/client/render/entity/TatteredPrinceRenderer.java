@@ -10,6 +10,7 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class TatteredPrinceRenderer extends GeoEntityRenderer<TatteredPrinceEntity> {
     public static Model dummyPrinceModel;
+
     public TatteredPrinceRenderer(EntityRendererFactory.Context context) {
         super(context, new TatteredPrinceModel());
         this.shadowRadius = 1;

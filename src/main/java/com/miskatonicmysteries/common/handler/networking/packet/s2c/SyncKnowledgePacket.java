@@ -1,18 +1,14 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
-import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.api.interfaces.Knowledge;
 import com.miskatonicmysteries.common.util.Constants;
-import com.miskatonicmysteries.common.util.NbtUtil;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;

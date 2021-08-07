@@ -10,8 +10,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;
 
 public class FloatyWanderAroundGoal extends Goal {
-    private PathAwareEntity entity;
-    private int chance;
+    private final PathAwareEntity entity;
+    private final int chance;
 
     public FloatyWanderAroundGoal(PathAwareEntity entity, int chance) {
         this.setControls(EnumSet.of(Control.MOVE));

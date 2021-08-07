@@ -28,7 +28,7 @@ public class TranquilizerItem extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if(!world.isClient) {
+        if (!world.isClient) {
             user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.TRANQUILIZED, 18000, 1));
             stack.decrement(1);
             if (user instanceof ServerPlayerEntity) {

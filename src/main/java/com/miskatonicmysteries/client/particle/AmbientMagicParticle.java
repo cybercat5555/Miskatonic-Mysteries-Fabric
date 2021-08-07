@@ -10,6 +10,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class AmbientMagicParticle extends AbstractSlowingParticle {
     protected boolean fadeIn = true;
+
     protected AmbientMagicParticle(ClientWorld clientWorld, double x, double y, double z, float r, float g, float b) {
         super(clientWorld, x, y, z, 0, Math.max(0.01F, clientWorld.random.nextFloat() / 50), 0);
         colorAlpha = 0;
@@ -82,7 +83,7 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
         }
 
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z, double velX, double velY, double velZ) {
-            AmbientMagicParticle particle = new AmbientMagicParticle(clientWorld, x, y, z,  MathHelper.nextFloat(clientWorld.random, 0.8F, 1F), MathHelper.nextFloat(clientWorld.random, 0.5F, 0.6F), MathHelper.nextFloat(clientWorld.random, 0.05F, 0.1F));
+            AmbientMagicParticle particle = new AmbientMagicParticle(clientWorld, x, y, z, MathHelper.nextFloat(clientWorld.random, 0.8F, 1F), MathHelper.nextFloat(clientWorld.random, 0.5F, 0.6F), MathHelper.nextFloat(clientWorld.random, 0.05F, 0.1F));
             particle.scale(MathHelper.nextFloat(clientWorld.random, 0.5F, 0.75F));
             particle.velocityX = velX;
             particle.velocityY = velY;

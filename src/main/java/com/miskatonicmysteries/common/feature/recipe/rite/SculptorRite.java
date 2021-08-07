@@ -47,6 +47,17 @@ public class SculptorRite extends Rite {
         this.knowledge = MMAffiliations.HASTUR.getId().getPath();
     }
 
+    private static StatueBlock getStatueForIngredients(OctagramBlockEntity octagram) {
+        for (ItemStack item : octagram.getItems()) {
+            if (item.getItem() == Items.STONE) {
+                return MMObjects.HASTUR_STATUE_STONE;
+            } else if (item.getItem() == Items.TERRACOTTA) {
+                return MMObjects.HASTUR_STATUE_TERRACOTTA;
+            }
+        }
+        return MMObjects.HASTUR_STATUE_STONE;
+    }
+
     @Override
     public boolean canCast(OctagramBlockEntity octagram) {
         if (super.canCast(octagram)) {
@@ -117,17 +128,6 @@ public class SculptorRite extends Rite {
     @Override
     public boolean isFinished(OctagramBlockEntity octagram) {
         return octagram.triggered && octagram.tickCount >= ticksNeeded;
-    }
-
-    private static StatueBlock getStatueForIngredients(OctagramBlockEntity octagram) {
-        for (ItemStack item : octagram.getItems()) {
-            if (item.getItem() == Items.STONE) {
-                return MMObjects.HASTUR_STATUE_STONE;
-            } else if (item.getItem() == Items.TERRACOTTA) {
-                return MMObjects.HASTUR_STATUE_TERRACOTTA;
-            }
-        }
-        return MMObjects.HASTUR_STATUE_STONE;
     }
 
     @Override

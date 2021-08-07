@@ -19,8 +19,21 @@ import net.minecraft.util.math.Vec3f;
 
 public class OctagramBlockRender implements BlockEntityRenderer<OctagramBlockEntity> {
     private final BlockEntityRendererFactory.Context context;
+
     public OctagramBlockRender(BlockEntityRendererFactory.Context context) {
         this.context = context;
+    }
+
+    public static void renderItems(OctagramBlockEntity entity, VertexConsumerProvider vertexConsumers, MatrixStack matrixStack, int light) {
+        int seed = (int) entity.getPos().asLong();
+        for (int i = 0; i < entity.size(); i++) {
+            matrixStack.push();
+            matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(0.125F * i * 360F));
+            matrixStack.translate(0, 0, -1.1);
+            matrixStack.multiply(Vec3f.NEGATIVE_X.getDegreesQuaternion(90));
+            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(i), ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrixStack, vertexConsumers, seed);
+            matrixStack.pop();
+        }
     }
 
     @Override
@@ -51,18 +64,5 @@ public class OctagramBlockRender implements BlockEntityRenderer<OctagramBlockEnt
             entity.currentRite.renderRiteItems(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
         }
         matrixStack.pop();
-    }
-
-
-    public static void renderItems(OctagramBlockEntity entity, VertexConsumerProvider vertexConsumers, MatrixStack matrixStack, int light) {
-        int seed = (int) entity.getPos().asLong();
-        for (int i = 0; i < entity.size(); i++) {
-            matrixStack.push();
-            matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(0.125F * i * 360F));
-            matrixStack.translate(0, 0, -1.1);
-            matrixStack.multiply(Vec3f.NEGATIVE_X.getDegreesQuaternion(90));
-            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(i), ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrixStack, vertexConsumers, seed);
-            matrixStack.pop();
-        }
     }
 }

@@ -4,7 +4,6 @@
 
 package com.miskatonicmysteries.client.model.armor;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -19,7 +18,7 @@ public class ShubAlternateMaskModel extends Model {
 
     }
 
-    public static TexturedModelData getTexturedModelData(){
+    public static TexturedModelData getTexturedModelData() {
         ModelData data = new ModelData();
         ModelPartData root = data.getRoot();
         ModelPartData armorHead = root.addChild("armorHead",

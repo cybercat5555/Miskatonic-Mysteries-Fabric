@@ -12,7 +12,7 @@ public class AscendedHasturCultistEntityModel extends HasturCultistEntityModel {
         super(root);
     }
 
-    public static TexturedModelData getTexturedModelData(){
+    public static TexturedModelData getTexturedModelData() {
         ModelData data = new ModelData();
         ModelPartData root = data.getRoot();
         ModelPartData rightArm = root.addChild(EntityModelPartNames.RIGHT_ARM,

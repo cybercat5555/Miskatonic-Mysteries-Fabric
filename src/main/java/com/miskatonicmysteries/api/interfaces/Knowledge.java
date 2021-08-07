@@ -10,6 +10,7 @@ public interface Knowledge {
         }
         return Optional.empty();
     }
+
     void addKnowledge(String knowledge);
 
     boolean hasKnowledge(String knowledge);

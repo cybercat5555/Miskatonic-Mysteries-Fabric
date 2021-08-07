@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ThreadedAnvilChunkStorage.class)
 public class ThreadedAnvilChunkStorageMixin {
     @Inject(method = "sendChunkDataPackets", at = @At("TAIL"))
-    private void sendChunkDataPackets(ServerPlayerEntity player, Packet<?>[] packets, WorldChunk chunk, CallbackInfo ci){
+    private void sendChunkDataPackets(ServerPlayerEntity player, Packet<?>[] packets, WorldChunk chunk, CallbackInfo ci) {
         SyncBiomeMaskPacket.send(player, chunk);
     }
 }

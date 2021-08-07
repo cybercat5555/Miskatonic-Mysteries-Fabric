@@ -1,11 +1,9 @@
 package com.miskatonicmysteries.client.render.entity;
 
-import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.common.entity.BoltEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.texture.SpriteAtlasTexture;
@@ -14,11 +12,19 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
+
 import java.util.Random;
 
 public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
     public BoltEntityRenderer(EntityRendererFactory.Context context) {
         super(context);
+    }
+
+    private static void drawQuad(Matrix4f matrix4f, VertexConsumer vertexConsumer, float startY, float startX, int segmentIndex, float endY, float endX, float red, float green, float blue, float alpha, float firstOffset, float secondOffset, boolean negativeOffset, boolean bl2, boolean bl3, boolean bl4, float segmentLength, float segmentLengthAdded) {
+        vertexConsumer.vertex(matrix4f, startX + (bl2 ? secondOffset : -secondOffset), startY + (negativeOffset ? secondOffset : -secondOffset), (segmentIndex * segmentLength)).color(red, green, blue, alpha).next();
+        vertexConsumer.vertex(matrix4f, endX + (bl2 ? firstOffset : -firstOffset), endY + (negativeOffset ? firstOffset : -firstOffset), (segmentIndex) * segmentLength + segmentLengthAdded).color(red, green, blue, alpha).next();
+        vertexConsumer.vertex(matrix4f, endX + (bl4 ? firstOffset : -firstOffset), endY + (bl3 ? firstOffset : -firstOffset), ((segmentIndex) * segmentLength + segmentLengthAdded)).color(red, green, blue, alpha).next();
+        vertexConsumer.vertex(matrix4f, startX + (bl4 ? secondOffset : -secondOffset), startY + (bl3 ? secondOffset : -secondOffset), (segmentIndex * segmentLength)).color(red, green, blue, alpha).next();
     }
 
     @Override
@@ -80,13 +86,6 @@ public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
                 }
             }
         }
-    }
-
-    private static void drawQuad(Matrix4f matrix4f, VertexConsumer vertexConsumer, float startY, float startX, int segmentIndex, float endY, float endX, float red, float green, float blue, float alpha, float firstOffset, float secondOffset, boolean negativeOffset, boolean bl2, boolean bl3, boolean bl4, float segmentLength, float segmentLengthAdded) {
-        vertexConsumer.vertex(matrix4f, startX + (bl2 ? secondOffset : -secondOffset), startY + (negativeOffset ? secondOffset : -secondOffset), (segmentIndex * segmentLength)).color(red, green, blue, alpha).next();
-        vertexConsumer.vertex(matrix4f, endX + (bl2 ? firstOffset : -firstOffset), endY + (negativeOffset ? firstOffset : -firstOffset), (segmentIndex) * segmentLength + segmentLengthAdded).color(red, green, blue, alpha).next();
-        vertexConsumer.vertex(matrix4f, endX + (bl4 ? firstOffset : -firstOffset), endY + (bl3 ? firstOffset : -firstOffset), ((segmentIndex) * segmentLength + segmentLengthAdded)).color(red, green, blue, alpha).next();
-        vertexConsumer.vertex(matrix4f, startX + (bl4 ? secondOffset : -secondOffset), startY + (bl3 ? secondOffset : -secondOffset), (segmentIndex * segmentLength)).color(red, green, blue, alpha).next();
     }
 
     @Override

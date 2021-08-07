@@ -39,14 +39,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 public abstract class TentacleEntity extends PathAwareEntity implements Affiliated, IAnimatable {
-    private LivingEntity owner;
-    private boolean monster = false;
     private static final TrackedData<Optional<UUID>> OWNER = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
     private static final TrackedData<Optional<UUID>> SPECIFIC_TARGET = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
     private static final TrackedData<Boolean> BROAD_SWING = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Float> SIZE = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.FLOAT);
-    private int maxAge = 600;
     private final AnimationFactory factory = new AnimationFactory(this);
+    private LivingEntity owner;
+    private boolean monster = false;
+    private int maxAge = 600;
 
     protected TentacleEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
@@ -255,6 +255,10 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         return world.getPlayerByUuid(getOwnerUUID().get());
     }
 
+    public void setOwner(LivingEntity owner) {
+        dataTracker.set(OWNER, Optional.of(owner.getUuid()));
+    }
+
     public boolean isBroadSwing() {
         return dataTracker.get(BROAD_SWING);
     }
@@ -265,10 +269,6 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 
     public Optional<UUID> getTargetUUID() {
         return dataTracker.get(SPECIFIC_TARGET);
-    }
-
-    public void setOwner(LivingEntity owner) {
-        dataTracker.set(OWNER, Optional.of(owner.getUuid()));
     }
 
     public void setSpecificTarget(LivingEntity target) {

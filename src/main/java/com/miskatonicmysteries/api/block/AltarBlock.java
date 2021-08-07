@@ -38,8 +38,8 @@ import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, BlockEntityProvider {
     public static VoxelShape SHAPE = createCuboidShape(3, 0, 3, 13, 18, 13);
-    private boolean spawnParticles;
     public static List<AltarBlock> ALTARS = new ArrayList<>();
+    private final boolean spawnParticles;
 
     public AltarBlock(boolean spawnParticles, Settings settings) {
         super(settings);

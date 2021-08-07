@@ -17,21 +17,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BiomeArray.class)
 public class BiomeArrayMixin implements BiomeMask {
-    @Shadow @Final private IndexedIterable<Biome> biomes;
-    @Unique private static final int HORIZONTAL_SECTION_COUNT = (int)Math.round(Math.log(16.0D) / Math.log(2.0D)) - 2;
-    @Unique private static final int HORIZONTAL_BIT_MASK = (1 << HORIZONTAL_SECTION_COUNT) - 1;
-
-    @Unique private Biome[] mmBiomeMasks;
+    @Unique
+    private static final int HORIZONTAL_SECTION_COUNT = (int) Math.round(Math.log(16.0D) / Math.log(2.0D)) - 2;
+    @Unique
+    private static final int HORIZONTAL_BIT_MASK = (1 << HORIZONTAL_SECTION_COUNT) - 1;
+    @Shadow
+    @Final
+    private IndexedIterable<Biome> biomes;
+    @Unique
+    private Biome[] mmBiomeMasks;
 
     @Inject(method = "<init>(Lnet/minecraft/util/collection/IndexedIterable;Lnet/minecraft/world/HeightLimitView;[Lnet/minecraft/world/biome/Biome;)V", at = @At("TAIL"))
-    private void init(IndexedIterable<Biome> biomes, HeightLimitView world, Biome[] data, CallbackInfo ci){
+    private void init(IndexedIterable<Biome> biomes, HeightLimitView world, Biome[] data, CallbackInfo ci) {
         mmBiomeMasks = new Biome[data.length];
     }
 
     @Inject(method = "getBiomeForNoiseGen", at = @At("HEAD"), cancellable = true)
-    private void getBiomeForNoiseGen(int biomeX, int biomeY, int biomeZ, CallbackInfoReturnable<Biome> cir){
-        Biome maskedBiome = MM_getMaskedBiome(biomeX,  biomeZ);
-        if (maskedBiome != null){
+    private void getBiomeForNoiseGen(int biomeX, int biomeY, int biomeZ, CallbackInfoReturnable<Biome> cir) {
+        Biome maskedBiome = MM_getMaskedBiome(biomeX, biomeZ);
+        if (maskedBiome != null) {
             cir.setReturnValue(maskedBiome);
         }
     }
@@ -54,11 +58,11 @@ public class BiomeArrayMixin implements BiomeMask {
     public int[] MM_masksToIntArray() {
         int[] is = new int[this.mmBiomeMasks.length];
 
-        for(int i = 0; i < this.mmBiomeMasks.length; ++i) {
+        for (int i = 0; i < this.mmBiomeMasks.length; ++i) {
             Biome biome = this.mmBiomeMasks[i];
-            if (biome == null){
+            if (biome == null) {
                 is[i] = -1;
-            }else {
+            } else {
                 is[i] = this.biomes.getRawId(biome); //why does it give -1????
             }
         }
@@ -68,7 +72,7 @@ public class BiomeArrayMixin implements BiomeMask {
 
     @Override
     public void MM_setBiomeMask(IndexedIterable<Biome> biomesById, int[] mask) {
-        for(int i = 0; i < mask.length; ++i) {
+        for (int i = 0; i < mask.length; ++i) {
             this.mmBiomeMasks[i] = biomesById.get(mask[i]);
         }
     }

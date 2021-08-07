@@ -17,6 +17,21 @@ import static com.miskatonicmysteries.common.util.Constants.NBT.WARDING_MARKS;
 public class MMDimensionalWorldState extends PersistentState {
     private final Set<BlockPos> wardingMarks = new HashSet<>();
 
+    public static MMDimensionalWorldState fromNbt(NbtCompound tag) {
+        MMDimensionalWorldState state = new MMDimensionalWorldState();
+        NbtList wardingMarksList = (NbtList) tag.get(WARDING_MARKS);
+        if (wardingMarksList != null) {
+            for (NbtElement blockTag : wardingMarksList) {
+                state.wardingMarks.add(NbtHelper.toBlockPos((NbtCompound) blockTag));
+            }
+        }
+        return state;
+    }
+
+    public static MMDimensionalWorldState get(ServerWorld world) {
+        return world.getPersistentStateManager().getOrCreate(MMDimensionalWorldState::fromNbt, MMDimensionalWorldState::new, Constants.MOD_ID + "_dimensional");
+    }
+
     public void addMark(BlockPos markPos) {
         wardingMarks.add(markPos);
         markDirty();
@@ -27,24 +42,13 @@ public class MMDimensionalWorldState extends PersistentState {
         markDirty();
     }
 
-    public boolean isMarkNear(BlockPos pos, int radius){
+    public boolean isMarkNear(BlockPos pos, int radius) {
         for (BlockPos wardingMark : wardingMarks) {
-            if (wardingMark.isWithinDistance(pos, radius)){
+            if (wardingMark.isWithinDistance(pos, radius)) {
                 return true;
             }
         }
         return false;
-    }
-
-    public static MMDimensionalWorldState fromNbt(NbtCompound tag) {
-        MMDimensionalWorldState state = new MMDimensionalWorldState();
-        NbtList wardingMarksList = (NbtList) tag.get(WARDING_MARKS);
-        if (wardingMarksList != null) {
-            for (NbtElement blockTag : wardingMarksList) {
-                state.wardingMarks.add(NbtHelper.toBlockPos( (NbtCompound) blockTag));
-            }
-        }
-        return state;
     }
 
     @Override
@@ -56,9 +60,5 @@ public class MMDimensionalWorldState extends PersistentState {
         tag.put(WARDING_MARKS, wardingMarksList);
 
         return tag;
-    }
-
-    public static MMDimensionalWorldState get(ServerWorld world) {
-        return world.getPersistentStateManager().getOrCreate(MMDimensionalWorldState::fromNbt, MMDimensionalWorldState::new, Constants.MOD_ID + "_dimensional");
     }
 }

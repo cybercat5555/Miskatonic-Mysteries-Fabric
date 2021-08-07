@@ -30,6 +30,34 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
         super(MMObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE, pos, state);
     }
 
+    public static void tick(ChemistrySetBlockEntity blockEntity) {
+        if (blockEntity.isLit()) {
+            if (blockEntity.canWork()) {
+                ChemistryRecipe recipe = MMRecipes.getChemistryRecipe(blockEntity);
+                blockEntity.workProgress++;
+                if (blockEntity.workProgress >= 100) {
+                    blockEntity.world.playSound(null, blockEntity.pos, SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.6F, blockEntity.world.random.nextFloat() * 0.4F + 0.8F);
+                    blockEntity.changeSmokeColor(recipe.color);
+                    for (int i = 0; i < recipe.output.size(); i++) {
+                        blockEntity.potentialItems.set(i, recipe.output.get(i));
+                    }
+                    blockEntity.clear();
+                    blockEntity.finish();
+                    if (!blockEntity.world.isClient) {
+                        blockEntity.sync();
+                    }
+                }
+                blockEntity.markDirty();
+            } else {
+                blockEntity.finish();
+                if (!blockEntity.world.isClient) {
+                    blockEntity.sync();
+                }
+                blockEntity.markDirty();
+            }
+        }
+    }
+
     @Override
     public NbtCompound writeNbt(NbtCompound tag) {
         Inventories.writeNbt(tag, items);
@@ -61,34 +89,6 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
         }
         workProgress = tag.getInt(Constants.NBT.WORK_PROGRESS);
         super.readNbt(tag);
-    }
-
-    public static void tick(ChemistrySetBlockEntity blockEntity) {
-        if (blockEntity.isLit()) {
-            if (blockEntity.canWork()) {
-                ChemistryRecipe recipe = MMRecipes.getChemistryRecipe(blockEntity);
-                blockEntity.workProgress++;
-                if (blockEntity.workProgress >= 100) {
-                    blockEntity.world.playSound(null, blockEntity.pos, SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.6F, blockEntity.world.random.nextFloat() * 0.4F + 0.8F);
-                    blockEntity.changeSmokeColor(recipe.color);
-                    for (int i = 0; i < recipe.output.size(); i++) {
-                        blockEntity.potentialItems.set(i, recipe.output.get(i));
-                    }
-                    blockEntity.clear();
-                    blockEntity.finish();
-                    if (!blockEntity.world.isClient) {
-                        blockEntity.sync();
-                    }
-                }
-                blockEntity.markDirty();
-            } else {
-                blockEntity.finish();
-                if (!blockEntity.world.isClient) {
-                    blockEntity.sync();
-                }
-                blockEntity.markDirty();
-            }
-        }
     }
 
     private void changeSmokeColor(int color) {

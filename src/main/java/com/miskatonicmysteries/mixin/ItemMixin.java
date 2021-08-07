@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Item.class)
 public abstract class ItemMixin {
     @Inject(method = "finishUsing(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;)Lnet/minecraft/item/ItemStack;", at = @At("HEAD"))
-    private void induceSanityAfterUse(ItemStack stack, World world, LivingEntity entity, CallbackInfoReturnable<ItemStack> info){
+    private void induceSanityAfterUse(ItemStack stack, World world, LivingEntity entity, CallbackInfoReturnable<ItemStack> info) {
         if (!stack.isEmpty() && Sanity.of(entity).isPresent() && (getUseAction(stack) == UseAction.BLOCK || getUseAction(stack) == UseAction.DRINK || getUseAction(stack) == UseAction.EAT)) {
             MMRegistries.INSANITY_INDUCERS.forEach((inducer) -> {
                 if (inducer.ingredient.test(stack)) {
@@ -55,8 +55,8 @@ public abstract class ItemMixin {
                     EntityHitResult hit = ProjectileUtil.getEntityCollision(world, user, vec3d, vec3d3, user.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D), (target) -> !target.isSpectator() && target.collides());
                     if (hit != null && hit.getEntity() instanceof LivingEntity && ((LivingEntity) hit.getEntity()).canSee(user) && !MiskatonicMysteriesAPI.isImmuneToYellowSign((LivingEntity) hit.getEntity())) {
                         LivingEntity target = (LivingEntity) hit.getEntity();
-                        if (user instanceof MobEntity && target != ((MobEntity) user).getTarget()){
-                           return;
+                        if (user instanceof MobEntity && target != ((MobEntity) user).getTarget()) {
+                            return;
                         }
                         target.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 200, 1, false, true));
                         Sanity.of(target).ifPresent(sanity -> {

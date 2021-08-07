@@ -15,6 +15,7 @@ import net.minecraft.util.registry.Registry;
 
 public class CommandDrivenInsanityEvent extends InsanityEvent implements DataSerializable<CommandDrivenInsanityEvent> {
     public final Identifier functionId;
+
     public CommandDrivenInsanityEvent(Identifier id, float baseChance, int insanityThreshold, Identifier function) {
         super(id, baseChance, insanityThreshold);
         functionId = function;

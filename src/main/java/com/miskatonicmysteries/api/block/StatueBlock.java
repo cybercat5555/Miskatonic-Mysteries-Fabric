@@ -45,6 +45,8 @@ import static net.minecraft.state.property.Properties.WATERLOGGED;
 public class StatueBlock extends Block implements Waterloggable, BlockEntityProvider, Affiliated {
     public static final Map<StatusEffect, Integer> POSITIVE_STATUE_EFFECTS = new HashMap<>();
     public static final Map<StatusEffect, Integer> NEGATIVE_STATUE_EFFECTS = new HashMap<>();
+    private static final VoxelShape SHAPE = createCuboidShape(4, 0, 4, 12, 16, 12);
+    public static List<StatueBlock> STATUES = new ArrayList<>();
 
     static {
         POSITIVE_STATUE_EFFECTS.put(StatusEffects.SPEED, 2);
@@ -63,11 +65,8 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
         NEGATIVE_STATUE_EFFECTS.put(StatusEffects.WEAKNESS, 3);
     }
 
-    public static List<StatueBlock> STATUES = new ArrayList<>();
-    private Affiliation affiliation;
-    private static final VoxelShape SHAPE = createCuboidShape(4, 0, 4, 12, 16, 12);
-
-    private boolean buffed;
+    private final Affiliation affiliation;
+    private final boolean buffed;
 
     public StatueBlock(Affiliation affiliation, boolean buffed, Settings settings) {
         super(settings.nonOpaque());
@@ -75,6 +74,24 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
         setDefaultState(getDefaultState().with(Properties.ROTATION, 0));
         STATUES.add(this);
         this.buffed = buffed;
+    }
+
+    public static ItemStack setCreator(ItemStack stack, PlayerEntity player) {
+        if (player == null) {
+            return stack;
+        }
+        if (!stack.hasTag()) {
+            stack.setTag(new NbtCompound());
+        }
+        NbtCompound blockEntityTag = new NbtCompound();
+        blockEntityTag.putString(Constants.NBT.PLAYER_NAME, player.getName().asString());
+        blockEntityTag.putUuid(Constants.NBT.PLAYER_UUID, player.getUuid());
+        stack.getTag().put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
+        return stack;
+    }
+
+    public static boolean isPlayerMade(ItemStack stack) {
+        return stack.hasTag() && stack.getTag().contains(Constants.NBT.BLOCK_ENTITY_TAG) && stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG).contains(Constants.NBT.PLAYER_NAME);
     }
 
     public void selectStatusEffects(LivingEntity entity, Affiliated affiliated) {
@@ -109,24 +126,6 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
             }
         }
         super.appendTooltip(stack, world, tooltip, options);
-    }
-
-    public static ItemStack setCreator(ItemStack stack, PlayerEntity player) {
-        if (player == null) {
-            return stack;
-        }
-        if (!stack.hasTag()) {
-            stack.setTag(new NbtCompound());
-        }
-        NbtCompound blockEntityTag = new NbtCompound();
-        blockEntityTag.putString(Constants.NBT.PLAYER_NAME, player.getName().asString());
-        blockEntityTag.putUuid(Constants.NBT.PLAYER_UUID, player.getUuid());
-        stack.getTag().put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
-        return stack;
-    }
-
-    public static boolean isPlayerMade(ItemStack stack) {
-        return stack.hasTag() && stack.getTag().contains(Constants.NBT.BLOCK_ENTITY_TAG) && stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG).contains(Constants.NBT.PLAYER_NAME);
     }
 
     public BlockState rotate(BlockState state, BlockRotation rotation) {

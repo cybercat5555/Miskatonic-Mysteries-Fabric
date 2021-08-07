@@ -37,6 +37,8 @@ import java.util.UUID;
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin extends LivingEntity implements Hallucination {
     private static final TrackedData<Optional<UUID>> HALLUCINATION_UUID = DataTracker.registerData(MobEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+    @Unique
+    private static final Set FORBIDDEN_POTIONS = ImmutableSet.of(Potions.WATER, Potions.EMPTY, Potions.MUNDANE, Potions.AWKWARD, Potions.THICK);
 
     protected MobEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -51,9 +53,6 @@ public abstract class MobEntityMixin extends LivingEntity implements Hallucinati
     public void setHallucinationTarget(Optional<UUID> target) {
         dataTracker.set(HALLUCINATION_UUID, target);
     }
-
-    @Unique
-    private static final Set FORBIDDEN_POTIONS = ImmutableSet.of(Potions.WATER, Potions.EMPTY, Potions.MUNDANE, Potions.AWKWARD, Potions.THICK);
 
     @Shadow
     public abstract void equipStack(EquipmentSlot slot, ItemStack stack);

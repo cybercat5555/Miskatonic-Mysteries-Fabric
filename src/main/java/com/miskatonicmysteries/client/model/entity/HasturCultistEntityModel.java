@@ -18,10 +18,10 @@ import net.minecraft.util.math.MathHelper;
  */
 @Environment(EnvType.CLIENT)
 public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEntity> {
-    private final ModelPart root;
     protected final ModelPart rightArmFolded;
     protected final ModelPart leftArmFolded;
     protected final ModelPart middleArmFolded;
+    private final ModelPart root;
 
     public HasturCultistEntityModel(ModelPart root) {
         super(root);
@@ -33,7 +33,7 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
         this.middleArmFolded.visible = false;
     }
 
-    public static TexturedModelData getTexturedModelData(){
+    public static TexturedModelData getTexturedModelData() {
         ModelData data = new ModelData();
         ModelPartData root = data.getRoot();
         root.addChild(EntityModelPartNames.RIGHT_ARM,
@@ -123,6 +123,7 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
         root.addChild(EntityModelPartNames.HAT, ModelPartBuilder.create(), ModelTransform.NONE);
         return TexturedModelData.of(data, 128, 64);
     }
+
     @Override
     public void animateModel(HasturCultistEntity livingEntity, float f, float g, float h) {
         rightArmPose = livingEntity.getMainHandStack().isEmpty() ? ArmPose.EMPTY : livingEntity.isBlocking() && livingEntity.getMainHandStack().getItem().equals(Items.SHIELD) ? ArmPose.BLOCK : ArmPose.ITEM;
@@ -132,12 +133,12 @@ public class HasturCultistEntityModel extends BipedEntityModel<HasturCultistEnti
             rightArmPose = leftArmPose;
             leftArmPose = tempPose;
         }
-        if (rightArmPose == ArmPose.EMPTY && leftArmPose == ArmPose.EMPTY && !livingEntity.isCasting()){
+        if (rightArmPose == ArmPose.EMPTY && leftArmPose == ArmPose.EMPTY && !livingEntity.isCasting()) {
             middleArmFolded.visible = true;
             rightArmFolded.visible = true;
             leftArm.visible = false;
             rightArm.visible = false;
-        }else{
+        } else {
             middleArmFolded.visible = false;
             rightArmFolded.visible = false;
             leftArm.visible = true;

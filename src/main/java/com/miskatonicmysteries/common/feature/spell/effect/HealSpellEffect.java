@@ -5,7 +5,6 @@ import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -23,7 +22,7 @@ public class HealSpellEffect extends SpellEffect {
             if (world.isClient) {
                 spawnParticleEffectsOnTarget(caster, this, target);
             }
-            if (!(target instanceof LivingEntity)){
+            if (!(target instanceof LivingEntity)) {
                 return false;
             }
             ((LivingEntity) target).heal(2F * (intensity + 1));

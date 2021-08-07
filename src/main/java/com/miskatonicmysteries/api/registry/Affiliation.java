@@ -14,14 +14,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Affiliation {
+    public Set<Blessing> blessingPool = new HashSet<>();
     protected Identifier id;
     protected float[] color;
-    public Set<Blessing> blessingPool = new HashSet<>();
 
     public Affiliation(Identifier id, float[] color, Blessing... blessings) {
         this.id = id;
         this.color = color;
         blessingPool.addAll(Arrays.asList(blessings));
+    }
+
+    public static Affiliation fromTag(NbtCompound tag) {
+        return MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.AFFILIATION)));
     }
 
     public Blessing findRandomBlessing(LivingEntity entity, Ascendant ascendant) {
@@ -33,11 +37,6 @@ public class Affiliation {
         tag.putString(Constants.NBT.AFFILIATION, id.toString());
         return tag;
     }
-
-    public static Affiliation fromTag(NbtCompound tag) {
-        return MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.AFFILIATION)));
-    }
-
 
     public Identifier getId() {
         return id;

@@ -12,10 +12,7 @@ import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.BiomeKeys;
-import net.minecraft.world.biome.BuiltinBiomes;
 
 import java.util.Arrays;
 
@@ -42,7 +39,7 @@ public class MMRites {
     public static final Rite HARROW_SPELL_RITE = new SpellGivingRite(MMSpellEffects.HARROWS, Constants.Misc.EVOKER_KNOWLEDGE, new Identifier(Constants.MOD_ID, "harrows"), null, 1,
             Ingredient.ofItems(MMObjects.IRIDESCENT_PEARL), Ingredient.ofItems(Items.IRON_SWORD), Ingredient.ofItems(Items.EMERALD), Ingredient.ofItems(Items.ARROW));
 
-  //  public static final Rite BIOME_CONVERTER_TEST = new BiomeConversionRite(new Identifier(Constants.MOD_ID, "test"), null, BiomeKeys.BADLANDS, "", 0, Ingredient.ofItems(Items.EMERALD));
+    //  public static final Rite BIOME_CONVERTER_TEST = new BiomeConversionRite(new Identifier(Constants.MOD_ID, "test"), null, BiomeKeys.BADLANDS, "", 0, Ingredient.ofItems(Items.EMERALD));
     public static void init() {
         register(OPEN_WAY);
         register(BURNED_VEIL);
@@ -60,7 +57,7 @@ public class MMRites {
         register(DAMAGE_SPELL_RITE);
         register(HARROW_SPELL_RITE);
 
-     //   register(BIOME_CONVERTER_TEST);
+        //   register(BIOME_CONVERTER_TEST);
     }
 
     private static void register(Rite rite) {

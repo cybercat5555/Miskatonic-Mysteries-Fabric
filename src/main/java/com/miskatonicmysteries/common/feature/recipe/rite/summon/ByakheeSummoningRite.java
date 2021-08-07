@@ -1,27 +1,20 @@
 package com.miskatonicmysteries.common.feature.recipe.rite.summon;
 
 import com.miskatonicmysteries.client.render.entity.ByakheeEntityRenderer;
-import com.miskatonicmysteries.client.render.entity.TatteredPrinceRenderer;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.entity.HasturCultistEntity;
-import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Model;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class ByakheeSummoningRite extends SummoningRite {
     public ByakheeSummoningRite() {

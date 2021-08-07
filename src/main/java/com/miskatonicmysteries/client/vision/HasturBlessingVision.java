@@ -13,9 +13,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
-public class HasturBlessingVision extends VisionSequence{
+public class HasturBlessingVision extends VisionSequence {
     private static final Identifier YELLOW_SIGN_TEXTURE = new Identifier(Constants.MOD_ID, "textures/block/yellow_sign.png");
     private static final int totalLength = 280;
+
     @Override
     public void render(MinecraftClient client, ClientPlayerEntity player, MatrixStack stack, float tickDelta) {
         ticks++;
@@ -23,15 +24,15 @@ public class HasturBlessingVision extends VisionSequence{
         int height = client.getWindow().getScaledHeight();
         float backgroundProgress;
         float signProgress = 0;
-        if (ticks > 160){
+        if (ticks > 160) {
             backgroundProgress = MathHelper.clamp(1 - (ticks - 160) / 40F, 0, 1);
-        }else{
+        } else {
             backgroundProgress = MathHelper.clamp(ticks / 80F, 0, 1);
         }
-        if (ticks > 180){
+        if (ticks > 180) {
             signProgress = MathHelper.clamp(1 - (ticks - 180) / 100F, 0, 1);
-        }else if (ticks > 20){
-            signProgress =  MathHelper.clamp((ticks - 20) / 100F, 0, 1);
+        } else if (ticks > 20) {
+            signProgress = MathHelper.clamp((ticks - 20) / 100F, 0, 1);
         }
         float colorProgress = Math.min(signProgress, backgroundProgress);
         Tessellator tessellator = Tessellator.getInstance();
@@ -44,7 +45,7 @@ public class HasturBlessingVision extends VisionSequence{
         RenderSystem.enableDepthTest();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-        if (ticks >= totalLength - 1){
+        if (ticks >= totalLength - 1) {
             VisionHandler.setVisionSequence(player, null);
             ticks = 0;
         }
@@ -58,7 +59,7 @@ public class HasturBlessingVision extends VisionSequence{
         float signY = height / 2F - 64;
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
         bufferBuilder.vertex(signX, signY + 128, -90.0D).texture(0.0F, 1.0F).next();
-        bufferBuilder.vertex(signX + 128,signY + 128, -90.0D).texture(1.0F, 1.0F).next();
+        bufferBuilder.vertex(signX + 128, signY + 128, -90.0D).texture(1.0F, 1.0F).next();
         bufferBuilder.vertex(signX + 128, signY, -90.0D).texture(1.0F, 0.0F).next();
         bufferBuilder.vertex(signX, signY, -90.0D).texture(0.0F, 0.0F).next();
         tessellator.draw();

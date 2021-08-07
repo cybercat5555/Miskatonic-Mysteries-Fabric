@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.common.util;
 
-import com.miskatonicmysteries.common.feature.world.structures.ModifiableStructurePool;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -16,13 +15,9 @@ import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.structure.pool.StructurePool;
-import net.minecraft.structure.pool.StructurePoolElement;
-import net.minecraft.structure.processor.StructureProcessorList;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -113,7 +108,7 @@ public class Util {
             int l = (int) player.getZ() + MathHelper.floor(MathHelper.sin(f) * radius) + world.random.nextInt(zoneRadius);
             int m = world.getTopY(Heightmap.Type.WORLD_SURFACE, k, l);
             mutable.set(k, m, l);
-            if (SpawnHelper.canSpawn(SpawnRestriction.Location.ON_GROUND, world, mutable, type)){
+            if (SpawnHelper.canSpawn(SpawnRestriction.Location.ON_GROUND, world, mutable, type)) {
                 return mutable;
             }
         }
@@ -130,7 +125,7 @@ public class Util {
     }
 
     public static int getSlotWithStack(Inventory inventory, ItemStack stack) {
-        for(int i = 0; i < inventory.size(); ++i) {
+        for (int i = 0; i < inventory.size(); ++i) {
             if (!inventory.getStack(i).isEmpty() && ItemStack.areItemsEqual(stack, inventory.getStack(i))) {
                 return i;
             }

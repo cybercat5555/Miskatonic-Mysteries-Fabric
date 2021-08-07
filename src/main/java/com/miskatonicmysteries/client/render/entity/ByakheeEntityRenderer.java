@@ -13,6 +13,7 @@ import net.minecraft.util.Identifier;
 public class ByakheeEntityRenderer extends MobEntityRenderer<ByakheeEntity, ByakheeEntityModel> {
     public static final Identifier TEXTURE = new Identifier(Constants.MOD_ID, "textures/entity/byakhee/byakhee.png");
     public static ByakheeEntityModel byakheeEntityModel;
+
     public ByakheeEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new ByakheeEntityModel(context.getPart(MMModels.BYAKHEE)), 1.5F);
         this.addFeature(new ByakheeSaddleFeatureRenderer(this));

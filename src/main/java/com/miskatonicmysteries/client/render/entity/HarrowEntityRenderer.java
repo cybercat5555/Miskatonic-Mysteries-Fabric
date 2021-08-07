@@ -13,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class HarrowEntityRenderer extends MobEntityRenderer<HarrowEntity, HarrowEntityModel> {
     private static final Identifier TEXTURE = new Identifier(Constants.MOD_ID, "textures/entity/harrow/harrow.png");
+
     public HarrowEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new HarrowEntityModel(context.getPart(MMModels.HARROW)), 0F);
     }
@@ -21,9 +22,9 @@ public class HarrowEntityRenderer extends MobEntityRenderer<HarrowEntity, Harrow
     @Override
     protected void scale(HarrowEntity entity, MatrixStack matrices, float amount) {
         float scale = 1;
-        if (entity.age < 20){
+        if (entity.age < 20) {
             scale = (entity.age + MinecraftClient.getInstance().getTickDelta()) / 20F;
-        }else if (entity.getLifeTicks() < 20){
+        } else if (entity.getLifeTicks() < 20) {
             scale = (entity.getLifeTicks() - MinecraftClient.getInstance().getTickDelta()) / 20F;
         }
         matrices.scale(scale, scale, scale);

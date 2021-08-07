@@ -9,7 +9,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
@@ -23,7 +22,7 @@ public class TatteredPrinceDummyModel extends EntityModel<TatteredPrinceEntity> 
         this.chest = root.getChild("chest");
     }
 
-    public static TexturedModelData getTexturedModelData(){
+    public static TexturedModelData getTexturedModelData() {
         ModelData data = new ModelData();
         ModelPartData root = data.getRoot();
         ModelPartData chest = root.addChild("chest",
@@ -416,6 +415,7 @@ public class TatteredPrinceDummyModel extends EntityModel<TatteredPrinceEntity> 
                 ModelTransform.of(-0.2F, 0.0F, 0.0F, -0.1745F, 0.0F, 0.0F));
         return TexturedModelData.of(data, 256, 128);
     }
+
     @Override
     public void setAngles(TatteredPrinceEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         //previously the render function, render code was moved to a method below

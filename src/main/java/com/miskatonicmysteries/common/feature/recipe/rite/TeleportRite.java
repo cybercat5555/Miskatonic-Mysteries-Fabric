@@ -28,6 +28,18 @@ public class TeleportRite extends Rite {
         ticksNeeded = 60;
     }
 
+    public static OctagramBlockEntity getBoundOctagram(OctagramBlockEntity octagram) {
+        BlockPos octagramPos = octagram.getBoundPos();
+        ServerWorld boundWorld = octagram.getBoundDimension();
+        if (octagramPos != null && boundWorld != null) {
+            BlockEntity be = boundWorld.getBlockEntity(octagramPos);
+            if (be instanceof OctagramBlockEntity) {
+                return (OctagramBlockEntity) be;
+            }
+        }
+        return null;
+    }
+
     @Override
     public boolean canCast(OctagramBlockEntity octagram) {
         if (super.canCast(octagram)) {
@@ -64,7 +76,6 @@ public class TeleportRite extends Rite {
         }
         return false;
     }
-
 
     @Override
     public void tick(OctagramBlockEntity octagram) {
@@ -111,19 +122,6 @@ public class TeleportRite extends Rite {
             otherOctagram.sync();
         }
         super.onCancelled(octagram);
-    }
-
-
-    public static OctagramBlockEntity getBoundOctagram(OctagramBlockEntity octagram) {
-        BlockPos octagramPos = octagram.getBoundPos();
-        ServerWorld boundWorld = octagram.getBoundDimension();
-        if (octagramPos != null && boundWorld != null) {
-            BlockEntity be = boundWorld.getBlockEntity(octagramPos);
-            if (be instanceof OctagramBlockEntity) {
-                return (OctagramBlockEntity) be;
-            }
-        }
-        return null;
     }
 
     @Override

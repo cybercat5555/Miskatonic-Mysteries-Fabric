@@ -25,19 +25,20 @@ public class ByakheeEntityModel extends EntityModel<ByakheeEntity> {
     private final ModelPart rWingTine01a, rWingTine02a, rWingTine03a, rWingTine04a, rWingTine05a;
     private final ModelPart rWingMembrane02, rWingMembrane03;
     private final ModelPart neck03, tail_r1;
+
     public ByakheeEntityModel(ModelPart root) {
-    	super(RenderLayer::getEntityCutout);
-    	this.root = root;
-    	ModelPart chest = root.getChild("chest");
-    	this.neck03 = chest.getChild("neck01").getChild("neck02").getChild("neck03");
-    	this.head = neck03.getChild("head");
-    	this.rLead_r1 = head.getChild("rLead_r1");
-    	this.lLead_r1 = head.getChild("lLead_r1");
-    	ModelPart lowerBody = chest.getChild("lowerBody");
-    	this.lLeg01 = lowerBody.getChild("lLeg01");
-    	this.lLeg02 = lLeg01.getChild("lLeg02");
-    	this.lFoot = lLeg02.getChild("lLeg03").getChild("lFoot");
-    	this.rLeg01 = lowerBody.getChild("rLeg01");
+        super(RenderLayer::getEntityCutout);
+        this.root = root;
+        ModelPart chest = root.getChild("chest");
+        this.neck03 = chest.getChild("neck01").getChild("neck02").getChild("neck03");
+        this.head = neck03.getChild("head");
+        this.rLead_r1 = head.getChild("rLead_r1");
+        this.lLead_r1 = head.getChild("lLead_r1");
+        ModelPart lowerBody = chest.getChild("lowerBody");
+        this.lLeg01 = lowerBody.getChild("lLeg01");
+        this.lLeg02 = lLeg01.getChild("lLeg02");
+        this.lFoot = lLeg02.getChild("lLeg03").getChild("lFoot");
+        this.rLeg01 = lowerBody.getChild("rLeg01");
         this.rLeg02 = rLeg01.getChild("rLeg02");
         this.rFoot = rLeg02.getChild("rLeg03").getChild("rFoot");
         this.rArm01 = chest.getChild("rArm01");
@@ -56,7 +57,7 @@ public class ByakheeEntityModel extends EntityModel<ByakheeEntity> {
         this.rWingTine03a = rArm02.getChild("rWingTine03a");
         this.rWingTine04a = rArm02.getChild("rWingTine04a");
         this.rWingTine05a = rArm02.getChild("rWingTine05a");
-        this.lWingMembrane02= lWingTine05a.getChild("lWingMembrane02");
+        this.lWingMembrane02 = lWingTine05a.getChild("lWingMembrane02");
         this.lWingMembrane03 = lArm02.getChild("lWingMembrane03");
         this.rWingMembrane02 = rWingTine05a.getChild("rWingMembrane02");
         this.rWingMembrane03 = rArm02.getChild("rWingMembrane03");
@@ -64,7 +65,7 @@ public class ByakheeEntityModel extends EntityModel<ByakheeEntity> {
 
     }
 
-    public static TexturedModelData getTexturedModelData(){
+    public static TexturedModelData getTexturedModelData() {
         ModelData data = new ModelData();
         ModelPartData root = data.getRoot();
         ModelPartData chest = root.addChild("chest",
@@ -503,12 +504,12 @@ public class ByakheeEntityModel extends EntityModel<ByakheeEntity> {
         this.rLead_r1.visible = entity.hasPassengers();
         this.lLead_r1.visible = entity.hasPassengers();
 
-        if (entity.headShakeTicks > 0){
-            this.head.roll = 0.3F * MathHelper.sin( 6.28F * (entity.headShakeTicks - MinecraftClient.getInstance().getTickDelta()) / 20F);
-        }else{
+        if (entity.headShakeTicks > 0) {
+            this.head.roll = 0.3F * MathHelper.sin(6.28F * (entity.headShakeTicks - MinecraftClient.getInstance().getTickDelta()) / 20F);
+        } else {
             this.head.roll = 0;
         }
-        if (entity.isGliding()){
+        if (entity.isGliding()) {
             this.lLeg01.pitch = 1.0036F;
             this.lLeg01.yaw = 0.0349F;
             this.rLeg01.pitch = 1.0036F;
@@ -564,7 +565,7 @@ public class ByakheeEntityModel extends EntityModel<ByakheeEntity> {
 
             this.neck03.pitch = 0.0873F;
             this.tail_r1.pitch = 1.309F;
-        }else {
+        } else {
             this.rLeg01.pitch = -0.5236F - (MathHelper.cos(limbSwing * 0.25F)) * 0.2F * limbSwingAmount;
             this.rLeg01.yaw = 0.576F;
             this.lLeg01.pitch = -0.5236F + (MathHelper.cos(limbSwing * 0.25F)) * 0.2F * limbSwingAmount;

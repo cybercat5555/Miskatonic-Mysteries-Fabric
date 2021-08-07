@@ -32,7 +32,7 @@ public class BoltSpellMedium extends SpellMedium {
         }
         if (hit != null && blockHit.squaredDistanceTo(caster) > hit.getEntity().squaredDistanceTo(caster)) {
             return effect.effect(world, caster, hit.getEntity(), hit.getPos(), this, intensity, caster);
-        }else {
+        } else {
             return effect.effect(world, caster, null, blockHit.getPos(), this, intensity, caster);
         }
     }

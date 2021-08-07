@@ -82,7 +82,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
         if (!this.items.getStack(0).isEmpty()) {
             tag.put("SaddleItem", this.items.getStack(0).writeNbt(new NbtCompound()));
         }
-        if (!this.items.getStack(1).isEmpty()){
+        if (!this.items.getStack(1).isEmpty()) {
             tag.put("DecoItem", this.items.getStack(1).writeNbt(new NbtCompound()));
         }
     }
@@ -108,7 +108,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 
     @Override
     public boolean tryAttack(Entity target) {
-        boolean bl = target.damage(DamageSource.mob(this), (float)((int)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)));
+        boolean bl = target.damage(DamageSource.mob(this), (float) ((int) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)));
         if (bl) {
             this.applyDamageEffects(this, target);
         }
@@ -128,11 +128,11 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
         }
 
         if (!itemStack.isEmpty()) {
-            if (!isTamed()){
+            if (!isTamed()) {
                 shakeHead();
                 return ActionResult.success(world.isClient);
             }
-            if (!isDecorated() && itemStack.getItem() == Items.YELLOW_CARPET){
+            if (!isDecorated() && itemStack.getItem() == Items.YELLOW_CARPET) {
                 itemStack.decrement(1);
                 this.items.setStack(1, new ItemStack(Items.YELLOW_CARPET));
                 this.world.playSoundFromEntity(null, this, SoundEvents.ENTITY_HORSE_SADDLE, SoundCategory.NEUTRAL, 0.5F, 1.0F);
@@ -152,16 +152,16 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
         if (headShakeTicks <= 0) {
             this.headShakeTicks = 20;
         }
-        this.world.sendEntityStatus(this, (byte)6);
+        this.world.sendEntityStatus(this, (byte) 6);
     }
 
     public boolean bondWithPlayer(PlayerEntity player) {
         this.setOwnerUuid(player.getUuid());
         this.setTamed(true);
         if (player instanceof ServerPlayerEntity) {
-            Criteria.TAME_ANIMAL.trigger((ServerPlayerEntity)player, this);
+            Criteria.TAME_ANIMAL.trigger((ServerPlayerEntity) player, this);
         }
-        this.world.sendEntityStatus(this, (byte)7);
+        this.world.sendEntityStatus(this, (byte) 7);
         return true;
     }
 
@@ -188,8 +188,8 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
         return dataTracker.get(DECORATED);
     }
 
-    public void updateSaddle(){
-        if (!world.isClient){
+    public void updateSaddle() {
+        if (!world.isClient) {
             dataTracker.set(SADDLED, !items.getStack(0).isEmpty());
             dataTracker.set(DECORATED, !items.getStack(1).isEmpty());
         }
@@ -199,7 +199,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
     protected void dropInventory() {
         super.dropInventory();
         if (this.items != null) {
-            for(int i = 0; i < this.items.size(); ++i) {
+            for (int i = 0; i < this.items.size(); ++i) {
                 ItemStack itemStack = this.items.getStack(i);
                 if (!itemStack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemStack)) {
                     this.dropStack(itemStack);
@@ -212,19 +212,19 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
     @Override
     public void tickMovement() {
         super.tickMovement();
-        if (headShakeTicks > 0){
+        if (headShakeTicks > 0) {
             headShakeTicks--;
         }
         if (!isOnGround()) {
             if (!world.isClient && ++ticksOffGround > 10) {
                 setGliding(true);
             }
-        }else{
+        } else {
             ticksOffGround = 0;
             setGliding(false);
         }
-        if (isLogicalSideForUpdatingMovement() && flapTicks > 0){
-            if (flapTicks > 10){
+        if (isLogicalSideForUpdatingMovement() && flapTicks > 0) {
+            if (flapTicks > 10) {
                 addVelocity(0, 0.2F, 0);
             }
             flapTicks--;
@@ -270,7 +270,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
                 if (this.isLogicalSideForUpdatingMovement()) {
                     this.setMovementSpeed((float) this.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED));
                     super.travel(new Vec3d(f, movementInput.y, g));
-                    if (isGliding()){
+                    if (isGliding()) {
                         this.fallDistance = 0;
                         if (getVelocity().y < -0.4F) {
                             setVelocity(getVelocity().x, -0.4F, getVelocity().z);
@@ -284,7 +284,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
             } else {
                 this.flyingSpeed = 0.02F;
                 super.travel(movementInput);
-                if (isGliding()){
+                if (isGliding()) {
                     this.fallDistance = 0;
                     if (getVelocity().y < -0.4F) {
                         setVelocity(getVelocity().x, -0.4F, getVelocity().z);
@@ -318,11 +318,11 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
         return this.getPassengerList().isEmpty() ? null : this.getPassengerList().get(0);
     }
 
-    public boolean isGliding(){
+    public boolean isGliding() {
         return dataTracker.get(GLIDING);
     }
 
-    public void setGliding(boolean gliding){
+    public void setGliding(boolean gliding) {
         dataTracker.set(GLIDING, gliding);
     }
 
@@ -345,7 +345,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
     @Override
     @Environment(EnvType.CLIENT)
     public void handleInput(boolean jumping) {
-        if (jumping && flapTicks <= 0 && canBeControlledByRider() && isSaddled()){
+        if (jumping && flapTicks <= 0 && canBeControlledByRider() && isSaddled()) {
             flapTicks = 20;
         }
     }
@@ -390,17 +390,17 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
                     return;
                 }
 
-                if (entity instanceof PlayerEntity){
+                if (entity instanceof PlayerEntity) {
                     if (getRandom().nextInt(5) == 0) {
                         bondWithPlayer((PlayerEntity) entity);
                         return;
-                    }else if (getRandom().nextInt(5) == 0){
+                    } else if (getRandom().nextInt(5) == 0) {
                         setAttacking((PlayerEntity) entity);
                     }
                 }
                 removeAllPassengers();
                 shakeHead();
-                world.sendEntityStatus(ByakheeEntity.this, (byte)6);
+                world.sendEntityStatus(ByakheeEntity.this, (byte) 6);
             }
 
         }

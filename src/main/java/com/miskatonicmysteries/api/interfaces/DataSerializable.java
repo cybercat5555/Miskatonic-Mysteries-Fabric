@@ -6,6 +6,7 @@ import net.minecraft.util.registry.Registry;
 
 public interface DataSerializable<T> {
     Identifier getId();
+
     abstract class DataReader<T> {
         public abstract T readFromJson(Identifier id, JsonObject json);
 

@@ -2,18 +2,14 @@ package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
-import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.ZombieVillagerAccessor;
 import net.minecraft.entity.EntityGroup;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -56,9 +52,9 @@ public class MourningDeadRite extends Rite {
                             mob.world.addParticle(MMParticles.AMBIENT, mob.getParticleX(1), mob.getRandomBodyY(), mob.getParticleX(1), 1F, 1F, 1F);
                         }
                     }
-                    if (mob instanceof ZombieVillagerEntity && mob.getRandom().nextBoolean()){
+                    if (mob instanceof ZombieVillagerEntity && mob.getRandom().nextBoolean()) {
                         ((ZombieVillagerAccessor) mob).callSetConverting(octagram.originalCaster, 20);
-                    }else{
+                    } else {
                         mob.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_HEALTH, 1, 10, false, false, false));
                     }
                 });

@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.client.model.entity;
 
-import com.google.common.collect.ImmutableList;
 import com.miskatonicmysteries.api.item.GunItem;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import net.fabricmc.api.EnvType;
@@ -23,13 +22,14 @@ import net.minecraft.util.Hand;
 @Environment(EnvType.CLIENT)
 public class ProtagonistEntityModel extends BipedEntityModel<ProtagonistEntity> {
     private final ModelPart root;
+
     public ProtagonistEntityModel(ModelPart root) {
         super(root);
         this.root = root;
         this.hat.visible = false;
     }
 
-    public static TexturedModelData getTexturedModelData(){
+    public static TexturedModelData getTexturedModelData() {
         ModelData data = new ModelData();
         ModelPartData root = data.getRoot();
         ModelPartData body = root.addChild(EntityModelPartNames.BODY,

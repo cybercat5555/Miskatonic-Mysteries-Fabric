@@ -9,8 +9,8 @@ import java.util.EnumSet;
 
 public class CastSpellGoal<T extends PathAwareEntity & CastingMob> extends Goal {
     private final T entity;
-    private int targetSeeingTicker;
     private final float squaredRange = 25;
+    private int targetSeeingTicker;
     private int internalCooldown;
 
     public CastSpellGoal(T caster) {

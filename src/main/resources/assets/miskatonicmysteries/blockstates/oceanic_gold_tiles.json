@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "miskatonicmysteries:block/oceanic_gold_tiles" }
+    "": {
+      "model": "miskatonicmysteries:block/oceanic_gold_tiles"
+    }
   }
 }

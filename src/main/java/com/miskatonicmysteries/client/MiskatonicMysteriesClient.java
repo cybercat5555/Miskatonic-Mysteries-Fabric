@@ -63,6 +63,7 @@ import vazkii.patchouli.api.PatchouliAPI;
 public class MiskatonicMysteriesClient implements ClientModInitializer {
 
     public static final Identifier OBFUSCATED_FONT_ID = new Identifier(Constants.MOD_ID, "obfuscated_font");
+
     @Override
     public void onInitializeClient() {
         MMModels.init();
@@ -73,7 +74,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
             boolean hasStage = Ascendant.of(MinecraftClient.getInstance().player).map(ascendant -> ascendant.getAscensionStage() >= stage).orElse(false);
             boolean hasAffiliation = Affiliated.of(MinecraftClient.getInstance().player).map(affiliated -> affiliation == null || affiliated.getAffiliation(false) == affiliation).orElse(false);
             boolean canRead = hasStage && hasAffiliation;
-            if (!canRead){
+            if (!canRead) {
                 iStyleStack.modifyStyle(style -> style.withFormatting(Formatting.OBFUSCATED)); //todo implement custom font once patchy allows that
                 return args.length > 2 ? args[2] : "";
             }
@@ -81,7 +82,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         });
         PatchouliAPI.get().registerFunction("expandknowledge", (param, iStyleStack) -> {
             int index = Integer.parseInt(param);
-            return Knowledge.of(MinecraftClient.getInstance().player).map(knowledge -> index < knowledge.getKnowledge().size() ? "\u2022 " + I18n.translate("knowledge.miskatonicmysteries."+ knowledge.getKnowledge().get(index)) : "").orElse("");
+            return Knowledge.of(MinecraftClient.getInstance().player).map(knowledge -> index < knowledge.getKnowledge().size() ? "\u2022 " + I18n.translate("knowledge.miskatonicmysteries." + knowledge.getKnowledge().get(index)) : "").orElse("");
         });
 
         ParticleFactoryRegistry.getInstance().register(MMParticles.DRIPPING_BLOOD, LeakParticle.BloodFactory::new);

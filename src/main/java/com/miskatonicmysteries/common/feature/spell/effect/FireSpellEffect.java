@@ -25,7 +25,7 @@ public class FireSpellEffect extends SpellEffect {
     @Override
     public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
         boolean flag = false;
-        if (target != null){
+        if (target != null) {
             target.setFireTicks(intensity * 40);
             flag = true;
         }
@@ -40,7 +40,7 @@ public class FireSpellEffect extends SpellEffect {
         return flag;
     }
 
-    private boolean lightFire(World world, BlockPos center, int range){
+    private boolean lightFire(World world, BlockPos center, int range) {
         return BlockPos.Mutable.findClosest(center, range, range, blockPos -> (range >= 2 || world.random.nextBoolean()) && (AbstractFireBlock.canPlaceAt(world, blockPos, Direction.DOWN) || CampfireBlock.canBeLit(world.getBlockState(blockPos)))).map(blockPos -> {
             BlockState blockState = world.getBlockState(blockPos);
             if (CampfireBlock.canBeLit(blockState)) {

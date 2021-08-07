@@ -38,7 +38,7 @@ public class WardingMarkItem extends Item {
     public ActionResult useOnBlock(ItemUsageContext context) {
         if (context.getPlayer() != null && Constants.Tags.WARDING_MARK_DYE.contains(context.getPlayer().getOffHandStack().getItem())) {
             ActionResult actionResult = this.place(new ItemPlacementContext(context));
-            if(actionResult.isAccepted()){
+            if (actionResult.isAccepted()) {
                 if (!context.getPlayer().isCreative()) {
                     context.getPlayer().getOffHandStack().decrement(1);
                 }
@@ -87,7 +87,7 @@ public class WardingMarkItem extends Item {
     protected BlockState getPlacementState(ItemPlacementContext context) {
         BlockState blockState = MMObjects.WARDING_MARK.getPlacementState(context);
         return blockState != null && this.canPlace(context, blockState) ? blockState : null;
-}
+    }
 
     protected boolean canPlace(ItemPlacementContext context, BlockState state) {
         PlayerEntity playerEntity = context.getPlayer();

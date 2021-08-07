@@ -1,7 +1,5 @@
 package com.miskatonicmysteries.api.registry;
 
-import com.miskatonicmysteries.api.interfaces.Sanity;
-import com.miskatonicmysteries.common.handler.InsanityHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.particle.ParticleTypes;
@@ -22,6 +20,18 @@ public abstract class SpellEffect {
         this.id = id;
         this.castingPredicate = castingPredicate == null ? (living) -> true : castingPredicate;
         this.color = color;
+    }
+
+    public static void spawnParticleEffectsOnTarget(LivingEntity caster, SpellEffect effect, Entity target) {
+        for (int i = 0; i < 15; i++)
+            target.world.addParticle(ParticleTypes.ENTITY_EFFECT,
+                    target.getX() + target.world.random.nextGaussian() * target.getWidth(),
+                    target.getY() + target.world.random.nextFloat()
+                            * target.getHeight(),
+                    target.getZ() + target.world.random.nextGaussian() * target.getWidth(),
+                    ((effect.getColor(caster) >> 16) & 255) / 255F,
+                    ((effect.getColor(caster) >> 8) & 255) / 255F,
+                    (effect.getColor(caster) & 255) / 255F);
     }
 
     public int getColor(@Nullable LivingEntity caster) {
@@ -45,23 +55,11 @@ public abstract class SpellEffect {
         return new Identifier(id.getNamespace(), "textures/gui/spell_widgets/effect/" + id.getPath() + ".png");
     }
 
-    public static void spawnParticleEffectsOnTarget(LivingEntity caster, SpellEffect effect, Entity target) {
-        for (int i = 0; i < 15; i++)
-            target.world.addParticle(ParticleTypes.ENTITY_EFFECT,
-                    target.getX() + target.world.random.nextGaussian() * target.getWidth(),
-                    target.getY() + target.world.random.nextFloat()
-                            * target.getHeight(),
-                    target.getZ() + target.world.random.nextGaussian() * target.getWidth(),
-                    ((effect.getColor(caster) >> 16) & 255) / 255F,
-                    ((effect.getColor(caster) >> 8) & 255) / 255F,
-                    (effect.getColor(caster) & 255) / 255F);
-    }
-
     public float getCooldownBase(int intensity) {
         return 20 + intensity * 10;
     }
 
-    public int calculateSanityPenalty(Random random, int intensity){
+    public int calculateSanityPenalty(Random random, int intensity) {
         return random.nextInt(intensity + 1);
     }
 }

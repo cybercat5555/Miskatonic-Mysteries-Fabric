@@ -4,7 +4,6 @@
 
 package com.miskatonicmysteries.client.model.armor;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -18,7 +17,7 @@ public class HasturMaskModel extends Model {
         this.root = root;
     }
 
-    public static TexturedModelData getTexturedModelData(){
+    public static TexturedModelData getTexturedModelData() {
         ModelData data = new ModelData();
         ModelPartData root = data.getRoot();
         ModelPartData armorHead = root.addChild("armorHead",
@@ -46,6 +45,7 @@ public class HasturMaskModel extends Model {
                 ModelTransform.of(3.3F, 0.0F, 0.0F, 0.1222F, 0.1396F, 0.0F));
         return TexturedModelData.of(data, 32, 32);
     }
+
     @Override
     public void render(MatrixStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         root.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);

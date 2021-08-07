@@ -7,17 +7,17 @@ import net.minecraft.world.World;
 
 public interface LazySerializable extends Recipe<Inventory> {
     @Override
-    default boolean matches(Inventory inv, World world){
+    default boolean matches(Inventory inv, World world) {
         return true;
     }
 
     @Override
-    default ItemStack craft(Inventory inv){
+    default ItemStack craft(Inventory inv) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    default ItemStack getOutput(){
+    default ItemStack getOutput() {
         return ItemStack.EMPTY;
     }
 

@@ -1,12 +1,7 @@
 package com.miskatonicmysteries.api.item.armor;
 
 import com.miskatonicmysteries.api.interfaces.Affiliated;
-import com.miskatonicmysteries.client.model.armor.CultistRobesModel;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.ItemStack;

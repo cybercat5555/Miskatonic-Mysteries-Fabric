@@ -60,13 +60,18 @@ import static com.miskatonicmysteries.common.util.Constants.DataTrackers.*;
 public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Ascendant, Resonating, Knowledge {
     public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
 
-    @Unique private final List<Spell> spells = new ArrayList<>();
-    @Unique private final Set<SpellEffect> learnedEffects = new HashSet<>();
-    @Unique private final Set<SpellMedium> learnedMediums = new HashSet<>();
+    @Unique
+    private final List<Spell> spells = new ArrayList<>();
+    @Unique
+    private final Set<SpellEffect> learnedEffects = new HashSet<>();
+    @Unique
+    private final Set<SpellMedium> learnedMediums = new HashSet<>();
 
-    @Unique private final List<Blessing> blessings = new ArrayList<>();
+    @Unique
+    private final List<Blessing> blessings = new ArrayList<>();
 
-    @Unique private final List<String> knowledge = new ArrayList<>();
+    @Unique
+    private final List<String> knowledge = new ArrayList<>();
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -123,7 +128,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
     @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"))
     private void manipulateProtagonistDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
         if (source.getAttacker() instanceof ProtagonistEntity && !(source instanceof Constants.DamageSources.ProtagonistDamageSource)) {
-            ((PlayerEntity) (Object) this).damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount);
+            ((Object) this).damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount);
         }
     }
 
@@ -174,13 +179,13 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
     }
 
     @Override
-    public void setShocked(boolean shocked) {
-        dataTracker.set(SHOCKED, shocked);
+    public boolean isShocked() {
+        return dataTracker.get(SHOCKED);
     }
 
     @Override
-    public boolean isShocked() {
-        return dataTracker.get(SHOCKED);
+    public void setShocked(boolean shocked) {
+        dataTracker.set(SHOCKED, shocked);
     }
 
     @Override
@@ -349,13 +354,13 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
     }
 
     @Override
-    public void setSpellCooldown(int ticks) {
-        this.dataTracker.set(SPELL_COOLDOWN, ticks);
+    public int getSpellCooldown() {
+        return dataTracker.get(SPELL_COOLDOWN);
     }
 
     @Override
-    public int getSpellCooldown() {
-        return dataTracker.get(SPELL_COOLDOWN);
+    public void setSpellCooldown(int ticks) {
+        this.dataTracker.set(SPELL_COOLDOWN, ticks);
     }
 
     @Override
@@ -405,13 +410,13 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
     }
 
     @Override
-    public void setResonance(float resonance) {
-        this.dataTracker.set(RESONANCE, resonance);
+    public float getResonance() {
+        return dataTracker.get(RESONANCE);
     }
 
     @Override
-    public float getResonance() {
-        return dataTracker.get(RESONANCE);
+    public void setResonance(float resonance) {
+        this.dataTracker.set(RESONANCE, resonance);
     }
 
     @Override
@@ -426,7 +431,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
     @Override
     public void syncKnowledge() {
-        if (!world.isClient){
+        if (!world.isClient) {
             SyncKnowledgePacket.send(this, this);
         }
     }
@@ -443,8 +448,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
     @Environment(EnvType.CLIENT)
     @Inject(method = "shouldRenderName", at = @At("HEAD"), cancellable = true)
-    private void shouldRenderName(CallbackInfoReturnable<Boolean> cir){
-        if (MiskatonicMysteries.config.items.masksConcealNameplates && !MaskTrinketItem.getMask((PlayerEntity) (Object) this).isEmpty()){
+    private void shouldRenderName(CallbackInfoReturnable<Boolean> cir) {
+        if (MiskatonicMysteries.config.items.masksConcealNameplates && !MaskTrinketItem.getMask((PlayerEntity) (Object) this).isEmpty()) {
             cir.setReturnValue(false);
         }
     }

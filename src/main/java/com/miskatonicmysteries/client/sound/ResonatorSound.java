@@ -15,10 +15,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ResonatorSound extends MovingSoundInstance implements TickableSoundInstance {
+    public static final Map<BlockPos, ResonatorSound> soundInstances = new ConcurrentHashMap<>();
     private final ClientPlayerEntity player;
     private final ClientWorld world;
     private final BlockPos pos;
-    public static final Map<BlockPos, ResonatorSound> soundInstances = new ConcurrentHashMap<>();
 
     protected ResonatorSound(BlockPos pos) {
         super(MMSounds.RESONATOR_HUMMING, SoundCategory.BLOCKS);

@@ -12,8 +12,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.World;
 
-import java.util.Random;
-
 @Environment(EnvType.CLIENT)
 public class RenderHelper extends RenderLayer {
 

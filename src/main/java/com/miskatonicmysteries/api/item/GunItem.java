@@ -40,12 +40,34 @@ public abstract class GunItem extends Item {
         super(settings);
     }
 
+    public static boolean isLoading(ItemStack stack) {
+        if (!stack.hasTag()) {
+            stack.setTag(new NbtCompound());
+            stack.getTag().putBoolean(Constants.NBT.LOADING, false);
+            return false;
+        }
+        return stack.getTag().getBoolean(Constants.NBT.LOADING);
+    }
+
+    public static ItemStack setLoading(ItemStack stack, boolean loading) {
+        if (!stack.hasTag()) {
+            stack.setTag(new NbtCompound());
+        }
+        stack.getTag().putBoolean(Constants.NBT.LOADING, loading);
+        return stack;
+    }
+
+    public static boolean isLoaded(ItemStack stack) {
+        if (!stack.hasTag()) stack.setTag(new NbtCompound());
+        return stack.getTag().getInt(Constants.NBT.SHOTS) > 0;
+    }
+
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
         if (!canUse(user)) {
             if (world.isClient) {
-                user.sendMessage(new TranslatableText("message."+ Constants.MOD_ID + ".heavy_gun.needs_offhand"), true);
+                user.sendMessage(new TranslatableText("message." + Constants.MOD_ID + ".heavy_gun.needs_offhand"), true);
             }
             return TypedActionResult.fail(stack);
         }
@@ -72,23 +94,6 @@ public abstract class GunItem extends Item {
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         return isLoading(stack) ? loadGun(stack, world, user) : stack;
-    }
-
-    public static boolean isLoading(ItemStack stack) {
-        if (!stack.hasTag()) {
-            stack.setTag(new NbtCompound());
-            stack.getTag().putBoolean(Constants.NBT.LOADING, false);
-            return false;
-        }
-        return stack.getTag().getBoolean(Constants.NBT.LOADING);
-    }
-
-    public static ItemStack setLoading(ItemStack stack, boolean loading) {
-        if (!stack.hasTag()) {
-            stack.setTag(new NbtCompound());
-        }
-        stack.getTag().putBoolean(Constants.NBT.LOADING, loading);
-        return stack;
     }
 
     @Override
@@ -162,11 +167,6 @@ public abstract class GunItem extends Item {
             ((PlayerEntity) player).getItemCooldownManager().set(this, getCooldown());
             ((PlayerEntity) player).incrementStat(Stats.USED.getOrCreateStat(this));
         }
-    }
-
-    public static boolean isLoaded(ItemStack stack) {
-        if (!stack.hasTag()) stack.setTag(new NbtCompound());
-        return stack.getTag().getInt(Constants.NBT.SHOTS) > 0;
     }
 
     public abstract boolean isHeavy();

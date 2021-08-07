@@ -12,7 +12,7 @@ public class CthulhuStatueModel extends StatueModel {
         super(RenderLayer::getEntitySolid, root, root.getChild("body"), root.getChild("plinth"), root.getChild("body").getChild("neck").getChild("head"));
     }
 
-    public static TexturedModelData getTexturedModelData(){
+    public static TexturedModelData getTexturedModelData() {
         ModelData data = new ModelData();
         ModelPartData root = data.getRoot();
         ModelPartData body = root.addChild("body",

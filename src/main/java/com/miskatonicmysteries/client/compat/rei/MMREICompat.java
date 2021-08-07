@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.client.compat.rei;
 
 import com.miskatonicmysteries.api.item.ChalkItem;
-import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.compat.rei.category.ChemistrySetCategory;
 import com.miskatonicmysteries.client.compat.rei.category.OctagramRiteCategory;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
@@ -37,7 +36,7 @@ public class MMREICompat implements REIClientPlugin {
                 validChalks.add(EntryStacks.of(item));
             }
         });
-        registry.addWorkstations(OCTAGRAM_RITE,  validChalks.toArray(new EntryStack[0]));
+        registry.addWorkstations(OCTAGRAM_RITE, validChalks.toArray(new EntryStack[0]));
         registry.removePlusButton(OCTAGRAM_RITE);
     }
 

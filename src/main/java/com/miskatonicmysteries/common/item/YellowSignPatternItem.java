@@ -42,7 +42,7 @@ public class YellowSignPatternItem extends LoomPatternItem {
     public ActionResult useOnBlock(ItemUsageContext context) {
         if (context.getPlayer() != null && Constants.Tags.YELLOW_DYE.contains(context.getPlayer().getOffHandStack().getItem())) {
             ActionResult actionResult = this.place(new ItemPlacementContext(context));
-            if(actionResult.isAccepted()){
+            if (actionResult.isAccepted()) {
                 if (!context.getPlayer().isCreative()) {
                     context.getPlayer().getOffHandStack().decrement(1);
                 }

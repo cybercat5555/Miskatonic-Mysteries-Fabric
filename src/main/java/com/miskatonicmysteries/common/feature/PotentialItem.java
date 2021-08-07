@@ -18,13 +18,25 @@ public class PotentialItem {
         this.out = out;
     }
 
+    public static PotentialItem fromPacket(PacketByteBuf buf) {
+        return new PotentialItem(buf.readItemStack(), buf.readItemStack());
+    }
 
+    public static PotentialItem fromJson(JsonObject jsonElement) {
+        JsonObject in = JsonHelper.getObject(jsonElement, "in");
+        JsonObject out = JsonHelper.getObject(jsonElement, "out");
+        return new PotentialItem(new ItemStack(ShapedRecipe.getItem(in)), new ItemStack(ShapedRecipe.getItem(out)));
+    }
 
-    public boolean canRealize(ItemStack stack){
+    public static PotentialItem fromTag(NbtCompound tag) {
+        return new PotentialItem(ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.RECEIVED_STACK)), ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.REALIZED_STACK)));
+    }
+
+    public boolean canRealize(ItemStack stack) {
         return stack.getItem().equals(in.getItem());
     }
 
-    public ItemStack realize(ItemStack stack){
+    public ItemStack realize(ItemStack stack) {
         stack.decrement(1);
         return out;
     }
@@ -41,29 +53,14 @@ public class PotentialItem {
                 .toString();
     }
 
-    public void write(PacketByteBuf buf){
+    public void write(PacketByteBuf buf) {
         buf.writeItemStack(in);
         buf.writeItemStack(out);
-    }
-
-    public static PotentialItem fromPacket(PacketByteBuf buf){
-        return new PotentialItem(buf.readItemStack(), buf.readItemStack());
-    }
-
-    public static PotentialItem fromJson(JsonObject jsonElement) {
-        JsonObject in = JsonHelper.getObject(jsonElement, "in");
-        JsonObject out = JsonHelper.getObject(jsonElement, "out");
-        return new PotentialItem(new ItemStack(ShapedRecipe.getItem(in)), new ItemStack(ShapedRecipe.getItem(out)));
     }
 
     public NbtCompound toTag(NbtCompound tag) {
         tag.put(Constants.NBT.RECEIVED_STACK, in.writeNbt(new NbtCompound()));
         tag.put(Constants.NBT.REALIZED_STACK, out.writeNbt(new NbtCompound()));
         return tag;
-    }
-
-
-    public static PotentialItem fromTag(NbtCompound tag){
-        return new PotentialItem(ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.RECEIVED_STACK)), ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.REALIZED_STACK)));
     }
 }

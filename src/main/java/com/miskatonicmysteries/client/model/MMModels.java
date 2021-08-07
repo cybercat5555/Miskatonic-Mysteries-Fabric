@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.client.model;
 
 import com.miskatonicmysteries.api.registry.Affiliation;
-import com.miskatonicmysteries.client.model.armor.CultistRobesModel;
 import com.miskatonicmysteries.client.model.armor.HasturMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubAlternateMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubMaskModel;
@@ -12,14 +11,10 @@ import com.miskatonicmysteries.client.model.block.StatueModel;
 import com.miskatonicmysteries.client.model.entity.*;
 import com.miskatonicmysteries.client.model.entity.dummy.TatteredPrinceDummyModel;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityModelLayerRegistry;
-import net.minecraft.client.model.Model;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.render.entity.model.SheepEntityModel;
-import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -48,7 +43,7 @@ public class MMModels {
 
 
     @SuppressWarnings("UnstableApiUsage")
-    public static void init(){
+    public static void init() {
         EntityModelLayerRegistry.registerModelLayer(BYAKHEE, ByakheeEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(HARROW, HarrowEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(HASTUR_CULTIST, HasturCultistEntityModel::getTexturedModelData);
@@ -65,12 +60,12 @@ public class MMModels {
         EntityModelLayerRegistry.registerModelLayer(HASTUR_STATUE, HasturStatueModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(SHUB_STATUE, ShubStatueModel::getTexturedModelData);
 
-        registerStatueModel(MMAffiliations.CTHULHU, (ctx) ->  new CthulhuStatueModel(ctx.getLayerModelPart(CTHULHU_STATUE)));
+        registerStatueModel(MMAffiliations.CTHULHU, (ctx) -> new CthulhuStatueModel(ctx.getLayerModelPart(CTHULHU_STATUE)));
         registerStatueModel(MMAffiliations.HASTUR, (ctx) -> new HasturStatueModel(ctx.getLayerModelPart(HASTUR_STATUE)));
         registerStatueModel(MMAffiliations.SHUB, (ctx) -> new ShubStatueModel(ctx.getLayerModelPart(SHUB_STATUE)));
     }
 
-    public static void registerStatueModel(Affiliation affiliation, Function<BlockEntityRendererFactory.Context, StatueModel> modelFunction){
+    public static void registerStatueModel(Affiliation affiliation, Function<BlockEntityRendererFactory.Context, StatueModel> modelFunction) {
         STATUE_MODELS.put(affiliation, modelFunction);
     }
 

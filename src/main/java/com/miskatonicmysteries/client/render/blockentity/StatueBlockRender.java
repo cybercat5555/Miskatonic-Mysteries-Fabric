@@ -24,6 +24,7 @@ import java.util.Map;
 
 public class StatueBlockRender implements BlockEntityRenderer<StatueBlockEntity> {
     public static final Map<Affiliation, StatueModel> MODELS = new HashMap<>();
+
     public StatueBlockRender(BlockEntityRendererFactory.Context context) {
         MMModels.STATUE_MODELS.forEach(((affiliation, modelFunction) -> MODELS.put(affiliation, modelFunction.apply(context))));
     }

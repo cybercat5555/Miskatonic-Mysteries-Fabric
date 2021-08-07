@@ -26,34 +26,15 @@ import team.reborn.energy.EnergyTier;
 import java.util.List;
 
 public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStorage {
-    public ResonatorBlockEntity(BlockPos pos, BlockState state) {
-        super(MMObjects.RESONATOR_BLOCK_ENTITY_TYPE, pos, state);
-    }
-
     private static final int MAX_STORED_POWER = 3200;
     private static final int MAX_RADIUS = 16;
-    private float radius;
-    public float intensity;
-    private double energy;
-    public int ticksRan;
     private static final int MAX_EFFECTIVE_RUNTIME = 1200;
-
-    @Override
-    public NbtCompound writeNbt(NbtCompound tag) {
-        tag.putFloat(Constants.NBT.RADIUS, radius);
-        tag.putFloat(Constants.NBT.INTENSITY, intensity);
-        tag.putDouble(Constants.NBT.ENERGY, energy);
-        tag.putInt(Constants.NBT.TICK_COUNT, ticksRan);
-        return super.writeNbt(tag);
-    }
-
-    @Override
-    public void readNbt(NbtCompound tag) {
-        radius = tag.getFloat(Constants.NBT.RADIUS);
-        intensity = tag.getFloat(Constants.NBT.INTENSITY);
-        energy = tag.getDouble(Constants.NBT.ENERGY);
-        ticksRan = tag.getInt(Constants.NBT.TICK_COUNT);
-        super.readNbt(tag);
+    public float intensity;
+    public int ticksRan;
+    private float radius;
+    private double energy;
+    public ResonatorBlockEntity(BlockPos pos, BlockState state) {
+        super(MMObjects.RESONATOR_BLOCK_ENTITY_TYPE, pos, state);
     }
 
     public static void tick(ResonatorBlockEntity blockEntity) {
@@ -95,6 +76,29 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
             blockEntity.intensity -= 0.001F;
             blockEntity.markDirty();
         }
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static void handleSound(ResonatorBlockEntity resonator) {
+        ResonatorSound.createSound(resonator.getPos());
+    }
+
+    @Override
+    public NbtCompound writeNbt(NbtCompound tag) {
+        tag.putFloat(Constants.NBT.RADIUS, radius);
+        tag.putFloat(Constants.NBT.INTENSITY, intensity);
+        tag.putDouble(Constants.NBT.ENERGY, energy);
+        tag.putInt(Constants.NBT.TICK_COUNT, ticksRan);
+        return super.writeNbt(tag);
+    }
+
+    @Override
+    public void readNbt(NbtCompound tag) {
+        radius = tag.getFloat(Constants.NBT.RADIUS);
+        intensity = tag.getFloat(Constants.NBT.INTENSITY);
+        energy = tag.getDouble(Constants.NBT.ENERGY);
+        ticksRan = tag.getInt(Constants.NBT.TICK_COUNT);
+        super.readNbt(tag);
     }
 
     private void spawnPhantasm() {
@@ -153,10 +157,5 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
     @Override
     public double getMaxOutput(EnergySide side) {
         return 0;
-    }
-
-    @Environment(EnvType.CLIENT)
-    public static void handleSound(ResonatorBlockEntity resonator) {
-        ResonatorSound.createSound(resonator.getPos());
     }
 }

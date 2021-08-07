@@ -179,7 +179,7 @@ public class ModCommand {
         CommandRegistrationCallback.EVENT.register((displatcher, b) -> displatcher.register(builder));
     }
 
-    private static int displayVision(CommandContext<ServerCommandSource> context, Identifier visionId,  ServerPlayerEntity... players) {
+    private static int displayVision(CommandContext<ServerCommandSource> context, Identifier visionId, ServerPlayerEntity... players) {
         for (ServerPlayerEntity player : players) {
             VisionPacket.send(player, visionId);
             context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.display_vision", visionId.toString(), player.getDisplayName()), true);
