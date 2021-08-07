@@ -3,6 +3,7 @@ package com.miskatonicmysteries.client.render;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Model;
+import net.minecraft.client.option.CloudRenderMode;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -31,6 +32,20 @@ public class RenderHelper extends RenderLayer {
         buffer.vertex(mat, 0, 0, 0).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMinU(), sprite.getMinV()).light(light).overlay(overlay).normal(0, 1, 0).next();
     }
 
+    public static void renderCenteredTexturedPlane(float size, Sprite sprite, MatrixStack matrices, VertexConsumer buffer, int light, int overlay, float[] rgba, boolean twoSided) {
+        Matrix4f mat = matrices.peek().getModel();
+        float halfSize = size / 2F;
+        buffer.vertex(mat, -halfSize, 0, halfSize).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMinU(), sprite.getMaxV()).light(light).overlay(overlay).normal(0, 1, 0).next();
+        buffer.vertex(mat, halfSize, 0, halfSize).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMaxU(), sprite.getMaxV()).light(light).overlay(overlay).normal(0, 1, 0).next();
+        buffer.vertex(mat, halfSize, 0, -halfSize).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMaxU(), sprite.getMinV()).light(light).overlay(overlay).normal(0, 1, 0).next();
+        buffer.vertex(mat,  -halfSize, 0,  -halfSize).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMinU(), sprite.getMinV()).light(light).overlay(overlay).normal(0, 1, 0).next();
+        if (twoSided){
+            buffer.vertex(mat,  -halfSize, 0,  -halfSize).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMinU(), sprite.getMinV()).light(light).overlay(overlay).normal(0, 1, 0).next();
+            buffer.vertex(mat, halfSize, 0, -halfSize).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMaxU(), sprite.getMinV()).light(light).overlay(overlay).normal(0, 1, 0).next();
+            buffer.vertex(mat, halfSize, 0, halfSize).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMaxU(), sprite.getMaxV()).light(light).overlay(overlay).normal(0, 1, 0).next();
+            buffer.vertex(mat, -halfSize, 0, halfSize).color(rgba[0], rgba[1], rgba[2], rgba[3]).texture(sprite.getMinU(), sprite.getMaxV()).light(light).overlay(overlay).normal(0, 1, 0).next();
+        }
+    }
 
     public static void renderPortalLayer(World world, Matrix4f matrix4f, VertexConsumerProvider vertexConsumers, float sizeX, float sizeY, float[] rgb) {
         float r = (world.random.nextFloat() * 0.5f + rgb[0]);

@@ -125,10 +125,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
     @Shadow
     public abstract boolean isSleepingLongEnough();
 
+    @Shadow public abstract boolean damage(DamageSource source, float amount);
+
     @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"))
     private void manipulateProtagonistDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
         if (source.getAttacker() instanceof ProtagonistEntity && !(source instanceof Constants.DamageSources.ProtagonistDamageSource)) {
-            ((Object) this).damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount);
+            damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount);
         }
     }
 

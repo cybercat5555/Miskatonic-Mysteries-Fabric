@@ -6,11 +6,13 @@ import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeMaskPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMCriteria;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
 import dev.emi.trinkets.api.TrinketsApi;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,6 +28,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.WorldChunk;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -161,11 +164,12 @@ public class MiskatonicMysteriesAPI {
         return false;
     }
 
-    public static void setBiomeMask(World world, BlockPos pos, Biome biome) {
-        Chunk chunk = world.getChunk(pos);
+    public static void setBiomeMask(ServerWorld world, BlockPos pos, Biome biome) {
+        WorldChunk chunk = world.getWorldChunk(pos);
         int x = BiomeCoords.fromBlock(pos.getX());
         int z = BiomeCoords.fromBlock(pos.getZ());
         ((BiomeMask) chunk.getBiomeArray()).MM_addBiomeMask(x, z, biome);
+        PlayerLookup.tracking(world, pos).forEach(serverPlayerEntity -> SyncBiomeMaskPacket.send(serverPlayerEntity, chunk));
     }
 
     public static boolean addKnowledge(String knowledgeId, PlayerEntity player) {

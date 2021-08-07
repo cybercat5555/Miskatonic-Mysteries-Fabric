@@ -8,6 +8,7 @@ import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+import dev.architectury.mixin.fabric.client.MixinTextureAtlas;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
@@ -28,6 +29,10 @@ public class ResourceHandler {
     public static final SpriteIdentifier AURA_SPRITE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/aura"));
     public static final SpriteIdentifier TOTAL_DARK = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/total_dark"));
 
+    public static final SpriteIdentifier HASTUR_SIGIL_CENTER = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/sigil/hastur/center"));
+	public static final SpriteIdentifier HASTUR_SIGIL_INNER = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/sigil/hastur/inner"));
+	public static final SpriteIdentifier HASTUR_SIGIL_OUTER = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/sigil/hastur/outer"));
+
     public static final Map<Item, SpriteIdentifier> BOOK_SPRITES = new HashMap<>();
     public static final Map<OctagramBlock, SpriteIdentifier> OCTAGRAM_SPRITES = new HashMap<>();
     public static final Map<OctagramBlock, SpriteIdentifier> OCTAGRAM_MASKS = new HashMap<>();
@@ -36,13 +41,17 @@ public class ResourceHandler {
 
 
     public static void init() {
-        ClientSpriteRegistryCallback.registerBlockAtlas((spriteAtlasTexture, registry) -> {
+        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register((spriteAtlasTexture, registry) -> {
             registry.register(new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
             registry.register(new Identifier(Constants.MOD_ID, "misc/aura"));
             registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/hastur_octagram_mask"));
             registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/shub_octagram_mask"));
             registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/cthulhu_octagram_mask"));
+			registry.register(HASTUR_SIGIL_CENTER.getTextureId());
+			registry.register(HASTUR_SIGIL_INNER.getTextureId());
+			registry.register(HASTUR_SIGIL_OUTER.getTextureId());
         });
+
         ResourceHandler.addBookTextureFor(MMObjects.NECRONOMICON, new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
 
         ResourceHandler.addOctagramTextureFor(MMObjects.CTHULHU_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/cthulhu_octagram"),

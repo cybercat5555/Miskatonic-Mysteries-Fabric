@@ -3,11 +3,6 @@ package com.miskatonicmysteries.common.feature.recipe.rite;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -34,9 +29,7 @@ public class BiomeConversionRite extends AscensionLockedRite {
 
     @Override
     public void tick(OctagramBlockEntity octagram) {
-        if (octagram.tickCount <= 43200) {
-            octagram.tickCount++;
-        }
+        super.tick(octagram);
         if (octagram.getWorld() instanceof ServerWorld serverWorld && serverWorld.getTime() % 20 == 0) {
             Random random = serverWorld.getRandom();
             int radius = octagram.tickCount / 120;
@@ -44,16 +37,8 @@ public class BiomeConversionRite extends AscensionLockedRite {
             BlockPos center = octagram.getPos();
             Iterable<BlockPos> blockPosIterable = BlockPos.iterateRandomly(random, 1 + random.nextInt(3), center.getX() - radius, center.getY(), center.getZ() - radius, center.getX() + radius, center.getY(), center.getZ() + radius);
             for (BlockPos targetPos : blockPosIterable) {
-                for (int i = -radius; i < radius; i++) {
-                    MiskatonicMysteriesAPI.setBiomeMask(octagram.getWorld(), targetPos.add(0, i, 0), biome);
-                }
+                MiskatonicMysteriesAPI.setBiomeMask(serverWorld, targetPos, biome);
             }
         }
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
-        super.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
     }
 }
