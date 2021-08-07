@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.feature;
 import com.miskatonicmysteries.api.interfaces.*;
 import com.miskatonicmysteries.api.registry.*;
 import com.miskatonicmysteries.common.feature.spell.Spell;
+import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ModifyBlessingPacket;
@@ -204,7 +205,7 @@ public class ModCommand {
     }
 
     private static int giveWorldNBT(CommandContext<ServerCommandSource> context) {
-        context.getSource().sendFeedback(NbtHelper.toPrettyPrintedText(MMWorldState.get(context.getSource().getWorld()).writeNbt(new NbtCompound())), false);
+        context.getSource().sendFeedback(NbtHelper.toPrettyPrintedText(MMDimensionalWorldState.get(context.getSource().getWorld()).writeNbt(new NbtCompound())), false);
         return 0;
     }
 

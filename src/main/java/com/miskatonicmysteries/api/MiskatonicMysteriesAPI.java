@@ -22,8 +22,11 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.source.BiomeAccess;
+import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.chunk.Chunk;
 
 import javax.annotation.Nullable;
@@ -162,8 +165,8 @@ public class MiskatonicMysteriesAPI {
 
     public static void setBiomeMask(World world, BlockPos pos, Biome biome){
         Chunk chunk = world.getChunk(pos);
-        int x = pos.getX() - chunk.getPos().x;
-        int z = pos.getZ() - chunk.getPos().z;;
+        int x = BiomeCoords.fromBlock(pos.getX());
+        int z = BiomeCoords.fromBlock(pos.getZ());
         ((BiomeMask) chunk.getBiomeArray()).MM_addBiomeMask(x, z, biome);
     }
 
