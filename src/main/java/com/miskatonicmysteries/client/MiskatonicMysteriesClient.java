@@ -21,10 +21,7 @@ import com.miskatonicmysteries.client.particle.LeakParticle;
 import com.miskatonicmysteries.client.particle.ShrinkingMagicParticle;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.client.render.ShaderHandler;
-import com.miskatonicmysteries.client.render.blockentity.AltarBlockRender;
-import com.miskatonicmysteries.client.render.blockentity.ChemistrySetBlockRender;
-import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
-import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
+import com.miskatonicmysteries.client.render.blockentity.*;
 import com.miskatonicmysteries.client.render.entity.*;
 import com.miskatonicmysteries.client.render.trinket.MaskTrinketRenderer;
 import com.miskatonicmysteries.client.sound.ResonatorSound;
@@ -115,6 +112,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         BlockEntityRendererRegistry.INSTANCE.register(MMObjects.ALTAR_BLOCK_ENTITY_TYPE, AltarBlockRender::new);
         BlockEntityRendererRegistry.INSTANCE.register(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, OctagramBlockRender::new);
         BlockEntityRendererRegistry.INSTANCE.register(MMObjects.STATUE_BLOCK_ENTITY_TYPE, StatueBlockRender::new);
+        BlockEntityRendererRegistry.INSTANCE.register(MMObjects.MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE, MasterpieceStatueBlockRender::new);
 
         EntityRendererRegistry.INSTANCE.register(MMEntities.PROTAGONIST, ProtagonistEntityRender::new);
         EntityRendererRegistry.INSTANCE.register(MMEntities.HASTUR_CULTIST, HasturCultistEntityRender::new);
@@ -130,6 +128,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 
         ResourceHandler.init();
         StatueBlock.STATUES.forEach(statue -> BuiltinItemRendererRegistry.INSTANCE.register(statue.asItem(), new StatueBlockRender.BuiltinItemStatueRenderer()));
+        BuiltinItemRendererRegistry.INSTANCE.register(MMObjects.MASTERPIECE_STATUE, new MasterpieceStatueBlockRender.BuiltinItemStatueRenderer());
         SpellClientHandler.init();
         VisionHandler.init();
 

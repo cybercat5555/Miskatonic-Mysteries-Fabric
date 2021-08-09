@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "PlayerName",
+                  "target": "BlockEntityTag.PlayerName",
+                  "op": "replace"
+                },
+                {
+                  "source": "PlayerUUID",
+                  "target": "BlockEntityTag.PlayerUUID",
+                  "op": "replace"
+                },
+                {
+                  "source": "StatueOwner",
+                  "target": "BlockEntityTag.StatueOwner",
+                  "op": "replace"
+                }
+              ]
+            }
+          ],
+          "name": "miskatonicmysteries:masterpiece_statue"
+        }
+      ]
+    }
+  ]
+}

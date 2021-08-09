@@ -4,10 +4,7 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.model.armor.HasturMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubAlternateMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubMaskModel;
-import com.miskatonicmysteries.client.model.block.CthulhuStatueModel;
-import com.miskatonicmysteries.client.model.block.HasturStatueModel;
-import com.miskatonicmysteries.client.model.block.ShubStatueModel;
-import com.miskatonicmysteries.client.model.block.StatueModel;
+import com.miskatonicmysteries.client.model.block.*;
 import com.miskatonicmysteries.client.model.entity.*;
 import com.miskatonicmysteries.client.model.entity.dummy.TatteredPrinceDummyModel;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
@@ -39,6 +36,7 @@ public class MMModels {
     public static final EntityModelLayer CTHULHU_STATUE = create("cthulhu_statue");
     public static final EntityModelLayer HASTUR_STATUE = create("hastur_statue");
     public static final EntityModelLayer SHUB_STATUE = create("shub_statue");
+    public static final EntityModelLayer MASTERPIECE_STATUE = create("masterpiece_statue");
     public static final Map<Affiliation, Function<BlockEntityRendererFactory.Context, StatueModel>> STATUE_MODELS = new HashMap<>();
 
 
@@ -59,6 +57,8 @@ public class MMModels {
         EntityModelLayerRegistry.registerModelLayer(CTHULHU_STATUE, CthulhuStatueModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(HASTUR_STATUE, HasturStatueModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(SHUB_STATUE, ShubStatueModel::getTexturedModelData);
+
+        EntityModelLayerRegistry.registerModelLayer(MASTERPIECE_STATUE, MasterpieceStatueModel::getTexturedModelData);
 
         registerStatueModel(MMAffiliations.CTHULHU, (ctx) -> new CthulhuStatueModel(ctx.getLayerModelPart(CTHULHU_STATUE)));
         registerStatueModel(MMAffiliations.HASTUR, (ctx) -> new HasturStatueModel(ctx.getLayerModelPart(HASTUR_STATUE)));

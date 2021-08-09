@@ -3,12 +3,12 @@ package com.miskatonicmysteries.client.render;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.client.render.blockentity.MasterpieceStatueBlockRender;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
-import dev.architectury.mixin.fabric.client.MixinTextureAtlas;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
@@ -50,6 +50,7 @@ public class ResourceHandler {
 			registry.register(HASTUR_SIGIL_CENTER.getTextureId());
 			registry.register(HASTUR_SIGIL_INNER.getTextureId());
 			registry.register(HASTUR_SIGIL_OUTER.getTextureId());
+            MasterpieceStatueBlockRender.TEXTURE_CACHE.forEach((gameProfile, stoneTexture) -> stoneTexture.needsUpdate = true);
         });
 
         ResourceHandler.addBookTextureFor(MMObjects.NECRONOMICON, new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));

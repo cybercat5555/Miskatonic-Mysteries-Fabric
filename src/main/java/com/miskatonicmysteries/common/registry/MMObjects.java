@@ -9,10 +9,7 @@ import com.miskatonicmysteries.api.item.MMBookItem;
 import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.block.CandleBlock;
 import com.miskatonicmysteries.common.block.*;
-import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
-import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
+import com.miskatonicmysteries.common.block.blockentity.*;
 import com.miskatonicmysteries.common.block.blockentity.energy.PowerCellBlockEntity;
 import com.miskatonicmysteries.common.block.blockentity.energy.ResonatorBlockEntity;
 import com.miskatonicmysteries.common.item.*;
@@ -76,6 +73,10 @@ public class MMObjects {
     public static final StatueBlock SHUB_STATUE_DEEPSLATE = new StatueBlock(MMAffiliations.SHUB, false, AbstractBlock.Settings.copy(Blocks.DEEPSLATE));
     public static final StatueBlock SHUB_STATUE_STONE = new StatueBlock(MMAffiliations.SHUB, false, AbstractBlock.Settings.copy(Blocks.STONE));
     public static final BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create(StatueBlockEntity::new, StatueBlock.STATUES.toArray(new StatueBlock[StatueBlock.STATUES.size()])).build(null);
+
+    public static final MasterpieceStatueBlock MASTERPIECE_STATUE = new MasterpieceStatueBlock(AbstractBlock.Settings.copy(Blocks.STONE));
+    public static final BlockEntityType<MasterpieceStatueBlockEntity> MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create(MasterpieceStatueBlockEntity::new, MASTERPIECE_STATUE).build(null);
+
 
     public static final Block STONE_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));
     public static final Block MOSSY_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
@@ -221,6 +222,9 @@ public class MMObjects {
         RegistryUtil.registerBlock(SHUB_STATUE_MOSSY, "shub_statue_mossy");
         RegistryUtil.registerBlock(SHUB_STATUE_DEEPSLATE, "shub_statue_deepslate");
         RegistryUtil.registerBlock(SHUB_STATUE_STONE, "shub_statue_stone");
+
+        RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "masterpiece_statue", MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE);
+        RegistryUtil.registerBlock(MASTERPIECE_STATUE, "masterpiece_statue");
 
         RegistryUtil.registerBlock(STONE_CTHULHU_MURAL, "stone_cthulhu_mural");
         RegistryUtil.registerBlock(MOSSY_CTHULHU_MURAL, "mossy_cthulhu_mural");

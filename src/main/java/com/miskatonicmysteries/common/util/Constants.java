@@ -132,7 +132,9 @@ public class Constants {
         public static final String WARDING_MARKS = "WardingMarks";
         public static final String GLIDING = "Gliding";
         public static final String BIOME_MASK = "MMBiomeMask";
-    }
+        public static final String STATUE_OWNER = "StatueOwner";
+        public static final String POSE = "Pose";
+	}
 
     public static class DataTrackers {
         public static final int SANITY_CAP = 1000;
