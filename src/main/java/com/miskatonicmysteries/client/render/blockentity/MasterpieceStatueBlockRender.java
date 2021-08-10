@@ -44,6 +44,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,11 +68,11 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 		BuiltinItemStatueRenderer.dispatcher = context.getRenderDispatcher();
 		this.textureManager = MinecraftClient.getInstance().getTextureManager();
 		this.resourceManager = MinecraftClient.getInstance().getResourceManager();
-		this.defaultTexture = new StoneTexture(DefaultSkinHelper.getTexture(), true);
+		this.defaultTexture = new StoneTexture(DefaultSkinHelper.getTexture(), false);
 		this.statueModel = new MasterpieceStatueModel(context.getLayerModelPart(MMModels.MASTERPIECE_STATUE));
 		this.steveModel = new PlayerEntityModel<>(context.getLayerModelPart(EntityModelLayers.PLAYER), false);
 		this.steveModel.child = false;
-		this.alexModel = new PlayerEntityModel<>(context.getLayerModelPart(EntityModelLayers.PLAYER), true);
+		this.alexModel = new PlayerEntityModel<>(context.getLayerModelPart(EntityModelLayers.PLAYER_SLIM), true);
 		this.alexModel.child = false;
 		poses.add(model -> {
 			setRotationAngle(model.head, -0.1047F, 0.0873F, 0.0F);
@@ -172,14 +173,14 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 						minecraftClient.getSkinProvider().getTextures(profile);
 				if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) {
 					try {
-						return new StoneTexture(minecraftClient.getSkinProvider().loadSkin(map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN), false);
+						return new StoneTexture(minecraftClient.getSkinProvider().loadSkin(map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN), true);
 					} catch (NullPointerException e) {
 						return defaultTexture;
 					}
 				}
 				else {
 					return new StoneTexture(DefaultSkinHelper.getTexture(PlayerEntity.getUuidFromProfile(profile)),
-							true);
+							false);
 				}
 			}
 			else {
@@ -234,14 +235,14 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 		public static final Logger LOGGER = LogManager.getLogger(Constants.MOD_ID + ":texturegen");
 		private static final Identifier stoneTexture = new Identifier("textures/block/stone.png");
 		private final Identifier base;
-		private final boolean defaultSkin;
+		private final boolean playerSkin;
 		private final RenderLayer renderLayer;
 		private final NativeImageBackedTexture texture;
 		public boolean needsUpdate;
 
 		StoneTexture(Identifier base, boolean playerSkin) {
 			this.base = base;
-			this.defaultSkin = playerSkin;
+			this.playerSkin = playerSkin;
 			texture = new NativeImageBackedTexture(new NativeImage(64, 64, true));
 			Identifier id = textureManager.registerDynamicTexture("mm_stone/" + base.getPath(), texture);
 			this.renderLayer = RenderLayer.getEntityCutout(id);
@@ -252,25 +253,20 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 			MinecraftClient.getInstance().execute(() -> {
 				try {
 					NativeImage inputImage;
-					if (!defaultSkin) {
+					if (!playerSkin) {
 						inputImage = NativeImage.read(resourceManager.getResource(base).getInputStream());
 					}
 					else {
-						PlayerSkinTexture skinTexture = (PlayerSkinTexture) textureManager.getTexture(base);
-						File file = ((PlayerSkinTextureAccessor) skinTexture).getCacheFile();
-						try {
-							inputImage = NativeImage.read(new FileInputStream(file));
-						} catch (FileNotFoundException e) {
-							inputImage =
-									NativeImage.read(resourceManager.getResource(DefaultSkinHelper.getTexture()).getInputStream());
-						}
+						inputImage = getPlayerSkin(base);
 					}
 					NativeImage stoneImage =
 							NativeImage.read(resourceManager.getResource(stoneTexture).getInputStream());
 					IntList skinPalette = ColorUtil.getPaletteFromImage(inputImage);
 					Int2IntMap colorMap = ColorUtil.associateGrayscale(skinPalette);
-					for (int y = 0; y < texture.getImage().getHeight(); y++) {
-						for (int x = 0; x < texture.getImage().getWidth(); x++) {
+					int height = Math.min(texture.getImage().getHeight(), inputImage.getHeight());
+					int width = Math.min(texture.getImage().getWidth(), inputImage.getWidth());
+					for (int y = 0; y < height; y++) {
+						for (int x = 0; x < width; x++) {
 							int color = colorMap.get(inputImage.getPixelColor(x, y));
 							color = ColorHelper.multiplyColor(color,
 									stoneImage.getPixelColor(x % stoneImage.getWidth(), y % stoneImage.getHeight()));
@@ -281,10 +277,22 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 					inputImage.close();
 					this.texture.upload();
 				} catch (Exception e) {
-					LOGGER.error("Could not update stone texture.", e);
+					if (e instanceof FileNotFoundException){
+						LOGGER.info("Retrieving player texture file...");
+					}else{
+						LOGGER.error("Could not update stone texture.", e);
+					}
 				}
 			});
 		}
+
+		private NativeImage getPlayerSkin(Identifier base) throws IOException {
+			PlayerSkinTexture skinTexture = (PlayerSkinTexture) textureManager.getTexture(base);
+			PlayerSkinTextureAccessor accessor = (PlayerSkinTextureAccessor) skinTexture;
+			File file = accessor.getCacheFile();
+			return accessor.invokeRemapTexture(NativeImage.read(new FileInputStream(file)));
+		}
+
 
 		@Override
 		public void close() {
