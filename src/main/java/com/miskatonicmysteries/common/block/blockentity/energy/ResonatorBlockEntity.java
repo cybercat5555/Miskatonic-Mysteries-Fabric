@@ -82,18 +82,19 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
 	private static void handleParticles(ResonatorBlockEntity blockEntity) {
 		float particleChance = blockEntity.intensity;
 		if (blockEntity.world.random.nextFloat() < particleChance) {
-			blockEntity.world.addParticle(MMParticles.AMBIENT,
-                    blockEntity.pos.getX() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
-                    blockEntity.pos.getY() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
-                    blockEntity.pos.getZ() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
-                    0.75F, 0, 1);
 			if (blockEntity.world.random.nextBoolean()) {
 				blockEntity.world.addParticle(MMParticles.RESONATOR_CREATURE,
                         blockEntity.pos.getX() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
                         blockEntity.pos.getY() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
                         blockEntity.pos.getZ() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
                         0, 0, 0);
-			}
+			}else {
+                blockEntity.world.addParticle(MMParticles.AMBIENT,
+                        blockEntity.pos.getX() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
+                        blockEntity.pos.getY() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
+                        blockEntity.pos.getZ() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
+                        0.75F, 0, 1);
+            }
 		}
 	}
 
