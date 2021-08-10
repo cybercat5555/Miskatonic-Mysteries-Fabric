@@ -26,6 +26,7 @@ public class MMParticles {
     public static final DefaultParticleType AMBIENT_MAGIC = FabricParticleTypes.simple(true);
     public static final DefaultParticleType SHRINKING_MAGIC = FabricParticleTypes.simple(true);
     public static final DefaultParticleType DRIPPING_BLOOD = FabricParticleTypes.simple(true);
+    public static final DefaultParticleType RESONATOR_CREATURE = FabricParticleTypes.simple(true);
 
     public static void init() {
         RegistryUtil.register(Registry.PARTICLE_TYPE, "flame", FLAME);
@@ -33,6 +34,7 @@ public class MMParticles {
         RegistryUtil.register(Registry.PARTICLE_TYPE, "ambient_magic", AMBIENT_MAGIC);
         RegistryUtil.register(Registry.PARTICLE_TYPE, "magic_shrinking", SHRINKING_MAGIC);
         RegistryUtil.register(Registry.PARTICLE_TYPE, "blood", DRIPPING_BLOOD);
+        RegistryUtil.register(Registry.PARTICLE_TYPE, "resonator_creature", RESONATOR_CREATURE);
     }
 
 

@@ -15,10 +15,7 @@ import com.miskatonicmysteries.client.model.armor.ShubAlternateMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubMaskModel;
 import com.miskatonicmysteries.client.model.entity.phantasma.AberrationModel;
 import com.miskatonicmysteries.client.model.entity.phantasma.PhantasmaModel;
-import com.miskatonicmysteries.client.particle.AmbientMagicParticle;
-import com.miskatonicmysteries.client.particle.CandleFlameParticle;
-import com.miskatonicmysteries.client.particle.LeakParticle;
-import com.miskatonicmysteries.client.particle.ShrinkingMagicParticle;
+import com.miskatonicmysteries.client.particle.*;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.client.render.ShaderHandler;
 import com.miskatonicmysteries.client.render.blockentity.*;
@@ -87,6 +84,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
         ParticleFactoryRegistry.getInstance().register(MMParticles.AMBIENT_MAGIC, AmbientMagicParticle.MagicFactory::new);
         ParticleFactoryRegistry.getInstance().register(MMParticles.SHRINKING_MAGIC, ShrinkingMagicParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(MMParticles.FLAME, CandleFlameParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(MMParticles.RESONATOR_CREATURE, ResonatorCreatureParticle.Factory::new);
 
         ClientTickEvents.END_CLIENT_TICK.register(minecraftClient -> {
             for (BlockPos blockPos : ResonatorSound.soundInstances.keySet()) {
