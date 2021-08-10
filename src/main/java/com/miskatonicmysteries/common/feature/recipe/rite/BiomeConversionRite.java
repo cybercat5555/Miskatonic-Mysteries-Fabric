@@ -21,6 +21,12 @@ public class BiomeConversionRite extends AscensionLockedRite {
         this.biomeSupplier = biomeSupplier;
     }
 
+    @Override
+    public void onStart(OctagramBlockEntity octagram) {
+        octagram.permanentRiteActive = true;
+        octagram.clear();
+        octagram.markDirty();
+    }
 
     @Override
     public boolean isFinished(OctagramBlockEntity octagram) {
