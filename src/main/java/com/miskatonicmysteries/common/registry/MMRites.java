@@ -41,6 +41,8 @@ public class MMRites {
 
     public static final Rite BIOME_CONVERTER_TEST = new HasturBiomeRite();
 
+    public static final Rite MASTERPIECE_RITE = new MasterpieceRite();
+
     public static void init() {
         register(OPEN_WAY);
         register(BURNED_VEIL);
@@ -59,6 +61,7 @@ public class MMRites {
         register(HARROW_SPELL_RITE);
 
         register(BIOME_CONVERTER_TEST);
+        register(MASTERPIECE_RITE);
     }
 
     private static void register(Rite rite) {

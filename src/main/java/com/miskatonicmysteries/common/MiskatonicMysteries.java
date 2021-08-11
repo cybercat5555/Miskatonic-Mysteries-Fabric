@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.*;
 import com.miskatonicmysteries.common.feature.ModCommand;
+import com.miskatonicmysteries.common.handler.SchedulingHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
@@ -50,11 +51,10 @@ public class MiskatonicMysteries implements ModInitializer {
         ArgumentTypes.register("insanity_event", ModCommand.InsanityEventArgumentType.class, new ConstantArgumentSerializer(IdentifierArgumentType::identifier));
         ModCommand.setup();
         MMWorld.init();
-
         ServerPlayNetworking.registerGlobalReceiver(InvokeManiaPacket.ID, InvokeManiaPacket::handle);
         ServerPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, SyncSpellCasterDataPacket::handleFromClient);
         ServerPlayNetworking.registerGlobalReceiver(SpellPacket.ID, SpellPacket::handleFromClient);
-
+        SchedulingHandler.init();
         ServerPlayerEvents.COPY_FROM.register((oldPlayer, player, isDead) -> {
             Sanity.of(oldPlayer).ifPresent(oldSanity -> Sanity.of(player).ifPresent(sanity -> {
                 sanity.setSanity(oldSanity.getSanity(), true);

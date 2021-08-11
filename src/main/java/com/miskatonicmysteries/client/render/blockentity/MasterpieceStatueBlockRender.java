@@ -24,14 +24,17 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
+import net.minecraft.client.render.entity.model.VillagerResemblingModel;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.*;
 import net.minecraft.client.util.DefaultSkinHelper;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtHelper;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
@@ -60,6 +63,8 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 	private final MasterpieceStatueModel statueModel;
 	private final PlayerEntityModel<PlayerEntity> steveModel;
 	private final PlayerEntityModel<PlayerEntity> alexModel;
+	private final VillagerResemblingModel<VillagerEntity> villagerModel;
+	private final StoneTexture villagerTexture;
 	private final SpriteIdentifier statueSprite = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
 			new Identifier(Constants.MOD_ID, "block/statue/masterpiece_statue"));
 	private List<Consumer<PlayerEntityModel<PlayerEntity>>> poses = new ArrayList<>();
@@ -69,24 +74,28 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 		this.textureManager = MinecraftClient.getInstance().getTextureManager();
 		this.resourceManager = MinecraftClient.getInstance().getResourceManager();
 		this.defaultTexture = new StoneTexture(DefaultSkinHelper.getTexture(), false);
+		this.villagerTexture = new StoneTexture(new Identifier("textures/entity/villager/villager.png"), false);
+		this.villagerTexture.updateTexture();
 		this.statueModel = new MasterpieceStatueModel(context.getLayerModelPart(MMModels.MASTERPIECE_STATUE));
 		this.steveModel = new PlayerEntityModel<>(context.getLayerModelPart(EntityModelLayers.PLAYER), false);
 		this.steveModel.child = false;
 		this.alexModel = new PlayerEntityModel<>(context.getLayerModelPart(EntityModelLayers.PLAYER_SLIM), true);
 		this.alexModel.child = false;
+		this.villagerModel = new VillagerResemblingModel<>(context.getLayerModelPart(EntityModelLayers.VILLAGER));
+		this.villagerModel.child = false;
 		poses.add(model -> {
 			setRotationAngle(model.head, -0.1047F, 0.0873F, 0.0F);
 			model.hat.copyTransform(model.head);
 			setRotationAngle(model.body, 0.0F, 0.0F, 0.0F);
 			model.jacket.copyTransform(model.body);
 			setRotationAngle(model.rightArm, -0.3927F, 0.0F, 0.0F);
-			model.rightSleeve.copyTransform(alexModel.rightArm);
+			model.rightSleeve.copyTransform(model.rightArm);
 			setRotationAngle(model.leftArm, 0.0349F, 0.0F, 0.0F);
-			model.leftSleeve.copyTransform(alexModel.leftArm);
+			model.leftSleeve.copyTransform(model.leftArm);
 			setRotationAngle(model.rightLeg, 0.192F, 0.0F, 0.0349F);
-			model.rightPants.copyTransform(alexModel.rightPants);
+			model.rightPants.copyTransform(model.rightPants);
 			setRotationAngle(model.leftLeg, -0.1745F, 0.0F, -0.0349F);
-			model.leftLeg.copyTransform(alexModel.leftPants);
+			model.leftLeg.copyTransform(model.leftPants);
 		});
 		poses.add(model -> {
 			setRotationAngle(model.head, -0.3665F, 0.3927F, 0.0F);
@@ -94,13 +103,13 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 			setRotationAngle(model.body, 0.0F, 0.0F, 0.0F);
 			model.jacket.copyTransform(model.body);
 			setRotationAngle(model.rightArm, -2.8798F, 0.0F, -0.3927F);
-			model.rightSleeve.copyTransform(alexModel.rightArm);
+			model.rightSleeve.copyTransform(model.rightArm);
 			setRotationAngle(model.leftArm, 0.4712F, 0.0F, -0.2182F);
-			model.leftSleeve.copyTransform(alexModel.leftArm);
+			model.leftSleeve.copyTransform(model.leftArm);
 			setRotationAngle(model.rightLeg, 0.192F, 0.0F, 0.0349F);
-			model.rightPants.copyTransform(alexModel.rightPants);
+			model.rightPants.copyTransform(model.rightPants);
 			setRotationAngle(model.leftLeg, -0.1745F, 0.0F, -0.0349F);
-			model.leftLeg.copyTransform(alexModel.leftPants);
+			model.leftLeg.copyTransform(model.leftPants);
 
 		});
 		poses.add(model -> {
@@ -109,13 +118,13 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 			setRotationAngle(model.body, 0.0F, 0.0F, 0.0F);
 			model.jacket.copyTransform(model.body);
 			setRotationAngle(model.rightArm, -2.7489F, 0.0F, -0.1745F);
-			model.rightSleeve.copyTransform(alexModel.rightArm);
+			model.rightSleeve.copyTransform(model.rightArm);
 			setRotationAngle(model.leftArm, -2.714F, 0.0F, 0.1745F);
-			model.leftSleeve.copyTransform(alexModel.leftArm);
+			model.leftSleeve.copyTransform(model.leftArm);
 			setRotationAngle(model.rightLeg, -0.2443F, 0.0F, 0.0349F);
-			model.rightPants.copyTransform(alexModel.rightPants);
+			model.rightPants.copyTransform(model.rightPants);
 			setRotationAngle(model.leftLeg, 0.0436F, 0.0F, -0.0349F);
-			model.leftLeg.copyTransform(alexModel.leftPants);
+			model.leftLeg.copyTransform(model.leftPants);
 		});
 	}
 
@@ -135,11 +144,18 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 
 	private void renderPlayer(@Nullable GameProfile profile, MatrixStack matrices,
 							  VertexConsumerProvider vertexConsumers, int light, int overlay, int pose) {
-		RenderLayer layer = getLayer(profile);
-		PlayerEntityModel<PlayerEntity> model = getModel(profile);
 		matrices.translate(0, -0.375F, 0);
-		poseStatue(pose, model);
-		model.render(matrices, vertexConsumers.getBuffer(layer), light, overlay, 1, 1, 1, 1F);
+		if (profile != null) {
+			RenderLayer layer = getLayer(profile);
+			PlayerEntityModel<PlayerEntity> model = getModel(profile);
+			poseStatue(pose, model);
+			model.render(matrices, vertexConsumers.getBuffer(layer), light, overlay, 1, 1, 1, 1);
+		}
+		else {
+			RenderLayer layer = villagerTexture.renderLayer;
+			villagerTexture.updateTexture();
+			villagerModel.render(matrices, vertexConsumers.getBuffer(layer), light, overlay, 1, 1, 1, 1);
+		}
 	}
 
 	private void poseStatue(int pose, PlayerEntityModel<PlayerEntity> model) {
@@ -149,23 +165,23 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 			setRotationAngle(model.body, 0.0F, 0.0F, 0.0F);
 			model.body.copyTransform(model.jacket);
 			setRotationAngle(model.rightArm, 0.0F, 0.0F, (float) (Math.PI / 2F));
-			model.rightSleeve.copyTransform(alexModel.rightArm);
+			model.rightSleeve.copyTransform(model.rightArm);
 			setRotationAngle(model.leftArm, 0.0F, 0.0F, (float) -(Math.PI / 2F));
-			model.leftSleeve.copyTransform(alexModel.leftArm);
+			model.leftSleeve.copyTransform(model.leftArm);
 			setRotationAngle(model.rightLeg, 0.0F, 0.0F, 0.0F);
-			model.rightPants.copyTransform(alexModel.rightPants);
+			model.rightPants.copyTransform(model.rightPants);
 			setRotationAngle(model.leftLeg, 0.0F, 0.0F, 0.0F);
-			model.leftLeg.copyTransform(alexModel.leftPants);
+			model.leftLeg.copyTransform(model.leftPants);
 			return;
 		}
 		poses.get(pose).accept(model);
 	}
 
-	private RenderLayer getLayer(@Nullable GameProfile profile) {
+	private RenderLayer getLayer(GameProfile profile) {
 		return getStoneTexture(profile).renderLayer;
 	}
 
-	private StoneTexture getStoneTexture(@Nullable GameProfile profile) {
+	private StoneTexture getStoneTexture(GameProfile profile) {
 		return profile == null ? defaultTexture : TEXTURE_CACHE.compute(profile, (gameProfile, stoneTexture) -> {
 			if (stoneTexture == null) {
 				MinecraftClient minecraftClient = MinecraftClient.getInstance();
@@ -217,7 +233,17 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 			if (dispatcher != null) {
 				NbtCompound compound = stack.getTag();
 				if (compound != null && compound.contains(Constants.NBT.BLOCK_ENTITY_TAG)) {
-					dummy.readNbt(compound.getCompound(Constants.NBT.BLOCK_ENTITY_TAG));
+					NbtCompound blockEntityTag = compound.getCompound(Constants.NBT.BLOCK_ENTITY_TAG);
+					if (blockEntityTag.contains(Constants.NBT.STATUE_OWNER)) {
+						dummy.setStatueProfile(NbtHelper.toGameProfile(compound.getCompound(Constants.NBT.STATUE_OWNER)));
+					}else {
+						dummy.setStatueProfile(null);
+					}
+					if (blockEntityTag.contains(Constants.NBT.POSE)) {
+						dummy.pose = compound.getInt(Constants.NBT.POSE);
+					}else {
+						dummy.pose = 0;
+					}
 				}
 				else {
 					dummy.pose = 0;
@@ -277,9 +303,10 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 					inputImage.close();
 					this.texture.upload();
 				} catch (Exception e) {
-					if (e instanceof FileNotFoundException){
+					if (e instanceof FileNotFoundException) {
 						LOGGER.info("Retrieving player texture file...");
-					}else{
+					}
+					else {
 						LOGGER.error("Could not update stone texture.", e);
 					}
 				}

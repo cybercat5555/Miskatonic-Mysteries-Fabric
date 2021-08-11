@@ -35,6 +35,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.event.listener.GameEventListener;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -159,6 +160,12 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return (world1, pos, state1, blockEntity) -> OctagramBlockEntity.tick((OctagramBlockEntity) blockEntity);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> GameEventListener getGameEventListener(World world, T blockEntity) {
+        return (OctagramBlockEntity) blockEntity;
     }
 
     @Override

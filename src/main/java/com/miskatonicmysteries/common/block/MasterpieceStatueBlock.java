@@ -4,13 +4,17 @@ import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.block.blockentity.MasterpieceStatueBlockEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -43,25 +47,24 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 
 	public MasterpieceStatueBlock(Settings settings) {
 		super(settings.nonOpaque());
-		setDefaultState(getDefaultState().with(Properties.ROTATION, 0));
+		setDefaultState(getDefaultState().with(Properties.ROTATION, 0).with(WATERLOGGED, false));
 	}
 
-
 	public static ItemStack setSculptureData(ItemStack stack, PlayerEntity creator, PlayerEntity target, int pose) {
-		if (creator == null || target == null) {
-			return stack;
-		}
 		if (!stack.hasTag()) {
 			stack.setTag(new NbtCompound());
 		}
 		NbtCompound blockEntityTag = stack.getTag().contains(Constants.NBT.BLOCK_ENTITY_TAG) ?
 				stack.getTag().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) : new NbtCompound();
-		blockEntityTag.putString(Constants.NBT.PLAYER_NAME, creator.getName().asString());
-		blockEntityTag.putUuid(Constants.NBT.PLAYER_UUID, creator.getUuid());
-
-		NbtCompound nbtCompound = new NbtCompound();
-		NbtHelper.writeGameProfile(nbtCompound, target.getGameProfile());
-		blockEntityTag.put(Constants.NBT.STATUE_OWNER, nbtCompound);;
+		if (creator != null) {
+			blockEntityTag.putString(Constants.NBT.PLAYER_NAME, creator.getName().asString());
+			blockEntityTag.putUuid(Constants.NBT.PLAYER_UUID, creator.getUuid());
+		}
+		if (target != null) {
+			NbtCompound nbtCompound = new NbtCompound();
+			NbtHelper.writeGameProfile(nbtCompound, target.getGameProfile());
+			blockEntityTag.put(Constants.NBT.STATUE_OWNER, nbtCompound);
+		}
 		blockEntityTag.putInt(Constants.NBT.POSE, pose);
 		stack.getTag().put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
 		return stack;
@@ -72,18 +75,8 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-							  BlockHitResult hit) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof MasterpieceStatueBlockEntity statue && statue.getStatueProfile() == null) {
-			statue.setStatueProfile(player.getGameProfile());
-		}
-		return super.onUse(state, world, pos, player, hand, hit);
-	}
-
-	@Override
-	public void appendTooltip(ItemStack stack, @org.jetbrains.annotations.Nullable BlockView world, List<Text> tooltip
-			, TooltipContext options) {
+	public void appendTooltip(ItemStack stack, @org.jetbrains.annotations.Nullable BlockView world, List<Text> tooltip,
+							  TooltipContext options) {
 		if (stack.hasTag() && stack.getTag().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
 			NbtCompound compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
 			if (compoundTag != null && compoundTag.contains(Constants.NBT.PLAYER_NAME)) {
@@ -166,5 +159,24 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 	@Override
 	public boolean isSupernatural() {
 		return true;
+	}
+
+	public static class MasterpieceStatueBlockItem extends BlockItem{
+
+		public MasterpieceStatueBlockItem() {
+			super(MMObjects.MASTERPIECE_STATUE, new Item.Settings().group(Constants.MM_GROUP).rarity(Rarity.UNCOMMON));
+		}
+
+		@Override
+		public Text getName(ItemStack stack) {
+			if (stack.hasTag() && stack.getTag().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
+				NbtCompound compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
+				if (compoundTag != null && compoundTag.contains(Constants.NBT.STATUE_OWNER)) {
+					GameProfile profile = NbtHelper.toGameProfile(compoundTag.getCompound(Constants.NBT.STATUE_OWNER));
+					return new TranslatableText(getTranslationKey() + ".named", profile.getName());
+				}
+			}
+			return super.getName(stack);
+		}
 	}
 }

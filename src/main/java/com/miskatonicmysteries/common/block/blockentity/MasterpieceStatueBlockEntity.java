@@ -9,7 +9,7 @@ import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.SkullBlockEntity;
-import net.minecraft.client.render.block.entity.SkullBlockEntityRenderer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.server.world.ServerWorld;
@@ -17,6 +17,7 @@ import net.minecraft.util.ChatUtil;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Random;
 import java.util.UUID;
 
 public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Affiliated {
@@ -94,6 +95,10 @@ public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Aff
         }
     }
 
+    public void setCreator(@Nullable PlayerEntity player){
+        this.creator = player == null ? null : player.getUuid();
+        this.creatorName = player == null ? "" : player.getDisplayName().asString();
+    }
     private void loadOwnerProperties() {
         SkullBlockEntity.loadProperties(this.statueOwner, (owner) -> {
             this.statueOwner = owner;
@@ -103,5 +108,13 @@ public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Aff
 
     public GameProfile getStatueProfile() {
         return statueOwner;
+    }
+
+    public static int selectRandomPose(Random random) {
+        if (random.nextFloat() < 0.05F){
+            return 69; //the funny
+        }else {
+            return random.nextInt(3);
+        }
     }
 }

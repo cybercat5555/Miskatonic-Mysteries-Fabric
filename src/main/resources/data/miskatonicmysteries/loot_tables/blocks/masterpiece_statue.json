@@ -25,6 +25,10 @@
                   "source": "StatueOwner",
                   "target": "BlockEntityTag.StatueOwner",
                   "op": "replace"
+                }, {
+                  "source": "Pose",
+                  "target": "BlockEntityTag.Pose",
+                  "op": "replace"
                 }
               ]
             }

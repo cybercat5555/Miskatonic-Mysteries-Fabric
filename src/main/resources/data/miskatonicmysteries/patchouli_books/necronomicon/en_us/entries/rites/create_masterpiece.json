@@ -1,0 +1,19 @@
+{
+  "name": "Create Masterpiece",
+  "category": "miskatonicmysteries:rites",
+  "icon": "miskatonicmysteries:masterpiece_statue",
+  "advancement": "miskatonicmysteries:hastur/inner_light",
+  "extra_recipe_mappings": {
+    "miskatonicmysteries:masterpiece_statue": 1
+  },
+  "pages": [
+    {
+      "type": "text",
+      "text": "$(obfs:miskatonicmysteries:hastur;2)This particularly dark rite immortalizes its victim in art. When active, it will lock the target in place.$(br)In order for the rite to reach its conclusion, the target must be killed manually.$(br)This rite can be cast as a $(ml:miskatonicmysteries:rites/rite_intro#triggered_rite)$(t:Triggered Rites)triggered rite$()."
+    }, {
+      "type": "miskatonicmysteries:rite",
+      "rite": "miskatonicmysteries:masterpiece",
+      "text": "$(obfs:miskatonicmysteries:hastur;2)Both villagers and normal players are suitable for this rite$()."
+    }
+  ]
+}

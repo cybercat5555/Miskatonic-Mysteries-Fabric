@@ -47,4 +47,9 @@ public class BiomeConversionRite extends AscensionLockedRite {
             }
         }
     }
+
+    @Override
+    public boolean isPermanent(OctagramBlockEntity octagram) {
+        return true;
+    }
 }

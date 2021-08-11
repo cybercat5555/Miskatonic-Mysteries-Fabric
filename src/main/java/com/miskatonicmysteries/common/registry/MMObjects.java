@@ -224,7 +224,9 @@ public class MMObjects {
         RegistryUtil.registerBlock(SHUB_STATUE_STONE, "shub_statue_stone");
 
         RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "masterpiece_statue", MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE);
-        RegistryUtil.registerBlock(MASTERPIECE_STATUE, "masterpiece_statue");
+        RegistryUtil.register(Registry.BLOCK, "masterpiece_statue", MASTERPIECE_STATUE);
+        RegistryUtil.register(Registry.ITEM, "masterpiece_statue", new MasterpieceStatueBlock.MasterpieceStatueBlockItem());
+
 
         RegistryUtil.registerBlock(STONE_CTHULHU_MURAL, "stone_cthulhu_mural");
         RegistryUtil.registerBlock(MOSSY_CTHULHU_MURAL, "mossy_cthulhu_mural");

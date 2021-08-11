@@ -33,7 +33,7 @@ import java.util.List;
 public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategory.OctagramDisplay> {
     public static final TranslatableText TITLE = new TranslatableText("rei.miskatonicmysteries.octagram_rite");
     public static final Identifier ID = new Identifier(Constants.MOD_ID, "octagram_rite");
-    public static final EntryStack<ItemStack> ICON = EntryStacks.of(MMObjects.CHEMISTRY_SET);
+    public static final EntryStack<ItemStack> ICON = EntryStacks.of(MMObjects.SHUB_CHALK);
 
     @Override
     public Renderer getIcon() {

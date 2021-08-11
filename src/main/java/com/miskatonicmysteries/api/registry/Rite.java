@@ -10,11 +10,15 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -127,5 +131,10 @@ public abstract class Rite {
 
     public String getTranslationString() {
         return "rite." + id.toString().replaceAll(":", ".");
+    }
+
+    public boolean listen(OctagramBlockEntity blockEntity, World world, GameEvent event, Entity entity, BlockPos pos) {
+
+        return false;
     }
 }
