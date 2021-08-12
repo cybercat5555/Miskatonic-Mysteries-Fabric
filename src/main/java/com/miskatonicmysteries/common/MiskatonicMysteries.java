@@ -47,59 +47,18 @@ public class MiskatonicMysteries implements ModInitializer {
         MMRecipes.init();
         MMInsanityEvents.init();
         MMParticles.init();
-        TrackedDataHandlerRegistry.register(MiskatonicMysteriesAPI.AFFILIATION_TRACKER);
-        ArgumentTypes.register("insanity_event", ModCommand.InsanityEventArgumentType.class, new ConstantArgumentSerializer(IdentifierArgumentType::identifier));
         ModCommand.setup();
         MMWorld.init();
+        registerPackets();
+        SchedulingHandler.init();
+         /*
+        todo some natural sanity regen
+        */
+    }
+
+    private void registerPackets() {
         ServerPlayNetworking.registerGlobalReceiver(InvokeManiaPacket.ID, InvokeManiaPacket::handle);
         ServerPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, SyncSpellCasterDataPacket::handleFromClient);
         ServerPlayNetworking.registerGlobalReceiver(SpellPacket.ID, SpellPacket::handleFromClient);
-        SchedulingHandler.init();
-        ServerPlayerEvents.COPY_FROM.register((oldPlayer, player, isDead) -> {
-            Sanity.of(oldPlayer).ifPresent(oldSanity -> Sanity.of(player).ifPresent(sanity -> {
-                sanity.setSanity(oldSanity.getSanity(), true);
-                sanity.getSanityCapExpansions().putAll(oldSanity.getSanityCapExpansions());
-                sanity.syncSanityData();
-            }));
-
-            SpellCaster.of(oldPlayer).ifPresent(oldCaster -> SpellCaster.of(player).ifPresent(caster -> {
-                caster.setMaxSpells(oldCaster.getMaxSpells());
-                caster.setPowerPool(oldCaster.getPowerPool());
-                caster.getLearnedEffects().addAll(oldCaster.getLearnedEffects());
-                caster.getLearnedMediums().addAll(oldCaster.getLearnedMediums());
-                caster.getSpells().addAll(oldCaster.getSpells());
-                caster.syncSpellData();
-            }));
-
-            Ascendant.of(oldPlayer).ifPresent(oldAscendant -> Ascendant.of(player).ifPresent(ascendant -> {
-                ascendant.setAscensionStage(oldAscendant.getAscensionStage());
-                ascendant.getBlessings().addAll(oldAscendant.getBlessings());
-            }));
-
-            MalleableAffiliated.of(oldPlayer).ifPresent(oldAffiliation -> MalleableAffiliated.of(player).ifPresent(affiliation -> {
-                affiliation.setAffiliation(oldAffiliation.getAffiliation(false), false);
-                affiliation.setAffiliation(oldAffiliation.getAffiliation(true), true);
-            }));
-
-            Knowledge.of(oldPlayer).ifPresent(oldKnowledge -> Knowledge.of(player).ifPresent(knowledge -> {
-                for (String knowledgeId : oldKnowledge.getKnowledge()) {
-                    knowledge.addKnowledge(knowledgeId);
-                }
-                knowledge.syncKnowledge();
-            }));
-        });
-        ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
-            Sanity.of(newPlayer).ifPresent(Sanity::syncSanityData);
-            SpellCaster.of(newPlayer).ifPresent(SpellCaster::syncSpellData);
-            Knowledge.of(newPlayer).ifPresent(Knowledge::syncKnowledge);
-        });
-        /*
-        todo some natural sanity regen
-        */
-        ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register((world, entity, killedEntity) -> {
-            if (entity instanceof PlayerEntity && killedEntity instanceof EvokerEntity) {
-                MiskatonicMysteriesAPI.addKnowledge(Constants.Misc.EVOKER_KNOWLEDGE, (PlayerEntity) entity);
-            }
-        });
     }
 }

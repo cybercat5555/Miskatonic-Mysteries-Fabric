@@ -20,8 +20,10 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.IdentifierArgumentType;
+import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -38,6 +40,7 @@ import java.util.concurrent.CompletableFuture;
 @SuppressWarnings({"RAW_USE", "rawtypes"})
 public class ModCommand {
     public static void setup() {
+        ArgumentTypes.register("insanity_event", ModCommand.InsanityEventArgumentType.class, new ConstantArgumentSerializer(IdentifierArgumentType::identifier));
         LiteralArgumentBuilder builder = CommandManager.literal("miskmyst").requires(source -> source.hasPermissionLevel(2));
         builder.then(CommandManager.literal("stats")
                 .executes(context -> giveStatFeedback(context, context.getSource().getPlayer()))

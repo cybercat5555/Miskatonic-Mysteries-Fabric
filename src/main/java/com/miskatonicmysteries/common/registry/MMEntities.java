@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.registry;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.common.entity.*;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
@@ -15,6 +16,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
@@ -58,6 +60,7 @@ public class MMEntities {
 
 
     public static void init() {
+        TrackedDataHandlerRegistry.register(MiskatonicMysteriesAPI.AFFILIATION_TRACKER);
         RegistryUtil.register(Registry.ENTITY_TYPE, "protagonist", PROTAGONIST);
         FabricDefaultAttributeRegistry.register(PROTAGONIST, PathAwareEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 25)
