@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.client.render.trinket;
+package com.miskatonicmysteries.client.render.equipment;
 
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.client.TrinketRenderer;
