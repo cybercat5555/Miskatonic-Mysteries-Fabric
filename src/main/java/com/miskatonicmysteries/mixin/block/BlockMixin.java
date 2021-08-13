@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.mixin;
+package com.miskatonicmysteries.mixin.block;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.common.MiskatonicMysteries;

@@ -14,6 +14,8 @@ import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.IdentifierArgumentType;
@@ -21,6 +23,10 @@ import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.world.World;
 
 public class MiskatonicMysteries implements ModInitializer {
     public static MMConfig config;
@@ -51,6 +57,7 @@ public class MiskatonicMysteries implements ModInitializer {
         MMWorld.init();
         registerPackets();
         SchedulingHandler.init();
+        MMServerEvents.init();
          /*
         todo some natural sanity regen
         */

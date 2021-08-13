@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.mixin;
+package com.miskatonicmysteries.mixin.item;
 
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import net.minecraft.entity.LivingEntity;

@@ -23,7 +23,13 @@
       "title": "Act Two",
       "type": "text",
       "advancement": "miskatonicmysteries:hastur/hare_rama",
-      "text": "The next is a bit more elaborate. Perform a $(ml:rites/golden_coronation)Golden Coronation$() and bring forth a $(ml:bestiary/prince)Tattered Prince$(). He will be your guiding hand in this ascension. Once summoned, he will also grant you your first $(ml:goo/hastur_blessings)blessing$(), provided you interact with him. Keep him around, for he will give you two more blessings once entertained enough."
+      "text": "The next is a bit more elaborate. Perform a $(ml:rites/golden_coronation)Golden Coronation$() and bring forth a $(ml:bestiary/prince)Tattered Prince$(). He will be your guiding hand in this ascension. Once summoned, he will also grant you your first $(ml:goo/hastur_blessings)blessing$(), provided you interact with him. Keep him around, for he will give you another blessing once entertained enough."
+    },
+    {
+      "title": "Act Three",
+      "type": "text",
+      "advancement": "miskatonicmysteries:hastur/inner_light",
+      "text": "To receive your second blessing, you must attend a perfect $(ml:goo/golden_gathering)Golden Gathering$(). This will require your previously summoned $(ml:bestiary/prince)Tattered Prince$() and lead you to the last act."
     }
   ]
 }

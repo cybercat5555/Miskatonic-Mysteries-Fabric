@@ -2,21 +2,37 @@ package com.miskatonicmysteries.common;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.*;
+import com.miskatonicmysteries.common.feature.world.party.MMPartyState;
+import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.minecraft.block.BellBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.world.World;
 
 public class MMServerEvents {
 	public static void init() {
+		UseBlockCallback.EVENT.register(MMServerEvents::interactBlock);
+		ServerTickEvents.END_WORLD_TICK.register(MMServerEvents::tick);
 		ServerPlayerEvents.COPY_FROM.register(MMServerEvents::copyFromPlayer);
 		ServerPlayerEvents.AFTER_RESPAWN.register(MMServerEvents::afterRespawn);
 		ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register(MMServerEvents::afterKilledOtherEntity);
+	}
+
+	private static void tick(ServerWorld serverWorld) {
+		MMPartyState.get(serverWorld).tick();
 	}
 
 	private static void copyFromPlayer(ServerPlayerEntity oldPlayer, ServerPlayerEntity player, boolean isDead) {
@@ -63,5 +79,14 @@ public class MMServerEvents {
 		if (entity instanceof PlayerEntity && killedEntity instanceof EvokerEntity) {
 			MiskatonicMysteriesAPI.addKnowledge(Constants.Misc.EVOKER_KNOWLEDGE, (PlayerEntity) entity);
 		}
+	}
+
+	private static ActionResult interactBlock(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
+		if (world instanceof ServerWorld serverWorld && world.getBlockState(hitResult.getBlockPos()).getBlock() instanceof BellBlock) {
+			if (HasturAscensionHandler.canPlayerStartGathering(player, world) && MMPartyState.get(serverWorld).tryStartParty(serverWorld, hitResult.getBlockPos())) {
+				player.removeStatusEffect(StatusEffects.HERO_OF_THE_VILLAGE);
+			}
+		}
+		return ActionResult.PASS;
 	}
 }

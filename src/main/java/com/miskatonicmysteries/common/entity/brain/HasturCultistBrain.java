@@ -92,7 +92,7 @@ public class HasturCultistBrain {
     }
 
     private static List<HasturCultistEntity> getNearbyCultists(HasturCultistEntity cultist) {
-        return cultist.getEntityWorld().getEntitiesByClass(HasturCultistEntity.class, cultist.getBoundingBox().expand(10, 4, 10), null);
+        return cultist.getEntityWorld().getEntitiesByClass(HasturCultistEntity.class, cultist.getBoundingBox().expand(10, 4, 10), (nearby) -> true);
     }
 
     private static Optional<LivingEntity> getAngryAt(AbstractPiglinEntity piglin) {

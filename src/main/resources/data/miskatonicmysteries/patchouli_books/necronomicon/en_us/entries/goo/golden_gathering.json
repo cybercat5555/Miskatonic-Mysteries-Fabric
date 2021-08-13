@@ -1,0 +1,24 @@
+{
+  "name": "Golden Gatherings",
+  "category": "miskatonicmysteries:great_old_ones",
+  "icon": "minecraft:blaze_rod",
+  "advancement": "miskatonicmysteries:hastur/inner_light",
+  "pages": [
+    {
+      "type": "text",
+      "text": "These occasionally opulent, occasionally decadent gatherings are organized by the $(ml:bestiary/serfs)Vassals and Serfs of the Yellow King$().$(br)$(obfs:miskatonicmysteries:hastur;2)Usually, they are celebrated on occasion of $(marked)victory$()$(obfs:miskatonicmysteries:hastur;2). As such, they require a so-called $(o)Hero of the Village$()$(obfs:miskatonicmysteries:hastur;2) to begin.$(br)A Golden Gathering is initiated by having the hero ring the village's bell, usually after a raid. A $(ml:bestiary/prince)Tattered Prince$() forms the centerpiece. Several Serfs need to be around, too.$()"
+    },
+    {
+      "type": "text",
+      "text": "$(obfs:miskatonicmysteries:hastur;2)Golden Gatherings usually start at night, but they can be planned at any time $(l)as long as there is a Hero of the Village, accompanied and blessed by a $(ml:bestiary/prince)Tattered Prince$()$(obfs:miskatonicmysteries:hastur;2).$(br)Other than being genuinely pleasurable, Golden Gatherings are often held as a ceremony for those who wish to ascend even further. Attendees also benefit from boosts in their reputation, even more so if they appear as worshippers of the King."
+    },
+    {
+      "type": "text",
+      "text": "$(obfs:miskatonicmysteries:hastur;2)All benefits of a Golden Gathering are based on the Gathering's $(marked)energy$()$(obfs:miskatonicmysteries:hastur;2). This energy starts at zero, and the Gathering will conclude if it does not increase. Full energy is required for a successful ascension ritual.$(br2)A Gathering's energy is first and foremost defined by its attendees and their movement; however, it can be increased by several means. Such means include music and fireworks."
+    },
+    {
+      "type": "text",
+      "text": "$(obfs:miskatonicmysteries:hastur;2)Lastly, Villagers may be drugged using $(item)Blotters$()$(obfs:miskatonicmysteries:hastur;2), $(item)Tranquilizers$()$(obfs:miskatonicmysteries:hastur;2) and the likes.$()"
+    }
+  ]
+}

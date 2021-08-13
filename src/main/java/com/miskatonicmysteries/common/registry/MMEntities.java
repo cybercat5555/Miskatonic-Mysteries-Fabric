@@ -14,7 +14,10 @@ import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.entity.ai.brain.Schedule;
+import net.minecraft.entity.ai.brain.ScheduleBuilder;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
@@ -57,7 +60,6 @@ public class MMEntities {
     );
     public static final PointOfInterestType HASTUR_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "hastur_poi"), 0, 1,
             MMObjects.HASTUR_OCTAGRAM, MMObjects.HASTUR_STATUE_STONE, MMObjects.HASTUR_STATUE_TERRACOTTA, MMObjects.HASTUR_STATUE_GOLD, MMObjects.HASTUR_STATUE_MOSSY, MMObjects.MOSSY_HASTUR_MURAL, MMObjects.STONE_HASTUR_MURAL, MMObjects.TERRACOTTA_HASTUR_MURAL, MMObjects.YELLOW_TERRACOTTA_HASTUR_MURAL);
-
 
     public static void init() {
         TrackedDataHandlerRegistry.register(MiskatonicMysteriesAPI.AFFILIATION_TRACKER);

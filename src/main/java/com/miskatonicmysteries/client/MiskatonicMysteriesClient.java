@@ -72,6 +72,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		SpellClientHandler.init();
 		VisionHandler.init();
 		registerPackets();
+		MMClientEvents.init();
 	}
 
 	private void registerBlockRenderers() {

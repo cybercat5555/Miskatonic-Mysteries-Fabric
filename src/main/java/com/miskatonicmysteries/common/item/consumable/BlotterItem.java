@@ -1,12 +1,14 @@
 package com.miskatonicmysteries.common.item.consumable;
 
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
+import com.miskatonicmysteries.api.interfaces.VillagerPartyDrug;
 import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,7 +20,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class BlotterItem extends Item {
+public class BlotterItem extends Item implements VillagerPartyDrug {
     public BlotterItem() {
         super(new Settings().group(Constants.MM_GROUP));
     }
@@ -53,5 +55,11 @@ public class BlotterItem extends Item {
     @Override
     public int getMaxUseTime(ItemStack stack) {
         return 30;
+    }
+
+
+    @Override
+    public StatusEffectInstance getStatusEffect(VillagerEntity villager) {
+        return new StatusEffectInstance(MMStatusEffects.MANIA, 600, 0);
     }
 }

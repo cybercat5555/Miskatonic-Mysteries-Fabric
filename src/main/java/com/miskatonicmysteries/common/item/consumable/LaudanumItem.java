@@ -1,10 +1,12 @@
 package com.miskatonicmysteries.common.item.consumable;
 
+import com.miskatonicmysteries.api.interfaces.VillagerPartyDrug;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,7 +19,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
-public class LaudanumItem extends Item {
+public class LaudanumItem extends Item implements VillagerPartyDrug {
     public LaudanumItem() {
         super(new Settings().group(Constants.MM_GROUP).recipeRemainder(Items.GLASS_BOTTLE));
     }
@@ -60,5 +62,10 @@ public class LaudanumItem extends Item {
     @Override
     public int getMaxUseTime(ItemStack stack) {
         return 30;
+    }
+
+    @Override
+    public StatusEffectInstance getStatusEffect(VillagerEntity villager) {
+        return new StatusEffectInstance(MMStatusEffects.TRANQUILIZED, 600, 0);
     }
 }

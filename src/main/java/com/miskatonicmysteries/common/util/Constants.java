@@ -124,17 +124,21 @@ public class Constants {
         public static final String MONSTER = "isMonster";
         public static final String FLAGS = "Flags";
         public static final String HALLUCINATION = "Hallucination";
-        public static final String ACTIVE = "Active";
-        public static final String LAST_CHANGED = "LastChanged";
-        public static final String PHASING_PROGRESS = "PhasingProgress";
         public static final String MAX_AGE = "MaxAge";
-        public static final String HOLD_TICKS = "HoldTicks";
         public static final String WARDING_MARKS = "WardingMarks";
         public static final String GLIDING = "Gliding";
         public static final String BIOME_MASK = "MMBiomeMask";
         public static final String STATUE_OWNER = "StatueOwner";
         public static final String POSE = "Pose";
-	}
+        public static final String NEXT_ID = "NextAvailableID";
+        public static final String PARTIES = "Parties";
+        public static final String ID = "Id";
+        public static final String CENTER_POS = "CenterPos";
+        public static final String PARTY_POWER = "PartyPower";
+        public static final String STATUS = "Status";
+        public static final String BONUS_COOLDOWN = "BonusCooldown";
+        public static final String MUSIC_SOURCES = "MusicSources";
+    }
 
     public static class DataTrackers {
         public static final int SANITY_CAP = 1000;
