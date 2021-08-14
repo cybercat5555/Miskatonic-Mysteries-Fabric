@@ -117,6 +117,7 @@
   "entity.miskatonicmysteries.energy_tentacle": "Energy Tentacle",
   "entity.miskatonicmysteries.harrow": "Harrow",
   "entity.miskatonicmysteries.byakhee": "Byakhee",
+  "entity.miskatonicmysteries.hallucination": "Hallucination",
   "comment4": "TOOLTIPS",
   "tooltip.miskatonicmysteries.gun_loaded": "Loaded (%d/%d)",
   "tooltip.miskatonicmysteries.gun_not_loaded": "Not Loaded (%d/%d)",

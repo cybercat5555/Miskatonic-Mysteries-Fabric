@@ -110,6 +110,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(MMEntities.GENERIC_TENTACLE, GenericTentacleEntityRenderer::new);
 		EntityRendererRegistry.INSTANCE.register(MMEntities.HARROW, HarrowEntityRenderer::new);
 		EntityRendererRegistry.INSTANCE.register(MMEntities.BYAKHEE, ByakheeEntityRenderer::new);
+		EntityRendererRegistry.INSTANCE.register(MMEntities.HALLUCINATION, HallucinationRenderer::new);
 	}
 
 	private void registerItemRenderers() {

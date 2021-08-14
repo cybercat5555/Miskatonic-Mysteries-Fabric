@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class MiskatonicMysteriesAPI {
-    public static final TrackedDataHandler<Affiliation> AFFILIATION_TRACKER = new TrackedDataHandler<Affiliation>() {
+    public static final TrackedDataHandler<Affiliation> AFFILIATION_TRACKER = new TrackedDataHandler<>() {
         public void write(PacketByteBuf packetByteBuf, Affiliation affiliation) {
             packetByteBuf.writeIdentifier(affiliation.getId());
         }

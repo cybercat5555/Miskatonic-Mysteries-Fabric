@@ -5,7 +5,6 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "client.ClientPlayerEntityMixin",
-    "client.MobEntityRendererMixin",
     "client.ParticleManagerMixin",
     "client.PlayerModelMixin",
     "client.PlayerSkinTextureAccessor"

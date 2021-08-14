@@ -4,14 +4,13 @@
   "package": "com.miskatonicmysteries.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "BrewingRecipeRegistryAccessor", "ConduitBlockEntityMixin", "CreeperEntityMixin", "DataLoadMixin", "EntityMixin",
-    "EvokerEntityMixin", "item.ItemMixin", "LivingEntityAccessor", "LivingEntityMixin", "item.MilkBucketItemMixin",
-    "MobEntityMixin", "PlayerEntityMixin", "PlayerManagerMixin", "WitchEntityMixin", "ZombieVillagerAccessor",
-    "biomes.BiomeArrayMixin", "biomes.ChunkSerializerMixin", "biomes.ThreadedAnvilChunkStorageMixin",
-    "block.BlockMixin", "block.CropBlockMixin", "block.JukeboxBlockMixin", "item.FireworkItemMixin",
-    "villagers.ActivityAccessor", "villagers.MemoryModuleTypeAccessor", "villagers.VillagerEntityAccessor",
-    "villagers.VillagerEntityMixin", "world.OceanMonumentMixin", "world.StructurePoolAccessor",
-    "world.StructurePoolRegistryMixin"
+    "BrewingRecipeRegistryAccessor", "ConduitBlockEntityMixin", "DataLoadMixin", "EvokerEntityMixin",
+    "LivingEntityAccessor", "LivingEntityMixin", "MobEntityMixin", "PlayerEntityMixin", "PlayerManagerMixin",
+    "WitchEntityMixin", "ZombieVillagerAccessor", "biomes.BiomeArrayMixin", "biomes.ChunkSerializerMixin",
+    "biomes.ThreadedAnvilChunkStorageMixin", "block.BlockMixin", "block.CropBlockMixin", "block.JukeboxBlockMixin",
+    "item.FireworkItemMixin", "item.ItemMixin", "item.MilkBucketItemMixin", "villagers.ActivityAccessor",
+    "villagers.MemoryModuleTypeAccessor", "villagers.VillagerEntityAccessor", "villagers.VillagerEntityMixin",
+    "world.OceanMonumentMixin", "world.StructurePoolAccessor", "world.StructurePoolRegistryMixin"
   ],
   "injectors": {
     "defaultRequire": 1

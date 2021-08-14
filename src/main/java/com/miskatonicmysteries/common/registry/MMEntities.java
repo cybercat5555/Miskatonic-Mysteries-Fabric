@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
+import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.entity.*;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
@@ -11,6 +12,7 @@ import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerProfessionBuil
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -19,6 +21,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.Schedule;
 import net.minecraft.entity.ai.brain.ScheduleBuilder;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
@@ -26,6 +29,7 @@ import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -35,6 +39,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.World;
 import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.List;
@@ -50,6 +55,7 @@ public class MMEntities {
     public static final EntityType<GenericTentacleEntity> GENERIC_TENTACLE = FabricEntityTypeBuilder.create(SpawnGroup.MISC, GenericTentacleEntity::new).dimensions(EntityDimensions.fixed(0.5F, 2)).trackRangeBlocks(16).build();
     public static final EntityType<HarrowEntity> HARROW = FabricEntityTypeBuilder.create(SpawnGroup.MISC, HarrowEntity::new).dimensions(EntityDimensions.fixed(0.35F, 0.35F)).trackRangeBlocks(16).build();
     public static final EntityType<ByakheeEntity> BYAKHEE = FabricEntityTypeBuilder.create(SpawnGroup.MISC, ByakheeEntity::new).dimensions(EntityDimensions.fixed(2, 2)).trackRangeBlocks(16).build();
+    public static final EntityType<HallucinationEntity> HALLUCINATION = FabricEntityTypeBuilder.<HallucinationEntity>create(SpawnGroup.MISC, HallucinationEntity::new).dimensions(EntityDimensions.fixed(1, 1)).trackRangeBlocks(16).build();
 
     public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
     public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create().id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW).build();
@@ -61,8 +67,26 @@ public class MMEntities {
     public static final PointOfInterestType HASTUR_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "hastur_poi"), 0, 1,
             MMObjects.HASTUR_OCTAGRAM, MMObjects.HASTUR_STATUE_STONE, MMObjects.HASTUR_STATUE_TERRACOTTA, MMObjects.HASTUR_STATUE_GOLD, MMObjects.HASTUR_STATUE_MOSSY, MMObjects.MOSSY_HASTUR_MURAL, MMObjects.STONE_HASTUR_MURAL, MMObjects.TERRACOTTA_HASTUR_MURAL, MMObjects.YELLOW_TERRACOTTA_HASTUR_MURAL);
 
+    public static final TrackedDataHandler<EntityType<?>> ENTITY_TYPE_TRACKER = new TrackedDataHandler<>() {
+        @Override
+        public void write(PacketByteBuf data, EntityType<?> object) {
+            data.writeIdentifier(Registry.ENTITY_TYPE.getId(object));
+        }
+
+        @Override
+        public EntityType<?> read(PacketByteBuf packetByteBuf) {
+            return Registry.ENTITY_TYPE.get(packetByteBuf.readIdentifier());
+        }
+
+        @Override
+        public EntityType<?> copy(EntityType object) {
+            return object;
+        }
+    };
+
     public static void init() {
         TrackedDataHandlerRegistry.register(MiskatonicMysteriesAPI.AFFILIATION_TRACKER);
+        TrackedDataHandlerRegistry.register(ENTITY_TYPE_TRACKER);
         RegistryUtil.register(Registry.ENTITY_TYPE, "protagonist", PROTAGONIST);
         FabricDefaultAttributeRegistry.register(PROTAGONIST, PathAwareEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 25)
@@ -140,6 +164,10 @@ public class MMEntities {
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 10)
                 .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.4F));
+
+        RegistryUtil.register(Registry.ENTITY_TYPE, "hallucination", HALLUCINATION);
+        FabricDefaultAttributeRegistry.register(HALLUCINATION, HallucinationEntity.createAttributes());
+
         RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
 
         DispenserBlock.registerBehavior(Items.YELLOW_CARPET, new FallibleItemDispenserBehavior() {

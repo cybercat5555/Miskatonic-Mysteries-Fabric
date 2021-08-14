@@ -9,6 +9,7 @@ import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.spell.Spell;
@@ -127,10 +128,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
     @Shadow public abstract boolean damage(DamageSource source, float amount);
 
-    @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"))
+    @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"), cancellable = true)
     private void manipulateProtagonistDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
         if (source.getAttacker() instanceof ProtagonistEntity && !(source instanceof Constants.DamageSources.ProtagonistDamageSource)) {
-            damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount);
+            infoReturnable.setReturnValue( damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount));
+        } else if (source.getAttacker() instanceof HallucinationEntity && source != Constants.DamageSources.INSANITY){
+            infoReturnable.setReturnValue(damage(Constants.DamageSources.INSANITY, amount));
         }
     }
 
