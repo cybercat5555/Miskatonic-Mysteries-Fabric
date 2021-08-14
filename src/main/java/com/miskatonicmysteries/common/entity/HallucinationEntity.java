@@ -152,11 +152,6 @@ public class HallucinationEntity extends HostileEntity {
 	}
 
 	@Override
-	protected void updatePostDeath() {
-		super.updatePostDeath();
-	}
-
-	@Override
 	public void handleStatus(byte status) {
 		if (status == 60 && world.isClient){
 			if (MinecraftClient.getInstance().player == getHallucinationTargetPlayer()) {
