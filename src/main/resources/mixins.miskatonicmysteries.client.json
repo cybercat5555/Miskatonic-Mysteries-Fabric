@@ -5,9 +5,12 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "client.ClientPlayerEntityMixin",
+    "client.LightmapTextureManagerMixin",
     "client.ParticleManagerMixin",
     "client.PlayerModelMixin",
-    "client.PlayerSkinTextureAccessor"
+    "client.PlayerSkinTextureAccessor",
+    "client.WorldRendererAccessor",
+    "client.WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

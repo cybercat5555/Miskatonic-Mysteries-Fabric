@@ -7,20 +7,30 @@ import com.miskatonicmysteries.common.util.Constants;
 import ladysnake.satin.api.event.ShaderEffectRenderCallback;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
 import ladysnake.satin.api.managed.ShaderEffectManager;
+import ladysnake.satin.api.managed.uniform.Uniform1f;
 import ladysnake.satin.api.managed.uniform.Uniform3f;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
+@Environment(EnvType.CLIENT)
 public class ShaderHandler {
     public static final ManagedShaderEffect MANIA = ShaderEffectManager.getInstance().manage(new Identifier(Constants.MOD_ID, "shaders/post/mania.json"));
     public static final ManagedShaderEffect RESONANCE = ShaderEffectManager.getInstance().manage(new Identifier(Constants.MOD_ID, "shaders/post/resonance.json"));
+    public static final ManagedShaderEffect CLAIRVOYANCE = ShaderEffectManager.getInstance().manage(new Identifier(Constants.MOD_ID, "shaders/post/clairvoyance.json"));
     private static final Uniform3f MANIA_PHOSPHOR = MANIA.findUniform3f("Phosphor");
     private static final Uniform3f RESONANCE_RED = RESONANCE.findUniform3f("RedMatrix");
     private static final Uniform3f RESONANCE_GREEN = RESONANCE.findUniform3f("GreenMatrix");
     private static final Uniform3f RESONANCE_BLUE = RESONANCE.findUniform3f("BlueMatrix");
+    private static final Uniform1f CLAIRVOYANCE_SATURATION = CLAIRVOYANCE.findUniform1f("Saturation");
+    private static final Uniform1f CLAIRVOYANCE_BLUR = CLAIRVOYANCE.findUniform1f("Threshold");
 
+    public static int clairvoyanceTime;
     public static void init() {
         ClientTickEvents.END_CLIENT_TICK.register(ShaderHandler::onEndTick);
         ShaderEffectRenderCallback.EVENT.register(ShaderHandler::renderShaderEffects);
@@ -37,6 +47,9 @@ public class ShaderHandler {
                     RESONANCE.render(v);
                 }
             });
+            if (clairvoyanceTime > 0) {
+                CLAIRVOYANCE.render(v);
+            }
         }
     }
 
@@ -53,6 +66,19 @@ public class ShaderHandler {
                 RESONANCE_GREEN.set(0, 1, 0);
                 RESONANCE_BLUE.set(resonating.getResonance(), resonating.getResonance(), 1);
             });
+
+            if (client.player.hasStatusEffect(MMStatusEffects.CLAIRVOYANCE)) {
+                if (clairvoyanceTime < 100) {
+                    clairvoyanceTime++;
+                }
+            }else if (clairvoyanceTime > 0){
+                clairvoyanceTime--;
+            }
+
+            if (clairvoyanceTime >= 0) {
+                CLAIRVOYANCE_SATURATION.set(0.95F - MathHelper.clamp(clairvoyanceTime / 100F, 0F, 0.7F));
+                CLAIRVOYANCE_BLUR.set(1 - MathHelper.clamp(clairvoyanceTime / 100F, 0F, 0.7F));
+            }
         }
     }
 }
