@@ -31,16 +31,17 @@
     {
       "type": "crafting",
       "recipe": "miskatonicmysteries:crafting/altars/mossy_stone_altar",
-      "recipe2": "miskatonicmysteries:crafting/altars/blackstone_altar"
+      "recipe2": "miskatonicmysteries:crafting/altars/deepslate_altar"
     },
     {
       "type": "crafting",
-      "recipe": "miskatonicmysteries:crafting/altars/coral_altar",
+      "recipe": "miskatonicmysteries:crafting/altars/blackstone_altar",
+      "recipe2": "miskatonicmysteries:crafting/altars/coral_altar"
+    },
+    {
+      "type": "crafting",
+      "recipe": "miskatonicmysteries:crafting/altars/funky_altar",
       "recipe2": "miskatonicmysteries:crafting/altars/prismarine_altar"
-    },
-    {
-      "type": "crafting",
-      "recipe": "miskatonicmysteries:crafting/altars/funky_altar"
     }
   ]
 }

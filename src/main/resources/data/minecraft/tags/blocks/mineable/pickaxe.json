@@ -10,6 +10,7 @@
     "miskatonicmysteries:prismarine_altar",
     "miskatonicmysteries:sandstone_altar",
     "miskatonicmysteries:stone_altar",
+    "miskatonicmysteries:deepslate_altar",
     "miskatonicmysteries:cthulhu_statue_gold",
     "miskatonicmysteries:cthulhu_statue_mossy",
     "miskatonicmysteries:cthulhu_statue_prismarine",
@@ -33,8 +34,8 @@
     "miskatonicmysteries:yellow_terracotta_hastur_mural",
     "miskatonicmysteries:stone_shub_mural",
     "miskatonicmysteries:mossy_shub_mural",
+    "miskatonicmysteries:deepslate_shub_mural",
     "miskatonicmysteries:blackstone_shub_mural",
-    "miskatonicmysteries:gilded_blackstone_shub_mural",
     "#miskatonicmysteries:oceanic_gold_blocks",
     "miskatonicmysteries:resonator",
     "miskatonicmysteries:power_cell"

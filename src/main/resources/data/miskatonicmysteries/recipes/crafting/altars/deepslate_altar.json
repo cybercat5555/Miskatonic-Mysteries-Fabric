@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CSC",
+    "MGM",
+    "MGM"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:cobbled_deepslate_slab"
+    },
+    "M": {
+      "item": "minecraft:deepslate"
+    },
+    "C": {
+      "item": "minecraft:candle"
+    },
+    "G": {
+      "item": "miskatonicmysteries:oceanic_gold"
+    }
+  },
+  "result": {
+    "item": "miskatonicmysteries:deepslate_altar",
+    "count": 1
+  }
+}

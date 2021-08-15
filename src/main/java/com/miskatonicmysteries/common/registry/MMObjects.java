@@ -45,6 +45,7 @@ public class MMObjects {
     public static final Block PRISMARINE_ALTAR = new AltarBlock(false, AbstractBlock.Settings.copy(Blocks.PRISMARINE).luminance(state -> 8));
     public static final Block SANDSTONE_ALTAR = new AltarBlock(true, AbstractBlock.Settings.copy(Blocks.SANDSTONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
     public static final Block STONE_ALTAR = new AltarBlock(true, AbstractBlock.Settings.copy(Blocks.STONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+    public static final Block DEEPSLATE_ALTAR = new AltarBlock(true, AbstractBlock.Settings.copy(Blocks.DEEPSLATE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
     public static final BlockEntityType<AltarBlockEntity> ALTAR_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create(AltarBlockEntity::new, AltarBlock.ALTARS.toArray(new AltarBlock[AltarBlock.ALTARS.size()])).build(null);
 
     public static final Block OCTAGRAM_SIDES = new OctagramBlock.BlockOuterOctagram();
@@ -89,8 +90,8 @@ public class MMObjects {
 
     public static final Block STONE_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB, AbstractBlock.Settings.copy(Blocks.STONE));
     public static final Block MOSSY_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
-    public static final Block BLACKSTONE_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
-    public static final Block GILDED_BLACKSTONE_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB, AbstractBlock.Settings.copy(Blocks.GILDED_BLACKSTONE));
+    public static final Block DEEPSLATE_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
+    public static final Block BLACKSTONE_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB, AbstractBlock.Settings.copy(Blocks.GILDED_BLACKSTONE));
 
     public static final Block OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
     public static final Block WARDED_OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD.strength(2.5F, 12));
@@ -194,6 +195,7 @@ public class MMObjects {
         RegistryUtil.registerBlock(PRISMARINE_ALTAR, "prismarine_altar");
         RegistryUtil.registerBlock(SANDSTONE_ALTAR, "sandstone_altar");
         RegistryUtil.registerBlock(STONE_ALTAR, "stone_altar");
+        RegistryUtil.registerBlock(DEEPSLATE_ALTAR, "deepslate_altar");
 
         RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "octagram", OCTAGRAM_BLOCK_ENTITY_TYPE);
         RegistryUtil.register(Registry.BLOCK, "octagram_sides", OCTAGRAM_SIDES);
@@ -235,8 +237,8 @@ public class MMObjects {
 
         RegistryUtil.registerBlock(STONE_SHUB_MURAL, "stone_shub_mural");
         RegistryUtil.registerBlock(MOSSY_SHUB_MURAL, "mossy_shub_mural");
+        RegistryUtil.registerBlock(DEEPSLATE_SHUB_MURAL, "deepslate_shub_mural");
         RegistryUtil.registerBlock(BLACKSTONE_SHUB_MURAL, "blackstone_shub_mural");
-        RegistryUtil.registerBlock(GILDED_BLACKSTONE_SHUB_MURAL, "gilded_blackstone_shub_mural");
 
 
         RegistryUtil.registerBlock(OCEANIC_GOLD_BLOCK, "oceanic_gold_block");
