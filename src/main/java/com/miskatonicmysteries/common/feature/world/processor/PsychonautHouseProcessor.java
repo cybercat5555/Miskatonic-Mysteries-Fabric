@@ -1,11 +1,11 @@
 package com.miskatonicmysteries.common.feature.world.processor;
 
-import com.miskatonicmysteries.common.block.CandleBlock;
 import com.miskatonicmysteries.common.registry.MMWorld;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.CandleBlock;
 import net.minecraft.block.CarpetBlock;
 import net.minecraft.structure.Structure;
 import net.minecraft.structure.StructurePlacementData;
@@ -37,7 +37,7 @@ public class PsychonautHouseProcessor extends StructureProcessor {
         if (structureBlockInfo2.state.getBlock() instanceof CarpetBlock) {
             return new Structure.StructureBlockInfo(structureBlockInfo2.pos, CARPETS[random.nextInt(CARPETS.length)].getDefaultState(), structureBlockInfo2.nbt);
         } else if (structureBlockInfo2.state.getBlock() instanceof CandleBlock) {
-            return new Structure.StructureBlockInfo(structureBlockInfo2.pos, structureBlockInfo2.state.with(CandleBlock.COUNT, 1 + random.nextInt(4)), structureBlockInfo2.nbt);
+            return new Structure.StructureBlockInfo(structureBlockInfo2.pos, structureBlockInfo2.state.with(CandleBlock.CANDLES, 1 + random.nextInt(4)), structureBlockInfo2.nbt);
         }
         return structureBlockInfo2;
     }

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "minecraft:honeycomb"
-  },
-  "result": "miskatonicmysteries:wax",
-  "experience": 0.1,
-  "cookingtime": 100
-}

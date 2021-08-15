@@ -41,7 +41,7 @@ public class MMTrades {
     public static final TradeOffers.Factory WARPED_FUNGUS_OFFER = new ItemToEmeraldOffer(new ItemStack(Items.WARPED_FUNGUS, 3), 1, 32, 15, 0.25F);
     public static final TradeOffers.Factory CRIMSON_FUNGUS_OFFER = new ItemToEmeraldOffer(new ItemStack(Items.CRIMSON_FUNGUS, 4), 1, 32, 15, 0.25F);
     public static final TradeOffers.Factory RESONATE_OOZE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.RESONATE_OOZE, 1), 3, 8, 25, 0.25F);
-    public static final TradeOffers.Factory TRANQ_OFFER = new ProcessItemOffer(new ItemStack(MMObjects.WAX, 3), 18, new ItemStack(MMObjects.TRANQUILIZER), 2, 35);
+    public static final TradeOffers.Factory TRANQ_OFFER = new ProcessItemOffer(new ItemStack(Items.HONEYCOMB, 3), 18, new ItemStack(MMObjects.TRANQUILIZER), 2, 35);
     public static final TradeOffers.Factory RE_AGENT_OFFER = new ProcessItemOffer(new ItemStack(Items.ROTTEN_FLESH, 24), 32, new ItemStack(MMObjects.RE_AGENT_SYRINGE), 1, 50);
     public static final TradeOffers.Factory RESONATOR_OFFER = new ProcessItemOffer(new ItemStack(Items.IRON_INGOT, 20), 20, new ItemStack(MMObjects.RESONATOR), 1, 50);
     public static final TradeOffers.Factory WARDED_PAPER_OFFER = new ProcessItemOffer(new ItemStack(Items.PAPER, 4), 20, new ItemStack(MMObjects.WARDED_PAPER), 1, 50);

@@ -1,21 +1,11 @@
 {
   "name": "Occult Paraphernalia",
   "category": "miskatonicmysteries:world",
-  "icon": "miskatonicmysteries:candle",
+  "icon": "minecraft:candle",
   "pages": [
     {
       "type": "text",
       "text": "While usually not of any power, $(item)Occult Paraphernalia$() are still nice to have around.$(br)They usually serve as simple decoration, but they may sometimes help with things beyond $(o)the ambiance$()."
-    },
-    {
-      "type": "crafting",
-      "recipe": "miskatonicmysteries:crafting/candle",
-      "text": "Candles may be stacked to an extent.$(br)They can be lit using $(item)Flint and Steel$() and increase the subtlety of $(ml:rites/rite_intro)rites$()."
-    },
-    {
-      "type": "smelting",
-      "recipe": "miskatonicmysteries:smelting/wax_from_smelting",
-      "text": "Wax is fabricated by simply smelting $(item)Honey Combs$()."
     },
     {
       "type": "spotlight",

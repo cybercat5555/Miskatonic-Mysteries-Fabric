@@ -7,7 +7,6 @@ import com.miskatonicmysteries.api.item.BlessedSwordItem;
 import com.miskatonicmysteries.api.item.ChalkItem;
 import com.miskatonicmysteries.api.item.MMBookItem;
 import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
-import com.miskatonicmysteries.common.block.CandleBlock;
 import com.miskatonicmysteries.common.block.*;
 import com.miskatonicmysteries.common.block.blockentity.*;
 import com.miskatonicmysteries.common.block.blockentity.energy.PowerCellBlockEntity;
@@ -101,8 +100,6 @@ public class MMObjects {
     public static final Block OCEANIC_GOLD_PILLAR_ORNATE = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
     public static final Block OCEANIC_GOLD_PILLAR_SPLIT = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
 
-    public static final Block CANDLE = new CandleBlock();
-
     public static final Block RESONATOR = new ResonatorBlock();
     public static final BlockEntityType<ResonatorBlockEntity> RESONATOR_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder.create(ResonatorBlockEntity::new, RESONATOR).build(null);
 
@@ -137,8 +134,6 @@ public class MMObjects {
     public static final Item RE_AGENT_SYRINGE = new ReAgentItem();
 
     public static final Item THE_ORB = new TheOrbItem();
-
-    public static final Item WAX = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
     public static final Item ORNATE_DAGGER = new BlessedSwordItem(MMAffiliations.HASTUR, 2, -2.3F,
             (target, attacker) -> target.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 100, 1, true, false, false)),
@@ -251,8 +246,6 @@ public class MMObjects {
         RegistryUtil.registerBlock(OCEANIC_GOLD_PILLAR_ORNATE, "oceanic_gold_pillar_ornate");
         RegistryUtil.registerBlock(OCEANIC_GOLD_PILLAR_SPLIT, "oceanic_gold_pillar_split");
 
-        RegistryUtil.registerBlock(CANDLE, "candle");
-
         RegistryUtil.register(Registry.BLOCK, "yellow_sign", YELLOW_SIGN);
         RegistryUtil.register(Registry.BLOCK, "warding_mark", WARDING_MARK);
         RegistryUtil.register(Registry.BLOCK, "birch_log", BIRCH_LOG);
@@ -282,8 +275,6 @@ public class MMObjects {
         RegistryUtil.register(Registry.ITEM, "laudanum", LAUDANUM);
         RegistryUtil.register(Registry.ITEM, "tranquilizer", TRANQUILIZER);
         RegistryUtil.register(Registry.ITEM, "re_agent_syringe", RE_AGENT_SYRINGE);
-
-        RegistryUtil.register(Registry.ITEM, "wax", WAX);
 
         RegistryUtil.register(Registry.ITEM, "ornate_dagger", ORNATE_DAGGER);
         RegistryUtil.register(Registry.ITEM, "gutting_dagger", GUTTING_DAGGER);
