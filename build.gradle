@@ -31,17 +31,10 @@ repositories {
 		name "Banner++"
 		url "https://server.bbkr.space/artifactory/libs-release/"
 	}
-
 	maven {
 		name = "Mod Menu (& Trinkets)"
 		url =  "https://maven.terraformersmc.com/releases"
 	}
-
-	maven {
-		name = "NerdHubMC"
-		url = "https://maven.abusedmaster.xyz/"
-	}
-
 	maven {
 		name = "Cloth Stuff & REI"
 		url = "https://maven.shedaniel.me/"
@@ -74,7 +67,7 @@ dependencies {
 
 	modImplementation "com.github.emilyalexandra:trinkets:${trinkets_version}"
 
-	modApi include("dev.technici4n:FastTransferLib:${project.ftl_version}")
+	modApi include("teamreborn:energy:${project.energy_version}")
 	modImplementation("software.bernie.geckolib:${project.geckolib_version}:dev") {
 		exclude(group: "com.terraformersmc.modmenu")
 		exclude(group: "io.github.prospector")
