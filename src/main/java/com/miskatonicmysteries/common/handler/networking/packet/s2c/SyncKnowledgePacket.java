@@ -19,34 +19,35 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class SyncKnowledgePacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_knowledge");
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_knowledge");
 
-    public static void send(LivingEntity entity, Knowledge knowledge) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        NbtCompound knowledgeCompound = new NbtCompound();
-        NbtList knowledgeList = new NbtList();
-        for (String knowledgeId : knowledge.getKnowledge()) {
-            knowledgeList.add(NbtString.of(knowledgeId));
-        }
-        knowledgeCompound.put(Constants.NBT.KNOWLEDGE, knowledgeList);
-        data.writeNbt(knowledgeCompound);
-        if (entity instanceof ServerPlayerEntity) { //sync only on this client for display purposes
-            ServerPlayNetworking.send((ServerPlayerEntity) entity, ID, data);
-        }
-    }
+	public static void send(LivingEntity entity, Knowledge knowledge) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		NbtCompound knowledgeCompound = new NbtCompound();
+		NbtList knowledgeList = new NbtList();
+		for (String knowledgeId : knowledge.getKnowledge()) {
+			knowledgeList.add(NbtString.of(knowledgeId));
+		}
+		knowledgeCompound.put(Constants.NBT.KNOWLEDGE, knowledgeList);
+		data.writeNbt(knowledgeCompound);
+		if (entity instanceof ServerPlayerEntity) { //sync only on this client for display purposes
+			ServerPlayNetworking.send((ServerPlayerEntity) entity, ID, data);
+		}
+	}
 
-    @Environment(EnvType.CLIENT)
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        if (client.player != null) {
-            NbtList knowledgeList = packetByteBuf.readNbt().getList(Constants.NBT.KNOWLEDGE, 8);
-            client.execute(() -> {
-                Knowledge.of(client.player).ifPresent(knowledge -> {
-                    knowledge.clearKnowledge();
-                    for (NbtElement tag : knowledgeList) {
-                        knowledge.addKnowledge(tag.asString());
-                    }
-                });
-            });
-        }
-    }
+	@Environment(EnvType.CLIENT)
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler,
+                              PacketByteBuf packetByteBuf, PacketSender sender) {
+		if (client.player != null) {
+			NbtList knowledgeList = packetByteBuf.readNbt().getList(Constants.NBT.KNOWLEDGE, 8);
+			client.execute(() -> {
+				Knowledge.of(client.player).ifPresent(knowledge -> {
+					knowledge.clearKnowledge();
+					for (NbtElement tag : knowledgeList) {
+						knowledge.addKnowledge(tag.asString());
+					}
+				});
+			});
+		}
+	}
 }

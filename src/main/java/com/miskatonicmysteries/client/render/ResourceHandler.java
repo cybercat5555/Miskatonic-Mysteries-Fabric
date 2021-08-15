@@ -9,6 +9,7 @@ import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+import com.mojang.datafixers.kinds.Const;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
@@ -38,9 +39,10 @@ public class ResourceHandler {
     public static final Map<OctagramBlock, SpriteIdentifier> OCTAGRAM_MASKS = new HashMap<>();
 
     public static final Map<StatueBlock, SpriteIdentifier> STATUE_SPRITES = new HashMap<>();
+    public static final Identifier ASCENSION_STAR_SPRITE = new Identifier(Constants.MOD_ID, "textures/gui/ascension_star.png");
 
 
-    public static void init() {
+	public static void init() {
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register((spriteAtlasTexture, registry) -> {
             registry.register(new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
             registry.register(new Identifier(Constants.MOD_ID, "misc/aura"));

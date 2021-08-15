@@ -24,4 +24,9 @@ public abstract class SpellMedium {
     public float getCooldownModifier(LivingEntity caster) {
         return 1;
     }
+
+    public String getTranslationString() {
+        return "spell_medium." + id.toString().replaceAll(":", ".");
+    }
+
 }

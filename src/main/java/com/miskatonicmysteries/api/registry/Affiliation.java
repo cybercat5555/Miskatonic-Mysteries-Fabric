@@ -14,48 +14,61 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Affiliation {
-    public Set<Blessing> blessingPool = new HashSet<>();
-    protected Identifier id;
-    protected float[] color;
+	public Set<Blessing> blessingPool = new HashSet<>();
+	protected Identifier id;
+	protected float[] color;
+	public final int textColor, textColorSecondary;
 
-    public Affiliation(Identifier id, float[] color, Blessing... blessings) {
-        this.id = id;
-        this.color = color;
-        blessingPool.addAll(Arrays.asList(blessings));
-    }
+	public Affiliation(Identifier id, float[] color, int textColor, int textColorSecondary, Blessing... blessings) {
+		this.id = id;
+		this.color = color;
+		this.textColor = textColor;
+		this.textColorSecondary = textColorSecondary;
+		blessingPool.addAll(Arrays.asList(blessings));
+	}
 
-    public static Affiliation fromTag(NbtCompound tag) {
-        return MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.AFFILIATION)));
-    }
+	public Affiliation(Identifier id, float[] color, Blessing... blessings) {
+	    this(id, color, 0xFFFFFF, 0xFFFFFF, blessings);
+	}
 
-    public Blessing findRandomBlessing(LivingEntity entity, Ascendant ascendant) {
-        List<Blessing> possibleBlessings = blessingPool.stream().filter(blessing -> !ascendant.getBlessings().contains(blessing)).collect(Collectors.toList());
-        return possibleBlessings.size() > 0 ? possibleBlessings.get(entity.getRandom().nextInt(possibleBlessings.size())) : null;
-    }
+	public static Affiliation fromTag(NbtCompound tag) {
+		return MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.AFFILIATION)));
+	}
 
-    public NbtCompound toTag(NbtCompound tag) {
-        tag.putString(Constants.NBT.AFFILIATION, id.toString());
-        return tag;
-    }
+	public Blessing findRandomBlessing(LivingEntity entity, Ascendant ascendant) {
+		List<Blessing> possibleBlessings =
+                blessingPool.stream().filter(blessing -> !ascendant.getBlessings().contains(blessing)).collect(Collectors.toList());
+		return possibleBlessings.size() > 0 ?
+                possibleBlessings.get(entity.getRandom().nextInt(possibleBlessings.size())) : null;
+	}
 
-    public Identifier getId() {
-        return id;
-    }
+	public NbtCompound toTag(NbtCompound tag) {
+		tag.putString(Constants.NBT.AFFILIATION, id.toString());
+		return tag;
+	}
 
-    public float[] getColor() {
-        return color;
-    }
+	public Identifier getId() {
+		return id;
+	}
 
-    public int getIntColor() {
-        int red = ((int) (color[0] * 255) << 16) & 0x00FF0000;
-        int green = ((int) (color[1] * 255) << 8) & 0x0000FF00;
-        int blue = (int) (color[2] * 255) & 0x000000FF;
+	public float[] getColor() {
+		return color;
+	}
 
-        return 0xFF000000 | red | green | blue;
-    }
+	public int getIntColor() {
+		int red = ((int) (color[0] * 255) << 16) & 0x00FF0000;
+		int green = ((int) (color[1] * 255) << 8) & 0x0000FF00;
+		int blue = (int) (color[2] * 255) & 0x000000FF;
 
-    @Override
-    public String toString() {
-        return getId().toString();
-    }
+		return 0xFF000000 | red | green | blue;
+	}
+
+	@Override
+	public String toString() {
+		return getId().toString();
+	}
+
+	public Identifier getToastTextureLocation() {
+		return new Identifier(getId().getNamespace(), "textures/gui/toasts/toast_" + id.getPath() + ".png");
+	}
 }

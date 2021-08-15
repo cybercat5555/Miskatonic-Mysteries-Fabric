@@ -26,6 +26,10 @@ import com.miskatonicmysteries.client.vision.VisionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.*;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.BlessingToastPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.KnowledgeToastPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.SpellEffectToastPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.SpellMediumToastPacket;
 import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.NbtUtil;
@@ -166,6 +170,10 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(SyncRiteTargetPacket.ID, SyncRiteTargetPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SyncHeldEntityPacket.ID, SyncHeldEntityPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(VisionPacket.ID, VisionPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(KnowledgeToastPacket.ID, KnowledgeToastPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SpellEffectToastPacket.ID, SpellEffectToastPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SpellMediumToastPacket.ID, SpellMediumToastPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(BlessingToastPacket.ID, BlessingToastPacket::handle);
 	}
 
 	private void registerArmorRenderers() {

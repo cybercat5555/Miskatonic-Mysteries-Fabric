@@ -20,6 +20,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.IdentifierArgumentType;
@@ -350,12 +351,13 @@ public class ModCommand {
         for (ServerPlayerEntity player : players) {
             if (SpellCaster.of(player).isPresent()) {
                 SpellCaster caster = SpellCaster.of(player).get();
-                caster.learnEffect(MMRegistries.SPELL_EFFECTS.get(effect));
+                SpellEffect spellEffect = MMRegistries.SPELL_EFFECTS.get(effect);
+                caster.learnEffect(spellEffect);
                 caster.syncSpellData();
                 if (player.equals(context.getSource().getPlayer())) {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_spell.self", effect), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_spell.self", new TranslatableText(spellEffect.getTranslationString())), true);
                 } else {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_spell", player.getDisplayName(), effect), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_spell", player.getDisplayName(), new TranslatableText(spellEffect.getTranslationString())), true);
                 }
             }
         }
@@ -366,12 +368,13 @@ public class ModCommand {
         for (ServerPlayerEntity player : players) {
             if (SpellCaster.of(player).isPresent()) {
                 SpellCaster caster = SpellCaster.of(player).get();
-                caster.getLearnedEffects().remove(MMRegistries.SPELL_EFFECTS.get(effect));
+                SpellEffect spellEffect = MMRegistries.SPELL_EFFECTS.get(effect);
+                caster.getLearnedEffects().remove(spellEffect);
                 caster.syncSpellData();
                 if (player.equals(context.getSource().getPlayer())) {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_spell.self", effect), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_spell.self", new TranslatableText(spellEffect.getTranslationString())), true);
                 } else {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_spell", player.getDisplayName(), effect), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_spell", player.getDisplayName(), new TranslatableText(spellEffect.getTranslationString())), true);
                 }
             }
         }
@@ -382,12 +385,13 @@ public class ModCommand {
         for (ServerPlayerEntity player : players) {
             if (SpellCaster.of(player).isPresent()) {
                 SpellCaster caster = SpellCaster.of(player).get();
-                caster.learnMedium(MMRegistries.SPELL_MEDIUMS.get(medium));
+                SpellMedium spellMedium = MMRegistries.SPELL_MEDIUMS.get(medium);
+                caster.learnMedium(spellMedium);
                 caster.syncSpellData();
                 if (player.equals(context.getSource().getPlayer())) {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_medium.self", medium), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_medium.self", new TranslatableText(spellMedium.getTranslationString())), true);
                 } else {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_medium", player.getDisplayName(), medium), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_medium", player.getDisplayName(), new TranslatableText(spellMedium.getTranslationString())), true);
                 }
             }
         }
@@ -398,12 +402,13 @@ public class ModCommand {
         for (ServerPlayerEntity player : players) {
             if (SpellCaster.of(player).isPresent()) {
                 SpellCaster caster = SpellCaster.of(player).get();
-                caster.getLearnedMediums().remove(MMRegistries.SPELL_MEDIUMS.get(medium));
+                SpellMedium spellMedium = MMRegistries.SPELL_MEDIUMS.get(medium);
+                caster.getLearnedMediums().remove(spellMedium);
                 caster.syncSpellData();
                 if (player.equals(context.getSource().getPlayer())) {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_medium.self", medium), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.remove_medium.self", new TranslatableText(spellMedium.getTranslationString())), true);
                 } else {
-                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_medium", player.getDisplayName(), medium), true);
+                    context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.remove_medium", player.getDisplayName(), new TranslatableText(spellMedium.getTranslationString())), true);
                 }
             }
         }

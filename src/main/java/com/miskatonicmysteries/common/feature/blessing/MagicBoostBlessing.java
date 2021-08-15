@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 
 public class MagicBoostBlessing extends Blessing {
     public MagicBoostBlessing() {
-        super(new Identifier(Constants.MOD_ID, "magic_boost"), MMAffiliations.HASTUR);
+        super(new Identifier(Constants.MOD_ID, "magic_boost"), (apparent) -> MMAffiliations.HASTUR);
     }
 
     @Override

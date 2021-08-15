@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 
 public class RoyalEntourageBlessing extends Blessing {
     public RoyalEntourageBlessing() {
-        super(new Identifier(Constants.MOD_ID, "royal_entourage"), MMAffiliations.HASTUR);
+        super(new Identifier(Constants.MOD_ID, "royal_entourage"), (apparent) -> MMAffiliations.HASTUR);
     }
 
     @Override

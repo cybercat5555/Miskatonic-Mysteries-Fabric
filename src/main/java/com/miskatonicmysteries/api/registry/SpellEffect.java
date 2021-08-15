@@ -62,4 +62,8 @@ public abstract class SpellEffect {
     public int calculateSanityPenalty(Random random, int intensity) {
         return random.nextInt(intensity + 1);
     }
+
+    public String getTranslationString() {
+        return "spell_effect." + id.toString().replaceAll(":", ".");
+    }
 }

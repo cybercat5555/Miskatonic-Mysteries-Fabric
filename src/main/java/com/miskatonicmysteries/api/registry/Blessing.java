@@ -4,11 +4,13 @@ import com.miskatonicmysteries.api.interfaces.Affiliated;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 
+import java.util.function.Function;
+
 public class Blessing implements Affiliated {
     private final Identifier id;
-    private final Affiliation affiliation;
+    private final Function<Boolean, Affiliation> affiliation;
 
-    public Blessing(Identifier id, Affiliation affiliation) {
+    public Blessing(Identifier id, Function<Boolean, Affiliation> affiliation) {
         this.id = id;
         this.affiliation = affiliation;
     }
@@ -31,7 +33,7 @@ public class Blessing implements Affiliated {
 
     @Override
     public Affiliation getAffiliation(boolean apparent) {
-        return affiliation;
+        return affiliation.apply(apparent);
     }
 
     @Override
