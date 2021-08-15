@@ -5,7 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "BrewingRecipeRegistryAccessor", "ConduitBlockEntityMixin", "DataLoadMixin", "EvokerEntityMixin",
-    "LivingEntityAccessor", "LivingEntityMixin", "MobEntityMixin", "PlayerEntityMixin", "PlayerManagerMixin",
+    "LivingEntityAccessor", "LivingEntityMixin", "MobEntityMixin", "PlayerEntityMixin",
     "WitchEntityMixin", "ZombieVillagerAccessor", "biomes.BiomeArrayMixin", "biomes.ChunkSerializerMixin",
     "biomes.ThreadedAnvilChunkStorageMixin", "block.BlockMixin", "block.CropBlockMixin", "block.JukeboxBlockMixin",
     "item.FireworkItemMixin", "item.ItemMixin", "item.MilkBucketItemMixin", "villagers.ActivityAccessor",

@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "client.ClientPlayerEntityMixin",
+    "client.InventoryScreenMixin",
     "client.LightmapTextureManagerMixin",
     "client.ParticleManagerMixin",
     "client.PlayerModelMixin",

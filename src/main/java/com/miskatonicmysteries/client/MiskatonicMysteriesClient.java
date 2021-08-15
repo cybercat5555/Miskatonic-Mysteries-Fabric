@@ -46,6 +46,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
@@ -63,6 +64,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+		KeyBinding.updateKeysByCode();
 		MMModels.init();
 		registerPatchoulies();
 		registerParticleFactories();

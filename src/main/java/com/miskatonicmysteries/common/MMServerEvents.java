@@ -5,16 +5,20 @@ import com.miskatonicmysteries.api.interfaces.*;
 import com.miskatonicmysteries.common.feature.world.party.MMPartyState;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.util.Constants;
+import dev.onyxstudios.cca.api.v3.entity.PlayerSyncCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.block.BellBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
@@ -29,6 +33,7 @@ public class MMServerEvents {
 		ServerPlayerEvents.COPY_FROM.register(MMServerEvents::copyFromPlayer);
 		ServerPlayerEvents.AFTER_RESPAWN.register(MMServerEvents::afterRespawn);
 		ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register(MMServerEvents::afterKilledOtherEntity);
+		PlayerSyncCallback.EVENT.register(MMServerEvents::onPlayerSync);
 	}
 
 	private static void tick(ServerWorld serverWorld) {
@@ -72,6 +77,7 @@ public class MMServerEvents {
 	private static void afterRespawn(ServerPlayerEntity oldPlayer, ServerPlayerEntity newPlayer, boolean alive) {
 		Sanity.of(newPlayer).ifPresent(Sanity::syncSanityData);
 		SpellCaster.of(newPlayer).ifPresent(SpellCaster::syncSpellData);
+		Ascendant.of(newPlayer).ifPresent(Ascendant::syncBlessingData);
 		Knowledge.of(newPlayer).ifPresent(Knowledge::syncKnowledge);
 	}
 
@@ -88,5 +94,12 @@ public class MMServerEvents {
 			}
 		}
 		return ActionResult.PASS;
+	}
+
+	private static void onPlayerSync(ServerPlayerEntity player) {
+		Sanity.of(player).ifPresent(Sanity::syncSanityData);
+		SpellCaster.of(player).ifPresent(SpellCaster::syncSpellData);
+		Ascendant.of(player).ifPresent(Ascendant::syncBlessingData);
+		Knowledge.of(player).ifPresent(Knowledge::syncKnowledge);
 	}
 }
