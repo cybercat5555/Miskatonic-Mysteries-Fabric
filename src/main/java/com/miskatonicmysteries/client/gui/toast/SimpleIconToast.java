@@ -2,6 +2,8 @@ package com.miskatonicmysteries.client.gui.toast;
 
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.toast.Toast;
 import net.minecraft.client.toast.ToastManager;
@@ -13,6 +15,7 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
+@Environment(EnvType.CLIENT)
 public abstract class SimpleIconToast implements Toast {
 	private final List<Identifier> icons = new ArrayList<>();
 	private final List<String> translationStrings = new ArrayList<>();

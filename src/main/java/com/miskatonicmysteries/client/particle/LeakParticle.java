@@ -6,6 +6,7 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 
+@Environment(EnvType.CLIENT)
 public class LeakParticle extends SpriteBillboardParticle {
 
     protected LeakParticle(ClientWorld clientWorld, double x, double y, double z) {

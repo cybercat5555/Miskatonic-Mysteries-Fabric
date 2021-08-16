@@ -6,10 +6,13 @@ import com.miskatonicmysteries.client.render.entity.feature.ByakheeDecoFeatureRe
 import com.miskatonicmysteries.client.render.entity.feature.ByakheeSaddleFeatureRenderer;
 import com.miskatonicmysteries.common.entity.ByakheeEntity;
 import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 
+@Environment(EnvType.CLIENT)
 public class ByakheeEntityRenderer extends MobEntityRenderer<ByakheeEntity, ByakheeEntityModel> {
     public static final Identifier TEXTURE = new Identifier(Constants.MOD_ID, "textures/entity/byakhee/byakhee.png");
     public static ByakheeEntityModel byakheeEntityModel;

@@ -1,10 +1,13 @@
 package com.miskatonicmysteries.client.gui.toast;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
+@Environment(EnvType.CLIENT)
 public class SpellEffectToast extends SimpleIconToast{
 	private static final Text TITLE = new TranslatableText("spell_effect.miskatonicmysteries.toast.title");
 

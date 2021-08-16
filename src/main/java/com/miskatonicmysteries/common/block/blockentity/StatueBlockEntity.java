@@ -44,11 +44,11 @@ public class StatueBlockEntity extends BaseBlockEntity implements Affiliated {
 
     @Override
     public Affiliation getAffiliation(boolean apparent) {
-        return world.getBlockState(pos).getBlock() instanceof StatueBlock ? ((StatueBlock) world.getBlockState(pos).getBlock()).getAffiliation(apparent) : MMAffiliations.NONE;
+        return getCachedState().getBlock() instanceof StatueBlock s ? s.getAffiliation(apparent) : MMAffiliations.NONE;
     }
 
     @Override
     public boolean isSupernatural() {
-        return world.getBlockState(pos).getBlock() instanceof StatueBlock && ((StatueBlock) world.getBlockState(pos).getBlock()).isSupernatural();
+        return getCachedState().getBlock() instanceof StatueBlock s && s.isSupernatural();
     }
 }

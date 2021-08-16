@@ -1,5 +1,7 @@
 package com.miskatonicmysteries.client.model.block;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.RenderLayer;
@@ -9,6 +11,7 @@ import net.minecraft.util.Identifier;
 
 import java.util.function.Function;
 
+@Environment(EnvType.CLIENT)
 public class StatueModel extends Model {
     public final ModelPart root;
     public final ModelPart body;

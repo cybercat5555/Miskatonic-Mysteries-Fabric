@@ -2,6 +2,8 @@ package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.api.interfaces.Resonating;
 import com.miskatonicmysteries.common.entity.PhantasmaEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -14,6 +16,7 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import java.awt.*;
 
+@Environment(EnvType.CLIENT)
 public class PhantasmaEntityRenderer extends GeoEntityRenderer<PhantasmaEntity> {
 
     public PhantasmaEntityRenderer(EntityRendererFactory.Context context, AnimatedGeoModel<PhantasmaEntity> model) {

@@ -3,9 +3,12 @@ package com.miskatonicmysteries.client.render.blockentity;
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.model.MMModels;
+import com.miskatonicmysteries.client.model.block.HasturStatueModel;
 import com.miskatonicmysteries.client.model.block.StatueModel;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.render.RenderLayer;
@@ -22,11 +25,14 @@ import net.minecraft.util.math.Vec3f;
 import java.util.HashMap;
 import java.util.Map;
 
+@Environment(EnvType.CLIENT)
 public class StatueBlockRender implements BlockEntityRenderer<StatueBlockEntity> {
     public static final Map<Affiliation, StatueModel> MODELS = new HashMap<>();
+    private final StatueModel defaultStatue;
 
     public StatueBlockRender(BlockEntityRendererFactory.Context context) {
         MMModels.STATUE_MODELS.forEach(((affiliation, modelFunction) -> MODELS.put(affiliation, modelFunction.apply(context))));
+        this.defaultStatue = new HasturStatueModel(context.getLayerModelPart(MMModels.HASTUR_STATUE));
     }
 
     @Override
@@ -37,7 +43,7 @@ public class StatueBlockRender implements BlockEntityRenderer<StatueBlockEntity>
         matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion((0.125F / 2F) * rotation * 360F));
         matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(180));
         VertexConsumer vertexConsumer = ResourceHandler.getStatueTextureFor(entity).getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid);
-        MODELS.get(entity.getAffiliation(false)).render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+        MODELS.getOrDefault(entity.getAffiliation(false), defaultStatue).render(matrices, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
         matrices.pop();
     }
 

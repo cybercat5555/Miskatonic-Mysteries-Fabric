@@ -8,6 +8,7 @@ import net.minecraft.particle.DefaultParticleType;
 
 import java.util.function.BiConsumer;
 
+@Environment(EnvType.CLIENT)
 public class ResonatorCreatureParticle extends AbstractSlowingParticle {
 	private final SpriteProvider spriteProvider;
 	private final Variant variant;

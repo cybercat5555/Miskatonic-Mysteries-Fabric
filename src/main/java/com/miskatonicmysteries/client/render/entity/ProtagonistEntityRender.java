@@ -4,6 +4,8 @@ import com.miskatonicmysteries.client.model.MMModels;
 import com.miskatonicmysteries.client.model.entity.ProtagonistEntityModel;
 import com.miskatonicmysteries.common.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
@@ -12,6 +14,7 @@ import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.entity.model.ZombieEntityModel;
 import net.minecraft.util.Identifier;
 
+@Environment(EnvType.CLIENT)
 public class ProtagonistEntityRender extends MobEntityRenderer<ProtagonistEntity, ProtagonistEntityModel> {
     public ProtagonistEntityRender(EntityRendererFactory.Context context) {
         super(context, new ProtagonistEntityModel(context.getPart(MMModels.PROTAGONIST)), 0.5F);

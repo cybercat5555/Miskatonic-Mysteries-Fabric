@@ -2,6 +2,8 @@ package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.common.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.registry.MMEntities;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -14,6 +16,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 
+@Environment(EnvType.CLIENT)
 public class HallucinationRenderer extends EntityRenderer<HallucinationEntity> {
     public HallucinationRenderer(EntityRendererFactory.Context context) {
         super(context);

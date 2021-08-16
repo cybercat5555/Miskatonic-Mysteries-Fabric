@@ -1,6 +1,8 @@
 package com.miskatonicmysteries.client.render.blockentity;
 
 import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
@@ -13,6 +15,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3f;
 
+@Environment(EnvType.CLIENT)
 public class ChemistrySetBlockRender implements BlockEntityRenderer<ChemistrySetBlockEntity> {
     public ChemistrySetBlockRender(BlockEntityRendererFactory.Context context) {
         //no-op

@@ -5,6 +5,8 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.toast.Toast;
@@ -17,6 +19,7 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
+@Environment(EnvType.CLIENT)
 public class BlessingToast implements Toast {
 	private static final Text TITLE = new TranslatableText("blessing.miskatonicmysteries.toast.title");
 	private static final Identifier ICON = ResourceHandler.ASCENSION_STAR_SPRITE;

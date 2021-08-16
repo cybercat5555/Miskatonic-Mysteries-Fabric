@@ -3,6 +3,8 @@ package com.miskatonicmysteries.client.render.entity;
 import com.miskatonicmysteries.client.model.entity.TentacleModel;
 import com.miskatonicmysteries.common.entity.TentacleEntity;
 import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -15,6 +17,7 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 import java.awt.*;
 
+@Environment(EnvType.CLIENT)
 public class GenericTentacleEntityRenderer extends GeoEntityRenderer<TentacleEntity> {
     public GenericTentacleEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new TentacleModel(new Identifier(Constants.MOD_ID, "textures/entity/tentacle/generic.png")));

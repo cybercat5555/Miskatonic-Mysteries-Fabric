@@ -4,11 +4,14 @@
 
 package com.miskatonicmysteries.client.model.armor;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 
+@Environment(EnvType.CLIENT)
 public class HasturMaskModel extends Model {
     private final ModelPart root;
 

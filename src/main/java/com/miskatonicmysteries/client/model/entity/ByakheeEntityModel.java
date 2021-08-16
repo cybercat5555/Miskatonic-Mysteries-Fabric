@@ -5,6 +5,8 @@
 package com.miskatonicmysteries.client.model.entity;
 
 import com.miskatonicmysteries.common.entity.ByakheeEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
@@ -13,6 +15,7 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
+@Environment(EnvType.CLIENT)
 public class ByakheeEntityModel extends EntityModel<ByakheeEntity> {
     private final ModelPart root, head;
     private final ModelPart rLead_r1, lLead_r1;

@@ -10,6 +10,8 @@ import com.miskatonicmysteries.client.model.entity.*;
 import com.miskatonicmysteries.client.model.entity.dummy.TatteredPrinceDummyModel;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityModelLayerRegistry;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -19,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Environment(EnvType.CLIENT)
 public class MMModels {
 	//no-op for gecko-models
 	public static final EntityModelLayer BYAKHEE = create("byakhee");

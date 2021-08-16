@@ -1,6 +1,8 @@
 package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.common.entity.BoltEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -15,6 +17,7 @@ import net.minecraft.util.math.Vec3f;
 
 import java.util.Random;
 
+@Environment(EnvType.CLIENT)
 public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
     public BoltEntityRenderer(EntityRendererFactory.Context context) {
         super(context);

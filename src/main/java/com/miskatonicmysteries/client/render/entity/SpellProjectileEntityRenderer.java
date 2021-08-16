@@ -2,6 +2,8 @@ package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.common.entity.SpellProjectileEntity;
 import com.miskatonicmysteries.common.registry.MMParticles;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -11,6 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
+@Environment(EnvType.CLIENT)
 public class SpellProjectileEntityRenderer extends EntityRenderer<SpellProjectileEntity> {
 
     public SpellProjectileEntityRenderer(EntityRendererFactory.Context context) {

@@ -4,9 +4,12 @@
 
 package com.miskatonicmysteries.client.model.entity;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 
+@Environment(EnvType.CLIENT)
 public class AscendedHasturCultistEntityModel extends HasturCultistEntityModel {
     public AscendedHasturCultistEntityModel(ModelPart root) {
         super(root);

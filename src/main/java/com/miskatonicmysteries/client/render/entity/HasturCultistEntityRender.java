@@ -5,6 +5,8 @@ import com.miskatonicmysteries.client.model.entity.AscendedHasturCultistEntityMo
 import com.miskatonicmysteries.client.model.entity.HasturCultistEntityModel;
 import com.miskatonicmysteries.common.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.util.Constants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -15,6 +17,7 @@ import net.minecraft.client.render.entity.model.ZombieEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
+@Environment(EnvType.CLIENT)
 public class HasturCultistEntityRender extends MobEntityRenderer<HasturCultistEntity, HasturCultistEntityModel> {
     private final AscendedHasturCultistEntityModel ascendedModel;
     private final HasturCultistEntityModel normalModel;
