@@ -239,7 +239,7 @@ public class Party {
 	}
 
 	public boolean shouldStop() {
-		return (tickCount > 400 && partyPower <= 0) || (status == Status.CONCLUDED && tickCount > 200); //check party power
+		return (status == Status.ONGOING && tickCount > 400 && partyPower <= 0) || (status == Status.CONCLUDED && tickCount > 200);
 	}
 
 	public void concludeParty() {
