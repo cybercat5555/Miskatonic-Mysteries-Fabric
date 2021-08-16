@@ -109,7 +109,7 @@ public class ResourceHandler {
     }
 
     public static SpriteIdentifier getOctagramTextureFor(OctagramBlockEntity octagram) {
-        return OCTAGRAM_SPRITES.getOrDefault(octagram.getWorld().getBlockState(octagram.getPos()).getBlock(), DEFAULT_OCTAGRAM);
+        return OCTAGRAM_SPRITES.getOrDefault(octagram.getCachedState().getBlock(), DEFAULT_OCTAGRAM);
     }
 
     public static SpriteIdentifier getOctagramMaskTextureFor(OctagramBlockEntity octagram) {

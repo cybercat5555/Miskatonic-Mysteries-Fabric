@@ -42,7 +42,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory, Affiliated,
-        GameEventListener {
+		GameEventListener {
 	private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(8, ItemStack.EMPTY);
 	private final PositionSource positionSource;
 	public int tickCount;
@@ -83,7 +83,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 
 					if (blockEntity.getOriginalCaster() instanceof ServerPlayerEntity) {
 						MMCriteria.RITE_CAST.trigger((ServerPlayerEntity) blockEntity.getOriginalCaster(),
-                                blockEntity.currentRite);
+								blockEntity.currentRite);
 					}
 					blockEntity.handleInvestigators();
 					if (blockEntity.currentRite.isPermanent(blockEntity)) {
@@ -169,7 +169,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		}
 		if (tag.contains(Constants.NBT.DIMENSION)) {
 			boundPos = new Pair<>(new Identifier(tag.getString(Constants.NBT.DIMENSION)),
-                    BlockPos.fromLong(tag.getLong(Constants.NBT.POSITION)));
+					BlockPos.fromLong(tag.getLong(Constants.NBT.POSITION)));
 		}
 		else {
 			boundPos = null;
@@ -246,13 +246,12 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 
 	@Override
 	public Affiliation getAffiliation(boolean apparent) {
-		return getCachedState().getBlock() instanceof OctagramBlock ?
-                ((OctagramBlock) world.getBlockState(pos).getBlock()).getAffiliation(true) : null;
+		return getCachedState().getBlock() instanceof OctagramBlock o ? o.getAffiliation(true) : null;
 	}
 
 	@Override
 	public boolean isSupernatural() {
-		return getCachedState().getBlock() instanceof OctagramBlock && ((OctagramBlock) world.getBlockState(pos).getBlock()).isSupernatural();
+		return getCachedState().getBlock() instanceof OctagramBlock o && o.isSupernatural();
 	}
 
 	@Override
@@ -286,7 +285,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 
 	public ServerWorld getBoundDimension() {
 		return boundPos != null && !world.isClient ? world.getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY,
-                boundPos.getFirst())) : null;
+				boundPos.getFirst())) : null;
 	}
 
 	public void bind(World world, BlockPos pos) {
@@ -313,15 +312,15 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	@Override
 	public boolean listen(World world, GameEvent event, @Nullable Entity entity, BlockPos pos) {
 		if (currentRite != null) {
-		    if (!currentRite.listen(this, world, event, entity, pos)){
-                if (!world.isClient && event == GameEvent.ENTITY_KILLED && entity != null && entity.getType().isIn(Constants.Tags.VALID_SACRIFICES)) {
-                    setFlag(1, true);
-                    markDirty();
-                    sync();
-                    return true;
-                }
-                return false;
-            }
+			if (!currentRite.listen(this, world, event, entity, pos)) {
+				if (!world.isClient && event == GameEvent.ENTITY_KILLED && entity != null && entity.getType().isIn(Constants.Tags.VALID_SACRIFICES)) {
+					setFlag(1, true);
+					markDirty();
+					sync();
+					return true;
+				}
+				return false;
+			}
 			return true;
 		}
 		return false;
