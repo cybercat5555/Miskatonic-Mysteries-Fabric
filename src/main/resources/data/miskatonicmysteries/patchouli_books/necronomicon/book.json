@@ -4,8 +4,6 @@
   "landing_text": "miskatonicmysteries.necronomicon.landing",
   "book_texture": "miskatonicmysteries:textures/gui/necronomicon.png",
   "filler_texture": "miskatonicmysteries:textures/gui/necronomicon_page_filler.png",
-  "header_color": "FDFDC1",
-  "nameplate_color ": "F5CE8C",
   "progress_bar_background": "FDFDC1",
   "progress_bar_color": "F5CE8C",
   "dont_generate_book": true,
