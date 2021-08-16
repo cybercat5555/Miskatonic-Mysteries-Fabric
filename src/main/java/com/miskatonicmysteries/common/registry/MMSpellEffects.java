@@ -13,6 +13,7 @@ public class MMSpellEffects {
     public static final SpellEffect TENTACLES = new TentacleSpellEffect();
     public static final SpellEffect IGNITE = new FireSpellEffect();
     public static final SpellEffect HARROWS = new HarrowSpellEffect();
+    public static final SpellEffect CLAIRVOYANCE = new ClairvoyanceSpellEffect();
 
 
     public static void init() {
@@ -24,6 +25,7 @@ public class MMSpellEffects {
         register(TENTACLES);
         register(IGNITE);
         register(HARROWS);
+        register(CLAIRVOYANCE);
     }
 
     private static void register(SpellEffect effect) {

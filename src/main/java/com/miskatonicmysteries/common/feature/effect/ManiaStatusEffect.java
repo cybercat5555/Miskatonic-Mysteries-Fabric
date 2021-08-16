@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.feature.effect;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
@@ -20,8 +21,9 @@ public class ManiaStatusEffect extends StatusEffect {
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         if (entity instanceof MobEntity && ((MobEntity) entity).getTarget() == null && entity.age % 60 == 0) {
-            if (entity.getRandom().nextFloat() < (0.1 * amplifier))
+            if (entity.getRandom().nextFloat() < (0.1 * amplifier)) {
                 onApplied(entity, entity.getAttributes(), amplifier);
+            }
         }
         Sanity.of(entity).ifPresent(sanity -> {
             insanityDeath(entity, (Sanity) entity, amplifier);
@@ -29,6 +31,10 @@ public class ManiaStatusEffect extends StatusEffect {
                 InsanityHandler.handleInsanityEvents((PlayerEntity) entity);
             }
         });
+
+        if (entity.age % 20 == 0) {
+            MMStatusEffects.intoxicatedUpdate(entity, amplifier);
+        }
     }
 
     private void insanityDeath(LivingEntity entity, Sanity sanity, int amplifier) {

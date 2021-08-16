@@ -77,7 +77,7 @@ public class ShaderHandler {
 
             if (clairvoyanceTime >= 0) {
                 CLAIRVOYANCE_SATURATION.set(0.95F - MathHelper.clamp(clairvoyanceTime / 100F, 0F, 0.7F));
-                CLAIRVOYANCE_BLUR.set(1 - MathHelper.clamp(clairvoyanceTime / 100F, 0F, 0.7F));
+                CLAIRVOYANCE_BLUR.set(1 - MathHelper.clamp(clairvoyanceTime / 100F, 0F, 0.5F));
             }
         }
     }

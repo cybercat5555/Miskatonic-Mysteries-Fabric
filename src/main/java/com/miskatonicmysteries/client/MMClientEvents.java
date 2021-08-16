@@ -17,14 +17,15 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
 public class MMClientEvents {
-	private static boolean renderOutline = false;
 	public static boolean glowingActive = false;
+	private static boolean renderOutline = false;
 
 	public static void init() {
 		ClientTickEvents.END_CLIENT_TICK.register(MMClientEvents::handleSounds);
@@ -55,22 +56,20 @@ public class MMClientEvents {
 		renderOutline = false;
 		if (client.player != null && MinecraftClient.getInstance().player.hasStatusEffect(MMStatusEffects.CLAIRVOYANCE)) {
 			for (Entity entity : context.world().getEntities()) {
-				if (entity == client.player && !context.camera().isThirdPerson()){
+				if ((entity == client.player && !context.camera().isThirdPerson())) {
 					continue;
 				}
 				Affiliation affiliation = MiskatonicMysteriesAPI.getNonNullAffiliation(entity, false);
-				if (affiliation != MMAffiliations.NONE) {
+				if (entity instanceof  LivingEntity) {
 					renderOutline = true;
-					OutlineVertexConsumerProvider outlineVertexConsumerProvider =
-							client.getBufferBuilders().getOutlineVertexConsumers();
-					int color = affiliation.getIntColor();
+					OutlineVertexConsumerProvider outlineVertexConsumerProvider = client.getBufferBuilders().getOutlineVertexConsumers();
+					int color = affiliation == MMAffiliations.NONE ? affiliation.textColor : affiliation.getIntColor();
 					int r = color >> 16 & 255;
 					int g = color >> 8 & 255;
 					int b = color & 255;
 					outlineVertexConsumerProvider.setColor(r, g, b, 255);
 					Vec3d cameraPos = context.camera().getPos();
-					renderEntityFullBright(entity, cameraPos.x, cameraPos.y, cameraPos.z, context.tickDelta(),
-							context.matrixStack(), outlineVertexConsumerProvider, client.getEntityRenderDispatcher());
+					renderEntityFullBright(entity, cameraPos.x, cameraPos.y, cameraPos.z, context.tickDelta(), context.matrixStack(), outlineVertexConsumerProvider, client.getEntityRenderDispatcher());
 				}
 			}
 		}

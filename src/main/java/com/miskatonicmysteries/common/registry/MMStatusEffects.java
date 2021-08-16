@@ -1,8 +1,11 @@
 package com.miskatonicmysteries.common.registry;
 
+import com.miskatonicmysteries.api.interfaces.Resonating;
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.effect.*;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import com.miskatonicmysteries.mixin.BrewingRecipeRegistryAccessor;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Items;
@@ -38,6 +41,18 @@ public class MMStatusEffects {
         BrewingRecipeRegistryAccessor.invokeRegister(net.minecraft.potion.Potions.WATER, MMObjects.RESONATE_OOZE, Potions.RESONANCE);
         BrewingRecipeRegistryAccessor.invokeRegister(Potions.RESONANCE, Items.REDSTONE, Potions.LONG_RESONANCE);
         BrewingRecipeRegistryAccessor.invokeRegister(Potions.RESONANCE, Items.GLOWSTONE_DUST, Potions.STRONG_RESONANCE);
+    }
+
+    public static void intoxicatedUpdate(LivingEntity entity, int amplifier) {
+        SpellCaster.of(entity).ifPresent(caster -> {
+            if (!caster.getLearnedEffects().contains(MMSpellEffects.CLAIRVOYANCE)) {
+                Resonating.of(entity).ifPresent(resonating -> {
+                    if (resonating.getResonance() > 0) {
+                        caster.learnEffect(MMSpellEffects.CLAIRVOYANCE);
+                    }
+                });
+            }
+        });
     }
 
     static class Potions {

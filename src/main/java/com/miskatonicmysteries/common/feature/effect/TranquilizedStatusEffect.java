@@ -45,6 +45,10 @@ public class TranquilizedStatusEffect extends StatusEffect {
             entity.removeStatusEffect(this);
         }
         entity.removeStatusEffect(MMStatusEffects.MANIA);
+
+        if (entity.age % 20 == 0) {
+            MMStatusEffects.intoxicatedUpdate(entity, amplifier);
+        }
     }
 
     private boolean isLethal(LivingEntity entity, int amplifier) {

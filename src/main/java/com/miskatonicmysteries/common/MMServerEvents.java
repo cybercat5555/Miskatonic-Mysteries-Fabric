@@ -112,8 +112,8 @@ public class MMServerEvents {
 	private static void onPlayerSync(ServerPlayerEntity player) {
 		Sanity.of(player).ifPresent(Sanity::syncSanityData);
 		SpellCaster.of(player).ifPresent(SpellCaster::syncSpellData);
-		Ascendant.of(player).ifPresent(Ascendant::syncBlessingData);
 		Knowledge.of(player).ifPresent(Knowledge::syncKnowledge);
+		Ascendant.of(player).ifPresent(Ascendant::syncBlessingData);
 	}
 
 	public static void playerDamagePre(PlayerEntity player, DamageSource source, float amount,

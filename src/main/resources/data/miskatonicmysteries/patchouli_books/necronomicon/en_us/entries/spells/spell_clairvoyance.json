@@ -1,0 +1,12 @@
+{
+  "name": "Clairvoyance",
+  "category": "miskatonicmysteries:spells",
+  "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/clairvoyance.png",
+  "advancement": "miskatonicmysteries:science/drugs",
+  "pages": [
+    {
+      "type": "text",
+      "text": "This curious spell effect enhances the target's eyes and mind, granting them perfect night vision. Nearby beings will start glowing, in accordance to $(o)their soul's color$(). Just beware of things you might not want to see...$(br2)This spell is acquired by seeing creatures $(o)from beyond$() while intoxicated."
+    }
+  ]
+}
