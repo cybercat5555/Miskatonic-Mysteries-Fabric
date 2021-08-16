@@ -76,6 +76,9 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
     }
 
     protected boolean isValidTarget(LivingEntity target) {
+        if (target instanceof TentacleEntity tentacle && tentacle.getOwnerUUID().isEmpty()){
+            return false;
+        }
         if (getOwnerUUID().isPresent()) {
             if (target.getUuid().equals(getOwnerUUID().get())) {
                 if (owner == null) {
