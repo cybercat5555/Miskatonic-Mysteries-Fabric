@@ -25,10 +25,13 @@ public class HarrowEntityRenderer extends MobEntityRenderer<HarrowEntity, Harrow
     @Override
     protected void scale(HarrowEntity entity, MatrixStack matrices, float amount) {
         float scale = 1;
-        if (entity.age < 20) {
-            scale = (entity.age + MinecraftClient.getInstance().getTickDelta()) / 20F;
-        } else if (entity.getLifeTicks() < 20) {
-            scale = (entity.getLifeTicks() - MinecraftClient.getInstance().getTickDelta()) / 20F;
+        if (entity.getLifeTicks() > -1) {
+            if (entity.age < 20) {
+                scale = (entity.age + MinecraftClient.getInstance().getTickDelta()) / 20F;
+            }
+            else if (entity.getLifeTicks() < 20) {
+                scale = (entity.getLifeTicks() - MinecraftClient.getInstance().getTickDelta()) / 20F;
+            }
         }
         matrices.scale(scale, scale, scale);
     }

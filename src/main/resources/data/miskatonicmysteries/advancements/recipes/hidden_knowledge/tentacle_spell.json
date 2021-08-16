@@ -4,9 +4,11 @@
     "eat_flesh": {
       "trigger": "minecraft:consume_item",
       "conditions": {
-        "item": {
-          "item": "miskatonicmysteries:cirrhosus_flesh"
-        }
+        "items": [
+          {
+            "item": "miskatonicmysteries:cirrhosus_flesh"
+          }
+        ]
       }
     }
   },

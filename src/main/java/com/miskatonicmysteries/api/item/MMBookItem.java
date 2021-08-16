@@ -52,11 +52,6 @@ public class MMBookItem extends Item implements Affiliated {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         Book book = getBook();
         if (player instanceof ServerPlayerEntity) {
-            SpellCaster.of(player).ifPresent(caster -> {
-                caster.learnMedium(MMSpellMediums.SELF);
-                caster.learnEffect(MMSpellEffects.IGNITE);
-                MiskatonicMysteriesAPI.guaranteeSpellPower(2, caster);
-            });
             Knowledge.of(player).ifPresent(Knowledge::syncKnowledge);
             if (special && !InsanityHandler.hasSanityCapExpansion(player, Constants.Misc.NECRONOMICON_EXTENSION)) {
                 Sanity.of(player).ifPresent(sanity -> sanity.addSanityCapExpansion(Constants.Misc.NECRONOMICON_EXTENSION, -10));

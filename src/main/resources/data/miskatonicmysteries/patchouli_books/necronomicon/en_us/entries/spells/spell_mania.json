@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "A spell used to induce an altered state of mind without the aid of substances, this spell generates a small cloud of a reddish fog which incites madness in those who breathe it in. Useful in combat, distraction, and the procession of certain rituals.$(br)$(o)This spell is acquired when consuming $(item)Blotters$()$(o) for the first time.$()"
+      "text": "A spell used to induce an altered state of mind without the aid of substances, this spell generates a small cloud of a reddish fog which incites madness in those who breathe it in. Useful in combat, distraction, and the procession of certain rituals.$(br)$(o)This spell is acquired from consuming $(item)Blotters$()$(o) for the first time.$()"
     }
   ]
 }

@@ -4,6 +4,8 @@ import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.registry.MMSpellEffects;
+import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
@@ -42,6 +44,12 @@ public class NbtUtil {
                 caster.getLearnedMediums().add(MMRegistries.SPELL_MEDIUMS.get(id));
             }
         });
+        addDefaultSpells(caster);
+    }
+
+    private static void addDefaultSpells(SpellCaster caster){
+        caster.getLearnedMediums().add(MMSpellMediums.SELF);
+        caster.getLearnedEffects().add(MMSpellEffects.IGNITE);
     }
 
     public static NbtCompound writeBlessingData(Ascendant ascendant, NbtCompound tag) {

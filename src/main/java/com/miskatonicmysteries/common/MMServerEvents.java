@@ -2,29 +2,36 @@ package com.miskatonicmysteries.common;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.*;
+import com.miskatonicmysteries.common.entity.HallucinationEntity;
+import com.miskatonicmysteries.common.entity.ProtagonistEntity;
+import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.world.party.MMPartyState;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
+import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMSpellEffects;
+import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.InventoryUtil;
 import dev.onyxstudios.cca.api.v3.entity.PlayerSyncCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.block.BellBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.EvokerEntity;
+import net.minecraft.entity.mob.GuardianEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 public class MMServerEvents {
 	public static void init() {
@@ -34,6 +41,7 @@ public class MMServerEvents {
 		ServerPlayerEvents.AFTER_RESPAWN.register(MMServerEvents::afterRespawn);
 		ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register(MMServerEvents::afterKilledOtherEntity);
 		PlayerSyncCallback.EVENT.register(MMServerEvents::onPlayerSync);
+
 	}
 
 	private static void tick(ServerWorld serverWorld) {
@@ -83,7 +91,12 @@ public class MMServerEvents {
 
 	private static void afterKilledOtherEntity(ServerWorld world, Entity entity, LivingEntity killedEntity) {
 		if (entity instanceof PlayerEntity && killedEntity instanceof EvokerEntity) {
-			MiskatonicMysteriesAPI.addKnowledge(Constants.Misc.EVOKER_KNOWLEDGE, (PlayerEntity) entity);
+			SpellCaster.of(entity).ifPresent(spellCaster -> {
+				if (!spellCaster.getLearnedEffects().contains(MMSpellEffects.HARROWS)) {
+					spellCaster.learnEffect(MMSpellEffects.HARROWS);
+					spellCaster.syncSpellData();
+				}
+			});
 		}
 	}
 
@@ -101,5 +114,57 @@ public class MMServerEvents {
 		SpellCaster.of(player).ifPresent(SpellCaster::syncSpellData);
 		Ascendant.of(player).ifPresent(Ascendant::syncBlessingData);
 		Knowledge.of(player).ifPresent(Knowledge::syncKnowledge);
+	}
+
+	public static void playerDamagePre(PlayerEntity player, DamageSource source, float amount,
+									   CallbackInfoReturnable<Boolean> infoReturnable) {
+		if (source.getAttacker() instanceof ProtagonistEntity && !(source instanceof Constants.DamageSources.ProtagonistDamageSource)) {
+			infoReturnable.setReturnValue(player.damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount));
+			return;
+		}
+		if (source.getAttacker() instanceof HallucinationEntity && source != Constants.DamageSources.INSANITY) {
+			infoReturnable.setReturnValue(player.damage(Constants.DamageSources.INSANITY, amount));
+			return;
+		}
+		if (source == DamageSource.LIGHTNING_BOLT) {
+			SpellCaster.of(player).ifPresent(spellCaster -> {
+				if (!spellCaster.getLearnedMediums().contains(MMSpellMediums.BOLT)) {
+					spellCaster.learnMedium(MMSpellMediums.BOLT);
+					spellCaster.syncSpellData();
+				}
+			});
+			return;
+		}
+
+		if (source.isMagic() && source.getAttacker() instanceof GuardianEntity) {
+			SpellCaster.of(player).ifPresent(spellCaster -> {
+				if (!spellCaster.getLearnedMediums().contains(MMSpellMediums.VISION)) {
+					spellCaster.learnMedium(MMSpellMediums.VISION);
+					spellCaster.syncSpellData();
+				}
+			});
+		}
+	}
+
+	public static boolean playerDamageDeath(PlayerEntity player, DamageSource source, float amount,
+											CallbackInfoReturnable<Boolean> infoReturnable) {
+		if (player.isDead() && !source.isOutOfWorld()) {
+			if (InventoryUtil.getSlotForItemInHotbar(player, MMObjects.RE_AGENT_SYRINGE) >= 0) {
+				player.getInventory().getStack(InventoryUtil.getSlotForItemInHotbar(player,
+						MMObjects.RE_AGENT_SYRINGE)).decrement(1);
+				if (LazarusStatusEffect.revive(player)) {
+					infoReturnable.setReturnValue(false);
+					return false;
+				}
+			}
+			else if (source instanceof Constants.DamageSources.ProtagonistDamageSource) {
+				MiskatonicMysteriesAPI.resetProgress(player);
+				if (source.getSource() instanceof ProtagonistEntity) {
+					((ProtagonistEntity) source.getAttacker()).removeAfterTargetKill();
+				}
+				return true;
+			}
+		}
+		return player.isDead();
 	}
 }
