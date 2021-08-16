@@ -1,6 +1,9 @@
 package com.miskatonicmysteries.common.entity;
 
+import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.entity.util.InputAware;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
@@ -41,7 +44,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
-public class ByakheeEntity extends TameableEntity implements Saddleable, InputAware {
+public class ByakheeEntity extends TameableEntity implements Saddleable, InputAware, Affiliated {
     private static final TrackedData<Boolean> GLIDING = DataTracker.registerData(ByakheeEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Boolean> SADDLED = DataTracker.registerData(ByakheeEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Boolean> DECORATED = DataTracker.registerData(ByakheeEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -348,6 +351,16 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
         if (jumping && flapTicks <= 0 && canBeControlledByRider() && isSaddled()) {
             flapTicks = 20;
         }
+    }
+
+    @Override
+    public Affiliation getAffiliation(boolean apparent) {
+        return MMAffiliations.HASTUR;
+    }
+
+    @Override
+    public boolean isSupernatural() {
+        return true;
     }
 
     class BondWithPlayerGoal extends Goal {
