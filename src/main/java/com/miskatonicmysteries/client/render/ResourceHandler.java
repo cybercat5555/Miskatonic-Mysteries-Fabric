@@ -78,17 +78,6 @@ public class ResourceHandler {
         addStatueTextureFor(MMObjects.SHUB_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_mossy"));
         addStatueTextureFor(MMObjects.SHUB_STATUE_DEEPSLATE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_deepslate"));
         addStatueTextureFor(MMObjects.SHUB_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_stone"));
-
-      /*  List<Item> armors = Registry.ITEM.stream()
-                .filter(i -> i instanceof CultistArmor
-                        && Registry.ITEM.getId(i).getNamespace().equals(Constants.MOD_ID))
-                .collect(Collectors.toList());
-
-        ArmorRenderingRegistry.ModelProvider p = (entity, stack, slot, original) -> ((CultistArmor) stack.getItem()).getArmorModel(entity, stack, slot, original);
-      ArmorRenderingRegistry.registerModel(p, armors);
-
-        ArmorRenderingRegistry.TextureProvider t = (entity, stack, slot, secondLayer, suffix, original) -> ((CultistArmor) stack.getItem()).getArmorTexture(stack, slot);
-        ArmorRenderingRegistry.registerTexture(t, armors);*/ //todo fix armor
     }
 
     public static void addBookTextureFor(Item item, Identifier texture) {

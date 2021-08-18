@@ -70,6 +70,6 @@ public class CombinedSpellWidget extends ClickableWidget {
 
     @Override
     public void appendNarrations(NarrationMessageBuilder builder) {
-        super.appendDefaultNarrations(builder); //todo proper narration?
+        super.appendDefaultNarrations(builder);
     }
 }
