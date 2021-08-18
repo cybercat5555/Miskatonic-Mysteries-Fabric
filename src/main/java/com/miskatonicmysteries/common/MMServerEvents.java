@@ -41,7 +41,6 @@ public class MMServerEvents {
 		ServerPlayerEvents.AFTER_RESPAWN.register(MMServerEvents::afterRespawn);
 		ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register(MMServerEvents::afterKilledOtherEntity);
 		PlayerSyncCallback.EVENT.register(MMServerEvents::onPlayerSync);
-
 	}
 
 	private static void tick(ServerWorld serverWorld) {
@@ -64,11 +63,6 @@ public class MMServerEvents {
 			caster.syncSpellData();
 		}));
 
-		Ascendant.of(oldPlayer).ifPresent(oldAscendant -> Ascendant.of(player).ifPresent(ascendant -> {
-			ascendant.setAscensionStage(oldAscendant.getAscensionStage());
-			ascendant.getBlessings().addAll(oldAscendant.getBlessings());
-		}));
-
 		MalleableAffiliated.of(oldPlayer).ifPresent(oldAffiliation -> MalleableAffiliated.of(player).ifPresent(affiliation -> {
 			affiliation.setAffiliation(oldAffiliation.getAffiliation(false), false);
 			affiliation.setAffiliation(oldAffiliation.getAffiliation(true), true);
@@ -85,7 +79,6 @@ public class MMServerEvents {
 	private static void afterRespawn(ServerPlayerEntity oldPlayer, ServerPlayerEntity newPlayer, boolean alive) {
 		Sanity.of(newPlayer).ifPresent(Sanity::syncSanityData);
 		SpellCaster.of(newPlayer).ifPresent(SpellCaster::syncSpellData);
-		Ascendant.of(newPlayer).ifPresent(Ascendant::syncBlessingData);
 		Knowledge.of(newPlayer).ifPresent(Knowledge::syncKnowledge);
 	}
 
@@ -113,7 +106,6 @@ public class MMServerEvents {
 		Sanity.of(player).ifPresent(Sanity::syncSanityData);
 		SpellCaster.of(player).ifPresent(SpellCaster::syncSpellData);
 		Knowledge.of(player).ifPresent(Knowledge::syncKnowledge);
-		Ascendant.of(player).ifPresent(Ascendant::syncBlessingData);
 	}
 
 	public static void playerDamagePre(PlayerEntity player, DamageSource source, float amount,

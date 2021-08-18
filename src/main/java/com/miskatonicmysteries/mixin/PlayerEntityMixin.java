@@ -9,21 +9,22 @@ import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.MMServerEvents;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.component.AscendantComponent;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ExpandSanityPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBlessingsPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncKnowledgePacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.BlessingToastPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.SpellEffectToastPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.SpellMediumToastPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMComponents;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.NbtUtil;
+import com.mojang.authlib.GameProfile;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
@@ -56,9 +57,14 @@ import static com.miskatonicmysteries.common.util.Constants.DataTrackers.*;
 
 @SuppressWarnings("ConstantConditions")
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster,
-        Ascendant, Resonating, Knowledge {
+public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Resonating, Knowledge, Ascendant {
 	public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
+
+	private AscendantComponent ascendantComponent;
+	@Inject(method = "<init>", at = @At("TAIL"))
+	private void init(World world, BlockPos pos, float yaw, GameProfile profile, CallbackInfo ci){
+		ascendantComponent = MMComponents.ASCENDANT_COMPONENT.get(this);
+	}
 
 	@Unique
 	private final List<Spell> spells = new ArrayList<>();
@@ -66,9 +72,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 	private final Set<SpellEffect> learnedEffects = new HashSet<>();
 	@Unique
 	private final Set<SpellMedium> learnedMediums = new HashSet<>();
-
-	@Unique
-	private final List<Blessing> blessings = new ArrayList<>();
 
 	@Unique
 	private final List<String> knowledge = new ArrayList<>();
@@ -92,9 +95,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
 	@Inject(method = "tick()V", at = @At("TAIL"))
 	private void handleMiskStats(CallbackInfo info) {
-		for (Blessing blessing : blessings) {
-			blessing.tick(this);
-		}
 		if (getResonance() > 0) {
 			if (getSanity() < 750) {
 				addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 100, 0, true, true, false));
@@ -143,7 +143,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 	private void addMiskStats(CallbackInfo info) {
 		dataTracker.startTracking(SANITY, SANITY_CAP);
 		dataTracker.startTracking(SHOCKED, false);
-		dataTracker.startTracking(STAGE, 0);
 		dataTracker.startTracking(POWER_POOL, 2);
 		dataTracker.startTracking(SPELL_COOLDOWN, 0);
 		dataTracker.startTracking(MAX_SPELLS, Constants.DataTrackers.MIN_SPELLS);
@@ -233,12 +232,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 		tag.putInt(Constants.NBT.MAX_SPELLS, getMaxSpells());
 		tag.putInt(Constants.NBT.SPELL_COOLDOWN, getSpellCooldown());
 		NbtUtil.writeSpellData(this, tag);
-		tag.putInt(Constants.NBT.ASCENSION_STAGE, getAscensionStage());
 		tag.putString(Constants.NBT.AFFILIATION, getAffiliation(false).getId().toString());
 		tag.putString(Constants.NBT.APPARENT_AFFILIATION, getAffiliation(true).getId().toString());
 
 		tag.putFloat(Constants.NBT.RESONANCE, getResonance());
-		NbtUtil.writeBlessingData(this, tag);
 		NbtList knowledgeList = new NbtList();
 		for (String knowledgeId : knowledge) {
 			knowledgeList.add(NbtString.of(knowledgeId));
@@ -260,15 +257,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 			setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
 			setSpellCooldown(tag.getInt(Constants.NBT.SPELL_COOLDOWN));
 			NbtUtil.readSpellData(this, tag);
-			setAscensionStage(tag.getInt(Constants.NBT.ASCENSION_STAGE));
 
 			setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.AFFILIATION))),
                     false);
 			setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.APPARENT_AFFILIATION))), true);
 
 			setResonance(tag.getFloat(Constants.NBT.RESONANCE));
-
-			NbtUtil.readBlessingData(this, tag);
 
 			NbtList knowledgeList = tag.getList(Constants.NBT.KNOWLEDGE, 8);
 			knowledge.clear();
@@ -364,48 +358,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 	}
 
 	@Override
-	public int getAscensionStage() {
-		return dataTracker.get(STAGE);
-	}
-
-	@Override
-	public void setAscensionStage(int level) {
-		dataTracker.set(STAGE, level);
-	}
-
-	@Override
-	public boolean removeBlessing(Blessing blessing) {
-		if (blessings.contains(blessing)) {
-			blessing.onRemoved(this);
-			return blessings.remove(blessing);
-		}
-		return false;
-	}
-
-	@Override
-	public List<Blessing> getBlessings() {
-		return blessings;
-	}
-
-	@Override
-	public void addBlessing(Blessing blessing) {
-		if (!blessings.contains(blessing) && blessings.size() < Constants.DataTrackers.MAX_BLESSINGS) {
-			if ((Object) this instanceof ServerPlayerEntity p){
-				BlessingToastPacket.send(p, blessing);
-			}
-			blessings.add(blessing);
-			blessing.onAcquired(this);
-		}
-	}
-
-	@Override
-	public void syncBlessingData() {
-		if (!world.isClient) {
-			SyncBlessingsPacket.send((PlayerEntity) (Object) this, this);
-		}
-	}
-
-	@Override
 	public float getResonance() {
 		return dataTracker.get(RESONANCE);
 	}
@@ -448,5 +400,30 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 		if (MiskatonicMysteries.config.items.masksConcealNameplates && !MaskTrinketItem.getMask((PlayerEntity) (Object) this).isEmpty()) {
 			cir.setReturnValue(false);
 		}
+	}
+
+	@Override
+	public void addBlessing(Blessing blessing) {
+		ascendantComponent.addBlessing(blessing);
+	}
+
+	@Override
+	public boolean removeBlessing(Blessing blessing) {
+		return ascendantComponent.removeBlessing(blessing);
+	}
+
+	@Override
+	public List<Blessing> getBlessings() {
+		return ascendantComponent.getBlessings();
+	}
+
+	@Override
+	public int getAscensionStage() {
+		return ascendantComponent.getAscensionStage();
+	}
+
+	@Override
+	public void setAscensionStage(int level) {
+		ascendantComponent.setAscensionStage(level);
 	}
 }

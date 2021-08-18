@@ -79,7 +79,6 @@ public class MiskatonicMysteriesAPI {
 			Ascendant.of(player).ifPresent(ascendant -> {
 				ascendant.setAscensionStage(0);
 				ascendant.getBlessings().clear();
-				ascendant.syncBlessingData();
 			});
 			SpellCaster.of(player).ifPresent(caster -> {
 				caster.getSpells().clear();
@@ -151,7 +150,6 @@ public class MiskatonicMysteriesAPI {
 			Blessing blessingGranted = affiliation.findRandomBlessing(player, ascendant);
 			if (blessingGranted != null) {
 				ascendant.addBlessing(blessingGranted);
-				ascendant.syncBlessingData();
 				return true;
 			}
 		}

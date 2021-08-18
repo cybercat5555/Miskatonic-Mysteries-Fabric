@@ -9,8 +9,7 @@
   "name": "Miskatonic Mysteries",
   "description": "Dive into the darkest swirls of insanity with this Lovecraft-themed mod.",
   "authors": [
-    "cybercat5555",
-    "Aelpecyem"
+    "cybercat5555", "Aelpecyem"
   ],
   "credit": [
     "LambdAurora"
@@ -30,14 +29,16 @@
     ],
     "rei_plugins": [
       "com.miskatonicmysteries.client.compat.rei.MMREICompat"
+    ],
+    "cardinal-components-entity": [
+      "com.miskatonicmysteries.common.registry.MMComponents"
     ]
   },
   "mixins": [
     {
       "environment": "*",
       "config": "mixins.miskatonicmysteries.common.json"
-    },
-    {
+    }, {
       "environment": "client",
       "config": "mixins.miskatonicmysteries.client.json"
     }
@@ -50,5 +51,10 @@
     "trinkets": ">=2.6.7",
     "cloth-config2": "*",
     "geckolib3": ">=3.0.7"
+  },
+  "custom": {
+    "cardinal-components": [
+      "miskatonicmysteries:ascendant"
+    ]
   }
 }

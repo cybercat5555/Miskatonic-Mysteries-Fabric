@@ -423,7 +423,6 @@ public class ModCommand {
                     Blessing blessing = MMRegistries.BLESSINGS.get(blessingId);
                     ascendant.addBlessing(blessing);
                     ModifyBlessingPacket.send(player, blessing, true);
-                    ascendant.syncBlessingData();
                     if (player.equals(context.getSource().getPlayer())) {
                         context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_blessing.self", new TranslatableText(blessing.getTranslationString())), true);
                     } else {
@@ -444,7 +443,6 @@ public class ModCommand {
                 Blessing blessing = MMRegistries.BLESSINGS.get(blessingId);
                 ascendant.removeBlessing(blessing);
                 ModifyBlessingPacket.send(player, blessing, false);
-                ascendant.syncBlessingData();
                 if (player.equals(context.getSource().getPlayer())) {
                     context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.remove_blessing.self", new TranslatableText(blessing.getTranslationString())), true);
                 } else {

@@ -22,6 +22,4 @@ public interface Ascendant {
     int getAscensionStage();
 
     void setAscensionStage(int level);
-
-    void syncBlessingData(); //technically redundant with expansion packets existing ?
 }

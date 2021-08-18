@@ -19,27 +19,29 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class SyncBlessingsPacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_blessings");
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_blessings");
 
-    public static void send(LivingEntity entity, Ascendant caster) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        NbtCompound blessingCompound = NbtUtil.writeBlessingData(caster, new NbtCompound());
-        data.writeNbt(blessingCompound);
-        data.writeInt(entity.getId());
-        PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
-        if (entity instanceof ServerPlayerEntity) {
-            ServerPlayNetworking.send((ServerPlayerEntity) entity, ID, data);
-        }
-    }
+	public static void send(LivingEntity entity, Ascendant caster) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		NbtCompound blessingCompound = NbtUtil.writeBlessingData(caster, new NbtCompound());
+		data.writeNbt(blessingCompound);
+		data.writeInt(entity.getId());
+		PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
+		if (entity instanceof ServerPlayerEntity) {
+			ServerPlayNetworking.send((ServerPlayerEntity) entity, ID, data);
+		}
+	}
 
-    @Environment(EnvType.CLIENT)
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        if (client.world != null) {
-            NbtCompound tag = packetByteBuf.readNbt();
-            Entity entity = client.world.getEntityById(packetByteBuf.readInt());
-            if (entity != null) {
-                client.execute(() -> Ascendant.of(entity).ifPresent(ascendant -> NbtUtil.readBlessingData(ascendant, tag)));
-            }
-        }
-    }
+	@Environment(EnvType.CLIENT)
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler,
+                              PacketByteBuf packetByteBuf, PacketSender sender) {
+		if (networkHandler.getWorld() != null) {
+			NbtCompound tag = packetByteBuf.readNbt();
+			Entity entity = networkHandler.getWorld().getEntityById(packetByteBuf.readInt());
+			if (entity != null) {
+				client.execute(() -> Ascendant.of(entity).ifPresent(ascendant -> NbtUtil.readBlessingData(ascendant,
+                        tag)));
+			}
+		}
+	}
 }
