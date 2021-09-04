@@ -4,6 +4,7 @@ import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.block.PowerCellBlock;
 import com.miskatonicmysteries.common.registry.MMObjects;
+import com.sun.jna.Structure;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.AbstractBlock;
@@ -59,6 +60,7 @@ public class Constants {
         public static final Tag<Item> RITE_TOOLS = TagRegistry.item(new Identifier(MOD_ID, "rite_tools"));
         public static final Tag<Item> GROSS_FOOD = TagRegistry.item(new Identifier(MOD_ID, "gross_food"));
         public static final Tag<Item> WARDING_MARK_DYE = TagRegistry.item(new Identifier(MOD_ID, "warding_mark_dye"));
+        public static final Tag<Item> CULTIST_ARMOR = TagRegistry.item(new Identifier(MOD_ID, "cultist_armor"));
 
         public static final Tag<Item> HASTUR_CULTIST_OFFERINGS = TagRegistry.item(new Identifier(MOD_ID, "hastur_cultist_offerings"));
         public static final Tag<EntityType<?>> BURNED_VEIL_MOBS = TagRegistry.entityType(new Identifier(MOD_ID, "burned_veil_mobs"));

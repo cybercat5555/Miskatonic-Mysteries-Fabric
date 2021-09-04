@@ -3,7 +3,6 @@ package com.miskatonicmysteries.common.block.blockentity;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
-import com.miskatonicmysteries.api.item.armor.CultistArmor;
 import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Rite;
@@ -219,7 +218,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 				subtlety += world.isNight() ? 0.15F : -0.1;
 				subtlety += MaskTrinketItem.getMask(caster).isEmpty() ? 0 : 0.15F;
 				for (ItemStack armor : caster.getArmorItems()) {
-					if (armor.getItem() instanceof CultistArmor) {
+					if (Constants.Tags.CULTIST_ARMOR.contains(armor.getItem())) {
 						subtlety += 0.1F;
 					}
 				}
