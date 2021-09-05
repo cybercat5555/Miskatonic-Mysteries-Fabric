@@ -2,17 +2,12 @@ package com.miskatonicmysteries.common.entity;
 
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
 import com.miskatonicmysteries.common.registry.MMEntities;
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.FollowTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.WanderAroundGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -52,6 +47,10 @@ public class HallucinationEntity extends HostileEntity {
 		return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.5);
 	}
 
+	public static boolean canSeeThroughMagic(LivingEntity entity) {
+		return entity.hasStatusEffect(MMStatusEffects.CLAIRVOYANCE); //or othervibes
+	}
+
 	@Override
 	public void onTrackedDataSet(TrackedData<?> data) {
 		super.onTrackedDataSet(data);
@@ -65,8 +64,8 @@ public class HallucinationEntity extends HostileEntity {
 		this.goalSelector.add(0, new MeleeAttackGoal(this, 1, false));
 		this.goalSelector.add(1, new WanderAroundGoal(this, 1.0D));
 		this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 16.0F));
-		this.targetSelector.add(0, new FollowTargetGoal<>(this, PlayerEntity.class, 10, false, false,
-				living -> living == getHallucinationTargetPlayer()));
+		this.targetSelector.add(0, new FollowTargetGoal<>(this, LivingEntity.class, 10, false, false,
+				this::isPresentFor));
 	}
 
 	public EntityType<?> getEntityHallucination() {
@@ -84,6 +83,7 @@ public class HallucinationEntity extends HostileEntity {
 	public void setHallucinationTarget(UUID uuid) {
 		this.dataTracker.set(HALLUCINATION_TARGET, uuid == null ? Optional.empty() : Optional.of(uuid));
 	}
+
 
 	@Nullable
 	public PlayerEntity getHallucinationTargetPlayer() {
@@ -103,11 +103,10 @@ public class HallucinationEntity extends HostileEntity {
 		if (tag.contains(Constants.NBT.HALLUCINATION)) {
 			setEntityHallucination(Registry.ENTITY_TYPE.get(new Identifier(tag.getString(Constants.NBT.HALLUCINATION))));
 		}
-	}
 
-	@Override
-	public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {
-		//nuh-uh
+		if (tag.contains(Constants.NBT.TARGET)) {
+			setHallucinationTarget(tag.getUuid(Constants.NBT.TARGET));
+		}
 	}
 
 	@Override
@@ -117,12 +116,17 @@ public class HallucinationEntity extends HostileEntity {
 			tag.putString(Constants.NBT.HALLUCINATION,
 					Registry.ENTITY_TYPE.getId(getEntityHallucination()).toString());
 		}
+		getHallucinationTarget().ifPresent(target -> tag.putUuid(Constants.NBT.TARGET, uuid));
+	}
+
+	@Override
+	public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {
+		//nuh-uh
 	}
 
 	@Override
 	public boolean isInvisibleTo(PlayerEntity player) {
-		PlayerEntity hallucinationTarget = getHallucinationTargetPlayer();
-		return hallucinationTarget == null || player != hallucinationTarget;
+		return !isPresentFor(player);  //special hallucinations are not visible, only glow
 	}
 
 	@Override
@@ -140,7 +144,7 @@ public class HallucinationEntity extends HostileEntity {
 
 	@Override
 	public void setTarget(@Nullable LivingEntity target) {
-		if (getHallucinationTarget().isPresent() && target != null && !target.getUuid().equals(getHallucinationTarget().get())) {
+		if (target != null && !isPresentFor(target)) {
 			return;
 		}
 		super.setTarget(target);
@@ -148,12 +152,12 @@ public class HallucinationEntity extends HostileEntity {
 
 	@Override
 	public boolean isInvulnerableTo(DamageSource damageSource) {
-		return damageSource.getAttacker() != null && getHallucinationTargetPlayer() != damageSource.getAttacker();
+		return damageSource.getAttacker() instanceof LivingEntity l && !isPresentFor(l);
 	}
 
 	@Override
 	public void handleStatus(byte status) {
-		if (status == 60 && world.isClient){
+		if (status == 60 && world.isClient) {
 			if (MinecraftClient.getInstance().player == getHallucinationTargetPlayer()) {
 				for (int i = 0; i < 3; ++i) {
 					this.world.addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(0.5D), this.getRandomBodyY(),
@@ -168,7 +172,7 @@ public class HallucinationEntity extends HostileEntity {
 	@Override
 	public void remove(RemovalReason reason) {
 		if (reason == RemovalReason.DISCARDED) {
-			this.world.sendEntityStatus(this, (byte)60);
+			this.world.sendEntityStatus(this, (byte) 60);
 		}
 		super.remove(reason);
 	}
@@ -194,5 +198,9 @@ public class HallucinationEntity extends HostileEntity {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean isPresentFor(LivingEntity entity) {
+		return getHallucinationTarget().map(targetUUID -> targetUUID.equals(entity.getUuid())).orElse(canSeeThroughMagic(entity));
 	}
 }

@@ -114,6 +114,21 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		}
 	}
 
+	public static void onEntitySacrificed(World world, BlockPos pos) {
+		Iterable<BlockPos> positions = BlockPos.iterateOutwards(pos, 6, 6, 6);
+		for (BlockPos position : positions) {
+			if (world.getBlockEntity(position) instanceof OctagramBlockEntity) {
+				OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(position);
+				if (octagram.currentRite != null) {
+					octagram.setFlag(0, true);
+					octagram.markDirty();
+					octagram.sync();
+					break;
+				}
+			}
+		}
+	}
+
 	public void setFlag(int index, boolean value) {
 		if (value) {
 			octagramFlags |= 1 << index;

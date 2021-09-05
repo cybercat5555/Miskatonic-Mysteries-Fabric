@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.item.consumable;
 
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
-import com.miskatonicmysteries.mixin.ZombieVillagerAccessor;
+import com.miskatonicmysteries.mixin.entity.ZombieVillagerAccessor;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;

@@ -1,8 +1,10 @@
-package com.miskatonicmysteries.mixin;
+package com.miskatonicmysteries.mixin.entity;
 
 import com.miskatonicmysteries.api.interfaces.Appeasable;
 import com.miskatonicmysteries.api.interfaces.DropManipulator;
+import com.miskatonicmysteries.api.interfaces.HiddenEntity;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
@@ -36,21 +38,17 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
         super(type, world);
     }
 
+    @Inject(method = "canTarget(Lnet/minecraft/entity/LivingEntity;)Z", at = @At("RETURN"), cancellable = true)
+    private void canTarget(LivingEntity target, CallbackInfoReturnable<Boolean> cir) {
+        if (cir.getReturnValue() && this instanceof HiddenEntity h && h.isHidden()) {
+            cir.setReturnValue(HallucinationEntity.canSeeThroughMagic(target));
+        }
+    }
+
     @Inject(method = "onKilledBy", at = @At("HEAD"))
     private void onKilledBy(@Nullable LivingEntity adversary, CallbackInfo ci) {
         if (!world.isClient && getType().isIn(Constants.Tags.VALID_SACRIFICES)) {
-            Iterable<BlockPos> positions = BlockPos.iterateOutwards(getBlockPos(), 6, 6, 6);
-            for (BlockPos position : positions) {
-                if (world.getBlockEntity(position) instanceof OctagramBlockEntity) {
-                    OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(position);
-                    if (octagram.currentRite != null) {
-                        octagram.setFlag(0, true);
-                        octagram.markDirty();
-                        octagram.sync();
-                        break;
-                    }
-                }
-            }
+            OctagramBlockEntity.onEntitySacrificed(world, getBlockPos());
         }
     }
 

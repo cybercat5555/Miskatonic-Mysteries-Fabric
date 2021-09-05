@@ -11,7 +11,7 @@ import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;
-import com.miskatonicmysteries.mixin.LivingEntityAccessor;
+import com.miskatonicmysteries.mixin.entity.LivingEntityAccessor;
 import com.mojang.serialization.Dynamic;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.entity.*;

@@ -1,12 +1,18 @@
-package com.miskatonicmysteries.mixin;
+package com.miskatonicmysteries.mixin.entity;
 
 import com.miskatonicmysteries.api.interfaces.Appeasable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandler;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.WitchEntity;
 import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

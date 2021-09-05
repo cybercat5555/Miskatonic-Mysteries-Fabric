@@ -66,7 +66,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         dataTracker.startTracking(OWNER, Optional.empty());
         dataTracker.startTracking(SPECIFIC_TARGET, Optional.empty());
         dataTracker.startTracking(BROAD_SWING, false);
-        dataTracker.startTracking(SIZE, 0F);
+        dataTracker.startTracking(SIZE, 1F);
     }
 
     @Override

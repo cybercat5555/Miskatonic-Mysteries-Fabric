@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.mixin;
+package com.miskatonicmysteries.mixin.block;
 
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;

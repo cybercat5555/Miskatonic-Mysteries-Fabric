@@ -5,7 +5,7 @@ import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
-import com.miskatonicmysteries.mixin.ZombieVillagerAccessor;
+import com.miskatonicmysteries.mixin.entity.ZombieVillagerAccessor;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;

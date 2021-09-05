@@ -140,7 +140,8 @@ public class Constants {
         public static final String STATUS = "Status";
         public static final String BONUS_COOLDOWN = "BonusCooldown";
         public static final String MUSIC_SOURCES = "MusicSources";
-    }
+        public static final String HIDDEN = "MM_Hidden";
+	}
 
     public static class DataTrackers {
         public static final int SANITY_CAP = 1000;

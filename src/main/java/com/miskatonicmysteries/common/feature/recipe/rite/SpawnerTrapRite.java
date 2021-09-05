@@ -32,6 +32,8 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -74,9 +76,11 @@ public class SpawnerTrapRite extends TriggeredRite {
             octagram.getWorld().playSound(null, octagram.getPos(), MMSounds.BROKE_VEIL_SPAWN, SoundCategory.AMBIENT, 1.0F, (float) world.random.nextGaussian() * 0.2F + 1.0F);
             if (!world.isClient) {
                 for (int i = 0; i < amount; i++) {
-                    List<EntityType<?>> possibleTypes = Registry.ENTITY_TYPE.stream().filter(spawnPredicate).collect(Collectors.toList());
-                    EntityType<?> type = possibleTypes.get(world.random.nextInt(possibleTypes.size()));
-                    Entity entity = type.create(world);
+                    Optional<EntityType<?>> type = getRandomSpawnEntity(spawnPredicate, world.random);
+                    if (type.isEmpty()) {
+                        continue;
+                    }
+                    Entity entity = type.get().create(world);
                     Vec3d position = octagram.getSummoningPos().add(octagram.getWorld().random.nextGaussian(), -0.25F + octagram.getWorld().random.nextFloat(), octagram.getWorld().random.nextGaussian());
                     int yaw = world.random.nextInt(360);
                     entity.updatePositionAndAngles(position.x, position.y, position.z, yaw, 0);
@@ -130,5 +134,10 @@ public class SpawnerTrapRite extends TriggeredRite {
         } else {
             super.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
         }
+    }
+
+    public static Optional<EntityType<?>> getRandomSpawnEntity(Predicate<EntityType<?>> predicate, Random random) {
+        List<EntityType<?>> possibleTypes = Registry.ENTITY_TYPE.stream().filter(predicate).collect(Collectors.toList());
+        return possibleTypes.size() > 0 ? Optional.of(possibleTypes.get(random.nextInt(possibleTypes.size()))) : Optional.empty();
     }
 }

@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.mixin;
+package com.miskatonicmysteries.mixin.entity;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;

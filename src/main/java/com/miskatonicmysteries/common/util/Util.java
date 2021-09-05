@@ -99,7 +99,7 @@ public class Util {
     }
 
     @Nullable
-    public static BlockPos getPossibleMobSpawnPos(ServerWorld world, PlayerEntity player, int tries, int radius, int zoneRadius, EntityType<?> type) {
+    public static BlockPos getPossibleMobSpawnPos(ServerWorld world, LivingEntity player, int tries, int radius, int zoneRadius, EntityType<?> type) {
         BlockPos.Mutable mutable = new BlockPos.Mutable();
 
         for (int j = 0; j < tries; ++j) {

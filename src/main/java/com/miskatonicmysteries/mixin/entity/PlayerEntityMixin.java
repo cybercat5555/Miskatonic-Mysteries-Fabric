@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.mixin;
+package com.miskatonicmysteries.mixin.entity;
 
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.interfaces.*;

@@ -4,9 +4,9 @@
   "package": "com.miskatonicmysteries.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "BrewingRecipeRegistryAccessor", "ConduitBlockEntityMixin", "DataLoadMixin", "EvokerEntityMixin",
-    "LivingEntityAccessor", "LivingEntityMixin", "MobEntityMixin", "PlayerEntityMixin",
-    "WitchEntityMixin", "ZombieVillagerAccessor", "biomes.BiomeArrayMixin", "biomes.ChunkSerializerMixin",
+    "BrewingRecipeRegistryAccessor", "block.ConduitBlockEntityMixin", "DataLoadMixin", "entity.EntityMixin",
+    "entity.LivingEntityAccessor", "entity.LivingEntityMixin", "entity.MobEntityAccessor", "entity.MobEntityMixin",
+    "entity.PlayerEntityMixin", "entity.WitchEntityMixin", "entity.ZombieVillagerAccessor", "biomes.BiomeArrayMixin", "biomes.ChunkSerializerMixin",
     "biomes.ThreadedAnvilChunkStorageMixin", "block.BlockMixin", "block.CropBlockMixin", "block.JukeboxBlockMixin",
     "item.FireworkItemMixin", "item.ItemMixin", "item.MilkBucketItemMixin", "villagers.ActivityAccessor",
     "villagers.MemoryModuleTypeAccessor", "villagers.VillagerEntityAccessor", "villagers.VillagerEntityMixin",
