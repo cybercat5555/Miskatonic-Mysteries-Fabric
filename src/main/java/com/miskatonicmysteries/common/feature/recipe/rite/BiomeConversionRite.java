@@ -37,7 +37,7 @@ public class BiomeConversionRite extends AscensionLockedRite {
     @Override
     public void tick(OctagramBlockEntity octagram) {
         super.tick(octagram);
-        if (octagram.getWorld() instanceof ServerWorld serverWorld /*&& serverWorld.getTime() % 20 == 0*/) {
+        if (octagram.getWorld() instanceof ServerWorld serverWorld && serverWorld.getTime() % 20 == 0) {
             Random random = serverWorld.getRandom();
             int radius = getRadius(octagram);
             Biome biome = biomeSupplier.apply(serverWorld);

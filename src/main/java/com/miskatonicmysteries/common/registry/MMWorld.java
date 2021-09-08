@@ -1,7 +1,10 @@
 package com.miskatonicmysteries.common.registry;
 
 import com.google.common.collect.ImmutableList;
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
+import com.miskatonicmysteries.common.feature.world.biome.HasturBiomeEffect;
 import com.miskatonicmysteries.common.feature.world.processor.PsychonautHouseProcessor;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
@@ -60,17 +63,18 @@ public class MMWorld {
                                     .getDefaultState())))));
 
     public static final Biome HASTUR_BIOME;
+    public static final BiomeEffect HASTUR_BIOME_EFFECT = new HasturBiomeEffect();
 
     static {
         HASTUR_BIOME = new Biome.Builder().temperature(0.75f).precipitation(Biome.Precipitation.RAIN)
-                .category(Biome.Category.PLAINS).depth(0).scale(0).temperatureModifier(Biome.TemperatureModifier.NONE)
+                .category(Biome.Category.NONE).depth(0).scale(0).temperatureModifier(Biome.TemperatureModifier.NONE)
                 .downfall(0.3F).spawnSettings(new SpawnSettings.Builder().build())
                 .generationSettings(new GenerationSettings.Builder()
                         .surfaceBuilder(SurfaceBuilder.DEFAULT.withConfig(SurfaceBuilder.END_CONFIG)).build())
                 .effects(new BiomeEffects.Builder()
                         .fogColor(0xEFC91F).skyColor(0x000000)
                         .waterColor(0x1199C6).waterFogColor(0x1199C6)
-                        .grassColor(0xF2C709).foliageColor(0xF2C709)
+                        .grassColor(0xF2C709).foliageColor(0xE58E03)
                         .build())
                 .build();
     }
@@ -86,6 +90,8 @@ public class MMWorld {
                         "/hastur_cultist_ascended"), 1)), StructurePool.Projection.RIGID));
 
         RegistryUtil.register(BuiltinRegistries.BIOME, "hastur", HASTUR_BIOME);
+        BuiltinRegistries.BIOME.getKey(HASTUR_BIOME)
+                .ifPresent(key -> MiskatonicMysteriesAPI.associateBiomeEffect(key, HASTUR_BIOME_EFFECT));
     }
 
     public static StructurePool specialInject(StructurePool pool) {

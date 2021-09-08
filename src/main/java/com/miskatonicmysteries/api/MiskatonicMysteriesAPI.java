@@ -4,6 +4,7 @@ import com.miskatonicmysteries.api.interfaces.*;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
+import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeMaskPacket;
@@ -20,17 +21,19 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.chunk.WorldChunk;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class MiskatonicMysteriesAPI {
@@ -49,6 +52,7 @@ public class MiskatonicMysteriesAPI {
             return affiliation;
         }
     };
+    private static final Map<RegistryKey<Biome>, BiomeEffect> biomeEffects = new HashMap<>();
 
     public static Affiliation getNonNullAffiliation(Object obj, boolean apparent) {
         return Affiliated.of(obj).map(affiliated -> affiliated.getAffiliation(apparent)).orElse(MMAffiliations.NONE);
@@ -193,5 +197,13 @@ public class MiskatonicMysteriesAPI {
 
     public static boolean hasKnowledge(String knowledgeId, PlayerEntity player) {
         return Knowledge.of(player).map(knowledge -> knowledge.hasKnowledge(knowledgeId)).orElse(false);
+    }
+
+    public static void associateBiomeEffect(RegistryKey<Biome> biome, BiomeEffect effect) {
+        biomeEffects.put(biome, effect);
+    }
+
+    public static BiomeEffect getBiomeEffect(World world, BlockPos blockPos) {
+        return world.getBiomeKey(blockPos).map(biomeEffects::get).orElse(null);
     }
 }

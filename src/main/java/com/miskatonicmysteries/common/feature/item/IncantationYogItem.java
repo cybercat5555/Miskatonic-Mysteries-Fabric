@@ -53,7 +53,8 @@ public class IncantationYogItem extends Item {
         if (!stack.hasTag() || !stack.getTag().contains(Constants.NBT.DIMENSION)) {
             return null;
         }
-        return world.getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY, new Identifier(stack.getTag().getString(Constants.NBT.DIMENSION))));
+        return world.getServer().getWorld(RegistryKey
+                .of(Registry.WORLD_KEY, new Identifier(stack.getTag().getString(Constants.NBT.DIMENSION))));
     }
 
     public static void clear(ItemStack stack) {
@@ -68,7 +69,8 @@ public class IncantationYogItem extends Item {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         BlockPos boundPos = getPosition(stack);
         if (boundPos != null) {
-            tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.bound_to", boundPos.getX(), boundPos.getY(), boundPos.getZ()));
+            tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.bound_to", boundPos.getX(), boundPos
+                    .getY(), boundPos.getZ()));
         }
         super.appendTooltip(stack, world, tooltip, context);
     }
@@ -93,7 +95,8 @@ public class IncantationYogItem extends Item {
             }
         }
         if (foundPos != null) {
-            world.playSound(user.getX(), user.getY(), user.getZ(), MMSounds.INCANTATION_BIND_SUCCESS, SoundCategory.PLAYERS, 1, 1, false);
+            world.playSound(user.getX(), user.getY(), user
+                    .getZ(), MMSounds.INCANTATION_BIND_SUCCESS, SoundCategory.PLAYERS, 1, 1, false);
         }
         return storePosition(stack, world, foundPos);
     }
