@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.feature.world;
 
-import com.miskatonicmysteries.common.entity.ProtagonistEntity;
+import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.player.PlayerEntity;

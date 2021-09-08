@@ -3,7 +3,7 @@ package com.miskatonicmysteries.client.render.entity;
 import com.miskatonicmysteries.client.model.MMModels;
 import com.miskatonicmysteries.client.model.entity.TatteredPrinceModel;
 import com.miskatonicmysteries.client.model.entity.dummy.TatteredPrinceDummyModel;
-import com.miskatonicmysteries.common.entity.TatteredPrinceEntity;
+import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Model;

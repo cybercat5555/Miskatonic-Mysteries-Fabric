@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.feature.spell.medium;
 
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
-import com.miskatonicmysteries.common.entity.BoltEntity;
+import com.miskatonicmysteries.common.feature.entity.BoltEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;

@@ -1,11 +1,9 @@
 package com.miskatonicmysteries.mixin.entity;
 
 import com.miskatonicmysteries.api.interfaces.HiddenEntity;
-import com.miskatonicmysteries.common.entity.HallucinationEntity;
+import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;

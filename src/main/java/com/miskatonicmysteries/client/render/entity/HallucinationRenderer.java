@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.client.render.entity;
 
-import com.miskatonicmysteries.common.entity.HallucinationEntity;
+import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

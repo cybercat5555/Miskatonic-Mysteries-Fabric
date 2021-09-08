@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.model.entity;
 
 import com.google.common.collect.ImmutableList;
-import com.miskatonicmysteries.common.entity.HasturCultistEntity;
+import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;

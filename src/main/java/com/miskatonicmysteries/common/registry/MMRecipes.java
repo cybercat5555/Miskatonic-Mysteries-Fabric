@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.registry;
 
-import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.ChemistrySetBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.common.util.InventoryUtil;
 import com.miskatonicmysteries.common.util.RegistryUtil;

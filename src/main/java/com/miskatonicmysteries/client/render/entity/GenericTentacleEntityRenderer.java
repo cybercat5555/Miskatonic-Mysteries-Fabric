@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.client.model.entity.TentacleModel;
-import com.miskatonicmysteries.common.entity.TentacleEntity;
+import com.miskatonicmysteries.common.feature.entity.TentacleEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.model.entity;
 
 import com.miskatonicmysteries.api.item.GunItem;
-import com.miskatonicmysteries.common.entity.ProtagonistEntity;
+import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;

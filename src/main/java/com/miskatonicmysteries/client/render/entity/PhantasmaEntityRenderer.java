@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.api.interfaces.Resonating;
-import com.miskatonicmysteries.common.entity.PhantasmaEntity;
+import com.miskatonicmysteries.common.feature.entity.PhantasmaEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

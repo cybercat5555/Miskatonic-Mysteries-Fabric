@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.feature.recipe.rite.summon;
 
 import com.miskatonicmysteries.client.render.entity.ByakheeEntityRenderer;
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;

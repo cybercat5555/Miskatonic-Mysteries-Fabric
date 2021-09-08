@@ -2,22 +2,18 @@ package com.miskatonicmysteries.common.feature.sanity;
 
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.registry.InsanityEvent;
-import com.miskatonicmysteries.common.entity.HallucinationEntity;
+import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Util;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Pool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.SpawnSettings;
-
-import java.util.Optional;
 
 public class SpawnHallucinationInsanityEvent extends InsanityEvent {
     public SpawnHallucinationInsanityEvent() {

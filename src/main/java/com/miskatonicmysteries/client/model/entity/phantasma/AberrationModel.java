@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.client.model.entity.phantasma;
 
-import com.miskatonicmysteries.common.entity.PhantasmaEntity;
+import com.miskatonicmysteries.common.feature.entity.PhantasmaEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

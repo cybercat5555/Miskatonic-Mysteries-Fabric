@@ -4,7 +4,7 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;

@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.mixin.client;
 
 import com.miskatonicmysteries.api.interfaces.HiddenEntity;
-import com.miskatonicmysteries.common.entity.HallucinationEntity;
+import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

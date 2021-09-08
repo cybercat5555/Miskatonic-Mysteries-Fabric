@@ -2,9 +2,9 @@ package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Ascendant;
-import com.miskatonicmysteries.common.block.MasterpieceStatueBlock;
-import com.miskatonicmysteries.common.block.blockentity.MasterpieceStatueBlockEntity;
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.block.MasterpieceStatueBlock;
+import com.miskatonicmysteries.common.feature.block.blockentity.MasterpieceStatueBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.handler.SchedulingHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncRiteTargetPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;

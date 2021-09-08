@@ -2,9 +2,8 @@ package com.miskatonicmysteries.common.util;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
-import com.miskatonicmysteries.common.block.PowerCellBlock;
+import com.miskatonicmysteries.common.feature.block.PowerCellBlock;
 import com.miskatonicmysteries.common.registry.MMObjects;
-import com.sun.jna.Structure;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.AbstractBlock;

@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.api.registry.Rite;
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.item.IncantationYogItem;
+import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.item.IncantationYogItem;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;

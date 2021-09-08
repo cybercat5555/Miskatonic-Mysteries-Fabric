@@ -2,7 +2,7 @@ package com.miskatonicmysteries.api.block;
 
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
-import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;

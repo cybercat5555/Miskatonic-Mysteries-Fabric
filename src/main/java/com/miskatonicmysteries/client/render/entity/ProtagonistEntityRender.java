@@ -2,7 +2,7 @@ package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.client.model.MMModels;
 import com.miskatonicmysteries.client.model.entity.ProtagonistEntityModel;
-import com.miskatonicmysteries.common.entity.ProtagonistEntity;
+import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

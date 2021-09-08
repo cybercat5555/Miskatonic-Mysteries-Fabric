@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.feature.recipe.rite.summon;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.rite.AscensionLockedRite;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;

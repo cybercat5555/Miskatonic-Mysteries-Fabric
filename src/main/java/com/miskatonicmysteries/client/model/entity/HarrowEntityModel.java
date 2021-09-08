@@ -4,7 +4,7 @@
 
 package com.miskatonicmysteries.client.model.entity;
 
-import com.miskatonicmysteries.common.entity.HarrowEntity;
+import com.miskatonicmysteries.common.feature.entity.HarrowEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;

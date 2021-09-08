@@ -6,7 +6,7 @@ import com.miskatonicmysteries.client.model.MMModels;
 import com.miskatonicmysteries.client.model.block.HasturStatueModel;
 import com.miskatonicmysteries.client.model.block.StatueModel;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.block.blockentity.StatueBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.StatueBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;

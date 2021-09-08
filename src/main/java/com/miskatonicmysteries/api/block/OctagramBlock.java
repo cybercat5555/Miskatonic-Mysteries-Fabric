@@ -3,7 +3,7 @@ package com.miskatonicmysteries.api.block;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Rite;
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.rite.TeleportRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.TeleportEffectPacket;

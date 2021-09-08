@@ -3,7 +3,7 @@ package com.miskatonicmysteries.client.render.blockentity;
 import com.miskatonicmysteries.client.model.MMModels;
 import com.miskatonicmysteries.client.model.block.MasterpieceStatueModel;
 import com.miskatonicmysteries.client.render.ColorUtil;
-import com.miskatonicmysteries.common.block.blockentity.MasterpieceStatueBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.MasterpieceStatueBlockEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.client.PlayerSkinTextureAccessor;
 import com.mojang.authlib.GameProfile;

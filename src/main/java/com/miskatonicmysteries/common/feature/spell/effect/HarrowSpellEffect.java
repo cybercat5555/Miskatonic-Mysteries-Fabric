@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.feature.spell.effect;
 
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
-import com.miskatonicmysteries.common.entity.HarrowEntity;
+import com.miskatonicmysteries.common.feature.entity.HarrowEntity;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.Entity;

@@ -3,7 +3,7 @@ package com.miskatonicmysteries.client.render.entity;
 import com.miskatonicmysteries.client.model.MMModels;
 import com.miskatonicmysteries.client.model.entity.AscendedHasturCultistEntityModel;
 import com.miskatonicmysteries.client.model.entity.HasturCultistEntityModel;
-import com.miskatonicmysteries.common.entity.HasturCultistEntity;
+import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

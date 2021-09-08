@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.client.sound;
 
-import com.miskatonicmysteries.common.block.blockentity.energy.ResonatorBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.energy.ResonatorBlockEntity;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

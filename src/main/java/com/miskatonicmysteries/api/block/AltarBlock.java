@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.api.block;
 
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
-import com.miskatonicmysteries.common.block.blockentity.AltarBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.AltarBlockEntity;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.OpenSpellEditorPacket;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;

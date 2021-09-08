@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.handler;
 
-import com.miskatonicmysteries.common.entity.ProtagonistEntity;
+import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.util.Constants;

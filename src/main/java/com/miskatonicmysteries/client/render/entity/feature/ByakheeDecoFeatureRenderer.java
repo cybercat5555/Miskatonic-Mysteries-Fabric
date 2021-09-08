@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.render.entity.feature;
 
 import com.miskatonicmysteries.client.model.entity.ByakheeEntityModel;
-import com.miskatonicmysteries.common.entity.ByakheeEntity;
+import com.miskatonicmysteries.common.feature.entity.ByakheeEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

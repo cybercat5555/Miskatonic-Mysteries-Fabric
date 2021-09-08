@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.api.item;
 
-import com.miskatonicmysteries.common.block.Shootable;
+import com.miskatonicmysteries.common.feature.block.Shootable;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;

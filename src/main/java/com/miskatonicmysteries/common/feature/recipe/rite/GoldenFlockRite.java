@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.entity.HasturCultistEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncRiteTargetPacket;
 import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;

@@ -4,7 +4,7 @@ import com.miskatonicmysteries.client.model.MMModels;
 import com.miskatonicmysteries.client.model.entity.ByakheeEntityModel;
 import com.miskatonicmysteries.client.render.entity.feature.ByakheeDecoFeatureRenderer;
 import com.miskatonicmysteries.client.render.entity.feature.ByakheeSaddleFeatureRenderer;
-import com.miskatonicmysteries.common.entity.ByakheeEntity;
+import com.miskatonicmysteries.common.feature.entity.ByakheeEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

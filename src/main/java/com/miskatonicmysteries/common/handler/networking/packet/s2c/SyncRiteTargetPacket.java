@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;

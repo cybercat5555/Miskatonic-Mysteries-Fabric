@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.mixin.client;
 
-import com.miskatonicmysteries.common.entity.util.InputAware;
+import com.miskatonicmysteries.common.feature.entity.util.InputAware;
 import com.mojang.authlib.GameProfile;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

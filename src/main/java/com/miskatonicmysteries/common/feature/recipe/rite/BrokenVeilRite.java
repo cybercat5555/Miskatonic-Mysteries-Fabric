@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;

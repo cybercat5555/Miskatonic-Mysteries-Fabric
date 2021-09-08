@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.client.render.entity;
 
-import com.miskatonicmysteries.common.entity.SpellProjectileEntity;
+import com.miskatonicmysteries.common.feature.entity.SpellProjectileEntity;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

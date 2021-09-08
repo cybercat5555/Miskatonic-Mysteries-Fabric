@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.feature.recipe.rite;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;

@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.client.render.blockentity;
 
-import com.miskatonicmysteries.common.block.blockentity.ChemistrySetBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.ChemistrySetBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.HorizontalFacingBlock;

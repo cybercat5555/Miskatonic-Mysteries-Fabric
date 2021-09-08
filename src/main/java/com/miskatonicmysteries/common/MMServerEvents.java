@@ -2,8 +2,8 @@ package com.miskatonicmysteries.common;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.*;
-import com.miskatonicmysteries.common.entity.HallucinationEntity;
-import com.miskatonicmysteries.common.entity.ProtagonistEntity;
+import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
+import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.world.party.MMPartyState;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;

@@ -1,8 +1,7 @@
 package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
-import com.miskatonicmysteries.api.registry.Affiliation;
-import com.miskatonicmysteries.common.entity.*;
+import com.miskatonicmysteries.common.feature.entity.*;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import com.miskatonicmysteries.mixin.villagers.MemoryModuleTypeAccessor;
@@ -12,14 +11,10 @@ import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerProfessionBuil
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
-import net.minecraft.entity.ai.brain.Schedule;
-import net.minecraft.entity.ai.brain.ScheduleBuilder;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -39,7 +34,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
-import net.minecraft.world.World;
 import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.List;

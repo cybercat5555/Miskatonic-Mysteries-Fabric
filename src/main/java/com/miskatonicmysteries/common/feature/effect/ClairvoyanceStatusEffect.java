@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.common.feature.effect;
 
 import com.miskatonicmysteries.api.interfaces.HiddenEntity;
-import com.miskatonicmysteries.common.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.feature.recipe.rite.SpawnerTrapRite;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;

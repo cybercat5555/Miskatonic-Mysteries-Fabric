@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.api.registry.Rite;
-import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.rite.*;
 import com.miskatonicmysteries.common.feature.recipe.rite.summon.ByakheeSummoningRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.summon.PrinceSummoningRite;

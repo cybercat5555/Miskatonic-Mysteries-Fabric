@@ -4,7 +4,7 @@
 
 package com.miskatonicmysteries.client.model.entity;
 
-import com.miskatonicmysteries.common.entity.ByakheeEntity;
+import com.miskatonicmysteries.common.feature.entity.ByakheeEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

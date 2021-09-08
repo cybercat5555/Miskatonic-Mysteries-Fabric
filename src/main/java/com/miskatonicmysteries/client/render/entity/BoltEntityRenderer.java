@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.client.render.entity;
 
-import com.miskatonicmysteries.common.entity.BoltEntity;
+import com.miskatonicmysteries.common.feature.entity.BoltEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.RenderLayer;
