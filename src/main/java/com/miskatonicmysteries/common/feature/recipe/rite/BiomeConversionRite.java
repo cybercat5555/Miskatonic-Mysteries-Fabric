@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
@@ -36,16 +37,22 @@ public class BiomeConversionRite extends AscensionLockedRite {
     @Override
     public void tick(OctagramBlockEntity octagram) {
         super.tick(octagram);
-        if (octagram.getWorld() instanceof ServerWorld serverWorld && serverWorld.getTime() % 20 == 0) {
+        if (octagram.getWorld() instanceof ServerWorld serverWorld /*&& serverWorld.getTime() % 20 == 0*/) {
             Random random = serverWorld.getRandom();
-            int radius = octagram.tickCount / 120;
+            int radius = getRadius(octagram);
             Biome biome = biomeSupplier.apply(serverWorld);
             BlockPos center = octagram.getPos();
-            Iterable<BlockPos> blockPosIterable = BlockPos.iterateRandomly(random, 1 + random.nextInt(3), center.getX() - radius, center.getY(), center.getZ() - radius, center.getX() + radius, center.getY(), center.getZ() + radius);
+            Iterable<BlockPos> blockPosIterable = BlockPos
+                    .iterateRandomly(random, 1 + random.nextInt(3), center.getX() - radius, center.getY(), center
+                            .getZ() - radius, center.getX() + radius, center.getY(), center.getZ() + radius);
             for (BlockPos targetPos : blockPosIterable) {
                 MiskatonicMysteriesAPI.setBiomeMask(serverWorld, targetPos, biome);
             }
         }
+    }
+
+    private int getRadius(OctagramBlockEntity octagram) {
+        return Math.min((int) (Math.sqrt(octagram.tickCount / 4.0)), MiskatonicMysteries.config.world.simulacrumBiomeRadiusCap);
     }
 
     @Override

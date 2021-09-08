@@ -82,8 +82,11 @@ public class MMConfig implements ConfigData {
         @ConfigEntry.Gui.RequiresRestart
         public int hasturShrineWeight = 60;
 
-        @ConfigEntry.Gui.Tooltip(count = 2)
+        @ConfigEntry.Gui.Tooltip
         public float infestedWheatChance = 0.05F;
+
+        @ConfigEntry.Gui.Tooltip
+        public int simulacrumBiomeRadiusCap = 80;
     }
 
     public static class Client {

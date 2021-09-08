@@ -4,6 +4,7 @@ import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMWorld;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -18,13 +19,14 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 
 public class HasturBiomeRite extends BiomeConversionRite {
 
 	public HasturBiomeRite() {
 		super(new Identifier(Constants.MOD_ID, "hastur_biome"), MMAffiliations.HASTUR,
-				(world) -> world.getRegistryManager().get(Registry.BIOME_KEY).get(2), "", 3,
+				(world) -> world.getRegistryManager().get(Registry.BIOME_KEY).get(BuiltinRegistries.BIOME.getId(MMWorld.HASTUR_BIOME)), "", 3,
 				Ingredient.ofItems(Items.EMERALD));
 	}
 
