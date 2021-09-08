@@ -19,6 +19,9 @@ public class VisionHandler {
 
     public static void init() {
         register(new Identifier(Constants.MOD_ID, "hastur_bless"), new HasturBlessingVision());
+        register(new Identifier(Constants.MOD_ID, "hastur_mania_0"), new HasturManiaVision(0));
+        register(new Identifier(Constants.MOD_ID, "hastur_mania_1"), new HasturManiaVision(1));
+        register(new Identifier(Constants.MOD_ID, "hastur_mania_2"), new HasturManiaVision(2));
         HudRenderCallback.EVENT.register(VisionHandler::tick);
         //proper render event registry
     }
