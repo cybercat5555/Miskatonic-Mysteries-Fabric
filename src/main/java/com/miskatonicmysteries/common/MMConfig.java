@@ -9,7 +9,9 @@ import net.fabricmc.api.Environment;
 
 @Config(name = Constants.MOD_ID)
 public class MMConfig implements ConfigData {
-    public int modUpdateInterval = 20;
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public Mechanics mechanics = new Mechanics();
 
     @Environment(EnvType.CLIENT)
     @ConfigEntry.Gui.CollapsibleObject
@@ -27,6 +29,10 @@ public class MMConfig implements ConfigData {
     @ConfigEntry.Gui.CollapsibleObject
     public World world = new World();
 
+    public static class Mechanics {
+        public int modUpdateInterval = 20;
+        public int maxStabilizers = 12;
+    }
 
     public static class Entities {
         @ConfigEntry.BoundedDiscrete(max = Constants.DataTrackers.SANITY_CAP)

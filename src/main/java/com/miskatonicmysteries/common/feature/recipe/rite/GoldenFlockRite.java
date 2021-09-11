@@ -147,13 +147,24 @@ public class GoldenFlockRite extends AscensionLockedRite {
     }
 
     private void spawnParticles(World world, Vec3d pos, Random random) {
-        if (random.nextFloat() < 0.1F) {
-            Vec3d particlePos = pos.add(random.nextGaussian() * 2.5F, -0.25F + random.nextFloat() * 2, random.nextGaussian() * 2.5F);
-            world.addParticle(ParticleTypes.NOTE, particlePos.x, particlePos.y, particlePos.z, 1, 0.75 + random.nextFloat() * 0.25F, random.nextFloat() * 0.1F);
+        if (world.isClient) {
+            if (random.nextFloat() < 0.1F) {
+                Vec3d particlePos = pos.add(random.nextGaussian() * 2.5F, -0.25F + random.nextFloat() * 2, random
+                        .nextGaussian() * 2.5F);
+                world.addParticle(ParticleTypes.NOTE, particlePos.x, particlePos.y, particlePos.z, 1, 0.75 + random
+                        .nextFloat() * 0.25F, random.nextFloat() * 0.1F);
+            }
+            if (random.nextFloat() < 0.2F) {
+                Vec3d particlePos = pos
+                        .add(random.nextGaussian() * 3, -0.25F + random.nextFloat() * 3, random.nextGaussian() * 3);
+                world.addParticle(MMParticles.AMBIENT, particlePos.x, particlePos.y, particlePos.z, 1, 0.75 + random
+                        .nextFloat() * 0.25F, random.nextFloat() * 0.1F);
+            }
         }
-        if (random.nextFloat() < 0.2F) {
-            Vec3d particlePos = pos.add(random.nextGaussian() * 3, -0.25F + random.nextFloat() * 3, random.nextGaussian() * 3);
-            world.addParticle(MMParticles.AMBIENT, particlePos.x, particlePos.y, particlePos.z, 1, 0.75 + random.nextFloat() * 0.25F, random.nextFloat() * 0.1F);
-        }
+    }
+
+    @Override
+    public float getInstabilityBase(OctagramBlockEntity blockEntity) {
+        return 0.35F;
     }
 }

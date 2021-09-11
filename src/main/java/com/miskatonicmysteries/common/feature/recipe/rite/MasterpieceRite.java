@@ -150,4 +150,9 @@ public class MasterpieceRite extends TriggeredRite {
 		}
 		return super.listen(blockEntity, world, event, entity, pos);
 	}
+
+	@Override
+	public float getInstabilityBase(OctagramBlockEntity blockEntity) {
+		return 0.35F;
+	}
 }

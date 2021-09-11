@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -64,7 +65,7 @@ public class HasturBiomeEffect extends BiomeEffect {
                 if (entity instanceof VillagerEntity) {
                     entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 400, 0, true, false, true));
                 }
-            } else {
+            } else if (entity instanceof PlayerEntity || entity instanceof Monster){
                 entity.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 100, 0, true, true, true));
                 if (entity instanceof PlayerEntity && entity.getRandom().nextFloat() < 0.2) {
                     List<Entity> mindFrickEntities = entity.world.getOtherEntities(entity, entity.getBoundingBox()

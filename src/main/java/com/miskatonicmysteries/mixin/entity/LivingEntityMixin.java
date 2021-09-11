@@ -77,13 +77,6 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
         }
     }
 
-    @Inject(method = "onKilledBy", at = @At("HEAD"))
-    private void onKilledBy(@Nullable LivingEntity adversary, CallbackInfo ci) {
-        if (!world.isClient && getType().isIn(Constants.Tags.VALID_SACRIFICES)) {
-            OctagramBlockEntity.onEntitySacrificed(world, getBlockPos());
-        }
-    }
-
     @Inject(method = "eatFood", at = @At("HEAD"), cancellable = true)
     private void eatFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
         if (hasStatusEffect(MMStatusEffects.EXOTIC_CRAVINGS)) {

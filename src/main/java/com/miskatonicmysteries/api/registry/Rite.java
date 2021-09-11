@@ -45,7 +45,8 @@ public abstract class Rite {
 
         matrixStack.push();
         matrixStack.translate(0, 0.001F, 0);
-        RenderHelper.renderTexturedPlane(3, sprite, matrixStack, sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderHelper.getTransparency())), light, overlay, new float[]{1, 1, 1, alpha});
+        RenderHelper.renderTexturedPlane(3, sprite, matrixStack, sprite.getTextureSpecificVertexConsumer(vertexConsumers
+                .getBuffer(RenderHelper.getTransparency())), light, overlay, new float[]{1, 1, 1, alpha});
         matrixStack.push();
         Matrix4f matrix4f = matrixStack.peek().getModel();
         matrixStack.translate(1.5, 0, 1.5);
@@ -54,9 +55,11 @@ public abstract class Rite {
         RenderHelper.renderPortalLayer(entity.getWorld(), matrix4f, vertexConsumers, 0.8F, 0.8F, colors);
         matrixStack.pop();
         matrixStack.translate(1.5, 0, 1.5);
-        matrixStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(((float) entity.getWorld().getTime() + tickDelta) / 20.0F));
+        matrixStack.multiply(Vec3f.POSITIVE_Y
+                .getRadialQuaternion(((float) entity.getWorld().getTime() + tickDelta) / 20.0F));
         matrixStack.translate(-1.5F, 0.0025F, -1.5F);
-        RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, vertexConsumers.getBuffer(RenderHelper.getTransparency()), light, overlay, colors);
+        RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, vertexConsumers
+                .getBuffer(RenderHelper.getTransparency()), light, overlay, colors);
         matrixStack.pop();
     }
 
@@ -102,7 +105,9 @@ public abstract class Rite {
     }
 
     public boolean canCast(OctagramBlockEntity octagram) {
-        return (octagramAffiliation == null || octagramAffiliation.equals(octagram.getAffiliation(false))) && InventoryUtil.areItemStackListsExactlyEqual(ingredients, octagram);
+        return (octagramAffiliation == null || octagramAffiliation
+                .equals(octagram.getAffiliation(false))) && InventoryUtil
+                .areItemStackListsExactlyEqual(ingredients, octagram);
     }
 
     @Environment(EnvType.CLIENT)
@@ -136,5 +141,9 @@ public abstract class Rite {
     public boolean listen(OctagramBlockEntity blockEntity, World world, GameEvent event, Entity entity, BlockPos pos) {
 
         return false;
+    }
+
+    public float getInstabilityBase(OctagramBlockEntity blockEntity) {
+        return 0.25F;
     }
 }

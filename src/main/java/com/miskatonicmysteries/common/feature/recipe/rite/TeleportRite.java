@@ -140,6 +140,11 @@ public class TeleportRite extends Rite {
     }
 
     @Override
+    public float getInstabilityBase(OctagramBlockEntity blockEntity) {
+        return 0.05F;
+    }
+
+    @Override
     @Environment(EnvType.CLIENT)
     public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
         return super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);

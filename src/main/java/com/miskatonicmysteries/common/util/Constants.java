@@ -53,6 +53,9 @@ public class Constants {
         public static final Tag<Block> OCEANIC_GOLD_BLOCKS = TagRegistry.block(new Identifier(MOD_ID, "oceanic_gold_blocks"));
         public static final Tag<Block> SUBTLE_BLOCKS = TagRegistry.block(new Identifier(MOD_ID, "subtle_blocks"));
         public static final Tag<Block> SUSPICIOUS_BLOCKS = TagRegistry.block(new Identifier(MOD_ID, "suspicious_blocks"));
+        public static final Tag<Block> STABILIZERS = TagRegistry.block(new Identifier(MOD_ID, "stabilizers"));
+        public static final Tag<Block> WEAK_STABILIZERS = TagRegistry.block(new Identifier(MOD_ID, "weak_stabilizers"));
+        public static final Tag<Block> STRONG_STABILIZERS = TagRegistry.block(new Identifier(MOD_ID, "strong_stabilizers"));
 
         public static final Tag<Item> RED_MEAT = TagRegistry.item(new Identifier(MOD_ID, "red_meat"));
         public static final Tag<Item> YELLOW_DYE = TagRegistry.item(new Identifier(MOD_ID, "yellow_dye"));
@@ -140,7 +143,8 @@ public class Constants {
         public static final String BONUS_COOLDOWN = "BonusCooldown";
         public static final String MUSIC_SOURCES = "MusicSources";
         public static final String HIDDEN = "MM_Hidden";
-	}
+        public static final String INSTABILITY = "Instability";
+    }
 
     public static class DataTrackers {
         public static final int SANITY_CAP = 1000;

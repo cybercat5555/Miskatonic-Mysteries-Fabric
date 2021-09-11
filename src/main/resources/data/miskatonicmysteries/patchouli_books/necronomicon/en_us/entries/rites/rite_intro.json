@@ -14,7 +14,11 @@
     },
     {
       "type": "text",
-      "text": "Additionally, most rites may be easily noticed, so be weary. Using $(ml:world/occult_decor)occult paraphernalia$() may help with this, though it could also make it worse."
+      "title": "Instability",
+      "text": "Since they fiddle with cosmic powers, rites have a decent potential to go haywire when not set up properly. This usually results in collateral damage, or the rite failing.$(br)A rite's stability may be helped with $(marked)lit candles$(), $(marked)skulls$(), or $(marked)decorations matching the addressed Great Old One$(). Keep in mind that these decorations may as well increase instability when used improperly, such as when a statue to the Black Goat"
+    },{
+      "type": "text",
+      "text": "is placed in a rite to the Yellow King.$(br)These $(marked)stabilizers$() are tragically $(marked)suspicious$() most of the time. They may, along with the rite itself, attract unwanted attention, though this may be helped with $(marked)subtle blocks$() such as some $(ml:world/occult_decor)occult paraphernalia$() or candles."
     },
     {
       "type": "text",

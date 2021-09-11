@@ -109,7 +109,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 		if (getSpellCooldown() > 0) {
 			setSpellCooldown(getSpellCooldown() - 1);
 		}
-		if (age % MiskatonicMysteries.config.modUpdateInterval == 0) {
+		if (age % MiskatonicMysteries.config.mechanics.modUpdateInterval == 0) {
 			if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.sanity.shockRemoveChance) {
 				setShocked(false);
 			}

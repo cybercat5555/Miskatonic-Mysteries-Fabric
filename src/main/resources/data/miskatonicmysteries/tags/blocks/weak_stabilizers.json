@@ -1,7 +1,8 @@
 {
   "replace": false,
   "values": [
+    "#minecraft:candles",
     "#miskatonicmysteries:oceanic_gold_blocks",
-    "#minecraft:candles"
+    "minecraft:redstone_wire"
   ]
 }
