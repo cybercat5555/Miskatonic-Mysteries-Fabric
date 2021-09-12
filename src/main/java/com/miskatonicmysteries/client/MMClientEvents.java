@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.client;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
+import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.sound.ResonatorSound;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
@@ -18,6 +19,8 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.Monster;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -60,7 +63,7 @@ public class MMClientEvents {
 					continue;
 				}
 				Affiliation affiliation = MiskatonicMysteriesAPI.getNonNullAffiliation(entity, false);
-				if (entity instanceof  LivingEntity) {
+				if (entity instanceof Monster || entity instanceof PlayerEntity || entity instanceof Affiliated) {
 					renderOutline = true;
 					OutlineVertexConsumerProvider outlineVertexConsumerProvider = client.getBufferBuilders().getOutlineVertexConsumers();
 					int color = affiliation == MMAffiliations.NONE ? affiliation.textColor : affiliation.getIntColor();

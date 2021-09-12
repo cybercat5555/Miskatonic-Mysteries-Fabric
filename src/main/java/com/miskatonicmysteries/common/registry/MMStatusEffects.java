@@ -38,7 +38,8 @@ public class MMStatusEffects {
         RegistryUtil.register(Registry.POTION, "resonance_long", Potions.LONG_RESONANCE);
         RegistryUtil.register(Registry.POTION, "resonance_strong", Potions.STRONG_RESONANCE);
 
-        BrewingRecipeRegistryAccessor.invokeRegister(net.minecraft.potion.Potions.WATER, MMObjects.RESONATE_OOZE, Potions.RESONANCE);
+        BrewingRecipeRegistryAccessor
+                .invokeRegister(net.minecraft.potion.Potions.WATER, MMObjects.RESONATE_OOZE, Potions.RESONANCE);
         BrewingRecipeRegistryAccessor.invokeRegister(Potions.RESONANCE, Items.REDSTONE, Potions.LONG_RESONANCE);
         BrewingRecipeRegistryAccessor.invokeRegister(Potions.RESONANCE, Items.GLOWSTONE_DUST, Potions.STRONG_RESONANCE);
     }
