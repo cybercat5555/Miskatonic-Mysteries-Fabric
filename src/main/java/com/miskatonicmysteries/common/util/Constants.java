@@ -144,6 +144,7 @@ public class Constants {
         public static final String MUSIC_SOURCES = "MusicSources";
         public static final String HIDDEN = "MM_Hidden";
         public static final String INSTABILITY = "Instability";
+        public static final String SIMPLE = "IsSimple";
     }
 
     public static class DataTrackers {

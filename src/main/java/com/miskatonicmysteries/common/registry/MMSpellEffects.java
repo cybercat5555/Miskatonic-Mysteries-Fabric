@@ -14,6 +14,7 @@ public class MMSpellEffects {
     public static final SpellEffect IGNITE = new FireSpellEffect();
     public static final SpellEffect HARROWS = new HarrowSpellEffect();
     public static final SpellEffect CLAIRVOYANCE = new ClairvoyanceSpellEffect();
+    public static final SpellEffect PULSE = new PulseSpellEffect();
 
 
     public static void init() {
@@ -26,6 +27,7 @@ public class MMSpellEffects {
         register(IGNITE);
         register(HARROWS);
         register(CLAIRVOYANCE);
+        register(PULSE);
     }
 
     private static void register(SpellEffect effect) {

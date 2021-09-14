@@ -47,6 +47,7 @@ public class CirrhosusFleshItem extends Item {
             });
             SpellCaster.of(user).ifPresent(caster -> {
                 caster.learnEffect(MMSpellEffects.TENTACLES);
+                caster.learnEffect(MMSpellEffects.PULSE);
                 caster.syncSpellData();
             });
             if (user instanceof ServerPlayerEntity) {

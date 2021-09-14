@@ -1,0 +1,18 @@
+{
+  "name": "Pulse",
+  "category": "miskatonicmysteries:spells",
+  "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/pulse.png",
+  "advancement": "miskatonicmysteries:recipes/hidden_knowledge/tentacle_spell",
+  "secret": true,
+  "pages": [
+    {
+      "type": "text",
+      "text": "A rather dramatic spell, from which the hungry jaws of the dark $(marked)Evokers$() are derived. It summons a wave of thrashing tendrils made from pure energy either around the caster, or sent out like a torrent out from the caster as thrashing whips of energy emerge from the ground."
+    },
+    {
+      "type": "spotlight",
+      "item": "miskatonicmysteries:cirrhosus_flesh",
+      "text": "This spell is acquired through the consumption of $(item)Cirrhosus Flesh$()."
+    }
+  ]
+}

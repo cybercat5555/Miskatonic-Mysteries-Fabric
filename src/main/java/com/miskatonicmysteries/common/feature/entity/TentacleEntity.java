@@ -35,14 +35,21 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public abstract class TentacleEntity extends PathAwareEntity implements Affiliated, IAnimatable {
-    private static final TrackedData<Optional<UUID>> OWNER = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
-    private static final TrackedData<Optional<UUID>> SPECIFIC_TARGET = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
-    private static final TrackedData<Boolean> BROAD_SWING = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final TrackedData<Float> SIZE = DataTracker.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.FLOAT);
+    private static final TrackedData<Optional<UUID>> OWNER = DataTracker
+            .registerData(TentacleEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+    private static final TrackedData<Optional<UUID>> SPECIFIC_TARGET = DataTracker
+            .registerData(TentacleEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+    private static final TrackedData<Boolean> BROAD_SWING = DataTracker
+            .registerData(TentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> IS_SIMPLE = DataTracker
+            .registerData(TentacleEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Float> SIZE = DataTracker
+            .registerData(TentacleEntity.class, TrackedDataHandlerRegistry.FLOAT);
     private final AnimationFactory factory = new AnimationFactory(this);
     private LivingEntity owner;
     private boolean monster = false;
@@ -67,16 +74,21 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         dataTracker.startTracking(SPECIFIC_TARGET, Optional.empty());
         dataTracker.startTracking(BROAD_SWING, false);
         dataTracker.startTracking(SIZE, 1F);
+        dataTracker.startTracking(IS_SIMPLE, false);
     }
 
     @Override
     protected void initGoals() {
         this.goalSelector.add(0, new SwingAtTargetGoal());
-        this.targetSelector.add(0, new FollowTargetGoal<>(this, LivingEntity.class, 10, false, false, this::isValidTarget));
+        this.targetSelector
+                .add(0, new FollowTargetGoal<>(this, LivingEntity.class, 10, false, false, this::isValidTarget));
     }
 
     protected boolean isValidTarget(LivingEntity target) {
-        if (target instanceof TentacleEntity && getOwnerUUID().isEmpty()){
+        if (isSimple()) {
+            return false;
+        }
+        if (target instanceof TentacleEntity && getOwnerUUID().isEmpty()) {
             return false;
         }
         if (getOwnerUUID().isPresent()) {
@@ -114,7 +126,8 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 
     public <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
         if (handSwinging) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation(isBroadSwing() ? "attack_spread" : "attack", false));
+            event.getController().setAnimation(new AnimationBuilder()
+                    .addAnimation(isBroadSwing() ? "attack_spread" : "attack", false));
             return PlayState.CONTINUE;
         }
         if (isAttacking()) {
@@ -142,16 +155,21 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         }
         tag.putBoolean(Constants.NBT.MONSTER, monster);
         tag.putInt(Constants.NBT.MAX_AGE, maxAge);
+        tag.putBoolean(Constants.NBT.SIMPLE, isSimple());
     }
 
     @Override
     public void readCustomDataFromNbt(NbtCompound tag) {
         super.readCustomDataFromNbt(tag);
         dataTracker.set(BROAD_SWING, tag.getBoolean(Constants.NBT.BROAD_SWING));
-        dataTracker.set(OWNER, tag.contains(Constants.NBT.OWNER) ? Optional.of(tag.getUuid(Constants.NBT.OWNER)) : Optional.empty());
-        dataTracker.set(SPECIFIC_TARGET, tag.contains(Constants.NBT.TARGET) ? Optional.of(tag.getUuid(Constants.NBT.TARGET)) : Optional.empty());
+        dataTracker
+                .set(OWNER, tag.contains(Constants.NBT.OWNER) ? Optional.of(tag.getUuid(Constants.NBT.OWNER)) : Optional
+                        .empty());
+        dataTracker.set(SPECIFIC_TARGET, tag.contains(Constants.NBT.TARGET) ? Optional
+                .of(tag.getUuid(Constants.NBT.TARGET)) : Optional.empty());
         monster = tag.getBoolean(Constants.NBT.MONSTER);
         maxAge = tag.getInt(Constants.NBT.MAX_AGE);
+        setSimple(tag.getBoolean(Constants.NBT.SIMPLE));
     }
 
     @Override
@@ -168,8 +186,20 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         if (this.handSwinging) {
             ++this.handSwingTicks;
             if (handSwingTicks == hitTick) {
-                if (getTarget() != null && getTarget().distanceTo(this) <= 3 && isWithinAngle(getTarget())) {
-                    tryAttack(getTarget());
+                if (isSimple()) {
+                    List<Entity> targets = world.getOtherEntities(this,
+                            getBoundingBox().expand(3, 0, 3),
+                            (entity) -> entity instanceof LivingEntity && entity != getOwner() &&
+                                    (!(entity instanceof TentacleEntity t) || t.getOwner() != getOwner()));
+                    for (Entity target : targets) {
+                        if (target.distanceTo(this) <= 3 && isWithinAngle((LivingEntity) target)) {
+                            tryAttack(target);
+                        }
+                    }
+                } else {
+                    if (getTarget() != null && getTarget().distanceTo(this) <= 3 && isWithinAngle(getTarget())) {
+                        tryAttack(getTarget());
+                    }
                 }
             }
             if (this.handSwingTicks >= maxProgress) {
@@ -194,14 +224,18 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         if (headYaw < 0) {
             headYaw += 360;
         }
-        return Math.abs(targetYaw - headYaw) < (isBroadSwing() ? 60 : 15);
+        return Math.abs(targetYaw - headYaw) < (isSimple() ? 100 : (isBroadSwing() ? 60  : 15));
     }
 
     @Override
     protected void mobTick() {
-        super.mobTick();
+        if (!isSimple()) {
+            super.mobTick();
+        } else if (!handSwinging) {
+            swingHand(Hand.MAIN_HAND);
+        }
 
-        if (age < 20) {
+        if (age < (isSimple() ? maxAge / 2 : 20)) {
             setSize(getSize() + 0.05F);
         } else if (age > maxAge) {
             setSize(getSize() - 0.05F);
@@ -236,7 +270,9 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         boolean damage = target.damage(DamageSource.mob(this), f);
         if (damage) {
             if (g > 0.0F && target instanceof LivingEntity) {
-                ((LivingEntity) target).takeKnockback(g * 0.5F, MathHelper.sin(this.getYaw() * 0.017453292F), (-MathHelper.cos(this.getYaw() * 0.017453292F)));
+                ((LivingEntity) target)
+                        .takeKnockback(g * 0.5F, MathHelper.sin(this.getYaw() * 0.017453292F), (-MathHelper
+                                .cos(this.getYaw() * 0.017453292F)));
                 this.setVelocity(this.getVelocity().multiply(0.6D, 1.0D, 0.6D));
             }
             this.applyDamageEffects(this, target);
@@ -255,7 +291,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         if (owner != null) {
             return owner;
         }
-        return world.getPlayerByUuid(getOwnerUUID().get());
+        return getOwnerUUID().isPresent() ? world.getPlayerByUuid(getOwnerUUID().get()) : null;
     }
 
     public void setOwner(LivingEntity owner) {
@@ -264,6 +300,10 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 
     public boolean isBroadSwing() {
         return dataTracker.get(BROAD_SWING);
+    }
+
+    public void setBroadSwing(boolean broadSwing) {
+        this.dataTracker.set(BROAD_SWING, broadSwing);
     }
 
     public Optional<UUID> getOwnerUUID() {
@@ -278,6 +318,14 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         dataTracker.set(SPECIFIC_TARGET, Optional.of(target.getUuid()));
     }
 
+
+    public boolean isSimple() {
+        return dataTracker.get(IS_SIMPLE);
+    }
+
+    public void setSimple(boolean simple) {
+        this.dataTracker.set(IS_SIMPLE, simple);
+    }
 
     @Override
     protected boolean isDisallowedInPeaceful() {
@@ -295,7 +343,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
         }
 
         public boolean canStart() {
-            return getTarget() != null;
+            return !isSimple() && getTarget() != null;
         }
 
         public boolean shouldContinue() {
@@ -303,7 +351,8 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
                 return false;
             } else {
                 LivingEntity target = getTarget();
-                return !(target instanceof PlayerEntity) || !target.isSpectator() && !((PlayerEntity) target).isCreative();
+                return !(target instanceof PlayerEntity) || !target.isSpectator() && !((PlayerEntity) target)
+                        .isCreative();
             }
         }
 
@@ -323,7 +372,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
             LivingEntity target = getTarget();
             getLookControl().lookAt(target, 40, 40);
             if (this.getSquaredMaxAttackDistance(target) >= squaredDistanceTo(target) && !handSwinging) {
-                dataTracker.set(BROAD_SWING, random.nextBoolean());
+                setBroadSwing(random.nextBoolean());
                 swingHand(Hand.MAIN_HAND);
             }
         }
