@@ -3,12 +3,15 @@ package com.miskatonicmysteries.api.registry;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.InventoryUtil;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.recipe.Ingredient;
@@ -40,13 +43,16 @@ public abstract class Rite {
 
     @Environment(EnvType.CLIENT)
     public static void renderPortalOctagram(float alpha, float[] origColors, OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
-        Sprite sprite = ResourceHandler.getOctagramMaskTextureFor(entity).getSprite();
+        SpriteIdentifier spriteId = ResourceHandler.getOctagramMaskTextureFor(entity);
+        Sprite sprite = spriteId.getSprite();
+        Identifier mask = spriteId.getTextureId();
         float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
 
         matrixStack.push();
         matrixStack.translate(0, 0.001F, 0);
-        RenderHelper.renderTexturedPlane(3, sprite, matrixStack, sprite.getTextureSpecificVertexConsumer(vertexConsumers
-                .getBuffer(RenderHelper.getTransparency())), light, overlay, new float[]{1, 1, 1, alpha});
+        RenderHelper.renderTexturedPlane(3, sprite, matrixStack, vertexConsumers
+                .getBuffer(RenderHelper.getPortalEffect(mask)), light, overlay, new float[]{1, 1, 1, alpha}); //next: apply texcoord and shit for sort of a stenciling effect?
+
         matrixStack.push();
         Matrix4f matrix4f = matrixStack.peek().getModel();
         matrixStack.translate(1.5, 0, 1.5);

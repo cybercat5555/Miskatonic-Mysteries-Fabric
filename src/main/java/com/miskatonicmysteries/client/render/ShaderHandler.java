@@ -4,6 +4,7 @@ import com.miskatonicmysteries.api.interfaces.Resonating;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
+import com.mojang.datafixers.util.Pair;
 import ladysnake.satin.api.event.ShaderEffectRenderCallback;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
 import ladysnake.satin.api.managed.ShaderEffectManager;
@@ -14,29 +15,57 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.client.render.Shader;
+import net.minecraft.client.render.VertexFormats;
+import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+
 @Environment(EnvType.CLIENT)
 public class ShaderHandler {
-    public static final ManagedShaderEffect MANIA = ShaderEffectManager.getInstance().manage(new Identifier(Constants.MOD_ID, "shaders/post/mania.json"));
-    public static final ManagedShaderEffect RESONANCE = ShaderEffectManager.getInstance().manage(new Identifier(Constants.MOD_ID, "shaders/post/resonance.json"));
-    public static final ManagedShaderEffect CLAIRVOYANCE = ShaderEffectManager.getInstance().manage(new Identifier(Constants.MOD_ID, "shaders/post/clairvoyance.json"));
+    public static final ManagedShaderEffect MANIA = ShaderEffectManager.getInstance()
+            .manage(new Identifier(Constants.MOD_ID, "shaders/post/mania.json"));
+    public static final ManagedShaderEffect RESONANCE = ShaderEffectManager.getInstance()
+            .manage(new Identifier(Constants.MOD_ID, "shaders/post/resonance.json"));
+    public static final ManagedShaderEffect CLAIRVOYANCE = ShaderEffectManager.getInstance()
+            .manage(new Identifier(Constants.MOD_ID, "shaders/post/clairvoyance.json"));
     private static final Uniform3f MANIA_PHOSPHOR = MANIA.findUniform3f("Phosphor");
     private static final Uniform3f RESONANCE_RED = RESONANCE.findUniform3f("RedMatrix");
     private static final Uniform3f RESONANCE_GREEN = RESONANCE.findUniform3f("GreenMatrix");
     private static final Uniform3f RESONANCE_BLUE = RESONANCE.findUniform3f("BlueMatrix");
     private static final Uniform1f CLAIRVOYANCE_SATURATION = CLAIRVOYANCE.findUniform1f("Saturation");
     private static final Uniform1f CLAIRVOYANCE_BLUR = CLAIRVOYANCE.findUniform1f("Threshold");
-
     public static int clairvoyanceTime;
+    public static Shader portalShaderInstance;
+
     public static void init() {
         ClientTickEvents.END_CLIENT_TICK.register(ShaderHandler::onEndTick);
         ShaderEffectRenderCallback.EVENT.register(ShaderHandler::renderShaderEffects);
     }
 
-    public static void renderShaderEffects(float v) {
+    public static void loadShaders(ResourceManager manager, Map<String, Shader> shaders) {
+        List<Pair<Shader, Consumer<Shader>>> shaderList = new ArrayList<>();
+        try {
+            shaderList.add(Pair.of(new Shader(manager, "miskatonicmysteries:portal",
+                    VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL), (shader) -> portalShaderInstance = shader));
+        } catch (IOException e) {
+            shaderList.forEach((pair) -> (pair.getFirst()).close());
+        }
+
+        for (Pair<Shader, Consumer<Shader>> pair : shaderList) {
+            Shader shader = pair.getFirst();
+            shaders.put(shader.getName(), shader);
+            pair.getSecond().accept(shader);
+        }
+    }
+
+    private static void renderShaderEffects(float v) {
         if (MiskatonicMysteries.config.client.useShaders && MinecraftClient.getInstance().player != null) {
             ClientPlayerEntity player = MinecraftClient.getInstance().player;
             if (player.hasStatusEffect(MMStatusEffects.MANIA)) {
@@ -53,7 +82,7 @@ public class ShaderHandler {
         }
     }
 
-    public static void onEndTick(MinecraftClient client) {
+    private static void onEndTick(MinecraftClient client) {
         if (MiskatonicMysteries.config.client.useShaders && client.player != null) {
             if (client.player.hasStatusEffect(MMStatusEffects.MANIA)
                     && client.player.getStatusEffect(MMStatusEffects.MANIA).getAmplifier() > 0) {
@@ -71,7 +100,7 @@ public class ShaderHandler {
                 if (clairvoyanceTime < 100) {
                     clairvoyanceTime++;
                 }
-            }else if (clairvoyanceTime > 0){
+            } else if (clairvoyanceTime > 0) {
                 clairvoyanceTime--;
             }
 
