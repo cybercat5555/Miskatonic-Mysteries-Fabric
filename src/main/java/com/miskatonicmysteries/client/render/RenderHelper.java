@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.client.render;
 
+import com.miskatonicmysteries.common.util.Constants;
 import ladysnake.satin.api.util.RenderLayerHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -20,9 +21,11 @@ public class RenderHelper extends RenderLayer {
     public static final Shader PORTAL = new Shader(() -> ShaderHandler.portalShaderInstance);
     protected static final Function<Identifier, RenderLayer> PORTAL_EFFECT = Util.memoize((texture) -> RenderLayerHelper
             .copy(RenderLayer.getTranslucent(), "miskatonicmysteries:portal", builder -> builder.shader(PORTAL)
-                    .texture(RenderPhase.Textures.create().add(texture, false, false).add(EndPortalBlockEntityRenderer.PORTAL_TEXTURE, false, false).build())));
+                    .texture(RenderPhase.Textures.create()
+                            .add(texture, false, false)
+                            .add(EndPortalBlockEntityRenderer.PORTAL_TEXTURE, false, false).build())));
     protected static final RenderLayer STANDARD_PORTAL = PORTAL_EFFECT
-            .apply(EndPortalBlockEntityRenderer.PORTAL_TEXTURE);
+            .apply(EndPortalBlockEntityRenderer.SKY_TEXTURE);
 
     public RenderHelper(String name, VertexFormat vertexFormat, VertexFormat.DrawMode drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, Runnable startAction, Runnable endAction) {
         super(name, vertexFormat, drawMode, expectedBufferSize, hasCrumbling, translucent, startAction, endAction);
@@ -71,15 +74,17 @@ public class RenderHelper extends RenderLayer {
         }
     }
 
-    public static void renderPortalLayer(World world, Matrix4f matrix4f, VertexConsumerProvider vertexConsumers, float sizeX, float sizeY, float[] rgb) {
-        float r = (world.random.nextFloat() * 0.5f + rgb[0]);
-        float g = (world.random.nextFloat() * 0.5f + rgb[1]);
-        float b = (world.random.nextFloat() * 0.5f + rgb[2]);
-        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(STANDARD_PORTAL);
-        vertexConsumer.vertex(matrix4f, 0, 0, sizeY).color(r, g, b, rgb[3]).next();
-        vertexConsumer.vertex(matrix4f, sizeX, 0, sizeY).color(r, g, b, rgb[3]).next();
-        vertexConsumer.vertex(matrix4f, sizeX, 0, 0).color(r, g, b, rgb[3]).next();
-        vertexConsumer.vertex(matrix4f, 0, 0, 0).color(r, g, b, rgb[3]).next();
+    public static void renderPortalLayer(Identifier base, Matrix4f matrix4f, VertexConsumerProvider vertexConsumers, float sizeX, float sizeY, int light, int overlay, float[] rgba) {
+        VertexConsumer vertexConsumer = vertexConsumers.getBuffer(getPortalEffect(base));
+
+        vertexConsumer.vertex(matrix4f, 0, 0, sizeY).color(rgba[0], rgba[1], rgba[2], rgba[3])
+                .texture(0, 1).light(light).overlay(overlay).normal(0, 1, 0).next();
+        vertexConsumer.vertex(matrix4f, sizeX, 0, sizeY).color(rgba[0], rgba[1], rgba[2], rgba[3])
+                .texture(1, 1).light(light).overlay(overlay).normal(0, 1, 0).next();
+        vertexConsumer.vertex(matrix4f, sizeX, 0, 0).color(rgba[0], rgba[1], rgba[2], rgba[3])
+                .texture(1, 0).light(light).overlay(overlay).normal(0, 1, 0).next();
+        vertexConsumer.vertex(matrix4f, 0, 0, 0).color(rgba[0], rgba[1], rgba[2], rgba[3])
+                .texture(0, 0).light(light).overlay(overlay).normal(0, 1, 0).next();
     }
 
     public static void renderModelAsPortal(VertexConsumerProvider provider, MatrixStack matrices, int light, int overlay, Model model, float[] rgb, float alpha) {

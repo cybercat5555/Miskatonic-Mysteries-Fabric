@@ -10,25 +10,26 @@ uniform int EndPortalLayers;
 uniform vec4 ColorModulator;
 
 in vec4 texProj0;
+in vec2 texCoord0;
 in vec4 vertexColor;
 
 const vec3[] COLORS = vec3[](
-    vec3(0.022087, 0.098399, 0.110818),
-    vec3(0.011892, 0.095924, 0.089485),
-    vec3(0.027636, 0.101689, 0.100326),
-    vec3(0.046564, 0.109883, 0.114838),
-    vec3(0.064901, 0.117696, 0.097189),
-    vec3(0.063761, 0.086895, 0.123646),
-    vec3(0.084817, 0.111994, 0.166380),
-    vec3(0.097489, 0.154120, 0.091064),
-    vec3(0.106152, 0.131144, 0.195191),
-    vec3(0.097721, 0.110188, 0.187229),
-    vec3(0.133516, 0.138278, 0.148582),
-    vec3(0.070006, 0.243332, 0.235792),
-    vec3(0.196766, 0.142899, 0.214696),
-    vec3(0.047281, 0.315338, 0.321970),
-    vec3(0.204675, 0.390010, 0.302066),
-    vec3(0.080955, 0.314821, 0.661491)
+    vec3(0.1, 0.1, 0.1),
+    vec3(0.2, 0.2, 0.2),
+    vec3(0.25, 0.25, 0.25),
+    vec3(0.3, 0.4, 0.3),
+    vec3(0.3, 0.3, 0.3),
+    vec3(0.35, 0.35, 0.35),
+    vec3(0.4, 0.4, 0.4),
+    vec3(0.45, 0.45, 0.45),
+    vec3(0.5, 0.5, 0.5),
+    vec3(0.55, 0.55, 0.55),
+    vec3(0.6, 0.6, 0.6),
+    vec3(0.65, 0.65, 0.65),
+    vec3(0.7, 0.7, 0.7),
+    vec3(0.8, 0.8, 0.8),
+    vec3(0.9, 0.9, 0.9),
+    vec3(1.0, 1.0, 1.0)
 );
 
 const mat4 SCALE_TRANSLATE = mat4(
@@ -56,9 +57,13 @@ mat4 end_portal_layer(float layer) {
 out vec4 fragColor;
 
 void main() {
-    vec3 color = textureProj(Sampler0, texProj0).rgb * COLORS[0];
-    for (int i = 0; i < EndPortalLayers; i++) {
-        color += textureProj(Sampler1, texProj0 * end_portal_layer(float(i + 1))).rgb * COLORS[i];
+    if(texture(Sampler0, texCoord0).a < 0.5) {
+        discard;
+    } else {
+        vec3 color = textureProj(Sampler0, texProj0).rgb * COLORS[0];
+        for (int i = 0; i < EndPortalLayers; i++) {
+            color += textureProj(Sampler1, texProj0 * end_portal_layer(float(i + 1))).rgb * COLORS[i];
+        }
+        fragColor = vec4(color, 1.0) * vertexColor;
     }
-    fragColor = vec4(color, 1.0) * vertexColor;
 }

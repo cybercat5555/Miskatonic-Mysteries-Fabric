@@ -43,29 +43,12 @@ public abstract class Rite {
 
     @Environment(EnvType.CLIENT)
     public static void renderPortalOctagram(float alpha, float[] origColors, OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
-        SpriteIdentifier spriteId = ResourceHandler.getOctagramMaskTextureFor(entity);
-        Sprite sprite = spriteId.getSprite();
-        Identifier mask = spriteId.getTextureId();
+        Identifier mask = ResourceHandler.getOctagramMaskTextureFor(entity);
         float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
-
-        matrixStack.push();
-        matrixStack.translate(0, 0.001F, 0);
-        RenderHelper.renderTexturedPlane(3, sprite, matrixStack, vertexConsumers
-                .getBuffer(RenderHelper.getPortalEffect(mask)), light, overlay, new float[]{1, 1, 1, alpha}); //next: apply texcoord and shit for sort of a stenciling effect?
-
         matrixStack.push();
         Matrix4f matrix4f = matrixStack.peek().getModel();
-        matrixStack.translate(1.5, 0, 1.5);
-        matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(45));
-        matrixStack.translate(-0.4, 0.001F, -0.4);
-        RenderHelper.renderPortalLayer(entity.getWorld(), matrix4f, vertexConsumers, 0.8F, 0.8F, colors);
-        matrixStack.pop();
-        matrixStack.translate(1.5, 0, 1.5);
-        matrixStack.multiply(Vec3f.POSITIVE_Y
-                .getRadialQuaternion(((float) entity.getWorld().getTime() + tickDelta) / 20.0F));
-        matrixStack.translate(-1.5F, 0.0025F, -1.5F);
-        RenderHelper.renderTexturedPlane(3, ResourceHandler.AURA_SPRITE.getSprite(), matrixStack, vertexConsumers
-                .getBuffer(RenderHelper.getTransparency()), light, overlay, colors);
+        matrixStack.translate(0, 0.001F, 0);
+        RenderHelper.renderPortalLayer(mask, matrix4f, vertexConsumers, 3F, 3F, light, overlay, colors);
         matrixStack.pop();
     }
 

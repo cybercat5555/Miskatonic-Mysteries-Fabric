@@ -25,43 +25,49 @@ import java.util.Map;
 @Environment(EnvType.CLIENT)
 public class ResourceHandler {
     public static final SpriteIdentifier DEFAULT_OCTAGRAM = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "block/octagram/generic_octagram"));
-    public static final SpriteIdentifier DEFAULT_OCTAGRAM_MASK = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "block/octagram/mask/octagram_mask"));
+    public static final Identifier DEFAULT_OCTAGRAM_MASK = new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/octagram_mask.png");
     public static final SpriteIdentifier AURA_SPRITE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/aura"));
     public static final SpriteIdentifier TOTAL_DARK = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/total_dark"));
 
     public static final SpriteIdentifier HASTUR_SIGIL_CENTER = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/sigil/hastur/center"));
-	public static final SpriteIdentifier HASTUR_SIGIL_INNER = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/sigil/hastur/inner"));
-	public static final SpriteIdentifier HASTUR_SIGIL_OUTER = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/sigil/hastur/outer"));
+    public static final SpriteIdentifier HASTUR_SIGIL_INNER = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/sigil/hastur/inner"));
+    public static final SpriteIdentifier HASTUR_SIGIL_OUTER = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier(Constants.MOD_ID, "misc/sigil/hastur/outer"));
 
     public static final Map<Item, SpriteIdentifier> BOOK_SPRITES = new HashMap<>();
     public static final Map<OctagramBlock, SpriteIdentifier> OCTAGRAM_SPRITES = new HashMap<>();
-    public static final Map<OctagramBlock, SpriteIdentifier> OCTAGRAM_MASKS = new HashMap<>();
+    public static final Map<OctagramBlock, Identifier> OCTAGRAM_MASKS = new HashMap<>();
 
     public static final Map<StatueBlock, SpriteIdentifier> STATUE_SPRITES = new HashMap<>();
     public static final Identifier ASCENSION_STAR_SPRITE = new Identifier(Constants.MOD_ID, "textures/gui/ascension_star.png");
 
 
-	public static void init() {
-        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register((spriteAtlasTexture, registry) -> {
-            registry.register(new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
-            registry.register(new Identifier(Constants.MOD_ID, "misc/aura"));
-            registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/hastur_octagram_mask"));
-            registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/shub_octagram_mask"));
-            registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/cthulhu_octagram_mask"));
-			registry.register(HASTUR_SIGIL_CENTER.getTextureId());
-			registry.register(HASTUR_SIGIL_INNER.getTextureId());
-			registry.register(HASTUR_SIGIL_OUTER.getTextureId());
-            MasterpieceStatueBlockRender.TEXTURE_CACHE.forEach((gameProfile, stoneTexture) -> stoneTexture.needsUpdate = true);
-        });
+    public static void init() {
+        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)
+                .register((spriteAtlasTexture, registry) -> {
+                    registry.register(new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
+                    registry.register(new Identifier(Constants.MOD_ID, "misc/aura"));
+                    registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/hastur_octagram_mask"));
+                    registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/shub_octagram_mask"));
+                    registry.register(new Identifier(Constants.MOD_ID, "block/octagram/mask/cthulhu_octagram_mask"));
+                    registry.register(HASTUR_SIGIL_CENTER.getTextureId());
+                    registry.register(HASTUR_SIGIL_INNER.getTextureId());
+                    registry.register(HASTUR_SIGIL_OUTER.getTextureId());
+                    MasterpieceStatueBlockRender.TEXTURE_CACHE
+                            .forEach((gameProfile, stoneTexture) -> stoneTexture.needsUpdate = true);
+                });
 
-        ResourceHandler.addBookTextureFor(MMObjects.NECRONOMICON, new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
+        ResourceHandler
+                .addBookTextureFor(MMObjects.NECRONOMICON, new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
 
-        ResourceHandler.addOctagramTextureFor(MMObjects.CTHULHU_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/cthulhu_octagram"),
-                new Identifier(Constants.MOD_ID, "block/octagram/mask/cthulhu_octagram_mask"));
-        ResourceHandler.addOctagramTextureFor(MMObjects.HASTUR_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/hastur_octagram"),
-                new Identifier(Constants.MOD_ID, "block/octagram/mask/hastur_octagram_mask"));
-        ResourceHandler.addOctagramTextureFor(MMObjects.SHUB_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/shub_octagram"),
-                new Identifier(Constants.MOD_ID, "block/octagram/mask/shub_octagram_mask"));
+        ResourceHandler
+                .addOctagramTextureFor(MMObjects.CTHULHU_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/cthulhu_octagram"),
+                        new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/cthulhu_octagram_mask.png"));
+        ResourceHandler
+                .addOctagramTextureFor(MMObjects.HASTUR_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/hastur_octagram"),
+                        new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/hastur_octagram_mask.png"));
+        ResourceHandler
+                .addOctagramTextureFor(MMObjects.SHUB_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/shub_octagram"),
+                        new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/shub_octagram_mask.png"));
 
         addStatueTextureFor(MMObjects.CTHULHU_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_gold"));
         addStatueTextureFor(MMObjects.CTHULHU_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_mossy"));
@@ -85,7 +91,7 @@ public class ResourceHandler {
 
     public static void addOctagramTextureFor(OctagramBlock octagram, Identifier texture, Identifier maskTexture) {
         OCTAGRAM_SPRITES.put(octagram, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, texture));
-        OCTAGRAM_MASKS.put(octagram, new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, maskTexture));
+        OCTAGRAM_MASKS.put(octagram, maskTexture);
     }
 
     public static void addStatueTextureFor(StatueBlock statue, Identifier texture) {
@@ -100,12 +106,14 @@ public class ResourceHandler {
         return OCTAGRAM_SPRITES.getOrDefault(octagram.getCachedState().getBlock(), DEFAULT_OCTAGRAM);
     }
 
-    public static SpriteIdentifier getOctagramMaskTextureFor(OctagramBlockEntity octagram) {
-        return OCTAGRAM_MASKS.getOrDefault(octagram.getWorld().getBlockState(octagram.getPos()).getBlock(), DEFAULT_OCTAGRAM_MASK);
+    public static Identifier getOctagramMaskTextureFor(OctagramBlockEntity octagram) {
+        return OCTAGRAM_MASKS
+                .getOrDefault(octagram.getWorld().getBlockState(octagram.getPos()).getBlock(), DEFAULT_OCTAGRAM_MASK);
     }
 
     public static SpriteIdentifier getStatueTextureFor(StatueBlockEntity statue) {
-        return STATUE_SPRITES.getOrDefault(statue.getWorld().getBlockState(statue.getPos()).getBlock(), new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("")));
+        return STATUE_SPRITES.getOrDefault(statue.getWorld().getBlockState(statue.getPos())
+                .getBlock(), new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("")));
     }
 
     public static SpriteIdentifier getMatchingOctagramTexture(Affiliation affiliation) {
