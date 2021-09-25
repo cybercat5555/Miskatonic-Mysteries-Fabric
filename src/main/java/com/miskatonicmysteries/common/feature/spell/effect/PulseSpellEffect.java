@@ -11,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -40,27 +39,35 @@ public class PulseSpellEffect extends SpellEffect {
     public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity, @Nullable Entity secondaryMedium) {
         if (target != null && !(target instanceof LivingEntity)) {
             return false;
-        } else if (target == null) {
-            target = caster;
         }
+
         boolean broad = caster.getRandom().nextBoolean();
         if (medium != MMSpellMediums.SELF) {
-            double minY = Math.min(target == null ? caster.getY() : target.getY(), caster.getY());
-            double startY = Math.max(target == null ? caster.getY() : target.getY(), caster.getY()) + 1.0D;
-            float yaw = (float) (target != null ? (float) MathHelper
-                    .atan2(target.getZ() - caster.getZ(), target.getX() - caster.getX()) : Math
-                    .toRadians(caster.getHeadYaw() + 180));
+            Vec3d hitPos = caster.getPos();
+            if (target != null) {
+                hitPos = target.getPos();
+            } else if (secondaryMedium != null && secondaryMedium != caster) {
+                hitPos = secondaryMedium.getPos();
+            } else {
+                float yaw = -caster.getHeadYaw() / 57.295776F;
+                hitPos = hitPos.add(MathHelper.sin(yaw) * 5, 0F, MathHelper.cos(yaw) * 5);
+            }
+            double minY = Math.min(hitPos.getY(), caster.getY());
+            double startY = Math.max(hitPos.getY(), caster.getY()) + 1.0D;
+            float yaw = (float) MathHelper.atan2(hitPos.getZ() - caster.getZ(), hitPos.getX() - caster.getX());
             for (int i = 0; i < 5; ++i) {
                 double l = 1.5D * (double) (i + 1);
-                conjureTentacle(caster, target == caster ? null : (LivingEntity) target, caster
-                        .getX() + (double) MathHelper.cos(yaw) * l, caster
-                        .getZ() + (double) MathHelper
-                        .sin(yaw) * l, minY, startY, yaw * 57.295776F - 90F + 20F, i, intensity, broad);
+                conjureTentacle(caster, target == caster ? null : (LivingEntity) target,
+                        caster.getX() + (double) MathHelper.cos(yaw) * l,
+                        caster.getZ() + (double) MathHelper.sin(yaw) * l,
+                        minY, startY, yaw * 57.295776F - 90F + 20F, i, intensity, broad);
             }
-        }else {
-            for(int i = 0; i < 8; i++) {
+        } else {
+            for (int i = 0; i < 8; i++) {
                 float angle = 2 * 3.1415927F * (i / 8F);
-                this.conjureTentacle(caster, null,caster.getX() + (double)MathHelper.cos(angle) * 1.5, caster.getZ() + (double)MathHelper.sin(angle) * 1.5, caster.getY() + 2, caster.getY(), (float) Math.toDegrees(angle), 0, intensity, broad);
+                this.conjureTentacle(caster, null, caster.getX() + (double) MathHelper.cos(angle) * 1.5, caster
+                        .getZ() + (double) MathHelper.sin(angle) * 1.5, caster.getY() + 2, caster.getY(), (float) Math
+                        .toDegrees(angle), 0, intensity, broad);
             }
 
         }
