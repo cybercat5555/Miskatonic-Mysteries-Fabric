@@ -6,10 +6,12 @@ import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.datafixers.util.Pair;
 import ladysnake.satin.api.event.ShaderEffectRenderCallback;
+import ladysnake.satin.api.managed.ManagedCoreShader;
 import ladysnake.satin.api.managed.ManagedShaderEffect;
 import ladysnake.satin.api.managed.ShaderEffectManager;
 import ladysnake.satin.api.managed.uniform.Uniform1f;
 import ladysnake.satin.api.managed.uniform.Uniform3f;
+import ladysnake.satin.api.util.ShaderLoader;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -35,6 +37,9 @@ public class ShaderHandler {
             .manage(new Identifier(Constants.MOD_ID, "shaders/post/resonance.json"));
     public static final ManagedShaderEffect CLAIRVOYANCE = ShaderEffectManager.getInstance()
             .manage(new Identifier(Constants.MOD_ID, "shaders/post/clairvoyance.json"));
+
+    public static final ManagedCoreShader PORTAL_CORE = ShaderEffectManager.getInstance().manageCoreShader(new Identifier(Constants.MOD_ID, "portal"), VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL);
+
     private static final Uniform3f MANIA_PHOSPHOR = MANIA.findUniform3f("Phosphor");
     private static final Uniform3f RESONANCE_RED = RESONANCE.findUniform3f("RedMatrix");
     private static final Uniform3f RESONANCE_GREEN = RESONANCE.findUniform3f("GreenMatrix");
@@ -42,27 +47,10 @@ public class ShaderHandler {
     private static final Uniform1f CLAIRVOYANCE_SATURATION = CLAIRVOYANCE.findUniform1f("Saturation");
     private static final Uniform1f CLAIRVOYANCE_BLUR = CLAIRVOYANCE.findUniform1f("Threshold");
     public static int clairvoyanceTime;
-    public static Shader portalShaderInstance;
 
     public static void init() {
         ClientTickEvents.END_CLIENT_TICK.register(ShaderHandler::onEndTick);
         ShaderEffectRenderCallback.EVENT.register(ShaderHandler::renderShaderEffects);
-    }
-
-    public static void loadShaders(ResourceManager manager, Map<String, Shader> shaders) {
-        List<Pair<Shader, Consumer<Shader>>> shaderList = new ArrayList<>();
-        try {
-            shaderList.add(Pair.of(new Shader(manager, "miskatonicmysteries:portal",
-                    VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL), (shader) -> portalShaderInstance = shader));
-        } catch (IOException e) {
-            shaderList.forEach((pair) -> (pair.getFirst()).close());
-        }
-
-        for (Pair<Shader, Consumer<Shader>> pair : shaderList) {
-            Shader shader = pair.getFirst();
-            shaders.put(shader.getName(), shader);
-            pair.getSecond().accept(shader);
-        }
     }
 
     private static void renderShaderEffects(float v) {

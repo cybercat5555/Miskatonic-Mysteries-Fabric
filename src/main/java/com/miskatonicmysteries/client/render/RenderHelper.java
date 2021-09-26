@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.client.render;
 
-import com.miskatonicmysteries.common.util.Constants;
 import ladysnake.satin.api.util.RenderLayerHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -12,19 +11,19 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.Matrix4f;
-import net.minecraft.world.World;
 
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
 public class RenderHelper extends RenderLayer {
-    public static final Shader PORTAL = new Shader(() -> ShaderHandler.portalShaderInstance);
-    protected static final Function<Identifier, RenderLayer> PORTAL_EFFECT = Util.memoize((texture) -> RenderLayerHelper
-            .copy(RenderLayer.getTranslucent(), "miskatonicmysteries:portal", builder -> builder.shader(PORTAL)
-                    .texture(RenderPhase.Textures.create()
-                            .add(texture, false, false)
-                            .add(EndPortalBlockEntityRenderer.PORTAL_TEXTURE, false, false).build())));
-    protected static final RenderLayer STANDARD_PORTAL = PORTAL_EFFECT
+    protected static final Function<Identifier, RenderLayer> PORTAL_LAYER = Util.memoize((texture) ->
+            ShaderHandler.PORTAL_CORE.getRenderLayer(RenderLayerHelper
+                    .copy(RenderLayer.getTranslucent(), "miskatonicmysteries:portal", (builder) -> builder
+                            .texture(RenderPhase.Textures.create()
+                                    .add(texture, false, false)
+                                    .add(EndPortalBlockEntityRenderer.PORTAL_TEXTURE, false, false).build()))));
+
+    protected static final RenderLayer STANDARD_PORTAL = PORTAL_LAYER
             .apply(EndPortalBlockEntityRenderer.SKY_TEXTURE);
 
     public RenderHelper(String name, VertexFormat vertexFormat, VertexFormat.DrawMode drawMode, int expectedBufferSize, boolean hasCrumbling, boolean translucent, Runnable startAction, Runnable endAction) {
@@ -32,7 +31,7 @@ public class RenderHelper extends RenderLayer {
     }
 
     public static RenderLayer getPortalEffect(Identifier texture) {
-        return PORTAL_EFFECT.apply(texture);
+        return PORTAL_LAYER.apply(texture);
     }
 
     public static RenderLayer getTransparency() {
