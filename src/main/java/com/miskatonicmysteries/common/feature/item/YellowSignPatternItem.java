@@ -34,13 +34,15 @@ import java.util.List;
 
 public class YellowSignPatternItem extends LoomPatternItem {
     public YellowSignPatternItem() {
-        super(MMObjects.YELLOW_SIGN_BANNER, new Settings().group(Constants.MM_GROUP).maxCount(1).rarity(Rarity.UNCOMMON));
+        super(MMObjects.YELLOW_SIGN_BANNER, new Settings().group(Constants.MM_GROUP).maxCount(1)
+                .rarity(Rarity.UNCOMMON));
     }
 
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        if (context.getPlayer() != null && Constants.Tags.YELLOW_DYE.contains(context.getPlayer().getOffHandStack().getItem())) {
+        if (context.getPlayer() != null && Constants.Tags.YELLOW_DYE
+                .contains(context.getPlayer().getOffHandStack().getItem())) {
             ActionResult actionResult = this.place(new ItemPlacementContext(context));
             if (actionResult.isAccepted()) {
                 if (!context.getPlayer().isCreative()) {
@@ -48,7 +50,8 @@ public class YellowSignPatternItem extends LoomPatternItem {
                 }
                 return ActionResult.SUCCESS;
             }
-            return this.isFood() ? this.use(context.getWorld(), context.getPlayer(), context.getHand()).getResult() : actionResult;
+            return this.isFood() ? this.use(context.getWorld(), context.getPlayer(), context.getHand())
+                    .getResult() : actionResult;
         }
         return ActionResult.FAIL;
     }
@@ -75,7 +78,9 @@ public class YellowSignPatternItem extends LoomPatternItem {
                     }
                 }
                 BlockSoundGroup blockSoundGroup = blockState2.getSoundGroup();
-                world.playSound(playerEntity, blockPos, this.getPlaceSound(blockState2), SoundCategory.BLOCKS, (blockSoundGroup.getVolume() + 1.0F) / 2.0F, blockSoundGroup.getPitch() * 0.8F);
+                world.playSound(playerEntity, blockPos, this
+                        .getPlaceSound(blockState2), SoundCategory.BLOCKS, (blockSoundGroup
+                        .getVolume() + 1.0F) / 2.0F, blockSoundGroup.getPitch() * 0.8F);
                 block.onPlaced(world, blockPos, blockState, playerEntity, itemStack);
 
                 return ActionResult.success(world.isClient);
@@ -97,7 +102,8 @@ public class YellowSignPatternItem extends LoomPatternItem {
     protected boolean canPlace(ItemPlacementContext context, BlockState state) {
         PlayerEntity playerEntity = context.getPlayer();
         ShapeContext shapeContext = playerEntity == null ? ShapeContext.absent() : ShapeContext.of(playerEntity);
-        return state.canPlaceAt(context.getWorld(), context.getBlockPos()) && context.getWorld().canPlace(state, context.getBlockPos(), shapeContext);
+        return state.canPlaceAt(context.getWorld(), context.getBlockPos()) && context.getWorld()
+                .canPlace(state, context.getBlockPos(), shapeContext);
     }
 
     protected SoundEvent getPlaceSound(BlockState state) {
@@ -108,8 +114,10 @@ public class YellowSignPatternItem extends LoomPatternItem {
     @Environment(EnvType.CLIENT)
     public void appendTooltip(ItemStack stack, World world, List<Text> lines, TooltipContext ctx) {
         super.appendTooltip(stack, world, lines, ctx);
-        lines.add(new TranslatableText("item.%s.%s.tooltip".formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath())).formatted(Formatting.GRAY));
-        lines.add(new TranslatableText("tooltip.%s.place_instruction".formatted(Constants.MOD_ID), "§e" + I18n.translate(Items.YELLOW_DYE.getTranslationKey()) + "§8").formatted(Formatting.GRAY));
+        lines.add(new TranslatableText("item.%s.%s.tooltip"
+                .formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath())).formatted(Formatting.GRAY));
+        lines.add(new TranslatableText("tooltip.%s.place_instruction".formatted(Constants.MOD_ID), "§e" + I18n
+                .translate(Items.YELLOW_DYE.getTranslationKey()) + "§8").formatted(Formatting.GRAY));
 
     }
 }

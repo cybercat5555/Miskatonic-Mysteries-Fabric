@@ -50,6 +50,7 @@ public class MMEntities {
     public static final EntityType<HarrowEntity> HARROW = FabricEntityTypeBuilder.create(SpawnGroup.MISC, HarrowEntity::new).dimensions(EntityDimensions.fixed(0.35F, 0.35F)).trackRangeBlocks(16).build();
     public static final EntityType<ByakheeEntity> BYAKHEE = FabricEntityTypeBuilder.create(SpawnGroup.MISC, ByakheeEntity::new).dimensions(EntityDimensions.fixed(2, 2)).trackRangeBlocks(16).build();
     public static final EntityType<HallucinationEntity> HALLUCINATION = FabricEntityTypeBuilder.<HallucinationEntity>create(SpawnGroup.MISC, HallucinationEntity::new).dimensions(EntityDimensions.fixed(1, 1)).trackRangeBlocks(16).build();
+    public static final EntityType<TindalosHoundEntity> TINDALOS_HOUND = FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, TindalosHoundEntity::new).dimensions(EntityDimensions.fixed(1, 1)).trackRangeBlocks(16).build();
 
     public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
     public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create().id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW).build();
@@ -161,6 +162,9 @@ public class MMEntities {
 
         RegistryUtil.register(Registry.ENTITY_TYPE, "hallucination", HALLUCINATION);
         FabricDefaultAttributeRegistry.register(HALLUCINATION, HallucinationEntity.createAttributes());
+
+        RegistryUtil.register(Registry.ENTITY_TYPE, "tindalos_hound", TINDALOS_HOUND);
+        FabricDefaultAttributeRegistry.register(TINDALOS_HOUND, TindalosHoundEntity.createAttributes());
 
         RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
 

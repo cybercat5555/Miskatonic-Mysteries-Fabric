@@ -81,7 +81,7 @@ public class Constants {
         public static final String SANITY = "Sanity";
         public static final String SHOCKED = "Shocked";
         public static final String SANITY_EXPANSIONS = "SanityExpansions";
-        public static final String WORK_PROGRESS = "Work Progress";
+        public static final String WORK_PROGRESS = "WorkProgress";
         public static final String VARIANT = "Variant";
         public static final String STAGE = "Stage";
         public static final String ALTERNATE_WEAPON = "AlternateWeapon";
@@ -145,6 +145,8 @@ public class Constants {
         public static final String HIDDEN = "MM_Hidden";
         public static final String INSTABILITY = "Instability";
         public static final String SIMPLE = "IsSimple";
+        public static final String PHASE_TICKS = "PhaseTicks";
+        public static final String PHASE_DIRECTION = "PhaseDirection";
     }
 
     public static class DataTrackers {

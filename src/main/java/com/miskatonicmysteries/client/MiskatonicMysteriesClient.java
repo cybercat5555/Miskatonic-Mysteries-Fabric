@@ -23,6 +23,7 @@ import com.miskatonicmysteries.client.render.entity.*;
 import com.miskatonicmysteries.client.render.equipment.CultistRobesArmorRenderer;
 import com.miskatonicmysteries.client.render.equipment.MaskTrinketRenderer;
 import com.miskatonicmysteries.client.vision.VisionHandler;
+import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.*;
@@ -41,13 +42,16 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.ItemEntityRenderer;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -103,19 +107,20 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
     }
 
     private void registerEntityRenderers() {
-        EntityRendererRegistry.INSTANCE.register(MMEntities.PROTAGONIST, ProtagonistEntityRender::new);
-        EntityRendererRegistry.INSTANCE.register(MMEntities.HASTUR_CULTIST, HasturCultistEntityRender::new);
-        EntityRendererRegistry.INSTANCE.register(MMEntities.SPELL_PROJECTILE, SpellProjectileEntityRenderer::new);
-        EntityRendererRegistry.INSTANCE.register(MMEntities.BOLT, BoltEntityRenderer::new);
-        EntityRendererRegistry.INSTANCE.register(MMEntities.PHANTASMA,
+        EntityRendererRegistry.register(MMEntities.PROTAGONIST, ProtagonistEntityRender::new);
+        EntityRendererRegistry.register(MMEntities.HASTUR_CULTIST, HasturCultistEntityRender::new);
+        EntityRendererRegistry.register(MMEntities.SPELL_PROJECTILE, SpellProjectileEntityRenderer::new);
+        EntityRendererRegistry.register(MMEntities.BOLT, BoltEntityRenderer::new);
+        EntityRendererRegistry.register(MMEntities.PHANTASMA,
                 (context) -> new PhantasmaEntityRenderer(context, new PhantasmaModel()));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.ABERRATION,
+        EntityRendererRegistry.register(MMEntities.ABERRATION,
                 (context) -> new PhantasmaEntityRenderer(context, new AberrationModel()));
-        EntityRendererRegistry.INSTANCE.register(MMEntities.TATTERED_PRINCE, TatteredPrinceRenderer::new);
-        EntityRendererRegistry.INSTANCE.register(MMEntities.GENERIC_TENTACLE, GenericTentacleEntityRenderer::new);
-        EntityRendererRegistry.INSTANCE.register(MMEntities.HARROW, HarrowEntityRenderer::new);
-        EntityRendererRegistry.INSTANCE.register(MMEntities.BYAKHEE, ByakheeEntityRenderer::new);
-        EntityRendererRegistry.INSTANCE.register(MMEntities.HALLUCINATION, HallucinationRenderer::new);
+        EntityRendererRegistry.register(MMEntities.TATTERED_PRINCE, TatteredPrinceRenderer::new);
+        EntityRendererRegistry.register(MMEntities.GENERIC_TENTACLE, GenericTentacleEntityRenderer::new);
+        EntityRendererRegistry.register(MMEntities.HARROW, HarrowEntityRenderer::new);
+        EntityRendererRegistry.register(MMEntities.BYAKHEE, ByakheeEntityRenderer::new);
+        EntityRendererRegistry.register(MMEntities.HALLUCINATION, HallucinationRenderer::new);
+        EntityRendererRegistry.register(MMEntities.TINDALOS_HOUND, TindalosHoundEntityRenderer::new);
     }
 
     private void registerItemRenderers() {

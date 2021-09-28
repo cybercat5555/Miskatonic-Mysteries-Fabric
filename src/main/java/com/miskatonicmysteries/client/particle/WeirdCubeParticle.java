@@ -28,6 +28,9 @@ public class WeirdCubeParticle extends Particle {
     private static final ModelPart cube = new ModelPart(ImmutableList.of(new ModelPart.Cuboid(0, 0, -1.6F, -1.6F, -1.6F, 3.2F, 3.2F, 3.2F, 0, 0, 0, false, 0, 0)), ImmutableMap.of());
     protected WeirdCubeParticle(ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
         super(clientWorld, d, e, f, g, h, i);
+        this.velocityX = g;
+        this.velocityY = h;
+        this.velocityZ = i;
     }
 
     @Override
