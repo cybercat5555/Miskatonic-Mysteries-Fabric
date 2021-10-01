@@ -6,13 +6,10 @@
   "pages": [
     {
       "type": "text",
-      "text": "The $(marked)Tattered Prince$() is an entity from the Halls of Carcosa.$(br)He possesses great power and is commonly found as an idol of worship. Dedicated Serfs usually summon him through the $(l:rites/golden_coronation)$(marked)Golden Coronation$(), as a conduit for further ascension."
-    },
-    {
-      "type": "entity",
-      "entity": "miskatonicmysteries:tattered_prince",
-      "offset": 0.15,
-      "text": "Much like $(ml:bestiary/serfs)Yellow Serfs$(), he is very protective, and will cast powerful spells for defense. "
+      "text": "The $(marked)Tattered Prince$() is an entity from the Halls of Carcosa.$(br)He possesses great power and is commonly found as an idol of worship. Dedicated Serfs usually summon him through the $(l:rites/golden_coronation)$(marked)Golden Coronation$(), as a conduit for further ascension.$(br)Much like $(ml:bestiary/serfs)Yellow Serfs$(), he is very protective, and will cast powerful spells for defense."
+    },{
+      "type": "miskatonicmysteries:drawing",
+      "drawing": "miskatonicmysteries:textures/gui/drawings/tattered_prince.png"
     }
   ]
 }
