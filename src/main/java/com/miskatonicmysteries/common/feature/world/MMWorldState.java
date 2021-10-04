@@ -16,11 +16,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.miskatonicmysteries.common.util.Constants.NBT.PLAYER_UUID;
-import static com.miskatonicmysteries.common.util.Constants.NBT.PROTAGONISTS;
+import static com.miskatonicmysteries.common.util.Constants.NBT.*;
 
 public class MMWorldState extends PersistentState {
     private final Map<UUID, ProtagonistEntity.ProtagonistData> protagonistMap = new HashMap<>();
+    private final Map<UUID, Boolean> houndMap = new HashMap<>(); //uuid - player; boolean - is the hound in-world?
 
     public static MMWorldState fromNbt(NbtCompound tag) {
         MMWorldState state = new MMWorldState();
@@ -28,14 +28,23 @@ public class MMWorldState extends PersistentState {
         if (protagonistList != null) {
             for (NbtElement baseTag : protagonistList) {
                 NbtCompound compoundTag = (NbtCompound) baseTag;
-                state.protagonistMap.put(compoundTag.getUuid(PLAYER_UUID), ProtagonistEntity.ProtagonistData.fromTag(compoundTag));
+                state.protagonistMap
+                        .put(compoundTag.getUuid(PLAYER_UUID), ProtagonistEntity.ProtagonistData.fromTag(compoundTag));
+            }
+        }
+        NbtList houndList = (NbtList) tag.get(HOUNDS);
+        if (houndList != null) {
+            for (NbtElement baseTag : houndList) {
+                NbtCompound compoundTag = (NbtCompound) baseTag;
+                state.houndMap.put(compoundTag.getUuid(PLAYER_UUID), compoundTag.getBoolean(SPAWNED));
             }
         }
         return state;
     }
 
     public static MMWorldState get(World world) {
-        return world.getServer().getOverworld().getPersistentStateManager().getOrCreate(MMWorldState::fromNbt, MMWorldState::new, Constants.MOD_ID);
+        return world.getServer().getOverworld().getPersistentStateManager()
+                .getOrCreate(MMWorldState::fromNbt, MMWorldState::new, Constants.MOD_ID);
     }
 
     public void addProtagonist(PlayerEntity player, ProtagonistEntity.ProtagonistData data) {
@@ -58,10 +67,21 @@ public class MMWorldState extends PersistentState {
     }
 
     public ProtagonistEntity.ProtagonistData getProtagonistDataFor(ProtagonistEntity protagonist) {
-        if (!protagonist.getTargetUUID().isPresent() || !protagonistMap.containsKey(protagonist.getTargetUUID().get())) {
+        if (!protagonist.getTargetUUID().isPresent() || !protagonistMap
+                .containsKey(protagonist.getTargetUUID().get())) {
             return null;
         }
         return protagonistMap.get(protagonist.getTargetUUID().get());
+    }
+
+    public void markHoundState(UUID player, boolean spawned) {
+        this.houndMap.put(player, spawned);
+        markDirty();
+    }
+
+    public void removeHoundForUUID(UUID player) {
+        this.houndMap.remove(player);
+        markDirty();
     }
 
     @Override
@@ -75,6 +95,14 @@ public class MMWorldState extends PersistentState {
         });
         tag.put(PROTAGONISTS, protagonistList);
 
+        NbtList houndList = new NbtList();
+        houndMap.forEach(((uuid, spawned) -> {
+            NbtCompound compoundTag = new NbtCompound();
+            compoundTag.putUuid(PLAYER_UUID, uuid);
+            compoundTag.putBoolean(SPAWNED, spawned);
+            houndList.add(compoundTag);
+        }));
+        tag.put(HOUNDS, houndList);
         return tag;
     }
 
@@ -82,5 +110,9 @@ public class MMWorldState extends PersistentState {
         protagonistMap.clear();
         markDirty();
         return new TranslatableText("miskatonicmysteries.command.clear_data");
+    }
+
+    public boolean getHoundState(UUID uuid) {
+        return houndMap.getOrDefault(uuid, true);
     }
 }

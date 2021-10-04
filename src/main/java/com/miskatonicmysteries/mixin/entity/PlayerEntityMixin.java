@@ -10,6 +10,7 @@ import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.MMServerEvents;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.component.AscendantComponent;
+import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
@@ -95,6 +96,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
 	@Inject(method = "tick()V", at = @At("TAIL"))
 	private void handleMiskStats(CallbackInfo info) {
+		TindalosHoundEntity.handleSpawning((PlayerEntity) (Object) this);
 		if (getResonance() > 0) {
 			if (getSanity() < 750) {
 				addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 100, 0, true, true, false));

@@ -147,6 +147,7 @@ public class Constants {
         public static final String SIMPLE = "IsSimple";
         public static final String PHASE_TICKS = "PhaseTicks";
         public static final String PHASE_DIRECTION = "PhaseDirection";
+        public static final String HOUNDS = "Hounds";
     }
 
     public static class DataTrackers {
