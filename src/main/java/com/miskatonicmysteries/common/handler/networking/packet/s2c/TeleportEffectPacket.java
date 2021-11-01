@@ -32,14 +32,22 @@ public class TeleportEffectPacket {
 
     @Environment(EnvType.CLIENT)
     public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        Entity entity = client.world.getEntityById(packetByteBuf.readInt());
-        client.execute(() -> {
-            if (entity instanceof LivingEntity) {
-                client.world.playSound(entity.getBlockPos(), MMSounds.TELEPORT_SOUND, SoundCategory.PLAYERS, 0.5F, 0.8F, false);
+        if (client.world != null) {
+            Entity entity = client.world.getEntityById(packetByteBuf.readInt());
+            if (entity != null) {
+                client.execute(() -> {
+                    if (entity instanceof LivingEntity) {
+                        client.world.playSound(entity
+                                .getBlockPos(), MMSounds.TELEPORT_SOUND, SoundCategory.PLAYERS, 0.5F, 0.8F, false);
+                    }
+                    for (int i = 0; i < 5; i++) {
+                        client.world.addParticle(ParticleTypes.PORTAL, entity.getX() + client.world.getRandom()
+                                .nextGaussian() * 0.5F * entity.getWidth(), entity.getY() + client.world.getRandom()
+                                .nextGaussian() * 0.5F * entity.getHeight(), entity.getZ() + client.world.getRandom()
+                                .nextGaussian() * 0.5F * entity.getWidth(), 0, 0, 0);
+                    }
+                });
             }
-            for (int i = 0; i < 5; i++) {
-                client.world.addParticle(ParticleTypes.PORTAL, entity.getX() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), entity.getY() + client.world.getRandom().nextGaussian() * 0.5F * entity.getHeight(), entity.getZ() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), 0, 0, 0);
-            }
-        });
+        }
     }
 }

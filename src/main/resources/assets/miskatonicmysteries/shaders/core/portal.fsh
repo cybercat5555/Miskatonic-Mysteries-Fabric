@@ -7,7 +7,6 @@ uniform sampler2D Sampler1;
 
 uniform float GameTime;
 uniform int EndPortalLayers;
-uniform vec4 ColorModulator;
 
 in vec4 texProj0;
 in vec2 texCoord0;
