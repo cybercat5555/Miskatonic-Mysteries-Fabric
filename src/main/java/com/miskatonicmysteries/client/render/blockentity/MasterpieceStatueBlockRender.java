@@ -10,6 +10,15 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.IntList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
@@ -26,7 +35,11 @@ import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.entity.model.VillagerResemblingModel;
 import net.minecraft.client.render.model.json.ModelTransformation;
-import net.minecraft.client.texture.*;
+import net.minecraft.client.texture.NativeImage;
+import net.minecraft.client.texture.NativeImageBackedTexture;
+import net.minecraft.client.texture.PlayerSkinTexture;
+import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.DefaultSkinHelper;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
@@ -44,18 +57,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-
 @Environment(EnvType.CLIENT)
 public class MasterpieceStatueBlockRender implements BlockEntityRenderer<MasterpieceStatueBlockEntity> {
+
 	public static final Map<GameProfile, StoneTexture> TEXTURE_CACHE = new HashMap<>();
 	private final StoneTexture defaultTexture;
 	private final TextureManager textureManager;
@@ -66,8 +70,8 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 	private final VillagerResemblingModel<VillagerEntity> villagerModel;
 	private final StoneTexture villagerTexture;
 	private final SpriteIdentifier statueSprite = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
-			new Identifier(Constants.MOD_ID, "block/statue/masterpiece_statue"));
-	private List<Consumer<PlayerEntityModel<PlayerEntity>>> poses = new ArrayList<>();
+		new Identifier(Constants.MOD_ID, "block/statue/masterpiece_statue"));
+	private final List<Consumer<PlayerEntityModel<PlayerEntity>>> poses = new ArrayList<>();
 
 	public MasterpieceStatueBlockRender(BlockEntityRendererFactory.Context context) {
 		BuiltinItemStatueRenderer.dispatcher = context.getRenderDispatcher();
@@ -130,7 +134,7 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 
 	@Override
 	public void render(MasterpieceStatueBlockEntity entity, float tickDelta, MatrixStack matrices,
-					   VertexConsumerProvider vertexConsumers, int light, int overlay) {
+		VertexConsumerProvider vertexConsumers, int light, int overlay) {
 		matrices.push();
 		int rotation = entity.getCachedState() != null ? entity.getCachedState().get(Properties.ROTATION) : 0;
 		matrices.translate(0.5, 1.5, 0.5);
@@ -143,15 +147,14 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 	}
 
 	private void renderPlayer(@Nullable GameProfile profile, MatrixStack matrices,
-							  VertexConsumerProvider vertexConsumers, int light, int overlay, int pose) {
+		VertexConsumerProvider vertexConsumers, int light, int overlay, int pose) {
 		matrices.translate(0, -0.375F, 0);
 		if (profile != null) {
 			RenderLayer layer = getLayer(profile);
 			PlayerEntityModel<PlayerEntity> model = getModel(profile);
 			poseStatue(pose, model);
 			model.render(matrices, vertexConsumers.getBuffer(layer), light, overlay, 1, 1, 1, 1);
-		}
-		else {
+		} else {
 			RenderLayer layer = villagerTexture.renderLayer;
 			villagerTexture.updateTexture();
 			villagerModel.render(matrices, vertexConsumers.getBuffer(layer), light, overlay, 1, 1, 1, 1);
@@ -186,20 +189,19 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 			if (stoneTexture == null) {
 				MinecraftClient minecraftClient = MinecraftClient.getInstance();
 				Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map =
-						minecraftClient.getSkinProvider().getTextures(profile);
+					minecraftClient.getSkinProvider().getTextures(profile);
 				if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) {
 					try {
-						return new StoneTexture(minecraftClient.getSkinProvider().loadSkin(map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN), true);
+						return new StoneTexture(minecraftClient.getSkinProvider()
+							.loadSkin(map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN), true);
 					} catch (NullPointerException e) {
 						return defaultTexture;
 					}
-				}
-				else {
+				} else {
 					return new StoneTexture(DefaultSkinHelper.getTexture(PlayerEntity.getUuidFromProfile(profile)),
-							false);
+						false);
 				}
-			}
-			else {
+			} else {
 				if (stoneTexture.needsUpdate) {
 					stoneTexture.updateTexture();
 				}
@@ -210,7 +212,7 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 
 	private PlayerEntityModel<PlayerEntity> getModel(@Nullable GameProfile profile) {
 		return profile != null && profile.getId() != null && DefaultSkinHelper.getModel(profile.getId()).equals(
-				"default") ? steveModel : alexModel;
+			"default") ? steveModel : alexModel;
 	}
 
 	public void setRotationAngle(ModelPart part, float pitch, float yaw, float roll) {
@@ -220,6 +222,7 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 	}
 
 	public static class BuiltinItemStatueRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer {
+
 		private static BlockEntityRenderDispatcher dispatcher;
 		private final MasterpieceStatueBlockEntity dummy;
 
@@ -229,23 +232,22 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 
 		@Override
 		public void render(ItemStack stack, ModelTransformation.Mode mode, MatrixStack matrices,
-						   VertexConsumerProvider vertexConsumers, int light, int overlay) {
+			VertexConsumerProvider vertexConsumers, int light, int overlay) {
 			if (dispatcher != null) {
 				NbtCompound compound = stack.getTag();
 				if (compound != null && compound.contains(Constants.NBT.BLOCK_ENTITY_TAG)) {
 					NbtCompound blockEntityTag = compound.getCompound(Constants.NBT.BLOCK_ENTITY_TAG);
 					if (blockEntityTag.contains(Constants.NBT.STATUE_OWNER)) {
 						dummy.setStatueProfile(NbtHelper.toGameProfile(compound.getCompound(Constants.NBT.STATUE_OWNER)));
-					}else {
+					} else {
 						dummy.setStatueProfile(null);
 					}
 					if (blockEntityTag.contains(Constants.NBT.POSE)) {
 						dummy.pose = compound.getInt(Constants.NBT.POSE);
-					}else {
+					} else {
 						dummy.pose = 0;
 					}
-				}
-				else {
+				} else {
 					dummy.pose = 0;
 					dummy.setStatueProfile(null);
 				}
@@ -258,6 +260,7 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 
 	@Environment(EnvType.CLIENT)
 	public final class StoneTexture implements AutoCloseable { //credit goes to LambdAurora
+
 		public static final Logger LOGGER = LogManager.getLogger(Constants.MOD_ID + ":texturegen");
 		private static final Identifier stoneTexture = new Identifier("textures/block/stone.png");
 		private final Identifier base;
@@ -281,12 +284,11 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 					NativeImage inputImage;
 					if (!playerSkin) {
 						inputImage = NativeImage.read(resourceManager.getResource(base).getInputStream());
-					}
-					else {
+					} else {
 						inputImage = getPlayerSkin(base);
 					}
 					NativeImage stoneImage =
-							NativeImage.read(resourceManager.getResource(stoneTexture).getInputStream());
+						NativeImage.read(resourceManager.getResource(stoneTexture).getInputStream());
 					IntList skinPalette = ColorUtil.getPaletteFromImage(inputImage);
 					Int2IntMap colorMap = ColorUtil.associateGrayscale(skinPalette);
 					int height = Math.min(texture.getImage().getHeight(), inputImage.getHeight());
@@ -295,7 +297,7 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 						for (int x = 0; x < width; x++) {
 							int color = colorMap.get(inputImage.getPixelColor(x, y));
 							color = ColorHelper.multiplyColor(color,
-									stoneImage.getPixelColor(x % stoneImage.getWidth(), y % stoneImage.getHeight()));
+								stoneImage.getPixelColor(x % stoneImage.getWidth(), y % stoneImage.getHeight()));
 							texture.getImage().setPixelColor(x, y, color);
 						}
 					}
@@ -305,8 +307,7 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 				} catch (Exception e) {
 					if (e instanceof FileNotFoundException) {
 						LOGGER.info("Retrieving player texture file...");
-					}
-					else {
+					} else {
 						LOGGER.error("Could not update stone texture.", e);
 					}
 				}

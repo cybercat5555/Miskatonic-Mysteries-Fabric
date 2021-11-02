@@ -16,17 +16,19 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class SoundPacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "sounds");
 
-    public static void send(PlayerEntity player) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeInt(player.getId());
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
-    }
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sounds");
 
-    @Environment(EnvType.CLIENT)
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        Entity entity = client.world.getEntityById(packetByteBuf.readInt());
-        client.execute(() -> entity.playSound(MMSounds.PLING, 1, 1));
-    }
+	public static void send(PlayerEntity player) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeInt(player.getId());
+		ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
+		PacketSender sender) {
+		Entity entity = client.world.getEntityById(packetByteBuf.readInt());
+		client.execute(() -> entity.playSound(MMSounds.PLING, 1, 1));
+	}
 }

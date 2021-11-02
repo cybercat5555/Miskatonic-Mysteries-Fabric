@@ -4,28 +4,29 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface Sanity {
-    static Optional<Sanity> of(Object context) {
-        if (context instanceof Sanity) {
-            return Optional.of(((Sanity) context));
-        }
-        return Optional.empty();
-    }
 
-    int getSanity();
+	static Optional<Sanity> of(Object context) {
+		if (context instanceof Sanity) {
+			return Optional.of(((Sanity) context));
+		}
+		return Optional.empty();
+	}
 
-    void setSanity(int amount, boolean ignoreFactors);
+	int getSanity();
 
-    boolean isShocked();
+	void setSanity(int amount, boolean ignoreFactors);
 
-    void setShocked(boolean shocked);
+	boolean isShocked();
 
-    void addSanityCapExpansion(String name, int amount);
+	void setShocked(boolean shocked);
 
-    void removeSanityCapExpansion(String name);
+	void addSanityCapExpansion(String name, int amount);
 
-    Map<String, Integer> getSanityCapExpansions();
+	void removeSanityCapExpansion(String name);
 
-    void syncSanityData();
+	Map<String, Integer> getSanityCapExpansions();
 
-    int getMaxSanity();
+	void syncSanityData();
+
+	int getMaxSanity();
 }

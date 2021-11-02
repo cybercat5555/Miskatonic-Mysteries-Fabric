@@ -8,17 +8,18 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class SelfSpellMedium extends SpellMedium {
-    public SelfSpellMedium() {
-        super(new Identifier(Constants.MOD_ID, "self"));
-    }
 
-    @Override
-    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
-        return !caster.isDead() && effect.effect(world, caster, caster, caster.getPos(), this, intensity, caster);
-    }
+	public SelfSpellMedium() {
+		super(new Identifier(Constants.MOD_ID, "self"));
+	}
 
-    @Override
-    public float getCooldownModifier(LivingEntity caster) {
-        return 0.5F;
-    }
+	@Override
+	public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
+		return !caster.isDead() && effect.effect(world, caster, caster, caster.getPos(), this, intensity, caster);
+	}
+
+	@Override
+	public float getCooldownModifier(LivingEntity caster) {
+		return 0.5F;
+	}
 }

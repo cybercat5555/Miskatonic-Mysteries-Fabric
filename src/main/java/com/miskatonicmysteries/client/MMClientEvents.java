@@ -18,7 +18,6 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -27,6 +26,7 @@ import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
 public class MMClientEvents {
+
 	public static boolean glowingActive = false;
 	private static boolean renderOutline = false;
 
@@ -72,21 +72,22 @@ public class MMClientEvents {
 					int b = color & 255;
 					outlineVertexConsumerProvider.setColor(r, g, b, 255);
 					Vec3d cameraPos = context.camera().getPos();
-					renderEntityFullBright(entity, cameraPos.x, cameraPos.y, cameraPos.z, context.tickDelta(), context.matrixStack(), outlineVertexConsumerProvider, client.getEntityRenderDispatcher());
+					renderEntityFullBright(entity, cameraPos.x, cameraPos.y, cameraPos.z, context.tickDelta(), context.matrixStack(),
+						outlineVertexConsumerProvider, client.getEntityRenderDispatcher());
 				}
 			}
 		}
 	}
 
 	private static void renderEntityFullBright(Entity entity, double cameraX, double cameraY, double cameraZ,
-											   float tickDelta, MatrixStack matrices,
-											   VertexConsumerProvider vertexConsumers,
-											   EntityRenderDispatcher dispatcher) {
+		float tickDelta, MatrixStack matrices,
+		VertexConsumerProvider vertexConsumers,
+		EntityRenderDispatcher dispatcher) {
 		double d = MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX());
 		double e = MathHelper.lerp(tickDelta, entity.lastRenderY, entity.getY());
 		double f = MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ());
 		float g = MathHelper.lerp(tickDelta, entity.prevYaw, entity.getYaw());
 		dispatcher.render(entity, d - cameraX, e - cameraY, f - cameraZ, g, tickDelta, matrices, vertexConsumers,
-				15728880);
+			15728880);
 	}
 }

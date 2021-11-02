@@ -5,6 +5,8 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
+import java.util.ArrayList;
+import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -16,11 +18,9 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Environment(EnvType.CLIENT)
 public class BlessingToast implements Toast {
+
 	private static final Text TITLE = new TranslatableText("blessing.miskatonicmysteries.toast.title");
 	private static final Identifier ICON = ResourceHandler.ASCENSION_STAR_SPRITE;
 	private final List<Blessing> blessings = new ArrayList<>();
@@ -31,6 +31,15 @@ public class BlessingToast implements Toast {
 		this.blessings.add(blessing);
 	}
 
+	public static void show(ToastManager manager, Blessing blessing) {
+		BlessingToast toast = manager.getToast(BlessingToast.class, TYPE);
+		if (toast == null) {
+			manager.add(new BlessingToast(blessing));
+		} else {
+			toast.addBlessing(blessing);
+		}
+	}
+
 	@Override
 	public Visibility draw(MatrixStack matrices, ToastManager manager, long startTime) {
 		if (this.justUpdated) {
@@ -38,7 +47,7 @@ public class BlessingToast implements Toast {
 			this.justUpdated = false;
 		}
 		Blessing blessing =
-				this.blessings.get((int) (startTime / Math.max(1L, 5000L / (long) this.blessings.size()) % (long) this.blessings.size()));
+			this.blessings.get((int) (startTime / Math.max(1L, 5000L / (long) this.blessings.size()) % (long) this.blessings.size()));
 		Affiliation flavor = blessing.getAffiliation(false);
 		if (flavor == null) {
 			flavor = MiskatonicMysteriesAPI.getNonNullAffiliation(MinecraftClient.getInstance().player, false);
@@ -49,7 +58,7 @@ public class BlessingToast implements Toast {
 		manager.drawTexture(matrices, 0, 0, 0, 0, this.getWidth(), this.getHeight());
 		manager.getGame().textRenderer.draw(matrices, getTitle(), 30.0F, 7.0F, flavor.textColor);
 		manager.getGame().textRenderer.draw(matrices, new TranslatableText(blessing.getTranslationString()), 30.0F,
-				18.0F, flavor.textColorSecondary);
+			18.0F, flavor.textColorSecondary);
 		RenderSystem.applyModelViewMatrix();
 		RenderSystem.setShaderTexture(0, ICON);
 		ToastManager.drawTexture(matrices, 12, 12, 0, 0, 8, 8, 8, 8);
@@ -63,15 +72,5 @@ public class BlessingToast implements Toast {
 	protected void addBlessing(Blessing blessing) {
 		this.blessings.add(blessing);
 		justUpdated = true;
-	}
-
-	public static void show(ToastManager manager, Blessing blessing) {
-		BlessingToast toast = manager.getToast(BlessingToast.class, TYPE);
-		if (toast == null) {
-			manager.add(new BlessingToast(blessing));
-		}
-		else {
-			toast.addBlessing(blessing);
-		}
 	}
 }

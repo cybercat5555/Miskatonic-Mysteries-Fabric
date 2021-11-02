@@ -2,64 +2,71 @@ package com.miskatonicmysteries.client.particle;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.AbstractSlowingParticle;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleFactory;
+import net.minecraft.client.particle.ParticleTextureSheet;
+import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public class CandleFlameParticle extends AbstractSlowingParticle {
-    protected CandleFlameParticle(ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
-        super(clientWorld, d, e, f, g, h, i);
-        colorAlpha = 0.95F;
-    }
 
-    public ParticleTextureSheet getType() {
-        return ParticleTextureSheet.PARTICLE_SHEET_LIT;
-    }
+	protected CandleFlameParticle(ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
+		super(clientWorld, d, e, f, g, h, i);
+		colorAlpha = 0.95F;
+	}
 
-    public void move(double dx, double dy, double dz) {
-        this.setBoundingBox(this.getBoundingBox().offset(dx, dy, dz));
-        this.repositionFromBoundingBox();
-    }
+	public ParticleTextureSheet getType() {
+		return ParticleTextureSheet.PARTICLE_SHEET_LIT;
+	}
 
-    public float getSize(float tickDelta) {
-        float f = ((float) this.age + tickDelta) / (float) this.maxAge;
-        return this.scale * (1.0F - f * f * 0.5F);
-    }
+	public void move(double dx, double dy, double dz) {
+		this.setBoundingBox(this.getBoundingBox().offset(dx, dy, dz));
+		this.repositionFromBoundingBox();
+	}
 
-    public int getBrightness(float tint) {
-        float f = ((float) this.age + tint) / (float) this.maxAge;
-        f = MathHelper.clamp(f, 0.0F, 1.0F);
-        int i = super.getBrightness(tint);
-        int j = i & 255;
-        int k = i >> 16 & 255;
-        j += (int) (f * 15.0F * 16.0F);
-        if (j > 240) {
-            j = 240;
-        }
+	public float getSize(float tickDelta) {
+		float f = ((float) this.age + tickDelta) / (float) this.maxAge;
+		return this.scale * (1.0F - f * f * 0.5F);
+	}
 
-        return j | k << 16;
-    }
+	public int getBrightness(float tint) {
+		float f = ((float) this.age + tint) / (float) this.maxAge;
+		f = MathHelper.clamp(f, 0.0F, 1.0F);
+		int i = super.getBrightness(tint);
+		int j = i & 255;
+		int k = i >> 16 & 255;
+		j += (int) (f * 15.0F * 16.0F);
+		if (j > 240) {
+			j = 240;
+		}
 
-    @Override
-    public void setSprite(SpriteProvider spriteProvider) {
-        super.setSprite(spriteProvider);
-    }
+		return j | k << 16;
+	}
 
-    @Environment(EnvType.CLIENT)
-    public static class Factory implements ParticleFactory<DefaultParticleType> {
-        private final SpriteProvider spriteProvider;
+	@Override
+	public void setSprite(SpriteProvider spriteProvider) {
+		super.setSprite(spriteProvider);
+	}
 
-        public Factory(SpriteProvider spriteProvider) {
-            this.spriteProvider = spriteProvider;
-        }
+	@Environment(EnvType.CLIENT)
+	public static class Factory implements ParticleFactory<DefaultParticleType> {
 
-        public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z, double scale, double h, double i) {
-            CandleFlameParticle flameParticle = new CandleFlameParticle(clientWorld, x, y, z, 0, 0, 0);
-            flameParticle.scale((float) scale);
-            flameParticle.setSpriteForAge(this.spriteProvider);
-            return flameParticle;
-        }
-    }
+		private final SpriteProvider spriteProvider;
+
+		public Factory(SpriteProvider spriteProvider) {
+			this.spriteProvider = spriteProvider;
+		}
+
+		public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z,
+			double scale, double h, double i) {
+			CandleFlameParticle flameParticle = new CandleFlameParticle(clientWorld, x, y, z, 0, 0, 0);
+			flameParticle.scale((float) scale);
+			flameParticle.setSpriteForAge(this.spriteProvider);
+			return flameParticle;
+		}
+	}
 }

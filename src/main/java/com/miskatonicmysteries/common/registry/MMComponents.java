@@ -11,9 +11,10 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 public class MMComponents implements EntityComponentInitializer {
+
 	public static final ComponentKey<AscendantComponent> ASCENDANT_COMPONENT =
-			ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(Constants.MOD_ID, "ascendant"),
-					AscendantComponent.class);
+		ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(Constants.MOD_ID, "ascendant"),
+			AscendantComponent.class);
 
 	@Override
 	public void registerEntityComponentFactories(@NotNull EntityComponentFactoryRegistry registry) {

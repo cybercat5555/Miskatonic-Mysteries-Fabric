@@ -24,53 +24,54 @@ import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
 public class TheOrbItem extends Item {
-    public static final FoodComponent ORB_FOOD = new FoodComponent.Builder().hunger(0).saturationModifier(0)
-            .alwaysEdible()
-            .statusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 1200, 1), 0.9F)
-            .statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 1200, 1), 0.5F)
-            .statusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 2400, 1), 0.4F)
-            .statusEffect(new StatusEffectInstance(StatusEffects.WITHER, 600, 0), 0.25F)
-            .meat() //because the Orb was not cursed enough yet
-            .build();
 
-    public TheOrbItem() {
-        super(new Settings().group(Constants.MM_GROUP).food(ORB_FOOD).maxCount(1).rarity(Rarity.UNCOMMON));
-    }
+	public static final FoodComponent ORB_FOOD = new FoodComponent.Builder().hunger(0).saturationModifier(0)
+		.alwaysEdible()
+		.statusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 1200, 1), 0.9F)
+		.statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 1200, 1), 0.5F)
+		.statusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 2400, 1), 0.4F)
+		.statusEffect(new StatusEffectInstance(StatusEffects.WITHER, 600, 0), 0.25F)
+		.meat() //because the Orb was not cursed enough yet
+		.build();
 
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        return ItemUsage.consumeHeldItem(world, user, hand);
-    }
+	public TheOrbItem() {
+		super(new Settings().group(Constants.MM_GROUP).food(ORB_FOOD).maxCount(1).rarity(Rarity.UNCOMMON));
+	}
 
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if (!world.isClient) {
-            Sanity.of(user).ifPresent(sanity -> {
-                sanity.addSanityCapExpansion(Constants.Misc.ATE_ORB_EXTENSION, -50);
-                sanity.setSanity(sanity.getSanity() - 25, true);
-                sanity.syncSanityData();
-            });
-            SpellCaster.of(user).ifPresent(caster -> {
-                caster.learnMedium(MMSpellMediums.PROJECTILE);
-                MiskatonicMysteriesAPI.guaranteeSpellPower(3, caster);
-                caster.syncSpellData();
-            });
-            if (user instanceof ServerPlayerEntity) {
-                Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
-                ((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
-            }
-        }
-        user.eatFood(world, stack);
-        return stack;
-    }
+	@Override
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		return ItemUsage.consumeHeldItem(world, user, hand);
+	}
 
-    @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return UseAction.EAT;
-    }
+	@Override
+	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+		if (!world.isClient) {
+			Sanity.of(user).ifPresent(sanity -> {
+				sanity.addSanityCapExpansion(Constants.Misc.ATE_ORB_EXTENSION, -50);
+				sanity.setSanity(sanity.getSanity() - 25, true);
+				sanity.syncSanityData();
+			});
+			SpellCaster.of(user).ifPresent(caster -> {
+				caster.learnMedium(MMSpellMediums.PROJECTILE);
+				MiskatonicMysteriesAPI.guaranteeSpellPower(3, caster);
+				caster.syncSpellData();
+			});
+			if (user instanceof ServerPlayerEntity) {
+				Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
+				((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
+			}
+		}
+		user.eatFood(world, stack);
+		return stack;
+	}
 
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 60;
-    }
+	@Override
+	public UseAction getUseAction(ItemStack stack) {
+		return UseAction.EAT;
+	}
+
+	@Override
+	public int getMaxUseTime(ItemStack stack) {
+		return 60;
+	}
 }

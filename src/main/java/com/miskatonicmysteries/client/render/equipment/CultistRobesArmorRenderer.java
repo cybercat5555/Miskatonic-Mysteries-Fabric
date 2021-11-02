@@ -16,6 +16,7 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class CultistRobesArmorRenderer implements ArmorRenderer {
+
 	private static CultistRobesModel armorModel;
 
 	private final Identifier texture;
@@ -25,7 +26,8 @@ public class CultistRobesArmorRenderer implements ArmorRenderer {
 	}
 
 	@Override
-	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, LivingEntity entity, EquipmentSlot slot, int light, BipedEntityModel<LivingEntity> contextModel) {
+	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, LivingEntity entity,
+		EquipmentSlot slot, int light, BipedEntityModel<LivingEntity> contextModel) {
 		if (armorModel == null) {
 			armorModel = new CultistRobesModel(MinecraftClient.getInstance().getEntityModelLoader().getModelPart(MMModels.ROBES));
 		}

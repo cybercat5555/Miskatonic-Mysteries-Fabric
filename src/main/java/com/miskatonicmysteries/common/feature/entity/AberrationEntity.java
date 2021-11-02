@@ -20,83 +20,84 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 
 public class AberrationEntity extends PhantasmaEntity implements Monster {
-    public AberrationEntity(EntityType<? extends PhantasmaEntity> entityType, World world) {
-        super(entityType, world);
-    }
 
-    @Override
-    public int getMaxVariants() {
-        return 1;
-    }
+	public AberrationEntity(EntityType<? extends PhantasmaEntity> entityType, World world) {
+		super(entityType, world);
+	}
 
-    @Override
-    public void tick() {
-        if (getTarget() != null && distanceTo(getTarget()) < 2) {
-            swingHand(Hand.MAIN_HAND, false);
-        }
-        super.tick();
-    }
+	@Override
+	public int getMaxVariants() {
+		return 1;
+	}
 
-    @Override
-    public void tickMovement() {
-        if (this.handSwinging) {
-            ++this.handSwingTicks;
-            if (this.handSwingTicks >= 20) {
-                this.handSwingTicks = 0;
-                this.handSwinging = false;
-            }
-        } else {
-            this.handSwingTicks = 0;
-        }
-        this.handSwingProgress = (float) this.handSwingTicks / 20;
-        super.tickMovement();
-    }
+	@Override
+	public void tick() {
+		if (getTarget() != null && distanceTo(getTarget()) < 2) {
+			swingHand(Hand.MAIN_HAND, false);
+		}
+		super.tick();
+	}
 
-    @Override
-    public void swingHand(Hand hand) {
-        super.swingHand(hand);
-    }
+	@Override
+	public void tickMovement() {
+		if (this.handSwinging) {
+			++this.handSwingTicks;
+			if (this.handSwingTicks >= 20) {
+				this.handSwingTicks = 0;
+				this.handSwinging = false;
+			}
+		} else {
+			this.handSwingTicks = 0;
+		}
+		this.handSwingProgress = (float) this.handSwingTicks / 20;
+		super.tickMovement();
+	}
 
-    @Override
-    protected void initGoals() {
-        this.goalSelector.add(0, new MeleeAttackGoal(this, 1, false));
-        this.goalSelector.add(1, new FloatyWanderAroundGoal(this, 100));
-        this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.targetSelector.add(0, new FollowTargetGoal(this, PlayerEntity.class, 10, true, false, null));
-    }
+	@Override
+	public void swingHand(Hand hand) {
+		super.swingHand(hand);
+	}
 
-    @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController<>(this, "controller", 20, this::animationPredicate));
-    }
+	@Override
+	protected void initGoals() {
+		this.goalSelector.add(0, new MeleeAttackGoal(this, 1, false));
+		this.goalSelector.add(1, new FloatyWanderAroundGoal(this, 100));
+		this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+		this.targetSelector.add(0, new FollowTargetGoal(this, PlayerEntity.class, 10, true, false, null));
+	}
 
-    @Override
-    public void applyDamageEffects(LivingEntity attacker, Entity target) {
-        super.applyDamageEffects(attacker, target);
-    }
+	@Override
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController<>(this, "controller", 20, this::animationPredicate));
+	}
 
-    @Override
-    protected void applyDamage(DamageSource source, float amount) {
-        super.applyDamage(source, amount);
-    }
+	@Override
+	public void applyDamageEffects(LivingEntity attacker, Entity target) {
+		super.applyDamageEffects(attacker, target);
+	}
 
-    @Override
-    public boolean tryAttack(Entity target) {
-        return super.tryAttack(target);
-    }
+	@Override
+	protected void applyDamage(DamageSource source, float amount) {
+		super.applyDamage(source, amount);
+	}
 
-    public <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
-        float limbSwingAmount = event.getLimbSwingAmount();
-        boolean isMoving = !(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F);
-        if (isAttacking() && !isDead() && handSwinging) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("attack", true));
-            return PlayState.CONTINUE;
-        }
-        if (isMoving) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("floating", true));
-        } else {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
-        }
-        return PlayState.CONTINUE;
-    }
+	@Override
+	public boolean tryAttack(Entity target) {
+		return super.tryAttack(target);
+	}
+
+	public <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
+		float limbSwingAmount = event.getLimbSwingAmount();
+		boolean isMoving = !(limbSwingAmount > -0.15F && limbSwingAmount < 0.15F);
+		if (isAttacking() && !isDead() && handSwinging) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("attack", true));
+			return PlayState.CONTINUE;
+		}
+		if (isMoving) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("floating", true));
+		} else {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		}
+		return PlayState.CONTINUE;
+	}
 }

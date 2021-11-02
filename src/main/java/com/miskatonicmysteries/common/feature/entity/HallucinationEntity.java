@@ -5,9 +5,19 @@ import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
+import java.util.Optional;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -25,15 +35,12 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
-import javax.annotation.Nullable;
-import java.util.Optional;
-import java.util.UUID;
-
 public class HallucinationEntity extends HostileEntity {
+
 	private static final TrackedData<EntityType<?>> ENTITY = DataTracker.registerData(HallucinationEntity.class,
-			MMEntities.ENTITY_TYPE_TRACKER);
+		MMEntities.ENTITY_TYPE_TRACKER);
 	private static final TrackedData<Optional<UUID>> HALLUCINATION_TARGET =
-			DataTracker.registerData(HallucinationEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+		DataTracker.registerData(HallucinationEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 
 	public HallucinationEntity(EntityType<? extends HostileEntity> entityType, World world) {
 		super(entityType, world);
@@ -44,7 +51,9 @@ public class HallucinationEntity extends HostileEntity {
 	}
 
 	public static DefaultAttributeContainer.Builder createAttributes() {
-		return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.5);
+		return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20)
+			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 35.0D).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.23)
+			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.5);
 	}
 
 	public static boolean canSeeThroughMagic(LivingEntity entity) {
@@ -65,7 +74,7 @@ public class HallucinationEntity extends HostileEntity {
 		this.goalSelector.add(1, new WanderAroundGoal(this, 1.0D));
 		this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 16.0F));
 		this.targetSelector.add(0, new FollowTargetGoal<>(this, LivingEntity.class, 10, false, false,
-				this::isPresentFor));
+			this::isPresentFor));
 	}
 
 	public EntityType<?> getEntityHallucination() {
@@ -114,7 +123,7 @@ public class HallucinationEntity extends HostileEntity {
 		super.writeCustomDataToNbt(tag);
 		if (getEntityHallucination() != null) {
 			tag.putString(Constants.NBT.HALLUCINATION,
-					Registry.ENTITY_TYPE.getId(getEntityHallucination()).toString());
+				Registry.ENTITY_TYPE.getId(getEntityHallucination()).toString());
 		}
 		getHallucinationTarget().ifPresent(target -> tag.putUuid(Constants.NBT.TARGET, uuid));
 	}
@@ -161,7 +170,7 @@ public class HallucinationEntity extends HostileEntity {
 			if (MinecraftClient.getInstance().player == getHallucinationTargetPlayer()) {
 				for (int i = 0; i < 3; ++i) {
 					this.world.addParticle(ParticleTypes.LARGE_SMOKE, this.getParticleX(0.5D), this.getRandomBodyY(),
-							this.getParticleZ(0.5D), 0.0D, 0.0D, 0.0D);
+						this.getParticleZ(0.5D), 0.0D, 0.0D, 0.0D);
 				}
 			}
 			return;

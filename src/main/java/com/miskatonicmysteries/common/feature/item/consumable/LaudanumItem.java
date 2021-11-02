@@ -20,52 +20,55 @@ import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
 public class LaudanumItem extends Item implements VillagerPartyDrug {
-    public LaudanumItem() {
-        super(new Settings().group(Constants.MM_GROUP).recipeRemainder(Items.GLASS_BOTTLE));
-    }
 
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        return ItemUsage.consumeHeldItem(world, user, hand);
-    }
+	public LaudanumItem() {
+		super(new Settings().group(Constants.MM_GROUP).recipeRemainder(Items.GLASS_BOTTLE));
+	}
 
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if (!world.isClient) {
-            user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.TRANQUILIZED, 2400, 0));
-            user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.OVERMEDICATED, 24000, user.getStatusEffect(MMStatusEffects.OVERMEDICATED) != null ? user.getStatusEffect(MMStatusEffects.OVERMEDICATED).getAmplifier() + 1 : 0, false, false, false));
-            stack.decrement(1);
-            if (user instanceof ServerPlayerEntity) {
-                Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
-                ((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
-            }
-        }
-        if (stack.isEmpty()) {
-            return new ItemStack(Items.GLASS_BOTTLE);
-        } else {
-            if (user instanceof PlayerEntity player && !player.isCreative()) {
-                ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
-                if (!player.getInventory().insertStack(itemStack)) {
-                    player.dropItem(itemStack, false);
-                }
-            }
+	@Override
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		return ItemUsage.consumeHeldItem(world, user, hand);
+	}
 
-            return stack;
-        }
-    }
+	@Override
+	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+		if (!world.isClient) {
+			user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.TRANQUILIZED, 2400, 0));
+			user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.OVERMEDICATED, 24000,
+				user.getStatusEffect(MMStatusEffects.OVERMEDICATED) != null ?
+					user.getStatusEffect(MMStatusEffects.OVERMEDICATED).getAmplifier() + 1 : 0, false, false, false));
+			stack.decrement(1);
+			if (user instanceof ServerPlayerEntity) {
+				Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
+				((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
+			}
+		}
+		if (stack.isEmpty()) {
+			return new ItemStack(Items.GLASS_BOTTLE);
+		} else {
+			if (user instanceof PlayerEntity player && !player.isCreative()) {
+				ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
+				if (!player.getInventory().insertStack(itemStack)) {
+					player.dropItem(itemStack, false);
+				}
+			}
 
-    @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return UseAction.DRINK;
-    }
+			return stack;
+		}
+	}
 
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 30;
-    }
+	@Override
+	public UseAction getUseAction(ItemStack stack) {
+		return UseAction.DRINK;
+	}
 
-    @Override
-    public StatusEffectInstance getStatusEffect(VillagerEntity villager) {
-        return new StatusEffectInstance(MMStatusEffects.TRANQUILIZED, 600, 0);
-    }
+	@Override
+	public int getMaxUseTime(ItemStack stack) {
+		return 30;
+	}
+
+	@Override
+	public StatusEffectInstance getStatusEffect(VillagerEntity villager) {
+		return new StatusEffectInstance(MMStatusEffects.TRANQUILIZED, 600, 0);
+	}
 }

@@ -3,21 +3,21 @@ package com.miskatonicmysteries.api.registry;
 import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.Identifier;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Identifier;
 
 public class Affiliation {
+
+	public final int textColor, textColorSecondary;
 	public Set<Blessing> blessingPool = new HashSet<>();
 	protected Identifier id;
 	protected float[] color;
-	public final int textColor, textColorSecondary;
 
 	public Affiliation(Identifier id, float[] color, int textColor, int textColorSecondary, Blessing... blessings) {
 		this.id = id;
@@ -28,7 +28,7 @@ public class Affiliation {
 	}
 
 	public Affiliation(Identifier id, float[] color, Blessing... blessings) {
-	    this(id, color, 0xFFFFFF, 0xFFFFFF, blessings);
+		this(id, color, 0xFFFFFF, 0xFFFFFF, blessings);
 	}
 
 	public static Affiliation fromTag(NbtCompound tag) {
@@ -37,9 +37,9 @@ public class Affiliation {
 
 	public Blessing findRandomBlessing(LivingEntity entity, Ascendant ascendant) {
 		List<Blessing> possibleBlessings =
-                blessingPool.stream().filter(blessing -> !ascendant.getBlessings().contains(blessing)).collect(Collectors.toList());
+			blessingPool.stream().filter(blessing -> !ascendant.getBlessings().contains(blessing)).collect(Collectors.toList());
 		return possibleBlessings.size() > 0 ?
-                possibleBlessings.get(entity.getRandom().nextInt(possibleBlessings.size())) : null;
+			possibleBlessings.get(entity.getRandom().nextInt(possibleBlessings.size())) : null;
 	}
 
 	public NbtCompound toTag(NbtCompound tag) {

@@ -3,14 +3,15 @@ package com.miskatonicmysteries.api.interfaces;
 import java.util.Optional;
 
 public interface Resonating {
-    static Optional<Resonating> of(Object context) {
-        if (context instanceof Resonating) {
-            return Optional.of(((Resonating) context));
-        }
-        return Optional.empty();
-    }
 
-    float getResonance();
+	static Optional<Resonating> of(Object context) {
+		if (context instanceof Resonating) {
+			return Optional.of(((Resonating) context));
+		}
+		return Optional.empty();
+	}
 
-    void setResonance(float resonance);
+	float getResonance();
+
+	void setResonance(float resonance);
 }

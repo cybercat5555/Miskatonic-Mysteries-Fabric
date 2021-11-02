@@ -5,11 +5,12 @@ import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
 public interface BiomeMask {
-    void MM_addBiomeMask(int x, int z, Biome biome);
 
-    @Nullable Biome MM_getMaskedBiome(int x, int z);
+	void MM_addBiomeMask(int x, int z, Biome biome);
 
-    int[] MM_masksToIntArray();
+	@Nullable Biome MM_getMaskedBiome(int x, int z);
 
-    void MM_setBiomeMask(IndexedIterable<Biome> biomesById, int[] mask);
+	int[] MM_masksToIntArray();
+
+	void MM_setBiomeMask(IndexedIterable<Biome> biomesById, int[] mask);
 }

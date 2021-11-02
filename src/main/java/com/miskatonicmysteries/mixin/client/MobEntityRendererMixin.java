@@ -16,8 +16,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Environment(EnvType.CLIENT)
 @Mixin(MobEntityRenderer.class)
 public class MobEntityRendererMixin<T extends MobEntity> {
+
 	@Inject(method = "shouldRender", at = @At("RETURN"), cancellable = true)
-	private void shouldRender(T mobEntity, Frustum frustum, double d, double e, double f, CallbackInfoReturnable<Boolean> cir){
+	private void shouldRender(T mobEntity, Frustum frustum, double d, double e, double f, CallbackInfoReturnable<Boolean> cir) {
 		if (cir.getReturnValue() && mobEntity instanceof HiddenEntity h && h.isHidden()) {
 			cir.setReturnValue(HallucinationEntity.canSeeThroughMagic(MinecraftClient.getInstance().player));
 		}

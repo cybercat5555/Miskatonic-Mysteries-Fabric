@@ -15,19 +15,21 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class ExpandSanityPacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "sanity_expansion");
 
-    public static void send(PlayerEntity player, String name, int amount) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeString(name);
-        data.writeInt(amount);
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
-    }
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sanity_expansion");
 
-    @Environment(EnvType.CLIENT)
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        String name = packetByteBuf.readString();
-        int amount = packetByteBuf.readInt();
-        client.execute(() -> ((Sanity) client.player).addSanityCapExpansion(name, amount));
-    }
+	public static void send(PlayerEntity player, String name, int amount) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeString(name);
+		data.writeInt(amount);
+		ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
+		PacketSender sender) {
+		String name = packetByteBuf.readString();
+		int amount = packetByteBuf.readInt();
+		client.execute(() -> ((Sanity) client.player).addSanityCapExpansion(name, amount));
+	}
 }

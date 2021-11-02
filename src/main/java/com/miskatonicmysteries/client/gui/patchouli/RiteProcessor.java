@@ -12,31 +12,34 @@ import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
 
 public class RiteProcessor implements IComponentProcessor {
-    protected Rite rite;
 
-    @Override
-    public void setup(IVariableProvider variables) {
-        this.rite = MMRegistries.RITES.get(new Identifier(variables.get("rite").asString()));
-    }
+	protected Rite rite;
 
-    @Override
-    public IVariable process(String key) {
-        switch (key) {
-            case "octagram": {
-                SpriteIdentifier sprite = ResourceHandler.getMatchingOctagramTexture(rite.getOctagramAffiliation());
-                return IVariable.wrap(new Identifier(sprite.getTextureId().getNamespace(), "textures/" + sprite.getTextureId().getPath() + ".png").toString());
-            }
-            case "rite_name":
-                return IVariable.wrap(I18n.translate(rite.getTranslationString()));
-            default: {
-                for (int i = 0; i < rite.getIngredients().size(); i++) {
-                    if (key.equals("ingredient" + (i + 1))) {
-                        ItemStack[] stacks = rite.getIngredients().get(i).getMatchingStacksClient();
-                        return IVariable.from(stacks);
-                    }
-                }
-            }
-        }
-        return null;
-    }
+	@Override
+	public void setup(IVariableProvider variables) {
+		this.rite = MMRegistries.RITES.get(new Identifier(variables.get("rite").asString()));
+	}
+
+	@Override
+	public IVariable process(String key) {
+		switch (key) {
+			case "octagram": {
+				SpriteIdentifier sprite = ResourceHandler.getMatchingOctagramTexture(rite.getOctagramAffiliation());
+				return IVariable.wrap(
+					new Identifier(sprite.getTextureId().getNamespace(), "textures/" + sprite.getTextureId().getPath() + ".png")
+						.toString());
+			}
+			case "rite_name":
+				return IVariable.wrap(I18n.translate(rite.getTranslationString()));
+			default: {
+				for (int i = 0; i < rite.getIngredients().size(); i++) {
+					if (key.equals("ingredient" + (i + 1))) {
+						ItemStack[] stacks = rite.getIngredients().get(i).getMatchingStacksClient();
+						return IVariable.from(stacks);
+					}
+				}
+			}
+		}
+		return null;
+	}
 }

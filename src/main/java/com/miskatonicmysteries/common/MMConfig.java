@@ -10,100 +10,106 @@ import net.fabricmc.api.Environment;
 @Config(name = Constants.MOD_ID)
 public class MMConfig implements ConfigData {
 
-    @ConfigEntry.Gui.CollapsibleObject
-    public Mechanics mechanics = new Mechanics();
+	@ConfigEntry.Gui.CollapsibleObject
+	public Mechanics mechanics = new Mechanics();
 
-    @Environment(EnvType.CLIENT)
-    @ConfigEntry.Gui.CollapsibleObject
-    public Client client = new Client();
+	@Environment(EnvType.CLIENT)
+	@ConfigEntry.Gui.CollapsibleObject
+	public Client client = new Client();
 
-    @ConfigEntry.Gui.CollapsibleObject
-    public Entities entities = new Entities();
+	@ConfigEntry.Gui.CollapsibleObject
+	public Entities entities = new Entities();
 
-    @ConfigEntry.Gui.CollapsibleObject
-    public Items items = new Items();
+	@ConfigEntry.Gui.CollapsibleObject
+	public Items items = new Items();
 
-    @ConfigEntry.Gui.CollapsibleObject
-    public Sanity sanity = new Sanity();
+	@ConfigEntry.Gui.CollapsibleObject
+	public Sanity sanity = new Sanity();
 
-    @ConfigEntry.Gui.CollapsibleObject
-    public World world = new World();
+	@ConfigEntry.Gui.CollapsibleObject
+	public World world = new World();
 
-    public static class Mechanics {
-        public int modUpdateInterval = 20;
-        public int maxStabilizers = 12;
-    }
+	public static class Mechanics {
 
-    public static class Entities {
-        @ConfigEntry.BoundedDiscrete(max = Constants.DataTrackers.SANITY_CAP)
-        @ConfigEntry.Gui.Tooltip
-        public int protagonistAggressionThreshold = 700;
+		public int modUpdateInterval = 20;
+		public int maxStabilizers = 12;
+	}
 
-        @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(min = 0, max = 1)
-        public float yellowSerfPercentage = 0.25F;
+	public static class Entities {
 
-        @ConfigEntry.Gui.Tooltip
-        public boolean subtlety = true;
+		@ConfigEntry.BoundedDiscrete(max = Constants.DataTrackers.SANITY_CAP)
+		@ConfigEntry.Gui.Tooltip
+		public int protagonistAggressionThreshold = 700;
 
-        @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(min = 0, max = 1)
-        public float statueEffectChance = 0.4F;
-    }
+		@ConfigEntry.Gui.Tooltip
+		@ConfigEntry.BoundedDiscrete(min = 0, max = 1)
+		public float yellowSerfPercentage = 0.25F;
 
-    public static class Items {
-        public boolean masksConcealNameplates = true;
-    }
+		@ConfigEntry.Gui.Tooltip
+		public boolean subtlety = true;
 
-    public static class Sanity {
-        @ConfigEntry.BoundedDiscrete(max = Constants.DataTrackers.SANITY_CAP)
-        @ConfigEntry.Gui.Tooltip
-        public int deadlyInsanityThreshold = 50;
+		@ConfigEntry.Gui.Tooltip
+		@ConfigEntry.BoundedDiscrete(min = 0, max = 1)
+		public float statueEffectChance = 0.4F;
+	}
 
-        @ConfigEntry.Gui.Tooltip
-        public int insanityEventAttempts = 3;
+	public static class Items {
 
-        @ConfigEntry.Gui.Tooltip
-        public int insanityInterval = 2000;
+		public boolean masksConcealNameplates = true;
+	}
 
-        @ConfigEntry.Gui.Tooltip
-        public float shockRemoveChance = 0.01F;
+	public static class Sanity {
 
-        @ConfigEntry.Gui.Tooltip
-        public int tranquilizedSanityBonus = 25;
+		@ConfigEntry.BoundedDiscrete(max = Constants.DataTrackers.SANITY_CAP)
+		@ConfigEntry.Gui.Tooltip
+		public int deadlyInsanityThreshold = 50;
 
-        @ConfigEntry.Gui.Tooltip
-        public float tranquilizedSanityCapRegainChance = 0.1F;
-    }
+		@ConfigEntry.Gui.Tooltip
+		public int insanityEventAttempts = 3;
 
-    public static class World {
+		@ConfigEntry.Gui.Tooltip
+		public int insanityInterval = 2000;
 
-        @ConfigEntry.BoundedDiscrete(max = 150, min = 1)
-        @ConfigEntry.Gui.Tooltip(count = 2)
-        @ConfigEntry.Gui.RequiresRestart
-        public int psychonautHouseWeight = 3;
+		@ConfigEntry.Gui.Tooltip
+		public float shockRemoveChance = 0.01F;
 
-        @ConfigEntry.BoundedDiscrete(max = 150, min = 1)
-        @ConfigEntry.Gui.Tooltip(count = 2)
-        @ConfigEntry.Gui.RequiresRestart
-        public int hasturShrineWeight = 60;
+		@ConfigEntry.Gui.Tooltip
+		public int tranquilizedSanityBonus = 25;
 
-        @ConfigEntry.Gui.Tooltip
-        public float infestedWheatChance = 0.05F;
+		@ConfigEntry.Gui.Tooltip
+		public float tranquilizedSanityCapRegainChance = 0.1F;
+	}
 
-        @ConfigEntry.Gui.Tooltip
-        public int simulacrumBiomeRadiusCap = 80;
-    }
+	public static class World {
 
-    public static class Client {
-        public boolean useShaders = true;
+		@ConfigEntry.BoundedDiscrete(max = 150, min = 1)
+		@ConfigEntry.Gui.Tooltip(count = 2)
+		@ConfigEntry.Gui.RequiresRestart
+		public int psychonautHouseWeight = 3;
 
-        @ConfigEntry.Gui.CollapsibleObject
-        public CurrentSpellHUD currentSpellHUD = new CurrentSpellHUD();
+		@ConfigEntry.BoundedDiscrete(max = 150, min = 1)
+		@ConfigEntry.Gui.Tooltip(count = 2)
+		@ConfigEntry.Gui.RequiresRestart
+		public int hasturShrineWeight = 60;
 
-        public static class CurrentSpellHUD {
-            public int marginX = 32;
-            public int marginY = 32;
-        }
-    }
+		@ConfigEntry.Gui.Tooltip
+		public float infestedWheatChance = 0.05F;
+
+		@ConfigEntry.Gui.Tooltip
+		public int simulacrumBiomeRadiusCap = 80;
+	}
+
+	public static class Client {
+
+		public boolean useShaders = true;
+
+		@ConfigEntry.Gui.CollapsibleObject
+		public CurrentSpellHUD currentSpellHUD = new CurrentSpellHUD();
+
+		public static class CurrentSpellHUD {
+
+			public int marginX = 32;
+			public int marginY = 32;
+		}
+	}
 }

@@ -17,24 +17,29 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class BloodParticlePacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "blood_particle");
 
-    public static void send(LivingEntity entity) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeInt(entity.getId());
-        PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
-        if (entity instanceof ServerPlayerEntity) {
-            ServerPlayNetworking.send((ServerPlayerEntity) entity, ID, data);
-        }
-    }
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "blood_particle");
 
-    @Environment(EnvType.CLIENT)
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        if (client.world != null) {
-            Entity entity = client.world.getEntityById(packetByteBuf.readInt());
-            if (entity != null) {
-                client.execute(() -> client.world.addParticle(MMParticles.DRIPPING_BLOOD, entity.getX() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), entity.getY() + client.world.getRandom().nextGaussian() * 0.5F * entity.getHeight(), entity.getZ() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), 0, 0, 0));
-            }
-        }
-    }
+	public static void send(LivingEntity entity) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeInt(entity.getId());
+		PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
+		if (entity instanceof ServerPlayerEntity) {
+			ServerPlayNetworking.send((ServerPlayerEntity) entity, ID, data);
+		}
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
+		PacketSender sender) {
+		if (client.world != null) {
+			Entity entity = client.world.getEntityById(packetByteBuf.readInt());
+			if (entity != null) {
+				client.execute(() -> client.world.addParticle(MMParticles.DRIPPING_BLOOD,
+					entity.getX() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(),
+					entity.getY() + client.world.getRandom().nextGaussian() * 0.5F * entity.getHeight(),
+					entity.getZ() + client.world.getRandom().nextGaussian() * 0.5F * entity.getWidth(), 0, 0, 0));
+			}
+		}
+	}
 }

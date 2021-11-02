@@ -9,24 +9,25 @@ import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 
 public class InfestedWheatCropBlock extends CropBlock {
-    public static final IntProperty AGE = Properties.AGE_1;
 
-    public InfestedWheatCropBlock() {
-        super(Settings.copy(Blocks.WHEAT));
-    }
+	public static final IntProperty AGE = Properties.AGE_1;
 
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(AGE);
-    }
+	public InfestedWheatCropBlock() {
+		super(Settings.copy(Blocks.WHEAT));
+	}
 
-    @Override
-    public IntProperty getAgeProperty() {
-        return AGE;
-    }
+	@Override
+	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+		builder.add(AGE);
+	}
 
-    @Override
-    public int getMaxAge() {
-        return 1;
-    }
+	@Override
+	public IntProperty getAgeProperty() {
+		return AGE;
+	}
+
+	@Override
+	public int getMaxAge() {
+		return 1;
+	}
 }

@@ -32,12 +32,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
 public class MasterpieceRite extends TriggeredRite {
+
 	public MasterpieceRite() {
 		super(new Identifier(Constants.MOD_ID, "masterpiece"), MMAffiliations.HASTUR, 0.5F, 60,
-				Ingredient.ofItems(Items.STONE), Ingredient.ofItems(Items.STONE), Ingredient.ofItems(Items.DEEPSLATE),
-				Ingredient.ofItems(Items.DEEPSLATE), Ingredient.ofItems(Items.BLACKSTONE),
-				Ingredient.ofItems(Items.BLACKSTONE), Ingredient.ofItems(Items.DIAMOND),
-				Ingredient.ofItems(Items.IRON_INGOT));
+			Ingredient.ofItems(Items.STONE), Ingredient.ofItems(Items.STONE), Ingredient.ofItems(Items.DEEPSLATE),
+			Ingredient.ofItems(Items.DEEPSLATE), Ingredient.ofItems(Items.BLACKSTONE),
+			Ingredient.ofItems(Items.BLACKSTONE), Ingredient.ofItems(Items.DIAMOND),
+			Ingredient.ofItems(Items.IRON_INGOT));
 	}
 
 	@Override
@@ -56,7 +57,8 @@ public class MasterpieceRite extends TriggeredRite {
 					return false;
 				}
 				if (ascendant.getAscensionStage() < 2) {
-					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.ascension_stage_fail"), true);
+					octagram.getOriginalCaster()
+						.sendMessage(new TranslatableText("message.miskatonicmysteries.ascension_stage_fail"), true);
 					return false;
 				}
 			}
@@ -81,9 +83,12 @@ public class MasterpieceRite extends TriggeredRite {
 		}
 		if (octagram.tickCount > ticksNeeded) {
 			Vec3d pos = octagram.getSummoningPos();
-			if (!octagram.getWorld().isClient && (octagram.targetedEntity == null || (octagram.targetedEntity == octagram.getOriginalCaster() && octagram.targetedEntity.isSneaking()))) {
+			if (!octagram.getWorld().isClient && (octagram.targetedEntity == null || (
+				octagram.targetedEntity == octagram.getOriginalCaster() && octagram.targetedEntity.isSneaking()))) {
 				LivingEntity foundEntity = octagram.getWorld().getClosestEntity(LivingEntity.class,
-						TargetPredicate.createAttackable().setBaseMaxDistance(4).setPredicate(entity -> entity instanceof VillagerEntity || (entity instanceof PlayerEntity p && !p.isCreative() && (p != octagram.getOriginalCaster() || !p.isSneaking()))), null, pos.x, pos.y, pos.z, octagram.getSelectionBox());
+					TargetPredicate.createAttackable().setBaseMaxDistance(4).setPredicate(
+						entity -> entity instanceof VillagerEntity || (entity instanceof PlayerEntity p && !p.isCreative() && (
+							p != octagram.getOriginalCaster() || !p.isSneaking()))), null, pos.x, pos.y, pos.z, octagram.getSelectionBox());
 				octagram.targetedEntity = foundEntity;
 				if (!octagram.getWorld().isClient && octagram.targetedEntity != null) {
 					SyncRiteTargetPacket.send(octagram.targetedEntity, octagram);
@@ -110,7 +115,7 @@ public class MasterpieceRite extends TriggeredRite {
 			Vec3d motionVec = new Vec3d(pos.x - particlePos.x, pos.y - particlePos.y, pos.z - particlePos.z);
 			motionVec = motionVec.multiply(0.025);
 			world.addParticle(MMParticles.AMBIENT_MAGIC, true, particlePos.x, particlePos.y, particlePos.z,
-					motionVec.x, motionVec.y, motionVec.z);
+				motionVec.x, motionVec.y, motionVec.z);
 		}
 	}
 
@@ -125,10 +130,10 @@ public class MasterpieceRite extends TriggeredRite {
 			ItemStack statueStack = new ItemStack(MMObjects.MASTERPIECE_STATUE);
 			if (entity instanceof PlayerEntity player) {
 				MasterpieceStatueBlock.setSculptureData(statueStack, blockEntity.getOriginalCaster(), player,
-						MasterpieceStatueBlockEntity.selectRandomPose(world.random));
+					MasterpieceStatueBlockEntity.selectRandomPose(world.random));
 			}
 			BlockState statueState = MMObjects.MASTERPIECE_STATUE.getDefaultState().with(Properties.ROTATION,
-					MathHelper.floor((double) (entity.getYaw() * 16.0F / 360.0F) + 0.5D) & 15);
+				MathHelper.floor((double) (entity.getYaw() * 16.0F / 360.0F) + 0.5D) & 15);
 			MasterpieceStatueBlockEntity statue = new MasterpieceStatueBlockEntity(pos, statueState);
 			BlockPos targetPos = blockEntity.getPos();
 			SchedulingHandler.addTask((server) -> {

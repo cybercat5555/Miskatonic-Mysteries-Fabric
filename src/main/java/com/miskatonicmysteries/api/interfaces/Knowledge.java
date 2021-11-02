@@ -4,20 +4,21 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Knowledge {
-    static Optional<Knowledge> of(Object context) {
-        if (context instanceof Knowledge) {
-            return Optional.of(((Knowledge) context));
-        }
-        return Optional.empty();
-    }
 
-    void addKnowledge(String knowledge);
+	static Optional<Knowledge> of(Object context) {
+		if (context instanceof Knowledge) {
+			return Optional.of(((Knowledge) context));
+		}
+		return Optional.empty();
+	}
 
-    boolean hasKnowledge(String knowledge);
+	void addKnowledge(String knowledge);
 
-    void clearKnowledge();
+	boolean hasKnowledge(String knowledge);
 
-    void syncKnowledge();
+	void clearKnowledge();
 
-    List<String> getKnowledge();
+	void syncKnowledge();
+
+	List<String> getKnowledge();
 }

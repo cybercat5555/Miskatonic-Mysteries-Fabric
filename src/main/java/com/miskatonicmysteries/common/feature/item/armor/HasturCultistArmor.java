@@ -9,17 +9,18 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterials;
 
 public class HasturCultistArmor extends ArmorItem implements Affiliated {
-    public HasturCultistArmor(EquipmentSlot slot) {
-        super(ArmorMaterials.LEATHER, slot, new Settings().group(Constants.MM_GROUP).maxCount(1));
-    }
 
-    @Override
-    public Affiliation getAffiliation(boolean apparent) {
-        return MMAffiliations.HASTUR;
-    }
+	public HasturCultistArmor(EquipmentSlot slot) {
+		super(ArmorMaterials.LEATHER, slot, new Settings().group(Constants.MM_GROUP).maxCount(1));
+	}
 
-    @Override
-    public boolean isSupernatural() {
-        return false;
-    }
+	@Override
+	public Affiliation getAffiliation(boolean apparent) {
+		return MMAffiliations.HASTUR;
+	}
+
+	@Override
+	public boolean isSupernatural() {
+		return false;
+	}
 }

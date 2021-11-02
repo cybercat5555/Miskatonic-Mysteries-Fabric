@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.miskatonicmysteries.common.feature.world.party.MMPartyState;
 import com.miskatonicmysteries.common.feature.world.party.Party;
+import java.util.List;
+import java.util.Random;
 import net.minecraft.entity.ai.brain.task.SeekSkyTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.passive.VillagerEntity;
@@ -19,10 +21,8 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Random;
-
 public class PartyTask extends Task<VillagerEntity> {
+
 	private static final DyeColor[] fireworkColors = new DyeColor[]{DyeColor.YELLOW, DyeColor.YELLOW, DyeColor.RED, DyeColor.ORANGE};
 	@Nullable
 	private Party party;
@@ -57,15 +57,15 @@ public class PartyTask extends Task<VillagerEntity> {
 		}
 
 		if (random.nextFloat() * 400 <= party.getPercentualPartyPower() && SeekSkyTask.isSkyVisible(serverWorld,
-				villagerEntity, villagerEntity.getBlockPos())) {
+			villagerEntity, villagerEntity.getBlockPos())) {
 			DyeColor dyeColor = Util.getRandom(fireworkColors, random);
 			DyeColor dyeColor2 = Util.getRandom(fireworkColors, random);
 			int i = 1 + random.nextInt(2);
 			ItemStack itemStack = this.createFirework(dyeColor, dyeColor2, i, random.nextBoolean() ?
-					FireworkItem.Type.BURST : (random.nextFloat() <= partyPower - 0.5F) ?
-					FireworkItem.Type.LARGE_BALL : FireworkItem.Type.SMALL_BALL);
+				FireworkItem.Type.BURST : (random.nextFloat() <= partyPower - 0.5F) ?
+				FireworkItem.Type.LARGE_BALL : FireworkItem.Type.SMALL_BALL);
 			FireworkRocketEntity fireworkRocketEntity = new FireworkRocketEntity(villagerEntity.world, villagerEntity,
-					villagerEntity.getX(), villagerEntity.getEyeY(), villagerEntity.getZ(), itemStack);
+				villagerEntity.getX(), villagerEntity.getEyeY(), villagerEntity.getZ(), itemStack);
 			villagerEntity.world.spawnEntity(fireworkRocketEntity);
 		}
 

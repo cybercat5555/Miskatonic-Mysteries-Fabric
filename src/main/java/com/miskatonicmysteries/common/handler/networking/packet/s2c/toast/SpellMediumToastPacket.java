@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c.toast;
 
 import com.miskatonicmysteries.api.registry.SpellMedium;
-import com.miskatonicmysteries.client.gui.toast.KnowledgeToast;
 import com.miskatonicmysteries.client.gui.toast.SpellMediumToast;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
@@ -16,6 +15,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class SpellMediumToastPacket {
+
 	public static final Identifier ID = new Identifier(Constants.MOD_ID, "spell_medium_toast");
 
 	public static void send(ServerPlayerEntity player, SpellMedium medium) {
@@ -27,7 +27,7 @@ public class SpellMediumToastPacket {
 
 	@Environment(EnvType.CLIENT)
 	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler,
-							  PacketByteBuf packetByteBuf, PacketSender sender) {
+		PacketByteBuf packetByteBuf, PacketSender sender) {
 		if (client.player != null) {
 			Identifier medium = packetByteBuf.readIdentifier();
 			String translation = packetByteBuf.readString();

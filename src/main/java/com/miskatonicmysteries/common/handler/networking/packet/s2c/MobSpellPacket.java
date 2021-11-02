@@ -10,14 +10,15 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
 public class MobSpellPacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "mob_spell");
 
-    public static void send(LivingEntity caster, SpellEffect effect, int intensity) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeInt(caster.getId());
-        data.writeInt(caster.getAttacking().getId());
-        data.writeIdentifier(effect.getId());
-        data.writeInt(intensity);
-        PlayerLookup.tracking(caster).forEach(p -> ServerPlayNetworking.send(p, ID, data));
-    }
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "mob_spell");
+
+	public static void send(LivingEntity caster, SpellEffect effect, int intensity) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeInt(caster.getId());
+		data.writeInt(caster.getAttacking().getId());
+		data.writeIdentifier(effect.getId());
+		data.writeInt(intensity);
+		PlayerLookup.tracking(caster).forEach(p -> ServerPlayNetworking.send(p, ID, data));
+	}
 }

@@ -18,25 +18,28 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
 public class EffectParticlePacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "effect_packet");
 
-    public static <T extends PathAwareEntity & CastingMob> void send(T castingMob) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeDouble((castingMob.getX()));
-        data.writeDouble(castingMob.getY() + 2.3F);
-        data.writeDouble(castingMob.getZ());
-        data.writeInt(castingMob.getCurrentSpell().effect.getColor(castingMob));
-        if (castingMob.world instanceof ServerWorld) {
-            PlayerLookup.tracking(castingMob).forEach(p -> ServerPlayNetworking.send(p, ID, data));
-        }
-    }
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "effect_packet");
 
-    @Environment(EnvType.CLIENT)
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        Vec3d pos = new Vec3d(packetByteBuf.readDouble(), packetByteBuf.readDouble(), packetByteBuf.readDouble());
-        Vec3d rgb = Vec3d.unpackRgb(packetByteBuf.readInt());
-        client.execute(() -> {
-            client.world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.x + client.world.random.nextGaussian() * 0.75F, pos.y + client.world.random.nextGaussian(), pos.z + client.world.random.nextGaussian() * 0.75F, rgb.x, rgb.y, rgb.z);
-        });
-    }
+	public static <T extends PathAwareEntity & CastingMob> void send(T castingMob) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeDouble((castingMob.getX()));
+		data.writeDouble(castingMob.getY() + 2.3F);
+		data.writeDouble(castingMob.getZ());
+		data.writeInt(castingMob.getCurrentSpell().effect.getColor(castingMob));
+		if (castingMob.world instanceof ServerWorld) {
+			PlayerLookup.tracking(castingMob).forEach(p -> ServerPlayNetworking.send(p, ID, data));
+		}
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
+		PacketSender sender) {
+		Vec3d pos = new Vec3d(packetByteBuf.readDouble(), packetByteBuf.readDouble(), packetByteBuf.readDouble());
+		Vec3d rgb = Vec3d.unpackRgb(packetByteBuf.readInt());
+		client.execute(() -> {
+			client.world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.x + client.world.random.nextGaussian() * 0.75F,
+				pos.y + client.world.random.nextGaussian(), pos.z + client.world.random.nextGaussian() * 0.75F, rgb.x, rgb.y, rgb.z);
+		});
+	}
 }

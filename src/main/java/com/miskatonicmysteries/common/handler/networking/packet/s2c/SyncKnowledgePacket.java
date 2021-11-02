@@ -19,6 +19,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class SyncKnowledgePacket {
+
 	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_knowledge");
 
 	public static void send(LivingEntity entity, Knowledge knowledge) {
@@ -37,7 +38,7 @@ public class SyncKnowledgePacket {
 
 	@Environment(EnvType.CLIENT)
 	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler,
-                              PacketByteBuf packetByteBuf, PacketSender sender) {
+		PacketByteBuf packetByteBuf, PacketSender sender) {
 		if (client.player != null) {
 			NbtList knowledgeList = packetByteBuf.readNbt().getList(Constants.NBT.KNOWLEDGE, 8);
 			client.execute(() -> {

@@ -14,41 +14,44 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
 public class LevelUpCriterion extends AbstractCriterion<LevelUpCriterion.Conditions> {
-    private static final Identifier ID = new Identifier(Constants.MOD_ID, "level_up");
 
-    public Identifier getId() {
-        return ID;
-    }
+	private static final Identifier ID = new Identifier(Constants.MOD_ID, "level_up");
 
-    public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
-        Identifier affiliationId = new Identifier(JsonHelper.getString(jsonObject, "affiliation"));
-        int stage = JsonHelper.getInt(jsonObject, "stage", -1);
-        return new Conditions(extended, MMRegistries.AFFILIATIONS.get(affiliationId), stage);
-    }
+	public Identifier getId() {
+		return ID;
+	}
 
-    public void trigger(ServerPlayerEntity player, Affiliation affiliation, int stage) {
-        this.test(player, (conditions) -> conditions.matches(affiliation, stage));
-    }
+	public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended,
+		AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
+		Identifier affiliationId = new Identifier(JsonHelper.getString(jsonObject, "affiliation"));
+		int stage = JsonHelper.getInt(jsonObject, "stage", -1);
+		return new Conditions(extended, MMRegistries.AFFILIATIONS.get(affiliationId), stage);
+	}
 
-    public static class Conditions extends AbstractCriterionConditions {
-        private final Affiliation affiliation;
-        private final int stage;
+	public void trigger(ServerPlayerEntity player, Affiliation affiliation, int stage) {
+		this.test(player, (conditions) -> conditions.matches(affiliation, stage));
+	}
 
-        public Conditions(EntityPredicate.Extended player, Affiliation affiliation, int stage) {
-            super(LevelUpCriterion.ID, player);
-            this.affiliation = affiliation;
-            this.stage = stage;
-        }
+	public static class Conditions extends AbstractCriterionConditions {
 
-        public boolean matches(Affiliation affiliation, int stage) {
-            return stage >= this.stage && this.affiliation.equals(affiliation);
-        }
+		private final Affiliation affiliation;
+		private final int stage;
 
-        public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
-            JsonObject jsonObject = super.toJson(predicateSerializer);
-            jsonObject.addProperty("affiliation", this.affiliation.getId().toString());
-            jsonObject.addProperty("stage", stage);
-            return jsonObject;
-        }
-    }
+		public Conditions(EntityPredicate.Extended player, Affiliation affiliation, int stage) {
+			super(LevelUpCriterion.ID, player);
+			this.affiliation = affiliation;
+			this.stage = stage;
+		}
+
+		public boolean matches(Affiliation affiliation, int stage) {
+			return stage >= this.stage && this.affiliation.equals(affiliation);
+		}
+
+		public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
+			JsonObject jsonObject = super.toJson(predicateSerializer);
+			jsonObject.addProperty("affiliation", this.affiliation.getId().toString());
+			jsonObject.addProperty("stage", stage);
+			return jsonObject;
+		}
+	}
 }

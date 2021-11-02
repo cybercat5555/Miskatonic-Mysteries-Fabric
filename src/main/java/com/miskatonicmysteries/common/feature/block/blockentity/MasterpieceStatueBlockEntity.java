@@ -7,6 +7,8 @@ import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.authlib.GameProfile;
+import java.util.Random;
+import java.util.UUID;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,104 +19,101 @@ import net.minecraft.util.ChatUtil;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
-import java.util.UUID;
-
 public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Affiliated {
-    public UUID creator = null;
-    public String creatorName;
 
-    @Nullable
-    private GameProfile statueOwner;
+	public UUID creator = null;
+	public String creatorName;
+	public int pose = 0;
+	@Nullable
+	private GameProfile statueOwner;
 
-    public int pose = 0;
+	public MasterpieceStatueBlockEntity(BlockPos pos, BlockState state) {
+		super(MMObjects.MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE, pos, state);
+	}
 
-    public MasterpieceStatueBlockEntity(BlockPos pos, BlockState state) {
-        super(MMObjects.MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE, pos, state);
-    }
+	public static int selectRandomPose(Random random) {
+		if (random.nextFloat() < 0.05F) {
+			return 69; //the funny
+		} else {
+			return random.nextInt(3);
+		}
+	}
 
-    @Override
-    public NbtCompound writeNbt(NbtCompound tag) {
-        if (creator != null) {
-            tag.putUuid(Constants.NBT.PLAYER_UUID, creator);
-        }
-        if (statueOwner != null) {
-            NbtCompound nbtCompound = new NbtCompound();
-            NbtHelper.writeGameProfile(nbtCompound, statueOwner);
-            tag.put(Constants.NBT.STATUE_OWNER, nbtCompound);
-        }
+	@Override
+	public NbtCompound writeNbt(NbtCompound tag) {
+		if (creator != null) {
+			tag.putUuid(Constants.NBT.PLAYER_UUID, creator);
+		}
+		if (statueOwner != null) {
+			NbtCompound nbtCompound = new NbtCompound();
+			NbtHelper.writeGameProfile(nbtCompound, statueOwner);
+			tag.put(Constants.NBT.STATUE_OWNER, nbtCompound);
+		}
 
-        if (creatorName != null) {
-            tag.putString(Constants.NBT.PLAYER_NAME, creatorName);
-        }
-        tag.putInt(Constants.NBT.POSE, pose);
+		if (creatorName != null) {
+			tag.putString(Constants.NBT.PLAYER_NAME, creatorName);
+		}
+		tag.putInt(Constants.NBT.POSE, pose);
 
-        return super.writeNbt(tag);
-    }
+		return super.writeNbt(tag);
+	}
 
-    @Override
-    public void readNbt(NbtCompound tag) {
-        super.readNbt(tag);
+	@Override
+	public void readNbt(NbtCompound tag) {
+		super.readNbt(tag);
 
-        if (tag.contains(Constants.NBT.PLAYER_UUID)) {
-            creator = tag.getUuid(Constants.NBT.PLAYER_UUID);
-        }
-        if (tag.contains(Constants.NBT.STATUE_OWNER, 10)) {
-            this.setStatueProfile(NbtHelper.toGameProfile(tag.getCompound(Constants.NBT.STATUE_OWNER)));
-        } else if (tag.contains("ExtraType", 8)) {
-            String string = tag.getString("ExtraType");
-            if (!ChatUtil.isEmpty(string)) {
-                this.setStatueProfile(new GameProfile(null, string));
-            }
-        }
-        if (tag.contains(Constants.NBT.PLAYER_NAME)) {
-            creatorName = tag.getString(Constants.NBT.PLAYER_NAME);
-        }
-        pose = tag.getInt(Constants.NBT.POSE);
-    }
+		if (tag.contains(Constants.NBT.PLAYER_UUID)) {
+			creator = tag.getUuid(Constants.NBT.PLAYER_UUID);
+		}
+		if (tag.contains(Constants.NBT.STATUE_OWNER, 10)) {
+			this.setStatueProfile(NbtHelper.toGameProfile(tag.getCompound(Constants.NBT.STATUE_OWNER)));
+		} else if (tag.contains("ExtraType", 8)) {
+			String string = tag.getString("ExtraType");
+			if (!ChatUtil.isEmpty(string)) {
+				this.setStatueProfile(new GameProfile(null, string));
+			}
+		}
+		if (tag.contains(Constants.NBT.PLAYER_NAME)) {
+			creatorName = tag.getString(Constants.NBT.PLAYER_NAME);
+		}
+		pose = tag.getInt(Constants.NBT.POSE);
+	}
 
-    @Override
-    public Affiliation getAffiliation(boolean apparent) {
-        return getCachedState().getBlock() instanceof StatueBlock statue ? statue.getAffiliation(apparent) : MMAffiliations.NONE;
-    }
+	@Override
+	public Affiliation getAffiliation(boolean apparent) {
+		return getCachedState().getBlock() instanceof StatueBlock statue ? statue.getAffiliation(apparent) : MMAffiliations.NONE;
+	}
 
-    @Override
-    public boolean isSupernatural() {
-        return getCachedState().getBlock() instanceof StatueBlock statue && statue.isSupernatural();
-    }
+	@Override
+	public boolean isSupernatural() {
+		return getCachedState().getBlock() instanceof StatueBlock statue && statue.isSupernatural();
+	}
 
-    public void setStatueProfile(@Nullable GameProfile profile) {
-        synchronized(this) {
-            this.statueOwner = profile;
-        }
+	public void setCreator(@Nullable PlayerEntity player) {
+		this.creator = player == null ? null : player.getUuid();
+		this.creatorName = player == null ? "" : player.getDisplayName().asString();
+	}
 
-        this.loadOwnerProperties();
+	private void loadOwnerProperties() {
+		SkullBlockEntity.loadProperties(this.statueOwner, (owner) -> {
+			this.statueOwner = owner;
+			this.markDirty();
+		});
+	}
 
-        if (world instanceof ServerWorld){
-            sync();
-        }
-    }
+	public GameProfile getStatueProfile() {
+		return statueOwner;
+	}
 
-    public void setCreator(@Nullable PlayerEntity player){
-        this.creator = player == null ? null : player.getUuid();
-        this.creatorName = player == null ? "" : player.getDisplayName().asString();
-    }
-    private void loadOwnerProperties() {
-        SkullBlockEntity.loadProperties(this.statueOwner, (owner) -> {
-            this.statueOwner = owner;
-            this.markDirty();
-        });
-    }
+	public void setStatueProfile(@Nullable GameProfile profile) {
+		synchronized (this) {
+			this.statueOwner = profile;
+		}
 
-    public GameProfile getStatueProfile() {
-        return statueOwner;
-    }
+		this.loadOwnerProperties();
 
-    public static int selectRandomPose(Random random) {
-        if (random.nextFloat() < 0.05F){
-            return 69; //the funny
-        }else {
-            return random.nextInt(3);
-        }
-    }
+		if (world instanceof ServerWorld) {
+			sync();
+		}
+	}
 }

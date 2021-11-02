@@ -3,40 +3,40 @@ package com.miskatonicmysteries.api.interfaces;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.spell.Spell;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public interface SpellCaster {
-    static Optional<SpellCaster> of(Object context) {
-        if (context instanceof SpellCaster) {
-            return Optional.of(((SpellCaster) context));
-        }
-        return Optional.empty();
-    }
 
-    int getPowerPool();
+	static Optional<SpellCaster> of(Object context) {
+		if (context instanceof SpellCaster) {
+			return Optional.of(((SpellCaster) context));
+		}
+		return Optional.empty();
+	}
 
-    void setPowerPool(int amount);
+	int getPowerPool();
 
-    int getMaxSpells();
+	void setPowerPool(int amount);
 
-    void setMaxSpells(int amount);
+	int getMaxSpells();
 
-    List<Spell> getSpells();
+	void setMaxSpells(int amount);
 
-    Set<SpellEffect> getLearnedEffects();
+	List<Spell> getSpells();
 
-    void learnEffect(SpellEffect effect);
+	Set<SpellEffect> getLearnedEffects();
 
-    Set<SpellMedium> getLearnedMediums();
+	void learnEffect(SpellEffect effect);
 
-    void learnMedium(SpellMedium medium);
+	Set<SpellMedium> getLearnedMediums();
 
-    int getSpellCooldown();
+	void learnMedium(SpellMedium medium);
 
-    void setSpellCooldown(int ticks);
+	int getSpellCooldown();
 
-    void syncSpellData();
+	void setSpellCooldown(int ticks);
+
+	void syncSpellData();
 }

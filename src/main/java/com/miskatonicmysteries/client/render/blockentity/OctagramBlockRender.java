@@ -21,51 +21,56 @@ import net.minecraft.util.math.Vec3f;
 
 @Environment(EnvType.CLIENT)
 public class OctagramBlockRender implements BlockEntityRenderer<OctagramBlockEntity> {
-    private final BlockEntityRendererFactory.Context context;
 
-    public OctagramBlockRender(BlockEntityRendererFactory.Context context) {
-        this.context = context;
-    }
+	private final BlockEntityRendererFactory.Context context;
 
-    public static void renderItems(OctagramBlockEntity entity, VertexConsumerProvider vertexConsumers, MatrixStack matrixStack, int light) {
-        int seed = (int) entity.getPos().asLong();
-        for (int i = 0; i < entity.size(); i++) {
-            matrixStack.push();
-            matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(0.125F * i * 360F));
-            matrixStack.translate(0, 0, -1.1);
-            matrixStack.multiply(Vec3f.NEGATIVE_X.getDegreesQuaternion(90));
-            MinecraftClient.getInstance().getItemRenderer().renderItem(entity.getStack(i), ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrixStack, vertexConsumers, seed);
-            matrixStack.pop();
-        }
-    }
+	public OctagramBlockRender(BlockEntityRendererFactory.Context context) {
+		this.context = context;
+	}
 
-    @Override
-    public void render(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        Sprite sprite = ResourceHandler.getOctagramTextureFor(entity).getSprite();
-        VertexConsumer buffer = sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped()));
-        matrixStack.push();
-        Direction direction = entity.getCachedState().get(HorizontalFacingBlock.FACING);
-        byte overrideRender = entity.currentRite != null ? entity.currentRite.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context) : 3;
-        matrixStack.push();
-        matrixStack.translate(0.5, 0, 0.5);
-        matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(direction.getOpposite().asRotation()));
-        matrixStack.translate(-1.5, 0.001, -1.5);
+	public static void renderItems(OctagramBlockEntity entity, VertexConsumerProvider vertexConsumers, MatrixStack matrixStack, int light) {
+		int seed = (int) entity.getPos().asLong();
+		for (int i = 0; i < entity.size(); i++) {
+			matrixStack.push();
+			matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(0.125F * i * 360F));
+			matrixStack.translate(0, 0, -1.1);
+			matrixStack.multiply(Vec3f.NEGATIVE_X.getDegreesQuaternion(90));
+			MinecraftClient.getInstance().getItemRenderer()
+				.renderItem(entity.getStack(i), ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrixStack,
+					vertexConsumers, seed);
+			matrixStack.pop();
+		}
+	}
 
-        if ((overrideRender & 1) == 1) {
-            RenderHelper.renderTexturedPlane(3, sprite, matrixStack, buffer, light, overlay, new float[]{1, 1, 1, 1});
-        }
-        if (entity.currentRite != null) {
-            entity.currentRite.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
-        }
-        matrixStack.pop();
-        matrixStack.translate(0.5F, 0, 0.5F);
-        if ((overrideRender >> 1 & 1) == 1) {
-            renderItems(entity, vertexConsumers, matrixStack, light);
+	@Override
+	public void render(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
+		int light, int overlay) {
+		Sprite sprite = ResourceHandler.getOctagramTextureFor(entity).getSprite();
+		VertexConsumer buffer = sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped()));
+		matrixStack.push();
+		Direction direction = entity.getCachedState().get(HorizontalFacingBlock.FACING);
+		byte overrideRender = entity.currentRite != null ? entity.currentRite
+			.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context) : 3;
+		matrixStack.push();
+		matrixStack.translate(0.5, 0, 0.5);
+		matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(direction.getOpposite().asRotation()));
+		matrixStack.translate(-1.5, 0.001, -1.5);
 
-        }
-        if (entity.currentRite != null) {
-            entity.currentRite.renderRiteItems(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
-        }
-        matrixStack.pop();
-    }
+		if ((overrideRender & 1) == 1) {
+			RenderHelper.renderTexturedPlane(3, sprite, matrixStack, buffer, light, overlay, new float[]{1, 1, 1, 1});
+		}
+		if (entity.currentRite != null) {
+			entity.currentRite.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
+		}
+		matrixStack.pop();
+		matrixStack.translate(0.5F, 0, 0.5F);
+		if ((overrideRender >> 1 & 1) == 1) {
+			renderItems(entity, vertexConsumers, matrixStack, light);
+
+		}
+		if (entity.currentRite != null) {
+			entity.currentRite.renderRiteItems(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
+		}
+		matrixStack.pop();
+	}
 }

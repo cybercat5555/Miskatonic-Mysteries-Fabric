@@ -15,14 +15,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(ClientPlayerEntity.class)
 public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
-    public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) {
-        super(world, profile);
-    }
 
-    @Inject(method = "tickRiding", at = @At("TAIL"))
-    private void tickRiding(CallbackInfo ci) {
-        if (getVehicle() instanceof InputAware a) {
-            a.handleInput(jumping);
-        }
-    }
+	public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) {
+		super(world, profile);
+	}
+
+	@Inject(method = "tickRiding", at = @At("TAIL"))
+	private void tickRiding(CallbackInfo ci) {
+		if (getVehicle() instanceof InputAware a) {
+			a.handleInput(jumping);
+		}
+	}
 }

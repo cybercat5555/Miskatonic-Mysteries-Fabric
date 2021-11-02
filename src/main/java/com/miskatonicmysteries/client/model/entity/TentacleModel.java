@@ -9,26 +9,27 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 @Environment(EnvType.CLIENT)
 public class TentacleModel extends AnimatedGeoModel<TentacleEntity> {
-    private static final Identifier MODEL = new Identifier(Constants.MOD_ID, "geo/tentacle/tentacle.geo.json");
-    private static final Identifier ANIMATION = new Identifier(Constants.MOD_ID, "animations/tentacle/tentacle.animation.json");
-    private final Identifier texture;
 
-    public TentacleModel(Identifier texture) {
-        this.texture = texture;
-    }
+	private static final Identifier MODEL = new Identifier(Constants.MOD_ID, "geo/tentacle/tentacle.geo.json");
+	private static final Identifier ANIMATION = new Identifier(Constants.MOD_ID, "animations/tentacle/tentacle.animation.json");
+	private final Identifier texture;
 
-    @Override
-    public Identifier getModelLocation(TentacleEntity entity) {
-        return MODEL;
-    }
+	public TentacleModel(Identifier texture) {
+		this.texture = texture;
+	}
 
-    @Override
-    public Identifier getTextureLocation(TentacleEntity entity) {
-        return texture;
-    }
+	@Override
+	public Identifier getModelLocation(TentacleEntity entity) {
+		return MODEL;
+	}
 
-    @Override
-    public Identifier getAnimationFileLocation(TentacleEntity entity) {
-        return ANIMATION;
-    }
+	@Override
+	public Identifier getTextureLocation(TentacleEntity entity) {
+		return texture;
+	}
+
+	@Override
+	public Identifier getAnimationFileLocation(TentacleEntity entity) {
+		return ANIMATION;
+	}
 }

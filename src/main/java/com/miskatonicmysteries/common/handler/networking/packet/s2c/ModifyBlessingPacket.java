@@ -17,26 +17,28 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class ModifyBlessingPacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "modify_blessings");
 
-    public static void send(PlayerEntity player, Blessing blessing, boolean add) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeString(blessing.getId().toString());
-        data.writeBoolean(add);
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "modify_blessings");
 
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
-    }
+	public static void send(PlayerEntity player, Blessing blessing, boolean add) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeString(blessing.getId().toString());
+		data.writeBoolean(add);
 
-    @Environment(EnvType.CLIENT)
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        Blessing blessing = MMRegistries.BLESSINGS.get(new Identifier(packetByteBuf.readString()));
-        boolean add = packetByteBuf.readBoolean();
-        client.execute(() -> Ascendant.of(client.player).ifPresent(ascendant -> {
-            if (add) {
-                ascendant.addBlessing(blessing);
-            } else {
-                ascendant.removeBlessing(blessing);
-            }
-        }));
-    }
+		ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
+		PacketSender sender) {
+		Blessing blessing = MMRegistries.BLESSINGS.get(new Identifier(packetByteBuf.readString()));
+		boolean add = packetByteBuf.readBoolean();
+		client.execute(() -> Ascendant.of(client.player).ifPresent(ascendant -> {
+			if (add) {
+				ascendant.addBlessing(blessing);
+			} else {
+				ascendant.removeBlessing(blessing);
+			}
+		}));
+	}
 }

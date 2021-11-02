@@ -5,28 +5,29 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public abstract class SpellMedium {
-    private final Identifier id;
 
-    public SpellMedium(Identifier id) {
-        this.id = id;
-    }
+	private final Identifier id;
 
-    public Identifier getId() {
-        return id;
-    }
+	public SpellMedium(Identifier id) {
+		this.id = id;
+	}
 
-    public Identifier getTextureLocation() {
-        return new Identifier(id.getNamespace(), "textures/gui/spell_widgets/medium/" + id.getPath() + ".png");
-    }
+	public Identifier getId() {
+		return id;
+	}
 
-    public abstract boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity);
+	public Identifier getTextureLocation() {
+		return new Identifier(id.getNamespace(), "textures/gui/spell_widgets/medium/" + id.getPath() + ".png");
+	}
 
-    public float getCooldownModifier(LivingEntity caster) {
-        return 1;
-    }
+	public abstract boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity);
 
-    public String getTranslationString() {
-        return "spell_medium." + id.toString().replaceAll(":", ".");
-    }
+	public float getCooldownModifier(LivingEntity caster) {
+		return 1;
+	}
+
+	public String getTranslationString() {
+		return "spell_medium." + id.toString().replaceAll(":", ".");
+	}
 
 }

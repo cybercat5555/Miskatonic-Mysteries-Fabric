@@ -22,41 +22,44 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class SpellPacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "spell");
 
-    public static void send(LivingEntity caster, NbtCompound spellTag, int intensityMod) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeNbt(spellTag);
-        data.writeInt(intensityMod);
-        data.writeInt(caster.getId());
-        PlayerLookup.tracking(caster).forEach(p -> ServerPlayNetworking.send(p, ID, data));
-        if (caster instanceof ServerPlayerEntity) {
-            ServerPlayNetworking.send((ServerPlayerEntity) caster, ID, data);
-        }
-    }
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "spell");
 
-    @Environment(EnvType.CLIENT)
-    public static void sendFromClientPlayer(ClientPlayerEntity caster, NbtCompound spellTag) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeNbt(spellTag);
-        data.writeInt(caster.getId());
-        ClientPlayNetworking.send(ID, data);
-    }
+	public static void send(LivingEntity caster, NbtCompound spellTag, int intensityMod) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeNbt(spellTag);
+		data.writeInt(intensityMod);
+		data.writeInt(caster.getId());
+		PlayerLookup.tracking(caster).forEach(p -> ServerPlayNetworking.send(p, ID, data));
+		if (caster instanceof ServerPlayerEntity) {
+			ServerPlayNetworking.send((ServerPlayerEntity) caster, ID, data);
+		}
+	}
 
-    @Environment(EnvType.CLIENT)
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        Spell spell = Spell.fromTag(packetByteBuf.readNbt());
-        spell.intensity += packetByteBuf.readInt();
-        Entity entity = client.world.getEntityById(packetByteBuf.readInt());
-        if (entity instanceof LivingEntity) {
-            client.execute(() -> spell.cast((LivingEntity) entity));
-        }
-    }
+	@Environment(EnvType.CLIENT)
+	public static void sendFromClientPlayer(ClientPlayerEntity caster, NbtCompound spellTag) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeNbt(spellTag);
+		data.writeInt(caster.getId());
+		ClientPlayNetworking.send(ID, data);
+	}
 
-    public static void handleFromClient(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        Spell spell = Spell.fromTag(packetByteBuf.readNbt());
-        if (spell != null) {
-            server.execute(() -> spell.cast(player));
-        }
-    }
+	@Environment(EnvType.CLIENT)
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
+		PacketSender sender) {
+		Spell spell = Spell.fromTag(packetByteBuf.readNbt());
+		spell.intensity += packetByteBuf.readInt();
+		Entity entity = client.world.getEntityById(packetByteBuf.readInt());
+		if (entity instanceof LivingEntity) {
+			client.execute(() -> spell.cast((LivingEntity) entity));
+		}
+	}
+
+	public static void handleFromClient(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler,
+		PacketByteBuf packetByteBuf, PacketSender sender) {
+		Spell spell = Spell.fromTag(packetByteBuf.readNbt());
+		if (spell != null) {
+			server.execute(() -> spell.cast(player));
+		}
+	}
 }

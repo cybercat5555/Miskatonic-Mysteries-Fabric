@@ -11,9 +11,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(StructurePools.class)
 public class StructurePoolRegistryMixin {
-    @Inject(method = "register(Lnet/minecraft/structure/pool/StructurePool;)Lnet/minecraft/structure/pool/StructurePool;", at = @At("HEAD"), cancellable = true)
-    private static void inject(StructurePool pool, CallbackInfoReturnable<StructurePool> info) {
-        pool = MMWorld.specialInject(pool);
-        info.setReturnValue(BuiltinRegistries.add(BuiltinRegistries.STRUCTURE_POOL, pool.getId(), pool));
-    }
+
+	@Inject(method = "register(Lnet/minecraft/structure/pool/StructurePool;)Lnet/minecraft/structure/pool/StructurePool;", at = @At("HEAD"), cancellable = true)
+	private static void inject(StructurePool pool, CallbackInfoReturnable<StructurePool> info) {
+		pool = MMWorld.specialInject(pool);
+		info.setReturnValue(BuiltinRegistries.add(BuiltinRegistries.STRUCTURE_POOL, pool.getId(), pool));
+	}
 }

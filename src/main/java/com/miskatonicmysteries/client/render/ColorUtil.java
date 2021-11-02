@@ -1,20 +1,24 @@
 package com.miskatonicmysteries.client.render;
 
-import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
+import java.util.stream.Collectors;
 import net.minecraft.client.texture.NativeImage;
 
-import java.util.stream.Collectors;
-
 public class ColorUtil { //blatantly taken from https://github.com/LambdAurora/AurorasDecorations/blob/1.17/src/main/java/dev/lambdaurora/aurorasdeco/util/ColorUtil.java
+
 	public static final int BLACK = 0xff000000;
 	public static final int WHITE = 0xffffffff;
 	public static final int TEXT_COLOR = 0xffe0e0e0;
 	public static final int UNEDITABLE_COLOR = 0xff707070;
-	public static final IntArrayList GRAYSCALE_PALETTE = IntArrayList.wrap(new int[]{0xFF999999, 0xFFAAAAAA, 0xFFBBBBBB, 0xFFCCCCCC, 0xFFDDDDDD, 0xFFEEEEEE, 0xFFFFFFFF});
+	public static final IntArrayList GRAYSCALE_PALETTE = IntArrayList
+		.wrap(new int[]{0xFF999999, 0xFFAAAAAA, 0xFFBBBBBB, 0xFFCCCCCC, 0xFFDDDDDD, 0xFFEEEEEE, 0xFFFFFFFF});
 
 	/**
-	 * Unpacks the given ARGB color into an array of 4 integers in the following format: {@code {red, green, blue,
-	 * alpha}}.
+	 * Unpacks the given ARGB color into an array of 4 integers in the following format: {@code {red, green, blue, alpha}}.
 	 *
 	 * @param color the ARGB color
 	 * @return the 4 color components as a RGBA array
@@ -88,26 +92,22 @@ public class ColorUtil { //blatantly taken from https://github.com/LambdAurora/A
 		float saturation;
 		if (cMax != 0) {
 			saturation = (float) (cMax - cMin) / (float) cMax;
-		}
-		else {
+		} else {
 			saturation = 0.f;
 		}
 
 		float hue;
 		if (saturation == 0.f) {
 			hue = 0.f;
-		}
-		else {
+		} else {
 			float redC = (float) (cMax - r) / (float) (cMax - cMin);
 			float greenC = (float) (cMax - g) / (float) (cMax - cMin);
 			float blueC = (float) (cMax - b) / (float) (cMax - cMin);
 			if (r == cMax) {
 				hue = blueC - greenC;
-			}
-			else if (g == cMax) {
+			} else if (g == cMax) {
 				hue = 2.f + redC - blueC;
-			}
-			else {
+			} else {
 				hue = 4.f + greenC - redC;
 			}
 
@@ -154,7 +154,7 @@ public class ColorUtil { //blatantly taken from https://github.com/LambdAurora/A
 		Int2IntArrayMap map = new Int2IntArrayMap();
 		float sizeFactor = GRAYSCALE_PALETTE.size() / (float) keys.size();
 		for (int i = 0; i < keys.size(); i++) {
-			map.put(keys.getInt(i), GRAYSCALE_PALETTE.getInt((int)Math.floor(i * sizeFactor)));
+			map.put(keys.getInt(i), GRAYSCALE_PALETTE.getInt((int) Math.floor(i * sizeFactor)));
 		}
 		return map;
 	}

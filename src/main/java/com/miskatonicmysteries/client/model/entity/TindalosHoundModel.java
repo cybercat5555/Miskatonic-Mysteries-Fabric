@@ -9,22 +9,23 @@ import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 @Environment(EnvType.CLIENT)
 public class TindalosHoundModel extends AnimatedGeoModel<TindalosHoundEntity> {
-    private static final Identifier MODEL = new Identifier(Constants.MOD_ID, "geo/tindalos_hound/tindalos_hound.geo.json");
-    private static final Identifier TEXTURE = new Identifier(Constants.MOD_ID, "textures/entity/tindalos_hound/tindalos_hound.png");
-    private static final Identifier ANIMATION = new Identifier(Constants.MOD_ID, "animations/tindalos_hound/tindalos_hound.animation.json");
 
-    @Override
-    public Identifier getModelLocation(TindalosHoundEntity hound) {
-        return MODEL;
-    }
+	private static final Identifier MODEL = new Identifier(Constants.MOD_ID, "geo/tindalos_hound/tindalos_hound.geo.json");
+	private static final Identifier TEXTURE = new Identifier(Constants.MOD_ID, "textures/entity/tindalos_hound/tindalos_hound.png");
+	private static final Identifier ANIMATION = new Identifier(Constants.MOD_ID, "animations/tindalos_hound/tindalos_hound.animation.json");
 
-    @Override
-    public Identifier getTextureLocation(TindalosHoundEntity hound) {
-        return TEXTURE;
-    }
+	@Override
+	public Identifier getModelLocation(TindalosHoundEntity hound) {
+		return MODEL;
+	}
 
-    @Override
-    public Identifier getAnimationFileLocation(TindalosHoundEntity hound) {
-        return ANIMATION;
-    }
+	@Override
+	public Identifier getTextureLocation(TindalosHoundEntity hound) {
+		return TEXTURE;
+	}
+
+	@Override
+	public Identifier getAnimationFileLocation(TindalosHoundEntity hound) {
+		return ANIMATION;
+	}
 }

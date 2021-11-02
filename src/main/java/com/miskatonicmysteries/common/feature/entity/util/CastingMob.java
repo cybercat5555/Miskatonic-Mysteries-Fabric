@@ -3,15 +3,16 @@ package com.miskatonicmysteries.common.feature.entity.util;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 
 public interface CastingMob {
-    int getCastTime();
 
-    void setCastTime(int castTime);
+	int getCastTime();
 
-    boolean isCasting();
+	void setCastTime(int castTime);
 
-    Spell getCurrentSpell();
+	boolean isCasting();
 
-    void setCurrentSpell(Spell spell);
+	Spell getCurrentSpell();
 
-    Spell selectSpell();
+	void setCurrentSpell(Spell spell);
+
+	Spell selectSpell();
 }

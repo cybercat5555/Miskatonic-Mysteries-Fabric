@@ -6,6 +6,7 @@ import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
 import com.miskatonicmysteries.common.util.Util;
 import io.github.fablabsmc.fablabs.impl.bannerpattern.iface.LoomPatternContainer;
+import java.util.Random;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.AbstractBannerBlock;
@@ -21,26 +22,29 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Random;
-
 @Mixin(Block.class)
 public abstract class BlockMixin extends AbstractBlock {
-    public BlockMixin(Settings settings) {
-        super(settings);
-    }
 
-    @Environment(EnvType.CLIENT)
-    @Inject(method = "randomDisplayTick", at = @At("HEAD"))
-    public void randomDisplay(BlockState state, World world, BlockPos pos, Random random, CallbackInfo info) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player != null && client.player.age % MiskatonicMysteries.config.sanity.insanityInterval == 0 && random.nextFloat() < 0.1F) {
-            InsanityHandler.handleClientSideBlockChange(client.player, world, state, pos, random); //could probably do this in an actual insanity event rather than mixin
-        } else if ((state.getBlock() instanceof AbstractBannerBlock) && random.nextInt(5) == 0 && world.getBlockEntity(pos) instanceof LoomPatternContainer.Internal internal
-                && Util.isValidYellowSign(internal.bannerpp_getLoomPatternTag())) {
-            Vec3d posTracked = client.player.raycast(100, client.getTickDelta(), false).getPos();
-            if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F) && !MiskatonicMysteriesAPI.isImmuneToYellowSign(client.player)) {
-                InvokeManiaPacket.send(1, 200 + random.nextInt(200));
-            }
-        }
-    }
+	public BlockMixin(Settings settings) {
+		super(settings);
+	}
+
+	@Environment(EnvType.CLIENT)
+	@Inject(method = "randomDisplayTick", at = @At("HEAD"))
+	public void randomDisplay(BlockState state, World world, BlockPos pos, Random random, CallbackInfo info) {
+		MinecraftClient client = MinecraftClient.getInstance();
+		if (client.player != null && client.player.age % MiskatonicMysteries.config.sanity.insanityInterval == 0
+			&& random.nextFloat() < 0.1F) {
+			InsanityHandler.handleClientSideBlockChange(client.player, world, state, pos,
+				random); //could probably do this in an actual insanity event rather than mixin
+		} else if ((state.getBlock() instanceof AbstractBannerBlock) && random.nextInt(5) == 0 && world
+			.getBlockEntity(pos) instanceof LoomPatternContainer.Internal internal
+			&& Util.isValidYellowSign(internal.bannerpp_getLoomPatternTag())) {
+			Vec3d posTracked = client.player.raycast(100, client.getTickDelta(), false).getPos();
+			if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F) && !MiskatonicMysteriesAPI
+				.isImmuneToYellowSign(client.player)) {
+				InvokeManiaPacket.send(1, 200 + random.nextInt(200));
+			}
+		}
+	}
 }

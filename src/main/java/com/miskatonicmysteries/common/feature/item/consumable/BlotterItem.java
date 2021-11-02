@@ -21,45 +21,46 @@ import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
 public class BlotterItem extends Item implements VillagerPartyDrug {
-    public BlotterItem() {
-        super(new Settings().group(Constants.MM_GROUP));
-    }
 
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        return ItemUsage.consumeHeldItem(world, user, hand);
-    }
+	public BlotterItem() {
+		super(new Settings().group(Constants.MM_GROUP));
+	}
 
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if (!world.isClient) {
-            user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 2400, 0));
-            stack.decrement(1);
-            if (user instanceof ServerPlayerEntity) {
-                Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
-                ((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
-            }
-            SpellCaster.of(user).ifPresent(caster -> {
-                caster.learnEffect(MMSpellEffects.MANIA);
-                caster.syncSpellData();
-            });
-        }
-        return stack;
-    }
+	@Override
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		return ItemUsage.consumeHeldItem(world, user, hand);
+	}
 
-    @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return UseAction.EAT;
-    }
+	@Override
+	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+		if (!world.isClient) {
+			user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 2400, 0));
+			stack.decrement(1);
+			if (user instanceof ServerPlayerEntity) {
+				Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
+				((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
+			}
+			SpellCaster.of(user).ifPresent(caster -> {
+				caster.learnEffect(MMSpellEffects.MANIA);
+				caster.syncSpellData();
+			});
+		}
+		return stack;
+	}
 
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 30;
-    }
+	@Override
+	public UseAction getUseAction(ItemStack stack) {
+		return UseAction.EAT;
+	}
+
+	@Override
+	public int getMaxUseTime(ItemStack stack) {
+		return 30;
+	}
 
 
-    @Override
-    public StatusEffectInstance getStatusEffect(VillagerEntity villager) {
-        return new StatusEffectInstance(MMStatusEffects.MANIA, 600, 0);
-    }
+	@Override
+	public StatusEffectInstance getStatusEffect(VillagerEntity villager) {
+		return new StatusEffectInstance(MMStatusEffects.MANIA, 600, 0);
+	}
 }

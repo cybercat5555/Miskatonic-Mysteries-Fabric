@@ -1,5 +1,7 @@
 package com.miskatonicmysteries.common.feature.block;
 
+import static net.minecraft.state.property.Properties.WATERLOGGED;
+
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.feature.block.blockentity.MasterpieceStatueBlockEntity;
@@ -7,7 +9,14 @@ import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.block.*;
+import java.util.List;
+import javax.annotation.Nullable;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,7 +33,10 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
@@ -33,15 +45,11 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
-import static net.minecraft.state.property.Properties.WATERLOGGED;
-
 public class MasterpieceStatueBlock extends Block implements Waterloggable, BlockEntityProvider, Affiliated {
+
 	private static final VoxelShape PLINTH_SHAPE = VoxelShapes.union(VoxelShapes.cuboid(1 / 32F, 0, 1 / 32F,
-			1 - 1 / 32F, 3 / 16F, 1 - 1 / 32F), VoxelShapes.cuboid(3 / 32F, 3 / 16F, 3 / 32F, 1 - 3 / 32F, 6 / 16F,
-			1 - 3 / 32F), VoxelShapes.cuboid(3 / 16F, 6 / 16F, 3 / 16F, 1 - 3 / 16F, 2.5F, 1 - 3 / 16F));
+		1 - 1 / 32F, 3 / 16F, 1 - 1 / 32F), VoxelShapes.cuboid(3 / 32F, 3 / 16F, 3 / 32F, 1 - 3 / 32F, 6 / 16F,
+		1 - 3 / 32F), VoxelShapes.cuboid(3 / 16F, 6 / 16F, 3 / 16F, 1 - 3 / 16F, 2.5F, 1 - 3 / 16F));
 
 	public MasterpieceStatueBlock(Settings settings) {
 		super(settings.nonOpaque());
@@ -53,7 +61,7 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 			stack.setTag(new NbtCompound());
 		}
 		NbtCompound blockEntityTag = stack.getTag().contains(Constants.NBT.BLOCK_ENTITY_TAG) ?
-				stack.getTag().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) : new NbtCompound();
+			stack.getTag().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) : new NbtCompound();
 		if (creator != null) {
 			blockEntityTag.putString(Constants.NBT.PLAYER_NAME, creator.getName().asString());
 			blockEntityTag.putUuid(Constants.NBT.PLAYER_UUID, creator.getUuid());
@@ -69,17 +77,18 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 	}
 
 	public static boolean isPlayerMade(ItemStack stack) {
-		return stack.hasTag() && stack.getTag().contains(Constants.NBT.BLOCK_ENTITY_TAG) && stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG).contains(Constants.NBT.PLAYER_NAME);
+		return stack.hasTag() && stack.getTag().contains(Constants.NBT.BLOCK_ENTITY_TAG) && stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG)
+			.contains(Constants.NBT.PLAYER_NAME);
 	}
 
 	@Override
 	public void appendTooltip(ItemStack stack, @org.jetbrains.annotations.Nullable BlockView world, List<Text> tooltip,
-							  TooltipContext options) {
+		TooltipContext options) {
 		if (stack.hasTag() && stack.getTag().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
 			NbtCompound compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
 			if (compoundTag != null && compoundTag.contains(Constants.NBT.PLAYER_NAME)) {
 				tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.created_by",
-						compoundTag.getString(Constants.NBT.PLAYER_NAME)).formatted(Formatting.GRAY));
+					compoundTag.getString(Constants.NBT.PLAYER_NAME)).formatted(Formatting.GRAY));
 			}
 		}
 		super.appendTooltip(stack, world, tooltip, options);
@@ -113,7 +122,7 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
 		final BlockState state = this.getDefaultState().with(Properties.ROTATION,
-				MathHelper.floor((double) (ctx.getPlayerYaw() * 16.0F / 360.0F) + 0.5D) & 15);
+			MathHelper.floor((double) (ctx.getPlayerYaw() * 16.0F / 360.0F) + 0.5D) & 15);
 		if (state.contains(WATERLOGGED)) {
 			final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
 			final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
@@ -130,7 +139,7 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 
 	@Override
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState,
-												WorldAccess world, BlockPos pos, BlockPos posFrom) {
+		WorldAccess world, BlockPos pos, BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
 			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
@@ -140,7 +149,7 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 	@Override
 	public FluidState getFluidState(BlockState state) {
 		return state.contains(WATERLOGGED) && state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) :
-				super.getFluidState(state);
+			super.getFluidState(state);
 	}
 
 	@Nullable
@@ -159,7 +168,7 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 		return true;
 	}
 
-	public static class MasterpieceStatueBlockItem extends BlockItem{
+	public static class MasterpieceStatueBlockItem extends BlockItem {
 
 		public MasterpieceStatueBlockItem() {
 			super(MMObjects.MASTERPIECE_STATUE, new Item.Settings().group(Constants.MM_GROUP).rarity(Rarity.UNCOMMON));

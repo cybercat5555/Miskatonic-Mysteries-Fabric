@@ -2,6 +2,7 @@ package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.client.model.entity.TindalosHoundModel;
 import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity;
+import java.awt.Color;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.Frustum;
@@ -14,31 +15,32 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
-import java.awt.*;
-
 @Environment(EnvType.CLIENT)
 public class TindalosHoundEntityRenderer extends GeoEntityRenderer<TindalosHoundEntity> {
-    public TindalosHoundEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new TindalosHoundModel());
-        this.shadowRadius = 1F;
-    }
 
-    @Override
-    public boolean shouldRender(TindalosHoundEntity entity, Frustum frustum, double x, double y, double z) {
-        return !entity.isInvisible() && super.shouldRender(entity, frustum, x, y, z);
-    }
+	public TindalosHoundEntityRenderer(EntityRendererFactory.Context context) {
+		super(context, new TindalosHoundModel());
+		this.shadowRadius = 1F;
+	}
 
-    @Override
-    public RenderLayer getRenderType(TindalosHoundEntity animatable, float partialTicks, MatrixStack stack, VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn, Identifier textureLocation) {
-        return RenderLayer.getEntityTranslucent(textureLocation);
-    }
+	@Override
+	public boolean shouldRender(TindalosHoundEntity entity, Frustum frustum, double x, double y, double z) {
+		return !entity.isInvisible() && super.shouldRender(entity, frustum, x, y, z);
+	}
 
-    @Override
-    public Color getRenderColor(TindalosHoundEntity animatable, float partialTicks, MatrixStack stack, VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn) {
-        int progress = animatable.getPhasingProgress();
-        if (progress > 0) {
-            return new Color(1F, 1F, 1F, MathHelper.clamp((progress - 100) / 100F, 0F, 1F));
-        }
-        return new Color(1F, 1F, 1F, 1F);
-    }
+	@Override
+	public RenderLayer getRenderType(TindalosHoundEntity animatable, float partialTicks, MatrixStack stack,
+		VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn, Identifier textureLocation) {
+		return RenderLayer.getEntityTranslucent(textureLocation);
+	}
+
+	@Override
+	public Color getRenderColor(TindalosHoundEntity animatable, float partialTicks, MatrixStack stack,
+		VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn) {
+		int progress = animatable.getPhasingProgress();
+		if (progress > 0) {
+			return new Color(1F, 1F, 1F, MathHelper.clamp((progress - 100) / 100F, 0F, 1F));
+		}
+		return new Color(1F, 1F, 1F, 1F);
+	}
 }

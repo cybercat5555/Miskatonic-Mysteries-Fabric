@@ -16,22 +16,24 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 
 public class SyncHeldEntityPacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_held_entity");
 
-    public static <T extends LivingEntity & EntityHolder> void send(T mob) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeInt(mob.getId());
-        data.writeInt(mob.getHeldEntity() == null ? -1 : mob.getHeldEntity().getId());
-        PlayerLookup.tracking(mob).forEach(p -> ServerPlayNetworking.send(p, ID, data));
-    }
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_held_entity");
 
-    @Environment(EnvType.CLIENT)
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        Entity holdingEntity = client.world.getEntityById(packetByteBuf.readInt());
-        int heldEntityId = packetByteBuf.readInt();
-        Entity heldEntity = heldEntityId == -1 ? null : client.world.getEntityById(heldEntityId);
-        if (holdingEntity instanceof EntityHolder) {
-            client.execute(() -> ((EntityHolder) holdingEntity).setHeldEntity(heldEntity));
-        }
-    }
+	public static <T extends LivingEntity & EntityHolder> void send(T mob) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeInt(mob.getId());
+		data.writeInt(mob.getHeldEntity() == null ? -1 : mob.getHeldEntity().getId());
+		PlayerLookup.tracking(mob).forEach(p -> ServerPlayNetworking.send(p, ID, data));
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
+		PacketSender sender) {
+		Entity holdingEntity = client.world.getEntityById(packetByteBuf.readInt());
+		int heldEntityId = packetByteBuf.readInt();
+		Entity heldEntity = heldEntityId == -1 ? null : client.world.getEntityById(heldEntityId);
+		if (holdingEntity instanceof EntityHolder) {
+			client.execute(() -> ((EntityHolder) holdingEntity).setHeldEntity(heldEntity));
+		}
+	}
 }

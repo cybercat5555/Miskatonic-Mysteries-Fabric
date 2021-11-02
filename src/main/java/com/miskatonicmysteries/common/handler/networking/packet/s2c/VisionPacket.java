@@ -15,17 +15,19 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class VisionPacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "vision");
 
-    public static void send(ServerPlayerEntity player, Identifier vision) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeIdentifier(vision);
-        ServerPlayNetworking.send(player, ID, data);
-    }
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "vision");
 
-    @Environment(EnvType.CLIENT)
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        VisionSequence sequence = VisionHandler.getSequence(packetByteBuf.readIdentifier());
-        client.execute(() -> VisionHandler.setVisionSequence(client.player, sequence));
-    }
+	public static void send(ServerPlayerEntity player, Identifier vision) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeIdentifier(vision);
+		ServerPlayNetworking.send(player, ID, data);
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
+		PacketSender sender) {
+		VisionSequence sequence = VisionHandler.getSequence(packetByteBuf.readIdentifier());
+		client.execute(() -> VisionHandler.setVisionSequence(client.player, sequence));
+	}
 }

@@ -9,58 +9,60 @@ import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.util.JsonHelper;
 
 public class PotentialItem {
-    public static final PotentialItem EMPTY = new PotentialItem(ItemStack.EMPTY, ItemStack.EMPTY);
-    public ItemStack in;
-    public ItemStack out;
 
-    public PotentialItem(ItemStack in, ItemStack out) {
-        this.in = in;
-        this.out = out;
-    }
+	public static final PotentialItem EMPTY = new PotentialItem(ItemStack.EMPTY, ItemStack.EMPTY);
+	public ItemStack in;
+	public ItemStack out;
 
-    public static PotentialItem fromPacket(PacketByteBuf buf) {
-        return new PotentialItem(buf.readItemStack(), buf.readItemStack());
-    }
+	public PotentialItem(ItemStack in, ItemStack out) {
+		this.in = in;
+		this.out = out;
+	}
 
-    public static PotentialItem fromJson(JsonObject jsonElement) {
-        JsonObject in = JsonHelper.getObject(jsonElement, "in");
-        JsonObject out = JsonHelper.getObject(jsonElement, "out");
-        return new PotentialItem(new ItemStack(ShapedRecipe.getItem(in)), new ItemStack(ShapedRecipe.getItem(out)));
-    }
+	public static PotentialItem fromPacket(PacketByteBuf buf) {
+		return new PotentialItem(buf.readItemStack(), buf.readItemStack());
+	}
 
-    public static PotentialItem fromTag(NbtCompound tag) {
-        return new PotentialItem(ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.RECEIVED_STACK)), ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.REALIZED_STACK)));
-    }
+	public static PotentialItem fromJson(JsonObject jsonElement) {
+		JsonObject in = JsonHelper.getObject(jsonElement, "in");
+		JsonObject out = JsonHelper.getObject(jsonElement, "out");
+		return new PotentialItem(new ItemStack(ShapedRecipe.getItem(in)), new ItemStack(ShapedRecipe.getItem(out)));
+	}
 
-    public boolean canRealize(ItemStack stack) {
-        return stack.getItem().equals(in.getItem());
-    }
+	public static PotentialItem fromTag(NbtCompound tag) {
+		return new PotentialItem(ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.RECEIVED_STACK)),
+			ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.REALIZED_STACK)));
+	}
 
-    public ItemStack realize(ItemStack stack) {
-        stack.decrement(1);
-        return out;
-    }
+	public boolean canRealize(ItemStack stack) {
+		return stack.getItem().equals(in.getItem());
+	}
 
-    public boolean isEmpty() {
-        return in.isEmpty() && out.isEmpty();
-    }
+	public ItemStack realize(ItemStack stack) {
+		stack.decrement(1);
+		return out;
+	}
 
-    @Override
-    public String toString() {
-        return new org.apache.commons.lang3.builder.ToStringBuilder(this)
-                .append("in", in)
-                .append("out", out)
-                .toString();
-    }
+	public boolean isEmpty() {
+		return in.isEmpty() && out.isEmpty();
+	}
 
-    public void write(PacketByteBuf buf) {
-        buf.writeItemStack(in);
-        buf.writeItemStack(out);
-    }
+	@Override
+	public String toString() {
+		return new org.apache.commons.lang3.builder.ToStringBuilder(this)
+			.append("in", in)
+			.append("out", out)
+			.toString();
+	}
 
-    public NbtCompound toTag(NbtCompound tag) {
-        tag.put(Constants.NBT.RECEIVED_STACK, in.writeNbt(new NbtCompound()));
-        tag.put(Constants.NBT.REALIZED_STACK, out.writeNbt(new NbtCompound()));
-        return tag;
-    }
+	public void write(PacketByteBuf buf) {
+		buf.writeItemStack(in);
+		buf.writeItemStack(out);
+	}
+
+	public NbtCompound toTag(NbtCompound tag) {
+		tag.put(Constants.NBT.RECEIVED_STACK, in.writeNbt(new NbtCompound()));
+		tag.put(Constants.NBT.REALIZED_STACK, out.writeNbt(new NbtCompound()));
+		return tag;
+	}
 }

@@ -17,30 +17,31 @@ import net.minecraft.util.math.MathHelper;
 
 @Environment(EnvType.CLIENT)
 public class SpellBurnoutHUD extends DrawableHelper {
-    public static final Identifier VIGNETTE_TEXTURE = new Identifier(Constants.MOD_ID, "textures/gui/burnout.png");
 
-    public void render(MinecraftClient client, int scaledWidth, int scaledHeight, PlayerEntity player) {
-        SpellCaster.of(player).ifPresent(caster -> {
-            if (caster.getSpellCooldown() > 0) {
-                float burnout = MathHelper.clamp(caster.getSpellCooldown() / 80F, 0, 0.5F);
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                RenderSystem.disableDepthTest();
-                RenderSystem.depthMask(false);
-                RenderSystem.setShaderColor(1F, 1F, 1F, burnout);
-                RenderSystem.setShaderTexture(0, VIGNETTE_TEXTURE);
-                Tessellator tessellator = Tessellator.getInstance();
-                BufferBuilder bufferBuilder = tessellator.getBuffer();
-                bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-                bufferBuilder.vertex(0.0D, scaledHeight, -90.0D).texture(0.0F, 1.0F).next();
-                bufferBuilder.vertex(scaledWidth, scaledHeight, -90.0D).texture(1.0F, 1.0F).next();
-                bufferBuilder.vertex(scaledWidth, 0.0D, -90.0D).texture(1.0F, 0.0F).next();
-                bufferBuilder.vertex(0.0D, 0.0D, -90.0D).texture(0.0F, 0.0F).next();
-                tessellator.draw();
-                RenderSystem.depthMask(true);
-                RenderSystem.enableDepthTest();
-                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            }
-        });
-    }
+	public static final Identifier VIGNETTE_TEXTURE = new Identifier(Constants.MOD_ID, "textures/gui/burnout.png");
+
+	public void render(MinecraftClient client, int scaledWidth, int scaledHeight, PlayerEntity player) {
+		SpellCaster.of(player).ifPresent(caster -> {
+			if (caster.getSpellCooldown() > 0) {
+				float burnout = MathHelper.clamp(caster.getSpellCooldown() / 80F, 0, 0.5F);
+				RenderSystem.enableBlend();
+				RenderSystem.defaultBlendFunc();
+				RenderSystem.disableDepthTest();
+				RenderSystem.depthMask(false);
+				RenderSystem.setShaderColor(1F, 1F, 1F, burnout);
+				RenderSystem.setShaderTexture(0, VIGNETTE_TEXTURE);
+				Tessellator tessellator = Tessellator.getInstance();
+				BufferBuilder bufferBuilder = tessellator.getBuffer();
+				bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+				bufferBuilder.vertex(0.0D, scaledHeight, -90.0D).texture(0.0F, 1.0F).next();
+				bufferBuilder.vertex(scaledWidth, scaledHeight, -90.0D).texture(1.0F, 1.0F).next();
+				bufferBuilder.vertex(scaledWidth, 0.0D, -90.0D).texture(1.0F, 0.0F).next();
+				bufferBuilder.vertex(0.0D, 0.0D, -90.0D).texture(0.0F, 0.0F).next();
+				tessellator.draw();
+				RenderSystem.depthMask(true);
+				RenderSystem.enableDepthTest();
+				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+			}
+		});
+	}
 }

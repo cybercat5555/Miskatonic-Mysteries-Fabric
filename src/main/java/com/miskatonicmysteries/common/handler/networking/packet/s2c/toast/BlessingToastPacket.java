@@ -1,9 +1,7 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c.toast;
 
 import com.miskatonicmysteries.api.registry.Blessing;
-import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.client.gui.toast.BlessingToast;
-import com.miskatonicmysteries.client.gui.toast.KnowledgeToast;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
@@ -18,6 +16,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class BlessingToastPacket {
+
 	public static final Identifier ID = new Identifier(Constants.MOD_ID, "blessing_toast");
 
 	public static void send(ServerPlayerEntity player, Blessing blessing) {
@@ -28,7 +27,7 @@ public class BlessingToastPacket {
 
 	@Environment(EnvType.CLIENT)
 	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler,
-							  PacketByteBuf packetByteBuf, PacketSender sender) {
+		PacketByteBuf packetByteBuf, PacketSender sender) {
 		if (client.player != null) {
 			Blessing blessing = MMRegistries.BLESSINGS.get(packetByteBuf.readIdentifier());
 			client.execute(() -> {

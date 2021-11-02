@@ -4,29 +4,31 @@ import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEnt
 import net.minecraft.util.Identifier;
 
 public class InstabilityEvent {
-    private Identifier id;
-    private float instabilityThreshold, baseChance;
 
-    public InstabilityEvent(Identifier id, float instabilityThreshold, float baseChance) {
-        this.id = id;
-        this.instabilityThreshold = instabilityThreshold;
-        this.baseChance = baseChance;
-    }
+	private final Identifier id;
+	private final float instabilityThreshold;
+	private final float baseChance;
 
-    public boolean shouldCast(OctagramBlockEntity blockEntity, float instability) {
-        return instability >= instabilityThreshold && blockEntity.getWorld().random.nextFloat() < baseChance;
-    }
+	public InstabilityEvent(Identifier id, float instabilityThreshold, float baseChance) {
+		this.id = id;
+		this.instabilityThreshold = instabilityThreshold;
+		this.baseChance = baseChance;
+	}
 
-    /**
-     * @param blockEntity
-     * @param instability
-     * @return if the event ends the current rite of the octagram
-     */
-    public boolean cast(OctagramBlockEntity blockEntity, float instability) {
-        return false;
-    }
+	public boolean shouldCast(OctagramBlockEntity blockEntity, float instability) {
+		return instability >= instabilityThreshold && blockEntity.getWorld().random.nextFloat() < baseChance;
+	}
 
-    public Identifier getId() {
-        return id;
-    }
+	/**
+	 * @param blockEntity
+	 * @param instability
+	 * @return if the event ends the current rite of the octagram
+	 */
+	public boolean cast(OctagramBlockEntity blockEntity, float instability) {
+		return false;
+	}
+
+	public Identifier getId() {
+		return id;
+	}
 }

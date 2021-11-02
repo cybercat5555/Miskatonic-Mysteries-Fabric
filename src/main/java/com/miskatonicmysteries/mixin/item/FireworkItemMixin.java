@@ -13,8 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FireworkItem.class)
 public class FireworkItemMixin {
+
 	@Inject(method = "useOnBlock", at = @At("HEAD"))
-	private void onUsedOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir){
+	private void onUsedOnBlock(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
 		if (context.getWorld() instanceof ServerWorld s) {
 			Party party = MMPartyState.get(s).getParty(context.getBlockPos());
 			if (party != null) {

@@ -2,6 +2,8 @@ package com.miskatonicmysteries.client.gui.toast;
 
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.mojang.blaze3d.systems.RenderSystem;
+import java.util.ArrayList;
+import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.GameRenderer;
@@ -12,11 +14,9 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Environment(EnvType.CLIENT)
 public abstract class SimpleIconToast implements Toast {
+
 	private final List<Identifier> icons = new ArrayList<>();
 	private final List<String> translationStrings = new ArrayList<>();
 	private long startTime;
@@ -37,14 +37,14 @@ public abstract class SimpleIconToast implements Toast {
 		RenderSystem.setShaderTexture(0, MMAffiliations.NONE.getToastTextureLocation());
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		manager.drawTexture(matrices, 0, 0, 0, 0, this.getWidth(), this.getHeight());
-		manager.getGame().textRenderer.draw(matrices, getTitle(), 30.0F, 7.0F,  MMAffiliations.NONE.textColor);
-		manager.getGame().textRenderer.draw(matrices, getDescription(startTime), 30.0F, 18.0F,  MMAffiliations.NONE.textColorSecondary);
+		manager.getGame().textRenderer.draw(matrices, getTitle(), 30.0F, 7.0F, MMAffiliations.NONE.textColor);
+		manager.getGame().textRenderer.draw(matrices, getDescription(startTime), 30.0F, 18.0F, MMAffiliations.NONE.textColorSecondary);
 		Identifier icon =
-				this.icons.get((int) (startTime / Math.max(1L, 5000L / (long) this.icons.size()) % (long) this.icons.size()));
+			this.icons.get((int) (startTime / Math.max(1L, 5000L / (long) this.icons.size()) % (long) this.icons.size()));
 		RenderSystem.applyModelViewMatrix();
 		RenderSystem.setShaderTexture(0, icon);
 		ToastManager.drawTexture(matrices, getDisplayedWidth() / 2, getDisplayedHeight() / 2, 0, 0,
-				getDisplayedWidth(), getDisplayedHeight(), getDisplayedWidth(), getDisplayedHeight());
+			getDisplayedWidth(), getDisplayedHeight(), getDisplayedWidth(), getDisplayedHeight());
 		return startTime - this.startTime >= 5000L ? Toast.Visibility.HIDE : Toast.Visibility.SHOW;
 	}
 
@@ -60,7 +60,7 @@ public abstract class SimpleIconToast implements Toast {
 
 	protected Text getDescription(long startTime) {
 		return new TranslatableText(this.translationStrings.get((int) (startTime / Math.max(1L,
-				5000L / (long) this.translationStrings.size()) % (long) this.translationStrings.size())));
+			5000L / (long) this.translationStrings.size()) % (long) this.translationStrings.size())));
 	}
 
 	protected void addIcon(Identifier icon, String translationString) {

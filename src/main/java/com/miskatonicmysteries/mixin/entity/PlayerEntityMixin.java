@@ -1,7 +1,22 @@
 package com.miskatonicmysteries.mixin.entity;
 
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.AFFILIATION;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.APPARENT_AFFILIATION;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.MAX_SPELLS;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.POWER_POOL;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.RESONANCE;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SANITY;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SANITY_CAP;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SHOCKED;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SPELL_COOLDOWN;
+
 import com.miskatonicmysteries.api.block.StatueBlock;
-import com.miskatonicmysteries.api.interfaces.*;
+import com.miskatonicmysteries.api.interfaces.Ascendant;
+import com.miskatonicmysteries.api.interfaces.Knowledge;
+import com.miskatonicmysteries.api.interfaces.MalleableAffiliated;
+import com.miskatonicmysteries.api.interfaces.Resonating;
+import com.miskatonicmysteries.api.interfaces.Sanity;
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
@@ -26,6 +41,12 @@ import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.NbtUtil;
 import com.mojang.authlib.GameProfile;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.EntityType;
@@ -51,39 +72,34 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static com.miskatonicmysteries.common.util.Constants.DataTrackers.*;
-
 @SuppressWarnings("ConstantConditions")
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, MalleableAffiliated, SpellCaster, Resonating, Knowledge, Ascendant {
+
 	public final Map<String, Integer> sanityCapOverrides = new ConcurrentHashMap<>();
-
-	private AscendantComponent ascendantComponent;
-	@Inject(method = "<init>", at = @At("TAIL"))
-	private void init(World world, BlockPos pos, float yaw, GameProfile profile, CallbackInfo ci){
-		ascendantComponent = MMComponents.ASCENDANT_COMPONENT.get(this);
-	}
-
 	@Unique
 	private final List<Spell> spells = new ArrayList<>();
 	@Unique
 	private final Set<SpellEffect> learnedEffects = new HashSet<>();
 	@Unique
 	private final Set<SpellMedium> learnedMediums = new HashSet<>();
-
 	@Unique
 	private final List<String> knowledge = new ArrayList<>();
+	private AscendantComponent ascendantComponent;
 
 	protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
+	@Inject(method = "<init>", at = @At("TAIL"))
+	private void init(World world, BlockPos pos, float yaw, GameProfile profile, CallbackInfo ci) {
+		ascendantComponent = MMComponents.ASCENDANT_COMPONENT.get(this);
+	}
+
 	@Inject(method = "wakeUp(ZZ)V", at = @At("HEAD"))
 	private void wakeUp(boolean bl, boolean updateSleepingPlayers, CallbackInfo ci) {
-		if (isSleepingLongEnough() && !world.isClient && world.random.nextFloat() < MiskatonicMysteries.config.entities.statueEffectChance) {
+		if (isSleepingLongEnough() && !world.isClient
+			&& world.random.nextFloat() < MiskatonicMysteries.config.entities.statueEffectChance) {
 			Iterable<BlockPos> positions = BlockPos.iterateOutwards(getBlockPos(), 10, 10, 10);
 			for (BlockPos position : positions) {
 				if (world.getBlockState(position).getBlock() instanceof StatueBlock) {
@@ -132,7 +148,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
 	@Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"), cancellable = true)
 	private void manipulateDamage(DamageSource source, float amount,
-								  CallbackInfoReturnable<Boolean> infoReturnable) {
+		CallbackInfoReturnable<Boolean> infoReturnable) {
 		MMServerEvents.playerDamagePre((PlayerEntity) (Object) this, source, amount, infoReturnable);
 	}
 
@@ -254,14 +270,15 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 			setSanity(tag.getInt(Constants.NBT.SANITY), true);
 			setShocked(tag.getBoolean(Constants.NBT.SHOCKED));
 			getSanityCapExpansions().clear();
-			((NbtList) tag.get(Constants.NBT.SANITY_EXPANSIONS)).forEach(s -> sanityCapOverrides.put(((NbtCompound) s).getString("Name"), ((NbtCompound) s).getInt("Amount")));
+			((NbtList) tag.get(Constants.NBT.SANITY_EXPANSIONS))
+				.forEach(s -> sanityCapOverrides.put(((NbtCompound) s).getString("Name"), ((NbtCompound) s).getInt("Amount")));
 			setPowerPool(tag.getInt(Constants.NBT.POWER_POOL));
 			setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
 			setSpellCooldown(tag.getInt(Constants.NBT.SPELL_COOLDOWN));
 			NbtUtil.readSpellData(this, tag);
 
 			setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.AFFILIATION))),
-                    false);
+				false);
 			setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.APPARENT_AFFILIATION))), true);
 
 			setResonance(tag.getFloat(Constants.NBT.RESONANCE));

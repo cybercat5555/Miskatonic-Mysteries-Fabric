@@ -25,13 +25,14 @@ public class HasturBiomeRite extends BiomeConversionRite {
 
 	public HasturBiomeRite() {
 		super(new Identifier(Constants.MOD_ID, "hastur_biome"), MMAffiliations.HASTUR,
-				(world) -> world.getRegistryManager().get(Registry.BIOME_KEY).get(BuiltinRegistries.BIOME.getId(MMWorld.HASTUR_BIOME)), "", 3,
-				Ingredient.ofItems(Items.EMERALD));
+			(world) -> world.getRegistryManager().get(Registry.BIOME_KEY).get(BuiltinRegistries.BIOME.getId(MMWorld.HASTUR_BIOME)), "", 3,
+			Ingredient.ofItems(Items.EMERALD));
 	}
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
+	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
+		int light, int overlay, BlockEntityRendererFactory.Context context) {
 		Sprite centerSprite = ResourceHandler.HASTUR_SIGIL_CENTER.getSprite();
 		Sprite innerSprite = ResourceHandler.HASTUR_SIGIL_INNER.getSprite();
 		Sprite outerSprite = ResourceHandler.HASTUR_SIGIL_OUTER.getSprite();
@@ -43,16 +44,22 @@ public class HasturBiomeRite extends BiomeConversionRite {
 		matrixStack.scale(scale, scale, scale);
 		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(rotationProgress));
 		matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(10F));
-		RenderHelper.renderCenteredTexturedPlane(3, outerSprite, matrixStack, outerSprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped())), 15728880, overlay, new float[]{1, 1, 1, 1}, true);
+		RenderHelper.renderCenteredTexturedPlane(3, outerSprite, matrixStack,
+			outerSprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped())), 15728880, overlay,
+			new float[]{1, 1, 1, 1}, true);
 		matrixStack.push();
 		matrixStack.translate(0, 0.15F, 0);
 		matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(rotationProgress * 2));
-		RenderHelper.renderCenteredTexturedPlane(3, centerSprite, matrixStack, centerSprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped())), 15728880, overlay, new float[]{1, 1, 1, 1}, true);
+		RenderHelper.renderCenteredTexturedPlane(3, centerSprite, matrixStack,
+			centerSprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped())), 15728880, overlay,
+			new float[]{1, 1, 1, 1}, true);
 		matrixStack.pop();
 		matrixStack.push();
 		matrixStack.translate(0, 0.3F, 0);
 		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(rotationProgress));
-		RenderHelper.renderCenteredTexturedPlane(3, innerSprite, matrixStack, innerSprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped())), 15728880, overlay, new float[]{1, 1, 1, 1}, true);
+		RenderHelper.renderCenteredTexturedPlane(3, innerSprite, matrixStack,
+			innerSprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped())), 15728880, overlay,
+			new float[]{1, 1, 1, 1}, true);
 		matrixStack.pop();
 		matrixStack.pop();
 	}

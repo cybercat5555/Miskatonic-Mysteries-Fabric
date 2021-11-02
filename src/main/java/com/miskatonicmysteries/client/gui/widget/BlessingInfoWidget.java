@@ -19,9 +19,11 @@ import net.minecraft.text.TranslatableText;
 
 @Environment(EnvType.CLIENT)
 public class BlessingInfoWidget extends TexturedButtonWidget {
+
 	private static final Text TITLE = new TranslatableText("miskatonicmysteries.gui.blessings");
 	private boolean expanded = false;
 	private float expandTicks;
+
 	public BlessingInfoWidget(int x, int y) {
 		super(x + 1, y - 51, 9, 8, 0, 0, ResourceHandler.ASCENSION_STAR_SPRITE, ButtonWidget::onPress);
 		visible = Ascendant.of(MinecraftClient.getInstance().player).map(ascendant -> !ascendant.getBlessings().isEmpty()).orElse(false);
@@ -35,8 +37,7 @@ public class BlessingInfoWidget extends TexturedButtonWidget {
 				if (expandTicks > 40) {
 					expandTicks = 40;
 				}
-			}
-			else if (!expanded && expandTicks > 0) {
+			} else if (!expanded && expandTicks > 0) {
 				expandTicks -= 1 + delta;
 				if (expandTicks < 0) {
 					expandTicks = 0;
@@ -50,16 +51,17 @@ public class BlessingInfoWidget extends TexturedButtonWidget {
 			matrices.translate(x + 0.5, y, 0);
 			matrices.push();
 			matrices.translate(3, 3, 0);
-			DrawableHelper.fill(matrices, -width, 1,  width, reach, 0xDD000000);
-			DrawableHelper.fill(matrices, -width, 0,  width, 1, affiliation.getIntColor());
-			DrawableHelper.fill(matrices, -width, reach,  width, reach + 1, affiliationApparent.getIntColor());
+			DrawableHelper.fill(matrices, -width, 1, width, reach, 0xDD000000);
+			DrawableHelper.fill(matrices, -width, 0, width, 1, affiliation.getIntColor());
+			DrawableHelper.fill(matrices, -width, reach, width, reach + 1, affiliationApparent.getIntColor());
 			matrices.pop();
 			RenderSystem.setShaderTexture(0, ResourceHandler.ASCENSION_STAR_SPRITE);
 			RenderSystem.setShaderColor(affiliation.getColor()[0], affiliation.getColor()[1], affiliation.getColor()[2], 1);
 			DrawableHelper.drawTexture(matrices, 0, 0, 8, 8, 0, 0, 8, 8, 8, 8); //draw star
-			RenderSystem.setShaderColor(affiliationApparent.getColor()[0], affiliationApparent.getColor()[1], affiliationApparent.getColor()[2], 1);
+			RenderSystem
+				.setShaderColor(affiliationApparent.getColor()[0], affiliationApparent.getColor()[1], affiliationApparent.getColor()[2], 1);
 			DrawableHelper.drawTexture(matrices, 0, reach, 8, 8, 0, 0, 8, 8, 8, 8); //draw star
-			if (expandTicks >= 40){
+			if (expandTicks >= 40) {
 				RenderSystem.enableDepthTest();
 				TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 				matrices.translate(2.5F, 7, 100);

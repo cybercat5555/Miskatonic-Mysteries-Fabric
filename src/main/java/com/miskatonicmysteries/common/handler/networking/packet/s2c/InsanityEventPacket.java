@@ -9,11 +9,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class InsanityEventPacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "insanity_event");
 
-    public static void send(PlayerEntity player, Identifier event) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeIdentifier(event);
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
-    }
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "insanity_event");
+
+	public static void send(PlayerEntity player, Identifier event) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeIdentifier(event);
+		ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
+	}
 }

@@ -8,6 +8,7 @@ import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.util.Constants;
+import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
@@ -23,9 +24,8 @@ import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
-import java.util.List;
-
 public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStorage {
+
 	private static final int MAX_STORED_POWER = 3200;
 	private static final int MAX_RADIUS = 16;
 	private static final int MAX_EFFECTIVE_RUNTIME = 1200;
@@ -45,9 +45,8 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
 			blockEntity.ticksRan++;
 			if (blockEntity.energy < 16) {
 				blockEntity.world.setBlockState(blockEntity.pos, blockEntity.getCachedState().with(Properties.POWERED,
-                        false));
-			}
-			else {
+					false));
+			} else {
 				blockEntity.energy -= 16;
 				if (blockEntity.intensity < 1) {
 					blockEntity.intensity += 0.0005F;
@@ -60,7 +59,7 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
 					blockEntity.spawnPhantasm();
 				}
 				List<Entity> affectedEntities = blockEntity.world.getEntitiesByClass(Entity.class,
-                        blockEntity.getSelectionBox(), entity -> entity instanceof Resonating);
+					blockEntity.getSelectionBox(), entity -> entity instanceof Resonating);
 				for (Entity affectedEntity : affectedEntities) {
 					Resonating.of(affectedEntity).ifPresent(resonating -> {
 						float targetIntensity = blockEntity.getIntensityFromDistance(affectedEntity);
@@ -71,8 +70,7 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
 				}
 				blockEntity.markDirty();
 			}
-		}
-		else if (blockEntity.intensity > 0 || blockEntity.ticksRan > 0) {
+		} else if (blockEntity.intensity > 0 || blockEntity.ticksRan > 0) {
 			blockEntity.ticksRan--;
 			blockEntity.intensity -= 0.001F;
 			blockEntity.markDirty();
@@ -84,17 +82,17 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
 		if (blockEntity.world.random.nextFloat() < particleChance) {
 			if (blockEntity.world.random.nextBoolean()) {
 				blockEntity.world.addParticle(MMParticles.RESONATOR_CREATURE,
-                        blockEntity.pos.getX() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
-                        blockEntity.pos.getY() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
-                        blockEntity.pos.getZ() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
-                        0, 0, 0);
-			}else {
-                blockEntity.world.addParticle(MMParticles.AMBIENT,
-                        blockEntity.pos.getX() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
-                        blockEntity.pos.getY() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
-                        blockEntity.pos.getZ() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
-                        0.75F, 0, 1);
-            }
+					blockEntity.pos.getX() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
+					blockEntity.pos.getY() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
+					blockEntity.pos.getZ() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
+					0, 0, 0);
+			} else {
+				blockEntity.world.addParticle(MMParticles.AMBIENT,
+					blockEntity.pos.getX() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
+					blockEntity.pos.getY() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
+					blockEntity.pos.getZ() + 0.5F + blockEntity.world.random.nextGaussian() * blockEntity.radius,
+					0.75F, 0, 1);
+			}
 		}
 	}
 
@@ -128,16 +126,16 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
 			}
 			for (int i = 0; i < 8; i++) {
 				Vec3d pos = new Vec3d(getPos().getX() + world.random.nextGaussian() * (radius - 3),
-                        getPos().getY() + world.random.nextFloat() * radius - 7,
-                        getPos().getZ() + world.random.nextGaussian() * (radius - 3));
+					getPos().getY() + world.random.nextFloat() * radius - 7,
+					getPos().getZ() + world.random.nextGaussian() * (radius - 3));
 				BlockPos blockPos = new BlockPos(pos);
 				if (!world.getBlockState(blockPos).isSolidBlock(world, blockPos) || world.random.nextFloat() < 0.25F) {
 					PhantasmaEntity phantasma = world.getRandom().nextBoolean() ? MMEntities.ABERRATION.create(world)
-                            : MMEntities.PHANTASMA.create(world);
+						: MMEntities.PHANTASMA.create(world);
 					phantasma.refreshPositionAndAngles(pos.getX(), pos.getY(), pos.getZ(), world.random.nextInt(360),
-                            0);
+						0);
 					phantasma.initialize((ServerWorld) world, world.getLocalDifficulty(phantasma.getBlockPos()),
-                            SpawnReason.SPAWNER, null, null);
+						SpawnReason.SPAWNER, null, null);
 					phantasma.setResonance(0.01F);
 					world.spawnEntity(phantasma);
 					return;
@@ -148,9 +146,9 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
 
 	private float getIntensityFromDistance(Entity affectedEntity) {
 		double distance = Math.sqrt(affectedEntity.squaredDistanceTo(pos.getX() + 0.5F, pos.getY() + 0.75F,
-                pos.getZ() + 0.5F));
+			pos.getZ() + 0.5F));
 		float densityFactor = ticksRan > MAX_EFFECTIVE_RUNTIME ? 1 :
-                (float) Math.min(distance / (ticksRan / MAX_EFFECTIVE_RUNTIME), 1);
+			(float) Math.min(distance / (ticksRan / MAX_EFFECTIVE_RUNTIME), 1);
 		return 1 - (intensity * (densityFactor / radius));
 	}
 

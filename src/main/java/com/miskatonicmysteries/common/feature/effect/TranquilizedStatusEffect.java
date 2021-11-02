@@ -12,60 +12,64 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class TranquilizedStatusEffect extends StatusEffect {
-    public TranquilizedStatusEffect() {
-        super(StatusEffectType.BENEFICIAL, 0x2E219E);
-    }
 
-    @Override
-    public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        if (entity instanceof MobEntity && ((MobEntity) entity).getTarget() == null && entity.age % 60 == 0) {
-            if (entity.getRandom().nextFloat() < (0.1 * amplifier)) {
-                onApplied(entity, entity.getAttributes(), amplifier);
-            }
-        }
-        if (entity instanceof PlayerEntity && ((PlayerEntity) entity).isSleepingLongEnough()) {
-            if (isLethal(entity, amplifier)) {
-                entity.damage(Constants.DamageSources.SLEEP, 4000);
-            } else {
-                Sanity.of(entity).ifPresent(sanity -> {
-                    sanity.setSanity((int) (sanity.getSanity() + MiskatonicMysteries.config.sanity.tranquilizedSanityBonus * Math.min((amplifier + 2) / 2F, 3F)), true);
-                    if (entity.getRandom().nextFloat() < MiskatonicMysteries.config.sanity.tranquilizedSanityCapRegainChance) {
-                        for (String s : sanity.getSanityCapExpansions().keySet()) {
-                            if (sanity.getSanityCapExpansions().get(s) < 0) {
-                                int value = sanity.getSanityCapExpansions().get(s) + (amplifier * 5);
-                                sanity.removeSanityCapExpansion(s);
-                                if (value <= 0) sanity.addSanityCapExpansion(s, value);
-                            }
-                        }
-                    }
-                });
-                entity.damage(Constants.DamageSources.SLEEP, 2);
+	public TranquilizedStatusEffect() {
+		super(StatusEffectType.BENEFICIAL, 0x2E219E);
+	}
 
-            }
-            entity.removeStatusEffect(this);
-        }
-        entity.removeStatusEffect(MMStatusEffects.MANIA);
+	@Override
+	public void applyUpdateEffect(LivingEntity entity, int amplifier) {
+		if (entity instanceof MobEntity && ((MobEntity) entity).getTarget() == null && entity.age % 60 == 0) {
+			if (entity.getRandom().nextFloat() < (0.1 * amplifier)) {
+				onApplied(entity, entity.getAttributes(), amplifier);
+			}
+		}
+		if (entity instanceof PlayerEntity && ((PlayerEntity) entity).isSleepingLongEnough()) {
+			if (isLethal(entity, amplifier)) {
+				entity.damage(Constants.DamageSources.SLEEP, 4000);
+			} else {
+				Sanity.of(entity).ifPresent(sanity -> {
+					sanity.setSanity((int) (sanity.getSanity() + MiskatonicMysteries.config.sanity.tranquilizedSanityBonus * Math
+						.min((amplifier + 2) / 2F, 3F)), true);
+					if (entity.getRandom().nextFloat() < MiskatonicMysteries.config.sanity.tranquilizedSanityCapRegainChance) {
+						for (String s : sanity.getSanityCapExpansions().keySet()) {
+							if (sanity.getSanityCapExpansions().get(s) < 0) {
+								int value = sanity.getSanityCapExpansions().get(s) + (amplifier * 5);
+								sanity.removeSanityCapExpansion(s);
+								if (value <= 0) {
+									sanity.addSanityCapExpansion(s, value);
+								}
+							}
+						}
+					}
+				});
+				entity.damage(Constants.DamageSources.SLEEP, 2);
 
-        if (entity.age % 20 == 0) {
-            MMStatusEffects.intoxicatedUpdate(entity, amplifier);
-        }
-    }
+			}
+			entity.removeStatusEffect(this);
+		}
+		entity.removeStatusEffect(MMStatusEffects.MANIA);
 
-    private boolean isLethal(LivingEntity entity, int amplifier) {
-        return entity.getHealth() < 5 + Math.min(amplifier * 2, 5);
-    }
+		if (entity.age % 20 == 0) {
+			MMStatusEffects.intoxicatedUpdate(entity, amplifier);
+		}
+	}
 
-    @Override
-    public boolean canApplyUpdateEffect(int duration, int amplifier) {
-        return true;
-    }
+	private boolean isLethal(LivingEntity entity, int amplifier) {
+		return entity.getHealth() < 5 + Math.min(amplifier * 2, 5);
+	}
 
-    @Override
-    public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
-        if (entity instanceof MobEntity) {
-            MobEntity mob = (MobEntity) entity;
-            mob.setTarget(null);
-            mob.setAttacking(false);
-        }
-    }
+	@Override
+	public boolean canApplyUpdateEffect(int duration, int amplifier) {
+		return true;
+	}
+
+	@Override
+	public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
+		if (entity instanceof MobEntity) {
+			MobEntity mob = (MobEntity) entity;
+			mob.setTarget(null);
+			mob.setAttacking(false);
+		}
+	}
 }

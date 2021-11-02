@@ -9,19 +9,20 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 
 public class RoyalEntourageBlessing extends Blessing {
-    public RoyalEntourageBlessing() {
-        super(new Identifier(Constants.MOD_ID, "royal_entourage"), (apparent) -> MMAffiliations.HASTUR);
-    }
 
-    @Override
-    public void onAcquired(LivingEntity entity) {
-        super.onAcquired(entity);
-        SpellCaster.of(entity).ifPresent(caster -> caster.learnMedium(MMSpellMediums.GROUP));
-    }
+	public RoyalEntourageBlessing() {
+		super(new Identifier(Constants.MOD_ID, "royal_entourage"), (apparent) -> MMAffiliations.HASTUR);
+	}
 
-    @Override
-    public void onRemoved(LivingEntity entity) {
-        super.onRemoved(entity);
-        SpellCaster.of(entity).ifPresent(caster -> caster.getLearnedMediums().remove(MMSpellMediums.GROUP));
-    }
+	@Override
+	public void onAcquired(LivingEntity entity) {
+		super.onAcquired(entity);
+		SpellCaster.of(entity).ifPresent(caster -> caster.learnMedium(MMSpellMediums.GROUP));
+	}
+
+	@Override
+	public void onRemoved(LivingEntity entity) {
+		super.onRemoved(entity);
+		SpellCaster.of(entity).ifPresent(caster -> caster.getLearnedMediums().remove(MMSpellMediums.GROUP));
+	}
 }

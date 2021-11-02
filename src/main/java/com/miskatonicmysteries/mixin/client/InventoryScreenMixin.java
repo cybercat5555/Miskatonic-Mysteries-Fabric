@@ -13,12 +13,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin extends AbstractInventoryScreen<PlayerScreenHandler> {
+
 	private InventoryScreenMixin(PlayerScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
 		super(screenHandler, playerInventory, text);
 	}
 
 	@Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame" +
-			"/AbstractInventoryScreen;init()V", shift = At.Shift.AFTER))
+		"/AbstractInventoryScreen;init()V", shift = At.Shift.AFTER))
 	private void init(CallbackInfo ci) {
 		addDrawableChild(new BlessingInfoWidget(this.x + 46, this.height / 2 - 24));
 	}

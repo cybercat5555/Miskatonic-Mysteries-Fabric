@@ -8,25 +8,25 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class SpellEffectToast extends SimpleIconToast{
+public class SpellEffectToast extends SimpleIconToast {
+
 	private static final Text TITLE = new TranslatableText("spell_effect.miskatonicmysteries.toast.title");
 
 	public SpellEffectToast(Identifier icon, String translation) {
 		super(icon, translation);
 	}
 
-	@Override
-	protected Text getTitle() {
-		return TITLE;
-	}
-
 	public static void show(ToastManager manager, Identifier icon, String translation) {
 		SpellEffectToast toast = manager.getToast(SpellEffectToast.class, TYPE);
 		if (toast == null) {
 			manager.add(new SpellEffectToast(icon, translation));
-		}
-		else {
+		} else {
 			toast.addIcon(icon, translation);
 		}
+	}
+
+	@Override
+	protected Text getTitle() {
+		return TITLE;
 	}
 }

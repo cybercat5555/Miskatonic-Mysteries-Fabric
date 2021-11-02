@@ -14,32 +14,36 @@ import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.server.world.ServerWorld;
 
 public class CastSpellTask extends Task<VillagerEntity> {
-    private int timer;
 
-    public CastSpellTask() {
-        super(ImmutableMap.of(MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT, MemoryModuleType.ATTACK_COOLING_DOWN, MemoryModuleState.VALUE_ABSENT));
-    }
+	private int timer;
 
-    @Override
-    protected boolean shouldRun(ServerWorld world, VillagerEntity entity) {
-        return entity instanceof CastingMob && LookTargetUtil.isVisibleInMemory(entity, getTarget(entity)) && ((CastingMob) entity).getCastTime() <= 0 && getTarget(entity).distanceTo(entity) > 3;
-    }
+	public CastSpellTask() {
+		super(ImmutableMap
+			.of(MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT,
+				MemoryModuleType.ATTACK_COOLING_DOWN, MemoryModuleState.VALUE_ABSENT));
+	}
 
-    private LivingEntity getTarget(MobEntity mobEntity) {
-        return mobEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
-    }
+	@Override
+	protected boolean shouldRun(ServerWorld world, VillagerEntity entity) {
+		return entity instanceof CastingMob && LookTargetUtil.isVisibleInMemory(entity, getTarget(entity))
+			&& ((CastingMob) entity).getCastTime() <= 0 && getTarget(entity).distanceTo(entity) > 3;
+	}
 
-    @Override
-    protected void run(ServerWorld world, VillagerEntity entity, long time) {
-        if (entity instanceof CastingMob) {
-            timer = 60;
-            Spell spell = ((CastingMob) entity).selectSpell();
-            if (spell.effect == MMSpellEffects.DAMAGE) {
-                timer = 40;
-            }
-            ((CastingMob) entity).setCurrentSpell(spell);
-            ((CastingMob) entity).setCastTime(timer);
-            LookTargetUtil.lookAt(entity, getTarget(entity));
-        }
-    }
+	private LivingEntity getTarget(MobEntity mobEntity) {
+		return mobEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
+	}
+
+	@Override
+	protected void run(ServerWorld world, VillagerEntity entity, long time) {
+		if (entity instanceof CastingMob) {
+			timer = 60;
+			Spell spell = ((CastingMob) entity).selectSpell();
+			if (spell.effect == MMSpellEffects.DAMAGE) {
+				timer = 40;
+			}
+			((CastingMob) entity).setCurrentSpell(spell);
+			((CastingMob) entity).setCastTime(timer);
+			LookTargetUtil.lookAt(entity, getTarget(entity));
+		}
+	}
 }

@@ -14,37 +14,40 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
 public class RiteCastCriterion extends AbstractCriterion<RiteCastCriterion.Conditions> {
-    private static final Identifier ID = new Identifier(Constants.MOD_ID, "rite_cast");
 
-    public Identifier getId() {
-        return ID;
-    }
+	private static final Identifier ID = new Identifier(Constants.MOD_ID, "rite_cast");
 
-    public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
-        Identifier riteId = new Identifier(JsonHelper.getString(jsonObject, "rite"));
-        return new Conditions(extended, MMRegistries.RITES.get(riteId));
-    }
+	public Identifier getId() {
+		return ID;
+	}
 
-    public void trigger(ServerPlayerEntity player, Rite rite) {
-        this.test(player, (conditions) -> conditions.matches(rite));
-    }
+	public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended,
+		AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
+		Identifier riteId = new Identifier(JsonHelper.getString(jsonObject, "rite"));
+		return new Conditions(extended, MMRegistries.RITES.get(riteId));
+	}
 
-    public static class Conditions extends AbstractCriterionConditions {
-        private final Rite rite;
+	public void trigger(ServerPlayerEntity player, Rite rite) {
+		this.test(player, (conditions) -> conditions.matches(rite));
+	}
 
-        public Conditions(EntityPredicate.Extended player, Rite item) {
-            super(RiteCastCriterion.ID, player);
-            this.rite = item;
-        }
+	public static class Conditions extends AbstractCriterionConditions {
 
-        public boolean matches(Rite rite) {
-            return this.rite.getId().equals(rite.getId());
-        }
+		private final Rite rite;
 
-        public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
-            JsonObject jsonObject = super.toJson(predicateSerializer);
-            jsonObject.addProperty("rite", this.rite.getId().toString());
-            return jsonObject;
-        }
-    }
+		public Conditions(EntityPredicate.Extended player, Rite item) {
+			super(RiteCastCriterion.ID, player);
+			this.rite = item;
+		}
+
+		public boolean matches(Rite rite) {
+			return this.rite.getId().equals(rite.getId());
+		}
+
+		public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
+			JsonObject jsonObject = super.toJson(predicateSerializer);
+			jsonObject.addProperty("rite", this.rite.getId().toString());
+			return jsonObject;
+		}
+	}
 }

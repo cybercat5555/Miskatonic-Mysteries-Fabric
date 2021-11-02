@@ -18,6 +18,7 @@ import net.minecraft.util.math.Vec3f;
 
 @Environment(EnvType.CLIENT)
 public class AltarBlockRender implements BlockEntityRenderer<AltarBlockEntity> {
+
 	private final BookModel book;
 
 	public AltarBlockRender(BlockEntityRendererFactory.Context context) {
@@ -26,7 +27,7 @@ public class AltarBlockRender implements BlockEntityRenderer<AltarBlockEntity> {
 
 	@Override
 	public void render(AltarBlockEntity entity, float tickDelta, MatrixStack matrixStack,
-                       VertexConsumerProvider vertexConsumers, int light, int overlay) {
+		VertexConsumerProvider vertexConsumers, int light, int overlay) {
 		if (!entity.getStack(0).isEmpty()) {
 			matrixStack.push();
 			matrixStack.translate(0.5D, 1.35D, 0.5D);
@@ -37,8 +38,8 @@ public class AltarBlockRender implements BlockEntityRenderer<AltarBlockEntity> {
 			matrixStack.scale(0.75F, 0.75F, 0.75F);
 			this.book.setPageAngles(0.0F, 0.01F, 0.99F, 1.2F);
 			VertexConsumer vertexConsumer =
-                    ResourceHandler.getBookTextureFor(entity.getStack(0)).getVertexConsumer(vertexConsumers,
-                            RenderLayer::getEntitySolid);
+				ResourceHandler.getBookTextureFor(entity.getStack(0)).getVertexConsumer(vertexConsumers,
+					RenderLayer::getEntitySolid);
 			this.book.renderBook(matrixStack, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
 			matrixStack.pop();
 		}

@@ -16,21 +16,23 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
 public class SyncRiteTargetPacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_rite_target");
 
-    public static void send(Entity entity, OctagramBlockEntity blockEntity) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeInt(entity.getId());
-        data.writeLong(blockEntity.getPos().asLong());
-        PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
-    }
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_rite_target");
 
-    @Environment(EnvType.CLIENT)
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        Entity entity = client.world.getEntityById(packetByteBuf.readInt());
-        BlockPos pos = BlockPos.fromLong(packetByteBuf.readLong());
-        if (client.world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
-            client.execute(() -> ((OctagramBlockEntity) client.world.getBlockEntity(pos)).targetedEntity = entity);
-        }
-    }
+	public static void send(Entity entity, OctagramBlockEntity blockEntity) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeInt(entity.getId());
+		data.writeLong(blockEntity.getPos().asLong());
+		PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
+		PacketSender sender) {
+		Entity entity = client.world.getEntityById(packetByteBuf.readInt());
+		BlockPos pos = BlockPos.fromLong(packetByteBuf.readLong());
+		if (client.world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
+			client.execute(() -> ((OctagramBlockEntity) client.world.getBlockEntity(pos)).targetedEntity = entity);
+		}
+	}
 }

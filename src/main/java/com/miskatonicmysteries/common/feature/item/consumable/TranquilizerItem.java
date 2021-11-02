@@ -19,6 +19,7 @@ import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
 public class TranquilizerItem extends Item implements VillagerPartyDrug {
+
 	public TranquilizerItem() {
 		super(new Settings().group(Constants.MM_GROUP));
 	}

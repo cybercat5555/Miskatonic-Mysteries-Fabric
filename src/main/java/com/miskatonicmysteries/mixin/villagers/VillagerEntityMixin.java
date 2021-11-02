@@ -11,6 +11,7 @@ import com.miskatonicmysteries.common.feature.world.party.Party;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.registry.MMBlessings;
 import com.miskatonicmysteries.common.registry.MMWorld;
+import java.util.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityInteraction;
 import net.minecraft.entity.EntityType;
@@ -35,76 +36,75 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Optional;
-
 @Mixin(VillagerEntity.class)
 public abstract class VillagerEntityMixin extends MerchantEntity {
-    @Shadow
-    @Final
-    private VillagerGossips gossip;
 
-    private VillagerEntityMixin(EntityType<? extends MerchantEntity> entityType, World world) {
-        super(entityType, world);
-    }
+	@Shadow
+	@Final
+	private VillagerGossips gossip;
 
-    @Shadow
-    protected abstract void sayNo();
+	private VillagerEntityMixin(EntityType<? extends MerchantEntity> entityType, World world) {
+		super(entityType, world);
+	}
 
-    @Inject(method = "onInteractionWith", at = @At("HEAD"), cancellable = true)
-    private void onInteractionWith(EntityInteraction interaction, Entity entity, CallbackInfo ci) {
-        Optional<Ascendant> optionalAscendant = Ascendant.of(entity);
-        if (optionalAscendant.isPresent() && MiskatonicMysteriesAPI.hasBlessing(optionalAscendant.get(),
-                MMBlessings.CHARMING_PERSONALITY)) {
-            if (interaction == EntityInteraction.ZOMBIE_VILLAGER_CURED) {
-                this.gossip.startGossip(entity.getUuid(), VillageGossipType.MAJOR_POSITIVE, 40);
-                this.gossip.startGossip(entity.getUuid(), VillageGossipType.MINOR_POSITIVE, 60);
-            } else if (interaction == EntityInteraction.TRADE) {
-                this.gossip.startGossip(entity.getUuid(), VillageGossipType.TRADING, 6);
-                if (entity instanceof LivingEntity) {
-                    ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2400, 0
-                            , true, false, false));
-                    ((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 2400, 0
-                            , true, false, false));
-                    ((LivingEntity) entity).heal(5F);
-                }
-            }
-            //completely ignore bad interactions
-            ci.cancel();
-        }
-    }
+	@Shadow
+	protected abstract void sayNo();
 
-    @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
-    private void playerInteract(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        if (InsanityHandler.calculateSanityFactor(Sanity.of(player)) < 0.4F) {
-            sayNo();
-            cir.setReturnValue(ActionResult.success(player.world.isClient));
-        }
+	@Inject(method = "onInteractionWith", at = @At("HEAD"), cancellable = true)
+	private void onInteractionWith(EntityInteraction interaction, Entity entity, CallbackInfo ci) {
+		Optional<Ascendant> optionalAscendant = Ascendant.of(entity);
+		if (optionalAscendant.isPresent() && MiskatonicMysteriesAPI.hasBlessing(optionalAscendant.get(),
+			MMBlessings.CHARMING_PERSONALITY)) {
+			if (interaction == EntityInteraction.ZOMBIE_VILLAGER_CURED) {
+				this.gossip.startGossip(entity.getUuid(), VillageGossipType.MAJOR_POSITIVE, 40);
+				this.gossip.startGossip(entity.getUuid(), VillageGossipType.MINOR_POSITIVE, 60);
+			} else if (interaction == EntityInteraction.TRADE) {
+				this.gossip.startGossip(entity.getUuid(), VillageGossipType.TRADING, 6);
+				if (entity instanceof LivingEntity) {
+					((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2400, 0
+						, true, false, false));
+					((LivingEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 2400, 0
+						, true, false, false));
+					((LivingEntity) entity).heal(5F);
+				}
+			}
+			//completely ignore bad interactions
+			ci.cancel();
+		}
+	}
 
-        ItemStack item = player.getStackInHand(hand);
-        VillagerEntity $this = (VillagerEntity) (Object) this;
-        if (item.getItem() instanceof VillagerPartyDrug drug) {
-            if (drug.canDrug($this)) {
-                if (world instanceof ServerWorld s) {
-                    Party party = MMPartyState.get(s).getParty(getBlockPos());
-                    if (party != null) {
-                        addStatusEffect(drug.getStatusEffect($this));
-                        party.addPartyPower(Party.DRUGS_BONUS);
-                        item.decrement(1);
-                        this.playSound(this.getTradingSound(true), this.getSoundVolume(), this.getSoundPitch());
-                        world.sendEntityStatus(this, (byte) 14);
-                    }
-                }
-                cir.setReturnValue(ActionResult.CONSUME);
-            } else {
-                sayNo();
-            }
-        }
-    }
+	@Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
+	private void playerInteract(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+		if (InsanityHandler.calculateSanityFactor(Sanity.of(player)) < 0.4F) {
+			sayNo();
+			cir.setReturnValue(ActionResult.success(player.world.isClient));
+		}
 
-    @Inject(method = "prepareOffersFor", at = @At("TAIL"))
-    private void prepareOffersFor(PlayerEntity player, CallbackInfo ci) {
-    	if (this instanceof BiomeAffected affected && affected.getCurrentBiomeEffect() == MMWorld.HASTUR_BIOME_EFFECT) {
+		ItemStack item = player.getStackInHand(hand);
+		VillagerEntity $this = (VillagerEntity) (Object) this;
+		if (item.getItem() instanceof VillagerPartyDrug drug) {
+			if (drug.canDrug($this)) {
+				if (world instanceof ServerWorld s) {
+					Party party = MMPartyState.get(s).getParty(getBlockPos());
+					if (party != null) {
+						addStatusEffect(drug.getStatusEffect($this));
+						party.addPartyPower(Party.DRUGS_BONUS);
+						item.decrement(1);
+						this.playSound(this.getTradingSound(true), this.getSoundVolume(), this.getSoundPitch());
+						world.sendEntityStatus(this, (byte) 14);
+					}
+				}
+				cir.setReturnValue(ActionResult.CONSUME);
+			} else {
+				sayNo();
+			}
+		}
+	}
+
+	@Inject(method = "prepareOffersFor", at = @At("TAIL"))
+	private void prepareOffersFor(PlayerEntity player, CallbackInfo ci) {
+		if (this instanceof BiomeAffected affected && affected.getCurrentBiomeEffect() == MMWorld.HASTUR_BIOME_EFFECT) {
 			HasturBiomeEffect.modifyVillagerOffers((VillagerEntity) (Object) this, player, getOffers());
 		}
-    }
+	}
 }

@@ -16,23 +16,26 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 
 public class ReAgentItem extends Item {
-    public ReAgentItem() {
-        super(new Settings().group(Constants.MM_GROUP).recipeRemainder(MMObjects.SYRINGE).maxCount(1));
-    }
 
-    @Override
-    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        if (user instanceof ServerPlayerEntity) {
-            Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
-            user.incrementStat(Stats.USED.getOrCreateStat(this));
-        }
-        if (entity instanceof ZombieVillagerEntity) {
-            if (entity.getRandom().nextBoolean()) {
-                ((ZombieVillagerAccessor) entity).callSetConverting(user.getUuid(), 100);
-            } else entity.damage(DamageSource.WITHER, 100);
-            stack.decrement(1);
-            return ActionResult.SUCCESS;
-        }
-        return super.useOnEntity(stack, user, entity, hand);
-    }
+	public ReAgentItem() {
+		super(new Settings().group(Constants.MM_GROUP).recipeRemainder(MMObjects.SYRINGE).maxCount(1));
+	}
+
+	@Override
+	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+		if (user instanceof ServerPlayerEntity) {
+			Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
+			user.incrementStat(Stats.USED.getOrCreateStat(this));
+		}
+		if (entity instanceof ZombieVillagerEntity) {
+			if (entity.getRandom().nextBoolean()) {
+				((ZombieVillagerAccessor) entity).callSetConverting(user.getUuid(), 100);
+			} else {
+				entity.damage(DamageSource.WITHER, 100);
+			}
+			stack.decrement(1);
+			return ActionResult.SUCCESS;
+		}
+		return super.useOnEntity(stack, user, entity, hand);
+	}
 }

@@ -9,16 +9,16 @@ import com.miskatonicmysteries.common.util.NbtUtil;
 import dev.onyxstudios.cca.api.v3.component.ComponentV3;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AscendantComponent implements Ascendant, ComponentV3, AutoSyncedComponent, CommonTickingComponent {
+
 	private final List<Blessing> blessings = new ArrayList<>();
 	private final LivingEntity provider;  // or World, or whatever you are attaching to
 	private int stage;
@@ -85,8 +85,7 @@ public class AscendantComponent implements Ascendant, ComponentV3, AutoSyncedCom
 		if (buf.readBoolean()) {
 			AutoSyncedComponent.super.applySyncPacket(buf);
 			this.syncBlessings = false;
-		}
-		else {
+		} else {
 			setAscensionStage(buf.readInt());
 		}
 	}
@@ -96,8 +95,7 @@ public class AscendantComponent implements Ascendant, ComponentV3, AutoSyncedCom
 		if (syncBlessings) {
 			buf.writeBoolean(true);
 			AutoSyncedComponent.super.writeSyncPacket(buf, recipient);
-		}
-		else {
+		} else {
 			buf.writeBoolean(false);
 			buf.writeInt(getAscensionStage());
 		}

@@ -6,8 +6,9 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.shedaniel.autoconfig.AutoConfig;
 
 public class MMModMenu implements ModMenuApi {
-    @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return screen -> AutoConfig.getConfigScreen(MMConfig.class, screen).get();
-    }
+
+	@Override
+	public ConfigScreenFactory<?> getModConfigScreenFactory() {
+		return screen -> AutoConfig.getConfigScreen(MMConfig.class, screen).get();
+	}
 }

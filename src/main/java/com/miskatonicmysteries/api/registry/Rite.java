@@ -3,15 +3,13 @@ package com.miskatonicmysteries.api.registry;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.InventoryUtil;
-import com.mojang.blaze3d.systems.RenderSystem;
+import java.util.List;
+import javax.annotation.Nullable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.recipe.Ingredient;
@@ -19,120 +17,118 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
 public abstract class Rite {
-    private final List<Ingredient> ingredients = DefaultedList.ofSize(8, Ingredient.EMPTY);
-    private final Identifier id;
-    private final Affiliation octagramAffiliation;
-    private final float investigatorChance;
 
-    public Rite(Identifier id, @Nullable Affiliation octagram, float investigatorChance, Ingredient... ingredients) {
-        this.id = id;
-        this.investigatorChance = investigatorChance;
-        for (int i = 0; i < ingredients.length; i++) {
-            this.ingredients.set(i, ingredients[i]);
-        }
-        this.octagramAffiliation = octagram;
-    }
+	private final List<Ingredient> ingredients = DefaultedList.ofSize(8, Ingredient.EMPTY);
+	private final Identifier id;
+	private final Affiliation octagramAffiliation;
+	private final float investigatorChance;
 
-    @Environment(EnvType.CLIENT)
-    public static void renderPortalOctagram(float alpha, float[] origColors, OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
-        Identifier mask = ResourceHandler.getOctagramMaskTextureFor(entity);
-        float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
-        matrixStack.push();
-        Matrix4f matrix4f = matrixStack.peek().getModel();
-        matrixStack.translate(0, 0.001F, 0);
-        RenderHelper.renderPortalLayer(mask, matrix4f, vertexConsumers, 3F, 3F, light, overlay, colors);
-        matrixStack.pop();
-    }
+	public Rite(Identifier id, @Nullable Affiliation octagram, float investigatorChance, Ingredient... ingredients) {
+		this.id = id;
+		this.investigatorChance = investigatorChance;
+		for (int i = 0; i < ingredients.length; i++) {
+			this.ingredients.set(i, ingredients[i]);
+		}
+		this.octagramAffiliation = octagram;
+	}
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
+	@Environment(EnvType.CLIENT)
+	public static void renderPortalOctagram(float alpha, float[] origColors, OctagramBlockEntity entity, float tickDelta,
+		MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay,
+		BlockEntityRendererFactory.Context context) {
+		Identifier mask = ResourceHandler.getOctagramMaskTextureFor(entity);
+		float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
+		matrixStack.push();
+		Matrix4f matrix4f = matrixStack.peek().getModel();
+		matrixStack.translate(0, 0.001F, 0);
+		RenderHelper.renderPortalLayer(mask, matrix4f, vertexConsumers, 3F, 3F, light, overlay, colors);
+		matrixStack.pop();
+	}
 
-    public Identifier getId() {
-        return id;
-    }
+	public List<Ingredient> getIngredients() {
+		return ingredients;
+	}
 
-    public Affiliation getOctagramAffiliation() {
-        return octagramAffiliation;
-    }
+	public Identifier getId() {
+		return id;
+	}
 
-    public float getInvestigatorChance() {
-        return investigatorChance;
-    }
+	public Affiliation getOctagramAffiliation() {
+		return octagramAffiliation;
+	}
 
-    public void onStart(OctagramBlockEntity octagram) {
-    }
+	public float getInvestigatorChance() {
+		return investigatorChance;
+	}
 
-    public void tick(OctagramBlockEntity octagram) {
-        octagram.tickCount++;
-    }
+	public void onStart(OctagramBlockEntity octagram) {
+	}
 
-    public abstract boolean isFinished(OctagramBlockEntity octagram);
+	public void tick(OctagramBlockEntity octagram) {
+		octagram.tickCount++;
+	}
 
-    public void onFinished(OctagramBlockEntity octagram) {
-        octagram.clear();
-        octagram.markDirty();
-    }
+	public abstract boolean isFinished(OctagramBlockEntity octagram);
 
-    public void onCancelled(OctagramBlockEntity octagram) {
-    }
+	public void onFinished(OctagramBlockEntity octagram) {
+		octagram.clear();
+		octagram.markDirty();
+	}
 
-    public boolean isPermanent(OctagramBlockEntity octagram) {
-        return false;
-    }
+	public void onCancelled(OctagramBlockEntity octagram) {
+	}
 
-    public boolean shouldContinue(OctagramBlockEntity octagram) {
-        return true;
-    }
+	public boolean isPermanent(OctagramBlockEntity octagram) {
+		return false;
+	}
 
-    public boolean canCast(OctagramBlockEntity octagram) {
-        return (octagramAffiliation == null || octagramAffiliation
-                .equals(octagram.getAffiliation(false))) && InventoryUtil
-                .areItemStackListsExactlyEqual(ingredients, octagram);
-    }
+	public boolean shouldContinue(OctagramBlockEntity octagram) {
+		return true;
+	}
 
-    @Environment(EnvType.CLIENT)
-    public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
-    }
+	public boolean canCast(OctagramBlockEntity octagram) {
+		return (octagramAffiliation == null || octagramAffiliation
+			.equals(octagram.getAffiliation(false))) && InventoryUtil
+			.areItemStackListsExactlyEqual(ingredients, octagram);
+	}
 
-    @Environment(EnvType.CLIENT)
-    public void renderRiteItems(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
-    }
+	@Environment(EnvType.CLIENT)
+	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
+		int light, int overlay, BlockEntityRendererFactory.Context context) {
+	}
 
-    /**
-     * Called in {@link com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender} before anything else.
-     * Used to set up very special rendering
-     * Flags:
-     * 2 - Render Items
-     * 1 - Render the Octagram
-     * 0 - Render None
-     * Flags can be combined e.g. 2 | 1 to render both normally
-     *
-     * @return bitwise flag combination used for rendering, see above
-     */
-    @Environment(EnvType.CLIENT)
-    public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
-        return 2 | 1;
-    }
+	@Environment(EnvType.CLIENT)
+	public void renderRiteItems(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack,
+		VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
+	}
 
-    public String getTranslationString() {
-        return "rite." + id.toString().replaceAll(":", ".");
-    }
+	/**
+	 * Called in {@link com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender} before anything else. Used to set up very
+	 * special rendering Flags: 2 - Render Items 1 - Render the Octagram 0 - Render None Flags can be combined e.g. 2 | 1 to render both
+	 * normally
+	 *
+	 * @return bitwise flag combination used for rendering, see above
+	 */
+	@Environment(EnvType.CLIENT)
+	public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
+		int light, int overlay, BlockEntityRendererFactory.Context context) {
+		return 2 | 1;
+	}
 
-    public boolean listen(OctagramBlockEntity blockEntity, World world, GameEvent event, Entity entity, BlockPos pos) {
+	public String getTranslationString() {
+		return "rite." + id.toString().replaceAll(":", ".");
+	}
 
-        return false;
-    }
+	public boolean listen(OctagramBlockEntity blockEntity, World world, GameEvent event, Entity entity, BlockPos pos) {
 
-    public float getInstabilityBase(OctagramBlockEntity blockEntity) {
-        return 0.25F;
-    }
+		return false;
+	}
+
+	public float getInstabilityBase(OctagramBlockEntity blockEntity) {
+		return 0.25F;
+	}
 }

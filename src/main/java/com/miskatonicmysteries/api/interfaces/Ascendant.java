@@ -1,25 +1,25 @@
 package com.miskatonicmysteries.api.interfaces;
 
 import com.miskatonicmysteries.api.registry.Blessing;
-
 import java.util.List;
 import java.util.Optional;
 
 public interface Ascendant {
-    static Optional<Ascendant> of(Object context) {
-        if (context instanceof Ascendant) {
-            return Optional.of(((Ascendant) context));
-        }
-        return Optional.empty();
-    }
 
-    void addBlessing(Blessing blessing);
+	static Optional<Ascendant> of(Object context) {
+		if (context instanceof Ascendant) {
+			return Optional.of(((Ascendant) context));
+		}
+		return Optional.empty();
+	}
 
-    boolean removeBlessing(Blessing blessing);
+	void addBlessing(Blessing blessing);
 
-    List<Blessing> getBlessings();
+	boolean removeBlessing(Blessing blessing);
 
-    int getAscensionStage();
+	List<Blessing> getBlessings();
 
-    void setAscensionStage(int level);
+	int getAscensionStage();
+
+	void setAscensionStage(int level);
 }

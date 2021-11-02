@@ -14,18 +14,19 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class ByakheeEntityRenderer extends MobEntityRenderer<ByakheeEntity, ByakheeEntityModel> {
-    public static final Identifier TEXTURE = new Identifier(Constants.MOD_ID, "textures/entity/byakhee/byakhee.png");
-    public static ByakheeEntityModel byakheeEntityModel;
 
-    public ByakheeEntityRenderer(EntityRendererFactory.Context context) {
-        super(context, new ByakheeEntityModel(context.getPart(MMModels.BYAKHEE)), 1.5F);
-        this.addFeature(new ByakheeSaddleFeatureRenderer(this));
-        this.addFeature(new ByakheeDecoFeatureRenderer(this));
-        byakheeEntityModel = model;
-    }
+	public static final Identifier TEXTURE = new Identifier(Constants.MOD_ID, "textures/entity/byakhee/byakhee.png");
+	public static ByakheeEntityModel byakheeEntityModel;
 
-    @Override
-    public Identifier getTexture(ByakheeEntity entity) {
-        return TEXTURE;
-    }
+	public ByakheeEntityRenderer(EntityRendererFactory.Context context) {
+		super(context, new ByakheeEntityModel(context.getPart(MMModels.BYAKHEE)), 1.5F);
+		this.addFeature(new ByakheeSaddleFeatureRenderer(this));
+		this.addFeature(new ByakheeDecoFeatureRenderer(this));
+		byakheeEntityModel = model;
+	}
+
+	@Override
+	public Identifier getTexture(ByakheeEntity entity) {
+		return TEXTURE;
+	}
 }

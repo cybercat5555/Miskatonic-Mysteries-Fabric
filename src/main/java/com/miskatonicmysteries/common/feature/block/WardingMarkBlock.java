@@ -11,23 +11,24 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class WardingMarkBlock extends SignBlock {
-    public WardingMarkBlock() {
-        super(FabricBlockSettings.of(Material.CARPET, MapColor.YELLOW).noCollision().hardness(1).resistance(3F).luminance(4));
-    }
 
-    @Override
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock() && world instanceof ServerWorld) {
-            MMDimensionalWorldState.get((ServerWorld) world).removeMark(pos);
-        }
-        super.onStateReplaced(state, world, pos, newState, moved);
-    }
+	public WardingMarkBlock() {
+		super(FabricBlockSettings.of(Material.CARPET, MapColor.YELLOW).noCollision().hardness(1).resistance(3F).luminance(4));
+	}
 
-    @Override
-    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-        if (state.getBlock() != oldState.getBlock() && world instanceof ServerWorld) {
-            MMDimensionalWorldState.get((ServerWorld) world).addMark(pos);
-        }
-        super.onBlockAdded(state, world, pos, oldState, notify);
-    }
+	@Override
+	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+		if (state.getBlock() != newState.getBlock() && world instanceof ServerWorld) {
+			MMDimensionalWorldState.get((ServerWorld) world).removeMark(pos);
+		}
+		super.onStateReplaced(state, world, pos, newState, moved);
+	}
+
+	@Override
+	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
+		if (state.getBlock() != oldState.getBlock() && world instanceof ServerWorld) {
+			MMDimensionalWorldState.get((ServerWorld) world).addMark(pos);
+		}
+		super.onBlockAdded(state, world, pos, oldState, notify);
+	}
 }

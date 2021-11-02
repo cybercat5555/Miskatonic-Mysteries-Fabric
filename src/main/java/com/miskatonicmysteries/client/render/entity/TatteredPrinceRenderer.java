@@ -12,11 +12,12 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 @Environment(EnvType.CLIENT)
 public class TatteredPrinceRenderer extends GeoEntityRenderer<TatteredPrinceEntity> {
-    public static Model dummyPrinceModel;
 
-    public TatteredPrinceRenderer(EntityRendererFactory.Context context) {
-        super(context, new TatteredPrinceModel());
-        this.shadowRadius = 1;
-        dummyPrinceModel = new TatteredPrinceDummyModel(context.getPart(MMModels.TATTERED_PRINCE_DUMMY));
-    }
+	public static Model dummyPrinceModel;
+
+	public TatteredPrinceRenderer(EntityRendererFactory.Context context) {
+		super(context, new TatteredPrinceModel());
+		this.shadowRadius = 1;
+		dummyPrinceModel = new TatteredPrinceDummyModel(context.getPart(MMModels.TATTERED_PRINCE_DUMMY));
+	}
 }

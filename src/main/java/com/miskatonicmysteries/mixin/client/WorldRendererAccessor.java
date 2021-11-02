@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Environment(EnvType.CLIENT)
 @Mixin(WorldRenderer.class)
 public interface WorldRendererAccessor {
+
 	@Accessor("entityOutlineShader")
 	ShaderEffect getEntityOutlineShader();
 }

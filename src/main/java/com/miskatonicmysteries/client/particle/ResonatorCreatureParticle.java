@@ -1,21 +1,25 @@
 package com.miskatonicmysteries.client.particle;
 
+import java.util.function.BiConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.AbstractSlowingParticle;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleFactory;
+import net.minecraft.client.particle.ParticleTextureSheet;
+import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 
-import java.util.function.BiConsumer;
-
 @Environment(EnvType.CLIENT)
 public class ResonatorCreatureParticle extends AbstractSlowingParticle {
+
 	private final SpriteProvider spriteProvider;
 	private final Variant variant;
 	private int frames;
 
 	protected ResonatorCreatureParticle(ClientWorld clientWorld, double d, double e, double f, double g, double h,
-										double i, Variant variant, SpriteProvider spriteProvider) {
+		double i, Variant variant, SpriteProvider spriteProvider) {
 		super(clientWorld, d, e, f, g, h, i);
 		this.variant = variant;
 		this.spriteProvider = spriteProvider;
@@ -28,8 +32,7 @@ public class ResonatorCreatureParticle extends AbstractSlowingParticle {
 		super.tick();
 		if (age < 20) {
 			colorAlpha = age / 20F;
-		}
-		else if (age > maxAge - 20) {
+		} else if (age > maxAge - 20) {
 			colorAlpha = 1 - (age - (maxAge - 20)) / 20F;
 			if (colorAlpha == 0) {
 				markDead();
@@ -61,7 +64,7 @@ public class ResonatorCreatureParticle extends AbstractSlowingParticle {
 		BUG(0, 3, (particle, frames) -> {
 			if (frames % 3 < 2) {
 				particle.setVelocity(particle.random.nextGaussian() / 20F, particle.random.nextGaussian() / 20F,
-						particle.random.nextGaussian() / 20F);
+					particle.random.nextGaussian() / 20F);
 			}
 		}), JELLYFISH(3, 2, (particle, frames) -> {
 			if (frames % 2 == 0) {
@@ -71,9 +74,9 @@ public class ResonatorCreatureParticle extends AbstractSlowingParticle {
 		}), SKYFISH(7, 2, (particle, frames) -> {
 			particle.setVelocity(particle.random.nextFloat() / 20F, 0, particle.random.nextGaussian() / 50F);
 		});
-		private int startFrame;
-		private int frames;
-		private BiConsumer<ResonatorCreatureParticle, Integer> movement;
+		private final int startFrame;
+		private final int frames;
+		private final BiConsumer<ResonatorCreatureParticle, Integer> movement;
 
 		Variant(int startFrame, int frames, BiConsumer<ResonatorCreatureParticle, Integer> movement) {
 			this.startFrame = startFrame;
@@ -84,6 +87,7 @@ public class ResonatorCreatureParticle extends AbstractSlowingParticle {
 
 	@Environment(EnvType.CLIENT)
 	public static class Factory implements ParticleFactory<DefaultParticleType> {
+
 		private final SpriteProvider spriteProvider;
 
 		public Factory(SpriteProvider spriteProvider) {
@@ -91,10 +95,10 @@ public class ResonatorCreatureParticle extends AbstractSlowingParticle {
 		}
 
 		public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x,
-									   double y, double z, double g, double h, double i) {
+			double y, double z, double g, double h, double i) {
 			ResonatorCreatureParticle creatureParticle = new ResonatorCreatureParticle(clientWorld, x, y, z, g, h, i,
-					Variant.values()[clientWorld.random.nextInt(Variant.values().length)]
-					, spriteProvider);
+				Variant.values()[clientWorld.random.nextInt(Variant.values().length)]
+				, spriteProvider);
 			creatureParticle.setSpriteForFrame(0);
 			return creatureParticle;
 		}

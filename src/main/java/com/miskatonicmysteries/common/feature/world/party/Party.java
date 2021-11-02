@@ -12,13 +12,27 @@ import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.datafixers.util.Pair;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.function.Predicate;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.Schedule;
-import net.minecraft.entity.ai.brain.task.*;
+import net.minecraft.entity.ai.brain.task.FindInteractionTargetTask;
+import net.minecraft.entity.ai.brain.task.ForgetCompletedPointOfInterestTask;
+import net.minecraft.entity.ai.brain.task.GoToIfNearbyTask;
+import net.minecraft.entity.ai.brain.task.MeetVillagerTask;
+import net.minecraft.entity.ai.brain.task.RandomTask;
+import net.minecraft.entity.ai.brain.task.ScheduleActivityTask;
+import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.brain.task.VillagerTaskListProvider;
+import net.minecraft.entity.ai.brain.task.VillagerWalkTowardsTask;
+import net.minecraft.entity.ai.brain.task.WanderAroundTask;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -38,20 +52,15 @@ import net.minecraft.village.VillageGossipType;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.function.Predicate;
-
 public class Party {
+
 	public static final int FIREWORK_BONUS = 40;
 	public static final int DRUGS_BONUS = 10;
 	public static final Text EVENT_TEXT = new TranslatableText("event.miskatonicmysteries.hastur_party");
 	public static final Text EVENT_TEXT_CONCLUDED = new TranslatableText("event.miskatonicmysteries.hastur_party" +
-			".finish");
+		".finish");
 	public static final Text EVENT_TEXT_WAITING = new TranslatableText("event.miskatonicmysteries.hastur_party" +
-			".waiting");
+		".waiting");
 	public static final int PARTY_POWER_MAX = 1000;
 	private final ServerWorld world;
 	private final ServerBossBar bar;
@@ -91,12 +100,12 @@ public class Party {
 
 	private static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> createPartyTasks(float speed) {
 		return ImmutableList.of(Pair.of(4, new PartyTask()), Pair.of(4,
-				new RandomTask<>(ImmutableList.of(Pair.of(new GoToIfNearbyTask(MemoryModuleType.MEETING_POINT, speed,
-						80), 2), Pair.of(new WanderAroundTask(40, 80), 1)))), Pair.of(3,
-				new FindInteractionTargetTask(EntityType.PLAYER, 4)), Pair.of(3, new MeetVillagerTask()), Pair.of(2,
-				new VillagerWalkTowardsTask(MemoryModuleType.MEETING_POINT, speed, 12, 100, 200)), Pair.of(3,
-				new ForgetCompletedPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT)),
-				Pair.of(99, new ScheduleActivityTask()));
+			new RandomTask<>(ImmutableList.of(Pair.of(new GoToIfNearbyTask(MemoryModuleType.MEETING_POINT, speed,
+				80), 2), Pair.of(new WanderAroundTask(40, 80), 1)))), Pair.of(3,
+			new FindInteractionTargetTask(EntityType.PLAYER, 4)), Pair.of(3, new MeetVillagerTask()), Pair.of(2,
+			new VillagerWalkTowardsTask(MemoryModuleType.MEETING_POINT, speed, 12, 100, 200)), Pair.of(3,
+			new ForgetCompletedPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT)),
+			Pair.of(99, new ScheduleActivityTask()));
 	}
 
 	public void tick() {
@@ -127,8 +136,8 @@ public class Party {
 		}
 	}
 
-	public void addPartyPower(int power){
-		if (bonusCooldown > 0){
+	public void addPartyPower(int power) {
+		if (bonusCooldown > 0) {
 			return;
 		}
 		this.partyPower += power;
@@ -168,7 +177,7 @@ public class Party {
 		brain.setTaskList(Activity.IDLE, createPartyTasks(0.65F));
 		if (villager instanceof HasturCultistEntity cultist) {
 			brain.setTaskList(Activity.FIGHT, 10, HasturCultistBrain.createFightTasks(cultist, 0.65F),
-					MemoryModuleType.ATTACK_TARGET);
+				MemoryModuleType.ATTACK_TARGET);
 		}
 
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
@@ -209,7 +218,7 @@ public class Party {
 			participants.clear();
 			participants.addAll(playersAround);
 			participants.addAll(world.getEntitiesByType(TypeFilter.instanceOf(VillagerEntity.class),
-					isInPartyDistance()));
+				isInPartyDistance()));
 			for (LivingEntity participant : participants) {
 				if (participant instanceof VillagerEntity v) {
 					setPartyBrain(v, v.getBrain());
@@ -249,8 +258,10 @@ public class Party {
 			if (participant instanceof VillagerEntity v) {
 				v.reinitializeBrain(world);
 				for (ServerPlayerEntity serverPlayerEntity : playersAround) {
-					if (partyPower > 300 && MiskatonicMysteriesAPI.getNonNullAffiliation(serverPlayerEntity, true) == MMAffiliations.HASTUR) {
-						v.getGossip().startGossip(serverPlayerEntity.getUuid(), VillageGossipType.MAJOR_POSITIVE, world.random.nextInt(partyPower / 20));
+					if (partyPower > 300
+						&& MiskatonicMysteriesAPI.getNonNullAffiliation(serverPlayerEntity, true) == MMAffiliations.HASTUR) {
+						v.getGossip().startGossip(serverPlayerEntity.getUuid(), VillageGossipType.MAJOR_POSITIVE,
+							world.random.nextInt(partyPower / 20));
 					}
 					v.getGossip().startGossip(serverPlayerEntity.getUuid(), VillageGossipType.MINOR_POSITIVE, partyPower / 20 - 2);
 				}

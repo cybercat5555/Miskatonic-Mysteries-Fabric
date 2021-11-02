@@ -15,7 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public class EntityMixin {
-	@Shadow public World world;
+
+	@Shadow
+	public World world;
 
 	@Inject(method = "isCollidable", at = @At("RETURN"), cancellable = true)
 	private void isCollidable(CallbackInfoReturnable<Boolean> cir) {
@@ -27,7 +29,7 @@ public class EntityMixin {
 	@Inject(method = "playSound", at = @At("HEAD"), cancellable = true)
 	private void playSound(SoundEvent sound, float volume, float pitch, CallbackInfo ci) {
 		if (this instanceof HiddenEntity h && h.isHidden()) {
-			if (!world.isClient || !HallucinationEntity.canSeeThroughMagic(MinecraftClient.getInstance().player)){
+			if (!world.isClient || !HallucinationEntity.canSeeThroughMagic(MinecraftClient.getInstance().player)) {
 				ci.cancel();
 			}
 		}

@@ -9,24 +9,25 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class ProjectileSpellMedium extends SpellMedium {
-    public ProjectileSpellMedium() {
-        super(new Identifier(Constants.MOD_ID, "projectile"));
-    }
 
-    @Override
-    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
-        if (!world.isClient) {
-            SpellProjectileEntity projectile = new SpellProjectileEntity(caster.world, caster, effect, intensity);
-            projectile.setProperties(caster, caster.getPitch(), caster.getHeadYaw(), 0, 1, 0);
-            projectile.setYaw(caster.getHeadYaw());
-            projectile.setPitch(caster.getPitch());
-            return world.spawnEntity(projectile);
-        }
-        return true;
-    }
+	public ProjectileSpellMedium() {
+		super(new Identifier(Constants.MOD_ID, "projectile"));
+	}
 
-    @Override
-    public float getCooldownModifier(LivingEntity caster) {
-        return 0.9F;
-    }
+	@Override
+	public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
+		if (!world.isClient) {
+			SpellProjectileEntity projectile = new SpellProjectileEntity(caster.world, caster, effect, intensity);
+			projectile.setProperties(caster, caster.getPitch(), caster.getHeadYaw(), 0, 1, 0);
+			projectile.setYaw(caster.getHeadYaw());
+			projectile.setPitch(caster.getPitch());
+			return world.spawnEntity(projectile);
+		}
+		return true;
+	}
+
+	@Override
+	public float getCooldownModifier(LivingEntity caster) {
+		return 0.9F;
+	}
 }

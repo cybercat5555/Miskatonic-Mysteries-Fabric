@@ -5,6 +5,7 @@ import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Appeasable;
 import com.miskatonicmysteries.api.interfaces.HiddenEntity;
 import com.miskatonicmysteries.common.util.Constants;
+import java.util.Set;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
@@ -29,16 +30,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Set;
-
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin extends LivingEntity implements HiddenEntity {
+
 	@Unique
 	private static final Set<Potion> FORBIDDEN_POTIONS = ImmutableSet.of(Potions.WATER, Potions.EMPTY, Potions.MUNDANE
-			, Potions.AWKWARD, Potions.THICK);
+		, Potions.AWKWARD, Potions.THICK);
 	@Unique
-	private static TrackedData<Boolean> HIDDEN = DataTracker.registerData(MobEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
+	private static final TrackedData<Boolean> HIDDEN = DataTracker.registerData(MobEntity.class,
+		TrackedDataHandlerRegistry.BOOLEAN);
 
 	protected MobEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
@@ -73,7 +73,8 @@ public abstract class MobEntityMixin extends LivingEntity implements HiddenEntit
 	private void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
 		Appeasable.of(this).ifPresent(appeasable -> {
 			if ((Object) this instanceof WitchEntity) {
-				if (!appeasable.isAppeased() && player.getStackInHand(hand).getItem() == Items.POTION && !FORBIDDEN_POTIONS.contains(PotionUtil.getPotion(player.getStackInHand(hand)))) {
+				if (!appeasable.isAppeased() && player.getStackInHand(hand).getItem() == Items.POTION && !FORBIDDEN_POTIONS
+					.contains(PotionUtil.getPotion(player.getStackInHand(hand)))) {
 					setStackInHand(Hand.MAIN_HAND, player.getStackInHand(hand).split(1));
 					appeasable.setAppeasedTicks(200 + player.getRandom().nextInt(200));
 					playAmbientSound();

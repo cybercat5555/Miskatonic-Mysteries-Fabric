@@ -11,7 +11,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsage;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
@@ -25,95 +29,96 @@ import team.reborn.energy.Energy;
 import team.reborn.energy.EnergySide;
 
 public class ChemicalFuelItem extends Item {
-    public static final DispenserBehavior FUEL_DISPENSER_BEHAVIOR = new ItemDispenserBehavior() {
-        private final ItemDispenserBehavior defaultBehavior = new ItemDispenserBehavior();
 
-        protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
-            BlockPos pos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
-            if (pointer.getWorld().getBlockEntity(pos) instanceof PowerCellBlockEntity) {
-                PowerCellBlockEntity cell = (PowerCellBlockEntity) pointer.getWorld().getBlockEntity(pos);
-                if (cell.getStored(EnergySide.UNKNOWN) < cell.getMaxStoredPower()) {
-                    Energy.of(cell).set(cell.getStored(EnergySide.UNKNOWN) + cell.getMaxStoredPower() / 4F);
-                    Item remainder = stack.getItem().getRecipeRemainder();
-                    stack.decrement(1);
-                    if (stack.isEmpty()) {
-                        return new ItemStack(remainder);
-                    } else {
-                        if (((DispenserBlockEntity) pointer.getBlockEntity()).addToFirstFreeSlot(new ItemStack(remainder)) < 0) {
-                            defaultBehavior.dispense(pointer, new ItemStack(remainder));
-                        }
-                        return stack;
-                    }
-                }
-            }
-            return super.dispenseSilently(pointer, stack);
-        }
-    };
+	public static final DispenserBehavior FUEL_DISPENSER_BEHAVIOR = new ItemDispenserBehavior() {
+		private final ItemDispenserBehavior defaultBehavior = new ItemDispenserBehavior();
 
-    public ChemicalFuelItem() {
-        super(new Settings().group(Constants.MM_GROUP).recipeRemainder(Items.GLASS_BOTTLE));
-        DispenserBlock.registerBehavior(this, FUEL_DISPENSER_BEHAVIOR);
-    }
+		protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
+			BlockPos pos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
+			if (pointer.getWorld().getBlockEntity(pos) instanceof PowerCellBlockEntity) {
+				PowerCellBlockEntity cell = (PowerCellBlockEntity) pointer.getWorld().getBlockEntity(pos);
+				if (cell.getStored(EnergySide.UNKNOWN) < cell.getMaxStoredPower()) {
+					Energy.of(cell).set(cell.getStored(EnergySide.UNKNOWN) + cell.getMaxStoredPower() / 4F);
+					Item remainder = stack.getItem().getRecipeRemainder();
+					stack.decrement(1);
+					if (stack.isEmpty()) {
+						return new ItemStack(remainder);
+					} else {
+						if (((DispenserBlockEntity) pointer.getBlockEntity()).addToFirstFreeSlot(new ItemStack(remainder)) < 0) {
+							defaultBehavior.dispense(pointer, new ItemStack(remainder));
+						}
+						return stack;
+					}
+				}
+			}
+			return super.dispenseSilently(pointer, stack);
+		}
+	};
 
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        return ItemUsage.consumeHeldItem(world, user, hand);
-    }
+	public ChemicalFuelItem() {
+		super(new Settings().group(Constants.MM_GROUP).recipeRemainder(Items.GLASS_BOTTLE));
+		DispenserBlock.registerBehavior(this, FUEL_DISPENSER_BEHAVIOR);
+	}
 
-    @Override
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        if (context.getWorld().getBlockEntity(context.getBlockPos()) instanceof PowerCellBlockEntity) {
-            PowerCellBlockEntity cell = (PowerCellBlockEntity) context.getWorld().getBlockEntity(context.getBlockPos());
-            if (cell.getStored(EnergySide.UNKNOWN) < cell.getMaxStoredPower()) {
-                Energy.of(cell).set(cell.getStored(EnergySide.UNKNOWN) + cell.getMaxStoredPower() / 4F);
-                context.getPlayer().getStackInHand(context.getHand()).decrement(1);
-                ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
-                if (context.getPlayer().getStackInHand(context.getHand()).isEmpty()) {
-                    context.getPlayer().setStackInHand(context.getHand(), itemStack);
-                } else {
-                    if (!context.getPlayer().getInventory().insertStack(itemStack)) {
-                        context.getPlayer().dropItem(itemStack, false);
-                    }
-                }
-                context.getPlayer().swingHand(context.getHand());
-                return ActionResult.CONSUME;
-            }
-        }
-        return ActionResult.PASS;
-    }
+	@Override
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		return ItemUsage.consumeHeldItem(world, user, hand);
+	}
 
-    @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        if (!world.isClient) {
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 300, 0));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 600, 0));
-            stack.decrement(1);
-            if (user instanceof ServerPlayerEntity sp) {
-                Criteria.CONSUME_ITEM.trigger(sp, stack);
-                sp.incrementStat(Stats.USED.getOrCreateStat(this));
-            }
-        }
-        if (stack.isEmpty()) {
-            return new ItemStack(Items.GLASS_BOTTLE);
-        } else {
-            if (user instanceof PlayerEntity player && !player.isCreative()) {
-                ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
-                if (!player.getInventory().insertStack(itemStack)) {
-                    player.dropItem(itemStack, false);
-                }
-            }
+	@Override
+	public ActionResult useOnBlock(ItemUsageContext context) {
+		if (context.getWorld().getBlockEntity(context.getBlockPos()) instanceof PowerCellBlockEntity) {
+			PowerCellBlockEntity cell = (PowerCellBlockEntity) context.getWorld().getBlockEntity(context.getBlockPos());
+			if (cell.getStored(EnergySide.UNKNOWN) < cell.getMaxStoredPower()) {
+				Energy.of(cell).set(cell.getStored(EnergySide.UNKNOWN) + cell.getMaxStoredPower() / 4F);
+				context.getPlayer().getStackInHand(context.getHand()).decrement(1);
+				ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
+				if (context.getPlayer().getStackInHand(context.getHand()).isEmpty()) {
+					context.getPlayer().setStackInHand(context.getHand(), itemStack);
+				} else {
+					if (!context.getPlayer().getInventory().insertStack(itemStack)) {
+						context.getPlayer().dropItem(itemStack, false);
+					}
+				}
+				context.getPlayer().swingHand(context.getHand());
+				return ActionResult.CONSUME;
+			}
+		}
+		return ActionResult.PASS;
+	}
 
-            return stack;
-        }
-    }
+	@Override
+	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+		if (!world.isClient) {
+			user.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 300, 0));
+			user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 600, 0));
+			stack.decrement(1);
+			if (user instanceof ServerPlayerEntity sp) {
+				Criteria.CONSUME_ITEM.trigger(sp, stack);
+				sp.incrementStat(Stats.USED.getOrCreateStat(this));
+			}
+		}
+		if (stack.isEmpty()) {
+			return new ItemStack(Items.GLASS_BOTTLE);
+		} else {
+			if (user instanceof PlayerEntity player && !player.isCreative()) {
+				ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
+				if (!player.getInventory().insertStack(itemStack)) {
+					player.dropItem(itemStack, false);
+				}
+			}
 
-    @Override
-    public UseAction getUseAction(ItemStack stack) {
-        return UseAction.DRINK;
-    }
+			return stack;
+		}
+	}
 
-    @Override
-    public int getMaxUseTime(ItemStack stack) {
-        return 32;
-    }
+	@Override
+	public UseAction getUseAction(ItemStack stack) {
+		return UseAction.DRINK;
+	}
+
+	@Override
+	public int getMaxUseTime(ItemStack stack) {
+		return 32;
+	}
 }

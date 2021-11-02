@@ -15,17 +15,19 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class RemoveExpansionPacket {
-    public static final Identifier ID = new Identifier(Constants.MOD_ID, "sanity_remove_expansion");
 
-    public static void send(PlayerEntity player, String name) {
-        PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-        data.writeString(name);
-        ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
-    }
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sanity_remove_expansion");
 
-    @Environment(EnvType.CLIENT)
-    public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-        String name = packetByteBuf.readString();
-        client.execute(() -> ((Sanity) client.player).removeSanityCapExpansion(name));
-    }
+	public static void send(PlayerEntity player, String name) {
+		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
+		data.writeString(name);
+		ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
+		PacketSender sender) {
+		String name = packetByteBuf.readString();
+		client.execute(() -> ((Sanity) client.player).removeSanityCapExpansion(name));
+	}
 }

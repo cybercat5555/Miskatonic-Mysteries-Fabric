@@ -16,14 +16,16 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class ProtagonistEntityRender extends MobEntityRenderer<ProtagonistEntity, ProtagonistEntityModel> {
-    public ProtagonistEntityRender(EntityRendererFactory.Context context) {
-        super(context, new ProtagonistEntityModel(context.getPart(MMModels.PROTAGONIST)), 0.5F);
-        this.addFeature(new HeldItemFeatureRenderer<>(this));
-        this.addFeature(new ArmorFeatureRenderer<>(this, new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_INNER_ARMOR)), new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_OUTER_ARMOR))));
-    }
 
-    @Override
-    public Identifier getTexture(ProtagonistEntity entity) {
-        return new Identifier(Constants.MOD_ID, String.format("textures/entity/protagonist/protagonist_%d.png", entity.getVariant()));
-    }
+	public ProtagonistEntityRender(EntityRendererFactory.Context context) {
+		super(context, new ProtagonistEntityModel(context.getPart(MMModels.PROTAGONIST)), 0.5F);
+		this.addFeature(new HeldItemFeatureRenderer<>(this));
+		this.addFeature(new ArmorFeatureRenderer<>(this, new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_INNER_ARMOR)),
+			new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_OUTER_ARMOR))));
+	}
+
+	@Override
+	public Identifier getTexture(ProtagonistEntity entity) {
+		return new Identifier(Constants.MOD_ID, String.format("textures/entity/protagonist/protagonist_%d.png", entity.getVariant()));
+	}
 }

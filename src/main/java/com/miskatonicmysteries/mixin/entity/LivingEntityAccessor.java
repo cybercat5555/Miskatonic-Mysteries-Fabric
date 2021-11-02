@@ -8,6 +8,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(LivingEntity.class)
 public interface LivingEntityAccessor {
 
-    @Invoker
-    boolean callBlockedByShield(DamageSource source);
+	@Invoker
+	boolean callBlockedByShield(DamageSource source);
 }

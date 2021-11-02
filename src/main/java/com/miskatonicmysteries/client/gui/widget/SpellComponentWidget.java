@@ -14,61 +14,62 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class SpellComponentWidget extends ClickableWidget {
-    public Identifier linkedId;
-    public Identifier textureLocation;
-    public EditSpellScreen screen;
-    public Type type;
 
-    public SpellComponentWidget(int x, int y, int width, int height, Type type, Identifier linkedId, EditSpellScreen screen) {
-        super(x, y, width, height, NarratorManager.EMPTY);
-        this.linkedId = linkedId;
-        this.textureLocation = new Identifier(linkedId.getNamespace(), "textures/gui/spell_widgets/" + linkedId.getPath() + ".png");
-        this.screen = screen;
-        this.type = type;
-    }
+	public Identifier linkedId;
+	public Identifier textureLocation;
+	public EditSpellScreen screen;
+	public Type type;
 
-    public SpellComponentWidget(int x, int y, SpellEffect effect, EditSpellScreen screen) {
-        super(x, y, 24, 24, NarratorManager.EMPTY);
-        this.linkedId = effect.getId();
-        this.screen = screen;
-        this.type = Type.EFFECT;
-        this.textureLocation = effect.getTextureLocation();
-    }
+	public SpellComponentWidget(int x, int y, int width, int height, Type type, Identifier linkedId, EditSpellScreen screen) {
+		super(x, y, width, height, NarratorManager.EMPTY);
+		this.linkedId = linkedId;
+		this.textureLocation = new Identifier(linkedId.getNamespace(), "textures/gui/spell_widgets/" + linkedId.getPath() + ".png");
+		this.screen = screen;
+		this.type = type;
+	}
 
-    @Override
-    public void onClick(double mouseX, double mouseY) {
-        if (isSelected()) {
-            screen.selectedEffect = null;
-        } else {
-            screen.selectedEffect = this;
-        }
-    }
+	public SpellComponentWidget(int x, int y, SpellEffect effect, EditSpellScreen screen) {
+		super(x, y, 24, 24, NarratorManager.EMPTY);
+		this.linkedId = effect.getId();
+		this.screen = screen;
+		this.type = Type.EFFECT;
+		this.textureLocation = effect.getTextureLocation();
+	}
 
-    public boolean isSelected() {
-        return this.equals(screen.selectedEffect);
-    }
+	@Override
+	public void onClick(double mouseX, double mouseY) {
+		if (isSelected()) {
+			screen.selectedEffect = null;
+		} else {
+			screen.selectedEffect = this;
+		}
+	}
 
-    @Override
-    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, isHovered() ? 0.75F : this.alpha);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.enableDepthTest();
-        RenderSystem.setShaderTexture(0, EditSpellScreen.BOOK_TEXTURE);
-        drawTexture(matrices, this.x, this.y, 0, 182 + (isSelected() ? 39 : 0), 24, 24, 512, 256);
-        RenderSystem.setShaderTexture(0, textureLocation);
-        drawTexture(matrices, this.x + 3, this.y + 3, 0, 0, 18, 18, 18, 18);
-        this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
-    }
+	public boolean isSelected() {
+		return this.equals(screen.selectedEffect);
+	}
 
-    @Override
-    public void appendNarrations(NarrationMessageBuilder builder) {
-        super.appendDefaultNarrations(builder);
-    }
+	@Override
+	public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+		MinecraftClient minecraftClient = MinecraftClient.getInstance();
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, isHovered() ? 0.75F : this.alpha);
+		RenderSystem.enableBlend();
+		RenderSystem.defaultBlendFunc();
+		RenderSystem.enableDepthTest();
+		RenderSystem.setShaderTexture(0, EditSpellScreen.BOOK_TEXTURE);
+		drawTexture(matrices, this.x, this.y, 0, 182 + (isSelected() ? 39 : 0), 24, 24, 512, 256);
+		RenderSystem.setShaderTexture(0, textureLocation);
+		drawTexture(matrices, this.x + 3, this.y + 3, 0, 0, 18, 18, 18, 18);
+		this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
+	}
 
-    public enum Type {
-        MEDIUM,
-        EFFECT
-    }
+	@Override
+	public void appendNarrations(NarrationMessageBuilder builder) {
+		super.appendDefaultNarrations(builder);
+	}
+
+	public enum Type {
+		MEDIUM,
+		EFFECT
+	}
 }

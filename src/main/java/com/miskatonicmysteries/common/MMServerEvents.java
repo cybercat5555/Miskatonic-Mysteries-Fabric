@@ -2,7 +2,12 @@ package com.miskatonicmysteries.common;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.block.StatueBlock;
-import com.miskatonicmysteries.api.interfaces.*;
+import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.interfaces.BiomeAffected;
+import com.miskatonicmysteries.api.interfaces.Knowledge;
+import com.miskatonicmysteries.api.interfaces.MalleableAffiliated;
+import com.miskatonicmysteries.api.interfaces.Sanity;
+import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
@@ -39,153 +44,154 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 public class MMServerEvents {
-    public static void init() {
-        UseBlockCallback.EVENT.register(MMServerEvents::interactBlock);
-        ServerTickEvents.END_WORLD_TICK.register(MMServerEvents::tick);
-        ServerPlayerEvents.COPY_FROM.register(MMServerEvents::copyFromPlayer);
-        ServerPlayerEvents.AFTER_RESPAWN.register(MMServerEvents::afterRespawn);
-        ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register(MMServerEvents::afterKilledOtherEntity);
-        PlayerSyncCallback.EVENT.register(MMServerEvents::onPlayerSync);
-        EntitySleepEvents.STOP_SLEEPING.register(MMServerEvents::onStopSleeping);
-    }
 
-    private static void tick(ServerWorld serverWorld) {
-        MMPartyState.get(serverWorld).tick();
-    }
+	public static void init() {
+		UseBlockCallback.EVENT.register(MMServerEvents::interactBlock);
+		ServerTickEvents.END_WORLD_TICK.register(MMServerEvents::tick);
+		ServerPlayerEvents.COPY_FROM.register(MMServerEvents::copyFromPlayer);
+		ServerPlayerEvents.AFTER_RESPAWN.register(MMServerEvents::afterRespawn);
+		ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register(MMServerEvents::afterKilledOtherEntity);
+		PlayerSyncCallback.EVENT.register(MMServerEvents::onPlayerSync);
+		EntitySleepEvents.STOP_SLEEPING.register(MMServerEvents::onStopSleeping);
+	}
 
-    private static void copyFromPlayer(ServerPlayerEntity oldPlayer, ServerPlayerEntity player, boolean isDead) {
-        Sanity.of(oldPlayer).ifPresent(oldSanity -> Sanity.of(player).ifPresent(sanity -> {
-            sanity.setSanity(oldSanity.getSanity(), true);
-            sanity.getSanityCapExpansions().putAll(oldSanity.getSanityCapExpansions());
-            sanity.syncSanityData();
-        }));
+	private static void tick(ServerWorld serverWorld) {
+		MMPartyState.get(serverWorld).tick();
+	}
 
-        SpellCaster.of(oldPlayer).ifPresent(oldCaster -> SpellCaster.of(player).ifPresent(caster -> {
-            caster.setMaxSpells(oldCaster.getMaxSpells());
-            caster.setPowerPool(oldCaster.getPowerPool());
-            caster.getLearnedEffects().addAll(oldCaster.getLearnedEffects());
-            caster.getLearnedMediums().addAll(oldCaster.getLearnedMediums());
-            caster.getSpells().addAll(oldCaster.getSpells());
-            caster.syncSpellData();
-        }));
+	private static void copyFromPlayer(ServerPlayerEntity oldPlayer, ServerPlayerEntity player, boolean isDead) {
+		Sanity.of(oldPlayer).ifPresent(oldSanity -> Sanity.of(player).ifPresent(sanity -> {
+			sanity.setSanity(oldSanity.getSanity(), true);
+			sanity.getSanityCapExpansions().putAll(oldSanity.getSanityCapExpansions());
+			sanity.syncSanityData();
+		}));
 
-        MalleableAffiliated.of(oldPlayer)
-                .ifPresent(oldAffiliation -> MalleableAffiliated.of(player).ifPresent(affiliation -> {
-                    affiliation.setAffiliation(oldAffiliation.getAffiliation(false), false);
-                    affiliation.setAffiliation(oldAffiliation.getAffiliation(true), true);
-                }));
+		SpellCaster.of(oldPlayer).ifPresent(oldCaster -> SpellCaster.of(player).ifPresent(caster -> {
+			caster.setMaxSpells(oldCaster.getMaxSpells());
+			caster.setPowerPool(oldCaster.getPowerPool());
+			caster.getLearnedEffects().addAll(oldCaster.getLearnedEffects());
+			caster.getLearnedMediums().addAll(oldCaster.getLearnedMediums());
+			caster.getSpells().addAll(oldCaster.getSpells());
+			caster.syncSpellData();
+		}));
 
-        Knowledge.of(oldPlayer).ifPresent(oldKnowledge -> Knowledge.of(player).ifPresent(knowledge -> {
-            for (String knowledgeId : oldKnowledge.getKnowledge()) {
-                knowledge.addKnowledge(knowledgeId);
-            }
-            knowledge.syncKnowledge();
-        }));
-    }
+		MalleableAffiliated.of(oldPlayer)
+			.ifPresent(oldAffiliation -> MalleableAffiliated.of(player).ifPresent(affiliation -> {
+				affiliation.setAffiliation(oldAffiliation.getAffiliation(false), false);
+				affiliation.setAffiliation(oldAffiliation.getAffiliation(true), true);
+			}));
 
-    private static void afterRespawn(ServerPlayerEntity oldPlayer, ServerPlayerEntity newPlayer, boolean alive) {
-        Sanity.of(newPlayer).ifPresent(Sanity::syncSanityData);
-        SpellCaster.of(newPlayer).ifPresent(SpellCaster::syncSpellData);
-        Knowledge.of(newPlayer).ifPresent(Knowledge::syncKnowledge);
-    }
+		Knowledge.of(oldPlayer).ifPresent(oldKnowledge -> Knowledge.of(player).ifPresent(knowledge -> {
+			for (String knowledgeId : oldKnowledge.getKnowledge()) {
+				knowledge.addKnowledge(knowledgeId);
+			}
+			knowledge.syncKnowledge();
+		}));
+	}
 
-    private static void afterKilledOtherEntity(ServerWorld world, Entity entity, LivingEntity killedEntity) {
-        if (entity instanceof PlayerEntity && killedEntity instanceof EvokerEntity) {
-            SpellCaster.of(entity).ifPresent(spellCaster -> {
-                if (!spellCaster.getLearnedEffects().contains(MMSpellEffects.HARROWS)) {
-                    spellCaster.learnEffect(MMSpellEffects.HARROWS);
-                    spellCaster.syncSpellData();
-                }
-            });
-        }
-    }
+	private static void afterRespawn(ServerPlayerEntity oldPlayer, ServerPlayerEntity newPlayer, boolean alive) {
+		Sanity.of(newPlayer).ifPresent(Sanity::syncSanityData);
+		SpellCaster.of(newPlayer).ifPresent(SpellCaster::syncSpellData);
+		Knowledge.of(newPlayer).ifPresent(Knowledge::syncKnowledge);
+	}
 
-    private static ActionResult interactBlock(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
-        if (world instanceof ServerWorld serverWorld && world.getBlockState(hitResult.getBlockPos())
-                .getBlock() instanceof BellBlock) {
-            if (HasturAscensionHandler.canPlayerStartGathering(player, world) && MMPartyState.get(serverWorld)
-                    .tryStartParty(serverWorld, hitResult.getBlockPos())) {
-                player.removeStatusEffect(StatusEffects.HERO_OF_THE_VILLAGE);
-            }
-        }
-        return ActionResult.PASS;
-    }
+	private static void afterKilledOtherEntity(ServerWorld world, Entity entity, LivingEntity killedEntity) {
+		if (entity instanceof PlayerEntity && killedEntity instanceof EvokerEntity) {
+			SpellCaster.of(entity).ifPresent(spellCaster -> {
+				if (!spellCaster.getLearnedEffects().contains(MMSpellEffects.HARROWS)) {
+					spellCaster.learnEffect(MMSpellEffects.HARROWS);
+					spellCaster.syncSpellData();
+				}
+			});
+		}
+	}
 
-    private static void onPlayerSync(ServerPlayerEntity player) {
-        Sanity.of(player).ifPresent(Sanity::syncSanityData);
-        SpellCaster.of(player).ifPresent(SpellCaster::syncSpellData);
-        Knowledge.of(player).ifPresent(Knowledge::syncKnowledge);
-    }
+	private static ActionResult interactBlock(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
+		if (world instanceof ServerWorld serverWorld && world.getBlockState(hitResult.getBlockPos())
+			.getBlock() instanceof BellBlock) {
+			if (HasturAscensionHandler.canPlayerStartGathering(player, world) && MMPartyState.get(serverWorld)
+				.tryStartParty(serverWorld, hitResult.getBlockPos())) {
+				player.removeStatusEffect(StatusEffects.HERO_OF_THE_VILLAGE);
+			}
+		}
+		return ActionResult.PASS;
+	}
 
-    public static void playerDamagePre(PlayerEntity player, DamageSource source, float amount,
-                                       CallbackInfoReturnable<Boolean> infoReturnable) {
-        if (source
-                .getAttacker() instanceof ProtagonistEntity && !(source instanceof Constants.DamageSources.ProtagonistDamageSource)) {
-            infoReturnable.setReturnValue(player
-                    .damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount));
-            return;
-        }
-        if (source.getAttacker() instanceof HallucinationEntity && source != Constants.DamageSources.INSANITY) {
-            infoReturnable.setReturnValue(player.damage(Constants.DamageSources.INSANITY, amount));
-            return;
-        }
-        if (source == DamageSource.LIGHTNING_BOLT) {
-            SpellCaster.of(player).ifPresent(spellCaster -> {
-                if (!spellCaster.getLearnedMediums().contains(MMSpellMediums.BOLT)) {
-                    spellCaster.learnMedium(MMSpellMediums.BOLT);
-                    spellCaster.syncSpellData();
-                }
-            });
-            return;
-        }
+	private static void onPlayerSync(ServerPlayerEntity player) {
+		Sanity.of(player).ifPresent(Sanity::syncSanityData);
+		SpellCaster.of(player).ifPresent(SpellCaster::syncSpellData);
+		Knowledge.of(player).ifPresent(Knowledge::syncKnowledge);
+	}
 
-        if (source.isMagic() && source.getAttacker() instanceof GuardianEntity) {
-            SpellCaster.of(player).ifPresent(spellCaster -> {
-                if (!spellCaster.getLearnedMediums().contains(MMSpellMediums.VISION)) {
-                    spellCaster.learnMedium(MMSpellMediums.VISION);
-                    spellCaster.syncSpellData();
-                }
-            });
-        }
-    }
+	public static void playerDamagePre(PlayerEntity player, DamageSource source, float amount,
+		CallbackInfoReturnable<Boolean> infoReturnable) {
+		if (source
+			.getAttacker() instanceof ProtagonistEntity && !(source instanceof Constants.DamageSources.ProtagonistDamageSource)) {
+			infoReturnable.setReturnValue(player
+				.damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount));
+			return;
+		}
+		if (source.getAttacker() instanceof HallucinationEntity && source != Constants.DamageSources.INSANITY) {
+			infoReturnable.setReturnValue(player.damage(Constants.DamageSources.INSANITY, amount));
+			return;
+		}
+		if (source == DamageSource.LIGHTNING_BOLT) {
+			SpellCaster.of(player).ifPresent(spellCaster -> {
+				if (!spellCaster.getLearnedMediums().contains(MMSpellMediums.BOLT)) {
+					spellCaster.learnMedium(MMSpellMediums.BOLT);
+					spellCaster.syncSpellData();
+				}
+			});
+			return;
+		}
 
-    public static boolean playerDamageDeath(PlayerEntity player, DamageSource source, float amount,
-                                            CallbackInfoReturnable<Boolean> infoReturnable) {
-        if (player.isDead() && !source.isOutOfWorld()) {
-            if (InventoryUtil.getSlotForItemInHotbar(player, MMObjects.RE_AGENT_SYRINGE) >= 0) {
-                player.getInventory().getStack(InventoryUtil.getSlotForItemInHotbar(player,
-                        MMObjects.RE_AGENT_SYRINGE)).decrement(1);
-                if (LazarusStatusEffect.revive(player)) {
-                    infoReturnable.setReturnValue(false);
-                    return false;
-                }
-            } else if (source instanceof Constants.DamageSources.ProtagonistDamageSource) {
-                MiskatonicMysteriesAPI.resetProgress(player);
-                if (source.getSource() instanceof ProtagonistEntity) {
-                    ((ProtagonistEntity) source.getAttacker()).removeAfterTargetKill();
-                }
-                return true;
-            }
-        }
-        return player.isDead();
-    }
+		if (source.isMagic() && source.getAttacker() instanceof GuardianEntity) {
+			SpellCaster.of(player).ifPresent(spellCaster -> {
+				if (!spellCaster.getLearnedMediums().contains(MMSpellMediums.VISION)) {
+					spellCaster.learnMedium(MMSpellMediums.VISION);
+					spellCaster.syncSpellData();
+				}
+			});
+		}
+	}
 
-    private static void onStopSleeping(LivingEntity entity, BlockPos sleepingPos) {
-        World world = entity.world;
-        if (!world.isClient && entity instanceof PlayerEntity p && p.isSleepingLongEnough()) {
-            if (p instanceof BiomeAffected affected && affected.getCurrentBiomeEffect() == MMWorld.HASTUR_BIOME_EFFECT) {
-                HasturBiomeEffect.onWakeUp(p, sleepingPos);
-            }
-            if (world.random.nextFloat() < MiskatonicMysteries.config.entities.statueEffectChance) {
-                Iterable<BlockPos> positions = BlockPos.iterateOutwards(entity.getBlockPos(), 10, 10, 10);
-                for (BlockPos position : positions) {
-                    if (world.getBlockState(position).getBlock() instanceof StatueBlock) {
-                        ((StatueBlock) world.getBlockState(position).getBlock())
-                                .selectStatusEffects(p, (Affiliated) p);
-                        break;
-                    }
-                }
-            }
-        }
-    }
+	public static boolean playerDamageDeath(PlayerEntity player, DamageSource source, float amount,
+		CallbackInfoReturnable<Boolean> infoReturnable) {
+		if (player.isDead() && !source.isOutOfWorld()) {
+			if (InventoryUtil.getSlotForItemInHotbar(player, MMObjects.RE_AGENT_SYRINGE) >= 0) {
+				player.getInventory().getStack(InventoryUtil.getSlotForItemInHotbar(player,
+					MMObjects.RE_AGENT_SYRINGE)).decrement(1);
+				if (LazarusStatusEffect.revive(player)) {
+					infoReturnable.setReturnValue(false);
+					return false;
+				}
+			} else if (source instanceof Constants.DamageSources.ProtagonistDamageSource) {
+				MiskatonicMysteriesAPI.resetProgress(player);
+				if (source.getSource() instanceof ProtagonistEntity) {
+					((ProtagonistEntity) source.getAttacker()).removeAfterTargetKill();
+				}
+				return true;
+			}
+		}
+		return player.isDead();
+	}
+
+	private static void onStopSleeping(LivingEntity entity, BlockPos sleepingPos) {
+		World world = entity.world;
+		if (!world.isClient && entity instanceof PlayerEntity p && p.isSleepingLongEnough()) {
+			if (p instanceof BiomeAffected affected && affected.getCurrentBiomeEffect() == MMWorld.HASTUR_BIOME_EFFECT) {
+				HasturBiomeEffect.onWakeUp(p, sleepingPos);
+			}
+			if (world.random.nextFloat() < MiskatonicMysteries.config.entities.statueEffectChance) {
+				Iterable<BlockPos> positions = BlockPos.iterateOutwards(entity.getBlockPos(), 10, 10, 10);
+				for (BlockPos position : positions) {
+					if (world.getBlockState(position).getBlock() instanceof StatueBlock) {
+						((StatueBlock) world.getBlockState(position).getBlock())
+							.selectStatusEffects(p, (Affiliated) p);
+						break;
+					}
+				}
+			}
+		}
+	}
 }

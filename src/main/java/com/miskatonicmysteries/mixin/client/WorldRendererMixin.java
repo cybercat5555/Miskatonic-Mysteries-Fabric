@@ -17,8 +17,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {
+
 	@Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/ShaderEffect;render(F)V", ordinal = 0))
-	private void noticeGlowRender(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo ci){
+	private void noticeGlowRender(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera,
+		GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo ci) {
 		MMClientEvents.glowingActive = true;
 	}
 }

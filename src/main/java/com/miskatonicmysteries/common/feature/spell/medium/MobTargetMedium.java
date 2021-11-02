@@ -12,22 +12,24 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 public class MobTargetMedium extends SpellMedium {
-    public MobTargetMedium() {
-        super(new Identifier(Constants.MOD_ID, "mob_target"));
-    }
 
-    @Override
-    public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
-        if (!world.isClient && caster instanceof MobEntity && caster.getAttacking() != null) {
-            if (caster.canSee(caster.getAttacking())) {
-                MobSpellPacket.send(caster, effect, intensity);
-                ((MobEntity) caster).lookAtEntity(caster.getAttacking(), 60, 60);
-                return !caster.isDead() && effect.effect(world, caster, caster.getAttacking(), caster.getAttacking().getPos(), this, intensity, caster);
-            }
-        }
-        if (caster instanceof PlayerEntity) {
-            return MMSpellMediums.BOLT.cast(world, caster, effect, intensity);
-        }
-        return false;
-    }
+	public MobTargetMedium() {
+		super(new Identifier(Constants.MOD_ID, "mob_target"));
+	}
+
+	@Override
+	public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
+		if (!world.isClient && caster instanceof MobEntity && caster.getAttacking() != null) {
+			if (caster.canSee(caster.getAttacking())) {
+				MobSpellPacket.send(caster, effect, intensity);
+				((MobEntity) caster).lookAtEntity(caster.getAttacking(), 60, 60);
+				return !caster.isDead() && effect
+					.effect(world, caster, caster.getAttacking(), caster.getAttacking().getPos(), this, intensity, caster);
+			}
+		}
+		if (caster instanceof PlayerEntity) {
+			return MMSpellMediums.BOLT.cast(world, caster, effect, intensity);
+		}
+		return false;
+	}
 }

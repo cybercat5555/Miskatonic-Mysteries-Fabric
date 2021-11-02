@@ -19,6 +19,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 public class SyncBlessingsPacket {
+
 	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_blessings");
 
 	public static void send(LivingEntity entity, Ascendant caster) {
@@ -34,13 +35,13 @@ public class SyncBlessingsPacket {
 
 	@Environment(EnvType.CLIENT)
 	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler,
-                              PacketByteBuf packetByteBuf, PacketSender sender) {
+		PacketByteBuf packetByteBuf, PacketSender sender) {
 		if (networkHandler.getWorld() != null) {
 			NbtCompound tag = packetByteBuf.readNbt();
 			Entity entity = networkHandler.getWorld().getEntityById(packetByteBuf.readInt());
 			if (entity != null) {
 				client.execute(() -> Ascendant.of(entity).ifPresent(ascendant -> NbtUtil.readBlessingData(ascendant,
-                        tag)));
+					tag)));
 			}
 		}
 	}
