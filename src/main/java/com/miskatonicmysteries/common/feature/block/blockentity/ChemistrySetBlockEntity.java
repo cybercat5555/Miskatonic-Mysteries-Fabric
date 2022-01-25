@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRecipes;
 import com.miskatonicmysteries.common.util.Constants;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,6 +20,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class ChemistrySetBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory {
 
@@ -46,22 +48,21 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 					blockEntity.clear();
 					blockEntity.finish();
 					if (!blockEntity.world.isClient) {
-						blockEntity.sync();
+						blockEntity.sync(blockEntity.world, blockEntity.pos);
 					}
 				}
-				blockEntity.markDirty();
 			} else {
 				blockEntity.finish();
 				if (!blockEntity.world.isClient) {
-					blockEntity.sync();
+					blockEntity.sync(blockEntity.world, blockEntity.pos);
 				}
-				blockEntity.markDirty();
 			}
+			blockEntity.markDirty();
 		}
 	}
 
 	@Override
-	public NbtCompound writeNbt(NbtCompound tag) {
+	public void writeNbt(NbtCompound tag) {
 		Inventories.writeNbt(tag, items);
 		NbtList potentialItemTag = new NbtList();
 		for (int i = 0; i < potentialItems.size(); i++) {
@@ -73,7 +74,6 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 		}
 		tag.put(Constants.NBT.POTENTIAL_ITEMS, potentialItemTag);
 		tag.putInt(Constants.NBT.WORK_PROGRESS, workProgress);
-		return super.writeNbt(tag);
 	}
 
 	@Override
@@ -159,5 +159,11 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 
 	public DefaultedList<PotentialItem> getPotentialItems() {
 		return potentialItems;
+	}
+
+	public void sync(World world, BlockPos pos) {
+		if (world != null && !world.isClient) {
+			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
+		}
 	}
 }

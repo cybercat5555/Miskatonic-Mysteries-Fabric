@@ -234,7 +234,7 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 		public void render(ItemStack stack, ModelTransformation.Mode mode, MatrixStack matrices,
 			VertexConsumerProvider vertexConsumers, int light, int overlay) {
 			if (dispatcher != null) {
-				NbtCompound compound = stack.getTag();
+				NbtCompound compound = stack.getNbt();
 				if (compound != null && compound.contains(Constants.NBT.BLOCK_ENTITY_TAG)) {
 					NbtCompound blockEntityTag = compound.getCompound(Constants.NBT.BLOCK_ENTITY_TAG);
 					if (blockEntityTag.contains(Constants.NBT.STATUE_OWNER)) {
@@ -295,10 +295,10 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 					int width = Math.min(texture.getImage().getWidth(), inputImage.getWidth());
 					for (int y = 0; y < height; y++) {
 						for (int x = 0; x < width; x++) {
-							int color = colorMap.get(inputImage.getPixelColor(x, y));
+							int color = colorMap.get(inputImage.getColor(x, y));
 							color = ColorHelper.multiplyColor(color,
-								stoneImage.getPixelColor(x % stoneImage.getWidth(), y % stoneImage.getHeight()));
-							texture.getImage().setPixelColor(x, y, color);
+								stoneImage.getColor(x % stoneImage.getWidth(), y % stoneImage.getHeight()));
+							texture.getImage().setColor(x, y, color);
 						}
 					}
 					needsUpdate = false;

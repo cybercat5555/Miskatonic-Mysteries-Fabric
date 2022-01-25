@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.client.particle;
 
+import com.miskatonicmysteries.client.particle.ResonatorCreatureParticle.Variant;
 import java.util.function.BiConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -24,17 +25,17 @@ public class ResonatorCreatureParticle extends AbstractSlowingParticle {
 		this.variant = variant;
 		this.spriteProvider = spriteProvider;
 		this.maxAge = 100;
-		this.colorAlpha = 0;
+		this.alpha = 0;
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
 		if (age < 20) {
-			colorAlpha = age / 20F;
+			alpha = age / 20F;
 		} else if (age > maxAge - 20) {
-			colorAlpha = 1 - (age - (maxAge - 20)) / 20F;
-			if (colorAlpha == 0) {
+			alpha = 1 - (age - (maxAge - 20)) / 20F;
+			if (alpha == 0) {
 				markDead();
 			}
 		}

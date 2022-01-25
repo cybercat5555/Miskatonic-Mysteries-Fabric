@@ -102,12 +102,11 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
 	}
 
 	@Override
-	public NbtCompound writeNbt(NbtCompound tag) {
+	public void writeNbt(NbtCompound tag) {
 		tag.putFloat(Constants.NBT.RADIUS, radius);
 		tag.putFloat(Constants.NBT.INTENSITY, intensity);
 		tag.putDouble(Constants.NBT.ENERGY, energy);
 		tag.putInt(Constants.NBT.TICK_COUNT, ticksRan);
-		return super.writeNbt(tag);
 	}
 
 	@Override

@@ -21,6 +21,7 @@ public class SyncBiomeMaskPacket {
 	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_biome_mask");
 
 	public static void send(ServerPlayerEntity player, WorldChunk chunk, boolean resetColor) {
+		/* TODO BIOME
 		if (chunk.getBiomeArray() instanceof BiomeMask) {
 			PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
 			data.writeLong(chunk.getPos().toLong());
@@ -28,11 +29,13 @@ public class SyncBiomeMaskPacket {
 			data.writeBoolean(resetColor);
 			ServerPlayNetworking.send(player, ID, data);
 		}
+
+		 */
 	}
 
 	@Environment(EnvType.CLIENT)
-	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
-		PacketSender sender) {
+	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
+		/*TODO BIOME
 		if (client.world != null) {
 			ChunkPos pos = new ChunkPos(packetByteBuf.readLong());
 			int[] biomeMasks = packetByteBuf.readIntArray();
@@ -48,5 +51,7 @@ public class SyncBiomeMaskPacket {
 				}
 			});
 		}
+
+		 */
 	}
 }

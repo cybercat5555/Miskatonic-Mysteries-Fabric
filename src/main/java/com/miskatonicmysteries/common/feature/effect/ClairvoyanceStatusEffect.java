@@ -3,12 +3,12 @@ package com.miskatonicmysteries.common.feature.effect;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.entity.effect.StatusEffectCategory;
 
 public class ClairvoyanceStatusEffect extends StatusEffect {
 
 	public ClairvoyanceStatusEffect() {
-		super(StatusEffectType.NEUTRAL, 0xFFFFFF);
+		super(StatusEffectCategory.NEUTRAL, 0xFFFFFF);
 	}
 
 	@Override

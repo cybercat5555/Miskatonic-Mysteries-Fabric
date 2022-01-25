@@ -33,7 +33,7 @@ public class ResonatorSound extends MovingSoundInstance implements TickableSound
 		this.z = pos.getZ() + 0.5F;
 		this.volume = 0.5F;
 		this.pitch = 1;
-		this.looping = true;
+		this.relative = true;
 		this.repeat = true;
 	}
 

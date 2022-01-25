@@ -98,7 +98,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
 	@Inject(method = "wakeUp(ZZ)V", at = @At("HEAD"))
 	private void wakeUp(boolean bl, boolean updateSleepingPlayers, CallbackInfo ci) {
-		if (isSleepingLongEnough() && !world.isClient
+		if (canResetTimeBySleeping() && !world.isClient
 			&& world.random.nextFloat() < MiskatonicMysteries.config.entities.statueEffectChance) {
 			Iterable<BlockPos> positions = BlockPos.iterateOutwards(getBlockPos(), 10, 10, 10);
 			for (BlockPos position : positions) {
@@ -141,7 +141,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 	public abstract void addExperienceLevels(int levels);
 
 	@Shadow
-	public abstract boolean isSleepingLongEnough();
+	public abstract boolean canResetTimeBySleeping();
 
 	@Shadow
 	public abstract boolean damage(DamageSource source, float amount);

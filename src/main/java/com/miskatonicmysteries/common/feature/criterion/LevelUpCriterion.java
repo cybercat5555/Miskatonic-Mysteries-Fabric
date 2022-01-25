@@ -29,7 +29,7 @@ public class LevelUpCriterion extends AbstractCriterion<LevelUpCriterion.Conditi
 	}
 
 	public void trigger(ServerPlayerEntity player, Affiliation affiliation, int stage) {
-		this.test(player, (conditions) -> conditions.matches(affiliation, stage));
+		this.trigger(player, (conditions) -> conditions.matches(affiliation, stage));
 	}
 
 	public static class Conditions extends AbstractCriterionConditions {

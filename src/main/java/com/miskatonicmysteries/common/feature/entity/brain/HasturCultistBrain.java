@@ -17,11 +17,9 @@ import com.miskatonicmysteries.common.registry.MMEntities;
 import com.mojang.datafixers.util.Pair;
 import java.util.List;
 import java.util.Optional;
+
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.Activity;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.MemoryModuleState;
-import net.minecraft.entity.ai.brain.MemoryModuleType;
+import net.minecraft.entity.ai.brain.*;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.ConditionalTask;
@@ -147,19 +145,21 @@ public class HasturCultistBrain {
 	}
 
 	public static Optional<? extends LivingEntity> getBestTarget(VillagerEntity cultist) {
+		/*
 		Brain<VillagerEntity> brain = cultist.getBrain();
 		Optional<LivingEntity> optional = LookTargetUtil.getEntity(cultist, MemoryModuleType.ANGRY_AT);
 		if (optional.isPresent() && shouldAttack(optional.get())) {
 			return optional;
 		} else {
 			if (brain.hasMemoryModule(MemoryModuleType.VISIBLE_MOBS)) {
-				Optional<List<LivingEntity>> mobs = brain.getOptionalMemory(MemoryModuleType.VISIBLE_MOBS);
+				Optional<LivingTargetCache> mobs = brain.getOptionalMemory(MemoryModuleType.VISIBLE_MOBS);
 				if (mobs.isPresent()) {
-					List<LivingEntity> mobList = mobs.get();
+					mobs.get().
+					List<LivingEntity> mobList = mobs..get();
 					LivingEntity bestTarget = null;
 					for (LivingEntity livingEntity : mobList) {
 						if (Ascendant.of(livingEntity).isPresent() && MiskatonicMysteriesAPI
-							.hasBlessing(Ascendant.of(livingEntity).get(), MMBlessings.ROYAL_ENTOURAGE)) {
+						.hasBlessing(Ascendant.of(livingEntity).get(), MMBlessings.ROYAL_ENTOURAGE)) {
 							if (livingEntity.getAttacker() != null) {
 								bestTarget = livingEntity.getAttacker();
 								break;
@@ -169,8 +169,8 @@ public class HasturCultistBrain {
 							}
 						}
 						if (MiskatonicMysteriesAPI.getNonNullAffiliation(livingEntity, true) == MMAffiliations.SHUB
-							|| livingEntity instanceof ProtagonistEntity || (livingEntity instanceof Monster
-							&& !(livingEntity instanceof CreeperEntity))) {
+						|| livingEntity instanceof ProtagonistEntity || (livingEntity instanceof Monster
+						&& !(livingEntity instanceof CreeperEntity))) {
 							if (bestTarget == null || livingEntity.distanceTo(cultist) < bestTarget.distanceTo(cultist)) {
 								bestTarget = livingEntity;
 							}
@@ -188,6 +188,8 @@ public class HasturCultistBrain {
 				}
 			}
 		}
+
+		 */
 		return Optional.empty();
 	}
 

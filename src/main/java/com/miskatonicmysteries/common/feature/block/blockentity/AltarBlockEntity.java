@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.feature.block.blockentity;
 
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
@@ -9,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory {
 
@@ -19,9 +21,8 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBloc
 	}
 
 	@Override
-	public NbtCompound writeNbt(NbtCompound tag) {
+	public void writeNbt(NbtCompound tag) {
 		Inventories.writeNbt(tag, ITEMS);
-		return super.writeNbt(tag);
 	}
 
 
@@ -35,7 +36,7 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBloc
 	@Override
 	public void markDirty() {
 		if (world != null && !world.isClient) {
-			sync();
+			sync(world, pos);
 		}
 		super.markDirty();
 	}
@@ -57,5 +58,11 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBloc
 
 	public Item getBook() {
 		return getStack(0).getItem();
+	}
+
+	public void sync(World world, BlockPos pos) {
+		if (world != null && !world.isClient) {
+			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
+		}
 	}
 }

@@ -26,7 +26,7 @@ public class ChemistryProcessor implements IComponentProcessor {
 	public IVariable process(String key) {
 		for (int i = 0; i < recipe.ingredients.size(); i++) {
 			if (key.equals("ingredient" + (i + 1))) {
-				ItemStack[] stack = recipe.ingredients.get(i).getMatchingStacksClient(); //patchouli pls
+				ItemStack[] stack = recipe.ingredients.get(i).getMatchingStacks(); //patchouli pls
 				return IVariable.from(stack);
 			}
 		}

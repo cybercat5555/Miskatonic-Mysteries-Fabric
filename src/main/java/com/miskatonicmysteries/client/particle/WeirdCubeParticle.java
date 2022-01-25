@@ -52,7 +52,7 @@ public class WeirdCubeParticle extends Particle {
 		cube.yaw = yaw;
 		cube.pitch = pitch;
 		cube.roll = roll;
-		cube.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV, colorRed, colorGreen, colorBlue, colorAlpha);
+		cube.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV, red, green, blue, alpha);
 		immediate.draw();
 	}
 
@@ -93,9 +93,9 @@ public class WeirdCubeParticle extends Particle {
 			Random random = clientWorld.random;
 			cube.scale(MathHelper.nextFloat(random, 0.5F, 1.2F));
 			cube.maxAge = MathHelper.nextInt(random, 60, 100);
-			cube.colorRed = MathHelper.nextFloat(random, 0.2F, 0.4F);
-			cube.colorGreen = MathHelper.nextFloat(random, 0.35F, 0.4F);
-			cube.colorBlue = MathHelper.nextFloat(random, 0.5F, 0.75F);
+			cube.red = MathHelper.nextFloat(random, 0.2F, 0.4F);
+			cube.green = MathHelper.nextFloat(random, 0.35F, 0.4F);
+			cube.blue = MathHelper.nextFloat(random, 0.5F, 0.75F);
 			cube.yawGain = MathHelper.nextFloat(random, 0.01F, 0.1F);
 			cube.pitchGain = MathHelper.nextFloat(random, 0.01F, 0.1F);
 			cube.rollGain = MathHelper.nextFloat(random, 0.01F, 0.1F);

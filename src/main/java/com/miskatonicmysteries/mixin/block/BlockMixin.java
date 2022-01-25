@@ -5,7 +5,6 @@ import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
 import com.miskatonicmysteries.common.util.Util;
-import io.github.fablabsmc.fablabs.impl.bannerpattern.iface.LoomPatternContainer;
 import java.util.Random;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -36,8 +35,8 @@ public abstract class BlockMixin extends AbstractBlock {
 		if (client.player != null && client.player.age % MiskatonicMysteries.config.sanity.insanityInterval == 0
 			&& random.nextFloat() < 0.1F) {
 			InsanityHandler.handleClientSideBlockChange(client.player, world, state, pos,
-				random); //could probably do this in an actual insanity event rather than mixin
-		} else if ((state.getBlock() instanceof AbstractBannerBlock) && random.nextInt(5) == 0 && world
+				random); //could probably do this in an actual insanity event rather than mixin TODO BANNER
+		}/* else if ((state.getBlock() instanceof AbstractBannerBlock) && random.nextInt(5) == 0 && world
 			.getBlockEntity(pos) instanceof LoomPatternContainer.Internal internal
 			&& Util.isValidYellowSign(internal.bannerpp_getLoomPatternTag())) {
 			Vec3d posTracked = client.player.raycast(100, client.getTickDelta(), false).getPos();
@@ -46,5 +45,6 @@ public abstract class BlockMixin extends AbstractBlock {
 				InvokeManiaPacket.send(1, 200 + random.nextInt(200));
 			}
 		}
+		*/
 	}
 }

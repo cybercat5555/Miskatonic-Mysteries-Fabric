@@ -103,7 +103,7 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
 			if (blockEntity.containsPotentialItems()) {
 				blockEntity.markDirty();
 				if (!world.isClient) {
-					blockEntity.sync();
+					blockEntity.sync(world, pos);
 				}
 				if (blockEntity.convertPotentialItem(player, hand)) {
 					return ActionResult.SUCCESS;
@@ -114,7 +114,7 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
 					blockEntity.setStack(i, stack.split(1));
 					blockEntity.markDirty();
 					if (!world.isClient) {
-						blockEntity.sync();
+						blockEntity.sync(world, pos);
 					}
 					return ActionResult.CONSUME;
 				}
@@ -125,7 +125,7 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
 					InventoryUtil.giveItem(world, player, blockEntity.removeStack(i));
 					blockEntity.markDirty();
 					if (!world.isClient) {
-						blockEntity.sync();
+						blockEntity.sync(world, pos);
 					}
 					return ActionResult.SUCCESS;
 				}
@@ -149,7 +149,7 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
 		BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
-			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 
 		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
@@ -186,7 +186,7 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
 		if (!state.get(Properties.WATERLOGGED) && fluidState.getFluid() == Fluids.WATER) {
 			if (!world.isClient()) {
 				world.setBlockState(pos, state.with(Properties.WATERLOGGED, true).with(LIT, false), 3);
-				world.getFluidTickScheduler().schedule(pos, fluidState.getFluid(), fluidState.getFluid().getTickRate(world));
+				world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 			}
 			return true;
 		}

@@ -52,7 +52,7 @@ public class ChalkItem extends BlockItem {
 					BlockState blockState2 = world.getBlockState(blockPos);
 					Block block = blockState2.getBlock();
 					if (block == blockState.getBlock()) {
-						blockState2 = this.placeFromTag(blockPos, world, itemStack, blockState2);
+						blockState2 = this.placeFromNbt(blockPos, world, itemStack, blockState2);
 						this.postPlacement(blockPos, world, playerEntity, itemStack, blockState2);
 						block.onPlaced(world, blockPos, blockState2, playerEntity, itemStack);
 						if (playerEntity instanceof ServerPlayerEntity) {
@@ -76,9 +76,9 @@ public class ChalkItem extends BlockItem {
 		}
 	}
 
-	private BlockState placeFromTag(BlockPos pos, World world, ItemStack stack, BlockState state) {
+	private BlockState placeFromNbt(BlockPos pos, World world, ItemStack stack, BlockState state) {
 		BlockState blockState = state;
-		NbtCompound compoundTag = stack.getTag();
+		NbtCompound compoundTag = stack.getNbt();
 		if (compoundTag != null) {
 			NbtCompound compoundTag2 = compoundTag.getCompound("BlockStateTag");
 			StateManager<Block, BlockState> stateManager = state.getBlock().getStateManager();

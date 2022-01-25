@@ -4,7 +4,6 @@ import com.miskatonicmysteries.api.interfaces.BiomeMask;
 import net.minecraft.util.collection.IndexedIterable;
 import net.minecraft.world.HeightLimitView;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.source.BiomeArray;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,9 +14,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(BiomeArray.class)
-public class BiomeArrayMixin implements BiomeMask {
+//@Mixin(BiomeArray.class) TODO BIOME
 
+public class BiomeArrayMixin /* implements BiomeMask */ {
+/*
 	@Unique
 	private static final int HORIZONTAL_SECTION_COUNT = (int) Math.round(Math.log(16.0D) / Math.log(2.0D)) - 2;
 	@Unique
@@ -79,4 +79,6 @@ public class BiomeArrayMixin implements BiomeMask {
 			}
 		}
 	}
+
+ */
 }

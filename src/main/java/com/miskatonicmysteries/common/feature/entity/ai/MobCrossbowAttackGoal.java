@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.feature.entity.ai;
 
+import com.miskatonicmysteries.common.feature.entity.ai.MobCrossbowAttackGoal.Stage;
 import java.util.EnumSet;
 import net.minecraft.entity.CrossbowUser;
 import net.minecraft.entity.LivingEntity;

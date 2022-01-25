@@ -56,8 +56,8 @@ public class BlessingToast implements Toast {
 		RenderSystem.setShaderTexture(0, flavor.getToastTextureLocation());
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		manager.drawTexture(matrices, 0, 0, 0, 0, this.getWidth(), this.getHeight());
-		manager.getGame().textRenderer.draw(matrices, getTitle(), 30.0F, 7.0F, flavor.textColor);
-		manager.getGame().textRenderer.draw(matrices, new TranslatableText(blessing.getTranslationString()), 30.0F,
+		manager.getClient().textRenderer.draw(matrices, getTitle(), 30.0F, 7.0F, flavor.textColor);
+		manager.getClient().textRenderer.draw(matrices, new TranslatableText(blessing.getTranslationString()), 30.0F,
 			18.0F, flavor.textColorSecondary);
 		RenderSystem.applyModelViewMatrix();
 		RenderSystem.setShaderTexture(0, ICON);

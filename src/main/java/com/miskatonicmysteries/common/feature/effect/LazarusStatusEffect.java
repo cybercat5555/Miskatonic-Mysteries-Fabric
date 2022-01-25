@@ -4,15 +4,15 @@ import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffectType;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class LazarusStatusEffect extends StatusEffect {
 
 	public LazarusStatusEffect() {
-		super(StatusEffectType.NEUTRAL, 0xEA9800);
+		super(StatusEffectCategory.NEUTRAL, 0xEA9800);
 	}
 
 	public static boolean revive(PlayerEntity player) {

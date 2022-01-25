@@ -85,7 +85,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
 	public static ItemStack createYellowSignShield() {
 		ItemStack stack = new ItemStack(Items.SHIELD);
-		NbtCompound tag = stack.getOrCreateSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
+		NbtCompound tag = stack.getOrCreateSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
 		tag.putInt(Constants.NBT.BANNER_BASE, DyeColor.BLACK.getId());
 		NbtList bannerpptag = new NbtList();
 		NbtCompound yellowTag = new NbtCompound();

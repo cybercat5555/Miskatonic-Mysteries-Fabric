@@ -7,6 +7,15 @@ import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import java.util.stream.Collectors;
 import net.minecraft.client.texture.NativeImage;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
+import net.minecraft.client.texture.NativeImage;
+import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.Range;
+
+import java.util.stream.Collectors;
 
 public class ColorUtil { //blatantly taken from https://github.com/LambdAurora/AurorasDecorations/blob/1.17/src/main/java/dev/lambdaurora/aurorasdeco/util/ColorUtil.java
 
@@ -124,11 +133,11 @@ public class ColorUtil { //blatantly taken from https://github.com/LambdAurora/A
 	}
 
 	public static IntSet getColorsFromImage(NativeImage image) {
-		var colors = new IntOpenHashSet();
+		IntOpenHashSet colors = new IntOpenHashSet();
 
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-				int color = image.getPixelColor(x, y);
+				int color = image.getColor(x, y);
 
 				if (argbUnpackAlpha(color) == 255) {
 					colors.add(color);
@@ -142,12 +151,38 @@ public class ColorUtil { //blatantly taken from https://github.com/LambdAurora/A
 	public static IntList getPaletteFromImage(NativeImage image) {
 		var colors = getColorsFromImage(image);
 
-		return new IntArrayList(colors.stream().sorted((color0, color1) -> {
+		// convert the IntStream into a generic stream using `boxed` to be able to supply a custom ordering
+		return new IntArrayList(colors.intStream().boxed().sorted((color0, color1) -> {
 			var lum0 = luminance(color0);
 			var lum1 = luminance(color1);
 
 			return Float.compare(lum0, lum1);
 		}).collect(Collectors.toList()));
+	}
+
+	public static IntList getPaletteFromImage(NativeImage image, int expectColors) {
+		var palette = getPaletteFromImage(image);
+
+		if (expectColors + 2 < palette.size()) {
+			var reducedPalette = new IntArrayList();
+
+			float lastLuminance = -1.f;
+
+			for (int i = 0; i < palette.size(); i++) {
+				int color = palette.getInt(i);
+				float luminance = luminance(color);
+
+				if (MathHelper.abs(luminance - lastLuminance) < 3.1f) continue;
+
+				lastLuminance = luminance;
+
+				reducedPalette.add(color);
+			}
+
+			return reducedPalette;
+		}
+
+		return palette;
 	}
 
 	public static Int2IntArrayMap associateGrayscale(IntList keys) {

@@ -1,5 +1,9 @@
 package com.miskatonicmysteries.common.feature.entity;
 
+import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity.HoundDrainTargetGoal;
+import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity.HoundMeleeAttackGoal;
+import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity.HoundPounceAtTargetGoal;
+import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity.PhaseToTargetGoal;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMParticles;
@@ -19,7 +23,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
@@ -157,7 +161,7 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 		this.goalSelector.add(2, new PhaseToTargetGoal());
 		this.goalSelector.add(3, new WanderAroundFarGoal(this, 1.0D));
 		this.targetSelector.add(1, new RevengeGoal(this));
-		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class,
+		this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class,
 			10, false, false,
 			(entity) -> getHardTargetUUID().map(uuid -> uuid.equals(entity.getUuid())).orElse(true)));
 	}

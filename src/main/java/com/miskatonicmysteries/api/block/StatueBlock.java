@@ -87,18 +87,18 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 		if (player == null) {
 			return stack;
 		}
-		if (!stack.hasTag()) {
-			stack.setTag(new NbtCompound());
+		if (!stack.hasNbt()) {
+			stack.setNbt(new NbtCompound());
 		}
 		NbtCompound blockEntityTag = new NbtCompound();
 		blockEntityTag.putString(Constants.NBT.PLAYER_NAME, player.getName().asString());
 		blockEntityTag.putUuid(Constants.NBT.PLAYER_UUID, player.getUuid());
-		stack.getTag().put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
+		stack.getNbt().put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
 		return stack;
 	}
 
 	public static boolean isPlayerMade(ItemStack stack) {
-		return stack.hasTag() && stack.getTag().contains(Constants.NBT.BLOCK_ENTITY_TAG) && stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG)
+		return stack.hasNbt() && stack.getNbt().contains(Constants.NBT.BLOCK_ENTITY_TAG) && stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG)
 			.contains(Constants.NBT.PLAYER_NAME);
 	}
 
@@ -130,8 +130,8 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-		if (stack.hasTag() && stack.getTag().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
-			NbtCompound compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
+		if (stack.hasNbt() && stack.getNbt().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
+			NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
 			if (compoundTag != null && compoundTag.contains(Constants.NBT.PLAYER_NAME)) {
 				tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.created_by", compoundTag.getString(Constants.NBT.PLAYER_NAME))
 					.formatted(Formatting.GRAY));
@@ -186,7 +186,7 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
 		BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
-			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
 	}

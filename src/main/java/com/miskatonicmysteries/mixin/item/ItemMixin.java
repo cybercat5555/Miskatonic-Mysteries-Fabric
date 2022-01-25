@@ -48,8 +48,8 @@ public abstract class ItemMixin {
 	public void tickShield(World world, LivingEntity user, ItemStack stack, int remainingUseTicks, CallbackInfo info) {
 		if (!world.isClient && stack.getItem() instanceof ShieldItem
 			&& user.getRandom().nextInt(MiskatonicMysteries.config.mechanics.modUpdateInterval) == 0) {
-			if (stack.hasTag() && stack.getTag().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) != null) {
-				NbtCompound compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
+			if (stack.hasNbt() && stack.getNbt().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) != null) {
+				NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
 				if (compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) && Util
 					.isValidYellowSign(compoundTag.getList(Constants.NBT.BANNER_PP_TAG, 10))) {
 					int distance = 16 * 16;

@@ -11,6 +11,7 @@ import com.miskatonicmysteries.common.feature.effect.OvermedicalizedStatusEffect
 import com.miskatonicmysteries.common.feature.effect.ResonanceStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.TranquilizedStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.UltraViolenceStatusEffect;
+import com.miskatonicmysteries.common.registry.MMStatusEffects.Potions;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import com.miskatonicmysteries.mixin.BrewingRecipeRegistryAccessor;
 import net.minecraft.entity.LivingEntity;

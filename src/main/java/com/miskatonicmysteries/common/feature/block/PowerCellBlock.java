@@ -13,15 +13,10 @@ import com.miskatonicmysteries.common.util.Util;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.Material;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.Waterloggable;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -84,7 +79,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 		NbtCompound blockEntityTag = new NbtCompound();
 		blockEntityTag.putDouble(Constants.NBT.ENERGY, PowerCellBlockEntity.MAX_STORAGE);
 		tag.put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
-		stack.setTag(tag);
+		stack.setNbt(tag);
 		return stack;
 	}
 
@@ -96,8 +91,8 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-		if (stack.hasTag() && stack.getTag().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
-			NbtCompound compoundTag = stack.getSubTag(Constants.NBT.BLOCK_ENTITY_TAG);
+		if (stack.hasNbt() && stack.getNbt().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
+			NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
 			if (compoundTag != null && compoundTag.contains(Constants.NBT.ENERGY)) {
 				tooltip.add(Util.createPowerPercentageText(compoundTag.getDouble(Constants.NBT.ENERGY), PowerCellBlockEntity.MAX_STORAGE));
 			}
@@ -127,11 +122,10 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 	@Override
 	@Environment(EnvType.CLIENT)
 	public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-		if (world.getBlockEntity(pos) != null) {
-			ItemStack stack = getFilledStack();
-			stack.getTag().put(Constants.NBT.BLOCK_ENTITY_TAG, world.getBlockEntity(pos).writeNbt(new NbtCompound()));
-			return stack;
-		}
+		ItemStack itemStack = super.getPickStack(world, pos, state);
+		world.getBlockEntity(pos, BlockEntityType.SHULKER_BOX).ifPresent((blockEntity) -> {
+			blockEntity.setStackNbt(itemStack);
+		});
 		return super.getPickStack(world, pos, state);
 	}
 
@@ -197,7 +191,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
 		BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
-			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 
 		return changeConnectionState(state, world, pos);
@@ -213,7 +207,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 		if (!state.get(Properties.WATERLOGGED) && fluidState.getFluid() == Fluids.WATER) {
 			if (!world.isClient()) {
 				world.setBlockState(pos, state.with(Properties.WATERLOGGED, true), 3);
-				world.getFluidTickScheduler().schedule(pos, fluidState.getFluid(), fluidState.getFluid().getTickRate(world));
+				world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 			}
 			return true;
 		}

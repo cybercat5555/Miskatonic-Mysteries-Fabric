@@ -45,7 +45,7 @@ public class RenderHelper extends RenderLayer {
 
 	public static void renderTexturedPlane(float size, Sprite sprite, MatrixStack matrices, VertexConsumer buffer, int light, int overlay,
 		float[] rgba) {
-		Matrix4f mat = matrices.peek().getModel();
+		Matrix4f mat = matrices.peek().getPositionMatrix();
 		buffer.vertex(mat, 0, 0, size).color(rgba[0], rgba[1], rgba[2], rgba[3])
 			.texture(sprite.getMinU(), sprite.getMaxV()).light(light).overlay(overlay).normal(0, 1, 0).next();
 		buffer.vertex(mat, size, 0, size).color(rgba[0], rgba[1], rgba[2], rgba[3])
@@ -58,7 +58,7 @@ public class RenderHelper extends RenderLayer {
 
 	public static void renderCenteredTexturedPlane(float size, Sprite sprite, MatrixStack matrices, VertexConsumer buffer, int light,
 		int overlay, float[] rgba, boolean twoSided) {
-		Matrix4f mat = matrices.peek().getModel();
+		Matrix4f mat = matrices.peek().getPositionMatrix();
 		float halfSize = size / 2F;
 		buffer.vertex(mat, -halfSize, 0, halfSize).color(rgba[0], rgba[1], rgba[2], rgba[3])
 			.texture(sprite.getMinU(), sprite.getMaxV()).light(light).overlay(overlay).normal(0, 1, 0).next();

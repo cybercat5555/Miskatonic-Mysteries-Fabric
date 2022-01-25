@@ -178,7 +178,7 @@ public class MMServerEvents {
 
 	private static void onStopSleeping(LivingEntity entity, BlockPos sleepingPos) {
 		World world = entity.world;
-		if (!world.isClient && entity instanceof PlayerEntity p && p.isSleepingLongEnough()) {
+		if (!world.isClient && entity instanceof PlayerEntity p && p.canResetTimeBySleeping ()) {
 			if (p instanceof BiomeAffected affected && affected.getCurrentBiomeEffect() == MMWorld.HASTUR_BIOME_EFFECT) {
 				HasturBiomeEffect.onWakeUp(p, sleepingPos);
 			}

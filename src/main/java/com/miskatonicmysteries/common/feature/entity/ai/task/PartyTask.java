@@ -10,7 +10,7 @@ import net.minecraft.entity.ai.brain.task.SeekSkyTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
-import net.minecraft.item.FireworkItem;
+import net.minecraft.item.FireworkRocketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -62,8 +62,8 @@ public class PartyTask extends Task<VillagerEntity> {
 			DyeColor dyeColor2 = Util.getRandom(fireworkColors, random);
 			int i = 1 + random.nextInt(2);
 			ItemStack itemStack = this.createFirework(dyeColor, dyeColor2, i, random.nextBoolean() ?
-				FireworkItem.Type.BURST : (random.nextFloat() <= partyPower - 0.5F) ?
-				FireworkItem.Type.LARGE_BALL : FireworkItem.Type.SMALL_BALL);
+				FireworkRocketItem.Type.BURST : (random.nextFloat() <= partyPower - 0.5F) ?
+				FireworkRocketItem.Type.LARGE_BALL : FireworkRocketItem.Type.SMALL_BALL);
 			FireworkRocketEntity fireworkRocketEntity = new FireworkRocketEntity(villagerEntity.world, villagerEntity,
 				villagerEntity.getX(), villagerEntity.getEyeY(), villagerEntity.getZ(), itemStack);
 			villagerEntity.world.spawnEntity(fireworkRocketEntity);
@@ -71,17 +71,17 @@ public class PartyTask extends Task<VillagerEntity> {
 
 	}
 
-	private ItemStack createFirework(DyeColor color, DyeColor color2, int flight, FireworkItem.Type type) {
+	private ItemStack createFirework(DyeColor color, DyeColor color2, int flight, FireworkRocketItem.Type type) {
 		ItemStack itemStack = new ItemStack(Items.FIREWORK_ROCKET, 1);
 		ItemStack itemStack2 = new ItemStack(Items.FIREWORK_STAR);
-		NbtCompound nbtCompound = itemStack2.getOrCreateSubTag("Explosion");
+		NbtCompound nbtCompound = itemStack2.getOrCreateSubNbt("Explosion");
 		List<Integer> list = Lists.newArrayList();
 		list.add(color.getFireworkColor());
 		nbtCompound.putIntArray("Colors", list);
 		nbtCompound.putByte("Type", (byte) type.getId());
-		NbtCompound nbtCompound2 = itemStack.getOrCreateSubTag("Fireworks");
+		NbtCompound nbtCompound2 = itemStack.getOrCreateSubNbt("Fireworks");
 		NbtList nbtList = new NbtList();
-		NbtCompound nbtCompound3 = itemStack2.getSubTag("Explosion");
+		NbtCompound nbtCompound3 = itemStack2.getSubNbt("Explosion");
 		if (nbtCompound3 != null) {
 			nbtList.add(nbtCompound3);
 		}

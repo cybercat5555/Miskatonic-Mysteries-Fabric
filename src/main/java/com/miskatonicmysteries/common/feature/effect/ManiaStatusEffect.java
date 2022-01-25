@@ -8,7 +8,7 @@ import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -16,7 +16,7 @@ import net.minecraft.predicate.entity.EntityPredicates;
 public class ManiaStatusEffect extends StatusEffect {
 
 	public ManiaStatusEffect() {
-		super(StatusEffectType.HARMFUL, 0xA42100);
+		super(StatusEffectCategory.HARMFUL, 0xA42100);
 	}
 
 	@Override

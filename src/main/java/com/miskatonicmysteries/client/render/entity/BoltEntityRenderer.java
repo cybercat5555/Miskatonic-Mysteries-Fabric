@@ -63,7 +63,7 @@ public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
 		float[] offsetsY = new float[segmentNumber];
 		float[] offsetsX = new float[segmentNumber];
 		VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getLightning());
-		Matrix4f matrix4f = matrices.peek().getModel();
+		Matrix4f matrix4f = matrices.peek().getPositionMatrix();
 
 		matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(entity.getYaw(tickDelta)));
 		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.getPitch(tickDelta)));

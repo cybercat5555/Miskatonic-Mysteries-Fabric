@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ChunkSerializer.class)
 public class ChunkSerializerMixin {
-
+/* TODO BIOME
 	@Inject(method = "serialize", at = @At("RETURN"), cancellable = true)
 	private static void serialize(ServerWorld world, Chunk chunk, CallbackInfoReturnable<NbtCompound> cir) {
 		if (chunk.getBiomeArray() instanceof BiomeMask mask) {
@@ -29,12 +29,13 @@ public class ChunkSerializerMixin {
 	}
 
 	@Inject(method = "deserialize", at = @At("RETURN"), cancellable = true)
-	private static void deserialize(ServerWorld world, StructureManager structureManager, PointOfInterestStorage poiStorage, ChunkPos pos,
-		NbtCompound tag, CallbackInfoReturnable<ProtoChunk> cir) {
+	private static void deserialize(ServerWorld world, PointOfInterestStorage poiStorage, ChunkPos chunkPos, NbtCompound nbt, CallbackInfoReturnable<ProtoChunk> cir) {
 		ProtoChunk chunk = cir.getReturnValue();
-		if (chunk.getBiomeArray() instanceof BiomeMask mask && tag.contains(Constants.NBT.BIOME_MASK)) {
-			mask.MM_setBiomeMask(world.getRegistryManager().get(Registry.BIOME_KEY), tag.getIntArray(Constants.NBT.BIOME_MASK));
+		if (chunk.getBiomeArray() instanceof BiomeMask mask && nbt.contains(Constants.NBT.BIOME_MASK)) {
+			mask.MM_setBiomeMask(world.getRegistryManager().get(Registry.BIOME_KEY), nbt.getIntArray(Constants.NBT.BIOME_MASK));
 			cir.setReturnValue(chunk);
 		}
 	}
+
+ */
 }
