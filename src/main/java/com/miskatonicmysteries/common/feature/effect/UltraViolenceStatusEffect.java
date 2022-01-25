@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.feature.effect;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.util.Hand;
@@ -12,7 +12,7 @@ import net.minecraft.util.math.Vec3d;
 public class UltraViolenceStatusEffect extends StatusEffect {
 
 	public UltraViolenceStatusEffect() {
-		super(StatusEffectType.HARMFUL, 0xFFBB00);
+		super(StatusEffectCategory.HARMFUL, 0xFFBB00);
 	}
 
 	@Override

@@ -43,7 +43,7 @@ public abstract class Rite {
 		Identifier mask = ResourceHandler.getOctagramMaskTextureFor(entity);
 		float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
 		matrixStack.push();
-		Matrix4f matrix4f = matrixStack.peek().getModel();
+		Matrix4f matrix4f = matrixStack.peek().getPositionMatrix();
 		matrixStack.translate(0, 0.001F, 0);
 		RenderHelper.renderPortalLayer(mask, matrix4f, vertexConsumers, 3F, 3F, light, overlay, colors);
 		matrixStack.pop();

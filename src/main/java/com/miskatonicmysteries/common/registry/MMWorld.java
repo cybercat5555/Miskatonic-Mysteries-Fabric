@@ -91,17 +91,16 @@ public class MMWorld {
 	public static final BiomeEffect HASTUR_BIOME_EFFECT = new HasturBiomeEffect();
 
 	static {
-		HASTUR_BIOME = new Biome.Builder().temperature(0.75f).precipitation(Biome.Precipitation.RAIN)
-			.category(Biome.Category.NONE).depth(0).scale(0).temperatureModifier(Biome.TemperatureModifier.NONE)
-			.downfall(0.3F).spawnSettings(new SpawnSettings.Builder().build())
-			.generationSettings(new GenerationSettings.Builder()
-				.surfaceBuilder(SurfaceBuilder.DEFAULT.withConfig(SurfaceBuilder.END_CONFIG)).build())
-			.effects(new BiomeEffects.Builder()
-				.fogColor(0xEFC91F).skyColor(0x000000)
-				.waterColor(0x1199C6).waterFogColor(0x1199C6)
-				.grassColor(0xF2C709).foliageColor(0xE58E03)
-				.build())
-			.build();
+		HASTUR_BIOME = new Biome.Builder().temperature(0.75F).precipitation(Biome.Precipitation.RAIN).category(Biome.Category.NONE).downfall(0.3F)
+		.spawnSettings(new SpawnSettings.Builder()
+			.build())
+		.generationSettings(new GenerationSettings.Builder()
+			.build())
+		.effects(new BiomeEffects.Builder()
+			.fogColor(0xEFC91F).skyColor(0x000000)
+			.waterColor(0x1199C6).waterFogColor(0x1199C6)
+			.grassColor(0xF2C709).foliageColor(0xE58E03)
+		.build()).build();
 	}
 
 	public static void init() {

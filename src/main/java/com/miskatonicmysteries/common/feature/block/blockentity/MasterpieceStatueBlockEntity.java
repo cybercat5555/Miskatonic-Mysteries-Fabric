@@ -9,14 +9,17 @@ import com.miskatonicmysteries.common.util.Constants;
 import com.mojang.authlib.GameProfile;
 import java.util.Random;
 import java.util.UUID;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ChatUtil;
+import net.minecraft.util.StringHelper;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Affiliated {
@@ -40,7 +43,7 @@ public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Aff
 	}
 
 	@Override
-	public NbtCompound writeNbt(NbtCompound tag) {
+	public void writeNbt(NbtCompound tag) {
 		if (creator != null) {
 			tag.putUuid(Constants.NBT.PLAYER_UUID, creator);
 		}
@@ -54,8 +57,6 @@ public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Aff
 			tag.putString(Constants.NBT.PLAYER_NAME, creatorName);
 		}
 		tag.putInt(Constants.NBT.POSE, pose);
-
-		return super.writeNbt(tag);
 	}
 
 	@Override
@@ -69,7 +70,7 @@ public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Aff
 			this.setStatueProfile(NbtHelper.toGameProfile(tag.getCompound(Constants.NBT.STATUE_OWNER)));
 		} else if (tag.contains("ExtraType", 8)) {
 			String string = tag.getString("ExtraType");
-			if (!ChatUtil.isEmpty(string)) {
+			if (!StringHelper.isEmpty(string)) {
 				this.setStatueProfile(new GameProfile(null, string));
 			}
 		}
@@ -113,7 +114,14 @@ public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Aff
 		this.loadOwnerProperties();
 
 		if (world instanceof ServerWorld) {
-			sync();
+			sync(world, pos);
 		}
 	}
+
+	public void sync(World world, BlockPos pos) {
+		if (world != null && !world.isClient) {
+			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
+		}
+	}
+
 }

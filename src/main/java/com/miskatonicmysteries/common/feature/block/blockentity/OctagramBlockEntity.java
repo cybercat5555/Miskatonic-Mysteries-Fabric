@@ -103,7 +103,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 						if (!blockEntity.permanentRiteActive) {
 							blockEntity.closeRite(true);
 						} else {
-							blockEntity.sync();
+							blockEntity.sync(blockEntity.world, blockEntity.pos);
 						}
 					}
 				}
@@ -125,7 +125,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		permanentRiteActive = false;
 		setFlag(0, false);
 		clear(success);
-		sync();
+		sync(world, pos);
 		markDirty();
 	}
 
@@ -173,7 +173,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 				}
 			}
 			this.instability = MathHelper.clamp(instability, 0.0F, 0.9F);
-			sync();
+			sync(world, pos);
 		}
 	}
 
@@ -191,7 +191,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	}
 
 	@Override
-	public NbtCompound writeNbt(NbtCompound tag) {
+	public void writeNbt(NbtCompound tag) {
 		Inventories.writeNbt(tag, ITEMS);
 		tag.putInt(Constants.NBT.TICK_COUNT, tickCount);
 		if (currentRite != null) {
@@ -208,7 +208,6 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		tag.putBoolean(Constants.NBT.TRIGGERED, triggered);
 		tag.putByte(Constants.NBT.FLAGS, octagramFlags);
 		tag.putFloat(Constants.NBT.INSTABILITY, instability);
-		return super.writeNbt(tag);
 	}
 
 	@Override
@@ -382,7 +381,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 					.isIn(Constants.Tags.VALID_SACRIFICES)) {
 					setFlag(0, true);
 					markDirty();
-					sync();
+					sync(world, pos);
 					return true;
 				}
 				return false;
@@ -390,5 +389,11 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 			return true;
 		}
 		return false;
+	}
+
+	public void sync(World world, BlockPos pos) {
+		if (world != null && !world.isClient) {
+			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
+		}
 	}
 }

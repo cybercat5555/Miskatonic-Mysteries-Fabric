@@ -28,7 +28,7 @@ public class RiteCastCriterion extends AbstractCriterion<RiteCastCriterion.Condi
 	}
 
 	public void trigger(ServerPlayerEntity player, Rite rite) {
-		this.test(player, (conditions) -> conditions.matches(rite));
+		this.trigger(player, (conditions) -> conditions.matches(rite));
 	}
 
 	public static class Conditions extends AbstractCriterionConditions {

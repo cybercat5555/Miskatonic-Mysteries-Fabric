@@ -7,6 +7,7 @@ import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.ai.task.PartyTask;
 import com.miskatonicmysteries.common.feature.entity.brain.HasturCultistBrain;
+import com.miskatonicmysteries.common.feature.world.party.Party.Status;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;

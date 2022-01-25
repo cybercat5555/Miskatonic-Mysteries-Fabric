@@ -38,8 +38,6 @@ import com.miskatonicmysteries.common.feature.item.consumable.TheOrbItem;
 import com.miskatonicmysteries.common.feature.item.consumable.TranquilizerItem;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
-import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPattern;
-import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatterns;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -177,9 +175,11 @@ public class MMObjects {
 	public static final Block BIRCH_LOG = new PillarBlock(AbstractBlock.Settings
 		.of(Material.WOOD, (blockState) -> blockState.get(PillarBlock.AXIS) == Direction.Axis.Y ? MapColor.PALE_YELLOW : MapColor.WHITE)
 		.strength(2.0F).sounds(BlockSoundGroup.WOOD));
-
+/*TODO BANNER
 	public static final LoomPattern YELLOW_SIGN_BANNER = new LoomPattern(true);
 	public static final Item YELLOW_SIGN_LOOM_PATTERN = new YellowSignPatternItem();
+
+ */
 
 	public static final MMBookItem SCIENCE_JOURNAL = new MMBookItem(new Identifier(Constants.MOD_ID, "science_journal"),
 		MMAffiliations.NONE, false, new Item.Settings().maxCount(1).group(Constants.MM_GROUP));
@@ -335,11 +335,13 @@ public class MMObjects {
 		RegistryUtil.registerBlock(RESONATOR, "resonator");
 		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "power_cell", POWER_CELL_BLOCK_ENTITY_TYPE);
 		RegistryUtil.registerBlock(POWER_CELL, "power_cell");
-
+/*TODO BANNER
 		RegistryUtil.register(LoomPatterns.REGISTRY, "yellow_sign", YELLOW_SIGN_BANNER);
 
 		RegistryUtil.register(Registry.ITEM, "yellow_sign_banner_pattern", YELLOW_SIGN_LOOM_PATTERN);
 
+
+ */
 		RegistryUtil.register(Registry.ITEM, "science_journal", SCIENCE_JOURNAL);
 		RegistryUtil.register(Registry.ITEM, "necronomicon", NECRONOMICON);
 

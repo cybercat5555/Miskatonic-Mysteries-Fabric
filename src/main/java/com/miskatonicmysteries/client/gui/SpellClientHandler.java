@@ -47,7 +47,7 @@ public class SpellClientHandler {
 		ClientTickEvents.START_CLIENT_TICK.register(client -> {
 			if (spellSelectionKey.isPressed() && client.currentScreen == null && SpellCaster.of(client.player)
 				.map(caster -> !caster.getSpells().isEmpty()).orElse(false)) {
-				client.openScreen(new SpellSelectionScreen());
+				client.setScreen(new SpellSelectionScreen());
 			} else if (client.player != null && selectedSpell != null) {
 				if (castKey.wasPressed() && SpellCaster.of(client.player).map(SpellCaster::getSpellCooldown).orElse(0) <= 0) {
 					SpellPacket.sendFromClientPlayer(client.player, selectedSpell.toTag(new NbtCompound()));

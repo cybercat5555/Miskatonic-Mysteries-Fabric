@@ -181,8 +181,11 @@ public class MiskatonicMysteriesAPI {
 		WorldChunk chunk = world.getWorldChunk(pos);
 		int x = BiomeCoords.fromBlock(pos.getX());
 		int z = BiomeCoords.fromBlock(pos.getZ());
+		/* TODO BIOME
 		((BiomeMask) chunk.getBiomeArray()).MM_addBiomeMask(x, z, biome);
 		chunk.markDirty();
+
+		 */
 		PlayerLookup.tracking(world, pos).forEach(serverPlayerEntity -> {
 			SyncBiomeMaskPacket.send(serverPlayerEntity, chunk, true);
 		});

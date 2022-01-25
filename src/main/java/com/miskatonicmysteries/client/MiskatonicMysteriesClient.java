@@ -234,7 +234,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 				(client, networkHandler, packetByteBuf,
 					sender) -> client
 					.execute(
-						() -> client.openScreen(new EditSpellScreen((SpellCaster) client.player))));
+						() -> client.setScreen(new EditSpellScreen((SpellCaster) client.player))));
 		ClientPlayNetworking
 			.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
 		ClientPlayNetworking

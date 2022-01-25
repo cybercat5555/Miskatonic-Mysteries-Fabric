@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.feature.entity;
 
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.common.feature.entity.ByakheeEntity.BondWithPlayerGoal;
 import com.miskatonicmysteries.common.feature.entity.util.InputAware;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMSounds;
@@ -125,7 +126,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 	}
 
 	@Override
-	public int getBodyYawSpeed() {
+	public int getMaxHeadRotation() {
 		return 10;
 	}
 
@@ -275,7 +276,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 					}
 				}
 
-				this.flyingSpeed = this.getMovementSpeed() / 2F;
+				this.airStrafingSpeed = this.getMovementSpeed() / 2F;
 				if (this.isLogicalSideForUpdatingMovement()) {
 					this.setMovementSpeed((float) this.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED));
 					super.travel(new Vec3d(f, movementInput.y, g));
@@ -291,7 +292,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 
 				this.updateLimbs(this, false);
 			} else {
-				this.flyingSpeed = 0.02F;
+				this.airStrafingSpeed = 0.02F;
 				super.travel(movementInput);
 				if (isGliding()) {
 					this.fallDistance = 0;

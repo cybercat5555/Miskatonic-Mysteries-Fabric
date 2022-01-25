@@ -1,10 +1,14 @@
 plugins {
-	id "fabric-loom" version "0.8-SNAPSHOT"
+	id "fabric-loom" version "0.10-SNAPSHOT"
 	id "maven-publish"
 }
 
-sourceCompatibility = JavaVersion.VERSION_16
-targetCompatibility = JavaVersion.VERSION_16
+loom {
+	accessWidenerPath = file("src/main/resources/miskatonicmysteries.accesswidener")
+}
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.archives_base_name
 version = project.mod_version
@@ -62,13 +66,13 @@ dependencies {
 	modImplementation "io.github.ladysnake:satin:${project.satin_version}"
 	include "io.github.ladysnake:satin:${project.satin_version}"
 
-	modImplementation "io.github.fablabsmc:bannerpp:${project.bannerpp_version}"
+	//modImplementation "io.github.fablabsmc:bannerpp:${project.bannerpp_version}" //TODO BANNER
 	include "io.github.fablabsmc:bannerpp:${project.bannerpp_version}"
 
 	modImplementation "com.github.emilyalexandra:trinkets:${trinkets_version}"
 
 	modApi include("teamreborn:energy:${project.energy_version}")
-	modImplementation("software.bernie.geckolib:${project.geckolib_version}:dev") {
+	modImplementation("software.bernie.geckolib:${project.geckolib_version}") {
 		exclude(group: "com.terraformersmc.modmenu")
 		exclude(group: "io.github.prospector")
 		exclude(group: "me.shedaniel")

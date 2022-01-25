@@ -31,7 +31,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.RangedAttackMob;
-import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LongDoorInteractGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
@@ -152,11 +152,11 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 		this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
 		this.targetSelector.add(0, new RevengeGoal(this, ProtagonistEntity.class));
 		this.targetSelector
-			.add(1, new FollowTargetGoal<>(this, LivingEntity.class, 10, true, true, MiskatonicMysteriesAPI::isDefiniteAffiliated));
-		this.targetSelector.add(2, new FollowTargetGoal<>(this, PlayerEntity.class, 10, true, true,
+			.add(1, new ActiveTargetGoal<>(this, LivingEntity.class, 10, true, true, MiskatonicMysteriesAPI::isDefiniteAffiliated));
+		this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, true,
 			player -> (getTargetUUID().isPresent() && player.getUuid().equals(getTargetUUID().get())) || (Sanity.of(player).isPresent()
 				&& Sanity.of(player).get().getSanity() <= MiskatonicMysteries.config.entities.protagonistAggressionThreshold)));
-		this.targetSelector.add(3, new FollowTargetGoal<>(this, HostileEntity.class, 5, true, true,
+		this.targetSelector.add(3, new ActiveTargetGoal<>(this, HostileEntity.class, 5, true, true,
 			mob -> !(mob instanceof ProtagonistEntity) && !(mob instanceof CreeperEntity)));
 		super.initGoals();
 	}

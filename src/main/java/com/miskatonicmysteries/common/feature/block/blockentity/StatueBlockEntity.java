@@ -21,14 +21,13 @@ public class StatueBlockEntity extends BaseBlockEntity implements Affiliated {
 	}
 
 	@Override
-	public NbtCompound writeNbt(NbtCompound tag) {
+	public void writeNbt(NbtCompound tag) {
 		if (creator != null) {
 			tag.putUuid(Constants.NBT.PLAYER_UUID, creator);
 		}
 		if (creatorName != null) {
 			tag.putString(Constants.NBT.PLAYER_NAME, creatorName);
 		}
-		return super.writeNbt(tag);
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class ProjectileSpellMedium extends SpellMedium {
 	public boolean cast(World world, LivingEntity caster, SpellEffect effect, int intensity) {
 		if (!world.isClient) {
 			SpellProjectileEntity projectile = new SpellProjectileEntity(caster.world, caster, effect, intensity);
-			projectile.setProperties(caster, caster.getPitch(), caster.getHeadYaw(), 0, 1, 0);
+			projectile.setVelocity(caster, caster.getPitch(), caster.getHeadYaw(), 0, 1, 0);
 			projectile.setYaw(caster.getHeadYaw());
 			projectile.setPitch(caster.getPitch());
 			return world.spawnEntity(projectile);

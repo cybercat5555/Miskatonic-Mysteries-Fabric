@@ -2,7 +2,6 @@ package com.miskatonicmysteries.common.feature.item;
 
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
-import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatternItem;
 import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -31,8 +30,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class YellowSignPatternItem extends LoomPatternItem {
-
+public class YellowSignPatternItem /* extends LoomPatternItem */ {
+/*
 	public YellowSignPatternItem() {
 		super(MMObjects.YELLOW_SIGN_BANNER, new Settings().group(Constants.MM_GROUP).maxCount(1)
 			.rarity(Rarity.UNCOMMON));
@@ -120,4 +119,6 @@ public class YellowSignPatternItem extends LoomPatternItem {
 			.translate(Items.YELLOW_DYE.getTranslationKey()) + "§8").formatted(Formatting.GRAY));
 
 	}
+
+ */
 }

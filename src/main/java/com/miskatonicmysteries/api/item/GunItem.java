@@ -41,27 +41,27 @@ public abstract class GunItem extends Item {
 	}
 
 	public static boolean isLoading(ItemStack stack) {
-		if (!stack.hasTag()) {
-			stack.setTag(new NbtCompound());
-			stack.getTag().putBoolean(Constants.NBT.LOADING, false);
+		if (!stack.hasNbt()) {
+			stack.setNbt(new NbtCompound());
+			stack.getNbt().putBoolean(Constants.NBT.LOADING, false);
 			return false;
 		}
-		return stack.getTag().getBoolean(Constants.NBT.LOADING);
+		return stack.getNbt().getBoolean(Constants.NBT.LOADING);
 	}
 
 	public static ItemStack setLoading(ItemStack stack, boolean loading) {
-		if (!stack.hasTag()) {
-			stack.setTag(new NbtCompound());
+		if (!stack.hasNbt()) {
+			stack.setNbt(new NbtCompound());
 		}
-		stack.getTag().putBoolean(Constants.NBT.LOADING, loading);
+		stack.getNbt().putBoolean(Constants.NBT.LOADING, loading);
 		return stack;
 	}
 
 	public static boolean isLoaded(ItemStack stack) {
-		if (!stack.hasTag()) {
-			stack.setTag(new NbtCompound());
+		if (!stack.hasNbt()) {
+			stack.setNbt(new NbtCompound());
 		}
-		return stack.getTag().getInt(Constants.NBT.SHOTS) > 0;
+		return stack.getNbt().getInt(Constants.NBT.SHOTS) > 0;
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public abstract class GunItem extends Item {
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		tooltip.add(
 			new TranslatableText(isLoaded(stack) ? "tooltip.miskatonicmysteries.gun_loaded" : "tooltip.miskatonicmysteries.gun_not_loaded",
-				stack.getTag().getInt(Constants.NBT.SHOTS), getMaxShots())
+				stack.getNbt().getInt(Constants.NBT.SHOTS), getMaxShots())
 				.setStyle(Style.EMPTY.withColor(isLoaded(stack) ? TextColor.fromRgb(0x00FF00) : TextColor.fromRgb(0xFF0000))));
 		tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.gun_tip_load")
 			.setStyle(Style.EMPTY.withItalic(true).withColor(Formatting.GRAY)));
@@ -104,18 +104,18 @@ public abstract class GunItem extends Item {
 
 	@Override
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-		stack.getTag().putBoolean(Constants.NBT.LOADING, false);
+		stack.getNbt().putBoolean(Constants.NBT.LOADING, false);
 		super.onStoppedUsing(stack, world, user, remainingUseTicks);
 	}
 
 	public ItemStack loadGun(ItemStack stack, World world, LivingEntity user) {
-		if (!stack.hasTag()) {
-			stack.setTag(new NbtCompound());
+		if (!stack.hasNbt()) {
+			stack.setNbt(new NbtCompound());
 		}
 
 		int generatedShots = user instanceof PlayerEntity && !((PlayerEntity) user).isCreative() ? loadBullets((PlayerEntity) user,
-			stack.getTag().getInt(Constants.NBT.SHOTS)) : getMaxShots();
-		stack.getTag().putInt(Constants.NBT.SHOTS, generatedShots);
+			stack.getNbt().getInt(Constants.NBT.SHOTS)) : getMaxShots();
+		stack.getNbt().putInt(Constants.NBT.SHOTS, generatedShots);
 		setLoading(stack, false);
 		if (user instanceof PlayerEntity) {
 			((PlayerEntity) user).getItemCooldownManager().set(this, getLoadingTime());
@@ -172,7 +172,7 @@ public abstract class GunItem extends Item {
 		}
 
 		setLoading(stack, false);
-		stack.getTag().putInt(Constants.NBT.SHOTS, stack.getTag().getInt(Constants.NBT.SHOTS) - 1);
+		stack.getNbt().putInt(Constants.NBT.SHOTS, stack.getNbt().getInt(Constants.NBT.SHOTS) - 1);
 		world.playSound(null, player.getX(), player.getY(), player.getZ(), MMSounds.GUN_SHOT, SoundCategory.PLAYERS, 0.6F,
 			1.0F / (world.random.nextFloat() * 0.2F + (isHeavy() ? 1F : 0.5F)));
 

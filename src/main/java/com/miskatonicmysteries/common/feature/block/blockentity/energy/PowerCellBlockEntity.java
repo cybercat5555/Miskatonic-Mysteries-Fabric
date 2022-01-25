@@ -36,9 +36,8 @@ public class PowerCellBlockEntity extends BaseBlockEntity implements EnergyStora
 	}
 
 	@Override
-	public NbtCompound writeNbt(NbtCompound tag) {
+	public void writeNbt(NbtCompound tag) {
 		tag.putDouble(Constants.NBT.ENERGY, energy);
-		return super.writeNbt(tag);
 	}
 
 	@Override

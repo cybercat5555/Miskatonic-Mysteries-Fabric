@@ -17,10 +17,10 @@ public class ShrinkingMagicParticle extends SpriteBillboardParticle {
 
 	protected ShrinkingMagicParticle(ClientWorld clientWorld, double x, double y, double z, float r, float g, float b) {
 		super(clientWorld, x, y, z, 0, 0, 0);
-		colorAlpha = 0.85F;
-		colorRed = r;
-		colorGreen = g;
-		colorBlue = b;
+		alpha = 0.85F;
+		red = r;
+		green = g;
+		blue = b;
 		velocityX = 0;
 		velocityY = 0;
 		velocityZ = 0;

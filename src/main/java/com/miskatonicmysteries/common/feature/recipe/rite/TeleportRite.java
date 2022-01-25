@@ -105,7 +105,7 @@ public class TeleportRite extends Rite {
 					otherOctagram.currentRite = this;
 					otherOctagram.tickCount = 0;
 					otherOctagram.markDirty();
-					otherOctagram.sync();
+					otherOctagram.sync(octagram.getWorld(), octagram.getPos());
 				}
 			}
 		}
@@ -123,7 +123,7 @@ public class TeleportRite extends Rite {
 			otherOctagram.boundPos = null;
 			otherOctagram.markDirty();
 			octagram.markDirty();
-			otherOctagram.sync();
+			otherOctagram.sync(octagram.getWorld(), octagram.getPos());
 		}
 		super.onCancelled(octagram);
 	}

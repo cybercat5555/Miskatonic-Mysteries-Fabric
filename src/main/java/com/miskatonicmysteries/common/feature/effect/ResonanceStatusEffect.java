@@ -3,12 +3,12 @@ package com.miskatonicmysteries.common.feature.effect;
 import com.miskatonicmysteries.api.interfaces.Resonating;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.entity.effect.StatusEffectCategory;
 
 public class ResonanceStatusEffect extends StatusEffect {
 
 	public ResonanceStatusEffect() {
-		super(StatusEffectType.NEUTRAL, 0xBE00FF);
+		super(StatusEffectCategory.NEUTRAL, 0xBE00FF);
 	}
 
 	@Override

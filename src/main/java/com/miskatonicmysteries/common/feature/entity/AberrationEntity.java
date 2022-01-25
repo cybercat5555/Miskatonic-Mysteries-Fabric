@@ -4,7 +4,7 @@ import com.miskatonicmysteries.common.feature.entity.ai.FloatyWanderAroundGoal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.damage.DamageSource;
@@ -63,7 +63,7 @@ public class AberrationEntity extends PhantasmaEntity implements Monster {
 		this.goalSelector.add(0, new MeleeAttackGoal(this, 1, false));
 		this.goalSelector.add(1, new FloatyWanderAroundGoal(this, 100));
 		this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-		this.targetSelector.add(0, new FollowTargetGoal(this, PlayerEntity.class, 10, true, false, null));
+		this.targetSelector.add(0, new ActiveTargetGoal(this, PlayerEntity.class, 10, true, false, null));
 	}
 
 	@Override

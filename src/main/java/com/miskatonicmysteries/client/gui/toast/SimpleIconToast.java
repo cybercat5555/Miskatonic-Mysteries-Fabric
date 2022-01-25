@@ -37,8 +37,8 @@ public abstract class SimpleIconToast implements Toast {
 		RenderSystem.setShaderTexture(0, MMAffiliations.NONE.getToastTextureLocation());
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		manager.drawTexture(matrices, 0, 0, 0, 0, this.getWidth(), this.getHeight());
-		manager.getGame().textRenderer.draw(matrices, getTitle(), 30.0F, 7.0F, MMAffiliations.NONE.textColor);
-		manager.getGame().textRenderer.draw(matrices, getDescription(startTime), 30.0F, 18.0F, MMAffiliations.NONE.textColorSecondary);
+		manager.getClient().textRenderer.draw(matrices, getTitle(), 30.0F, 7.0F, MMAffiliations.NONE.textColor);
+		manager.getClient().textRenderer.draw(matrices, getDescription(startTime), 30.0F, 18.0F, MMAffiliations.NONE.textColorSecondary);
 		Identifier icon =
 			this.icons.get((int) (startTime / Math.max(1L, 5000L / (long) this.icons.size()) % (long) this.icons.size()));
 		RenderSystem.applyModelViewMatrix();

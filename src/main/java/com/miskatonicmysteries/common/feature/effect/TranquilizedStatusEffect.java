@@ -7,14 +7,14 @@ import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class TranquilizedStatusEffect extends StatusEffect {
 
 	public TranquilizedStatusEffect() {
-		super(StatusEffectType.BENEFICIAL, 0x2E219E);
+		super(StatusEffectCategory.BENEFICIAL, 0x2E219E);
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class TranquilizedStatusEffect extends StatusEffect {
 				onApplied(entity, entity.getAttributes(), amplifier);
 			}
 		}
-		if (entity instanceof PlayerEntity && ((PlayerEntity) entity).isSleepingLongEnough()) {
+		if (entity instanceof PlayerEntity && ((PlayerEntity) entity).canResetTimeBySleeping()) {
 			if (isLethal(entity, amplifier)) {
 				entity.damage(Constants.DamageSources.SLEEP, 4000);
 			} else {

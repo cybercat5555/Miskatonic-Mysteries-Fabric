@@ -85,7 +85,7 @@ public class HasturBlessingVision extends VisionSequence {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
 		drawBackground(width, height, backgroundProgress, colorProgress, bufferBuilder);
-		drawSign(stack.peek().getModel(), width, height, signProgress, tessellator, bufferBuilder);
+		drawSign(stack.peek().getPositionMatrix(), width, height, signProgress, tessellator, bufferBuilder);
 		drawVignette(width, height, colorProgress, tessellator, bufferBuilder);
 
 		RenderSystem.depthMask(true);

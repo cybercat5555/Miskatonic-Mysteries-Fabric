@@ -1,5 +1,9 @@
 package com.miskatonicmysteries.common.feature.entity;
 
+import com.miskatonicmysteries.common.feature.entity.HarrowEntity.ChargeTargetGoal;
+import com.miskatonicmysteries.common.feature.entity.HarrowEntity.HarrowMoveControl;
+import com.miskatonicmysteries.common.feature.entity.HarrowEntity.LookAtTargetGoal;
+import com.miskatonicmysteries.common.feature.entity.HarrowEntity.TrackOwnerTargetGoal;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import java.util.EnumSet;
@@ -10,7 +14,7 @@ import net.minecraft.entity.MovementType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.control.MoveControl;
-import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
@@ -95,7 +99,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 		this.goalSelector.add(4, new LookAtEntityGoal(this, MobEntity.class, 8.0F));
 		this.targetSelector.add(1, new TrackOwnerTargetGoal(this));
 		this.targetSelector.add(2, new RevengeGoal(this));
-		this.targetSelector.add(3, new FollowTargetGoal<>(this, PlayerEntity.class, 10, false, false, (living) -> getOwner() == null));
+		this.targetSelector.add(3, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, false, false, (living) -> getOwner() == null));
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class GoldenFlockRite extends AscensionLockedRite {
 				octagram.tickCount = 0;
 				SyncRiteTargetPacket.send(octagram.targetedEntity, octagram);
 				octagram.markDirty();
-				octagram.sync();
+				octagram.sync(octagram.getWorld(), octagram.getPos());
 			}
 		}
 		return !(octagram.targetedEntity == null && octagram.tickCount > 20);

@@ -70,7 +70,7 @@ public class HasturManiaVision extends VisionSequence {
 		matrix.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(360.0F * (ticks + tickDelta) / 200.0F));
 		matrix.translate(-width / 2F, -height / 2F, 0.0);
 		HasturBlessingVision
-			.drawSign(matrix.peek().getModel(), width, height, backgroundProgress, tessellator, bufferBuilder);
+			.drawSign(matrix.peek().getPositionMatrix(), width, height, backgroundProgress, tessellator, bufferBuilder);
 		matrix.pop();
 	}
 
@@ -88,7 +88,7 @@ public class HasturManiaVision extends VisionSequence {
 			for (int x = 0; x < perRow; x++) {
 				HasturBlessingVision
 					.drawSign(matrix.peek()
-						.getModel(), width, height, backgroundProgress, tessellator, bufferBuilder);
+						.getPositionMatrix(), width, height, backgroundProgress, tessellator, bufferBuilder);
 				matrix.translate(144, 0, 0);
 			}
 			matrix.pop();
@@ -119,7 +119,7 @@ public class HasturManiaVision extends VisionSequence {
 		matrix.scale(0.3F, 0.3F, 0.3F);
 		matrix.translate(64, 0, 0);
 		HasturBlessingVision
-			.drawSign(matrix.peek().getModel(), width, height, backgroundProgress, tessellator, bufferBuilder);
+			.drawSign(matrix.peek().getPositionMatrix(), width, height, backgroundProgress, tessellator, bufferBuilder);
 		matrix.pop();
 	}
 }

@@ -16,7 +16,7 @@ public class CandleFlameParticle extends AbstractSlowingParticle {
 
 	protected CandleFlameParticle(ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
 		super(clientWorld, d, e, f, g, h, i);
-		colorAlpha = 0.95F;
+		alpha = 0.95F;
 	}
 
 	public ParticleTextureSheet getType() {

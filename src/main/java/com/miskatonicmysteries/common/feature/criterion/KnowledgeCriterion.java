@@ -26,7 +26,7 @@ public class KnowledgeCriterion extends AbstractCriterion<KnowledgeCriterion.Con
 	}
 
 	public void trigger(ServerPlayerEntity player, String knowledge) {
-		this.test(player, (conditions) -> conditions.matches(knowledge));
+		this.trigger(player, (conditions) -> conditions.matches(knowledge));
 	}
 
 	public static class Conditions extends AbstractCriterionConditions {

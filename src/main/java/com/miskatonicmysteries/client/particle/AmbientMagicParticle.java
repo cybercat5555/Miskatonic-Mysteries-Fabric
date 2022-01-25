@@ -19,10 +19,10 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
 
 	protected AmbientMagicParticle(ClientWorld clientWorld, double x, double y, double z, float r, float g, float b) {
 		super(clientWorld, x, y, z, 0, Math.max(0.01F, clientWorld.random.nextFloat() / 50), 0);
-		colorAlpha = 0;
-		colorRed = r;
-		colorGreen = g;
-		colorBlue = b;
+		alpha = 0;
+		red = r;
+		green = g;
+		blue = b;
 		maxAge = 40 + clientWorld.random.nextInt(40);
 	}
 
@@ -39,7 +39,7 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
 	public void tick() {
 		super.tick();
 		float lifeRatio = (float) this.age / (float) this.maxAge;
-		this.colorAlpha = fadeIn ? (lifeRatio >= 0.5F ? 1 - (lifeRatio - 0.5F) * 2 : lifeRatio * 2) : 1 - lifeRatio;
+		this.alpha = fadeIn ? (lifeRatio >= 0.5F ? 1 - (lifeRatio - 0.5F) * 2 : lifeRatio * 2) : 1 - lifeRatio;
 		if (lifeRatio >= 1) {
 			markDead();
 		}

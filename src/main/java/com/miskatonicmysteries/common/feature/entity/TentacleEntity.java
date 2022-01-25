@@ -16,7 +16,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -87,7 +87,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 	protected void initGoals() {
 		this.goalSelector.add(0, new SwingAtTargetGoal());
 		this.targetSelector
-			.add(0, new FollowTargetGoal<>(this, LivingEntity.class, 10, false, false, this::isValidTarget));
+			.add(0, new ActiveTargetGoal<>(this, LivingEntity.class, 10, false, false, this::isValidTarget));
 	}
 
 	protected boolean isValidTarget(LivingEntity target) {
