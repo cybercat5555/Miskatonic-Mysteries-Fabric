@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.feature.item;
 
+import com.miskatonicmysteries.api.banner.loom.LoomPatternItem;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import java.util.List;
@@ -30,8 +31,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class YellowSignPatternItem /* extends LoomPatternItem */ {
-/*
+public class YellowSignPatternItem extends LoomPatternItem {
+
 	public YellowSignPatternItem() {
 		super(MMObjects.YELLOW_SIGN_BANNER, new Settings().group(Constants.MM_GROUP).maxCount(1)
 			.rarity(Rarity.UNCOMMON));
@@ -120,5 +121,5 @@ public class YellowSignPatternItem /* extends LoomPatternItem */ {
 
 	}
 
- */
+
 }
