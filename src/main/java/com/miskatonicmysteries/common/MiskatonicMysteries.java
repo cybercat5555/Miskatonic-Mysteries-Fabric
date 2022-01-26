@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common;
 
+import com.miskatonicmysteries.api.banner.MMBannerRegistry;
 import com.miskatonicmysteries.common.feature.ModCommand;
 import com.miskatonicmysteries.common.handler.SchedulingHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
@@ -57,6 +58,7 @@ public class MiskatonicMysteries implements ModInitializer {
 		registerPackets();
 		SchedulingHandler.init();
 		MMServerEvents.init();
+		MMBannerRegistry.registerBanner();
          /*
         todo some natural sanity regen
         */

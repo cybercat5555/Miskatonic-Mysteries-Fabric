@@ -87,11 +87,11 @@ public class MMTrades {
 			new ItemStack(terracotta ? Blocks.TERRACOTTA : Blocks.STONE),
 			new ItemStack(terracotta ? MMObjects.HASTUR_STATUE_TERRACOTTA : MMObjects.HASTUR_STATUE_STONE), 12, 50, 0.2F);
 	});
-	/* TODO BANNER
+
 	public static final TradeOffers.Factory YELLOW_SIGN_OFFER = new ProcessItemOffer(new ItemStack(Items.PAPER, 4), 20,
 		new ItemStack(MMObjects.YELLOW_SIGN_LOOM_PATTERN), 1, 50);
 
-	 */
+
 	public static final TradeOffers.Factory ORB_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.THE_ORB), 10, 1, 20, 0.15F);
 	public static final TradeOffers.Factory FLESH_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.CIRRHOSUS_FLESH), 8, 1, 20, 0.15F);
 
@@ -106,10 +106,8 @@ public class MMTrades {
 		YELLOW_SERF_TRADE.put(2, new TradeOffers.Factory[]{IRIDESCENT_PEARL_OFFER, OCEANIC_GOLD_OFFER, REVERSE_OCEANIC_GOLD_OFFER});
 		YELLOW_SERF_TRADE.put(3, new TradeOffers.Factory[]{YELLOW_HOOD_OFFER, MASK_OFFER, REVERSE_LAUDANUM_OFFER});
 		YELLOW_SERF_TRADE.put(4, new TradeOffers.Factory[]{YELLOW_ROBE_OFFER, YELLOW_SKIRT_OFFER, ORNATE_DAGGER_OFFER});
-		/* TODO BANNER
 		YELLOW_SERF_TRADE.put(5, new TradeOffers.Factory[]{YELLOW_SIGN_OFFER, HASTUR_STATUE_OFFER});
 
-		 */
 	}
 
 	public static void init() {

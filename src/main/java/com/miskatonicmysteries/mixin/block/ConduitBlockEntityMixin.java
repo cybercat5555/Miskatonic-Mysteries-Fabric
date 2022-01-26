@@ -17,10 +17,9 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 public class ConduitBlockEntityMixin {
 
 	@Inject(method = "updateActivatingBlocks", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-	private static void updateActivatingBlocks(World world, BlockPos pos, List<BlockPos> activatingBlocks,
-		CallbackInfoReturnable<Boolean> cir, int l, int m, int n, BlockPos pos2, BlockState state) {
-		if (state.isOf(MMObjects.PRISMARINE_CTHULHU_MURAL) || Constants.Tags.OCEANIC_GOLD_BLOCKS.contains(state.getBlock())) {
-			activatingBlocks.add(pos2);
+	private static void updateActivatingBlocks(World world, BlockPos pos, List<BlockPos> activatingBlocks, CallbackInfoReturnable<Boolean> cir) {
+		if (world.getBlockState(pos).isOf(MMObjects.PRISMARINE_CTHULHU_MURAL) || Constants.Tags.OCEANIC_GOLD_BLOCKS.contains(world.getBlockState(pos).getBlock())) {
+			//activatingBlocks.add(pos2);
 		}
 	}
 }
