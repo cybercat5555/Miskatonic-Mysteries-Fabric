@@ -54,7 +54,7 @@ public class MMBookItem extends Item implements Affiliated {
 
 			}
 			PatchouliAPI.get().openBookGUI((ServerPlayerEntity) player, book.id);
-			SoundEvent sfx = PatchouliSounds.getSound(book.openSound, PatchouliSounds.book_open);
+			SoundEvent sfx = PatchouliSounds.getSound(book.openSound, PatchouliSounds.BOOK_OPEN);
 			player.playSound(sfx, 1.0F, (float) (0.7D + Math.random() * 0.4D));
 		}
 		return TypedActionResult.success(player.getStackInHand(hand));
