@@ -63,7 +63,7 @@ dependencies {
 	include "io.github.ladysnake:satin:${project.satin_version}"
 
 	//modImplementation "io.github.fablabsmc:bannerpp:${project.bannerpp_version}" //TODO BANNER
-	include "io.github.fablabsmc:bannerpp:${project.bannerpp_version}"
+	//include "io.github.fablabsmc:bannerpp:${project.bannerpp_version}"
 
 	modImplementation "com.github.emilyalexandra:trinkets:${trinkets_version}"
 
