@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.control.FlightMoveControl;
+import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
@@ -12,19 +13,17 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
-import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.mob.PhantomEntity;
+import net.minecraft.entity.mob.*;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -37,6 +36,9 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Random;
 import java.util.function.Predicate;
 
 public class FeasterEntity extends HostileEntity implements IAnimatable {
@@ -48,12 +50,14 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 
     AnimationFactory factory = new AnimationFactory(this);
     private final ServerBossBar bossBar;
+    private int GRABCOOLDOWN = 0;
     private static final Predicate<LivingEntity> CAN_ATTACK_PREDICATE = (entity) -> entity.getGroup() != EntityGroup.UNDEAD && entity.isMobOrPlayer();
 
     public FeasterEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
         this.bossBar = (ServerBossBar)(new ServerBossBar(this.getDisplayName(), BossBar.Color.PURPLE, BossBar.Style.PROGRESS)).setDarkenSky(true);
         this.moveControl = new FlightMoveControl(this, 10, false);
+        this.moveControl = new FeasterMoveControl(this);
         this.experiencePoints = 50;
     }
 
@@ -79,6 +83,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
         this.goalSelector.add(1, new FeasterMeleeAttackGoal());
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(7, new LookAroundGoal(this));
+        this.goalSelector.add(3, new FeasterGrab(this));
         this.targetSelector.add(1, new RevengeGoal(this));
         this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class,
         10, false, false, CAN_ATTACK_PREDICATE));
@@ -103,12 +108,17 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
+        nbt.putInt("grabCooldown", this.GRABCOOLDOWN);
     }
+
     @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         if (this.hasCustomName()) {
             this.bossBar.setName(this.getDisplayName());
+        }
+        if(nbt.contains("grabCooldown")){
+            this.GRABCOOLDOWN = nbt.getInt("grabCooldown");
         }
 
     }
@@ -130,6 +140,51 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
         this.bossBar.removePlayer(player);
     }
 
+    @Override
+    public void tickMovement() {
+        if(GRABCOOLDOWN >= 0){
+            GRABCOOLDOWN--;
+        }
+        super.tickMovement();
+    }
+
+    protected void copyEntityData(Entity entity) {
+        entity.setBodyYaw(this.getYaw());
+        float f = MathHelper.wrapDegrees(entity.getYaw() - this.getYaw());
+        float g = MathHelper.clamp(f, -105.0F, 105.0F);
+        entity.prevYaw += g - f;
+        entity.setYaw(entity.getYaw() + g - f);
+        entity.setHeadYaw(entity.getYaw());
+    }
+
+    @Override
+    public void updatePassengerPosition(Entity passenger) {
+        if (this.hasPassenger(passenger)) {
+            float f = 0.0F;
+            float g = (float)((this.isRemoved() ? 0.009999999776482582D : this.getMountedHeightOffset()) + passenger.getHeightOffset());
+            if (this.getPassengerList().size() > 1) {
+                int i = this.getPassengerList().indexOf(passenger);
+                if (i == 0) {
+                    f = 0.2F;
+                } else {
+                    f = -0.6F;
+                }
+                if (passenger instanceof AnimalEntity) {
+                    f = (float)((double)f + 0.2D);
+                }
+            }
+
+            Vec3d i = (new Vec3d(f, 0.0D, 0.0D)).rotateY(-this.getYaw() * 0.017453292F - 1.5707964F);
+            passenger.setPosition(this.getX() + i.x, this.getY() + (double)g, this.getZ() + i.z);
+            this.copyEntityData(passenger);
+            if (passenger instanceof AnimalEntity && this.getPassengerList().size() > 1) {
+                int j = passenger.getId() % 2 == 0 ? 90 : 270;
+                passenger.setBodyYaw(((AnimalEntity)passenger).bodyYaw + (float)j);
+                passenger.setHeadYaw(passenger.getHeadYaw() + (float)j);
+            }
+
+        }
+    }
 
     private <T extends IAnimatable> PlayState flyStatePredicate(AnimationEvent<T> event) {
         final AnimationController animationController = event.getController();
@@ -187,6 +242,89 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
         return factory;
     }
 
+    @Override
+    public boolean damage(DamageSource source, float amount) {
+        if(this.getFirstPassenger() != null){
+            this.getFirstPassenger().stopRiding();
+        }
+        return super.damage(source, amount);
+    }
+
+    class FeasterMoveControl extends MoveControl {
+        private final FeasterEntity feasterEntity;
+        private int collisionCheckCooldown;
+
+        public FeasterMoveControl(FeasterEntity feasterEntity) {
+            super(feasterEntity);
+            this.feasterEntity = feasterEntity;
+        }
+
+        @Override
+        public void tick() {
+            if (this.state == State.MOVE_TO) {
+                if (this.collisionCheckCooldown-- <= 0) {
+                    this.collisionCheckCooldown += this.feasterEntity.getRandom().nextInt(5) + 2;
+                    Vec3d vec3d = new Vec3d(this.targetX - this.feasterEntity.getX(), this.targetY - this.feasterEntity.getY(), this.targetZ - this.feasterEntity.getZ());
+                    double d = vec3d.length();
+                    vec3d = vec3d.normalize();
+                    if (this.willCollide(vec3d, MathHelper.ceil(d))) {
+                        this.feasterEntity.setVelocity(this.feasterEntity.getVelocity().add(vec3d.multiply(0.1D)));
+                    } else {
+                        this.state = State.WAIT;
+                    }
+                }
+
+            }
+        }
+
+
+        private boolean willCollide(Vec3d direction, int steps) {
+            Box box = this.feasterEntity.getBoundingBox();
+            for(int i = 1; i < steps; ++i) {
+                box = box.offset(direction);
+                if (!this.feasterEntity.world.isSpaceEmpty(this.feasterEntity, box)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    private static class FlyRandomlyGoal extends Goal {
+        private final FeasterEntity feasterEntity;
+
+        public FlyRandomlyGoal(FeasterEntity feasterEntity) {
+            this.feasterEntity = feasterEntity;
+            this.setControls(EnumSet.of(Control.MOVE));
+        }
+
+        public boolean canStart() {
+            MoveControl moveControl = this.feasterEntity.getMoveControl();
+            if (!moveControl.isMoving()) {
+                return true;
+            } else {
+                double d = moveControl.getTargetX() - this.feasterEntity.getX();
+                double e = moveControl.getTargetY() - this.feasterEntity.getY();
+                double f = moveControl.getTargetZ() - this.feasterEntity.getZ();
+                double g = d * d + e * e + f * f;
+                return g < 1.0D || g > 3600.0D;
+            }
+        }
+
+        public boolean shouldContinue() {
+            return false;
+        }
+
+        public void start() {
+            Random random = this.feasterEntity.getRandom();
+            double d = this.feasterEntity.getX() + (double)((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
+            double e = this.feasterEntity.getY() + (double)((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
+            double f = this.feasterEntity.getZ() + (double)((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
+            this.feasterEntity.getMoveControl().moveTo(d, e, f, 1.0D);
+        }
+    }
+
     class FeasterMeleeAttackGoal extends MeleeAttackGoal {
 
         public FeasterMeleeAttackGoal() {
@@ -213,6 +351,49 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
         @Override
         protected double getSquaredMaxAttackDistance(LivingEntity entity) {
             return 6;
+        }
+    }
+
+    class FeasterGrab extends Goal{
+        private final FeasterEntity feasterEntity;
+
+        FeasterGrab(FeasterEntity feasterEntity) {
+            this.feasterEntity = feasterEntity;
+        }
+
+        @Override
+        public boolean canStart() {
+            LivingEntity livingEntity = this.feasterEntity.getTarget();
+            return livingEntity != null && feasterEntity.distanceTo(livingEntity) < 5 && feasterEntity.GRABCOOLDOWN <= 1;
+        }
+
+        @Override
+        public void start() {
+            LivingEntity livingEntity = this.feasterEntity.getTarget();
+            if (livingEntity != null) {
+                feasterEntity.GRABCOOLDOWN = 200;
+                livingEntity.startRiding(feasterEntity);
+            }
+            super.start();
+        }
+    }
+
+    class FeasterSucc extends Goal{
+        private final LivingEntity livingEntity;
+
+        FeasterSucc(LivingEntity livingEntity) {
+            this.livingEntity = livingEntity;
+        }
+
+        @Override
+        public boolean canStart() {
+            return dataTracker.get(IS_GRABBING);
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+
         }
     }
 }
