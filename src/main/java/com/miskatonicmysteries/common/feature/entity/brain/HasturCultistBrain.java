@@ -6,15 +6,14 @@ import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
-import com.miskatonicmysteries.common.feature.entity.ai.task.CastSpellTask;
-import com.miskatonicmysteries.common.feature.entity.ai.task.HealthCareTask;
-import com.miskatonicmysteries.common.feature.entity.ai.task.RecruitTask;
-import com.miskatonicmysteries.common.feature.entity.ai.task.TacticalApproachTask;
+import com.miskatonicmysteries.common.feature.entity.ai.task.*;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMBlessings;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.mojang.datafixers.util.Pair;
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,9 +43,7 @@ import net.minecraft.entity.ai.brain.task.VillagerWalkTowardsTask;
 import net.minecraft.entity.ai.brain.task.WakeUpTask;
 import net.minecraft.entity.ai.brain.task.WalkToNearestVisibleWantedItemTask;
 import net.minecraft.entity.ai.brain.task.WanderAroundTask;
-import net.minecraft.entity.mob.AbstractPiglinEntity;
-import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.entity.mob.Monster;
+import net.minecraft.entity.mob.*;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
@@ -145,40 +142,33 @@ public class HasturCultistBrain {
 	}
 
 	public static Optional<? extends LivingEntity> getBestTarget(VillagerEntity cultist) {
-		/*
 		Brain<VillagerEntity> brain = cultist.getBrain();
 		Optional<LivingEntity> optional = LookTargetUtil.getEntity(cultist, MemoryModuleType.ANGRY_AT);
 		if (optional.isPresent() && shouldAttack(optional.get())) {
 			return optional;
 		} else {
 			if (brain.hasMemoryModule(MemoryModuleType.VISIBLE_MOBS)) {
-				Optional<LivingTargetCache> mobs = brain.getOptionalMemory(MemoryModuleType.VISIBLE_MOBS);
-				if (mobs.isPresent()) {
-					mobs.get().
-					List<LivingEntity> mobList = mobs..get();
-					LivingEntity bestTarget = null;
-					for (LivingEntity livingEntity : mobList) {
-						if (Ascendant.of(livingEntity).isPresent() && MiskatonicMysteriesAPI
-						.hasBlessing(Ascendant.of(livingEntity).get(), MMBlessings.ROYAL_ENTOURAGE)) {
-							if (livingEntity.getAttacker() != null) {
-								bestTarget = livingEntity.getAttacker();
-								break;
-							} else if (livingEntity.getAttacking() != null && !(livingEntity.getAttacking() instanceof VillagerEntity)) {
-								bestTarget = livingEntity.getAttacking();
-								break;
-							}
+				LivingTargetCache livingTargetCache = brain.getOptionalMemory(MemoryModuleType.VISIBLE_MOBS).orElse(LivingTargetCache.empty());
+				LivingEntity bestTarget = null;
+				for (LivingEntity livingEntity : livingTargetCache.iterate((livingEntityx) -> true)) {
+					if (Ascendant.of(livingEntity).isPresent() && MiskatonicMysteriesAPI.hasBlessing(Ascendant.of(livingEntity).get(), MMBlessings.ROYAL_ENTOURAGE)) {
+						if (livingEntity.getAttacker() != null) {
+							bestTarget = livingEntity.getAttacker();
+							break;
+						} else if (livingEntity.getAttacking() != null && !(livingEntity.getAttacking() instanceof VillagerEntity)) {
+							bestTarget = livingEntity.getAttacking();
+							break;
 						}
-						if (MiskatonicMysteriesAPI.getNonNullAffiliation(livingEntity, true) == MMAffiliations.SHUB
-						|| livingEntity instanceof ProtagonistEntity || (livingEntity instanceof Monster
-						&& !(livingEntity instanceof CreeperEntity))) {
-							if (bestTarget == null || livingEntity.distanceTo(cultist) < bestTarget.distanceTo(cultist)) {
-								bestTarget = livingEntity;
-							}
+					}if (MiskatonicMysteriesAPI.getNonNullAffiliation(livingEntity, true) == MMAffiliations.SHUB
+					|| livingEntity instanceof ProtagonistEntity || (livingEntity instanceof Monster
+					&& !(livingEntity instanceof CreeperEntity))) {
+						if (bestTarget == null || livingEntity.distanceTo(cultist) < bestTarget.distanceTo(cultist)) {
+							bestTarget = livingEntity;
 						}
 					}
-					if (bestTarget != null) {
-						return Optional.of(bestTarget);
-					}
+				}
+				if (bestTarget != null) {
+					return Optional.of(bestTarget);
 				}
 			}
 			if (brain.hasMemoryModule(MemoryModuleType.NEAREST_VISIBLE_PLAYER)) {
@@ -188,8 +178,6 @@ public class HasturCultistBrain {
 				}
 			}
 		}
-
-		 */
 		return Optional.empty();
 	}
 
@@ -205,6 +193,7 @@ public class HasturCultistBrain {
 			new ForgetAngryAtTargetTask<>(),
 			new WakeUpTask(),
 			new StartRaidTask(),
+			new CrownAscendedCultist(),
 			new WanderAroundTask(),
 			new MeetVillagerTask(),
 			new HealthCareTask(),
@@ -223,7 +212,6 @@ public class HasturCultistBrain {
 				Pair.of(new MeetVillagerTask(), 2),
 				Pair.of(new RecruitTask(), 3)))),
 			Pair.of(2, new MeetVillagerTask()),
-			Pair.of(3, new RecruitTask()),
 			Pair.of(2, new VillagerWalkTowardsTask(MemoryModuleType.MEETING_POINT, f, 6, 100, 200)),
 			Pair.of(3, new ForgetCompletedPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT)),
 			Pair.of(99, new ScheduleActivityTask()));
