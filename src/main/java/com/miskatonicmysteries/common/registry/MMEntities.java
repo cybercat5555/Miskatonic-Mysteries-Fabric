@@ -1,18 +1,7 @@
 package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
-import com.miskatonicmysteries.common.feature.entity.AberrationEntity;
-import com.miskatonicmysteries.common.feature.entity.BoltEntity;
-import com.miskatonicmysteries.common.feature.entity.ByakheeEntity;
-import com.miskatonicmysteries.common.feature.entity.GenericTentacleEntity;
-import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
-import com.miskatonicmysteries.common.feature.entity.HarrowEntity;
-import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
-import com.miskatonicmysteries.common.feature.entity.PhantasmaEntity;
-import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
-import com.miskatonicmysteries.common.feature.entity.SpellProjectileEntity;
-import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
-import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity;
+import com.miskatonicmysteries.common.feature.entity.*;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import com.miskatonicmysteries.mixin.villagers.MemoryModuleTypeAccessor;
@@ -83,6 +72,9 @@ public class MMEntities {
 	public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create()
 		.id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW)
 		.build();
+
+	public static final EntityType<FeasterEntity> FEASTER = FabricEntityTypeBuilder
+	.create(SpawnGroup.MONSTER, FeasterEntity::new).dimensions(EntityDimensions.fixed(2F, 3F)).trackRangeBlocks(16).build();
 
 	public static final MemoryModuleType<GlobalPos> CONGREGATION_POINT = MemoryModuleTypeAccessor.invokeRegister(
 		Constants.MOD_ID + ":congregation_point",
@@ -197,6 +189,9 @@ public class MMEntities {
 
 		RegistryUtil.register(Registry.ENTITY_TYPE, "tindalos_hound", TINDALOS_HOUND);
 		FabricDefaultAttributeRegistry.register(TINDALOS_HOUND, TindalosHoundEntity.createAttributes());
+
+		RegistryUtil.register(Registry.ENTITY_TYPE, "feaster", FEASTER);
+		FabricDefaultAttributeRegistry.register(FEASTER, FeasterEntity.createAttributes());
 
 		RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
 
