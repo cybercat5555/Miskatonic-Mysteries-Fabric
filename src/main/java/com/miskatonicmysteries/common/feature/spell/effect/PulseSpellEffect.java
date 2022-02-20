@@ -115,7 +115,7 @@ public class PulseSpellEffect extends SpellEffect {
 			tentacle.setOwner(caster);
 			tentacle.setSimple(true);
 			tentacle.setSize(0);
-			tentacle.setMaxAge(broad ? 20 : 10);
+			tentacle.setMaxAge(broad ? 25 : 15);
 			tentacle.setBroadSwing(broad);
 			caster.world.spawnEntity(tentacle);
 		}

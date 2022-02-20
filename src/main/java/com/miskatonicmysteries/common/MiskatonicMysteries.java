@@ -26,6 +26,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import software.bernie.geckolib3.GeckoLib;
 
 public class MiskatonicMysteries implements ModInitializer {
 
@@ -38,6 +39,7 @@ public class MiskatonicMysteries implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		GeckoLib.initialize();
 		MMAffiliations.init();
 		MMBlessings.init();
 		MMObjects.init();
@@ -59,6 +61,9 @@ public class MiskatonicMysteries implements ModInitializer {
 		SchedulingHandler.init();
 		MMServerEvents.init();
 		MMBannerRegistry.registerBanner();
+
+
+
          /*
         todo some natural sanity regen
         */

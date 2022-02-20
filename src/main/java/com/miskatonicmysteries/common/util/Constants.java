@@ -69,6 +69,8 @@ public class Constants {
 		public static final Tag<EntityType<?>> BURNED_VEIL_MOBS = TagRegistry.entityType(new Identifier(MOD_ID, "burned_veil_mobs"));
 		public static final Tag<EntityType<?>> BROKEN_VEIL_MOBS = TagRegistry.entityType(new Identifier(MOD_ID, "broken_veil_mobs"));
 		public static final Tag<EntityType<?>> VALID_SACRIFICES = TagRegistry.entityType(new Identifier(MOD_ID, "valid_sacrifices"));
+
+		public static final Tag<Block> IDOLS = TagRegistry.block(new Identifier(MOD_ID, "idols"));
 	}
 
 	public static class NBT {
