@@ -337,6 +337,9 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 	}
 
 	private <T extends IAnimatable> PlayState animationPredicate(AnimationEvent<T> event) {
+
+
+
 		float limbSwingAmount = event.getLimbSwingAmount();
 		boolean isMoving = limbSwingAmount > 0.1F;
 		if (isPouncing()) {
