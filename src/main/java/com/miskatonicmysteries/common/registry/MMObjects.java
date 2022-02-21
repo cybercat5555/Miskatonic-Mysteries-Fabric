@@ -139,6 +139,7 @@ public class MMObjects {
 	public static final Block PRISMARINE_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU,
 		AbstractBlock.Settings.copy(Blocks.PRISMARINE));
 
+
 	public static final Block STONE_HASTUR_MURAL = new MuralBlock(MMAffiliations.HASTUR, AbstractBlock.Settings.copy(Blocks.STONE));
 	public static final Block MOSSY_HASTUR_MURAL = new MuralBlock(MMAffiliations.HASTUR,
 		AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
@@ -170,37 +171,45 @@ public class MMObjects {
 
 	public static final Block ELDERIAN_STONE = new ElderianBlock(Constants.BlockSettings.ELDERIAN);
 
-	public static final Block ELDERIAN_STONE_STAIRS = new ElderianStairs(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_STONE_SLAB = new SlabBlock(Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_STONE_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_STONE_SLAB = new ElderianSlabBlock(Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_STONE_WALL = new WallBlock(Constants.BlockSettings.ELDERIAN);
 
-	public static final Block ELDERIAN_STONE_SMOOTH = new ElderianBlock(Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_STONE_SMOOTH_STAIRS = new ElderianStairs(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_STONE_SMOOTH_SLAB = new SlabBlock(Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_STONE_SMOOTH = new Block(Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_STONE_SMOOTH_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_STONE_SMOOTH_SLAB = new ElderianSlabBlock(Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_STONE_SMOOTH_WALL = new WallBlock(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_STONE_CHISELED = new Block(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_BRICKS = new ElderianBlock(Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_BRICKS_STAIRS = new ElderianStairs(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_BRICKS_SLAB = new SlabBlock(Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_BRICKS_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_BRICKS_SLAB = new ElderianSlabBlock(Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_BRICKS_WALL = new WallBlock(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_CRACKED_BRICKS = new ElderianBlock(Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_CRACKED_STAIRS = new ElderianStairs(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_CRACKED_SLAB = new SlabBlock(Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_CRACKED_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_CRACKED_SLAB = new ElderianSlabBlock(Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_CRACKED_WALL = new WallBlock(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_ICED_BRICKS = new ElderianBlock(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_MOSSY_BRICKS = new ElderianBlock(Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_MOSSY_STAIRS = new ElderianStairs(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_MOSSY_SLAB = new SlabBlock(Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_MOSSY_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_MOSSY_SLAB = new ElderianSlabBlock(Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_MOSSY_WALL = new WallBlock(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_PILLAR_SMOOTH = new ElderianPillarBlock(Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_PILLAR_TENTACLED = new ElderianPillarBlock(Constants.BlockSettings.ELDERIAN);
 
+	public static final Block ELDERIAN_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU,
+	AbstractBlock.Settings.copy(ELDERIAN_STONE));
+	public static final Block ELDERIAN_HASTUR_MURAL = new MuralBlock(MMAffiliations.HASTUR,
+	AbstractBlock.Settings.copy(ELDERIAN_STONE));
+	public static final Block ELDERIAN_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB,
+	AbstractBlock.Settings.copy(ELDERIAN_STONE));
+	public static final Block ELDERIAN_YOGSOTHOTH_MURAL = new MuralBlock(MMAffiliations.YOGSOTHOTH,
+	AbstractBlock.Settings.copy(ELDERIAN_STONE));
 
 	public static final StatueBlock CTHULHU_STATUE_ELDERIAN = new StatueBlock(MMAffiliations.CTHULHU, false,
 	AbstractBlock.Settings.copy(ELDERIAN_STONE));
@@ -378,21 +387,25 @@ public class MMObjects {
 		RegistryUtil.registerBlock(MOSSY_CTHULHU_MURAL, "mossy_cthulhu_mural");
 		RegistryUtil.registerBlock(CORAL_CTHULHU_MURAL, "coral_cthulhu_mural");
 		RegistryUtil.registerBlock(PRISMARINE_CTHULHU_MURAL, "prismarine_cthulhu_mural");
+		RegistryUtil.registerBlock(ELDERIAN_CTHULHU_MURAL, "elderian_cthulhu_mural");
 
 		RegistryUtil.registerBlock(STONE_HASTUR_MURAL, "stone_hastur_mural");
 		RegistryUtil.registerBlock(MOSSY_HASTUR_MURAL, "mossy_hastur_mural");
 		RegistryUtil.registerBlock(TERRACOTTA_HASTUR_MURAL, "terracotta_hastur_mural");
 		RegistryUtil.registerBlock(YELLOW_TERRACOTTA_HASTUR_MURAL, "yellow_terracotta_hastur_mural");
+		RegistryUtil.registerBlock(ELDERIAN_HASTUR_MURAL, "elderian_hastur_mural");
 
 		RegistryUtil.registerBlock(STONE_SHUB_MURAL, "stone_shub_mural");
 		RegistryUtil.registerBlock(MOSSY_SHUB_MURAL, "mossy_shub_mural");
 		RegistryUtil.registerBlock(DEEPSLATE_SHUB_MURAL, "deepslate_shub_mural");
 		RegistryUtil.registerBlock(BLACKSTONE_SHUB_MURAL, "blackstone_shub_mural");
+		RegistryUtil.registerBlock(ELDERIAN_SHUB_MURAL, "elderian_shub_mural");
 
 		RegistryUtil.registerBlock(STONE_YOGSOTHOTH_MURAL, "stone_yogsothoth_mural");
 		RegistryUtil.registerBlock(MOSSY_YOGSOTHOTH_MURAL, "mossy_yogsothoth_mural");
 		RegistryUtil.registerBlock(BLACKSTONE_YOGSOTHOTH_MURAL, "blackstone_yogsothoth_mural");
 		RegistryUtil.registerBlock(END_STONE_YOGSOTHOTH_MURAL, "end_stone_yogsothoth_mural");
+		RegistryUtil.registerBlock(ELDERIAN_YOGSOTHOTH_MURAL, "elderian_yogsothoth_mural");
 
 		RegistryUtil.registerBlock(OCEANIC_GOLD_BLOCK, "oceanic_gold_block");
 		RegistryUtil.registerBlock(WARDED_OCEANIC_GOLD_BLOCK, "oceanic_gold_block_warded");
@@ -470,7 +483,7 @@ public class MMObjects {
 		RegistryUtil.register(Registry.ITEM, "gutting_dagger", GUTTING_DAGGER);
 		RegistryUtil.register(Registry.ITEM, "horned_dagger", HORNED_DAGGER);
 		RegistryUtil.register(Registry.ITEM, "fishy_dagger", FISHY_DAGGER);
-		RegistryUtil.register(Registry.ITEM, "yog_dagger", YOG_DAGGER);
+		RegistryUtil.register(Registry.ITEM, "yogsothoth_dagger", YOG_DAGGER);
 
 		RegistryUtil.register(Registry.ITEM, "protagonist_spawn_egg", PROTAGONIST_SPAWN_EGG);
 		RegistryUtil.register(Registry.ITEM, "hastur_cultist_spawn_egg", HASTUR_CULTIST_SPAWN_EGG);
