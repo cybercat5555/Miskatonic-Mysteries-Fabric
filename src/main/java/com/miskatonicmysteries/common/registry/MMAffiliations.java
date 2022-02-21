@@ -18,11 +18,15 @@ public class MMAffiliations {
 	public static final Affiliation CTHULHU = new Affiliation(new Identifier(MOD_ID, "cthulhu"), new float[]{0.2F,
 		0.27F, 0.44F});
 
+	public static final Affiliation YOGSOTHOTH = new Affiliation(new Identifier(MOD_ID, "yogsothoth"), new float[]{0.2F,
+	0.27F, 0.44F});//TODO float values
+
 	public static void init() {
 		register(NONE);
 		register(HASTUR);
 		register(SHUB);
 		register(CTHULHU);
+		register(YOGSOTHOTH);
 	}
 
 	private static void register(Affiliation affiliation) {

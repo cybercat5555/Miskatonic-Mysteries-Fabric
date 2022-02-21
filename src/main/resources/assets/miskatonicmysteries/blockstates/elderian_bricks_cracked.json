@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "variants=0": {
+      "model": "miskatonicmysteries:block/elderian_bricks_cracked_1"
+    },
+    "variants=1": {
+      "model": "miskatonicmysteries:block/elderian_bricks_cracked_2"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "miskatonicmysteries:block/elderian/elderian_smooth_pillar_top",
+    "side": "miskatonicmysteries:block/elderian/elderian_smooth_pillar_side_1"
+  }
+}
