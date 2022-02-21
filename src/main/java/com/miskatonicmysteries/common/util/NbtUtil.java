@@ -51,6 +51,10 @@ public class NbtUtil {
 	private static void addDefaultSpells(SpellCaster caster) {
 		caster.getLearnedMediums().add(MMSpellMediums.SELF);
 		caster.getLearnedEffects().add(MMSpellEffects.IGNITE);
+		caster.getLearnedEffects().add(MMSpellEffects.DAMAGE);
+		caster.getLearnedEffects().add(MMSpellEffects.KNOCKBACK);
+		caster.getLearnedEffects().add(MMSpellEffects.RESISTANCE);
+		caster.getLearnedEffects().add(MMSpellEffects.HEAL);
 	}
 
 	public static NbtCompound writeBlessingData(Ascendant ascendant, NbtCompound tag) {

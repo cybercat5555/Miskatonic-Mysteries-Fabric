@@ -39,7 +39,6 @@ public class MiskatonicMysteries implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		GeckoLib.initialize();
 		MMAffiliations.init();
 		MMBlessings.init();
 		MMObjects.init();

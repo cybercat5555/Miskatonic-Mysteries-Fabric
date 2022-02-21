@@ -5,11 +5,7 @@ import com.miskatonicmysteries.client.model.armor.CultistRobesModel;
 import com.miskatonicmysteries.client.model.armor.HasturMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubAlternateMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubMaskModel;
-import com.miskatonicmysteries.client.model.block.CthulhuStatueModel;
-import com.miskatonicmysteries.client.model.block.HasturStatueModel;
-import com.miskatonicmysteries.client.model.block.MasterpieceStatueModel;
-import com.miskatonicmysteries.client.model.block.ShubStatueModel;
-import com.miskatonicmysteries.client.model.block.StatueModel;
+import com.miskatonicmysteries.client.model.block.*;
 import com.miskatonicmysteries.client.model.entity.AscendedHasturCultistEntityModel;
 import com.miskatonicmysteries.client.model.entity.ByakheeEntityModel;
 import com.miskatonicmysteries.client.model.entity.HarrowEntityModel;
@@ -48,6 +44,7 @@ public class MMModels {
 	public static final EntityModelLayer CTHULHU_STATUE = create("cthulhu_statue");
 	public static final EntityModelLayer HASTUR_STATUE = create("hastur_statue");
 	public static final EntityModelLayer SHUB_STATUE = create("shub_statue");
+	public static final EntityModelLayer YOGSOTHOTH_STATUE = create("yogsothoth_statue");
 	public static final EntityModelLayer MASTERPIECE_STATUE = create("masterpiece_statue");
 	public static final Map<Affiliation, Function<BlockEntityRendererFactory.Context, StatueModel>> STATUE_MODELS =
 		new HashMap<>();
@@ -72,6 +69,7 @@ public class MMModels {
 		EntityModelLayerRegistry.registerModelLayer(CTHULHU_STATUE, CthulhuStatueModel::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(HASTUR_STATUE, HasturStatueModel::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(SHUB_STATUE, ShubStatueModel::getTexturedModelData);
+		EntityModelLayerRegistry.registerModelLayer(YOGSOTHOTH_STATUE, YogsothothStatueModel::getTexturedModelData);
 
 		EntityModelLayerRegistry.registerModelLayer(MASTERPIECE_STATUE, MasterpieceStatueModel::getTexturedModelData);
 
@@ -79,7 +77,10 @@ public class MMModels {
 			(ctx) -> new CthulhuStatueModel(ctx.getLayerModelPart(CTHULHU_STATUE)));
 		registerStatueModel(MMAffiliations.HASTUR,
 			(ctx) -> new HasturStatueModel(ctx.getLayerModelPart(HASTUR_STATUE)));
-		registerStatueModel(MMAffiliations.SHUB, (ctx) -> new ShubStatueModel(ctx.getLayerModelPart(SHUB_STATUE)));
+		registerStatueModel(MMAffiliations.SHUB,
+			(ctx) -> new ShubStatueModel(ctx.getLayerModelPart(SHUB_STATUE)));
+		registerStatueModel(MMAffiliations.YOGSOTHOTH,
+		(ctx) -> new YogsothothStatueModel(ctx.getLayerModelPart(YOGSOTHOTH_STATUE)));
 	}
 
 	public static void registerStatueModel(Affiliation affiliation, Function<BlockEntityRendererFactory.Context,

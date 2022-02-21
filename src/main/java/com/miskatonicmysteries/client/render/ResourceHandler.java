@@ -75,22 +75,34 @@ public class ResourceHandler {
 		ResourceHandler
 			.addOctagramTextureFor(MMObjects.SHUB_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/shub_octagram"),
 				new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/shub_octagram_mask.png"));
+		ResourceHandler
+		.addOctagramTextureFor(MMObjects.YOGSOTHOTH_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/yogsothoth_octagram"),
+		new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/yogsothoth_octagram_mask.png"));
 
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_gold"));
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_mossy"));
-		addStatueTextureFor(MMObjects.CTHULHU_STATUE_PRISMARINE,
-			new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_prismarine"));
+		addStatueTextureFor(MMObjects.CTHULHU_STATUE_PRISMARINE, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_prismarine"));
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_stone"));
+		addStatueTextureFor(MMObjects.CTHULHU_STATUE_ELDERIAN, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_elderian_stone"));
 
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_gold"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_mossy"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_TERRACOTTA, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_terracotta"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_stone"));
+		addStatueTextureFor(MMObjects.HASTUR_STATUE_ELDERIAN, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_elderian_stone"));
 
 		addStatueTextureFor(MMObjects.SHUB_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_gold"));
 		addStatueTextureFor(MMObjects.SHUB_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_mossy"));
 		addStatueTextureFor(MMObjects.SHUB_STATUE_DEEPSLATE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_deepslate"));
 		addStatueTextureFor(MMObjects.SHUB_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_stone"));
+		addStatueTextureFor(MMObjects.SHUB_STATUE_ELDERIAN, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_elderian_stone"));
+
+		addStatueTextureFor(MMObjects.YOGSOTHOTH_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/yogsothoth_statue_gold"));
+		addStatueTextureFor(MMObjects.YOGSOTHOTH_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/yogsothoth_statue_mossy"));
+		addStatueTextureFor(MMObjects.YOGSOTHOTH_STATUE_END_STONE, new Identifier(Constants.MOD_ID, "block/statue/yogsothoth_statue_end_stone"));
+		addStatueTextureFor(MMObjects.YOGSOTHOTH_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/yogsothoth_statue_stone"));
+		addStatueTextureFor(MMObjects.YOGSOTHOTH_STATUE_BLACKSTONE, new Identifier(Constants.MOD_ID, "block/statue/yogsothoth_statue_blackstone"));
+		addStatueTextureFor(MMObjects.YOGSOTHOTH_STATUE_ELDERIAN, new Identifier(Constants.MOD_ID, "block/statue/yogsothoth_statue_elderian_stone"));
 	}
 
 	public static void addBookTextureFor(Item item, Identifier texture) {

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+    "top": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+    "side": "miskatonicmysteries:block/elderian/elderian_stone_smooth"
+  }
+}

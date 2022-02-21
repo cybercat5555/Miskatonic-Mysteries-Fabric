@@ -213,6 +213,7 @@ public class Constants {
 	public static class BlockSettings {
 
 		public static final AbstractBlock.Settings OCEANIC_GOLD = AbstractBlock.Settings.of(Material.METAL).strength(1F, 5F).requiresTool();
+		public static final AbstractBlock.Settings ELDERIAN = AbstractBlock.Settings.of(Material.STONE).strength(1F, 5F).requiresTool();
 	}
 
 	public static class Misc {

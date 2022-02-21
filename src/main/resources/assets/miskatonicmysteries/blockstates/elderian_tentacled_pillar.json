@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "axis=y,variants=0": {
+      "model": "miskatonicmysteries:block/elderian_tentacled_pillar_1"
+    },
+    "axis=z,variants=0": {
+      "model": "miskatonicmysteries:block/elderian_tentacled_pillar_1",
+      "x": 90
+    },
+    "axis=x,variants=0": {
+      "model": "miskatonicmysteries:block/elderian_tentacled_pillar_1",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,variants=1": {
+      "model": "miskatonicmysteries:block/elderian_tentacled_pillar_2"
+    },
+    "axis=z,variants=1": {
+      "model": "miskatonicmysteries:block/elderian_tentacled_pillar_2",
+      "x": 90
+    },
+    "axis=x,variants=1": {
+      "model": "miskatonicmysteries:block/elderian_tentacled_pillar_2",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

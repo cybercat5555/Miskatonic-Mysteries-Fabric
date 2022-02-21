@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "miskatonicmysteries:block/end_stone_yogsothoth_mural"
+    },
+    "facing=east": {
+      "model": "miskatonicmysteries:block/end_stone_yogsothoth_mural",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "miskatonicmysteries:block/end_stone_yogsothoth_mural",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "miskatonicmysteries:block/end_stone_yogsothoth_mural",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "miskatonicmysteries:elderian_stone"
+  },
+  "result": "miskatonicmysteries:elderian_stone_wall",
+  "count": 1
+}
