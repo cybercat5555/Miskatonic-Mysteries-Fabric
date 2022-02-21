@@ -16,8 +16,6 @@ import net.minecraft.util.math.MathHelper;
 import software.bernie.geckolib3.core.util.Color;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
-import java.awt.*;
-
 @Environment(EnvType.CLIENT)
 public class GenericTentacleEntityRenderer extends GeoEntityRenderer<TentacleEntity> {
 

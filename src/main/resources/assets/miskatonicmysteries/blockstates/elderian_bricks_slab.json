@@ -1,13 +1,22 @@
 {
   "variants": {
-    "type=bottom": {
-      "model": "miskatonicmysteries:block/elderian_bricks_slab"
+    "type=bottom,variants=0": {
+      "model": "miskatonicmysteries:block/elderian/elderian_bricks_slab_1"
     },
-    "type=double": {
-      "model": "miskatonicmysteries:block/elderian_bricks_1"
+    "type=double,variants=0": {
+      "model": "miskatonicmysteries:block/elderian/elderian_bricks_1"
     },
-    "type=top": {
-      "model": "miskatonicmysteries:block/elderian_bricks_slab_top"
+    "type=top,variants=0": {
+      "model": "miskatonicmysteries:block/elderian/elderian_bricks_slab_top_1"
+    },
+    "type=bottom,variants=1": {
+      "model": "miskatonicmysteries:block/elderian/elderian_bricks_slab_2"
+    },
+    "type=double,variants=1": {
+      "model": "miskatonicmysteries:block/elderian/elderian_bricks_2"
+    },
+    "type=top,variants=1": {
+      "model": "miskatonicmysteries:block/elderian/elderian_bricks_slab_top_2"
     }
   }
 }

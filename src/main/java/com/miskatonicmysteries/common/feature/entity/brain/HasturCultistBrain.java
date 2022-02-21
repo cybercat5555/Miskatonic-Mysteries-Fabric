@@ -13,7 +13,6 @@ import com.miskatonicmysteries.common.registry.MMBlessings;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.mojang.datafixers.util.Pair;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 

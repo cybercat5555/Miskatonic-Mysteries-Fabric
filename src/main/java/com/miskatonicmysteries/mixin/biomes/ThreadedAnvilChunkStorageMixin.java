@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.mixin.biomes;
 
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeMaskPacket;
-import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.ChunkDataS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ThreadedAnvilChunkStorage;

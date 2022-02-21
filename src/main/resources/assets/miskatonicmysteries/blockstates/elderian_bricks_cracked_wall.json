@@ -5,7 +5,7 @@
         "up": "true"
       },
       "apply": {
-        "model": "miskatonicmysteries:block/elderian_bricks_cracked_wall_post"
+          "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_post_1"
       }
     },
     {
@@ -13,8 +13,8 @@
         "north": "low"
       },
       "apply": {
-        "model": "miskatonicmysteries:block/elderian_bricks_cracked_wall_side",
-        "uvlock": true
+          "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_1",
+          "uvlock": true
       }
     },
     {
@@ -22,9 +22,9 @@
         "east": "low"
       },
       "apply": {
-        "model": "miskatonicmysteries:block/elderian_bricks_cracked_wall_side",
-        "y": 90,
-        "uvlock": true
+          "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_1",
+          "y": 90,
+          "uvlock": true
       }
     },
     {
@@ -32,7 +32,7 @@
         "south": "low"
       },
       "apply": {
-        "model": "miskatonicmysteries:block/elderian_bricks_cracked_wall_side",
+        "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_1",
         "y": 180,
         "uvlock": true
       }
@@ -42,7 +42,7 @@
         "west": "low"
       },
       "apply": {
-        "model": "miskatonicmysteries:block/elderian_bricks_cracked_wall_side",
+        "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_1",
         "y": 270,
         "uvlock": true
       }
@@ -52,7 +52,7 @@
         "north": "tall"
       },
       "apply": {
-        "model": "miskatonicmysteries:block/elderian_bricks_cracked_wall_side_tall",
+        "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_tall_1",
         "uvlock": true
       }
     },
@@ -61,7 +61,7 @@
         "east": "tall"
       },
       "apply": {
-        "model": "miskatonicmysteries:block/elderian_bricks_cracked_wall_side_tall",
+        "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_tall_1",
         "y": 90,
         "uvlock": true
       }
@@ -71,7 +71,7 @@
         "south": "tall"
       },
       "apply": {
-        "model": "miskatonicmysteries:block/elderian_bricks_cracked_wall_side_tall",
+        "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_tall_1",
         "y": 180,
         "uvlock": true
       }
@@ -81,7 +81,7 @@
         "west": "tall"
       },
       "apply": {
-        "model": "miskatonicmysteries:block/elderian_bricks_cracked_wall_side_tall",
+        "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_tall_1",
         "y": 270,
         "uvlock": true
       }

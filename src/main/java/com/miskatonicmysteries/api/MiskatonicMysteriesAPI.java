@@ -2,7 +2,6 @@ package com.miskatonicmysteries.api;
 
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.Ascendant;
-import com.miskatonicmysteries.api.interfaces.BiomeMask;
 import com.miskatonicmysteries.api.interfaces.Knowledge;
 import com.miskatonicmysteries.api.interfaces.MalleableAffiliated;
 import com.miskatonicmysteries.api.interfaces.Sanity;

@@ -2,9 +2,6 @@ package com.miskatonicmysteries.client.model.block;
 
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.util.Identifier;
-
-import java.util.function.Function;
 
 public class YogsothothStatueModel extends StatueModel {
     public YogsothothStatueModel(ModelPart root) {

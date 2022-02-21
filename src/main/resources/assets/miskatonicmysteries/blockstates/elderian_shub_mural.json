@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "miskatonicmysteries:block/elderian_shub_mural"
+    },
+    "facing=east": {
+      "model": "miskatonicmysteries:block/elderian_shub_mural",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "miskatonicmysteries:block/elderian_shub_mural",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "miskatonicmysteries:block/elderian_shub_mural",
+      "y": 270
+    }
+  }
+}

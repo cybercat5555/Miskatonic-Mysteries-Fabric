@@ -27,7 +27,7 @@ public class ResourceHandler {
 	public static final SpriteIdentifier DEFAULT_OCTAGRAM = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
 		new Identifier(Constants.MOD_ID, "block/octagram/generic_octagram"));
 	public static final Identifier DEFAULT_OCTAGRAM_MASK = new Identifier(Constants.MOD_ID,
-		"textures/block/octagram/mask/octagram_mask.png");
+		"textures/block/octagram/mask/yogsothoth_octagram_mask.png");
 	public static final SpriteIdentifier AURA_SPRITE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
 		new Identifier(Constants.MOD_ID, "misc/aura"));
 	public static final SpriteIdentifier TOTAL_DARK = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
