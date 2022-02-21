@@ -2,22 +2,19 @@ package com.miskatonicmysteries.common.feature.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.enums.BlockHalf;
-import net.minecraft.block.enums.StairShape;
+import net.minecraft.block.WallBlock;
+import net.minecraft.block.enums.WallShape;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
-public class ElderianStairsBlock extends StairsBlock {
+public class ElderianWallBlock extends WallBlock {
     public static final IntProperty VARIANTS = IntProperty.of("variants", 0, 1);
 
-    public ElderianStairsBlock(Block block, Settings settings) {
-        super(block.getDefaultState(), settings);
-        this.setDefaultState((((((this.stateManager.getDefaultState()).with(VARIANTS, 0)).with(FACING, Direction.NORTH)).with(HALF, BlockHalf.BOTTOM)).with(SHAPE, StairShape.STRAIGHT)).with(WATERLOGGED, false));
-
+    public ElderianWallBlock(Settings settings) {
+        super(settings);
+        this.setDefaultState((((((((this.stateManager.getDefaultState()).with(VARIANTS, 0)).with(UP, true)).with(NORTH_SHAPE, WallShape.NONE)).with(EAST_SHAPE, WallShape.NONE)).with(SOUTH_SHAPE, WallShape.NONE)).with(WEST_SHAPE, WallShape.NONE)).with(WATERLOGGED, false));
     }
 
     @Nullable
@@ -28,6 +25,6 @@ public class ElderianStairsBlock extends StairsBlock {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(VARIANTS, FACING, HALF, SHAPE, WATERLOGGED);
+        builder.add(VARIANTS,UP, NORTH_SHAPE, EAST_SHAPE, WEST_SHAPE, SOUTH_SHAPE, WATERLOGGED);
     }
 }

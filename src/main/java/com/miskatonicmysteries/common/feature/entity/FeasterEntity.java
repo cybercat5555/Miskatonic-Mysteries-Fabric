@@ -37,7 +37,6 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
 

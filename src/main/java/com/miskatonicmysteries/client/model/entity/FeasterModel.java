@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.client.model.entity;
 
 import com.miskatonicmysteries.common.feature.entity.FeasterEntity;
-import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

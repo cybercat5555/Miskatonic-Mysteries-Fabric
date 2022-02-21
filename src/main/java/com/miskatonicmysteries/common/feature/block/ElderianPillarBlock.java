@@ -6,7 +6,6 @@ import net.minecraft.block.PillarBlock;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Property;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
