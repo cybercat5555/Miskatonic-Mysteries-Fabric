@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "miskatonicmysteries:elderian_stone"
+    "tag": "miskatonicmysteries:elderian_blocks"
   },
   "result": "miskatonicmysteries:elderian_stone_wall",
   "count": 1

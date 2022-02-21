@@ -5,13 +5,13 @@
       "item": "minecraft:calcite"
     },
     {
-      "item": "minecraft:black_dye"
+      "item": "minecraft:purple_dye"
     },
     {
-      "item": "minecraft:black_dye"
+      "item": "minecraft:purple_dye"
     },
     {
-      "item": "minecraft:charcoal"
+      "item": "minecraft:prismarine_shard"
     },
     {
       "item": "minecraft:quartz"
@@ -24,7 +24,7 @@
         "item": "minecraft:bone_meal"
       },
       "out": {
-        "item": "miskatonicmysteries:shub_chalk",
+        "item": "miskatonicmysteries:yogsothoth_chalk",
         "count": 1
       }
     }
