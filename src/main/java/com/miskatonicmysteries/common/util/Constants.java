@@ -58,6 +58,12 @@ public class Constants {
 		public static final Tag<Block> WEAK_STABILIZERS = TagRegistry.block(new Identifier(MOD_ID, "weak_stabilizers"));
 		public static final Tag<Block> STRONG_STABILIZERS = TagRegistry.block(new Identifier(MOD_ID, "strong_stabilizers"));
 
+		public static final Tag<Block> ELDERIAN_BLOCKS = TagRegistry.block(new Identifier(MOD_ID, "elderian_blocks"));
+		public static final Tag<Block> ELDERIAN_SLABS = TagRegistry.block(new Identifier(MOD_ID, "elderian_slabs"));
+		public static final Tag<Block> ELDERIAN_STAIRS = TagRegistry.block(new Identifier(MOD_ID, "elderian_stairs"));
+		public static final Tag<Block> ELDERIAN_WALLS = TagRegistry.block(new Identifier(MOD_ID, "elderian_walls"));
+
+
 		public static final Tag<Item> RED_MEAT = TagRegistry.item(new Identifier(MOD_ID, "red_meat"));
 		public static final Tag<Item> YELLOW_DYE = TagRegistry.item(new Identifier(MOD_ID, "yellow_dye"));
 		public static final Tag<Item> RITE_TOOLS = TagRegistry.item(new Identifier(MOD_ID, "rite_tools"));
