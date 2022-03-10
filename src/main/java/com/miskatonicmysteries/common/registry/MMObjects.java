@@ -261,6 +261,7 @@ public class MMObjects {
 	public static final Item INFESTED_WHEAT = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
 	public static final Item BLOTTER = new BlotterItem();
+	public static final Item BLOTTER_POTENT = new BlotterItem();
 	public static final Item LAUDANUM = new LaudanumItem();
 	public static final Item TRANQUILIZER = new TranquilizerItem();
 	public static final Item RE_AGENT_SYRINGE = new ReAgentItem();
@@ -475,6 +476,7 @@ public class MMObjects {
 		RegistryUtil.register(Registry.ITEM, "syringe", SYRINGE);
 		RegistryUtil.register(Registry.ITEM, "infested_wheat", INFESTED_WHEAT);
 		RegistryUtil.register(Registry.ITEM, "blotter", BLOTTER);
+		RegistryUtil.register(Registry.ITEM, "blotter_potent", BLOTTER_POTENT);
 		RegistryUtil.register(Registry.ITEM, "laudanum", LAUDANUM);
 		RegistryUtil.register(Registry.ITEM, "tranquilizer", TRANQUILIZER);
 		RegistryUtil.register(Registry.ITEM, "re_agent_syringe", RE_AGENT_SYRINGE);
