@@ -35,6 +35,7 @@ public class MMStatusEffects {
 		RegistryUtil.register(Registry.STATUS_EFFECT, "exotic_cravings", EXOTIC_CRAVINGS);
 		RegistryUtil.register(Registry.STATUS_EFFECT, "ultra_violence", ULTRA_VIOLENCE);
 		RegistryUtil.register(Registry.STATUS_EFFECT, "clairvoyance", CLAIRVOYANCE);
+		RegistryUtil.register(Registry.STATUS_EFFECT, "othervibes", OTHERVIBES);
 
 		RegistryUtil.register(Registry.POTION, "resonance", Potions.RESONANCE);
 		RegistryUtil.register(Registry.POTION, "resonance_long", Potions.LONG_RESONANCE);

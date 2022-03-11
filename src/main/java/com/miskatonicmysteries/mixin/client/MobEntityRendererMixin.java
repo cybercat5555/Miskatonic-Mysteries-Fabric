@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.mixin.client;
 
 import com.miskatonicmysteries.api.interfaces.HiddenEntity;
+import com.miskatonicmysteries.api.interfaces.OthervibeMobEntityAccessor;
 import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
@@ -24,8 +25,14 @@ public class MobEntityRendererMixin<T extends MobEntity> {
 		if (cir.getReturnValue() && mobEntity instanceof HiddenEntity h && h.isHidden()) {
 			cir.setReturnValue(HallucinationEntity.canSeeThroughMagic(MinecraftClient.getInstance().player));
 		}
-		if(cir.getReturnValue() && Constants.Tags.BROKEN_VEIL_MOBS.values().contains(mobEntity) && MinecraftClient.getInstance().player.hasStatusEffect(MMStatusEffects.OTHERVIBES)){
-
+		if(((OthervibeMobEntityAccessor)mobEntity).access(MinecraftClient.getInstance().player)){
+			cir.setReturnValue(false);
 		}
+		/*
+		if(cir.getReturnValue() && Constants.Tags.BROKEN_VEIL_MOBS.values().contains(mobEntity) && MinecraftClient.getInstance().player.hasStatusEffect(MMStatusEffects.OTHERVIBES)){
+			cir.setReturnValue(false);
+		}
+
+		 */
 	}
 }

@@ -4,8 +4,14 @@ import com.google.common.collect.ImmutableSet;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Appeasable;
 import com.miskatonicmysteries.api.interfaces.HiddenEntity;
+import com.miskatonicmysteries.api.interfaces.OthervibeMobEntityAccessor;
+import com.miskatonicmysteries.api.interfaces.OthervibeEntity;
 import com.miskatonicmysteries.common.util.Constants;
+
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
@@ -31,14 +37,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MobEntity.class)
-public abstract class MobEntityMixin extends LivingEntity implements HiddenEntity {
+public abstract class MobEntityMixin extends LivingEntity implements HiddenEntity, OthervibeEntity, OthervibeMobEntityAccessor {
 
 	@Unique
 	private static final Set<Potion> FORBIDDEN_POTIONS = ImmutableSet.of(Potions.WATER, Potions.EMPTY, Potions.MUNDANE
 		, Potions.AWKWARD, Potions.THICK);
+
 	@Unique
 	private static final TrackedData<Boolean> HIDDEN = DataTracker.registerData(MobEntity.class,
 		TrackedDataHandlerRegistry.BOOLEAN);
+
+	@Unique
+	private static final TrackedData<Optional<UUID>> OTHERVIBES_AFFECTED_PLAYER = DataTracker.registerData(MobEntity.class,
+		TrackedDataHandlerRegistry.OPTIONAL_UUID);
 
 	protected MobEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
@@ -47,6 +58,7 @@ public abstract class MobEntityMixin extends LivingEntity implements HiddenEntit
 	@Inject(method = "initDataTracker", at = @At("TAIL"))
 	private void initDataTracker(CallbackInfo ci) {
 		this.dataTracker.startTracking(HIDDEN, false);
+		this.dataTracker.startTracking(OTHERVIBES_AFFECTED_PLAYER, Optional.empty());
 	}
 
 	@Override
@@ -58,6 +70,43 @@ public abstract class MobEntityMixin extends LivingEntity implements HiddenEntit
 	public void setHidden(boolean hide) {
 		this.dataTracker.set(HIDDEN, hide);
 	}
+
+	@Override
+	public boolean isVisibleTo(PlayerEntity player) {
+		return this.dataTracker.get(OTHERVIBES_AFFECTED_PLAYER).isPresent() && this.dataTracker.get(OTHERVIBES_AFFECTED_PLAYER).get() == player.getUuid();
+	}
+
+	@Override
+	public void setIsVisibleTo(PlayerEntity player) {
+		this.dataTracker.set(OTHERVIBES_AFFECTED_PLAYER, Optional.of(player.getUuid()));
+	}
+
+	/*
+
+	@Override
+	public boolean isInvisibleTo(PlayerEntity player) {
+		return !this.isVisibleTo(player);
+	}
+
+	 */
+
+	@Override
+	public Optional<UUID> getData(MobEntity mobEntity) {
+		return this.dataTracker.get(OTHERVIBES_AFFECTED_PLAYER);
+	}
+
+	@Override
+	public void setData(Optional<UUID> uuidData) {
+		this.dataTracker.set(OTHERVIBES_AFFECTED_PLAYER, uuidData);
+	}
+
+	@Override
+	public boolean access(PlayerEntity player) {
+		return this.isVisibleTo(player);
+	}
+
+
+
 
 	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
 	private void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
