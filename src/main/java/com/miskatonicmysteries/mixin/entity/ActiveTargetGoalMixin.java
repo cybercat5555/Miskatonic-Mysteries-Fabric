@@ -25,11 +25,13 @@ public abstract class ActiveTargetGoalMixin<T extends LivingEntity> extends Trac
     protected LivingEntity targetEntity;
 
     @Shadow public abstract void setTargetEntity(@Nullable LivingEntity targetEntity);
-
+/*
     @Inject(method = "start", at = @At("HEAD"))
     private void targetOthervibes(CallbackInfo ci){
         if(target == null && !((OthervibeMobEntityAccessor) this).access((PlayerEntity) targetEntity)){
             this.setTargetEntity(null);
         }
     }
+
+ */
 }

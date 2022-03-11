@@ -20,6 +20,7 @@ public class OthervibesStatusEffect extends StatusEffect {
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         super.applyUpdateEffect(entity, amplifier);
+        /*
         if(entity instanceof PlayerEntity player){
             if(!player.getWorld().isClient()){
                 EndermanEntity endermanEntity = EntityType.ENDERMAN.create(player.getWorld());
@@ -30,6 +31,8 @@ public class OthervibesStatusEffect extends StatusEffect {
                 player.getWorld().spawnEntity(endermanEntity);
             }
         }
+
+         */
     }
 
     @Override
