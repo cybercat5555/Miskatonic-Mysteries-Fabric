@@ -14,7 +14,12 @@
     "client.WorldRendererAccessor",
     "client.WorldRendererMixin",
     "client.BlockModelRendererMixin",
-    "client.ClientEntityMixin"
+    "client.ClientEntityMixin",
+    "client.BannerBlockEntityClientMixin",
+    "client.BannerItemMixin",
+    "client.BannerBlockEntityRendererMixin",
+    "client.BuiltinModelItemRendererMixin",
+    "client.LoomScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
