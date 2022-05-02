@@ -161,6 +161,7 @@
   "entity.miskatonicmysteries.byakhee": "Byakhee",
   "entity.miskatonicmysteries.hallucination": "Hallucination",
   "entity.miskatonicmysteries.tindalos_hound": "Hound of Tindalos",
+  "entity.miskatonicmysteries.feaster": "Feaster",
   "comment4": "TOOLTIPS",
   "tooltip.miskatonicmysteries.gun_loaded": "Loaded (%d/%d)",
   "tooltip.miskatonicmysteries.gun_not_loaded": "Not Loaded (%d/%d)",
