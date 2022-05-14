@@ -22,9 +22,10 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class BlotterItem extends Item implements VillagerPartyDrug {
-
-	public BlotterItem() {
+	private boolean potent;
+	public BlotterItem(boolean potent) {
 		super(new Settings().group(Constants.MM_GROUP));
+		this.potent = potent;
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class BlotterItem extends Item implements VillagerPartyDrug {
 	@Override
 	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
 		if (!world.isClient) {
-			if(Registry.ITEM.getKey(stack.getItem()).get().getValue().getNamespace().equals("blotter")){
+			if(!potent){
 				user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 2400, 0));
 			}else{
 				user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.OTHERVIBES, 2400, 0));
@@ -46,7 +47,7 @@ public class BlotterItem extends Item implements VillagerPartyDrug {
 				((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
 			}
 			SpellCaster.of(user).ifPresent(caster -> {
-				if(Registry.ITEM.getKey(stack.getItem()).get().getValue().getNamespace().equals("blotter")){
+				if(!potent){
 					caster.learnEffect(MMSpellEffects.MANIA);
 					caster.syncSpellData();
 				}
