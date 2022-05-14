@@ -2,16 +2,7 @@ package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.api.interfaces.Resonating;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
-import com.miskatonicmysteries.common.feature.effect.BleedStatusEffect;
-import com.miskatonicmysteries.common.feature.effect.ClairvoyanceStatusEffect;
-import com.miskatonicmysteries.common.feature.effect.ExoticCravingsStatusEffect;
-import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
-import com.miskatonicmysteries.common.feature.effect.ManiaStatusEffect;
-import com.miskatonicmysteries.common.feature.effect.OvermedicalizedStatusEffect;
-import com.miskatonicmysteries.common.feature.effect.ResonanceStatusEffect;
-import com.miskatonicmysteries.common.feature.effect.TranquilizedStatusEffect;
-import com.miskatonicmysteries.common.feature.effect.UltraViolenceStatusEffect;
-import com.miskatonicmysteries.common.registry.MMStatusEffects.Potions;
+import com.miskatonicmysteries.common.feature.effect.*;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import com.miskatonicmysteries.mixin.BrewingRecipeRegistryAccessor;
 import net.minecraft.entity.LivingEntity;
@@ -32,6 +23,7 @@ public class MMStatusEffects {
 	public static final StatusEffect EXOTIC_CRAVINGS = new ExoticCravingsStatusEffect();
 	public static final StatusEffect ULTRA_VIOLENCE = new UltraViolenceStatusEffect();
 	public static final StatusEffect CLAIRVOYANCE = new ClairvoyanceStatusEffect();
+	public static final StatusEffect OTHERVIBES = new OthervibesStatusEffect();
 
 	public static void init() {
 		RegistryUtil.register(Registry.STATUS_EFFECT, "mania", MANIA);
@@ -43,6 +35,7 @@ public class MMStatusEffects {
 		RegistryUtil.register(Registry.STATUS_EFFECT, "exotic_cravings", EXOTIC_CRAVINGS);
 		RegistryUtil.register(Registry.STATUS_EFFECT, "ultra_violence", ULTRA_VIOLENCE);
 		RegistryUtil.register(Registry.STATUS_EFFECT, "clairvoyance", CLAIRVOYANCE);
+		RegistryUtil.register(Registry.STATUS_EFFECT, "othervibes", OTHERVIBES);
 
 		RegistryUtil.register(Registry.POTION, "resonance", Potions.RESONANCE);
 		RegistryUtil.register(Registry.POTION, "resonance_long", Potions.LONG_RESONANCE);

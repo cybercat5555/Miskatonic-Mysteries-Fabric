@@ -18,6 +18,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class BlotterItem extends Item implements VillagerPartyDrug {
@@ -34,15 +35,22 @@ public class BlotterItem extends Item implements VillagerPartyDrug {
 	@Override
 	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
 		if (!world.isClient) {
-			user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 2400, 0));
+			if(Registry.ITEM.getKey(stack.getItem()).get().getValue().getNamespace().equals("blotter")){
+				user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 2400, 0));
+			}else{
+				user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.OTHERVIBES, 2400, 0));
+			}
 			stack.decrement(1);
 			if (user instanceof ServerPlayerEntity) {
 				Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);
 				((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
 			}
 			SpellCaster.of(user).ifPresent(caster -> {
-				caster.learnEffect(MMSpellEffects.MANIA);
-				caster.syncSpellData();
+				if(Registry.ITEM.getKey(stack.getItem()).get().getValue().getNamespace().equals("blotter")){
+					caster.learnEffect(MMSpellEffects.MANIA);
+					caster.syncSpellData();
+				}
+
 			});
 		}
 		return stack;
