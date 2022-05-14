@@ -12,7 +12,14 @@
     "client.PlayerModelMixin",
     "client.PlayerSkinTextureAccessor",
     "client.WorldRendererAccessor",
-    "client.WorldRendererMixin"
+    "client.WorldRendererMixin",
+    "client.BlockModelRendererMixin",
+    "client.ClientEntityMixin",
+    "client.BannerBlockEntityClientMixin",
+    "client.BannerItemMixin",
+    "client.BannerBlockEntityRendererMixin",
+    "client.BuiltinModelItemRendererMixin",
+    "client.LoomScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
