@@ -260,8 +260,8 @@ public class MMObjects {
 
 	public static final Item INFESTED_WHEAT = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
-	public static final Item BLOTTER = new BlotterItem();
-	public static final Item BLOTTER_POTENT = new BlotterItem();
+	public static final Item BLOTTER = new BlotterItem(false);
+	public static final Item BLOTTER_POTENT = new BlotterItem(true);
 	public static final Item LAUDANUM = new LaudanumItem();
 	public static final Item TRANQUILIZER = new TranquilizerItem();
 	public static final Item RE_AGENT_SYRINGE = new ReAgentItem();
