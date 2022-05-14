@@ -79,7 +79,7 @@ public class MMModels {
 			(ctx) -> new HasturStatueModel(ctx.getLayerModelPart(HASTUR_STATUE)));
 		registerStatueModel(MMAffiliations.SHUB,
 			(ctx) -> new ShubStatueModel(ctx.getLayerModelPart(SHUB_STATUE)));
-		registerStatueModel(MMAffiliations.YOGSOTHOTH,
+		registerStatueModel(MMAffiliations.YOG,
 		(ctx) -> new YogsothothStatueModel(ctx.getLayerModelPart(YOGSOTHOTH_STATUE)));
 	}
 

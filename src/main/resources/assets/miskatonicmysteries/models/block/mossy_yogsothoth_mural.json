@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "miskatonicmysteries:block/mossy_yogsothoth_mural"
-  }
-}

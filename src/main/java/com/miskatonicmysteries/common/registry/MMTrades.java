@@ -114,11 +114,11 @@ public class MMTrades {
 	public static final TradeOffers.Factory SHUB_STATUE_DEEPSLATE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.SHUB_STATUE_DEEPSLATE), 8, 1, 20, 0.15F);
 	public static final TradeOffers.Factory SHUB_STATUE_ELDERIAN_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.SHUB_STATUE_ELDERIAN), 8, 1, 20, 0.15F);
 
-	public static final TradeOffers.Factory YOGSOTHOTH_STATUE_MOSSY_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOGSOTHOTH_STATUE_MOSSY), 8, 1, 20, 0.15F);
-	public static final TradeOffers.Factory YOGSOTHOTH_STATUE_STONE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOGSOTHOTH_STATUE_STONE), 8, 1, 20, 0.15F);
-	public static final TradeOffers.Factory YOGSOTHOTH_STATUE_END_STONE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOGSOTHOTH_STATUE_END_STONE), 8, 1, 20, 0.15F);
-	public static final TradeOffers.Factory YOGSOTHOTH_STATUE_BLACKSTONE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOGSOTHOTH_STATUE_BLACKSTONE), 8, 1, 20, 0.15F);
-	public static final TradeOffers.Factory YOGSOTHOTH_STATUE_ELDERIAN_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOGSOTHOTH_STATUE_ELDERIAN), 8, 1, 20, 0.15F);
+	public static final TradeOffers.Factory YOG_STATUE_MOSSY_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_MOSSY), 8, 1, 20, 0.15F);
+	public static final TradeOffers.Factory YOG_STATUE_STONE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_STONE), 8, 1, 20, 0.15F);
+	public static final TradeOffers.Factory YOG_STATUE_END_STONE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_END_STONE), 8, 1, 20, 0.15F);
+	public static final TradeOffers.Factory YOG_STATUE_BLACKSTONE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_BLACKSTONE), 8, 1, 20, 0.15F);
+	public static final TradeOffers.Factory YOG_STATUE_ELDERIAN_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_ELDERIAN), 8, 1, 20, 0.15F);
 
 	static {
 		PSYCHONAUT_TRADES.put(1, new TradeOffers.Factory[]{SCIENCE_JOURNAL_OFFER, INFESTED_WHEAT_OFFER});
@@ -158,11 +158,11 @@ public class MMTrades {
 		offers1[wanderingTraderOffers1.length + 12] = SHUB_STATUE_STONE_OFFER;
 		offers1[wanderingTraderOffers1.length + 13] = SHUB_STATUE_DEEPSLATE_OFFER;
 		offers1[wanderingTraderOffers1.length + 14] = SHUB_STATUE_ELDERIAN_OFFER;
-		offers1[wanderingTraderOffers1.length + 15] = YOGSOTHOTH_STATUE_MOSSY_OFFER;
-		offers1[wanderingTraderOffers1.length + 16] = YOGSOTHOTH_STATUE_STONE_OFFER;
-		offers1[wanderingTraderOffers1.length + 17] = YOGSOTHOTH_STATUE_BLACKSTONE_OFFER;
-		offers1[wanderingTraderOffers1.length + 18] = YOGSOTHOTH_STATUE_END_STONE_OFFER;
-		offers1[wanderingTraderOffers1.length + 19] = YOGSOTHOTH_STATUE_ELDERIAN_OFFER;
+		offers1[wanderingTraderOffers1.length + 15] = YOG_STATUE_MOSSY_OFFER;
+		offers1[wanderingTraderOffers1.length + 16] = YOG_STATUE_STONE_OFFER;
+		offers1[wanderingTraderOffers1.length + 17] = YOG_STATUE_BLACKSTONE_OFFER;
+		offers1[wanderingTraderOffers1.length + 18] = YOG_STATUE_END_STONE_OFFER;
+		offers1[wanderingTraderOffers1.length + 19] = YOG_STATUE_ELDERIAN_OFFER;
 
 		offers2[wanderingTraderOffers2.length] = ORB_OFFER;
 		offers2[wanderingTraderOffers2.length + 1] = FLESH_OFFER;
@@ -188,11 +188,11 @@ public class MMTrades {
 			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.CTHULHU_STATUE_MOSSY), 8, 1, 20, 0.15F));
 			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.CTHULHU_STATUE_ELDERIAN), 8, 1, 20, 0.15F));
 
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOGSOTHOTH_STATUE_END_STONE), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOGSOTHOTH_STATUE_STONE), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOGSOTHOTH_STATUE_MOSSY), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOGSOTHOTH_STATUE_ELDERIAN), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOGSOTHOTH_STATUE_BLACKSTONE), 8, 1, 20, 0.15F));
+			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_END_STONE), 8, 1, 20, 0.15F));
+			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_STONE), 8, 1, 20, 0.15F));
+			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_MOSSY), 8, 1, 20, 0.15F));
+			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_ELDERIAN), 8, 1, 20, 0.15F));
+			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_BLACKSTONE), 8, 1, 20, 0.15F));
 			/*
 			for (int i = 0; i < Constants.Tags.IDOLS.values().size(); i++) {
 					Block block = Constants.Tags.IDOLS.values().get(i);

@@ -59,12 +59,6 @@ public class MiskatonicMysteries implements ModInitializer {
 		SchedulingHandler.init();
 		MMServerEvents.init();
 		MMBannerRegistry.registerBanner();
-
-
-
-         /*
-        todo some natural sanity regen
-        */
 	}
 
 	private void registerPackets() {
