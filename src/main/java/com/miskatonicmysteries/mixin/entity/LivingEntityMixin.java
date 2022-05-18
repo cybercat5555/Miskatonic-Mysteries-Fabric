@@ -79,7 +79,7 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 	@Inject(method = "eatFood", at = @At("HEAD"), cancellable = true)
 	private void eatFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
 		if (hasStatusEffect(MMStatusEffects.EXOTIC_CRAVINGS)) {
-			if (!Constants.Tags.GROSS_FOOD.contains(stack.getItem())) {
+			if (!stack.isIn(Constants.Tags.GROSS_FOOD)) {
 				damage(DamageSource.STARVE, 4);
 			} else {
 				StatusEffectInstance instance = getStatusEffect(MMStatusEffects.EXOTIC_CRAVINGS);

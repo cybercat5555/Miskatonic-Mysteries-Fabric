@@ -154,14 +154,12 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 			for (BlockPos blockPos : BlockPos.iterateOutwards(getPos(), 5, 3, 5)) {
 				BlockState state = world.getBlockState(blockPos);
 				Block block = state.getBlock();
-				if (Constants.Tags.STABILIZERS.contains(block)) {
+				if (state.isIn(Constants.Tags.STABILIZERS)) {
 					if (block instanceof CandleBlock && !state.get(CandleBlock.LIT)) {
 						continue;
 					}
-					float strength = Constants.Tags.STRONG_STABILIZERS
-						.contains(block) && strongStabilizerCache
-						.add(block) ? 0.05F : Constants.Tags.WEAK_STABILIZERS
-						.contains(block) ? 0.025F : 0.03F;
+					float strength = state.isIn(Constants.Tags.STRONG_STABILIZERS) && strongStabilizerCache.add(block) ? 0.05F :
+						state.isIn(Constants.Tags.WEAK_STABILIZERS) ? 0.025F : 0.03F;
 
 					if (block instanceof Affiliated a && a.getAffiliation(false) != MMAffiliations.NONE && a
 						.getAffiliation(false) != getAffiliation(false)) {
@@ -264,10 +262,10 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 			float subtlety = 0;
 			if (MiskatonicMysteries.config.entities.subtlety) {
 				for (BlockPos blockPos : BlockPos.iterateOutwards(pos, 8, 8, 8)) {
-					Block block = world.getBlockState(blockPos).getBlock();
-					if (Constants.Tags.SUBTLE_BLOCKS.contains(block)) {
+					BlockState state = world.getBlockState(blockPos);
+					if (state.isIn(Constants.Tags.SUBTLE_BLOCKS)) {
 						subtlety += 0.05F;
-					} else if (Constants.Tags.SUSPICIOUS_BLOCKS.contains(block)) {
+					} else if (state.isIn(Constants.Tags.SUSPICIOUS_BLOCKS)) {
 						subtlety -= 0.05F;
 					}
 					if (subtlety >= 0.35F) {
@@ -277,7 +275,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 				subtlety += world.isNight() ? 0.15F : -0.1;
 				subtlety += MaskTrinketItem.getMask(caster).isEmpty() ? 0 : 0.15F;
 				for (ItemStack armor : caster.getArmorItems()) {
-					if (Constants.Tags.CULTIST_ARMOR.contains(armor.getItem())) {
+					if (armor.isIn(Constants.Tags.CULTIST_ARMOR)) {
 						subtlety += 0.1F;
 					}
 				}
@@ -325,7 +323,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 				setStack(i, new ItemStack(getStack(i).getItem().getRecipeRemainder()));
 				continue;
 			}
-			if (!getStack(i).isEmpty() && Constants.Tags.RITE_TOOLS.contains(getStack(i).getItem())) {
+			if (!getStack(i).isEmpty() && getStack(i).isIn(Constants.Tags.RITE_TOOLS)) {
 				if (getStack(i).getItem() instanceof IncantationYogItem) {
 					IncantationYogItem.clear(getStack(i));
 				}

@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.feature.item;
 import com.miskatonicmysteries.api.banner.loom.LoomPatternItem;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.Constants.Tags;
 import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -41,8 +42,7 @@ public class YellowSignPatternItem extends LoomPatternItem {
 
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
-		if (context.getPlayer() != null && Constants.Tags.YELLOW_DYE
-			.contains(context.getPlayer().getOffHandStack().getItem())) {
+		if (context.getPlayer() != null && context.getPlayer().getOffHandStack().isIn(Tags.YELLOW_DYE)) {
 			ActionResult actionResult = this.place(new ItemPlacementContext(context));
 			if (actionResult.isAccepted()) {
 				if (!context.getPlayer().isCreative()) {

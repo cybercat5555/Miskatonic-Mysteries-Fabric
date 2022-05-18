@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "0.10-SNAPSHOT"
+	id "fabric-loom" version "0.11-SNAPSHOT"
 	id "maven-publish"
 }
 
@@ -12,35 +12,15 @@ group = project.maven_group
 
 repositories {
 	maven {
-		name = "Ladysnake Mods (& Trinkets)"
-		url = "https://ladysnake.jfrog.io/artifactory/mods"
-		content {
-			includeGroup "io.github.ladysnake"
-			includeGroupByRegex "io\\.github\\.onyxstudios.*"
-		}
-	}
-	maven {
-		name "Patchouli"
-		url "https://maven.blamejared.com"
-	}
-	maven {
-		name "geckolib"
-		url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
-	}
-	maven {
-		name "Banner++"
-		url "https://server.bbkr.space/artifactory/libs-release/"
-	}
-	maven {
-		name = "Mod Menu (& Trinkets)"
-		url =  "https://maven.terraformersmc.com/releases"
+		name = "Banner++"
+		url = "https://server.bbkr.space/artifactory/libs-release/"
 	}
 	maven {
 		name = "Cloth Stuff & REI"
 		url = "https://maven.shedaniel.me/"
 	}
 	maven {
-		name = "Technici4n"
+		name = "Energy"
 		url = "https://raw.githubusercontent.com/Technici4n/Technici4n-maven/master/"
 		content {
 			includeGroup "net.fabricmc.fabric-api" // until fabric-api-lookup-api-v1 is merged
@@ -48,26 +28,56 @@ repositories {
 		}
 	}
 	maven {
-		url "https://jitpack.io"
+		name = "geckolib"
+		url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+	}
+	maven {
+		name = "Ladysnake Mods (& Trinkets)"
+		url = "https://ladysnake.jfrog.io/artifactory/mods"
+	}
+	maven {
+		name = "Mod Menu"
+		url =  "https://maven.terraformersmc.com/releases"
+	}
+	maven {
+		name =  "Patchouli"
+		url = "https://maven.blamejared.com"
+	}
+	maven {
+		url = "https://jitpack.io"
 	}
 }
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "vazkii.patchouli:Patchouli:${project.patchouli_version}"
-
-	modImplementation "io.github.ladysnake:satin:${project.satin_version}"
-	include "io.github.ladysnake:satin:${project.satin_version}"
-
+	//Banners
 	//modImplementation "io.github.fablabsmc:bannerpp:${project.bannerpp_version}" //TODO BANNER
 	//include "io.github.fablabsmc:bannerpp:${project.bannerpp_version}"
 
-	modImplementation "com.github.emilyalexandra:trinkets:${trinkets_version}"
+	//CaCo
+	modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cardinal_components_version}")
+	modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cardinal_components_version}")
 
+	//Cloth
+	modApi("me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"){
+		transitive = false
+	}
+	include("me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"){
+		transitive = false
+	}
+
+	modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
+
+	//Energy
 	modApi include("teamreborn:energy:${project.energy_version}")
+
+	//Geckolib
 	modImplementation("software.bernie.geckolib:${project.geckolib_version}") {
 		exclude(group: "com.terraformersmc.modmenu")
 		exclude(group: "io.github.prospector")
@@ -75,18 +85,22 @@ dependencies {
 		exclude(group: "net.fabricmc")
 	}
 
-	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+	//ModMenu
+	modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
-	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
-	modRuntime "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+	//Patchouli
+	modImplementation("vazkii.patchouli:Patchouli:${project.patchouli_version}")
 
+	//REI
+	modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}")
 
-	modApi "me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"
-	include "me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"
-	
-	modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
-		exclude(group: "net.fabricmc.fabric-api")
-	}
+	//Satin
+	modImplementation("io.github.ladysnake:satin:${project.satin_version}")
+	include("io.github.ladysnake:satin:${project.satin_version}")
+
+	//Trinkets
+	modImplementation("com.github.emilyalexandra:trinkets:${project.trinkets_version}")
+
 
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 }

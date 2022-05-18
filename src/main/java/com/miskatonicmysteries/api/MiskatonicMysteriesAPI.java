@@ -213,6 +213,6 @@ public class MiskatonicMysteriesAPI {
 	}
 
 	public static BiomeEffect getBiomeEffect(World world, BlockPos blockPos) {
-		return world.getBiomeKey(blockPos).map(biomeEffects::get).orElse(null);
+		return world.getBiome(blockPos).getKey().map(biomeEffects::get).orElse(null);
 	}
 }

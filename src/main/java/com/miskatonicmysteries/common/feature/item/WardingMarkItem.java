@@ -40,7 +40,7 @@ public class WardingMarkItem extends Item {
 
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
-		if (context.getPlayer() != null && Constants.Tags.WARDING_MARK_DYE.contains(context.getPlayer().getOffHandStack().getItem())) {
+		if (context.getPlayer() != null && context.getPlayer().getOffHandStack().isIn(Constants.Tags.WARDING_MARK_DYE)) {
 			ActionResult actionResult = this.place(new ItemPlacementContext(context));
 			if (actionResult.isAccepted()) {
 				if (!context.getPlayer().isCreative()) {

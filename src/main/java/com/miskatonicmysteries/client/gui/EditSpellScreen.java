@@ -63,14 +63,14 @@ public class EditSpellScreen extends Screen {
 	}
 
 	@Override
-	public void onClose() {
+	public void close() {
 		user.getSpells().clear();
 		for (int i = 0; i < spells.length; i++) {
 			user.getSpells().add(i, spells[i]);
 		}
 		SyncSpellCasterDataPacket.send(true, client.player, user);
 		SpellClientHandler.selectedSpell = null;
-		super.onClose();
+		super.close();
 	}
 
 	public void updateAvailablePower() {

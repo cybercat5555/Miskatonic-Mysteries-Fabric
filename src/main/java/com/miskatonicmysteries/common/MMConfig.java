@@ -85,7 +85,7 @@ public class MMConfig implements ConfigData {
 		@ConfigEntry.BoundedDiscrete(max = 150, min = 1)
 		@ConfigEntry.Gui.Tooltip(count = 2)
 		@ConfigEntry.Gui.RequiresRestart
-		public int psychonautHouseWeight = 3;
+		public int psychonautHouseWeight = 5;
 
 		@ConfigEntry.BoundedDiscrete(max = 150, min = 1)
 		@ConfigEntry.Gui.Tooltip(count = 2)

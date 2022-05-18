@@ -248,7 +248,7 @@
 
         {
           "type": "minecraft:item",
-          "name": "miskatonicmysteries:yogsothoth_statue_mossy",
+          "name": "miskatonicmysteries:yog_statue_mossy",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -268,7 +268,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "miskatonicmysteries:yogsothoth_statue_end_stone",
+          "name": "miskatonicmysteries:yog_statue_end_stone",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -288,7 +288,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "miskatonicmysteries:yogsothoth_statue_stone",
+          "name": "miskatonicmysteries:yog_statue_stone",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -308,7 +308,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "miskatonicmysteries:yogsothoth_statue_elderian",
+          "name": "miskatonicmysteries:yog_statue_elderian",
           "functions": [
             {
               "function": "minecraft:set_count",

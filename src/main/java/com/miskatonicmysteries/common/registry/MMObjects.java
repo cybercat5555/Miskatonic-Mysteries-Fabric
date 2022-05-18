@@ -43,6 +43,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
+import net.minecraft.structure.PlainsVillageData;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
@@ -476,7 +477,7 @@ public class MMObjects {
 		RegistryUtil.register(Registry.ITEM, "syringe", SYRINGE);
 		RegistryUtil.register(Registry.ITEM, "infested_wheat", INFESTED_WHEAT);
 		RegistryUtil.register(Registry.ITEM, "blotter", BLOTTER);
-		RegistryUtil.register(Registry.ITEM, "blotter_potent", BLOTTER_POTENT);
+		RegistryUtil.register(Registry.ITEM, "potent_blotter", BLOTTER_POTENT);
 		RegistryUtil.register(Registry.ITEM, "laudanum", LAUDANUM);
 		RegistryUtil.register(Registry.ITEM, "tranquilizer", TRANQUILIZER);
 		RegistryUtil.register(Registry.ITEM, "re_agent_syringe", RE_AGENT_SYRINGE);

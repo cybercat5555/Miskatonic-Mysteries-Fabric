@@ -1,14 +1,18 @@
 package com.miskatonicmysteries.common.util;
 
 import com.miskatonicmysteries.common.feature.world.structures.ModifiableStructurePool;
+import com.miskatonicmysteries.mixin.world.StructurePoolAccessor;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
 import net.minecraft.structure.processor.StructureProcessorList;
+import net.minecraft.structure.processor.StructureProcessorLists;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 
 public class RegistryUtil {
 
@@ -22,14 +26,17 @@ public class RegistryUtil {
 		return Registry.register(registry, new Identifier(Constants.MOD_ID, name), entry);
 	}
 
-	public static StructurePool tryAddElementToPool(Identifier targetPool, StructurePool pool, String elementId,
-		StructurePool.Projection projection, int weight, StructureProcessorList processorList) {
-		if (targetPool.equals(pool.getId())) {
-			ModifiableStructurePool modPool = new ModifiableStructurePool(pool);
-			modPool
-				.addStructurePoolElement(StructurePoolElement.ofProcessedLegacySingle(elementId, processorList).apply(projection), weight);
-			return modPool.getStructurePool();
+	public static void tryAddElementToPool(Identifier targetPool, StructurePool pool, String elementId, StructurePool.Projection projection, int weight, RegistryEntry<StructureProcessorList> processors) {
+		if(targetPool.equals(pool.getId())) {
+			StructurePoolElement element = StructurePoolElement.ofProcessedLegacySingle(elementId, processors).apply(projection);
+			for (int i = 0; i < weight; i++) {
+				((StructurePoolAccessor)pool).getElements().add(element);
+			}
+			((StructurePoolAccessor)pool).getElementCounts().add(Pair.of(element, weight));
 		}
-		return pool;
+	}
+
+	public static void tryAddElementToPool(Identifier targetPool, StructurePool pool, String elementId, StructurePool.Projection projection, int weight) {
+		tryAddElementToPool(targetPool, pool, elementId, projection, weight, StructureProcessorLists.EMPTY);
 	}
 }

@@ -53,7 +53,7 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBloc
 
 	@Override
 	public boolean isValid(int slot, ItemStack stack) {
-		return Constants.Tags.ALTAR_BOOKS.contains(stack.getItem());
+		return stack.isIn(Constants.Tags.ALTAR_BOOKS);
 	}
 
 	public Item getBook() {

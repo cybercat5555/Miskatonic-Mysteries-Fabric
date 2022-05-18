@@ -50,11 +50,6 @@ public class SpellSelectionScreen extends Screen {
 	}
 
 	@Override
-	public void onClose() {
-		super.onClose();
-	}
-
-	@Override
 	public void tick() {
 		super.tick();
 		if (isSpellSelectionKeyPressed()) {
@@ -62,7 +57,7 @@ public class SpellSelectionScreen extends Screen {
 				openTicks++;
 			}
 		} else {
-			this.onClose();
+			close();
 		}
 	}
 

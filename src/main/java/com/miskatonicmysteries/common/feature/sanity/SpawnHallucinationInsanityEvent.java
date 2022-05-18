@@ -27,7 +27,7 @@ public class SpawnHallucinationInsanityEvent extends InsanityEvent {
 			ServerWorld world = (ServerWorld) player.world;
 			BlockPos pos = Util.getPossibleMobSpawnPos(world, player, 50, 16, 14, EntityType.ARMOR_STAND); //dummy entity type
 			if (pos != null) {
-				Pool<SpawnSettings.SpawnEntry> entryPool = world.getBiome(pos).getSpawnSettings().getSpawnEntries(SpawnGroup.MONSTER);
+				Pool<SpawnSettings.SpawnEntry> entryPool = world.getBiome(pos).value().getSpawnSettings().getSpawnEntries(SpawnGroup.MONSTER);
 				HallucinationEntity hallucination = entryPool.getOrEmpty(world.random).map(entry -> {
 					HallucinationEntity entity = new HallucinationEntity(world);
 					entity.setEntityHallucination(entry.type);

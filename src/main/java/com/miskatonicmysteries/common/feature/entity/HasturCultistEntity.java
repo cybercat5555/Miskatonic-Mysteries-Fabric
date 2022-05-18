@@ -151,7 +151,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 		if (getAttacking() != null) {
 			return ActionResult.FAIL;
 		}
-		if (getVariant() == 2 && Constants.Tags.HASTUR_CULTIST_OFFERINGS.contains(player.getStackInHand(hand).getItem())) {
+		if (getVariant() == 2 && player.getStackInHand(hand).isIn(Constants.Tags.HASTUR_CULTIST_OFFERINGS)) {
 			if (HasturAscensionHandler.offerArtToCultist(player, hand, this)) {
 				getGossip().startGossip(player.getUuid(), VillageGossipType.MAJOR_POSITIVE, 25);
 			}
@@ -165,8 +165,8 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
 	@Override
 	public void trade(TradeOffer offer) {
-		if (!world.isClient && random.nextInt(10) < getReputation(getCurrentCustomer()) && MiskatonicMysteriesAPI
-			.addKnowledge(MMAffiliations.HASTUR.getId().getPath(), getCurrentCustomer())) {
+		if (!world.isClient && random.nextInt(10) < getReputation(getCustomer()) && MiskatonicMysteriesAPI
+			.addKnowledge(MMAffiliations.HASTUR.getId().getPath(), getCustomer())) {
 			world.spawnEntity(new ExperienceOrbEntity(world, getX(), getY(), getZ(), 5));
 		}
 		super.trade(offer);

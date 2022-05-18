@@ -17,14 +17,14 @@
       "item": "minecraft:quartz"
     }
   ],
-  "color": 2102784,
+  "color": 14498799,
   "output": [
     {
       "in": {
         "item": "minecraft:bone_meal"
       },
       "out": {
-        "item": "miskatonicmysteries:yogsothoth_chalk",
+        "item": "miskatonicmysteries:yog_chalk",
         "count": 1
       }
     }

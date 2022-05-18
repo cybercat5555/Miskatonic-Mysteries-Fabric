@@ -10,7 +10,7 @@ import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMBlessings;
 import com.miskatonicmysteries.common.registry.MMCriteria;
 import com.miskatonicmysteries.common.registry.MMEntities;
-import com.miskatonicmysteries.common.registry.MMInsanityEvents;
+import com.miskatonicmysteries.common.registry.MMInsanity;
 import com.miskatonicmysteries.common.registry.MMLootTables;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
@@ -51,7 +51,7 @@ public class MiskatonicMysteries implements ModInitializer {
 		MMTrades.init();
 		MMCriteria.init();
 		MMRecipes.init();
-		MMInsanityEvents.init();
+		MMInsanity.init();
 		MMParticles.init();
 		ModCommand.setup();
 		MMWorld.init();
