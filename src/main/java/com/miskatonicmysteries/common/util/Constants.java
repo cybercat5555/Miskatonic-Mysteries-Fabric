@@ -140,7 +140,7 @@ public class Constants {
 		public static final String MAX_AGE = "MaxAge";
 		public static final String WARDING_MARKS = "WardingMarks";
 		public static final String GLIDING = "Gliding";
-		public static final String BIOME_MASK = "MMBiomeMask";
+		public static final String KNOTS = "Knots";
 		public static final String STATUE_OWNER = "StatueOwner";
 		public static final String POSE = "Pose";
 		public static final String NEXT_ID = "NextAvailableID";
@@ -157,6 +157,8 @@ public class Constants {
 		public static final String PHASE_TICKS = "PhaseTicks";
 		public static final String PHASE_DIRECTION = "PhaseDirection";
 		public static final String HOUNDS = "Hounds";
+		public static final String INDEX = "Index";
+		public static final String ACTIVE = "Active";
 	}
 
 	public static class DataTrackers {

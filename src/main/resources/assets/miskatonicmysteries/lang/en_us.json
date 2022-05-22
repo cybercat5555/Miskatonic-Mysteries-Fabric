@@ -342,6 +342,7 @@
   "text.autoconfig.miskatonicmysteries.option.mechanics.maxStabilizers": "Stabilizer Cap",
   "text.autoconfig.miskatonicmysteries.option.client": "Client",
   "text.autoconfig.miskatonicmysteries.option.client.useShaders": "Use Post-Processing Shaders",
+  "text.autoconfig.miskatonicmysteries.option.client.forceChunkColorUpdates": "Force Chunk Color Updates",
   "text.autoconfig.miskatonicmysteries.option.client.currentSpellHUD": "Selected Spell HUD",
   "text.autoconfig.miskatonicmysteries.option.client.currentSpellHUD.marginX": "Margin (X)",
   "text.autoconfig.miskatonicmysteries.option.client.currentSpellHUD.marginY": "Margin (Y)",

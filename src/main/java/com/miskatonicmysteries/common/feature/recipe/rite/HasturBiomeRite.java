@@ -25,7 +25,7 @@ public class HasturBiomeRite extends BiomeConversionRite {
 
 	public HasturBiomeRite() {
 		super(new Identifier(Constants.MOD_ID, "hastur_biome"), MMAffiliations.HASTUR,
-			(world) -> world.getRegistryManager().get(Registry.BIOME_KEY).get(BuiltinRegistries.BIOME.getId(MMWorld.HASTUR_BIOME)), "", 3,
+			(world) -> world.getRegistryManager().get(Registry.BIOME_KEY).getEntry(BuiltinRegistries.BIOME.getRawId(MMWorld.HASTUR_BIOME)), "", 3,
 			Ingredient.ofItems(Items.EMERALD));
 	}
 

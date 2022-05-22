@@ -5,8 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "BrewingRecipeRegistryAccessor",
+    "biomes.ChunkSectionAccessor",
     "biomes.ChunkSerializerMixin",
-    "biomes.ThreadedAnvilChunkStorageMixin",
     "block.BannerBlockEntityMixin",
     "block.BlockMixin",
     "block.ConduitBlockEntityMixin",

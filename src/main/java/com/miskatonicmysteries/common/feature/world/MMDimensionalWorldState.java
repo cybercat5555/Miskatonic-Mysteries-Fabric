@@ -1,9 +1,18 @@
 package com.miskatonicmysteries.common.feature.world;
 
+import static com.miskatonicmysteries.common.util.Constants.NBT.ACTIVE;
+import static com.miskatonicmysteries.common.util.Constants.NBT.CENTER_POS;
+import static com.miskatonicmysteries.common.util.Constants.NBT.INDEX;
+import static com.miskatonicmysteries.common.util.Constants.NBT.KNOTS;
+import static com.miskatonicmysteries.common.util.Constants.NBT.RADIUS;
 import static com.miskatonicmysteries.common.util.Constants.NBT.WARDING_MARKS;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.Constants.NBT;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -12,17 +21,26 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
+import net.minecraft.world.biome.source.BiomeCoords;
 
 public class MMDimensionalWorldState extends PersistentState {
 
 	private final Set<BlockPos> wardingMarks = new HashSet<>();
+	private final HashMap<BlockPos, BiomeMaskKnot> maskKnots = new HashMap<>();
 
 	public static MMDimensionalWorldState fromNbt(NbtCompound tag) {
 		MMDimensionalWorldState state = new MMDimensionalWorldState();
-		NbtList wardingMarksList = (NbtList) tag.get(WARDING_MARKS);
+		NbtList wardingMarksList = tag.getList(WARDING_MARKS, NbtElement.COMPOUND_TYPE);
 		if (wardingMarksList != null) {
 			for (NbtElement blockTag : wardingMarksList) {
 				state.wardingMarks.add(NbtHelper.toBlockPos((NbtCompound) blockTag));
+			}
+		}
+		NbtList knotList = tag.getList(KNOTS, NbtElement.COMPOUND_TYPE);
+		if (knotList != null) {
+			for (NbtElement knot : knotList) {
+				BiomeMaskKnot maskKnot = BiomeMaskKnot.fromNbt((NbtCompound) knot);
+				state.maskKnots.put(maskKnot.root, maskKnot);
 			}
 		}
 		return state;
@@ -33,6 +51,31 @@ public class MMDimensionalWorldState extends PersistentState {
 			.getOrCreate(MMDimensionalWorldState::fromNbt, MMDimensionalWorldState::new, Constants.MOD_ID + "_dimensional");
 	}
 
+	public void tick(ServerWorld world) {
+		if (world.getTime() % 20 == 0) {
+			maskKnots.entrySet().removeIf((entry) -> !entry.getValue().active && entry.getValue().revert(world));
+		}
+	}
+
+	public void addKnot(BlockPos pos, int radius) {
+		maskKnots.compute(pos, (root, knot) -> {
+			if (knot == null) {
+				return new BiomeMaskKnot(true, root, radius, 0);
+			}
+			if (knot.radius < radius) {
+				knot.radius = radius;
+			}
+			return knot;
+		});
+		markDirty();
+	}
+
+	public void deactivateKnot(BlockPos pos) {
+		if (maskKnots.containsKey(pos)) {
+			maskKnots.get(pos).active = false;
+		}
+		markDirty();
+	}
 	public void addMark(BlockPos markPos) {
 		wardingMarks.add(markPos);
 		markDirty();
@@ -59,7 +102,63 @@ public class MMDimensionalWorldState extends PersistentState {
 			wardingMarksList.add(NbtHelper.fromBlockPos(wardingMark));
 		}
 		tag.put(WARDING_MARKS, wardingMarksList);
+		NbtList knotList = new NbtList();
+		for (BiomeMaskKnot maskKnot : maskKnots.values()) {
+			knotList.add(maskKnot.writeNbt());
+		}
+		tag.put(KNOTS, knotList);
 
 		return tag;
+	}
+
+	private static class BiomeMaskKnot {
+		public boolean active;
+		public BlockPos root;
+		public int radius, index;
+
+		private final Iterator<BlockPos> blocks;
+
+		private BiomeMaskKnot(boolean active, BlockPos root, int radius, int index) {
+			this.active = active;
+			this.root = root;
+			this.radius = radius;
+			this.index = index;
+
+			blocks = BlockPos.iterateOutwards(root, radius, radius, radius).iterator();
+			for (int i = 0; i < index && blocks.hasNext(); i++){
+				blocks.next();
+			}
+		}
+
+		private static BiomeMaskKnot fromNbt(NbtCompound nbt) {
+			boolean active = nbt.getBoolean(NBT.ACTIVE);
+			BlockPos root = NbtHelper.toBlockPos(nbt.getCompound(CENTER_POS));
+			int radius = nbt.getInt(RADIUS);
+			int index = nbt.getInt(INDEX);
+			return new BiomeMaskKnot(active, root, radius, index);
+		}
+
+		private NbtCompound writeNbt(){
+			NbtCompound compound = new NbtCompound();
+			compound.putBoolean(ACTIVE, active);
+			compound.put(CENTER_POS, NbtHelper.fromBlockPos(root));
+			compound.putInt(RADIUS, radius);
+			compound.putInt(INDEX, index);
+			return compound;
+		}
+
+		private boolean revert(ServerWorld world) {
+			if (!blocks.hasNext()) {
+				return true;
+			}
+			BlockPos pos = blocks.next();
+			MiskatonicMysteriesAPI.setBiome(world, pos, world.getGeneratorStoredBiome(
+				BiomeCoords.fromBlock(pos.getX()),
+				BiomeCoords.fromBlock(pos.getY()),
+				BiomeCoords.fromBlock(pos.getZ())
+			));
+			index++;
+			return false;
+		}
 	}
 }

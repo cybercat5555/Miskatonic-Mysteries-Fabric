@@ -102,6 +102,8 @@ public class MMConfig implements ConfigData {
 	public static class Client {
 
 		public boolean useShaders = true;
+		
+		public boolean forceChunkColorUpdates = true;
 
 		@ConfigEntry.Gui.CollapsibleObject
 		public CurrentSpellHUD currentSpellHUD = new CurrentSpellHUD();

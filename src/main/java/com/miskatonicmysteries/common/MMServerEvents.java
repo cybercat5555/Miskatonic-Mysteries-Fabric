@@ -11,6 +11,7 @@ import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
+import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.feature.world.biome.HasturBiomeEffect;
 import com.miskatonicmysteries.common.feature.world.party.MMPartyState;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
@@ -57,6 +58,7 @@ public class MMServerEvents {
 
 	private static void tick(ServerWorld serverWorld) {
 		MMPartyState.get(serverWorld).tick();
+		MMDimensionalWorldState.get(serverWorld).tick(serverWorld);
 	}
 
 	private static void copyFromPlayer(ServerPlayerEntity oldPlayer, ServerPlayerEntity player, boolean isDead) {

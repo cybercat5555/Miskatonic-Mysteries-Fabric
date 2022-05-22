@@ -12,12 +12,13 @@ import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeMaskPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomePacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.KnowledgeToastPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMCriteria;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.mixin.biomes.ChunkSectionAccessor;
 import dev.emi.trinkets.api.TrinketsApi;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,11 +35,13 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeCoords;
-import net.minecraft.world.chunk.WorldChunk;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.ChunkSection;
 
 public class MiskatonicMysteriesAPI {
 
@@ -176,17 +179,35 @@ public class MiskatonicMysteriesAPI {
 		return false;
 	}
 
-	public static void setBiomeMask(ServerWorld world, BlockPos pos, Biome biome) {
-		WorldChunk chunk = world.getWorldChunk(pos);
-		int x = BiomeCoords.fromBlock(pos.getX());
-		int z = BiomeCoords.fromBlock(pos.getZ());
-		/* TODO BIOME
-		((BiomeMask) chunk.getBiomeArray()).MM_addBiomeMask(x, z, biome);
-		chunk.markDirty();
+	public static void spreadMaskedBiome(ServerWorld world, BlockPos root, int radius, int count, RegistryEntry<Biome> biome) {
+		/*world.getGeneratorStoredBiome(
+			BiomeCoords.fromBlock(user.getBlockPos().getX()),
+			BiomeCoords.fromBlock(user.getBlockPos().getY()),
+			BiomeCoords.fromBlock(user.getBlockPos().getZ()));
 
+			stored changed blocks in WorldState
+			describe area as circle of radius r, root-block b, iteration i
+			save area to nbt with these three
+			when read, cache blocks to iterate (check BlockPos.iterateOutwards())
+			save index i of iteration so as to not reiterate the same block
 		 */
+		MMDimensionalWorldState.get(world).addKnot(root, radius);
+		for (BlockPos blockPos : BlockPos.iterateRandomly(world.random, count, root, radius)) {
+			setBiome(world, blockPos, biome);
+		}
+	}
+
+	public static void setBiome(ServerWorld world, BlockPos pos, RegistryEntry<Biome> biome) {
+		Chunk chunk = world.getWorldChunk(pos);
+		ChunkSection section = chunk.getSection(world.getSectionIndex(pos.getY()));
+		int sectionX = BiomeCoords.fromBlock(pos.getX()) & 3;
+		int sectionY = BiomeCoords.fromBlock(pos.getY()) & 3;
+		int sectionZ = BiomeCoords.fromBlock(pos.getZ()) & 3;
+		((ChunkSectionAccessor) section).getBiomeContainer().swap(sectionX, sectionY, sectionZ, biome);
+		chunk.setNeedsSaving(true);
+
 		PlayerLookup.tracking(world, pos).forEach(serverPlayerEntity -> {
-			SyncBiomeMaskPacket.send(serverPlayerEntity, chunk, true);
+			SyncBiomePacket.send(serverPlayerEntity, (ChunkSectionAccessor) section, pos);
 		});
 	}
 

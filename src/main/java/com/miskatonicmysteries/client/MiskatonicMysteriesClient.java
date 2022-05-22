@@ -48,7 +48,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.ModifyBlessi
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.OpenSpellEditorPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeMaskPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomePacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBlessingsPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncHeldEntityPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncKnowledgePacket;
@@ -231,7 +231,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		ClientPlayNetworking
 			.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
 		ClientPlayNetworking
-			.registerGlobalReceiver(SyncBiomeMaskPacket.ID, SyncBiomeMaskPacket::handle);
+			.registerGlobalReceiver(SyncBiomePacket.ID, SyncBiomePacket::handle);
 		ClientPlayNetworking
 			.registerGlobalReceiver(SyncBlessingsPacket.ID, SyncBlessingsPacket::handle);
 		ClientPlayNetworking

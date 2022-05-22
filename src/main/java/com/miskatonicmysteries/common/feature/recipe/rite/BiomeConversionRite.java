@@ -4,20 +4,23 @@ import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.Function;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
 public class BiomeConversionRite extends AscensionLockedRite {
 
-	private final Function<ServerWorld, Biome> biomeSupplier;
+	private final Function<ServerWorld, Optional<RegistryEntry<Biome>>> biomeSupplier;
 
-	public BiomeConversionRite(Identifier id, @Nullable Affiliation octagram, Function<ServerWorld, Biome> biomeSupplier, String knowledge,
+	public BiomeConversionRite(Identifier id, @Nullable Affiliation octagram, Function<ServerWorld, Optional<RegistryEntry<Biome>>> biomeSupplier, String knowledge,
 		int stage, Ingredient... ingredients) {
 		super(id, octagram, knowledge, 0, stage, ingredients);
 		this.biomeSupplier = biomeSupplier;
@@ -41,14 +44,17 @@ public class BiomeConversionRite extends AscensionLockedRite {
 		if (octagram.getWorld() instanceof ServerWorld serverWorld && serverWorld.getTime() % 20 == 0) {
 			Random random = serverWorld.getRandom();
 			int radius = getRadius(octagram);
-			Biome biome = biomeSupplier.apply(serverWorld);
-			BlockPos center = octagram.getPos();
-			Iterable<BlockPos> blockPosIterable = BlockPos
-				.iterateRandomly(random, 1 + random.nextInt(3), center.getX() - radius, center.getY(), center
-					.getZ() - radius, center.getX() + radius, center.getY(), center.getZ() + radius);
-			for (BlockPos targetPos : blockPosIterable) {
-				MiskatonicMysteriesAPI.setBiomeMask(serverWorld, targetPos, biome);
-			}
+			biomeSupplier.apply(serverWorld).ifPresent(biome -> {
+				MiskatonicMysteriesAPI.spreadMaskedBiome(serverWorld, octagram.getPos(), radius, 1 + random.nextInt(3), biome);
+			});
+		}
+	}
+
+	@Override
+	public void onCancelled(OctagramBlockEntity octagram) {
+		super.onCancelled(octagram);
+		if (octagram.getWorld() instanceof ServerWorld serverWorld) {
+			MMDimensionalWorldState.get(serverWorld).deactivateKnot(octagram.getPos());
 		}
 	}
 
