@@ -8,11 +8,11 @@ import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
+import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomePacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.KnowledgeToastPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMCriteria;
@@ -20,11 +20,15 @@ import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.biomes.ChunkSectionAccessor;
 import dev.emi.trinkets.api.TrinketsApi;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.annotation.Nullable;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,6 +39,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
@@ -179,36 +184,44 @@ public class MiskatonicMysteriesAPI {
 		return false;
 	}
 
-	public static void spreadMaskedBiome(ServerWorld world, BlockPos root, int radius, int count, RegistryEntry<Biome> biome) {
-		/*world.getGeneratorStoredBiome(
-			BiomeCoords.fromBlock(user.getBlockPos().getX()),
-			BiomeCoords.fromBlock(user.getBlockPos().getY()),
-			BiomeCoords.fromBlock(user.getBlockPos().getZ()));
+	public static void spreadMaskedBiome(World world, BlockPos root, int radius, RegistryEntry<Biome> biome) {
+		if (world instanceof ServerWorld serverWorld) {
+			MMDimensionalWorldState.get(serverWorld).addKnot(root, radius);
+		}
+		double radiusPower = Math.pow(radius, 2);
+		double minimumRadius = Math.pow(radius - 1, 2);
+		List<BlockPos> changedBlocks = new ArrayList<>();
+		for (BlockPos blockPos : BlockPos.iterateOutwards(root, radius, radius, radius)) {
+			double sqD = blockPos.getSquaredDistance(root);
+			if (sqD <= radiusPower && sqD > minimumRadius) {
+				setBiome(world, blockPos, biome);
+				changedBlocks.add(blockPos.toImmutable());
+			}
+		}
 
-			stored changed blocks in WorldState
-			describe area as circle of radius r, root-block b, iteration i
-			save area to nbt with these three
-			when read, cache blocks to iterate (check BlockPos.iterateOutwards())
-			save index i of iteration so as to not reiterate the same block
-		 */
-		MMDimensionalWorldState.get(world).addKnot(root, radius);
-		for (BlockPos blockPos : BlockPos.iterateRandomly(world.random, count, root, radius)) {
-			setBiome(world, blockPos, biome);
+		if (MiskatonicMysteries.config.client.forceChunkColorUpdates && world instanceof ClientWorld clientWorld) {
+			Set<ChunkPos> chunks = changedBlocks.stream().map(ChunkPos::new).collect(Collectors.toSet());
+			for (ChunkPos chunkPos : chunks) {
+				clientWorld.resetChunkColor(chunkPos);
+				for (int k = clientWorld.getBottomSectionCoord(); k < clientWorld.getTopSectionCoord(); ++k) {
+					clientWorld.scheduleBlockRenders(chunkPos.x, k, chunkPos.z);
+				}
+			}
 		}
 	}
 
-	public static void setBiome(ServerWorld world, BlockPos pos, RegistryEntry<Biome> biome) {
+	public static void setBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
 		Chunk chunk = world.getWorldChunk(pos);
-		ChunkSection section = chunk.getSection(world.getSectionIndex(pos.getY()));
+		int sectionIndex = world.getSectionIndex(pos.getY());
+		if (sectionIndex < 0) {
+			return;
+		}
+		ChunkSection section = chunk.getSection(sectionIndex);
 		int sectionX = BiomeCoords.fromBlock(pos.getX()) & 3;
 		int sectionY = BiomeCoords.fromBlock(pos.getY()) & 3;
 		int sectionZ = BiomeCoords.fromBlock(pos.getZ()) & 3;
 		((ChunkSectionAccessor) section).getBiomeContainer().swap(sectionX, sectionY, sectionZ, biome);
 		chunk.setNeedsSaving(true);
-
-		PlayerLookup.tracking(world, pos).forEach(serverPlayerEntity -> {
-			SyncBiomePacket.send(serverPlayerEntity, (ChunkSectionAccessor) section, pos);
-		});
 	}
 
 	public static boolean addKnowledge(String knowledgeId, PlayerEntity player) {

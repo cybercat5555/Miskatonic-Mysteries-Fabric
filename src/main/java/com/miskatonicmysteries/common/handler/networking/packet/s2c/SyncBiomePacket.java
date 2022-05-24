@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
-import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.biomes.ChunkSectionAccessor;
@@ -16,11 +15,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.chunk.ChunkSection;
 
 public class SyncBiomePacket {

@@ -9,7 +9,18 @@ import com.miskatonicmysteries.api.item.BlessedSwordItem;
 import com.miskatonicmysteries.api.item.ChalkItem;
 import com.miskatonicmysteries.api.item.MMBookItem;
 import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
-import com.miskatonicmysteries.common.feature.block.*;
+import com.miskatonicmysteries.common.feature.block.ChemistrySetBlock;
+import com.miskatonicmysteries.common.feature.block.ElderianBlock;
+import com.miskatonicmysteries.common.feature.block.ElderianPillarBlock;
+import com.miskatonicmysteries.common.feature.block.ElderianSlabBlock;
+import com.miskatonicmysteries.common.feature.block.ElderianStairsBlock;
+import com.miskatonicmysteries.common.feature.block.InfestedWheatCropBlock;
+import com.miskatonicmysteries.common.feature.block.MasterpieceStatueBlock;
+import com.miskatonicmysteries.common.feature.block.MuralBlock;
+import com.miskatonicmysteries.common.feature.block.PowerCellBlock;
+import com.miskatonicmysteries.common.feature.block.ResonatorBlock;
+import com.miskatonicmysteries.common.feature.block.WardingMarkBlock;
+import com.miskatonicmysteries.common.feature.block.YellowSignBlock;
 import com.miskatonicmysteries.common.feature.block.blockentity.AltarBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.ChemistrySetBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.MasterpieceStatueBlockEntity;
@@ -34,7 +45,14 @@ import com.miskatonicmysteries.common.feature.item.consumable.TranquilizerItem;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.minecraft.block.*;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.ComposterBlock;
+import net.minecraft.block.MapColor;
+import net.minecraft.block.Material;
+import net.minecraft.block.PillarBlock;
+import net.minecraft.block.WallBlock;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -43,10 +61,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
-import net.minecraft.structure.PlainsVillageData;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
+import team.reborn.energy.api.EnergyStorage;
 
 public class MMObjects {
 
@@ -115,16 +133,15 @@ public class MMObjects {
 		AbstractBlock.Settings.copy(Blocks.STONE));
 
 	public static final StatueBlock YOG_STATUE_GOLD = new StatueBlock(MMAffiliations.YOG, true,
-	AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+		AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
 	public static final StatueBlock YOG_STATUE_MOSSY = new StatueBlock(MMAffiliations.YOG, false,
-	AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+		AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
 	public static final StatueBlock YOG_STATUE_END_STONE = new StatueBlock(MMAffiliations.YOG, false,
-	AbstractBlock.Settings.copy(Blocks.END_STONE));
+		AbstractBlock.Settings.copy(Blocks.END_STONE));
 	public static final StatueBlock YOG_STATUE_STONE = new StatueBlock(MMAffiliations.YOG, false,
-	AbstractBlock.Settings.copy(Blocks.STONE));
+		AbstractBlock.Settings.copy(Blocks.STONE));
 	public static final StatueBlock YOG_STATUE_BLACKSTONE = new StatueBlock(MMAffiliations.YOG, false,
-	AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
-
+		AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
 
 
 	public static final MasterpieceStatueBlock MASTERPIECE_STATUE = new MasterpieceStatueBlock(AbstractBlock.Settings.copy(Blocks.STONE));
@@ -172,31 +189,31 @@ public class MMObjects {
 
 	public static final Block ELDERIAN_STONE = new ElderianBlock(Constants.BlockSettings.ELDERIAN);
 
-	public static final Block ELDERIAN_STONE_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_STONE_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE, Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_STONE_SLAB = new ElderianSlabBlock(Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_STONE_WALL = new WallBlock(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_STONE_SMOOTH = new Block(Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_STONE_SMOOTH_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_STONE_SMOOTH_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE, Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_STONE_SMOOTH_SLAB = new ElderianSlabBlock(Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_STONE_SMOOTH_WALL = new WallBlock(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_STONE_CHISELED = new Block(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_BRICKS = new ElderianBlock(Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_BRICKS_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_BRICKS_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE, Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_BRICKS_SLAB = new ElderianSlabBlock(Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_BRICKS_WALL = new WallBlock(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_CRACKED_BRICKS = new ElderianBlock(Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_CRACKED_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_CRACKED_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE, Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_CRACKED_SLAB = new ElderianSlabBlock(Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_CRACKED_WALL = new WallBlock(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_ICED_BRICKS = new ElderianBlock(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_MOSSY_BRICKS = new ElderianBlock(Constants.BlockSettings.ELDERIAN);
-	public static final Block ELDERIAN_MOSSY_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE,Constants.BlockSettings.ELDERIAN);
+	public static final Block ELDERIAN_MOSSY_STAIRS = new ElderianStairsBlock(ELDERIAN_STONE, Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_MOSSY_SLAB = new ElderianSlabBlock(Constants.BlockSettings.ELDERIAN);
 	public static final Block ELDERIAN_MOSSY_WALL = new WallBlock(Constants.BlockSettings.ELDERIAN);
 
@@ -204,26 +221,26 @@ public class MMObjects {
 	public static final Block ELDERIAN_PILLAR_TENTACLED = new ElderianPillarBlock(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU,
-	AbstractBlock.Settings.copy(ELDERIAN_STONE));
+		AbstractBlock.Settings.copy(ELDERIAN_STONE));
 	public static final Block ELDERIAN_HASTUR_MURAL = new MuralBlock(MMAffiliations.HASTUR,
-	AbstractBlock.Settings.copy(ELDERIAN_STONE));
+		AbstractBlock.Settings.copy(ELDERIAN_STONE));
 	public static final Block ELDERIAN_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB,
-	AbstractBlock.Settings.copy(ELDERIAN_STONE));
+		AbstractBlock.Settings.copy(ELDERIAN_STONE));
 	public static final Block ELDERIAN_YOG_MURAL = new MuralBlock(MMAffiliations.YOG,
-	AbstractBlock.Settings.copy(ELDERIAN_STONE));
+		AbstractBlock.Settings.copy(ELDERIAN_STONE));
 
 	public static final StatueBlock CTHULHU_STATUE_ELDERIAN = new StatueBlock(MMAffiliations.CTHULHU, false,
-	AbstractBlock.Settings.copy(ELDERIAN_STONE));
+		AbstractBlock.Settings.copy(ELDERIAN_STONE));
 	public static final StatueBlock HASTUR_STATUE_ELDERIAN = new StatueBlock(MMAffiliations.HASTUR, false,
-	AbstractBlock.Settings.copy(ELDERIAN_STONE));
+		AbstractBlock.Settings.copy(ELDERIAN_STONE));
 	public static final StatueBlock SHUB_STATUE_ELDERIAN = new StatueBlock(MMAffiliations.SHUB, false,
-	AbstractBlock.Settings.copy(ELDERIAN_STONE));
+		AbstractBlock.Settings.copy(ELDERIAN_STONE));
 	public static final StatueBlock YOG_STATUE_ELDERIAN = new StatueBlock(MMAffiliations.YOG, false,
-	AbstractBlock.Settings.copy(ELDERIAN_STONE));
+		AbstractBlock.Settings.copy(ELDERIAN_STONE));
 
 
 	public static final BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder
-	.create(StatueBlockEntity::new, StatueBlock.STATUES.toArray(new StatueBlock[StatueBlock.STATUES.size()])).build(null);
+		.create(StatueBlockEntity::new, StatueBlock.STATUES.toArray(new StatueBlock[StatueBlock.STATUES.size()])).build(null);
 
 	public static final Block RESONATOR = new ResonatorBlock();
 	public static final BlockEntityType<ResonatorBlockEntity> RESONATOR_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder
@@ -243,7 +260,6 @@ public class MMObjects {
 
 	public static final LoomPattern YELLOW_SIGN_BANNER = new LoomPattern(true);
 	public static final Item YELLOW_SIGN_LOOM_PATTERN = new YellowSignPatternItem();
-
 
 
 	public static final MMBookItem SCIENCE_JOURNAL = new MMBookItem(new Identifier(Constants.MOD_ID, "science_journal"),
@@ -283,8 +299,8 @@ public class MMObjects {
 		new Item.Settings().group(Constants.MM_GROUP));
 
 	public static final Item STELLAR_DAGGER = new BlessedSwordItem(MMAffiliations.YOG, 3, -2.3F,
-	(target, attacker) -> target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0, false, true, true)),
-	new Item.Settings().group(Constants.MM_GROUP));//TODO change name from YOG_DAGGER
+		(target, attacker) -> target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0, false, true, true)),
+		new Item.Settings().group(Constants.MM_GROUP));//TODO change name from YOG_DAGGER
 
 	public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(MMEntities.PROTAGONIST, 4137472, 14592,
 		new Item.Settings().group(Constants.MM_GROUP));
@@ -436,7 +452,6 @@ public class MMObjects {
 		RegistryUtil.registerBlock(ELDERIAN_PILLAR_SMOOTH, "elderian_smooth_pillar");
 		RegistryUtil.registerBlock(ELDERIAN_PILLAR_TENTACLED, "elderian_tentacled_pillar");
 
-
 		RegistryUtil.registerBlock(ELDERIAN_STONE, "elderian_stone");
 		RegistryUtil.registerBlock(ELDERIAN_STONE_STAIRS, "elderian_stone_stairs");
 		RegistryUtil.registerBlock(ELDERIAN_STONE_SLAB, "elderian_stone_slab");
@@ -456,14 +471,16 @@ public class MMObjects {
 
 		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "resonator", RESONATOR_BLOCK_ENTITY_TYPE);
 		RegistryUtil.registerBlock(RESONATOR, "resonator");
+		EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage.getSideStorage(direction),
+			RESONATOR_BLOCK_ENTITY_TYPE);
 		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "power_cell", POWER_CELL_BLOCK_ENTITY_TYPE);
 		RegistryUtil.registerBlock(POWER_CELL, "power_cell");
+		EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage.getSideStorage(direction),
+			POWER_CELL_BLOCK_ENTITY_TYPE);
 
 		RegistryUtil.register(LoomPatterns.REGISTRY, "yellow_sign", YELLOW_SIGN_BANNER);
 
 		RegistryUtil.register(Registry.ITEM, "yellow_sign_banner_pattern", YELLOW_SIGN_LOOM_PATTERN);
-
-
 
 		RegistryUtil.register(Registry.ITEM, "science_journal", SCIENCE_JOURNAL);
 		RegistryUtil.register(Registry.ITEM, "necronomicon", NECRONOMICON);

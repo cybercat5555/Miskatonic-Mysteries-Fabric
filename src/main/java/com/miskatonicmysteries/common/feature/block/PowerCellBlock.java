@@ -13,10 +13,15 @@ import com.miskatonicmysteries.common.util.Util;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.block.Material;
+import net.minecraft.block.ShapeContext;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -42,13 +47,9 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
 import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
-import team.reborn.energy.EnergyHolder;
-import team.reborn.energy.EnergySide;
-import team.reborn.energy.EnergyStorage;
-import team.reborn.energy.EnergyTier;
+import team.reborn.energy.api.EnergyStorage;
 
 public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntityProvider, Waterloggable, Shootable {
 
@@ -107,8 +108,10 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 
 	@Override
 	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-		return world.getBlockEntity(pos) instanceof PowerCellBlockEntity ? (int) (
-			16 * ((PowerCellBlockEntity) world.getBlockEntity(pos)).getStored(EnergySide.UNKNOWN) / PowerCellBlockEntity.MAX_STORAGE) : 0;
+		if (world.getBlockEntity(pos) instanceof PowerCellBlockEntity cell) {
+			return (int) (16 * (cell.energyStorage.amount / PowerCellBlockEntity.MAX_STORAGE));
+		}
+		return 0;
 	}
 
 	@Override
@@ -150,23 +153,21 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 		if (!world.isClient) {
 			BlockEntity cell = world.getBlockEntity(pos);
 			if (cell instanceof PowerCellBlockEntity) {
-				EnergySide side = EnergySide.fromMinecraft(hit.getSide());
 				player.sendMessage(
-					Util.createPowerPercentageText(((PowerCellBlockEntity) cell).getStored(side), PowerCellBlockEntity.MAX_STORAGE), true);
+					Util.createPowerPercentageText(((PowerCellBlockEntity) cell).energyStorage.amount, PowerCellBlockEntity.MAX_STORAGE),
+					true);
 			}
 		}
 		return super.onUse(state, world, pos, player, hand, hit);
 	}
 
-	private BlockState changeConnectionState(BlockState state, WorldView world, BlockPos pos) {
+	private BlockState changeConnectionState(BlockState state, World world, BlockPos pos) {
 		if (world.getBlockEntity(pos) != null) {
 			world.getBlockEntity(pos).markDirty();
 		}
 		for (Direction direction : DIRECTION_PROPERTY_MAP.keySet()) {
-			BlockPos offsetPos = pos.offset(direction);
-			if (world.getBlockEntity(offsetPos) instanceof EnergyHolder
-				&& ((EnergyHolder) world.getBlockEntity(offsetPos)).getTier() == EnergyTier.LOW
-				&& ((EnergyHolder) world.getBlockEntity(offsetPos)).getMaxInput(EnergySide.fromMinecraft(direction)) > 0) {
+			EnergyStorage storage = EnergyStorage.SIDED.find(world, pos.offset(direction), direction.getOpposite());
+			if (storage != null) {
 				state = state.with(DIRECTION_PROPERTY_MAP.get(direction), true);
 			} else {
 				state = state.with(DIRECTION_PROPERTY_MAP.get(direction), false);
@@ -194,7 +195,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 
-		return changeConnectionState(state, world, pos);
+		return changeConnectionState(state, (World) world, pos);
 	}
 
 	@Override
@@ -228,8 +229,7 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 
 	@Override
 	public void onShot(World world, BlockPos pos, LivingEntity shooter) {
-		if (!world.isClient && world.getBlockEntity(pos) instanceof EnergyStorage
-			&& ((EnergyStorage) world.getBlockEntity(pos)).getStored(EnergySide.UNKNOWN) > 64) {
+		if (!world.isClient && world.getBlockEntity(pos) instanceof PowerCellBlockEntity cell && cell.energyStorage.amount > 4000) {
 			world.createExplosion(null, pos.getX() + 0.5F, pos.getY() + 0.85F, pos.getZ() + 0.5F, 1F, Explosion.DestructionType.DESTROY);
 		}
 	}

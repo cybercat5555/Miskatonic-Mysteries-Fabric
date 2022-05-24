@@ -19,20 +19,40 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import team.reborn.energy.EnergySide;
-import team.reborn.energy.EnergyStorage;
-import team.reborn.energy.EnergyTier;
+import org.jetbrains.annotations.Nullable;
+import team.reborn.energy.api.base.SimpleSidedEnergyContainer;
 
-public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStorage {
-
-	private static final int MAX_STORED_POWER = 3200;
+public class ResonatorBlockEntity extends BaseBlockEntity {
+	private static final int MAX_STORED_POWER = 8000;
 	private static final int MAX_RADIUS = 16;
 	private static final int MAX_EFFECTIVE_RUNTIME = 1200;
+
+	public final SimpleSidedEnergyContainer energyStorage = new SimpleSidedEnergyContainer() {
+		@Override
+		public long getCapacity() {
+			return MAX_STORED_POWER;
+		}
+
+		@Override
+		public long getMaxInsert(@Nullable Direction side) {
+			return side != Direction.UP ? 100 : 0;
+		}
+
+		@Override
+		public long getMaxExtract(@Nullable Direction side) {
+			return 0;
+		}
+
+		@Override
+		protected void onFinalCommit() {
+			markDirty();
+		}
+	};
 	public float intensity;
 	public int ticksRan;
 	private float radius;
-	private double energy;
 
 	public ResonatorBlockEntity(BlockPos pos, BlockState state) {
 		super(MMObjects.RESONATOR_BLOCK_ENTITY_TYPE, pos, state);
@@ -43,11 +63,11 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
 		if (powered) {
 			blockEntity.radius = MAX_RADIUS * blockEntity.intensity;
 			blockEntity.ticksRan++;
-			if (blockEntity.energy < 16) {
+			if (blockEntity.energyStorage.amount < 40) {
 				blockEntity.world.setBlockState(blockEntity.pos, blockEntity.getCachedState().with(Properties.POWERED,
 					false));
 			} else {
-				blockEntity.energy -= 16;
+				blockEntity.energyStorage.amount -= 40;
 				if (blockEntity.intensity < 1) {
 					blockEntity.intensity += 0.0005F;
 				}
@@ -105,7 +125,7 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
 	public void writeNbt(NbtCompound tag) {
 		tag.putFloat(Constants.NBT.RADIUS, radius);
 		tag.putFloat(Constants.NBT.INTENSITY, intensity);
-		tag.putDouble(Constants.NBT.ENERGY, energy);
+		tag.putLong(Constants.NBT.ENERGY, energyStorage.amount);
 		tag.putInt(Constants.NBT.TICK_COUNT, ticksRan);
 	}
 
@@ -113,7 +133,7 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
 	public void readNbt(NbtCompound tag) {
 		radius = tag.getFloat(Constants.NBT.RADIUS);
 		intensity = tag.getFloat(Constants.NBT.INTENSITY);
-		energy = tag.getDouble(Constants.NBT.ENERGY);
+		energyStorage.amount = tag.getLong(Constants.NBT.ENERGY);
 		ticksRan = tag.getInt(Constants.NBT.TICK_COUNT);
 		super.readNbt(tag);
 	}
@@ -157,35 +177,5 @@ public class ResonatorBlockEntity extends BaseBlockEntity implements EnergyStora
 
 	public Box getSelectionBox() {
 		return new Box(pos, pos.add(1, 1, 1)).expand(radius);
-	}
-
-	@Override
-	public double getStored(EnergySide face) {
-		return energy;
-	}
-
-	@Override
-	public void setStored(double amount) {
-		this.energy = amount;
-	}
-
-	@Override
-	public double getMaxStoredPower() {
-		return MAX_STORED_POWER;
-	}
-
-	@Override
-	public EnergyTier getTier() {
-		return EnergyTier.LOW;
-	}
-
-	@Override
-	public double getMaxInput(EnergySide side) {
-		return side != EnergySide.UP ? EnergyTier.LOW.getMaxInput() : 0;
-	}
-
-	@Override
-	public double getMaxOutput(EnergySide side) {
-		return 0;
 	}
 }

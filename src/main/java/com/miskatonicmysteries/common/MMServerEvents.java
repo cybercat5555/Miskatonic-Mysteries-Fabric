@@ -58,7 +58,6 @@ public class MMServerEvents {
 
 	private static void tick(ServerWorld serverWorld) {
 		MMPartyState.get(serverWorld).tick();
-		MMDimensionalWorldState.get(serverWorld).tick(serverWorld);
 	}
 
 	private static void copyFromPlayer(ServerPlayerEntity oldPlayer, ServerPlayerEntity player, boolean isDead) {

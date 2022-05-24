@@ -92,7 +92,7 @@ dependencies {
 	modImplementation("vazkii.patchouli:Patchouli:${project.patchouli_version}")
 
 	//REI
-	modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}")
+	modImplementation("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}")
 
 	//Satin
 	modImplementation("io.github.ladysnake:satin:${project.satin_version}")

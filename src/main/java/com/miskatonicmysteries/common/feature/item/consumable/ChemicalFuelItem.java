@@ -25,8 +25,7 @@ import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import team.reborn.energy.Energy;
-import team.reborn.energy.EnergySide;
+import team.reborn.energy.api.EnergyStorage;
 
 public class ChemicalFuelItem extends Item {
 
@@ -35,10 +34,10 @@ public class ChemicalFuelItem extends Item {
 
 		protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
 			BlockPos pos = pointer.getPos().offset(pointer.getBlockState().get(DispenserBlock.FACING));
-			if (pointer.getWorld().getBlockEntity(pos) instanceof PowerCellBlockEntity) {
-				PowerCellBlockEntity cell = (PowerCellBlockEntity) pointer.getWorld().getBlockEntity(pos);
-				if (cell.getStored(EnergySide.UNKNOWN) < cell.getMaxStoredPower()) {
-					Energy.of(cell).set(cell.getStored(EnergySide.UNKNOWN) + cell.getMaxStoredPower() / 4F);
+			if (pointer.getWorld().getBlockEntity(pos) instanceof PowerCellBlockEntity cell) {
+				EnergyStorage storage = cell.energyStorage.getSideStorage(null);
+				if (storage.getAmount() < storage.getCapacity()) {
+					cell.energyStorage.amount = Math.min(cell.energyStorage.getCapacity(), cell.energyStorage.amount + cell.energyStorage.getCapacity() / 4);
 					Item remainder = stack.getItem().getRecipeRemainder();
 					stack.decrement(1);
 					if (stack.isEmpty()) {
@@ -67,10 +66,10 @@ public class ChemicalFuelItem extends Item {
 
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
-		if (context.getWorld().getBlockEntity(context.getBlockPos()) instanceof PowerCellBlockEntity) {
-			PowerCellBlockEntity cell = (PowerCellBlockEntity) context.getWorld().getBlockEntity(context.getBlockPos());
-			if (cell.getStored(EnergySide.UNKNOWN) < cell.getMaxStoredPower()) {
-				Energy.of(cell).set(cell.getStored(EnergySide.UNKNOWN) + cell.getMaxStoredPower() / 4F);
+		if (context.getWorld().getBlockEntity(context.getBlockPos()) instanceof PowerCellBlockEntity cell) {
+			EnergyStorage storage = cell.energyStorage.getSideStorage(null);
+			if (storage.getAmount() < storage.getCapacity()) {
+				cell.energyStorage.amount = Math.min(cell.energyStorage.getCapacity(), cell.energyStorage.amount + cell.energyStorage.getCapacity() / 4);
 				context.getPlayer().getStackInHand(context.getHand()).decrement(1);
 				ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
 				if (context.getPlayer().getStackInHand(context.getHand()).isEmpty()) {

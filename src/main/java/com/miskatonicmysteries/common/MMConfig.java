@@ -94,9 +94,6 @@ public class MMConfig implements ConfigData {
 
 		@ConfigEntry.Gui.Tooltip
 		public float infestedWheatChance = 0.05F;
-
-		@ConfigEntry.Gui.Tooltip
-		public int simulacrumBiomeRadiusCap = 80;
 	}
 
 	public static class Client {

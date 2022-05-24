@@ -5,19 +5,37 @@ import com.miskatonicmysteries.common.feature.block.blockentity.BaseBlockEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import team.reborn.energy.Energy;
-import team.reborn.energy.EnergySide;
-import team.reborn.energy.EnergyStorage;
-import team.reborn.energy.EnergyTier;
+import org.jetbrains.annotations.Nullable;
+import team.reborn.energy.api.EnergyStorage;
+import team.reborn.energy.api.EnergyStorageUtil;
+import team.reborn.energy.api.base.SimpleSidedEnergyContainer;
 
-public class PowerCellBlockEntity extends BaseBlockEntity implements EnergyStorage {
+public class PowerCellBlockEntity extends BaseBlockEntity {
+	public static final int MAX_STORAGE = 64000;
+	public final SimpleSidedEnergyContainer energyStorage = new SimpleSidedEnergyContainer() {
+		@Override
+		public long getCapacity() {
+			return MAX_STORAGE;
+		}
 
-	public static final int MAX_STORAGE = 32000;
-	private double energy;
+		@Override
+		public long getMaxInsert(@Nullable Direction side) {
+			return 0;
+		}
+
+		@Override
+		public long getMaxExtract(@Nullable Direction side) {
+			return side != Direction.UP ? 100 : 0; //2 seconds (40 ticks) of extraction = one burnt coal (4000)
+		}
+
+		@Override
+		protected void onFinalCommit() {
+			markDirty();
+		}
+	};
 
 	public PowerCellBlockEntity(BlockPos pos, BlockState state) {
 		super(MMObjects.POWER_CELL_BLOCK_ENTITY_TYPE, pos, state);
@@ -26,10 +44,8 @@ public class PowerCellBlockEntity extends BaseBlockEntity implements EnergyStora
 	public static void tick(PowerCellBlockEntity blockEntity) {
 		for (Direction direction : PowerCellBlock.DIRECTION_PROPERTY_MAP.keySet()) {
 			if (blockEntity.getCachedState().get(PowerCellBlock.DIRECTION_PROPERTY_MAP.get(direction))) {
-				BlockEntity storage = blockEntity.world.getBlockEntity(blockEntity.pos.offset(direction));
-				if (storage instanceof EnergyStorage) {
-					Energy.of(blockEntity).into(Energy.of(storage)).move();
-				}
+				EnergyStorage sided = EnergyStorage.SIDED.find(blockEntity.world, blockEntity.pos.offset(direction), direction.getOpposite());
+				EnergyStorageUtil.move(blockEntity.energyStorage.getSideStorage(direction), sided, Long.MAX_VALUE, null);
 			}
 		}
 
@@ -37,12 +53,12 @@ public class PowerCellBlockEntity extends BaseBlockEntity implements EnergyStora
 
 	@Override
 	public void writeNbt(NbtCompound tag) {
-		tag.putDouble(Constants.NBT.ENERGY, energy);
+		tag.putLong(Constants.NBT.ENERGY, energyStorage.amount);
 	}
 
 	@Override
 	public void readNbt(NbtCompound tag) {
-		energy = tag.getDouble(Constants.NBT.ENERGY);
+		energyStorage.amount = tag.getLong(Constants.NBT.ENERGY);
 		super.readNbt(tag);
 	}
 
@@ -52,35 +68,5 @@ public class PowerCellBlockEntity extends BaseBlockEntity implements EnergyStora
 			world.updateComparators(pos, MMObjects.POWER_CELL);
 		}
 		super.markDirty();
-	}
-
-	@Override
-	public double getStored(EnergySide face) {
-		return energy;
-	}
-
-	@Override
-	public void setStored(double amount) {
-		this.energy = amount;
-	}
-
-	@Override
-	public double getMaxStoredPower() {
-		return MAX_STORAGE;
-	}
-
-	@Override
-	public EnergyTier getTier() {
-		return EnergyTier.LOW;
-	}
-
-	@Override
-	public double getMaxInput(EnergySide side) {
-		return 0;
-	}
-
-	@Override
-	public double getMaxOutput(EnergySide side) {
-		return side != EnergySide.UP ? EnergyTier.LOW.getMaxOutput() : 0;
 	}
 }

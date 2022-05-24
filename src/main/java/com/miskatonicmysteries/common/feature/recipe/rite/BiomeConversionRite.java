@@ -13,14 +13,17 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 
 public class BiomeConversionRite extends AscensionLockedRite {
+	private static final int RUNNING_TIME = 24000;
+	private static final int RANGE = 64;
+	private static final int INTERVAL = RUNNING_TIME / RANGE;
+	private final Function<World, Optional<RegistryEntry<Biome>>> biomeSupplier;
 
-	private final Function<ServerWorld, Optional<RegistryEntry<Biome>>> biomeSupplier;
-
-	public BiomeConversionRite(Identifier id, @Nullable Affiliation octagram, Function<ServerWorld, Optional<RegistryEntry<Biome>>> biomeSupplier, String knowledge,
+	public BiomeConversionRite(Identifier id, @Nullable Affiliation octagram, Function<World, Optional<RegistryEntry<Biome>>> biomeSupplier, String knowledge,
 		int stage, Ingredient... ingredients) {
 		super(id, octagram, knowledge, 0, stage, ingredients);
 		this.biomeSupplier = biomeSupplier;
@@ -41,11 +44,10 @@ public class BiomeConversionRite extends AscensionLockedRite {
 	@Override
 	public void tick(OctagramBlockEntity octagram) {
 		super.tick(octagram);
-		if (octagram.getWorld() instanceof ServerWorld serverWorld && serverWorld.getTime() % 20 == 0) {
-			Random random = serverWorld.getRandom();
+		if (octagram.tickCount <= RUNNING_TIME && octagram.tickCount % INTERVAL == 0) {
 			int radius = getRadius(octagram);
-			biomeSupplier.apply(serverWorld).ifPresent(biome -> {
-				MiskatonicMysteriesAPI.spreadMaskedBiome(serverWorld, octagram.getPos(), radius, 1 + random.nextInt(3), biome);
+			biomeSupplier.apply(octagram.getWorld()).ifPresent(biome -> {
+				MiskatonicMysteriesAPI.spreadMaskedBiome(octagram.getWorld(), octagram.getPos(), radius, biome);
 			});
 		}
 	}
@@ -59,7 +61,7 @@ public class BiomeConversionRite extends AscensionLockedRite {
 	}
 
 	private int getRadius(OctagramBlockEntity octagram) {
-		return Math.min((int) (Math.sqrt(octagram.tickCount / 4.0)), MiskatonicMysteries.config.world.simulacrumBiomeRadiusCap);
+		return Math.min(octagram.tickCount / INTERVAL, RANGE);
 	}
 
 	@Override

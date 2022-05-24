@@ -41,7 +41,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
-import team.reborn.energy.EnergySide;
 
 public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntityProvider, Waterloggable, Shootable {
 
@@ -114,8 +113,7 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
 					world.setBlockState(pos, state.with(POWERED, false));
 					blockEntity.markDirty();
 				}
-			} else if (blockEntity instanceof ResonatorBlockEntity
-				&& ((ResonatorBlockEntity) blockEntity).getStored(EnergySide.UNKNOWN) > 0) {
+			} else if (blockEntity instanceof ResonatorBlockEntity resonator && resonator.energyStorage.amount > 0) {
 				world.setBlockState(pos, state.with(POWERED, true));
 				blockEntity.markDirty();
 			} else {
