@@ -5,13 +5,21 @@
     "miskatonicmysteries:mossy_cthulhu_mural",
     "miskatonicmysteries:coral_cthulhu_mural",
     "miskatonicmysteries:prismarine_cthulhu_mural",
+    "miskatonicmysteries:elderian_cthulhu_mural",
     "miskatonicmysteries:stone_hastur_mural",
     "miskatonicmysteries:mossy_hastur_mural",
     "miskatonicmysteries:terracotta_hastur_mural",
     "miskatonicmysteries:yellow_terracotta_hastur_mural",
+    "miskatonicmysteries:elderian_hastur_mural",
     "miskatonicmysteries:stone_shub_mural",
     "miskatonicmysteries:mossy_shub_mural",
     "miskatonicmysteries:deepslate_shub_mural",
-    "miskatonicmysteries:blackstone_shub_mural"
+    "miskatonicmysteries:blackstone_shub_mural",
+    "miskatonicmysteries:elderian_shub_mural",
+    "miskatonicmysteries:stone_yog_mural",
+    "miskatonicmysteries:mossy_yog_mural",
+    "miskatonicmysteries:end_stone_yog_mural",
+    "miskatonicmysteries:blackstone_yog_mural",
+    "miskatonicmysteries:elderian_yog_mural"
   ]
 }

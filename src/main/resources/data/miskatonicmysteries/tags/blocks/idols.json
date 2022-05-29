@@ -5,13 +5,22 @@
     "miskatonicmysteries:cthulhu_statue_stone",
     "miskatonicmysteries:cthulhu_statue_mossy",
     "miskatonicmysteries:cthulhu_statue_prismarine",
+    "miskatonicmysteries:cthulhu_statue_elderian",
     "miskatonicmysteries:hastur_statue_gold",
     "miskatonicmysteries:hastur_statue_stone",
     "miskatonicmysteries:hastur_statue_mossy",
     "miskatonicmysteries:hastur_statue_terracotta",
+    "miskatonicmysteries:hastur_statue_elderian",
     "miskatonicmysteries:shub_statue_gold",
     "miskatonicmysteries:shub_statue_stone",
     "miskatonicmysteries:shub_statue_mossy",
-    "miskatonicmysteries:shub_statue_deepslate"
+    "miskatonicmysteries:shub_statue_deepslate",
+    "miskatonicmysteries:shub_statue_elderian",
+    "miskatonicmysteries:yog_statue_gold",
+    "miskatonicmysteries:yog_statue_stone",
+    "miskatonicmysteries:yog_statue_mossy",
+    "miskatonicmysteries:yog_statue_blackstone",
+    "miskatonicmysteries:yog_statue_end_stone",
+    "miskatonicmysteries:yog_statue_elderian"
   ]
 }
