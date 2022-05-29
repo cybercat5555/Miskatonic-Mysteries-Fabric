@@ -1,10 +1,6 @@
 {
   "replace": false,
   "values": [
-    "miskatonicmysteries:elderian_stone_wall",
-    "miskatonicmysteries:elderian_stone_smooth_wall",
-    "miskatonicmysteries:elderian_bricks_wall",
-    "miskatonicmysteries:elderian_bricks_mossy_wall",
-    "miskatonicmysteries:elderian_bricks_cracked_wall"
+    "#miskatonicmysteries:elderian_walls"
   ]
 }

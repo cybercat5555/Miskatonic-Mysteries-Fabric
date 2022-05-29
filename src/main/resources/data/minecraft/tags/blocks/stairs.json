@@ -1,9 +1,6 @@
 {
   "replace": false,
   "values": [
-    "miskatonicmysteries:elderian_stone_stairs",
-    "miskatonicmysteries:elderian_bricks_stairs",
-    "miskatonicmysteries:elderian_bricks_mossy_stairs",
-    "miskatonicmysteries:elderian_bricks_cracked_stairs"
+    "#miskatonicmysteries:elderian_stairs"
   ]
 }
