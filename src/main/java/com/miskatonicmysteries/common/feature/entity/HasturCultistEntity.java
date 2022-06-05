@@ -322,6 +322,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
 	public void ascend() {
 		dataTracker.set(VARIANT, 2);
+		fillRecipes();
 	}
 
 	@Override
