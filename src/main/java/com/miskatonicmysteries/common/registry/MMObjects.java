@@ -3,11 +3,12 @@ package com.miskatonicmysteries.common.registry;
 import com.miskatonicmysteries.api.banner.loom.LoomPattern;
 import com.miskatonicmysteries.api.banner.loom.LoomPatterns;
 import com.miskatonicmysteries.api.block.AltarBlock;
+import com.miskatonicmysteries.api.block.ObeliskBlock;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.item.BlessedSwordItem;
 import com.miskatonicmysteries.api.item.ChalkItem;
-import com.miskatonicmysteries.api.item.MMBookItem;
+import com.miskatonicmysteries.common.feature.item.MMBookItem;
 import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.feature.block.ChemistrySetBlock;
 import com.miskatonicmysteries.common.feature.block.ElderianBlock;
@@ -24,6 +25,7 @@ import com.miskatonicmysteries.common.feature.block.YellowSignBlock;
 import com.miskatonicmysteries.common.feature.block.blockentity.AltarBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.ChemistrySetBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.MasterpieceStatueBlockEntity;
+import com.miskatonicmysteries.common.feature.block.blockentity.ObeliskBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.energy.PowerCellBlockEntity;
@@ -148,6 +150,9 @@ public class MMObjects {
 	public static final BlockEntityType<MasterpieceStatueBlockEntity> MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder
 		.create(MasterpieceStatueBlockEntity::new, MASTERPIECE_STATUE).build(null);
 
+	public static final ObeliskBlock HASTUR_OBELISK = new ObeliskBlock(MMAffiliations.HASTUR, AbstractBlock.Settings.copy(Blocks.STONE));
+	public static final BlockEntityType<ObeliskBlockEntity> HASTUR_OBELISK_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder
+		.create(ObeliskBlockEntity::new, HASTUR_OBELISK).build(null);
 
 	public static final Block STONE_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));
 	public static final Block MOSSY_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU,
@@ -400,6 +405,11 @@ public class MMObjects {
 		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "masterpiece_statue", MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE);
 		RegistryUtil.register(Registry.BLOCK, "masterpiece_statue", MASTERPIECE_STATUE);
 		RegistryUtil.register(Registry.ITEM, "masterpiece_statue", new MasterpieceStatueBlock.MasterpieceStatueBlockItem());
+
+
+
+		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "hastur_obelisk", HASTUR_OBELISK_BLOCK_ENTITY_TYPE);
+		RegistryUtil.register(Registry.BLOCK, "hastur_obelisk", HASTUR_OBELISK);
 
 		RegistryUtil.registerBlock(STONE_CTHULHU_MURAL, "stone_cthulhu_mural");
 		RegistryUtil.registerBlock(MOSSY_CTHULHU_MURAL, "mossy_cthulhu_mural");

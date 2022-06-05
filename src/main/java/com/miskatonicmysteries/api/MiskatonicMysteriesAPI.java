@@ -184,46 +184,6 @@ public class MiskatonicMysteriesAPI {
 		return false;
 	}
 
-	public static void spreadMaskedBiome(World world, BlockPos root, int radius, RegistryEntry<Biome> biome) {
-		if (world instanceof ServerWorld serverWorld) {
-			MMDimensionalWorldState.get(serverWorld).addKnot(root, radius);
-		}
-		double radiusPower = Math.pow(radius, 2);
-		double minimumRadius = Math.pow(radius - 1, 2);
-		List<BlockPos> changedBlocks = new ArrayList<>();
-		for (BlockPos blockPos : BlockPos.iterateOutwards(root, radius, radius, radius)) {
-			double sqD = blockPos.getSquaredDistance(root);
-			if (sqD <= radiusPower && sqD > minimumRadius) {
-				setBiome(world, blockPos, biome);
-				changedBlocks.add(blockPos.toImmutable());
-			}
-		}
-
-		if (MiskatonicMysteries.config.client.forceChunkColorUpdates && world instanceof ClientWorld clientWorld) {
-			Set<ChunkPos> chunks = changedBlocks.stream().map(ChunkPos::new).collect(Collectors.toSet());
-			for (ChunkPos chunkPos : chunks) {
-				clientWorld.resetChunkColor(chunkPos);
-				for (int k = clientWorld.getBottomSectionCoord(); k < clientWorld.getTopSectionCoord(); ++k) {
-					clientWorld.scheduleBlockRenders(chunkPos.x, k, chunkPos.z);
-				}
-			}
-		}
-	}
-
-	public static void setBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
-		Chunk chunk = world.getWorldChunk(pos);
-		int sectionIndex = world.getSectionIndex(pos.getY());
-		if (sectionIndex < 0) {
-			return;
-		}
-		ChunkSection section = chunk.getSection(sectionIndex);
-		int sectionX = BiomeCoords.fromBlock(pos.getX()) & 3;
-		int sectionY = BiomeCoords.fromBlock(pos.getY()) & 3;
-		int sectionZ = BiomeCoords.fromBlock(pos.getZ()) & 3;
-		((ChunkSectionAccessor) section).getBiomeContainer().swap(sectionX, sectionY, sectionZ, biome);
-		chunk.setNeedsSaving(true);
-	}
-
 	public static boolean addKnowledge(String knowledgeId, PlayerEntity player) {
 		if (player instanceof ServerPlayerEntity s && !hasKnowledge(knowledgeId, player)) {
 			Knowledge.of(player).ifPresent(knowledge -> {

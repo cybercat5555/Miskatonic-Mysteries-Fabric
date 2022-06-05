@@ -76,6 +76,7 @@ public class Constants {
 		public static final TagKey<EntityType<?>> VALID_SACRIFICES = TagKey.of(Registry.ENTITY_TYPE_KEY,  new Identifier(MOD_ID, "valid_sacrifices"));
 
 		public static final TagKey<Block> IDOLS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "idols"));
+		public static final TagKey<Block> HASTUR_MURALS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "hastur_murals"));
 	}
 
 	public static class NBT {
@@ -158,6 +159,8 @@ public class Constants {
 		public static final String PHASE_DIRECTION = "PhaseDirection";
 		public static final String HOUNDS = "Hounds";
 		public static final String ACTIVE = "Active";
+		public static final String KNOT_POS = "KnotPos";
+		public static final String IS_CORE = "IsCore";
 	}
 
 	public static class DataTrackers {

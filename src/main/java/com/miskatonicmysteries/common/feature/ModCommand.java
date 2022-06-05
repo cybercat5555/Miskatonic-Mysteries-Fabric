@@ -269,6 +269,9 @@ public class ModCommand {
 	}
 
 	private static int giveWorldNBT(CommandContext<ServerCommandSource> context) {
+		context.getSource()
+			.sendFeedback(NbtHelper.toPrettyPrintedText(MMWorldState.get(context.getSource().getWorld()).writeNbt(new NbtCompound())),
+				false);
 		context.getSource().sendFeedback(
 			NbtHelper.toPrettyPrintedText(MMDimensionalWorldState.get(context.getSource().getWorld()).writeNbt(new NbtCompound())), false);
 		return 0;

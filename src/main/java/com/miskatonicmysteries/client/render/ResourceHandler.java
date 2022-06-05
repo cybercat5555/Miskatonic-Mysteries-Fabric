@@ -61,6 +61,7 @@ public class ResourceHandler {
 				registry.register(HASTUR_SIGIL_OUTER.getTextureId());
 				MasterpieceStatueBlockRender.TEXTURE_CACHE
 					.forEach((gameProfile, stoneTexture) -> stoneTexture.needsUpdate = true);
+				registry.register(new Identifier(Constants.MOD_ID, "block/obelisk/hastur_obelisk"));
 			});
 
 		ResourceHandler
@@ -81,15 +82,18 @@ public class ResourceHandler {
 
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_gold"));
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_mossy"));
-		addStatueTextureFor(MMObjects.CTHULHU_STATUE_PRISMARINE, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_prismarine"));
+		addStatueTextureFor(MMObjects.CTHULHU_STATUE_PRISMARINE,
+			new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_prismarine"));
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_stone"));
-		addStatueTextureFor(MMObjects.CTHULHU_STATUE_ELDERIAN, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_elderian_stone"));
+		addStatueTextureFor(MMObjects.CTHULHU_STATUE_ELDERIAN,
+			new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_elderian_stone"));
 
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_gold"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_mossy"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_TERRACOTTA, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_terracotta"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_stone"));
-		addStatueTextureFor(MMObjects.HASTUR_STATUE_ELDERIAN, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_elderian_stone"));
+		addStatueTextureFor(MMObjects.HASTUR_STATUE_ELDERIAN,
+			new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_elderian_stone"));
 
 		addStatueTextureFor(MMObjects.SHUB_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_gold"));
 		addStatueTextureFor(MMObjects.SHUB_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_mossy"));
@@ -132,8 +136,8 @@ public class ResourceHandler {
 	}
 
 	public static SpriteIdentifier getStatueTextureFor(StatueBlockEntity statue) {
-		return STATUE_SPRITES.getOrDefault(statue.getWorld().getBlockState(statue.getPos())
-			.getBlock(), new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("")));
+		return STATUE_SPRITES.getOrDefault(statue.getCachedState().getBlock(),
+			new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("")));
 	}
 
 	public static SpriteIdentifier getMatchingOctagramTexture(Affiliation affiliation) {

@@ -1,17 +1,18 @@
 package com.miskatonicmysteries.common.feature.world;
 
 import static com.miskatonicmysteries.common.util.Constants.NBT.ACTIVE;
-import static com.miskatonicmysteries.common.util.Constants.NBT.CENTER_POS;
+import static com.miskatonicmysteries.common.util.Constants.NBT.IS_CORE;
 import static com.miskatonicmysteries.common.util.Constants.NBT.KNOTS;
+import static com.miskatonicmysteries.common.util.Constants.NBT.KNOT_POS;
 import static com.miskatonicmysteries.common.util.Constants.NBT.RADIUS;
 import static com.miskatonicmysteries.common.util.Constants.NBT.WARDING_MARKS;
 
-import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.common.util.Constants;
-import com.miskatonicmysteries.common.util.Constants.NBT;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -20,12 +21,11 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
-import net.minecraft.world.biome.source.BiomeCoords;
 
 public class MMDimensionalWorldState extends PersistentState {
 
 	private final Set<BlockPos> wardingMarks = new HashSet<>();
-	private final HashMap<BlockPos, BiomeMaskKnot> maskKnots = new HashMap<>();
+	private final Map<BlockPos, BiomeKnot> biomeKnots = new HashMap<>();
 
 	public static MMDimensionalWorldState fromNbt(NbtCompound tag) {
 		MMDimensionalWorldState state = new MMDimensionalWorldState();
@@ -37,9 +37,9 @@ public class MMDimensionalWorldState extends PersistentState {
 		}
 		NbtList knotList = tag.getList(KNOTS, NbtElement.COMPOUND_TYPE);
 		if (knotList != null) {
-			for (NbtElement knot : knotList) {
-				BiomeMaskKnot maskKnot = BiomeMaskKnot.fromNbt((NbtCompound) knot);
-				state.maskKnots.put(maskKnot.root, maskKnot);
+			for (NbtElement knotTag : knotList) {
+				BiomeKnot knot = BiomeKnot.fromNbt((NbtCompound) knotTag);
+				state.biomeKnots.put(knot.pos, knot);
 			}
 		}
 		return state;
@@ -50,25 +50,6 @@ public class MMDimensionalWorldState extends PersistentState {
 			.getOrCreate(MMDimensionalWorldState::fromNbt, MMDimensionalWorldState::new, Constants.MOD_ID + "_dimensional");
 	}
 
-	public void addKnot(BlockPos pos, int radius) {
-		maskKnots.compute(pos, (root, knot) -> {
-			if (knot == null) {
-				return new BiomeMaskKnot(true, root, radius);
-			}
-			if (knot.radius < radius) {
-				knot.radius = radius;
-			}
-			return knot;
-		});
-		markDirty();
-	}
-
-	public void deactivateKnot(BlockPos pos) {
-		if (maskKnots.containsKey(pos)) {
-			maskKnots.get(pos).active = false;
-		}
-		markDirty();
-	}
 	public void addMark(BlockPos markPos) {
 		wardingMarks.add(markPos);
 		markDirty();
@@ -88,6 +69,35 @@ public class MMDimensionalWorldState extends PersistentState {
 		return false;
 	}
 
+	public void setBiomeKnot(BlockPos pos, int radius, boolean active, boolean core) {
+		if (radius <= 0) {
+			biomeKnots.remove(pos);
+			markDirty();
+			return;
+		}
+		biomeKnots.compute(pos, (knotPos, knot) -> {
+			if (knot == null) {
+				knot = new BiomeKnot(pos, active, core, radius);
+				return knot;
+			}
+			knot.active = active;
+			knot.radius = radius;
+			knot.core = core;
+			return knot;
+		});
+		markDirty();
+	}
+
+	public List<BiomeKnot> getNearbyKnots(BlockPos pos, int ownRadius) {
+		List<BiomeKnot> nearbyKnots = new ArrayList<>();
+		for (BiomeKnot value : biomeKnots.values()) {
+			if (value.pos.getSquaredDistance(pos) < Math.pow(value.radius + ownRadius, 2)) {
+				nearbyKnots.add(value);
+			}
+		}
+		return nearbyKnots;
+	}
+
 	@Override
 	public NbtCompound writeNbt(NbtCompound tag) {
 		NbtList wardingMarksList = new NbtList();
@@ -95,56 +105,55 @@ public class MMDimensionalWorldState extends PersistentState {
 			wardingMarksList.add(NbtHelper.fromBlockPos(wardingMark));
 		}
 		tag.put(WARDING_MARKS, wardingMarksList);
+
 		NbtList knotList = new NbtList();
-		for (BiomeMaskKnot maskKnot : maskKnots.values()) {
-			knotList.add(maskKnot.writeNbt());
+		for (BiomeKnot knot : biomeKnots.values()) {
+			knotList.add(knot.writeNbt());
 		}
 		tag.put(KNOTS, knotList);
-
 		return tag;
 	}
 
-	private static class BiomeMaskKnot {
-		public boolean active;
-		public BlockPos root;
-		public int radius;
+	public static class BiomeKnot {
+		private final BlockPos pos;
+		private boolean active, core;
+		private int radius;
 
-		private final Iterator<BlockPos> blocks;
-
-		private BiomeMaskKnot(boolean active, BlockPos root, int radius) {
-			this.active = active;
-			this.root = root;
+		private BiomeKnot(BlockPos pos, boolean active, boolean core, int radius) {
+			this.pos = pos;
 			this.radius = radius;
-
-			blocks = BlockPos.iterateOutwards(root, radius, radius, radius).iterator();
+			this.active = active;
+			this.core = core;
 		}
 
-		private static BiomeMaskKnot fromNbt(NbtCompound nbt) {
-			boolean active = nbt.getBoolean(NBT.ACTIVE);
-			BlockPos root = NbtHelper.toBlockPos(nbt.getCompound(CENTER_POS));
-			int radius = nbt.getInt(RADIUS);
-			return new BiomeMaskKnot(active, root, radius);
+		public static BiomeKnot fromNbt(NbtCompound knotTag) {
+			BlockPos pos = NbtHelper.toBlockPos(knotTag.getCompound(KNOT_POS));
+			return new BiomeKnot(pos, knotTag.getBoolean(ACTIVE), knotTag.getBoolean(IS_CORE), knotTag.getInt(RADIUS));
 		}
 
-		private NbtCompound writeNbt(){
+		public NbtCompound writeNbt() {
 			NbtCompound compound = new NbtCompound();
+			compound.put(KNOT_POS, NbtHelper.fromBlockPos(pos));
 			compound.putBoolean(ACTIVE, active);
-			compound.put(CENTER_POS, NbtHelper.fromBlockPos(root));
+			compound.putBoolean(IS_CORE, core);
 			compound.putInt(RADIUS, radius);
 			return compound;
 		}
 
-		private boolean revert(ServerWorld world) {
-			if (!blocks.hasNext()) {
-				return true;
-			}
-			BlockPos pos = blocks.next();
-			MiskatonicMysteriesAPI.setBiome(world, pos, world.getGeneratorStoredBiome(
-				BiomeCoords.fromBlock(pos.getX()),
-				BiomeCoords.fromBlock(pos.getY()),
-				BiomeCoords.fromBlock(pos.getZ())
-			));
-			return false;
+		public BlockPos getPos() {
+			return pos;
+		}
+
+		public int getRadius() {
+			return radius;
+		}
+
+		public boolean isActive() {
+			return active;
+		}
+
+		public boolean isCore() {
+			return core;
 		}
 	}
 }

@@ -1,27 +1,38 @@
-package com.miskatonicmysteries.api.item;
+package com.miskatonicmysteries.common.feature.item;
 
+import com.miskatonicmysteries.api.block.ObeliskBlock;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.Knowledge;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
+import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
 import vazkii.patchouli.api.PatchouliAPI;
 import vazkii.patchouli.common.base.PatchouliSounds;
 import vazkii.patchouli.common.book.Book;
@@ -51,13 +62,24 @@ public class MMBookItem extends Item implements Affiliated {
 			Knowledge.of(player).ifPresent(Knowledge::syncKnowledge);
 			if (special && !InsanityHandler.hasSanityCapExpansion(player, Constants.Misc.NECRONOMICON_EXTENSION)) {
 				Sanity.of(player).ifPresent(sanity -> sanity.addSanityCapExpansion(Constants.Misc.NECRONOMICON_EXTENSION, -10));
-
 			}
 			PatchouliAPI.get().openBookGUI((ServerPlayerEntity) player, book.id);
 			SoundEvent sfx = PatchouliSounds.getSound(book.openSound, PatchouliSounds.BOOK_OPEN);
 			player.playSound(sfx, 1.0F, (float) (0.7D + Math.random() * 0.4D));
 		}
 		return TypedActionResult.success(player.getStackInHand(hand));
+	}
+
+	@Override
+	public ActionResult useOnBlock(ItemUsageContext context) {
+		World world = context.getWorld();
+		BlockPos pos = context.getBlockPos();
+		BlockPattern blockPattern = ObeliskBlock.getHasturObeliskPattern();
+		BlockPattern.Result result = blockPattern.searchAround(world, pos);;
+		if (result == null || result.getUp() != Direction.EAST) {
+			return ActionResult.PASS;
+		}
+		return ObeliskBlock.buildObelisk(context, blockPattern, result);
 	}
 
 	@Environment(EnvType.CLIENT)

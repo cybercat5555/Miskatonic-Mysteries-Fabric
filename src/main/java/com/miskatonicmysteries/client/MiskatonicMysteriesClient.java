@@ -31,6 +31,7 @@ import com.miskatonicmysteries.client.render.ShaderHandler;
 import com.miskatonicmysteries.client.render.blockentity.AltarBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.ChemistrySetBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.MasterpieceStatueBlockRender;
+import com.miskatonicmysteries.client.render.blockentity.ObeliskBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
 import com.miskatonicmysteries.client.render.entity.*;
@@ -48,7 +49,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.ModifyBlessi
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.OpenSpellEditorPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomePacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeReversionPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBlessingsPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncHeldEntityPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncKnowledgePacket;
@@ -145,6 +146,9 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		BlockEntityRendererRegistry.INSTANCE
 			.register(MMObjects.MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE,
 				MasterpieceStatueBlockRender::new);
+		BlockEntityRendererRegistry.INSTANCE
+			.register(MMObjects.HASTUR_OBELISK_BLOCK_ENTITY_TYPE,
+				ObeliskBlockRender::new);
 	}
 
 	private void registerEntityRenderers() {
@@ -231,7 +235,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		ClientPlayNetworking
 			.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
 		ClientPlayNetworking
-			.registerGlobalReceiver(SyncBiomePacket.ID, SyncBiomePacket::handle);
+			.registerGlobalReceiver(SyncBiomeReversionPacket.ID, SyncBiomeReversionPacket::handle);
 		ClientPlayNetworking
 			.registerGlobalReceiver(SyncBlessingsPacket.ID, SyncBlessingsPacket::handle);
 		ClientPlayNetworking

@@ -1,12 +1,12 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
-import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
+import com.miskatonicmysteries.common.util.BiomeUtil;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Function;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
@@ -15,11 +15,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.source.BiomeCoords;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.system.CallbackI.S;
 
 public class BiomeConversionRite extends AscensionLockedRite {
-	private static final int RUNNING_TIME = 24000;
-	private static final int RANGE = 64;
+	private static final int RUNNING_TIME = 24000 / 60;
+	private static final int RANGE = 16;
 	private static final int INTERVAL = RUNNING_TIME / RANGE;
 	private final Function<World, Optional<RegistryEntry<Biome>>> biomeSupplier;
 
@@ -47,16 +49,11 @@ public class BiomeConversionRite extends AscensionLockedRite {
 		if (octagram.tickCount <= RUNNING_TIME && octagram.tickCount % INTERVAL == 0) {
 			int radius = getRadius(octagram);
 			biomeSupplier.apply(octagram.getWorld()).ifPresent(biome -> {
-				MiskatonicMysteriesAPI.spreadMaskedBiome(octagram.getWorld(), octagram.getPos(), radius, biome);
+				spreadBiome(octagram.getWorld(), octagram.getPos(), radius, biome);
 			});
-		}
-	}
-
-	@Override
-	public void onCancelled(OctagramBlockEntity octagram) {
-		super.onCancelled(octagram);
-		if (octagram.getWorld() instanceof ServerWorld serverWorld) {
-			MMDimensionalWorldState.get(serverWorld).deactivateKnot(octagram.getPos());
+			if (octagram.getWorld() instanceof ServerWorld serverWorld) {
+				MMDimensionalWorldState.get(serverWorld).setBiomeKnot(octagram.getPos(), radius * 4, true, true);
+			}
 		}
 	}
 
@@ -65,7 +62,37 @@ public class BiomeConversionRite extends AscensionLockedRite {
 	}
 
 	@Override
+	public void onCancelled(OctagramBlockEntity octagram) {
+		super.onCancelled(octagram);
+		if (octagram.getWorld() instanceof ServerWorld serverWorld) {
+			MMDimensionalWorldState.get(serverWorld).setBiomeKnot(octagram.getPos(), getRadius(octagram) * 4, false, true);
+		}
+	}
+
+	@Override
 	public boolean isPermanent(OctagramBlockEntity octagram) {
 		return true;
+	}
+
+	public static void spreadBiome(World world, BlockPos root, int radius, RegistryEntry<Biome> biome) {
+		double radiusPower = Math.pow(radius, 2);
+		double minimumRadius = Math.pow(radius, 2) - 32;
+		List<BlockPos> changedBlocks = new ArrayList<>();
+		int biomeX = BiomeCoords.fromBlock(root.getX());
+		int biomeY = BiomeCoords.fromBlock(root.getY());
+		int biomeZ = BiomeCoords.fromBlock(root.getZ());
+		for (int x = -radius; x < radius; x++) {
+			for (int z = -radius; z < radius; z++) {
+				for (int y = -radius; y < radius; y++) {
+					BlockPos changedPos = root.add(x * 4, y * 4, z * 4);
+					double sqD = x * x + y * y + z * z;
+					if (sqD <= radiusPower && sqD > minimumRadius) {
+						BiomeUtil.setBiome(world, world.getWorldChunk(changedPos), biomeX + x, biomeY + y, biomeZ + z, biome);
+						changedBlocks.add(changedPos);
+					}
+				}
+			}
+		}
+		BiomeUtil.updateBiomeColor(world, changedBlocks);
 	}
 }

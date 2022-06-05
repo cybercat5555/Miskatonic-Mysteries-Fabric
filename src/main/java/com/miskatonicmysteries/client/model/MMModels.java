@@ -46,6 +46,8 @@ public class MMModels {
 	public static final EntityModelLayer SHUB_STATUE = create("shub_statue");
 	public static final EntityModelLayer YOGSOTHOTH_STATUE = create("yogsothoth_statue");
 	public static final EntityModelLayer MASTERPIECE_STATUE = create("masterpiece_statue");
+
+	public static final EntityModelLayer HASTUR_OBELISK = create("hastur_obelisk");
 	public static final Map<Affiliation, Function<BlockEntityRendererFactory.Context, StatueModel>> STATUE_MODELS =
 		new HashMap<>();
 
@@ -72,6 +74,8 @@ public class MMModels {
 		EntityModelLayerRegistry.registerModelLayer(YOGSOTHOTH_STATUE, YogsothothStatueModel::getTexturedModelData);
 
 		EntityModelLayerRegistry.registerModelLayer(MASTERPIECE_STATUE, MasterpieceStatueModel::getTexturedModelData);
+
+		EntityModelLayerRegistry.registerModelLayer(HASTUR_OBELISK, HasturObeliskModel::getTexturedModelData);
 
 		registerStatueModel(MMAffiliations.CTHULHU,
 			(ctx) -> new CthulhuStatueModel(ctx.getLayerModelPart(CTHULHU_STATUE)));
