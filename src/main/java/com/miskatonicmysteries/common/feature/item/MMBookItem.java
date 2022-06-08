@@ -1,23 +1,22 @@
 package com.miskatonicmysteries.common.feature.item;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.block.ObeliskBlock;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.Knowledge;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
-import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.util.Constants;
 import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -32,7 +31,6 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldEvents;
 import vazkii.patchouli.api.PatchouliAPI;
 import vazkii.patchouli.common.base.PatchouliSounds;
 import vazkii.patchouli.common.book.Book;
@@ -74,12 +72,16 @@ public class MMBookItem extends Item implements Affiliated {
 	public ActionResult useOnBlock(ItemUsageContext context) {
 		World world = context.getWorld();
 		BlockPos pos = context.getBlockPos();
-		BlockPattern blockPattern = ObeliskBlock.getHasturObeliskPattern();
-		BlockPattern.Result result = blockPattern.searchAround(world, pos);;
-		if (result == null || result.getUp() != Direction.EAST) {
-			return ActionResult.PASS;
+		if (MiskatonicMysteriesAPI.getNonNullAffiliation(context.getPlayer(), false) == MMAffiliations.HASTUR
+			&& MiskatonicMysteriesAPI.getAscensionStage(context.getPlayer()) >= HasturAscensionHandler.END_STAGE) {
+			BlockPattern blockPattern = ObeliskBlock.getHasturObeliskPattern();
+			BlockPattern.Result result = blockPattern.searchAround(world, pos);
+			if (result == null || result.getUp() != Direction.EAST) {
+				return ActionResult.PASS;
+			}
+			return ObeliskBlock.buildObelisk(context, blockPattern, result);
 		}
-		return ObeliskBlock.buildObelisk(context, blockPattern, result);
+		return ActionResult.PASS;
 	}
 
 	@Environment(EnvType.CLIENT)

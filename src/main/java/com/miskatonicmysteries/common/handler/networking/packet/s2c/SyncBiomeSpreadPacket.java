@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
+import com.miskatonicmysteries.common.feature.recipe.rite.BiomeConversionRite;
 import com.miskatonicmysteries.common.util.BiomeUtil;
 import com.miskatonicmysteries.common.util.Constants;
 import io.netty.buffer.Unpooled;
@@ -17,34 +18,31 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 
-public class SyncBiomeReversionPacket {
+public class SyncBiomeSpreadPacket {
 
-	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_biome_reversion");
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_biome_spread");
 
-	public static void send(ServerPlayerEntity player, List<BlockPos> poses) {
+	public static void send(ServerPlayerEntity player, BlockPos root, int biomeId, int radius) {
 		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-		data.writeInt(poses.size());
-		for (BlockPos pos : poses) {
-			data.writeBlockPos(pos);
-		}
+		data.writeBlockPos(root);
+		data.writeInt(biomeId);
+		data.writeInt(radius);
 		ServerPlayNetworking.send(player, ID, data);
 	}
 
 	@Environment(EnvType.CLIENT)
 	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
 		if (client.world != null) {
-			List<BlockPos> poses = new ArrayList<>();
-			int size = packetByteBuf.readInt();
-			for (int i = 0; i < size; i++) {
-				poses.add(packetByteBuf.readBlockPos());
-			}
-			client.execute(() -> {
-				for (BlockPos pos : poses) {
-					BiomeUtil.revertBiome(client.world, pos);
-				}
-				BiomeUtil.updateBiomeColor(client.world, poses);
+			BlockPos root = packetByteBuf.readBlockPos();
+			int biomeId = packetByteBuf.readInt();
+			int radius = packetByteBuf.readInt();
+			client.world.getRegistryManager().get(Registry.BIOME_KEY).getEntry(biomeId).ifPresent(entry -> {
+				client.execute(() -> {
+					BiomeConversionRite.spreadBiome(client.world, root, radius, entry);
+				});
 			});
 		}
 	}

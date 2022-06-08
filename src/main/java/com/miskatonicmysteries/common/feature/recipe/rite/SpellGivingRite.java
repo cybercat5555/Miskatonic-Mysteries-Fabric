@@ -37,7 +37,7 @@ public class SpellGivingRite extends AscensionLockedRite {
 		if (super.canCast(octagram)) {
 			Optional<SpellCaster> caster = SpellCaster.of(octagram.getOriginalCaster());
 			if (caster.isPresent() && caster.get().getLearnedEffects().contains(grantedEffect)) {
-				octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.spell_rite_fail"), true);
+				octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.spell"), true);
 				return false;
 			}
 			return true;

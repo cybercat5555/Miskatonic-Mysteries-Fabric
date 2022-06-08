@@ -70,7 +70,6 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 	private final AnimationFactory factory = new AnimationFactory(this);
 	@Nullable
 	public Spell currentSpell;
-
 	public LivingEntity blessTarget;
 
 	public TatteredPrinceEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
@@ -128,15 +127,20 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 				}
 			}
 		}
+		if (getBlessingTicks() > 0) {
+			decreaseBlessingTicks();
+		}
 		bossBar.setPercent(getHealth() / getMaxHealth());
 	}
 
 	@Override
 	public void tick() {
-		if (world.isClient && getBlessingTicks() > 0) {
-			Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, getYaw(), 0);
-			world.addParticle(MMParticles.AMBIENT, pos.x + random.nextGaussian() * 1.5F, pos.y + 2 + random.nextFloat() * 1.5F,
-				pos.z + random.nextGaussian() * 1.5F, 1, random.nextFloat(), 0);
+		if (world.isClient) {
+			if (getBlessingTicks() > 0 && getBlessTarget() != null) {
+				Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, getYaw(), 0);
+				world.addParticle(MMParticles.AMBIENT, pos.x + random.nextGaussian() * 1.5F, pos.y + 2 + random.nextFloat() * 1.5F,
+					pos.z + random.nextGaussian() * 1.5F, 1, random.nextFloat(), 0);
+			}
 		}
 		super.tick();
 	}
@@ -396,7 +400,6 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 			target.setVelocity(motionVec);
 			target.velocityModified = true;
 			target.velocityDirty = true;
-			decreaseBlessingTicks();
 			if (getBlessingTicks() <= 0) {
 				HasturAscensionHandler.blessThroughPrince(getBlessTarget(), TatteredPrinceEntity.this);
 			}

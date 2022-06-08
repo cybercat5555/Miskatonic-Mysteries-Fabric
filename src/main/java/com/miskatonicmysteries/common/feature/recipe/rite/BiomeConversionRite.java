@@ -23,7 +23,7 @@ public class BiomeConversionRite extends AscensionLockedRite {
 	private static final int RUNNING_TIME = 24000 / 60;
 	private static final int RANGE = 16;
 	private static final int INTERVAL = RUNNING_TIME / RANGE;
-	private final Function<World, Optional<RegistryEntry<Biome>>> biomeSupplier;
+	protected final Function<World, Optional<RegistryEntry<Biome>>> biomeSupplier;
 
 	public BiomeConversionRite(Identifier id, @Nullable Affiliation octagram, Function<World, Optional<RegistryEntry<Biome>>> biomeSupplier, String knowledge,
 		int stage, Ingredient... ingredients) {
@@ -46,7 +46,11 @@ public class BiomeConversionRite extends AscensionLockedRite {
 	@Override
 	public void tick(OctagramBlockEntity octagram) {
 		super.tick(octagram);
-		if (octagram.tickCount <= RUNNING_TIME && octagram.tickCount % INTERVAL == 0) {
+		biomeSpreadTick(octagram, octagram.tickCount);
+	}
+
+	protected void biomeSpreadTick(OctagramBlockEntity octagram, int tickCount) {
+		if (tickCount <= RUNNING_TIME && tickCount % INTERVAL == 0) {
 			int radius = getRadius(octagram);
 			biomeSupplier.apply(octagram.getWorld()).ifPresent(biome -> {
 				spreadBiome(octagram.getWorld(), octagram.getPos(), radius, biome);
@@ -57,7 +61,7 @@ public class BiomeConversionRite extends AscensionLockedRite {
 		}
 	}
 
-	private int getRadius(OctagramBlockEntity octagram) {
+	protected int getRadius(OctagramBlockEntity octagram) {
 		return Math.min(octagram.tickCount / INTERVAL, RANGE);
 	}
 
@@ -76,7 +80,6 @@ public class BiomeConversionRite extends AscensionLockedRite {
 
 	public static void spreadBiome(World world, BlockPos root, int radius, RegistryEntry<Biome> biome) {
 		double radiusPower = Math.pow(radius, 2);
-		double minimumRadius = Math.pow(radius, 2) - 32;
 		List<BlockPos> changedBlocks = new ArrayList<>();
 		int biomeX = BiomeCoords.fromBlock(root.getX());
 		int biomeY = BiomeCoords.fromBlock(root.getY());
@@ -86,7 +89,7 @@ public class BiomeConversionRite extends AscensionLockedRite {
 				for (int y = -radius; y < radius; y++) {
 					BlockPos changedPos = root.add(x * 4, y * 4, z * 4);
 					double sqD = x * x + y * y + z * z;
-					if (sqD <= radiusPower && sqD > minimumRadius) {
+					if (sqD <= radiusPower) {
 						BiomeUtil.setBiome(world, world.getWorldChunk(changedPos), biomeX + x, biomeY + y, biomeZ + z, biome);
 						changedBlocks.add(changedPos);
 					}

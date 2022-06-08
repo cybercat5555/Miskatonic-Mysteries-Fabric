@@ -37,12 +37,12 @@ public abstract class AscensionLockedRite extends Rite {
 				Ascendant ascendant = Ascendant.of(octagram.getOriginalCaster()).get();
 				if (ascensionAffiliation != null && !ascensionAffiliation
 					.equals(MiskatonicMysteriesAPI.getNonNullAffiliation(octagram.getOriginalCaster(), false))) {
-					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.ascension_path_fail"), true);
+					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.ascension_path"), true);
 					return false;
 				}
 				if (ascendant.getAscensionStage() < stage) {
 					octagram.getOriginalCaster()
-						.sendMessage(new TranslatableText("message.miskatonicmysteries.ascension_stage_fail"), true);
+						.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.ascension_stage"), true);
 					return false;
 				}
 			}

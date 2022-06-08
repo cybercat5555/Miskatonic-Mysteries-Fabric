@@ -57,10 +57,9 @@ public class Constants {
 		public static final TagKey<Block> WEAK_STABILIZERS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "weak_stabilizers"));
 		public static final TagKey<Block> STRONG_STABILIZERS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "strong_stabilizers"));
 
-		public static final TagKey<Block> ELDERIAN_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "elderian_blocks"));
-		public static final TagKey<Block> ELDERIAN_SLABS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "elderian_slabs"));
-		public static final TagKey<Block> ELDERIAN_STAIRS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "elderian_stairs"));
-		public static final TagKey<Block> ELDERIAN_WALLS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "elderian_walls"));
+		public static final TagKey<Block> PILLAR_BOTTOM = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "pillar_bottom"));
+		public static final TagKey<Block> PILLAR_MIDDLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "pillar_middle"));
+		public static final TagKey<Block> PILLAR_TOP = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "pillar_top"));
 
 
 		public static final TagKey<Item> RED_MEAT = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "red_meat"));

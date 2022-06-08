@@ -53,12 +53,12 @@ public class MasterpieceRite extends TriggeredRite {
 			if (Ascendant.of(octagram.getOriginalCaster()).isPresent()) {
 				Ascendant ascendant = Ascendant.of(octagram.getOriginalCaster()).get();
 				if (!MMAffiliations.HASTUR.equals(MiskatonicMysteriesAPI.getNonNullAffiliation(octagram.getOriginalCaster(), false))) {
-					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.ascension_path_fail"), true);
+					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.ascension_path"), true);
 					return false;
 				}
 				if (ascendant.getAscensionStage() < 2) {
 					octagram.getOriginalCaster()
-						.sendMessage(new TranslatableText("message.miskatonicmysteries.ascension_stage_fail"), true);
+						.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.ascension_stage"), true);
 					return false;
 				}
 			}

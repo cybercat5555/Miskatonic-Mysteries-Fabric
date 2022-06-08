@@ -16,6 +16,7 @@ import com.miskatonicmysteries.common.registry.MMCriteria;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.Constants.Tags;
 import com.mojang.datafixers.util.Pair;
 import java.util.HashSet;
 import java.util.List;
@@ -63,7 +64,8 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	public Entity targetedEntity = null;
 	private float instability;
 	/**
-	 * Octagram flags may be used by Rites Reserved flags: 0 - Bloody (has something been sacrificed nearby?)
+	 * Octagram flags may be used by Rites Reserved flags: 0 - Bloody (has something been sacrificed nearby?) 1 - Client Input (has a
+	 * ClientRiteInputPacket been sent?)
 	 */
 	private byte octagramFlags;
 
@@ -124,6 +126,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		targetedEntity = null;
 		permanentRiteActive = false;
 		setFlag(0, false);
+		setFlag(1, false);
 		clear(success);
 		sync(world, pos);
 		markDirty();
@@ -393,5 +396,26 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		if (world != null && !world.isClient) {
 			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
 		}
+	}
+
+	public boolean checkPillars(Affiliation affiliation) {
+		BlockPos[] pillarPoses = {pos.add(2, 0, 2), pos.add(-2, 0, 2), pos.add(-2, 0, -2), pos.add(2, 0, -2)};
+		for (BlockPos pillar : pillarPoses) {
+			if (!world.getBlockState(pillar).isIn(Tags.PILLAR_BOTTOM)) {
+				return false;
+			}
+			BlockState middleBlock = world.getBlockState(pillar.up(1));
+			if (!middleBlock.isIn(Tags.PILLAR_MIDDLE) && middleBlock.getBlock() instanceof Affiliated a
+				&& a.getAffiliation(false) != affiliation) {
+				return false;
+			}
+
+			BlockState topBlock = world.getBlockState(pillar.up(2));
+			if (!topBlock.isIn(Tags.PILLAR_TOP) && topBlock.getBlock() instanceof Affiliated a
+				&& a.getAffiliation(false) != affiliation) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

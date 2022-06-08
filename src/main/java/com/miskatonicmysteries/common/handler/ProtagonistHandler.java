@@ -22,6 +22,7 @@ public class ProtagonistHandler {
 				ProtagonistEntity protagonist = new ProtagonistEntity(MMEntities.PROTAGONIST, world);
 				protagonist.setPosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
 				protagonist.setTargetUUID(player.getUuid());
+				protagonist.setTarget(player);
 				protagonist.setData(data);
 				protagonist.initialize(world, world.getLocalDifficulty(pos), SpawnReason.EVENT, null, null);
 				data.spawned = true;
@@ -46,6 +47,7 @@ public class ProtagonistHandler {
 			ProtagonistEntity protagonist = new ProtagonistEntity(MMEntities.PROTAGONIST, world);
 			protagonist.setPosition(pos.getX() + 0.5D, pos.getY() + 1.0D, pos.getZ() + 0.5D);
 			protagonist.initialize(world, world.getLocalDifficulty(pos), SpawnReason.REINFORCEMENT, null, null);
+			protagonist.setTarget(player);
 			world.spawnEntity(protagonist);
 			protagonist.refreshPositionAndAngles(pos, 0, 0);
 			protagonist.getNavigation().startMovingTo(player, 1D);

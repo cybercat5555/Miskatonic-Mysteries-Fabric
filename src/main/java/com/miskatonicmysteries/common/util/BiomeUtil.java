@@ -10,6 +10,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -55,7 +56,7 @@ public class BiomeUtil {
 
 	public static void setBiome(World world, Chunk chunk, int biomeX, int biomeY, int biomeZ, RegistryEntry<Biome> biome) {
 		int sectionIndex = world.getSectionIndex(BiomeCoords.toBlock(biomeY));
-		if (sectionIndex < 0) {
+		if (sectionIndex < 0 || sectionIndex >= world.getTopSectionCoord()) {
 			return;
 		}
 		ChunkSection section = chunk.getSection(sectionIndex);

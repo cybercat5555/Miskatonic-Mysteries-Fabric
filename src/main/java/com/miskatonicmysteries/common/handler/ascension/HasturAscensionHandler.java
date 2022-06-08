@@ -24,11 +24,14 @@ import net.minecraft.world.World;
 
 public class HasturAscensionHandler {
 
+	public static final int ART_STAGE = 1;
 	public static final int SIGN_IMMUNITY_STAGE = 2;
 	public static final int GATHERING_STAGE = 2;
+	public static final int SIMULACRUM_STAGE = 3;
+	public static final int END_STAGE = 4;
 
 	public static boolean offerArtToCultist(PlayerEntity player, Hand hand, HasturCultistEntity entity) {
-		if (StatueBlock.isPlayerMade(player.getStackInHand(hand)) && MiskatonicMysteriesAPI.levelUp(player, 1,
+		if (StatueBlock.isPlayerMade(player.getStackInHand(hand)) && MiskatonicMysteriesAPI.levelUp(player, ART_STAGE,
 			MMAffiliations.HASTUR)) {
 			player.getStackInHand(hand).decrement(1);
 			entity.lookAtEntity(player, 40, 40);
@@ -46,7 +49,7 @@ public class HasturAscensionHandler {
 	}
 
 	public static void blessThroughPrince(LivingEntity blessTarget, TatteredPrinceEntity prince) {
-		if (blessTarget instanceof PlayerEntity && MiskatonicMysteriesAPI.levelUp((PlayerEntity) blessTarget, 2,
+		if (blessTarget instanceof PlayerEntity && MiskatonicMysteriesAPI.levelUp((PlayerEntity) blessTarget, GATHERING_STAGE,
 			MMAffiliations.HASTUR)) {
 			prince.playSound(MMSounds.MAGIC, 1, 1);
 			Vec3d pos = Util.getYawRelativePos(prince.getPos(), 3, prince.getYaw(), prince.getPitch());
@@ -85,8 +88,15 @@ public class HasturAscensionHandler {
 	}
 
 	public static void holdGoldenGathering(ServerPlayerEntity serverPlayerEntity, int partyPower) {
-		if (partyPower >= Party.PARTY_POWER_MAX && MiskatonicMysteriesAPI.levelUp(serverPlayerEntity, 3,
+		if (partyPower >= Party.PARTY_POWER_MAX && MiskatonicMysteriesAPI.levelUp(serverPlayerEntity, SIMULACRUM_STAGE,
 			MMAffiliations.HASTUR)) {
+			serverPlayerEntity.playSound(MMSounds.MAGIC, 1, 1);
+			MiskatonicMysteriesAPI.grantBlessing(serverPlayerEntity, MMAffiliations.HASTUR);
+		}
+	}
+
+	public static void levelSimulacrum(ServerPlayerEntity serverPlayerEntity) {
+		if (MiskatonicMysteriesAPI.levelUp(serverPlayerEntity, END_STAGE, MMAffiliations.HASTUR)) {
 			serverPlayerEntity.playSound(MMSounds.MAGIC, 1, 1);
 			MiskatonicMysteriesAPI.grantBlessing(serverPlayerEntity, MMAffiliations.HASTUR);
 		}

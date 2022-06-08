@@ -2,9 +2,11 @@ package com.miskatonicmysteries.common;
 
 import com.miskatonicmysteries.api.banner.MMBannerRegistry;
 import com.miskatonicmysteries.common.feature.ModCommand;
+import com.miskatonicmysteries.common.feature.recipe.rite.BiomeConversionRite;
 import com.miskatonicmysteries.common.handler.SchedulingHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.c2s.ClientRiteInputPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMBlessings;
@@ -65,5 +67,6 @@ public class MiskatonicMysteries implements ModInitializer {
 		ServerPlayNetworking.registerGlobalReceiver(InvokeManiaPacket.ID, InvokeManiaPacket::handle);
 		ServerPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, SyncSpellCasterDataPacket::handleFromClient);
 		ServerPlayNetworking.registerGlobalReceiver(SpellPacket.ID, SpellPacket::handleFromClient);
+		ServerPlayNetworking.registerGlobalReceiver(ClientRiteInputPacket.ID, ClientRiteInputPacket::handle);
 	}
 }

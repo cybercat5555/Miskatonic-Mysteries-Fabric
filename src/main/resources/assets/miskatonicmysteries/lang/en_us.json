@@ -201,9 +201,13 @@
   "message.miskatonicmysteries.needs_space": "This needs more space",
   "message.miskatonicmysteries.invalid_connection.self_reference": "The Octagram must bind with another one",
   "message.miskatonicmysteries.resonator_needs_energy": "The Resonator needs energy to run",
-  "message.miskatonicmysteries.ascension_path_fail": "Your path does not align with this",
-  "message.miskatonicmysteries.ascension_stage_fail": "You are not yet ready to cast this",
-  "message.miskatonicmysteries.spell_rite_fail": "You already know this spell effect",
+  "message.miskatonicmysteries.rite_fail.ascension_path": "Your path does not align with this",
+  "message.miskatonicmysteries.rite_fail.ascension_stage": "You are not yet ready to cast this",
+  "message.miskatonicmysteries.rite_fail.spell": "You already know this spell effect",
+  "message.miskatonicmysteries.rite_fail.serfs": "There are not enough Serfs nearby",
+  "message.miskatonicmysteries.rite_fail.prince": "You need a Tattered Prince nearby",
+  "message.miskatonicmysteries.rite_fail.knots": "Other active Simulacra hinder you from creating your own",
+  "message.miskatonicmysteries.rite_fail.pillars": "This Rite requires proper pillars",
   "message.miskatonicmysteries.rite_fail.knowledge": "You lack the knowledge to cast this",
   "message.miskatonicmysteries.summon_prince_fail.cultists": "This rite needs at least 4 loyal Serfs (%d nearby)",
   "message.miskatonicmysteries.new_blessing": "New Blessing: %s",
@@ -431,5 +435,7 @@
   "spell_effect.miskatonicmysteries.ignite": "Ignite",
   "spell_effect.miskatonicmysteries.harrow": "Harrow",
   "spell_effect.miskatonicmysteries.clairvoyance": "Clairvoyance",
-  "spell_effect.miskatonicmysteries.pulse": "Pulse"
+  "spell_effect.miskatonicmysteries.pulse": "Pulse",
+  "comment16": "TEXT",
+  "text.miskatonicmysteries.sudoku_info": "Solve the Sudoku! <br>Click the spaces within the board to cycle through different glyphs. <br>Try filling every row, column and section with unique glyphs!"
 }

@@ -34,7 +34,18 @@ import com.miskatonicmysteries.client.render.blockentity.MasterpieceStatueBlockR
 import com.miskatonicmysteries.client.render.blockentity.ObeliskBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
-import com.miskatonicmysteries.client.render.entity.*;
+import com.miskatonicmysteries.client.render.entity.BoltEntityRenderer;
+import com.miskatonicmysteries.client.render.entity.ByakheeEntityRenderer;
+import com.miskatonicmysteries.client.render.entity.FeasterEntityRenderer;
+import com.miskatonicmysteries.client.render.entity.GenericTentacleEntityRenderer;
+import com.miskatonicmysteries.client.render.entity.HallucinationRenderer;
+import com.miskatonicmysteries.client.render.entity.HarrowEntityRenderer;
+import com.miskatonicmysteries.client.render.entity.HasturCultistEntityRender;
+import com.miskatonicmysteries.client.render.entity.PhantasmaEntityRenderer;
+import com.miskatonicmysteries.client.render.entity.ProtagonistEntityRender;
+import com.miskatonicmysteries.client.render.entity.SpellProjectileEntityRenderer;
+import com.miskatonicmysteries.client.render.entity.TatteredPrinceRenderer;
+import com.miskatonicmysteries.client.render.entity.TindalosHoundEntityRenderer;
 import com.miskatonicmysteries.client.render.equipment.CultistRobesArmorRenderer;
 import com.miskatonicmysteries.client.render.equipment.MaskTrinketRenderer;
 import com.miskatonicmysteries.client.vision.VisionHandler;
@@ -50,6 +61,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.OpenSpellEdi
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeReversionPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeSpreadPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBlessingsPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncHeldEntityPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncKnowledgePacket;
@@ -118,57 +130,37 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 	}
 
 	private void registerBlockRenderers() {
-		BlockRenderLayerMap.INSTANCE
-			.putBlock(MMObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());
+		BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.CHEMISTRY_SET, RenderLayer.getTranslucent());
 		BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.RESONATOR, RenderLayer.getTranslucent());
 		BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.POWER_CELL, RenderLayer.getTranslucent());
-		AltarBlock.ALTARS
-			.forEach(
-				block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
-		OctagramBlock.OCTAGRAMS.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block,
-			RenderLayer.getCutout()));
-		StatueBlock.STATUES
-			.forEach(
-				block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
+		AltarBlock.ALTARS.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
+		OctagramBlock.OCTAGRAMS.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
+		StatueBlock.STATUES.forEach(block -> BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout()));
 		BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.WARDING_MARK, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.YELLOW_SIGN, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE
-			.putBlock(MMObjects.INFESTED_WHEAT_CROP, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.INFESTED_WHEAT_CROP, RenderLayer.getCutout());
 
-		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE,
-			ChemistrySetBlockRender::new);
-		BlockEntityRendererRegistry.INSTANCE
-			.register(MMObjects.ALTAR_BLOCK_ENTITY_TYPE, AltarBlockRender::new);
-		BlockEntityRendererRegistry.INSTANCE
-			.register(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, OctagramBlockRender::new);
-		BlockEntityRendererRegistry.INSTANCE
-			.register(MMObjects.STATUE_BLOCK_ENTITY_TYPE, StatueBlockRender::new);
-		BlockEntityRendererRegistry.INSTANCE
-			.register(MMObjects.MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE,
-				MasterpieceStatueBlockRender::new);
-		BlockEntityRendererRegistry.INSTANCE
-			.register(MMObjects.HASTUR_OBELISK_BLOCK_ENTITY_TYPE,
-				ObeliskBlockRender::new);
+		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE, ChemistrySetBlockRender::new);
+		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.ALTAR_BLOCK_ENTITY_TYPE, AltarBlockRender::new);
+		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, OctagramBlockRender::new);
+		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.STATUE_BLOCK_ENTITY_TYPE, StatueBlockRender::new);
+		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE, MasterpieceStatueBlockRender::new);
+		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.HASTUR_OBELISK_BLOCK_ENTITY_TYPE, ObeliskBlockRender::new);
 	}
 
 	private void registerEntityRenderers() {
 		EntityRendererRegistry.register(MMEntities.PROTAGONIST, ProtagonistEntityRender::new);
 		EntityRendererRegistry.register(MMEntities.HASTUR_CULTIST, HasturCultistEntityRender::new);
-		EntityRendererRegistry
-			.register(MMEntities.SPELL_PROJECTILE, SpellProjectileEntityRenderer::new);
+		EntityRendererRegistry.register(MMEntities.SPELL_PROJECTILE, SpellProjectileEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.BOLT, BoltEntityRenderer::new);
-		EntityRendererRegistry.register(MMEntities.PHANTASMA,
-			(context) -> new PhantasmaEntityRenderer(context, new PhantasmaModel()));
-		EntityRendererRegistry.register(MMEntities.ABERRATION,
-			(context) -> new PhantasmaEntityRenderer(context, new AberrationModel()));
+		EntityRendererRegistry.register(MMEntities.PHANTASMA, (context) -> new PhantasmaEntityRenderer(context, new PhantasmaModel()));
+		EntityRendererRegistry.register(MMEntities.ABERRATION, (context) -> new PhantasmaEntityRenderer(context, new AberrationModel()));
 		EntityRendererRegistry.register(MMEntities.TATTERED_PRINCE, TatteredPrinceRenderer::new);
-		EntityRendererRegistry
-			.register(MMEntities.GENERIC_TENTACLE, GenericTentacleEntityRenderer::new);
+		EntityRendererRegistry.register(MMEntities.GENERIC_TENTACLE, GenericTentacleEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.HARROW, HarrowEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.BYAKHEE, ByakheeEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.HALLUCINATION, HallucinationRenderer::new);
-		EntityRendererRegistry
-			.register(MMEntities.TINDALOS_HOUND, TindalosHoundEntityRenderer::new);
+		EntityRendererRegistry.register(MMEntities.TINDALOS_HOUND, TindalosHoundEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.FEASTER, FeasterEntityRenderer::new);
 	}
 
@@ -185,87 +177,57 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 	}
 
 	private void registerPackets() {
-		ClientPlayNetworking
-			.registerGlobalReceiver(ExpandSanityPacket.ID, ExpandSanityPacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(RemoveExpansionPacket.ID, RemoveExpansionPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(ExpandSanityPacket.ID, ExpandSanityPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(RemoveExpansionPacket.ID, RemoveExpansionPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SpellPacket.ID, SpellPacket::handle);
-		ClientPlayNetworking.registerGlobalReceiver(MobSpellPacket.ID,
-			(client, networkHandler, packetByteBuf, sender) -> {
-				Entity mob = client.world.getEntityById(packetByteBuf.readInt());
-				Entity target = client.world.getEntityById(packetByteBuf.readInt());
-				SpellEffect effect = MMRegistries.SPELL_EFFECTS.get(packetByteBuf.readIdentifier());
-				int intensity = packetByteBuf.readInt();
-				client.execute(() -> {
-					if (mob instanceof MobEntity && target instanceof LivingEntity) {
-						effect.effect(client.world, (MobEntity) mob, target, target
-								.getPos(), MMSpellMediums.MOB_TARGET,
-							intensity, mob);
-					}
-				});
-			});
-		ClientPlayNetworking
-			.registerGlobalReceiver(InsanityEventPacket.ID, (client, networkHandler, packetByteBuf,
-				sender) -> {
-				Identifier id = packetByteBuf.readIdentifier();
-				if (client.player != null) {
-					client.execute(() -> MMRegistries.INSANITY_EVENTS.get(id).execute(client.player,
-						(Sanity) client.player));
+		ClientPlayNetworking.registerGlobalReceiver(MobSpellPacket.ID, (client, networkHandler, packetByteBuf, sender) -> {
+			Entity mob = client.world.getEntityById(packetByteBuf.readInt());
+			Entity target = client.world.getEntityById(packetByteBuf.readInt());
+			SpellEffect effect = MMRegistries.SPELL_EFFECTS.get(packetByteBuf.readIdentifier());
+			int intensity = packetByteBuf.readInt();
+			client.execute(() -> {
+				if (mob instanceof MobEntity && target instanceof LivingEntity) {
+					effect.effect(client.world, (MobEntity) mob, target, target.getPos(), MMSpellMediums.MOB_TARGET, intensity, mob);
 				}
 			});
-		ClientPlayNetworking
-			.registerGlobalReceiver(EffectParticlePacket.ID, EffectParticlePacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(BloodParticlePacket.ID, BloodParticlePacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, (client, networkHandler,
-				packetByteBuf, sender) -> {
-				NbtCompound tag = packetByteBuf.readNbt();
-				client.execute(
-					() -> SpellCaster.of(client.player)
-						.ifPresent(caster -> NbtUtil.readSpellData(caster,
-							tag)));
-			});
-		ClientPlayNetworking
-			.registerGlobalReceiver(OpenSpellEditorPacket.ID,
-				(client, networkHandler, packetByteBuf,
-					sender) -> client
-					.execute(
-						() -> client.setScreen(new EditSpellScreen((SpellCaster) client.player))));
-		ClientPlayNetworking
-			.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(SyncBiomeReversionPacket.ID, SyncBiomeReversionPacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(SyncBlessingsPacket.ID, SyncBlessingsPacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(SyncKnowledgePacket.ID, SyncKnowledgePacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(ModifyBlessingPacket.ID, ModifyBlessingPacket::handle);
+		});
+		ClientPlayNetworking.registerGlobalReceiver(InsanityEventPacket.ID, (client, networkHandler, packetByteBuf, sender) -> {
+			Identifier id = packetByteBuf.readIdentifier();
+			if (client.player != null) {
+				client.execute(() -> MMRegistries.INSANITY_EVENTS.get(id).execute(client.player, (Sanity) client.player));
+			}
+		});
+		ClientPlayNetworking.registerGlobalReceiver(EffectParticlePacket.ID, EffectParticlePacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(BloodParticlePacket.ID, BloodParticlePacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, (client, networkHandler, packetByteBuf, sender) -> {
+			NbtCompound tag = packetByteBuf.readNbt();
+			client.execute(() -> SpellCaster.of(client.player).ifPresent(caster -> NbtUtil.readSpellData(caster, tag)));
+		});
+		ClientPlayNetworking.registerGlobalReceiver(OpenSpellEditorPacket.ID, (client, networkHandler, packetByteBuf, sender) ->
+				client.execute(() -> client.setScreen(new EditSpellScreen((SpellCaster) client.player))));
+		ClientPlayNetworking.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SyncBiomeReversionPacket.ID, SyncBiomeReversionPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SyncBiomeSpreadPacket.ID, SyncBiomeSpreadPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SyncBlessingsPacket.ID, SyncBlessingsPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SyncKnowledgePacket.ID, SyncKnowledgePacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(ModifyBlessingPacket.ID, ModifyBlessingPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SoundPacket.ID, SoundPacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(SyncRiteTargetPacket.ID, SyncRiteTargetPacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(SyncHeldEntityPacket.ID, SyncHeldEntityPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SyncRiteTargetPacket.ID, SyncRiteTargetPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SyncHeldEntityPacket.ID, SyncHeldEntityPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(VisionPacket.ID, VisionPacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(KnowledgeToastPacket.ID, KnowledgeToastPacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(SpellEffectToastPacket.ID, SpellEffectToastPacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(SpellMediumToastPacket.ID, SpellMediumToastPacket::handle);
-		ClientPlayNetworking
-			.registerGlobalReceiver(BlessingToastPacket.ID, BlessingToastPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(KnowledgeToastPacket.ID, KnowledgeToastPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SpellEffectToastPacket.ID, SpellEffectToastPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SpellMediumToastPacket.ID, SpellMediumToastPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(BlessingToastPacket.ID, BlessingToastPacket::handle);
 	}
 
 	private void registerArmorRenderers() {
-		ArmorRenderer.register(new CultistRobesArmorRenderer(new Identifier(Constants.MOD_ID,
-				"textures/model/armor" + "/yellow_robes.png")), MMObjects.YELLOW_HOOD,
-			MMObjects.YELLOW_ROBE,
-			MMObjects.YELLOW_SKIRT);
-		ArmorRenderer.register(new CultistRobesArmorRenderer(new Identifier(Constants.MOD_ID,
-				"textures/model/armor" + "/dark_robes.png")), MMObjects.DARK_HOOD, MMObjects.DARK_ROBE,
-			MMObjects.DARK_SKIRT);
+		ArmorRenderer.register(new CultistRobesArmorRenderer(
+			new Identifier(Constants.MOD_ID, "textures/model/armor" + "/yellow_robes.png")),
+			MMObjects.YELLOW_HOOD, MMObjects.YELLOW_ROBE, MMObjects.YELLOW_SKIRT);
+		ArmorRenderer.register(new CultistRobesArmorRenderer(
+			new Identifier(Constants.MOD_ID, "textures/model/armor" + "/dark_robes.png")),
+			MMObjects.DARK_HOOD, MMObjects.DARK_ROBE, MMObjects.DARK_SKIRT);
 	}
 
 	private void registerParticleFactories() {

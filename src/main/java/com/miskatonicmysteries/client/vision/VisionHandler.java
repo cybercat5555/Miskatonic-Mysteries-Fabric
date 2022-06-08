@@ -22,8 +22,8 @@ public class VisionHandler {
 		register(new Identifier(Constants.MOD_ID, "hastur_mania_0"), new HasturManiaVision(0));
 		register(new Identifier(Constants.MOD_ID, "hastur_mania_1"), new HasturManiaVision(1));
 		register(new Identifier(Constants.MOD_ID, "hastur_mania_2"), new HasturManiaVision(2));
+		register(new Identifier(Constants.MOD_ID, "fade_to_black"), new FadeToBlackVision());
 		HudRenderCallback.EVENT.register(VisionHandler::tick);
-		//proper render event registry
 	}
 
 	private static void tick(MatrixStack stack, float tickDelta) {
