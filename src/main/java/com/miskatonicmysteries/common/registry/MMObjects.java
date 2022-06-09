@@ -8,6 +8,7 @@ import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.item.BlessedSwordItem;
 import com.miskatonicmysteries.api.item.ChalkItem;
+import com.miskatonicmysteries.common.feature.item.InfestedWheatItem;
 import com.miskatonicmysteries.common.feature.item.MMBookItem;
 import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.feature.block.ChemistrySetBlock;
@@ -280,7 +281,7 @@ public class MMObjects {
 
 	public static final Item SYRINGE = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
-	public static final Item INFESTED_WHEAT = new Item(new Item.Settings().group(Constants.MM_GROUP));
+	public static final Item INFESTED_WHEAT = new InfestedWheatItem();
 
 	public static final Item BLOTTER = new BlotterItem(false);
 	public static final Item BLOTTER_POTENT = new BlotterItem(true);
