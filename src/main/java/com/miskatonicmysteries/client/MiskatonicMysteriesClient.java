@@ -78,8 +78,10 @@ import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.Constants.Tags;
 import com.miskatonicmysteries.common.util.NbtUtil;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
+import java.nio.file.Path;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -91,6 +93,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
@@ -99,9 +102,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.stat.Stat;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import vazkii.patchouli.api.PatchouliAPI;
+import vazkii.patchouli.common.multiblock.DenseMultiblock;
+import vazkii.patchouli.common.multiblock.SparseMultiblock;
+import vazkii.patchouli.common.multiblock.StateMatcher;
 
 @Environment(EnvType.CLIENT)
 public class MiskatonicMysteriesClient implements ClientModInitializer {
@@ -279,6 +286,32 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 					: "")
 				.orElse("");
 		});
+		PatchouliAPI.get().registerMultiblock(new Identifier(Constants.MOD_ID, "pillar"), new DenseMultiblock(new String[][] {
+			{
+				"S___S",
+				"_____",
+				"_____",
+				"_____",
+				"S___S"
+			},
+			{
+				"M___M",
+				"_____",
+				"_____",
+				"_____",
+				"M___M"
+			},
+			{
+				"B___B",
+				"_____",
+				"__0__",
+				"_____",
+				"B___B"
+			},
+		}, 'B', StateMatcher.fromPredicate(Blocks.STONE_BRICKS, state -> state.isIn(Tags.PILLAR_BOTTOM)),
+			'M', StateMatcher.fromPredicate(MMObjects.STONE_HASTUR_MURAL, state -> state.isIn(Tags.PILLAR_MIDDLE)),
+			'S', StateMatcher.fromPredicate(MMObjects.HASTUR_STATUE_STONE, state -> state.isIn(Tags.PILLAR_TOP)),
+			'0', MMObjects.HASTUR_OCTAGRAM));
 	}
 
 	private void registerTrinketRenderers() {

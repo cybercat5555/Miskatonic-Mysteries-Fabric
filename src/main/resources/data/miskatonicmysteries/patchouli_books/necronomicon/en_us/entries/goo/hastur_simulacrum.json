@@ -1,0 +1,52 @@
+{
+  "name": "Simulacrum of Carcosa",
+  "category": "miskatonicmysteries:great_old_ones",
+  "icon": "miskatonicmysteries:hastur_statue_gold",
+  "advancement": "miskatonicmysteries:hastur/jai_guru",
+  "pages": [
+    {
+      "type": "text",
+      "text": "The Simulacrum of Carcosa projects a part of the other world into our reality.$(br)Simulacra consist of a $(marked)core$() and $(marked)extensions$().$(br)A $(marked)core$() is usually set into the world by means of a $(ml:rites/hastur_simulacrum)rite$(). As long as the rite persists, the core is considered $(marked)active$(). Once $(marked)inactive, it can be removed through strong magic."
+    },
+    {
+      "type": "text",
+      "text": "Simulacra greatly affect their surroundings: this simulacrum will strengthen all who are aligned with the Yellow King. Those who do not stand with him will experience manic dreams and weakness instead. Foliage and grass appear in a golden color, the sky darken, water appears in a bright blue. Otherworldly creatures may appear. Additionally, $(marked)Villagers$() will offer better trades."
+    },
+    {
+      "type": "text",
+      "text": "It is possible to further spread the Simulacrum of Carcosa; simply erect an $(marked)Obelisk$() near its fringes.$(br)To construct an Obelisk, recreate the following structure and use the Necronomicon on it.$(br2)Note that the extension of a simulacrum is always of temporary nature: removing the Obelisk will also instantly remove the expanded area around it."
+    },
+    {
+      "type": "multiblock",
+      "multiblock": {
+        "mapping": {
+          "0": "minecraft:stone_bricks",
+          "B": "minecraft:stone_bricks",
+          "M": "miskatonicmysteries:stone_hastur_mural",
+          "N": "minecraft:yellow_wall_banner[facing=north]",
+          "E": "minecraft:yellow_wall_banner[facing=east]",
+          "S": "minecraft:yellow_wall_banner[facing=south]",
+          "W": "minecraft:yellow_wall_banner[facing=west]"
+        },
+        "pattern": [
+          [
+            "_W_",
+            "NBS",
+            "_E_"
+          ],
+          [
+            "_ _",
+            " M ",
+            "_ _"
+          ],
+          [
+            "___",
+            "_0_",
+            "___"
+          ]
+        ],
+        "symmetrical": true
+      }
+    }
+  ]
+}

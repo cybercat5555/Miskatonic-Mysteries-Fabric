@@ -1,7 +1,7 @@
 {
   "name": "Hastur",
   "category": "miskatonicmysteries:great_old_ones",
-  "icon": "miskatonicmysteries:hastur_chalk",
+  "icon": "miskatonicmysteries:textures/gui/icons/hastur.png",
   "turnin": "miskatonicmysteries:hastur/inner_light",
   "pages": [
     {
@@ -30,6 +30,13 @@
       "type": "text",
       "advancement": "miskatonicmysteries:hastur/inner_light",
       "text": "To receive your second blessing, you must attend a perfect $(ml:goo/golden_gathering)Golden Gathering$(). This will require your previously summoned $(ml:bestiary/prince)Tattered Prince$() and lead you to the last act."
+    },
+    {
+      "title": "Final Act",
+      "anchor": "finale",
+      "type": "text",
+      "advancement": "miskatonicmysteries:hastur/peace_and_love",
+      "text": "The final blessing is acquired by setting a piece of the Yellow King into the world, a $(ml:goo/hastur_simulacrum)Simulacrum$(). The Simulacrum of Carcosa is created through the equally named $(ml:rite/hastur_simulacrum)rite$(). This final act will leave you exposed to saboteurs, so make sure to prepare accordingly."
     }
   ]
 }

@@ -15,9 +15,11 @@ import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeSpreadPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMWorld;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.Constants.Tags;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -55,10 +57,13 @@ public class HasturBiomeRite extends BiomeConversionRite {
 	private static final float HALF_SQRT_3 = (float) (Math.sqrt(3.0) / 2.0);
 
 	public HasturBiomeRite() {
-		super(new Identifier(Constants.MOD_ID, "hastur_biome"), MMAffiliations.HASTUR,
+		super(new Identifier(Constants.MOD_ID, "hastur_simulacrum"), MMAffiliations.HASTUR,
 			(world) -> world.getRegistryManager().get(Registry.BIOME_KEY).getEntry(BuiltinRegistries.BIOME.getRawId(MMWorld.HASTUR_BIOME)),
 			MMAffiliations.HASTUR.getId().getPath(), 3,
-			Ingredient.ofItems(Items.EMERALD));
+			Ingredient.ofItems(Items.NETHER_STAR), Ingredient.ofItems(MMObjects.INCANTATION_YOG),
+			Ingredient.fromTag(Constants.Tags.HASTUR_STATUES), Ingredient.ofItems(Items.DIAMOND),
+			Ingredient.ofItems(Items.EMERALD), Ingredient.ofItems(MMObjects.YELLOW_SIGN_LOOM_PATTERN),
+			Ingredient.fromTag(Tags.OCEANIC_GOLD_BLOCKS_ITEM), Ingredient.ofItems(Items.ANCIENT_DEBRIS));
 	}
 
 	@Override

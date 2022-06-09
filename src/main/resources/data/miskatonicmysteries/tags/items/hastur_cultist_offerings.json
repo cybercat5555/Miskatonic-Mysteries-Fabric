@@ -1,9 +1,6 @@
 {
   "replace": false,
   "values": [
-    "miskatonicmysteries:hastur_statue_stone",
-    "miskatonicmysteries:hastur_statue_mossy",
-    "miskatonicmysteries:hastur_statue_terracotta",
-    "miskatonicmysteries:hastur_statue_gold"
+    "#miskatonicmysteries:hastur_statues"
   ]
 }

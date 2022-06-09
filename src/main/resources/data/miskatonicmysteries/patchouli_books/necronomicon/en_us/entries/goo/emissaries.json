@@ -1,7 +1,7 @@
 {
   "name": "Emissaries",
   "category": "miskatonicmysteries:great_old_ones",
-  "icon": "miskatonicmysteries:iridescent_pearl",
+  "icon": "miskatonicmysteries:textures/gui/icons/emissaries.png",
   "priority": true,
   "pages": [
     {

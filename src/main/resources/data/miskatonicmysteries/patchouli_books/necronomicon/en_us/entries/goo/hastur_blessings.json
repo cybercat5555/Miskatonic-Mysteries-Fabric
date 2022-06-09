@@ -1,7 +1,7 @@
 {
   "name": "The Yellow Blessings",
   "category": "miskatonicmysteries:great_old_ones",
-  "icon": "miskatonicmysteries:hastur_statue_gold",
+  "icon": "miskatonicmysteries:textures/gui/icons/hastur_ascension.png",
   "advancement": "miskatonicmysteries:hastur/hare_krishna",
   "pages": [
     {

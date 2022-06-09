@@ -1,16 +1,24 @@
 {
-  "name": "Resonate Ooze",
+  "name": "Resonate Oozze",
   "category": "miskatonicmysteries:physics",
   "icon": "miskatonicmysteries:resonate_ooze",
   "pages": [
     {
       "type": "text",
-      "text": "$(item)Resonate Ooze$() is, well, the residue of $(marked)phantasmal organisms$(), made visible and material through $(l:miskatonicmysteries:physics/resonator)$(item)the Resonator$(). This ooze of paranormal consistency can be used in $(marked)Potion Brewing$(), creating a potion with effects similar to that of the Resonator, albeit weaker and limited to whoever consumes it."
+      "text": "$(item)Resonate Ooze$() is the residue of $(marked)phantasmal organisms$(), made visible and material through $(l:miskatonicmysteries:physics/resonator)$(item)the Resonator$(). This ooze of paranormal consistency can be used in $(marked)Potion Brewing$(), creating a potion with effects similar to that of the Resonator, albeit weaker and limited to whoever consumes it."
+    },
+    {
+      "type": "miskatonicmysteries:science_drawing",
+      "drawing": "miskatonicmysteries:textures/gui/drawings/resonator_creatures.png"
+    },
+    {
+      "type": "text",
+      "text": "Usually, the phantasmal creatures from which Resonate Ooze is acquired exist in several shapes and sizes and are of rather primitive nature. They are not visible even to the most trained eye, or even tangible; however through the aforementioned Resonator, they are rendered material, though one may find them to not always be as docile as expected..."
     },
     {
       "type": "spotlight",
       "item": "miskatonicmysteries:resonate_ooze",
-      "text": "Resonate Ooze is still a subject of intense research. Most scientists assume that it has plenty of uses outside of $(o)conventional science$()."
+      "text": "Resonate Ooze is still a subject of intense research. Most scientists assume that it has plenty of uses $(o)outside of conventional science$()."
     }
   ]
 }

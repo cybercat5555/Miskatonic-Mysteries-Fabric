@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#miskatonicmysteries:idols"
+    "#miskatonicmysteries:idols",
+    "miskatonicmysteries:masterpiece_statue"
   ]
 }

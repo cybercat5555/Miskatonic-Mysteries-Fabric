@@ -8,16 +8,8 @@
       "text": "Followers of the $(l:miskatonicmysteries:goo/hastur)$(marked)Yellow King$() call themselves '$(marked)Yellow Serfs$()', as they work for their king on what they consider his land and execute his will, which despite how dour it sounds, tends to revolve around curing the sick and injured, devising new masterworks in his name, and spreading his influence, to encourage others to do the same."
     },
     {
-      "type": "entity",
-      "entity": "miskatonicmysteries:hastur_cultist{Variant:1}",
-      "offset": 0.15,
-      "text": "They are more peaceful than their cohorts, but one should not take this as an offering to attack. "
-    },
-    {
-      "type": "entity",
-      "entity": "miskatonicmysteries:hastur_cultist{Variant:2}",
-      "offset": 0.15,
-      "text": "They hold back relentless power and strategy, as they see combat just as much as art as anything else."
+      "type": "miskatonicmysteries:drawing",
+      "drawing": "miskatonicmysteries:textures/gui/drawings/cultist_hastur.png"
     },
     {
       "type": "text",
@@ -25,7 +17,7 @@
     },
     {
       "type": "text",
-      "text": "Yellow Vassals can be traded with, offering handy deals for other Entheators.$(br)If you are interested in the ways of the Yellow King, why not trade and talk to them?"
+      "text": "Yellow Vassals can be traded with, offering handy deals for other Entheators.$(br2)$(o)If you are interested in the ways of the Yellow King, why not trade and talk to them?$()"
     }
   ]
 }

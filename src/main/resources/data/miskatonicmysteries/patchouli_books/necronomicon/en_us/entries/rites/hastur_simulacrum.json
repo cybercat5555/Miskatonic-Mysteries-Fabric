@@ -1,0 +1,34 @@
+{
+  "name": "Simulacrum of Carcosa",
+  "category": "miskatonicmysteries:rites",
+  "icon": "miskatonicmysteries:hastur_statue_gold",
+  "advancement": "miskatonicmysteries:hastur/peace_and_love",
+  "pages": [
+    {
+      "type": "text",
+      "text": "It is time for the $(ml:goo/hastur#finale)Final Act of the Play$(). With this rite, one may bring a fragment of Carcosa to the Wake, creating a Simulacrum of the King and his Sphere. This image of Carcosa will greatly benefit those affiliated with the King, as well as reduce those not to driveling madness."
+    },
+    {
+      "type": "miskatonicmysteries:rite",
+      "rite": "miskatonicmysteries:hastur_simulacrum",
+      "text": "It will convert the biome around the ritual area, so be sure to cast it correctly..."
+    },
+    {
+      "type": "text",
+      "text": "This rite has an extensive list of requirements. It needs $(li)at least three $(ml:bestiary/serfs)Yellow Serfs$()$(li)one $(ml:bestiary/prince)Tattered Prince$()$(li)sufficient distance from other active Simulacra$(li)a proper $(marked)ritual structure$().$(br)The ritual structure consists of four pillars around the Octagram and must be maintained at all times."
+    },
+    {
+      "type": "multiblock",
+      "multiblock_id": "miskatonicmysteries:pillar",
+      "text": "Note that any Hastur-aligned mural or statue may be used, as well as a variety of materials for the base blocks."
+    },
+    {
+      "type": "text",
+      "text": "After a brief opening period, the rite will invite its caster to step in. Doing so will start a $(t:You'll have to solve a 4x4 Sudoku)$(o)most challenging challenge to the mind$().$(br2)During this challenge, you will be left completely exposed to saboteurs (which are bound to appear!), which is why we recommend to take several precautions."
+    },
+    {
+      "type": "text",
+      "text": "Once the challenge is complete, this rite will $(marked)stay active$(), maintaining the Simulacrum. Destroying the Octagram or any of its surrounding pillars will force the Simulacrum into an inactive state, enabling outsiders to remove it.$(br2)To $(marked)reactivate$() the Simulacrum, simply cast this rite within it. "
+    }
+  ]
+}
