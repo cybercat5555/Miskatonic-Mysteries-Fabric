@@ -1,6 +1,6 @@
 {
   "name": "The Resonator",
-  "category": "miskatonicmysteries:physics",
+  "category": "miskatonicmysteries:general",
   "icon": "miskatonicmysteries:resonator",
   "pages": [
     {
@@ -14,7 +14,7 @@
     {
       "type": "spotlight",
       "item": "miskatonicmysteries:resonator",
-      "text": "This cutting-edge technology can only be acquired through certified Miskatonic Faculty. However, one should be careful with operation as this machine must use up a large amount of power, though our patented $(l:chemistry/power_cell)Power Cells$() can aid with this.  "
+      "text": "This cutting-edge technology can only be acquired through certified Miskatonic Faculty. However, one should be careful with operation as this machine must use up a large amount of power, though our patented $(l:power_cell)Power Cells$() can aid with this.  "
     },
     {
       "type": "miskatonicmysteries:advert",

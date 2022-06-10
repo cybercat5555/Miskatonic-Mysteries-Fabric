@@ -11,5 +11,6 @@
     "$(marked)": "$(#FF00FF)",
     "$(item)": "$(#2F32FF)"
   },
-  "link_color ": "AE32FF"
+  "link_color ": "AE32FF",
+  "pamphlet": true
 }

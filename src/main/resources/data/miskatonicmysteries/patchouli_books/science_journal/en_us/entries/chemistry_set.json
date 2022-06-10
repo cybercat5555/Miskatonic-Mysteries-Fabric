@@ -1,6 +1,6 @@
 {
   "name": "Chemistry 101",
-  "category": "miskatonicmysteries:chemistry",
+  "category": "miskatonicmysteries:general",
   "icon": "miskatonicmysteries:chemistry_set",
   "priority": true,
   "pages": [
@@ -15,7 +15,7 @@
     },
     {
       "type": "text",
-      "text": "The set takes up to five different ingredients. Chemical crafting go after this simple scheme:$(li)Add Ingredients$(li)Light using $(item)Flint and Steel$()$(li)Wait$(li)Collect$(br)Collecting requires a proper medium. This can be anything from a bottle to a piece of paper, depending on what is fabricated."
+      "text": "The set takes up to five different ingredients. Chemical crafting always follows this simple scheme:$(li)Add Ingredients$(li)Light using $(item)Flint and Steel$()$(li)Wait$(li)Collect$(br)Collecting requires a proper medium. This can be anything from a bottle to a piece of paper, depending on what is fabricated."
     }
   ]
 }

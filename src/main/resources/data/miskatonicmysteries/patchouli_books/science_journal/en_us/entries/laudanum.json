@@ -1,0 +1,17 @@
+{
+  "name": "Laudanum",
+  "category": "miskatonicmysteries:general",
+  "icon": "miskatonicmysteries:laudanum",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Prized for both its clinical and other uses, Miskatonic University is proud to introduce the most potent and safest $(item)Laudanum$() available on the market to date.$(br)This elixir, when consumed, has a nearly immediate sedative effect that has been proven to work for both common ailments to clinical $(l:miskatonicmysteries:mania)$(marked)Mania$() and madness."
+    },
+    {
+      "type": "miskatonicmysteries:chemistry",
+      "header": "Laudanum",
+      "recipe": "miskatonicmysteries:chemistry/laudanum",
+      "text": ""
+    }
+  ]
+}

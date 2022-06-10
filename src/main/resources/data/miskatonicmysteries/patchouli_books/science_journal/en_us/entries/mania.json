@@ -1,6 +1,6 @@
 {
   "name": "Mania",
-  "category": "miskatonicmysteries:psychology",
+  "category": "miskatonicmysteries:general",
   "icon": "miskatonicmysteries:textures/mob_effect/mania.png",
   "pages": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "type": "miskatonicmysteries:advert",
-      "text": "The patient must either let it run its course, or consume our patented $(l:miskatonicmysteries:chemistry/tranquilizers)$(item)Tranquilizers$().",
+      "text": "The patient must either let it run its course, or consume our patented $(l:miskatonicmysteries:tranquilizers)$(item)Tranquilizers$().",
       "advert": "miskatonicmysteries:textures/gui/adverts/protag.png"
     }
   ]
