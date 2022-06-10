@@ -305,8 +305,8 @@ public class MMObjects {
 		new Item.Settings().group(Constants.MM_GROUP));
 
 	public static final Item STELLAR_DAGGER = new BlessedSwordItem(MMAffiliations.YOG, 3, -2.3F,
-		(target, attacker) -> target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0, false, true, true)),
-		new Item.Settings().group(Constants.MM_GROUP));//TODO change name from YOG_DAGGER
+		(target, attacker) -> target.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100, 0, false, true, true)),
+		new Item.Settings().group(Constants.MM_GROUP));
 
 	public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(MMEntities.PROTAGONIST, 4137472, 14592,
 		new Item.Settings().group(Constants.MM_GROUP));
