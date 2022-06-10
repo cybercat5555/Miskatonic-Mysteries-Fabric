@@ -48,7 +48,7 @@ public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
 		float maxDistancePerSegment = entity.getLength() / (float) segmentNumber;
 
 		int targetNumber = (int) (segmentNumber * sizeMod);
-		float size = 0.02F;
+		float size = 0.01F;
 		Vec3d rgb = Vec3d.unpackRgb(entity.getColor());
 		float alpha = entity.age < 3 ? 0.3F : Math.max(0.3F * (1 - (entity.age - 3 + tickDelta) / 3), 0);
 
@@ -68,7 +68,7 @@ public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
 		matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(entity.getYaw(tickDelta)));
 		matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(entity.getPitch(tickDelta)));
 		matrices.translate(0, 0, 0.1);
-		for (int branches = 0; branches < 5; branches++) {
+		for (int branches = 0; branches < 2; branches++) {
 			float lastOffsetY = 0.0F;
 			float lastOffsetX = 0.0F;
 			for (int i = 0; i < segmentNumber; i++) {

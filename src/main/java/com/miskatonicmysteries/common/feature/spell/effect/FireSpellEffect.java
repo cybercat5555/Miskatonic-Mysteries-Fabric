@@ -30,13 +30,15 @@ public class FireSpellEffect extends SpellEffect {
 			target.setFireTicks(intensity * 40);
 			flag = true;
 		}
-		if (pos != null && !world.isClient) {
-			BlockPos center = new BlockPos(pos);
-			int range = Math.min(intensity, 5);
-			for (int i = 0; i < (range * 3) + 1; i++) {
-				lightFire(world, center, range);
-			}
-
+		if (pos != null) {
+			 if (!world.isClient) {
+				 BlockPos center = new BlockPos(pos);
+				 int range = Math.min(intensity, 5);
+				 for (int i = 0; i < (range * 3) + 1; i++) {
+					 lightFire(world, center, range);
+				 }
+			 }
+			 flag = true;
 		}
 		return flag;
 	}

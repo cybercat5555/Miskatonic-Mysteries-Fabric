@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.feature.entity;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.command.argument.EntityAnchorArgumentType.EntityAnchor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -12,6 +13,8 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class BoltEntity extends Entity {
@@ -38,6 +41,15 @@ public class BoltEntity extends Entity {
 		setLength((float) length);
 		setColor(color);
 	}
+
+	public BoltEntity(World world, Vec3d pos, Vec3d direction, int color) {
+		this(MMEntities.BOLT, world);
+		lookAt(EntityAnchor.FEET, direction);
+		setPos(pos.getX(), pos.getY(), pos.getZ());
+		setLength((float) direction.length());
+		setColor(color);
+	}
+
 
 	public float getLength() {
 		return dataTracker.get(LENGTH);
