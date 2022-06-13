@@ -54,6 +54,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterD
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.BloodParticlePacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ExpandSanityPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.InfestWheatPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.InsanityEventPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.MobSpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ModifyBlessingPacket;
@@ -81,7 +82,6 @@ import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Constants.Tags;
 import com.miskatonicmysteries.common.util.NbtUtil;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
-import java.nio.file.Path;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -93,7 +93,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -103,12 +102,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.stat.Stat;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import vazkii.patchouli.api.PatchouliAPI;
 import vazkii.patchouli.common.multiblock.DenseMultiblock;
-import vazkii.patchouli.common.multiblock.SparseMultiblock;
 import vazkii.patchouli.common.multiblock.StateMatcher;
 
 @Environment(EnvType.CLIENT)
@@ -227,6 +224,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(SpellEffectToastPacket.ID, SpellEffectToastPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SpellMediumToastPacket.ID, SpellMediumToastPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(BlessingToastPacket.ID, BlessingToastPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(InfestWheatPacket.ID, InfestWheatPacket::handle);
 	}
 
 	private void registerArmorRenderers() {

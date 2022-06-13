@@ -20,20 +20,22 @@ import net.minecraft.world.chunk.ChunkSection;
 
 public class BiomeUtil {
 
-	public static void syncBiomeClient(World world, List<BlockPos> changedBlocks) {
-		if (MiskatonicMysteries.config.client.forceChunkColorUpdates && world instanceof ClientWorld clientWorld) {
+	@Environment(EnvType.CLIENT)
+	public static void syncBiomeClient(ClientWorld world, List<BlockPos> changedBlocks) {
+		if (MiskatonicMysteries.config.client.forceChunkColorUpdates) {
 			Set<ChunkPos> chunks = changedBlocks.stream().map(ChunkPos::new).collect(Collectors.toSet());
 			for (ChunkPos chunkPos : chunks) {
-				clientWorld.resetChunkColor(chunkPos);
-				for (int k = clientWorld.getBottomSectionCoord(); k < clientWorld.getTopSectionCoord(); ++k) {
-					clientWorld.scheduleBlockRenders(chunkPos.x, k, chunkPos.z);
+				world.resetChunkColor(chunkPos);
+				for (int k = world.getBottomSectionCoord(); k < world.getTopSectionCoord(); ++k) {
+					world.scheduleBlockRenders(chunkPos.x, k, chunkPos.z);
 				}
 			}
 		}
 	}
 
 	public static void updateBiomeColor(World world, List<BlockPos> changedBlocks) {
-		if (MiskatonicMysteries.config.client.forceChunkColorUpdates && world instanceof ClientWorld clientWorld) {
+		if (MiskatonicMysteries.config.client.forceChunkColorUpdates && world.isClient) {
+			ClientWorld clientWorld = (ClientWorld) world;
 			Set<ChunkPos> chunks = changedBlocks.stream().map(ChunkPos::new).collect(Collectors.toSet());
 			updateBiomeColor(clientWorld, chunks);
 		}

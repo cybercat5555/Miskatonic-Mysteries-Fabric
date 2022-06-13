@@ -168,15 +168,16 @@ public class HasturBiomeRite extends BiomeConversionRite {
 					motionVec = motionVec.multiply(0.25F);
 					caster.setVelocity(motionVec);
 					caster.velocityModified = true;
-					if (caster instanceof ClientPlayerEntity client) {
+					if (world.isClient) {
 						if (octagram.tickCount == 101) {
 							VisionHandler
-								.setVisionSequence(client, VisionHandler.getSequence(new Identifier(Constants.MOD_ID, "fade_to_black")));
+								.setVisionSequence((ClientPlayerEntity) caster, VisionHandler.getSequence(new Identifier(Constants.MOD_ID, "fade_to_black")));
 						} else if (octagram.tickCount == 110) {
-							MinecraftClient.getInstance().setScreen(new HasturSudokuScreen());
+							openScreen();
 						}
-					}else if (caster instanceof ServerPlayerEntity server) {
-						if (random.nextFloat() < 0.001f) {
+					}else {
+						ServerPlayerEntity server = (ServerPlayerEntity) caster;
+ 						if (random.nextFloat() < 0.001f) {
 							if (!ProtagonistHandler.spawnProtagonist(server.getWorld(), server) && random.nextBoolean()) {
 								ProtagonistHandler.spawnProtagonistReinforcements(server.getWorld(), server);
 							}
@@ -218,6 +219,11 @@ public class HasturBiomeRite extends BiomeConversionRite {
 		} else {
 			octagram.tickCount = 320;
 		}
+	}
+
+	@Environment(EnvType.CLIENT)
+	private void openScreen() {
+		MinecraftClient.getInstance().setScreen(new HasturSudokuScreen());
 	}
 
 	@Override

@@ -36,7 +36,7 @@
       "anchor": "finale",
       "type": "text",
       "advancement": "miskatonicmysteries:hastur/peace_and_love",
-      "text": "The final blessing is acquired by setting a piece of the Yellow King into the world, a $(ml:goo/hastur_simulacrum)Simulacrum$(). The Simulacrum of Carcosa is created through the equally named $(ml:rite/hastur_simulacrum)rite$(). This final act will leave you exposed to saboteurs, so make sure to prepare accordingly."
+      "text": "The final blessing is acquired by setting a piece of the Yellow King into the world, a $(ml:goo/hastur_simulacrum)Simulacrum$(). The Simulacrum of Carcosa is created through the equally named $(ml:rites/hastur_simulacrum)rite$(). This final act will leave you exposed to saboteurs, so make sure to prepare accordingly."
     }
   ]
 }

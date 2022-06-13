@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "The Simulacrum of Carcosa projects a part of the other world into our reality.$(br)Simulacra consist of a $(marked)core$() and $(marked)extensions$().$(br)A $(marked)core$() is usually set into the world by means of a $(ml:rites/hastur_simulacrum)rite$(). As long as the rite persists, the core is considered $(marked)active$(). Once $(marked)inactive, it can be removed through strong magic."
+      "text": "The Simulacrum of Carcosa projects a part of the other world into our reality.$(br)Simulacra consist of a $(marked)core$() and $(marked)extensions$().$(br)A $(marked)core$() is usually set into the world by means of a $(ml:rites/hastur_simulacrum)rite$(). As long as the rite persists, the core is considered $(marked)active$(). Once $(marked)inactive$(), it can be removed through strong magic."
     },
     {
       "type": "text",

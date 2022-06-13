@@ -1,13 +1,11 @@
 package com.miskatonicmysteries.common.feature.item;
 
-import com.miskatonicmysteries.client.gui.HasturSudokuScreen;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
 import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -88,9 +86,6 @@ public class IncantationYogItem extends Item {
 
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		if (world.isClient) {
-			MinecraftClient.getInstance().setScreen(new HasturSudokuScreen());
-		}
 		return ItemUsage.consumeHeldItem(world, user, hand);
 	}
 
