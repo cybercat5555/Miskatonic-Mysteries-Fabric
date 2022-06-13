@@ -447,4 +447,9 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 	public boolean isLoyalTo(PlayerEntity player) {
 		return getReputation(player) >= 20 || MiskatonicMysteriesAPI.hasKnowledge(MMAffiliations.HASTUR.getId().getPath(), player);
 	}
+
+	@Override
+	public boolean canTarget(LivingEntity target) {
+		return (target instanceof PlayerEntity || MiskatonicMysteriesAPI.getNonNullAffiliation(target, true) != MMAffiliations.HASTUR) && super.canTarget(target);
+	}
 }

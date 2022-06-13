@@ -6,15 +6,21 @@ import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import com.miskatonicmysteries.mixin.villagers.MemoryModuleTypeAccessor;
 import java.util.List;
+import java.util.Random;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerProfessionBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
+import net.fabricmc.fabric.mixin.object.builder.SpawnRestrictionAccessor;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.SpawnRestriction;
+import net.minecraft.entity.SpawnRestriction.Location;
+import net.minecraft.entity.SpawnRestriction.SpawnPredicate;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.TrackedDataHandler;
@@ -35,6 +41,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.village.VillagerProfession;
+import net.minecraft.world.Heightmap.Type;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.poi.PointOfInterestType;
 
 public class MMEntities {
@@ -56,10 +64,10 @@ public class MMEntities {
 	public static final EntityType<TatteredPrinceEntity> TATTERED_PRINCE = FabricEntityTypeBuilder
 		.create(SpawnGroup.MISC, TatteredPrinceEntity::new).dimensions(EntityDimensions.fixed(1.5F, 4)).trackRangeBlocks(48).build();
 	public static final EntityType<GenericTentacleEntity> GENERIC_TENTACLE = FabricEntityTypeBuilder
-		.create(SpawnGroup.MISC, GenericTentacleEntity::new).dimensions(EntityDimensions.fixed(0.5F, 2)).trackRangeBlocks(16).build();
-	public static final EntityType<HarrowEntity> HARROW = FabricEntityTypeBuilder.create(SpawnGroup.MISC, HarrowEntity::new)
+		.create(SpawnGroup.MONSTER, GenericTentacleEntity::new).dimensions(EntityDimensions.fixed(0.5F, 2)).trackRangeBlocks(16).build();
+	public static final EntityType<HarrowEntity> HARROW = FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, HarrowEntity::new)
 		.dimensions(EntityDimensions.fixed(0.35F, 0.35F)).trackRangeBlocks(16).build();
-	public static final EntityType<ByakheeEntity> BYAKHEE = FabricEntityTypeBuilder.create(SpawnGroup.MISC, ByakheeEntity::new)
+	public static final EntityType<ByakheeEntity> BYAKHEE = FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, ByakheeEntity::new)
 		.dimensions(EntityDimensions.fixed(2, 2)).trackRangeBlocks(16).build();
 	public static final EntityType<HallucinationEntity> HALLUCINATION = FabricEntityTypeBuilder
 		.<HallucinationEntity>create(SpawnGroup.MISC, HallucinationEntity::new).dimensions(EntityDimensions.fixed(1, 1))
@@ -213,5 +221,7 @@ public class MMEntities {
 				}
 			}
 		});
+		SpawnRestrictionAccessor.callRegister(HARROW, Location.NO_RESTRICTIONS, Type.MOTION_BLOCKING_NO_LEAVES, HarrowEntity::canSpawn);
+		SpawnRestrictionAccessor.callRegister(GENERIC_TENTACLE, Location.ON_GROUND, Type.WORLD_SURFACE, GenericTentacleEntity::canSpawn);
 	}
 }

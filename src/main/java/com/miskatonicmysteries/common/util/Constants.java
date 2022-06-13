@@ -159,6 +159,7 @@ public class Constants {
 		public static final String ACTIVE = "Active";
 		public static final String KNOT_POS = "KnotPos";
 		public static final String IS_CORE = "IsCore";
+		public static final String SUMMONED = "Summoned";
 	}
 
 	public static class DataTrackers {

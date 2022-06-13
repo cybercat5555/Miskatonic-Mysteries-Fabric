@@ -12,6 +12,8 @@ import com.mojang.datafixers.util.Pair;
 import java.util.List;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PaneBlock;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
 import net.minecraft.structure.pool.StructurePools;
@@ -33,6 +35,9 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.GenerationSettings;
 import net.minecraft.world.biome.SpawnSettings;
+import net.minecraft.world.biome.SpawnSettings.Builder;
+import net.minecraft.world.biome.SpawnSettings.SpawnEntry;
+import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 
 public class MMWorld {
 
@@ -87,22 +92,35 @@ public class MMWorld {
 			.of(new StructureProcessorRule(new RandomBlockMatchRuleTest(Blocks.COBBLESTONE, 0.1F), AlwaysTrueRuleTest.INSTANCE,
 				Blocks.MOSSY_COBBLESTONE.getDefaultState()))));
 
-	public static final Biome HASTUR_BIOME;
-	public static final BiomeEffect HASTUR_BIOME_EFFECT = new HasturBiomeEffect();
+	public static final Biome HASTUR_BIOME = creatHasturBiome();
 
-	static {
-		HASTUR_BIOME = new Biome.Builder().temperature(0.75F).precipitation(Biome.Precipitation.RAIN).category(Biome.Category.NONE)
-			.downfall(0.3F)
-			.spawnSettings(new SpawnSettings.Builder()
-				.build())
+	private static Biome creatHasturBiome() {
+		Biome.Builder biomeBuilder = new Biome.Builder().category(Biome.Category.NONE);
+		biomeBuilder.temperature(0.75F).precipitation(Biome.Precipitation.RAIN).downfall(0.3F)
 			.generationSettings(new GenerationSettings.Builder()
 				.build())
 			.effects(new BiomeEffects.Builder()
 				.fogColor(0xEFC91F).skyColor(0x000000)
 				.waterColor(0x1199C6).waterFogColor(0x1199C6)
 				.grassColor(0xF2C709).foliageColor(0xE58E03)
-				.build()).build();
+				.build());
+		SpawnSettings.Builder spawnsBuilder = new Builder();
+		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnEntry(MMEntities.GENERIC_TENTACLE, 40, 1, 4));
+		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnEntry(MMEntities.HARROW, 30, 1, 3));
+		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.SKELETON, 80, 4, 4));
+		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnEntry(MMEntities.HARROW, 20, 1, 3));
+		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnEntry(EntityType.WITCH, 10, 1, 1));
+		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnEntry(EntityType.ENDERMAN, 20, 1, 4));
+		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnEntry(MMEntities.FEASTER, 1, 1, 1));
+		spawnsBuilder.spawnCost(MMEntities.HARROW, 0.7F, 0.15F);
+		spawnsBuilder.spawnCost(MMEntities.HARROW, 2, 0.1F);
+		DefaultBiomeFeatures.addFarmAnimals(spawnsBuilder);
+		biomeBuilder.spawnSettings(spawnsBuilder.build());
+		spawnsBuilder.creatureSpawnProbability(0.025F);
+		return biomeBuilder.build();
 	}
+
+	public static final BiomeEffect HASTUR_BIOME_EFFECT = new HasturBiomeEffect();
 
 	public static void init() {
 		StructurePools.register(new StructurePool(new Identifier(Constants.MOD_ID, "village/common/hastur_cultist"),

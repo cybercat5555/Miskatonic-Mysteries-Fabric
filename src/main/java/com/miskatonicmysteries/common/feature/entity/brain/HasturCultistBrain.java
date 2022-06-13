@@ -192,7 +192,7 @@ public class HasturCultistBrain {
 			new ForgetAngryAtTargetTask<>(),
 			new WakeUpTask(),
 			new StartRaidTask(),
-			new CrownAscendedCultist(),
+			new CrownAscendedCultistTask(),
 			new WanderAroundTask(),
 			new MeetVillagerTask(),
 			new HealthCareTask(),

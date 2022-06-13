@@ -352,6 +352,11 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 	}
 
 	@Override
+	public boolean canTarget(LivingEntity target) {
+		return (target instanceof  PlayerEntity || MiskatonicMysteriesAPI.getNonNullAffiliation(target, true) != MMAffiliations.HASTUR) && super.canTarget(target);
+	}
+
+	@Override
 	public boolean isSupernatural() {
 		return true;
 	}

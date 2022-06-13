@@ -3,11 +3,15 @@ package com.miskatonicmysteries.common.feature.entity;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
+import com.miskatonicmysteries.common.registry.MMWorld;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.Constants.NBT;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -25,15 +29,18 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -57,7 +64,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 		.registerData(TentacleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	private final AnimationFactory factory = new AnimationFactory(this);
 	private LivingEntity owner;
-	private boolean monster = false;
+	private boolean summoned = true;
 	private int maxAge = 600;
 
 	protected TentacleEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
@@ -68,7 +75,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 	public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
 		@Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
 		if (spawnReason != SpawnReason.MOB_SUMMONED) {
-			monster = true;
+			summoned = false;
 		}
 		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 	}
@@ -94,10 +101,15 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 		if (isSimple()) {
 			return false;
 		}
-		if (target instanceof TentacleEntity && getOwnerUUID().isEmpty()) {
-			return false;
-		}
-		if (getOwnerUUID().isPresent()) {
+		if (getOwnerUUID().isEmpty()) {
+			if (target instanceof TentacleEntity) {
+				return false;
+			}
+			Affiliation affiliation = MiskatonicMysteriesAPI.getNonNullAffiliation(target, true);
+			if ((getAffiliation(false) == MMAffiliations.NONE || affiliation != getAffiliation(false))) {
+				return true;
+			}
+		}else {
 			if (target.getUuid().equals(getOwnerUUID().get())) {
 				if (owner == null) {
 					owner = target;
@@ -109,14 +121,6 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 			}
 		}
 		if (getTargetUUID().isPresent() && getTargetUUID().get().equals(target.getUuid())) {
-			return true;
-		}
-		if (monster && !(target instanceof Monster)) {
-			return true;
-		}
-		Affiliation affiliation = MiskatonicMysteriesAPI.getNonNullAffiliation(target, true);
-		if ((!monster && target instanceof Monster) && (getAffiliation(false) == MMAffiliations.NONE || affiliation != getAffiliation(
-			true))) {
 			return true;
 		}
 		return target instanceof ProtagonistEntity;
@@ -160,7 +164,6 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 		if (getTargetUUID().isPresent()) {
 			tag.putUuid(Constants.NBT.TARGET, getTargetUUID().get());
 		}
-		tag.putBoolean(Constants.NBT.MONSTER, monster);
 		tag.putInt(Constants.NBT.MAX_AGE, maxAge);
 		tag.putBoolean(Constants.NBT.SIMPLE, isSimple());
 	}
@@ -168,15 +171,15 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 	@Override
 	public void readCustomDataFromNbt(NbtCompound tag) {
 		super.readCustomDataFromNbt(tag);
-		dataTracker.set(BROAD_SWING, tag.getBoolean(Constants.NBT.BROAD_SWING));
+		dataTracker.set(BROAD_SWING, tag.getBoolean(NBT.BROAD_SWING));
 		dataTracker
-			.set(OWNER, tag.contains(Constants.NBT.OWNER) ? Optional.of(tag.getUuid(Constants.NBT.OWNER)) : Optional
+			.set(OWNER, tag.contains(NBT.OWNER) ? Optional.of(tag.getUuid(NBT.OWNER)) : Optional
 				.empty());
-		dataTracker.set(SPECIFIC_TARGET, tag.contains(Constants.NBT.TARGET) ? Optional
-			.of(tag.getUuid(Constants.NBT.TARGET)) : Optional.empty());
-		monster = tag.getBoolean(Constants.NBT.MONSTER);
-		maxAge = tag.getInt(Constants.NBT.MAX_AGE);
-		setSimple(tag.getBoolean(Constants.NBT.SIMPLE));
+		dataTracker.set(SPECIFIC_TARGET, tag.contains(NBT.TARGET) ? Optional
+			.of(tag.getUuid(NBT.TARGET)) : Optional.empty());
+		maxAge = tag.getInt(NBT.MAX_AGE);
+		summoned = tag.getBoolean(NBT.SUMMONED);
+		setSimple(tag.getBoolean(NBT.SIMPLE));
 	}
 
 	@Override
@@ -244,7 +247,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 
 		if (age < (isSimple() ? maxAge / 2 : 20)) {
 			setSize(getSize() + 0.05F);
-		} else if (age > maxAge) {
+		} else if (summoned && age > maxAge) {
 			setSize(getSize() - 0.05F);
 			if (getSize() < 0) {
 				remove(RemovalReason.KILLED);
@@ -336,7 +339,7 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 
 	@Override
 	protected boolean isDisallowedInPeaceful() {
-		return monster;
+		return getOwnerUUID().isEmpty();
 	}
 
 	@Override

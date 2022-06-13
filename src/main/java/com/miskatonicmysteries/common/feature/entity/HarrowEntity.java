@@ -2,7 +2,10 @@ package com.miskatonicmysteries.common.feature.entity;
 
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
+import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.Constants.NBT;
 import java.util.EnumSet;
+import java.util.Random;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -24,6 +27,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
@@ -33,6 +37,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
@@ -41,6 +46,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 	protected static final TrackedData<Integer> LIFETICKS = DataTracker
 		.registerData(HarrowEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	private LivingEntity owner;
+	public boolean summoned = true;
 
 	public HarrowEntity(EntityType<? extends HarrowEntity> entityType, World world) {
 		super(entityType, world);
@@ -64,12 +70,14 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 		super.tick();
 		this.noClip = false;
 		this.setNoGravity(true);
-		if (getLifeTicks() > 0) {
-			setLifeTicks(getLifeTicks() - 1);
-		} else {
-			remove(RemovalReason.KILLED);
+		if (!world.isClient && summoned) {
+			if (getLifeTicks() > 0) {
+				setLifeTicks(getLifeTicks() - 1);
+			} else {
+				remove(RemovalReason.KILLED);
+			}
 		}
-		if (world.isClient && age % 4 == 0) {
+		if (world.isClient && age % 5 == 0) {
 			world.addParticle(MMParticles.AMBIENT_MAGIC, getParticleX(1F), getRandomBodyY(), getParticleZ(1F), -getVelocity().x,
 				-getVelocity().y, -getVelocity().z);
 		}
@@ -108,15 +116,15 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 	@Override
 	public void readCustomDataFromNbt(NbtCompound tag) {
 		super.readCustomDataFromNbt(tag);
-		if (tag.contains("LifeTicks")) {
-			this.setLifeTicks(tag.getInt("LifeTicks"));
-		}
+		setLifeTicks(tag.getInt("LifeTicks"));
+		summoned = tag.getBoolean(NBT.MONSTER);
 	}
 
 	@Override
 	public void writeCustomDataToNbt(NbtCompound tag) {
 		super.writeCustomDataToNbt(tag);
-		tag.putInt("LifeTicks", this.getLifeTicks());
+		tag.putInt("LifeTicks", getLifeTicks());
+		tag.putBoolean(Constants.NBT.SUMMONED, summoned);
 	}
 
 	public LivingEntity getOwner() {
@@ -151,6 +159,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 		this.setHarrowFlag(1, charging);
 	}
 
+
 	public int getLifeTicks() {
 		return dataTracker.get(LIFETICKS);
 	}
@@ -174,9 +183,17 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 	@Nullable
 	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
 		@Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
-		this.initEquipment(difficulty);
-		this.updateEnchantments(difficulty);
+		if (spawnReason != SpawnReason.MOB_SUMMONED) {
+			summoned = false;
+		}
 		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
+	}
+
+	public static boolean canSpawn(EntityType<HarrowEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
+		if (pos.getY() > world.getSeaLevel()) {
+			return world.isAir(pos);
+		}
+		return false;
 	}
 
 	class TrackOwnerTargetGoal extends TrackTargetGoal {
