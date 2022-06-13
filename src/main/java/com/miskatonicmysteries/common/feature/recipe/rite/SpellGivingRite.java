@@ -70,7 +70,7 @@ public class SpellGivingRite extends AscensionLockedRite {
 			octagram.tickCount++;
 			spawnParticles(octagram.getWorld(), player.getPos(), player.getRandom(), octagram.tickCount, player);
 			if (octagram.tickCount % 40 == 1) {
-				player.playSound(MMSounds.MAGIC, 0.6F, 1.3F);
+				player.playSound(MMSounds.SPELL_SPELL_CAST, 0.6F, 1.3F);
 			}
 		} else if (player.squaredDistanceTo(pos) > 100) {
 			octagram.tickCount = 0;
@@ -84,7 +84,7 @@ public class SpellGivingRite extends AscensionLockedRite {
 	public void onFinished(OctagramBlockEntity octagram) {
 		PlayerEntity player = octagram.getOriginalCaster();
 		player.setVelocity(0, 0.5F, 0);
-		player.playSound(MMSounds.MAGIC, 1, (float) (1 + player.getRandom().nextGaussian() * 0.2F));
+		player.playSound(MMSounds.SPELL_SPELL_CAST, 1, (float) (1 + player.getRandom().nextGaussian() * 0.2F));
 		if (octagram.getWorld().isClient) {
 			for (int i = 0; i < 20; i++) {
 				MMParticles

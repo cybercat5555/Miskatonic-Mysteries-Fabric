@@ -105,7 +105,7 @@ public class IncantationYogItem extends Item {
 		}
 		if (foundPos != null) {
 			world.playSound(user.getX(), user.getY(), user
-				.getZ(), MMSounds.INCANTATION_BIND_SUCCESS, SoundCategory.PLAYERS, 1, 1, false);
+				.getZ(), MMSounds.ITEM_INCANTATION_YOG_INCANTATION_BOUND, SoundCategory.PLAYERS, 1, 1, false);
 		}
 		return storePosition(stack, world, foundPos);
 	}

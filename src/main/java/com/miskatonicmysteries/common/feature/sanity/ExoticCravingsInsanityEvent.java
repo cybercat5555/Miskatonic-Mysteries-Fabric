@@ -18,7 +18,7 @@ public class ExoticCravingsInsanityEvent extends InsanityEvent {
 	@Override
 	public boolean execute(PlayerEntity playerEntity, Sanity sanity) {
 		if (playerEntity.world.isClient) {
-			playerEntity.playSound(MMSounds.MAGIC, 0.5F, 0.7F);
+			playerEntity.playSound(MMSounds.SPELL_SPELL_CAST, 0.5F, 0.7F);
 		} else {
 			playerEntity.addStatusEffect(new StatusEffectInstance(MMStatusEffects.EXOTIC_CRAVINGS, 4800));
 		}

@@ -79,7 +79,7 @@ public class SpawnerTrapRite extends TriggeredRite {
 		if (octagram.triggered && octagram.tickCount > ticksNeeded && octagram.tickCount % 200 == 0) {
 			World world = octagram.getWorld();
 			int amount = 1 + world.random.nextInt(2);
-			octagram.getWorld().playSound(null, octagram.getPos(), MMSounds.BROKE_VEIL_SPAWN, SoundCategory.AMBIENT, 1.0F,
+			octagram.getWorld().playSound(null, octagram.getPos(), MMSounds.RITE_VEIL_SPAWN, SoundCategory.AMBIENT, 1.0F,
 				(float) world.random.nextGaussian() * 0.2F + 1.0F);
 			if (!world.isClient) {
 				for (int i = 0; i < amount; i++) {

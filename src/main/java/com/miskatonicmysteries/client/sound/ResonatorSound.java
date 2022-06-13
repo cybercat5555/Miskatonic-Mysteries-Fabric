@@ -24,7 +24,7 @@ public class ResonatorSound extends MovingSoundInstance implements TickableSound
 	private final BlockPos pos;
 
 	protected ResonatorSound(BlockPos pos) {
-		super(MMSounds.RESONATOR_HUMMING, SoundCategory.BLOCKS);
+		super(MMSounds.BLOCK_RESONATOR_AMBIENT, SoundCategory.BLOCKS);
 		this.player = MinecraftClient.getInstance().player;
 		this.world = MinecraftClient.getInstance().world;
 		this.pos = pos;

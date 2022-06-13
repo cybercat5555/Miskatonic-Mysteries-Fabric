@@ -47,7 +47,7 @@ public class MourningDeadRite extends Rite {
 
 	@Override
 	public void onFinished(OctagramBlockEntity octagram) {
-		octagram.getWorld().playSound(null, octagram.getPos(), MMSounds.PRIMED_RITE_TRIGGERED, SoundCategory.AMBIENT, 1.0F,
+		octagram.getWorld().playSound(null, octagram.getPos(), MMSounds.RITE_RITE_TRIGGERED, SoundCategory.AMBIENT, 1.0F,
 			(float) octagram.getWorld().random.nextGaussian() * 0.2F + 1.0F);
 
 		octagram.getWorld()

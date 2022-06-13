@@ -112,7 +112,7 @@ public class GoldenFlockRite extends AscensionLockedRite {
 	public void onFinished(OctagramBlockEntity octagram) {
 		if (octagram.targetedEntity instanceof VillagerEntity) {
 			octagram.targetedEntity
-				.playSound(MMSounds.MAGIC, 1, (float) (1 + ((VillagerEntity) octagram.targetedEntity).getRandom().nextGaussian() * 0.2F));
+				.playSound(MMSounds.SPELL_SPELL_CAST, 1, (float) (1 + ((VillagerEntity) octagram.targetedEntity).getRandom().nextGaussian() * 0.2F));
 			if (octagram.getWorld().isClient) {
 				for (int i = 0; i < 20; i++) {
 					MMParticles.spawnCandleParticle(octagram.getWorld(),

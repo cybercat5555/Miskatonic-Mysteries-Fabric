@@ -2,7 +2,6 @@ package com.miskatonicmysteries.common.feature.entity;
 
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
-import com.miskatonicmysteries.common.feature.entity.ByakheeEntity.BondWithPlayerGoal;
 import com.miskatonicmysteries.common.feature.entity.util.InputAware;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMSounds;
@@ -184,7 +183,7 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 	public void saddle(@Nullable SoundCategory sound) {
 		this.items.setStack(0, new ItemStack(Items.SADDLE));
 		if (sound != null) {
-			this.world.playSoundFromEntity(null, this, MMSounds.BYAKHEE_SADDLE, sound, 0.5F, 1.0F);
+			this.world.playSoundFromEntity(null, this, MMSounds.ENTITY_BYAKHEE_SADDLE, sound, 0.5F, 1.0F);
 		}
 		updateSaddle();
 	}

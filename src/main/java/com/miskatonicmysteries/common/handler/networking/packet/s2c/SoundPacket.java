@@ -29,6 +29,6 @@ public class SoundPacket {
 	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
 		PacketSender sender) {
 		Entity entity = client.world.getEntityById(packetByteBuf.readInt());
-		client.execute(() -> entity.playSound(MMSounds.PLING, 1, 1));
+		client.execute(() -> entity.playSound(MMSounds.RANDOM_PLING, 1, 1));
 	}
 }

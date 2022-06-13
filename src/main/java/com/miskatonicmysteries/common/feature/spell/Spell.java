@@ -42,7 +42,7 @@ public class Spell {
 		Optional<SpellCaster> spellCaster = SpellCaster.of(caster);
 
 		if (spellCaster.isPresent()) {
-			caster.world.playSound(caster.getX(), caster.getY(), caster.getZ(), MMSounds.MAGIC, SoundCategory.PLAYERS, 0.85F,
+			caster.world.playSound(caster.getX(), caster.getY(), caster.getZ(), MMSounds.SPELL_SPELL_CAST, SoundCategory.PLAYERS, 0.85F,
 				(float) caster.getRandom().nextGaussian() * 0.2F + 1.0F, true);
 
 		}

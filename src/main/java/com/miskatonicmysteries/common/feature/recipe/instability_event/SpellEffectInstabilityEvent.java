@@ -41,7 +41,7 @@ public class SpellEffectInstabilityEvent extends InstabilityEvent {
 				break;
 			}
 		}
-		world.playSound(null, blockEntity.getPos(), MMSounds.MAGIC, SoundCategory.NEUTRAL, MathHelper.nextGaussian(random, 1, 0.2F),
+		world.playSound(null, blockEntity.getPos(), MMSounds.SPELL_SPELL_CAST, SoundCategory.NEUTRAL, MathHelper.nextGaussian(random, 1, 0.2F),
 			MathHelper.nextGaussian(random, 1, 0.2F));
 		return false;
 	}

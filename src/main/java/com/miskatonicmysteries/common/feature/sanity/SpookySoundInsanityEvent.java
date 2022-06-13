@@ -18,7 +18,7 @@ public class SpookySoundInsanityEvent extends InsanityEvent {
 	@Override
 	public boolean execute(PlayerEntity playerEntity, Sanity sanity) {
 		if (playerEntity.world.isClient) {
-			playerEntity.playSound(MMSounds.SCARY_SOUNDS, 0.8F + (float) playerEntity.getRandom().nextGaussian() * 0.2F,
+			playerEntity.playSound(MMSounds.AMBIENT_SCARY, 0.8F + (float) playerEntity.getRandom().nextGaussian() * 0.2F,
 				(float) (0.8F + playerEntity.getRandom().nextGaussian() * 0.4F));
 		} else if (sanity.getSanity() < 500 && playerEntity.getRandom().nextBoolean()) {
 			playerEntity.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 1200, 0, true, false));

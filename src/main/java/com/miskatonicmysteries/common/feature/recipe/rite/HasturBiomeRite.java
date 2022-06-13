@@ -17,6 +17,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeSpr
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
+import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMWorld;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Constants.Tags;
@@ -41,6 +42,7 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -128,6 +130,9 @@ public class HasturBiomeRite extends BiomeConversionRite {
 		if (octagram.tickCount < 320) {
 			PlayerEntity caster = octagram.getOriginalCaster();
 			Vec3d pos = octagram.getSummoningPos();
+			if (octagram.tickCount > 0 && octagram.tickCount < 100 && octagram.tickCount % 20 == 0) {
+				world.playSound(pos.getX(), pos.getY(), pos.getZ(), MMSounds.RITE_SPOTLIGHT, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
+			}
 			List<HasturCultistEntity> cultists = octagram.getWorld().getEntitiesByClass(HasturCultistEntity.class,
 				octagram.getSelectionBox().expand(15, 5, 15), cultist -> !cultist.isAttacking());
 			for (HasturCultistEntity cultist : cultists) {

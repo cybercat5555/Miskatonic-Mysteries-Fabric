@@ -1,9 +1,5 @@
 package com.miskatonicmysteries.common.feature.entity;
 
-import com.miskatonicmysteries.common.feature.entity.HarrowEntity.ChargeTargetGoal;
-import com.miskatonicmysteries.common.feature.entity.HarrowEntity.HarrowMoveControl;
-import com.miskatonicmysteries.common.feature.entity.HarrowEntity.LookAtTargetGoal;
-import com.miskatonicmysteries.common.feature.entity.HarrowEntity.TrackOwnerTargetGoal;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import java.util.EnumSet;
@@ -164,15 +160,15 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 	}
 
 	protected SoundEvent getAmbientSound() {
-		return MMSounds.HARROW_AMBIENT;
+		return MMSounds.ENTITY_HARROW_AMBIENT;
 	}
 
 	protected SoundEvent getDeathSound() {
-		return MMSounds.HARROW_DEATH;
+		return MMSounds.ENTITY_HARROW_DEATH;
 	}
 
 	protected SoundEvent getHurtSound(DamageSource source) {
-		return MMSounds.HARROW_HURT;
+		return MMSounds.ENTITY_HARROW_HURT;
 	}
 
 	@Nullable
@@ -266,7 +262,7 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 			Vec3d vec3d = livingEntity.getCameraPosVec(1.0F);
 			moveControl.moveTo(vec3d.x, vec3d.y, vec3d.z, 1.0D);
 			setCharging(true);
-			playSound(MMSounds.HARROW_CHARGE, 1.0F, 1.0F);
+			playSound(MMSounds.ENTITY_HARROW_CHARGE, 1.0F, 1.0F);
 		}
 
 

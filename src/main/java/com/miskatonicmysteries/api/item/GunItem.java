@@ -173,7 +173,7 @@ public abstract class GunItem extends Item {
 
 		setLoading(stack, false);
 		stack.getNbt().putInt(Constants.NBT.SHOTS, stack.getNbt().getInt(Constants.NBT.SHOTS) - 1);
-		world.playSound(null, player.getX(), player.getY(), player.getZ(), MMSounds.GUN_SHOT, SoundCategory.PLAYERS, 0.6F,
+		world.playSound(null, player.getX(), player.getY(), player.getZ(), MMSounds.ITEM_GUN_GUN_SHOT, SoundCategory.PLAYERS, 0.6F,
 			1.0F / (world.random.nextFloat() * 0.2F + (isHeavy() ? 1F : 0.5F)));
 
 		if (player instanceof PlayerEntity) {

@@ -40,7 +40,7 @@ public class TeleportEffectPacket {
 				client.execute(() -> {
 					if (entity instanceof LivingEntity) {
 						client.world.playSound(entity
-							.getBlockPos(), MMSounds.TELEPORT_SOUND, SoundCategory.PLAYERS, 0.5F, 0.8F, false);
+							.getBlockPos(), MMSounds.RITE_TELEPORT, SoundCategory.PLAYERS, 0.5F, 0.8F, false);
 					}
 					for (int i = 0; i < 5; i++) {
 						client.world.addParticle(ParticleTypes.PORTAL, entity.getX() + client.world.getRandom()

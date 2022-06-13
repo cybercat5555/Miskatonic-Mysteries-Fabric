@@ -120,7 +120,7 @@ public class SculptorRite extends Rite {
 	@Override
 	public void onFinished(OctagramBlockEntity octagram) {
 		World world = octagram.getWorld();
-		world.playSound(null, octagram.getPos(), MMSounds.MAGIC, SoundCategory.PLAYERS, 0.8F, 1.0F);
+		world.playSound(null, octagram.getPos(), MMSounds.SPELL_SPELL_CAST, SoundCategory.PLAYERS, 0.8F, 1.0F);
 		Vec3d pos = octagram.getSummoningPos().add(0, 0.5F, 0);
 		if (!world.isClient) {
 			ItemEntity result = new ItemEntity(world, pos.x, pos.y, pos.z,

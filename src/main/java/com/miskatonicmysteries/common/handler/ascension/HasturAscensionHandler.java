@@ -51,7 +51,7 @@ public class HasturAscensionHandler {
 	public static void blessThroughPrince(LivingEntity blessTarget, TatteredPrinceEntity prince) {
 		if (blessTarget instanceof PlayerEntity && MiskatonicMysteriesAPI.levelUp((PlayerEntity) blessTarget, GATHERING_STAGE,
 			MMAffiliations.HASTUR)) {
-			prince.playSound(MMSounds.MAGIC, 1, 1);
+			prince.playSound(MMSounds.SPELL_SPELL_CAST, 1, 1);
 			Vec3d pos = Util.getYawRelativePos(prince.getPos(), 3, prince.getYaw(), prince.getPitch());
 			Vec3d motionVec = new Vec3d(pos.x - blessTarget.getX(), pos.y + 2 - blessTarget.getY(),
 				pos.z - blessTarget.getZ());
@@ -90,14 +90,14 @@ public class HasturAscensionHandler {
 	public static void holdGoldenGathering(ServerPlayerEntity serverPlayerEntity, int partyPower) {
 		if (partyPower >= Party.PARTY_POWER_MAX && MiskatonicMysteriesAPI.levelUp(serverPlayerEntity, SIMULACRUM_STAGE,
 			MMAffiliations.HASTUR)) {
-			serverPlayerEntity.playSound(MMSounds.MAGIC, 1, 1);
+			serverPlayerEntity.playSound(MMSounds.SPELL_SPELL_CAST, 1, 1);
 			MiskatonicMysteriesAPI.grantBlessing(serverPlayerEntity, MMAffiliations.HASTUR);
 		}
 	}
 
 	public static void levelSimulacrum(ServerPlayerEntity serverPlayerEntity) {
 		if (MiskatonicMysteriesAPI.levelUp(serverPlayerEntity, END_STAGE, MMAffiliations.HASTUR)) {
-			serverPlayerEntity.playSound(MMSounds.MAGIC, 1, 1);
+			serverPlayerEntity.playSound(MMSounds.SPELL_SPELL_CAST, 1, 1);
 			MiskatonicMysteriesAPI.grantBlessing(serverPlayerEntity, MMAffiliations.HASTUR);
 		}
 	}

@@ -58,7 +58,7 @@ public class ByakheeSummoningRite extends SummoningRite {
 	public void onFinished(OctagramBlockEntity octagram) {
 		World world = octagram.getWorld();
 		Vec3d pos = octagram.getSummoningPos();
-		octagram.getWorld().playSound(null, pos.x, pos.y, pos.z, MMSounds.BROKE_VEIL_SPAWN, SoundCategory.PLAYERS, 1, 1);
+		octagram.getWorld().playSound(null, pos.x, pos.y, pos.z, MMSounds.RITE_VEIL_SPAWN, SoundCategory.PLAYERS, 1, 1);
 		if (world.isClient) {
 			for (int i = 0; i < 100; i++) {
 				Vec3d particlePos = pos

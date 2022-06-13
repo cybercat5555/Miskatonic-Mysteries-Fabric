@@ -8,39 +8,44 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class MMSounds {
-
 	//todo more entity sounds
-	public static final SoundEvent GUN_SHOT = new SoundEvent(new Identifier(Constants.MOD_ID, "gun_shot"));
-	public static final SoundEvent SCARY_SOUNDS = new SoundEvent(new Identifier(Constants.MOD_ID, "scary"));
-	public static final SoundEvent TELEPORT_SOUND = new SoundEvent(new Identifier(Constants.MOD_ID, "teleport"));
-	public static final SoundEvent BROKE_VEIL_SPAWN = new SoundEvent(new Identifier(Constants.MOD_ID, "veil_spawn"));
-	public static final SoundEvent PRIMED_RITE_TRIGGERED = new SoundEvent(new Identifier(Constants.MOD_ID, "rite_triggered"));
-	public static final SoundEvent INCANTATION_BIND_SUCCESS = new SoundEvent(new Identifier(Constants.MOD_ID, "incantation_bound"));
-	public static final SoundEvent MAGIC = new SoundEvent(new Identifier(Constants.MOD_ID, "spell_cast"));
-	public static final SoundEvent RESONATOR_HUMMING = new SoundEvent(new Identifier(Constants.MOD_ID, "resonator"));
-	public static final SoundEvent PLING = new SoundEvent(new Identifier(Constants.MOD_ID, "pling"));
-
-	public static final SoundEvent HARROW_AMBIENT = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.ambient"));
-	public static final SoundEvent HARROW_DEATH = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.death"));
-	public static final SoundEvent HARROW_HURT = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.hurt"));
-	public static final SoundEvent HARROW_CHARGE = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.charge"));
-
-	public static final SoundEvent BYAKHEE_SADDLE = SoundEvents.ENTITY_HORSE_SADDLE;
+	public static final SoundEvent AMBIENT_SCARY = new SoundEvent(new Identifier(Constants.MOD_ID, "ambient.scary"));
+	public static final SoundEvent BLOCK_RESONATOR_AMBIENT = new SoundEvent(new Identifier(Constants.MOD_ID, "block.resonator.ambient"));
+	public static final SoundEvent ENTITY_BYAKHEE_SADDLE = SoundEvents.ENTITY_HORSE_SADDLE;
+	public static final SoundEvent ENTITY_HARROW_AMBIENT = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.ambient"));
+	public static final SoundEvent ENTITY_HARROW_DEATH = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.death"));
+	public static final SoundEvent ENTITY_HARROW_HURT = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.hurt"));
+	public static final SoundEvent ENTITY_HARROW_CHARGE = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.charge"));
+	public static final SoundEvent ITEM_GUN_GUN_SHOT = new SoundEvent(new Identifier(Constants.MOD_ID, "item.gun.gun_shot"));
+	public static final SoundEvent ITEM_INCANTATION_YOG_INCANTATION_BOUND = new SoundEvent(new Identifier(Constants.MOD_ID, "item.incantation_yog.incantation_bound"));
+	public static final SoundEvent ITEM_INFESTED_WHEAT_USE = new SoundEvent(new Identifier(Constants.MOD_ID, "item.infested_wheat.use"));
+	public static final SoundEvent RANDOM_PLING = new SoundEvent(new Identifier(Constants.MOD_ID, "random.pling"));
+	public static final SoundEvent RITE_RITE_TRIGGERED = new SoundEvent(new Identifier(Constants.MOD_ID, "rite.rite_triggered"));
+	public static final SoundEvent RITE_SPOTLIGHT = new SoundEvent(new Identifier(Constants.MOD_ID, "rite.spotlight"));
+	public static final SoundEvent RITE_TELEPORT = new SoundEvent(new Identifier(Constants.MOD_ID, "rite.teleport"));
+	public static final SoundEvent RITE_VEIL_SPAWN = new SoundEvent(new Identifier(Constants.MOD_ID, "rite.veil_spawn"));
+	public static final SoundEvent SPELL_SPELL_CAST = new SoundEvent(new Identifier(Constants.MOD_ID, "spell.spell_cast"));
 
 	public static void init() {
-		RegistryUtil.register(Registry.SOUND_EVENT, "gun_shot", GUN_SHOT);
-		RegistryUtil.register(Registry.SOUND_EVENT, "scary", SCARY_SOUNDS);
-		RegistryUtil.register(Registry.SOUND_EVENT, "teleport", TELEPORT_SOUND);
-		RegistryUtil.register(Registry.SOUND_EVENT, "veil_spawn", BROKE_VEIL_SPAWN);
-		RegistryUtil.register(Registry.SOUND_EVENT, "incantation_bound", INCANTATION_BIND_SUCCESS);
-		RegistryUtil.register(Registry.SOUND_EVENT, "rite_triggered", PRIMED_RITE_TRIGGERED);
-		RegistryUtil.register(Registry.SOUND_EVENT, "spell_cast", MAGIC);
-		RegistryUtil.register(Registry.SOUND_EVENT, "resonator", RESONATOR_HUMMING);
-		RegistryUtil.register(Registry.SOUND_EVENT, "pling", PLING);
+		register(AMBIENT_SCARY);
+		register(BLOCK_RESONATOR_AMBIENT);
+		//register(ENTITY_BYAKHEE_SADDLE);
+		register(ENTITY_HARROW_AMBIENT);
+		register(ENTITY_HARROW_DEATH);
+		register(ENTITY_HARROW_HURT);
+		register(ENTITY_HARROW_CHARGE);
+		register(ITEM_GUN_GUN_SHOT);
+		register(ITEM_INCANTATION_YOG_INCANTATION_BOUND);
+		register(ITEM_INFESTED_WHEAT_USE);
+		register(RANDOM_PLING);
+		register(RITE_RITE_TRIGGERED);
+		register(RITE_SPOTLIGHT);
+		register(RITE_TELEPORT);
+		register(RITE_VEIL_SPAWN);
+		register(SPELL_SPELL_CAST);
+	}
 
-		RegistryUtil.register(Registry.SOUND_EVENT, "entity.harrow.ambient", HARROW_AMBIENT);
-		RegistryUtil.register(Registry.SOUND_EVENT, "entity.harrow.death", HARROW_DEATH);
-		RegistryUtil.register(Registry.SOUND_EVENT, "entity.harrow.hurt", HARROW_HURT);
-		RegistryUtil.register(Registry.SOUND_EVENT, "entity.harrow.charge", HARROW_CHARGE);
+	private static void register(SoundEvent event) {
+		RegistryUtil.register(Registry.SOUND_EVENT, event.getId().getPath(), event);
 	}
 }

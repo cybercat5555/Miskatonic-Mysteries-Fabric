@@ -1,9 +1,5 @@
 package com.miskatonicmysteries.common.feature.entity;
 
-import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity.HoundDrainTargetGoal;
-import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity.HoundMeleeAttackGoal;
-import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity.HoundPounceAtTargetGoal;
-import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity.PhaseToTargetGoal;
 import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMParticles;
@@ -205,7 +201,7 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 							setVelocity(direction.getOffsetX() * 0.5F, direction.getOffsetY() * 0.5F, direction
 								.getOffsetZ() * 0.5F);
 							velocityModified = true;
-							world.playSound(null, destination, MMSounds.BROKE_VEIL_SPAWN, SoundCategory.HOSTILE, MathHelper
+							world.playSound(null, destination, MMSounds.RITE_VEIL_SPAWN, SoundCategory.HOSTILE, MathHelper
 								.nextFloat(random, 0.8F, 1.2F), MathHelper.nextFloat(random, 0.7F, 1.4F));
 						}
 					}
