@@ -335,7 +335,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 	}
 
 	public void startBlessing() {
-		dataTracker.set(BLESSING_TIME, 84 + 20 + 100); //animation time + transition ticks + blessing vision part
+		dataTracker.set(BLESSING_TIME, 204); //animation time + transition ticks + blessing vision part
 	}
 
 	public void decreaseBlessingTicks() {
@@ -378,6 +378,11 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 		}
 
 		@Override
+		public boolean shouldRunEveryTick() {
+			return true;
+		}
+
+		@Override
 		public void stop() {
 			setBlessTarget(null);
 		}
@@ -396,11 +401,11 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 			getLookControl().lookAt(target, 40, 40);
 			Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, getYaw(), 0);
 			Vec3d motionVec = new Vec3d(pos.x - target.getX(), pos.y + 2 - target.getY(), pos.z - target.getZ());
-			motionVec = motionVec.normalize().multiply(target.isOnGround() ? 0.1F : 0.084F);
+			motionVec = motionVec.normalize().multiply(target.isOnGround() ? 0.12F : 0.084F);
 			target.setVelocity(motionVec);
 			target.velocityModified = true;
 			target.velocityDirty = true;
-			if (getBlessingTicks() <= 0) {
+			if (getBlessingTicks() <= 1) {
 				HasturAscensionHandler.blessThroughPrince(getBlessTarget(), TatteredPrinceEntity.this);
 			}
 		}
