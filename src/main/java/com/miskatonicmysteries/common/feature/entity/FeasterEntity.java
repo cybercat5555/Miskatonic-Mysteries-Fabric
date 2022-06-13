@@ -38,7 +38,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
     private static final TrackedData<Boolean> IS_MELEE = DataTracker.registerData(FeasterEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Boolean> IS_RANGED = DataTracker.registerData(FeasterEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static final TrackedData<Integer> STORED_XP = DataTracker.registerData(FeasterEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    public int navigatorType;
+    public int navigationType;
     public FeasterMoveController feasterMoveController;
     public FeasterLogic feasterLogic;
 
@@ -70,12 +70,12 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
         if (navType == 0) {
             this.moveControl = new FeasterMoveController.GroundMover(this);
             this.navigation = createNavigation(world, FeasterPathNodeMaker.NavType.WALKING);
-            this.navigatorType = 0;
+            this.navigationType = 0;
             this.setFlying(false);
         } else {
             this.moveControl = new FeasterMoveController.FlightMover(this);
             this.navigation = createNavigation(world, FeasterPathNodeMaker.NavType.FLYING);
-            this.navigatorType = 1;
+            this.navigationType = 1;
         }
     }
 

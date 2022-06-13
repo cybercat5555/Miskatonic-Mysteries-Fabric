@@ -10,10 +10,10 @@ public class FeasterLogic {
     }
 
     public void updateLogic() {
-        if (feasterEntity.isFlying() && feasterEntity.navigatorType != 1) {
+        if (feasterEntity.isFlying() && feasterEntity.navigationType != 1) {
             feasterEntity.changeEntityNavigation(1);
         }
-        if (!feasterEntity.isFlying() && feasterEntity.navigatorType != 0) {
+        if (!feasterEntity.isFlying() && feasterEntity.navigationType != 0) {
             feasterEntity.changeEntityNavigation(0);
         }
         if (feasterEntity.isFlying()) {
