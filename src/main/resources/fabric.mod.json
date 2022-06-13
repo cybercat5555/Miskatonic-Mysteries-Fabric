@@ -17,6 +17,7 @@
   "license": "CC BY-NC-ND 4.0",
   "icon": "assets/miskatonicmysteries/icon.png",
   "environment": "*",
+  "accessWidener" : "miskatonikmysteries.accesswidener",
   "entrypoints": {
     "main": [
       "com.miskatonicmysteries.common.MiskatonicMysteries"
