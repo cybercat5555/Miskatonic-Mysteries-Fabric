@@ -6,11 +6,6 @@
     {
       "type": "text",
       "text": "A simple spell, popular for beginners, is that of knockback. This spell simply sends a wave of energy out from the caster, knocking away their target(s), but not causing damage, though environmental damage can still apply."
-    },
-    {
-      "type": "miskatonicmysteries:rite",
-      "rite": "miskatonicmysteries:knockback",
-      "text": "Simply cast this rite to learn the spell."
     }
   ]
 }

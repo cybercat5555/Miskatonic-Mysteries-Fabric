@@ -6,12 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "A key part of any Entheator's tool kit is a simple $(marked)healing spell$().$(br)This effect will restore some health based on its intensity."
-    },
-    {
-      "type": "miskatonicmysteries:rite",
-      "rite": "miskatonicmysteries:regeneration",
-      "text": "Learning this spell effect requires $(ml:world/occult_knowledge)a Witches Secret$()."
+      "text": "A key part of any Entheator's tool kit is a simple $(marked)healing spell$().$(br)This effect will restore some health based on its intensity and is unlocked by default."
     }
   ]
 }

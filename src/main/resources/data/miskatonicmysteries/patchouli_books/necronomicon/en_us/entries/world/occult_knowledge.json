@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "A lot of knowledge in this world cannot be described using mere words. Sometimes, one has to experience it by themselves. Such $(marked)occult knowledge$() is often used in $(ml:rites/rite_intro)rites$(), especially when dealing with $(ml:world/ascension)ascension$().$(br)Each piece of knowledge is acquired uniquely; for example, you can try giving a $(marked)Witch$() a potion. Surely they'll be happy about it."
+      "text": "A lot of knowledge in this world cannot be described using mere words. Sometimes, one has to experience it by themselves. Such $(marked)occult knowledge$() is often used in $(ml:rites/rite_intro)rites$(), especially when dealing with $(ml:world/ascension)ascension$()."
     },
     {
       "type": "text",

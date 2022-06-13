@@ -6,12 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "Another good spell for starters, which applies a hardening effect to their flesh."
-    },
-    {
-      "type": "miskatonicmysteries:rite",
-      "rite": "miskatonicmysteries:resistance",
-      "text": "Learning this spell effect requires $(ml:world/occult_knowledge)a Witches Secret$()."
+      "text": "Another good spell for starters, which applies a hardening effect to their flesh. It is unlocked by default."
     }
   ]
 }
