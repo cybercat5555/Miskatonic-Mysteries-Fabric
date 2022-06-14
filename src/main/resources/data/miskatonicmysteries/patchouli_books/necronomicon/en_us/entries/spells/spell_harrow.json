@@ -9,9 +9,8 @@
       "text": "This spell mimics the $(marked)Evoker$()'s Vex summoning attack in its primal form. The so-called $(marked)Harrows$() summoned by this spell will target whatever their summoner is targeting, for as long as they are able to exist.$(br2)Fittingly, this spell is unlocked by slaying an Evoker."
     },
     {
-      "type": "entity",
-      "entity": "miskatonicmysteries:harrow{LifeTicks:-1}",
-      "text": "Harrows act nearly identical to Vexes."
+      "type": "miskatonicmysteries:drawing",
+      "drawing": "miskatonicmysteries:textures/gui/drawings/harrow.png"
     }
   ]
 }
