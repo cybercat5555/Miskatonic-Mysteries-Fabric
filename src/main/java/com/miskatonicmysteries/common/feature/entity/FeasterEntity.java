@@ -31,6 +31,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import java.util.EnumSet;
 import java.util.function.Predicate;
 
 public class FeasterEntity extends HostileEntity implements IAnimatable {
@@ -48,7 +49,9 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
     public FeasterEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
         this.experiencePoints = 50;
+        this.feasterMoveController = new FeasterMoveController(this);
         this.feasterLogic = createFeasterLogic();
+        changeEntityNavigation(0);
     }
 
 
@@ -58,10 +61,9 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
     }
 
     protected EntityNavigation createNavigation(World world, FeasterPathNodeMaker.NavType type) {
-        FeasterPathNodeMaker newNavigator = new FeasterPathNodeMaker(this, world, FeasterPathNodeMaker.NavType.WALKING);
+        FeasterPathNodeMaker newNavigator = new FeasterPathNodeMaker(this, world, type);
         this.navigation = newNavigator;
         newNavigator.setCanSwim(true);
-        newNavigator.getNodeMaker().setCanOpenDoors(true);
         return newNavigator;
     }
     public void changeEntityNavigation(int navType){
@@ -74,6 +76,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
             this.moveControl = new FeasterMoveController.FlightMoveControl(this);
             this.navigation = createNavigation(world, FeasterPathNodeMaker.NavType.FLYING);
             this.navigationType = 1;
+
         }
     }
 
@@ -125,7 +128,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
     @Override
     protected void initDataTracker() {
         super.initDataTracker();
-        this.dataTracker.startTracking(IS_FLYING, true);
+        this.dataTracker.startTracking(IS_FLYING, false);
         this.dataTracker.startTracking(IS_MELEE, false);
         this.dataTracker.startTracking(IS_RANGED, false);
         this.dataTracker.startTracking(STORED_XP, 0);
@@ -211,6 +214,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
         private final FeasterEntity feasterEntity;
         private FeasterWanderGoal(FeasterEntity feasterEntity){
             this.feasterEntity = feasterEntity;
+            this.setControls(EnumSet.of(Goal.Control.MOVE));
         }
 
         @Override
@@ -220,7 +224,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 
         @Override
         public boolean shouldContinue() {
-            return feasterEntity.getNavigation().isIdle();
+            return !feasterEntity.getNavigation().isIdle();
         }
 
         @Override

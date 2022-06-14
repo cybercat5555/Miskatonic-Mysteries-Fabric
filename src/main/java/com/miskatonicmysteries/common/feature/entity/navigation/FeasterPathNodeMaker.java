@@ -11,12 +11,8 @@ public class FeasterPathNodeMaker extends MobNavigation {
     public FeasterPathNodeMaker(@NotNull final MobEntity entity, final World world, NavType type) {
         super(entity, world);
         switch (type) {
-            case FLYING:
-                this.nodeMaker = new BirdPathNodeMaker();
-                break;
-            case WALKING:
-                this.nodeMaker = new LandPathNodeMaker();
-                break;
+            case FLYING -> this.nodeMaker = new BirdPathNodeMaker();
+            case WALKING -> this.nodeMaker = new LandPathNodeMaker();
         }
         this.nodeMaker.setCanSwim(true);
     }
