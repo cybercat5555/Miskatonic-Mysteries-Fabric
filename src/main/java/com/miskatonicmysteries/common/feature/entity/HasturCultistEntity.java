@@ -220,7 +220,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
 	@Override
 	public boolean damage(DamageSource source, float amount) {
-		if (amount > 0.0F && ((LivingEntityAccessor) this).callBlockedByShield(source)) {
+		if (amount > 0.0F && blockedByShield(source)) {
 			this.damageShield(amount);
 			if (!source.isProjectile()) {
 				Entity entity = source.getSource();

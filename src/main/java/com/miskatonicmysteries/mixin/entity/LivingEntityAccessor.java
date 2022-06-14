@@ -9,5 +9,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface LivingEntityAccessor {
 
 	@Invoker
-	boolean callBlockedByShield(DamageSource source);
+	void callDamageShield(float amount);
 }

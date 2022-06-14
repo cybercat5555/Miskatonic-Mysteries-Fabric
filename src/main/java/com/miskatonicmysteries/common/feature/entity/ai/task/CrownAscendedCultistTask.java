@@ -21,27 +21,26 @@ public class CrownAscendedCultistTask extends Task<LivingEntity> {
 
     @Override
     protected boolean shouldRun(ServerWorld world, LivingEntity entity) {
-        List<HasturCultistEntity> cultistEntities = getAscendedCultists(entity, true);
+        List<HasturCultistEntity> cultistEntities = getCultists(entity, true);
         int cultistCount = (int) cultistEntities.stream().filter(Objects::nonNull).count();
-        if (cultistCount < 1) {
-            return true;
-        }
-        return false;
+        return cultistCount < 1;
     }
 
     @Override
     protected void run(ServerWorld world, LivingEntity entity, long time) {
         super.run(world, entity, time);
         if(entity instanceof HasturCultistEntity hasturCultistEntity){
-            hasturCultistEntity.ascend();
-            List<HasturCultistEntity> cultistEntities = getAscendedCultists(hasturCultistEntity, false);
-            for(HasturCultistEntity hasturCultist : cultistEntities){
-                hasturCultist.setCastTime(60);
+            List<HasturCultistEntity> cultistEntities = getCultists(hasturCultistEntity, false);
+            if (!cultistEntities.isEmpty()) {
+                cultistEntities.get(0).ascend();
+                for (HasturCultistEntity hasturCultist : cultistEntities) {
+                    hasturCultist.setCastTime(60);
+                }
             }
         }
     }
 
-    public static List<HasturCultistEntity> getAscendedCultists(LivingEntity cultist, boolean ascended) {
+    public static List<HasturCultistEntity> getCultists(LivingEntity cultist, boolean ascended) {
         return cultist.getBrain().getOptionalMemory(MemoryModuleType.MOBS).map((list) -> list
         .stream()
         .filter((entity) -> entity instanceof HasturCultistEntity && (!ascended || ((HasturCultistEntity) entity).isAscended()))

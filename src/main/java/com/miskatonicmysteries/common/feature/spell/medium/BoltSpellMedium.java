@@ -4,6 +4,7 @@ import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.entity.BoltEntity;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.mixin.entity.LivingEntityAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.util.Identifier;
@@ -48,6 +50,11 @@ public class BoltSpellMedium extends SpellMedium {
 		}
 		if (hit != null && blockHit.squaredDistanceTo(caster) > hit.getEntity().squaredDistanceTo(caster)) {
 			Entity hitEntity = hit.getEntity();
+			if (hitEntity instanceof LivingEntity l && l.blockedByShield(DamageSource.mob(caster))) {
+				((LivingEntityAccessor) l).callDamageShield(intensity);
+				world.sendEntityStatus(l, (byte) 29);
+				return false;
+			}
 			boolean hadEffect = effect.effect(world, caster, hitEntity, hit.getPos(), this, intensity, caster);
 			if (intensity > 0) {
 				jumpBolt(world, caster, hit.getPos().add(0, hitEntity.getHeight() / 2.0, 0), hitEntity, new ArrayList<>(), effect,

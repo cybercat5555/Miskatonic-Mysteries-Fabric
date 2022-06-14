@@ -151,6 +151,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 		this.goalSelector.add(1, new SwimGoal(this));
 		this.goalSelector.add(2, new BlessGoal());
 		this.goalSelector.add(3, new CastSpellGoal<>(this));
+		this.goalSelector.add(3, new ChokeTargetGoal());
 		this.goalSelector.add(4, new SwingAtTargetGoal());
 		this.goalSelector.add(5, new LookAroundGoal(this));
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 12));
@@ -320,9 +321,9 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 
 	@Override
 	public Spell selectSpell() {
-		SpellMedium medium = MMSpellMediums.BOLT;
+		SpellMedium medium = random.nextBoolean() ? MMSpellMediums.BOLT : MMSpellMediums.PROJECTILE;
 		SpellEffect effect = MMSpellEffects.DAMAGE;
-		return new Spell(medium, effect, 2 + world.random.nextInt(3));
+		return new Spell(medium, effect, 2 + random.nextInt(3));
 	}
 
 	public @Nullable
@@ -359,6 +360,64 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 	@Override
 	public boolean isSupernatural() {
 		return true;
+	}
+
+	public class ChokeTargetGoal extends Goal {
+		private int internalCooldown;
+		private int chokeTimer;
+		public ChokeTargetGoal() {
+			setControls(EnumSet.of(Control.TARGET));
+		}
+
+		@Override
+		public boolean canStart() {
+			if (internalCooldown > 0) {
+				internalCooldown--;
+			}
+			System.out.println(internalCooldown);
+			return internalCooldown <= 0 && getTarget() != null && getTarget().distanceTo(TatteredPrinceEntity.this) < 10;
+		}
+
+		@Override
+		public void start() {
+			chokeTimer = 100;
+		}
+
+		@Override
+		public boolean shouldContinue() {
+			return chokeTimer > 0 && getTarget() != null;
+		}
+
+		@Override
+		public boolean shouldRunEveryTick() {
+			return true;
+		}
+
+		@Override
+		public void stop() {
+			chokeTimer = 0;
+			internalCooldown = 100;
+		}
+
+		@Override
+		public void tick() {
+			if (getTarget() == null) {
+				stop();
+				return;
+			}
+			LivingEntity target = getTarget();
+			getLookControl().lookAt(target, 40, 40);
+			Vec3d pos = Util.getYawRelativePos(getPos(), 4.5, getYaw(), 0);
+			Vec3d motionVec = new Vec3d(pos.x - target.getX(), pos.y + 3 - target.getY(), pos.z - target.getZ());
+			motionVec = motionVec.normalize().multiply(target.isOnGround() ? 0.4 : 0.24);
+			target.setVelocity(motionVec);
+			target.velocityModified = true;
+			target.velocityDirty = true;
+			chokeTimer--;
+			if (chokeTimer % 40 == 0) {
+				target.damage(DamageSource.magic(target, TatteredPrinceEntity.this), 2);
+			}
+		}
 	}
 
 	public class BlessGoal extends Goal {
