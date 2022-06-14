@@ -11,7 +11,6 @@ import net.minecraft.client.model.ModelTransform;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -22,6 +21,10 @@ public class HasturObeliskModel extends Model {
 	private final ModelPart ribbonE01;
 	private final ModelPart ribbonE02;
 	private final ModelPart ribbonW;
+	private final ModelPart cloak01a;
+	private final ModelPart cloak02a;
+	private final ModelPart cloak03a;
+	private final ModelPart cloak04a;
 
 	public HasturObeliskModel(ModelPart root) {
 		super(RenderLayer::getEntityCutout);
@@ -31,6 +34,10 @@ public class HasturObeliskModel extends Model {
 		this.ribbonE01 = prongE02.getChild("ribbonE01");
 		this.ribbonE02 = prongE02.getChild("prongE03").getChild("prongE04").getChild("ribbonE02");
 		this.ribbonW = crownRotator.getChild("prongW01").getChild("prongW02").getChild("prongW03").getChild("ribbonW");
+		this.cloak01a = obelisk.getChild("cloak01a");
+		this.cloak02a = obelisk.getChild("cloak02a");
+		this.cloak03a = obelisk.getChild("cloak03a");
+		this.cloak04a = obelisk.getChild("cloak04a");
 	}
 
 	public static TexturedModelData getTexturedModelData() {
@@ -284,13 +291,25 @@ public class HasturObeliskModel extends Model {
 
 	public void animateCloth(ObeliskBlockEntity entity, long time, float tickDelta) {
 		BlockPos pos = entity.getPos();
-		float k = ((float)Math.floorMod((long)(pos.getX() * 7 + pos.getY() * 9 + pos.getZ() * 13) + entity.getWorld().getTime(), 50L) + tickDelta) / 50.0f;
-		this.ribbonW.roll = (-0.0125f + 0.01f * MathHelper.cos((float)Math.PI * 2 * k)) * (float)Math.PI; //stronger roll
+		float k = ((float)Math.floorMod((pos.getX() * 7L + pos.getY() * 9L + pos.getZ() * 13L) + time, 50L) + tickDelta) / 50.0f;
+		float l = ((float)Math.floorMod((pos.getX() * 7L + pos.getY() * 9L + pos.getZ() * 13L) + time, 120L) + tickDelta) / 120.0f;
+		this.ribbonW.roll = (-0.0125f + 0.01f * MathHelper.cos(MathHelper.PI * 2 * k)) * MathHelper.PI;
+		this.ribbonE01.roll = (-0.0125f + 0.01f * MathHelper.cos(MathHelper.PI * 2 * k)) * MathHelper.PI;
+		this.ribbonE02.roll = (-0.0125f + 0.01f * MathHelper.cos(MathHelper.PI * 2 * k)) * MathHelper.PI;
+		this.ribbonE01.yaw = (0.0125f + 0.03f * MathHelper.cos(MathHelper.PI * 2 * k)) * MathHelper.PI;
+		this.ribbonE02.yaw = (-0.0125f + 0.045f * MathHelper.cos(MathHelper.PI * 2 * k)) * MathHelper.PI;
 
 
-		this.ribbonE01.roll = (-0.0125f + 0.01f * MathHelper.cos((float)Math.PI * 2 * k)) * (float)Math.PI; //weak roll (upwards)
-		this.ribbonE02.roll = (-0.0125f + 0.01f * MathHelper.cos((float)Math.PI * 2 * k)) * (float)Math.PI; //stronger yaw motion
-		this.ribbonE01.yaw = (0.0125f + 0.03f * MathHelper.cos((float)Math.PI * 2 * k)) * (float)Math.PI; //weak roll (upwards)
-		this.ribbonE02.yaw = (-0.0125f + 0.045f * MathHelper.cos((float)Math.PI * 2 * k)) * (float)Math.PI; //stronger yaw motion
+		this.cloak01a.yaw = -1.5708F;
+		this.cloak01a.pitch = -0.4363F - 0.0125F + (0.005f * -MathHelper.cos(MathHelper.PI * 2 * l)) * MathHelper.PI;
+		this.cloak02a.yaw = -1.5708F;
+		this.cloak02a.pitch = -0.0125F + (0.0025f * -MathHelper.cos(MathHelper.PI * 2 * l)) * MathHelper.PI;
+
+		this.cloak03a.yaw = 1.5708F;
+		this.cloak03a.pitch = -0.3491F + (-0.02f + 0.035f * MathHelper.cos(MathHelper.PI * 2 * l)) * MathHelper.PI;
+		this.cloak04a.yaw = 0;
+		this.cloak04a.roll = (0.005F + 0.005f * MathHelper.cos(MathHelper.PI * 2 * l)) * MathHelper.PI;;
+		this.cloak04a.pitch = -0.48F + (-0.0125f + 0.01f * MathHelper.cos(MathHelper.PI * 2 * l)) * MathHelper.PI;
+
 	}
 }
