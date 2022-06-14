@@ -30,7 +30,7 @@ import static java.util.Comparator.comparingInt;
 @Mixin(BannerBlockEntity.class)
 public abstract class BannerBlockEntityMixin extends BlockEntity implements LoomPatternContainer.Internal {
     @Unique
-    private NbtList loomPatternsTag = new NbtList();
+    private NbtList mmLoomPatternsTag = new NbtList();
 
     private BannerBlockEntityMixin() {
         super(null, BlockPos.ORIGIN, null);
@@ -38,16 +38,16 @@ public abstract class BannerBlockEntityMixin extends BlockEntity implements Loom
 
     @Override
     public NbtList bannerpp_getLoomPatternTag() {
-        return loomPatternsTag;
+        return mmLoomPatternsTag;
     }
 
     @Override
     public void bannerpp_setLoomPatternTag(NbtList tag) {
-        loomPatternsTag = tag;
+        mmLoomPatternsTag = tag;
 
-        if (loomPatternsTag != null) {
+        if (mmLoomPatternsTag != null) {
             // validate NBT data, removing and/or resetting invalid data
-            for (Iterator<NbtElement> itr = loomPatternsTag.iterator(); itr.hasNext(); ) {
+            for (Iterator<NbtElement> itr = mmLoomPatternsTag.iterator(); itr.hasNext(); ) {
                 NbtCompound element = (NbtCompound) itr.next();
                 Identifier id = Identifier.tryParse(element.getString("Pattern"));
                 int colorId = element.getInt("Color");
@@ -69,7 +69,7 @@ public abstract class BannerBlockEntityMixin extends BlockEntity implements Loom
             }
 
             // the Java API requires that this sort be stable
-            loomPatternsTag.sort(comparingInt(t -> ((NbtCompound) t).getInt("Index")));
+            mmLoomPatternsTag.sort(comparingInt(t -> ((NbtCompound) t).getInt("Index")));
         }
     }
 
@@ -134,7 +134,7 @@ public abstract class BannerBlockEntityMixin extends BlockEntity implements Loom
     @Inject(method = "writeNbt", at = @At("RETURN"))
     private void addBppPatternData(NbtCompound nbt, CallbackInfo ci) {
         if (nbt != null) {
-            nbt.put(LoomPatternContainer.NBT_KEY, loomPatternsTag);
+            nbt.put(LoomPatternContainer.NBT_KEY, mmLoomPatternsTag);
         }
     }
 

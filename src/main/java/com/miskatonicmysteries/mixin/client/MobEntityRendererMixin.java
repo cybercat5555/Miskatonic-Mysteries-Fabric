@@ -28,11 +28,5 @@ public class MobEntityRendererMixin<T extends MobEntity> {
 		if(((OthervibeMobEntityAccessor)mobEntity).access(MinecraftClient.getInstance().player)){
 			cir.setReturnValue(false);
 		}
-		/*
-		if(cir.getReturnValue() && Constants.Tags.BROKEN_VEIL_MOBS.values().contains(mobEntity) && MinecraftClient.getInstance().player.hasStatusEffect(MMStatusEffects.OTHERVIBES)){
-			cir.setReturnValue(false);
-		}
-
-		 */
 	}
 }

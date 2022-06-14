@@ -26,7 +26,7 @@ public abstract class BannerBlockEntityClientMixin extends BlockEntity implement
     private List<?> patterns;
 
     @Unique
-    private List<LoomPatternData> loomPatterns = Collections.emptyList();
+    private List<LoomPatternData> mmLoomPatterns = Collections.emptyList();
 
     private BannerBlockEntityClientMixin() {
         super(null, BlockPos.ORIGIN, null);
@@ -36,10 +36,10 @@ public abstract class BannerBlockEntityClientMixin extends BlockEntity implement
     public List<LoomPatternData> bannerpp_getLoomPatterns() {
         if (this.patterns == null) {
             NbtList tag = ((LoomPatternContainer.Internal) this).bannerpp_getLoomPatternTag();
-            loomPatterns = LoomPatternConversions.makeLoomPatternData(tag);
+            mmLoomPatterns = LoomPatternConversions.makeLoomPatternData(tag);
         }
 
-        return Collections.unmodifiableList(loomPatterns);
+        return Collections.unmodifiableList(mmLoomPatterns);
     }
 
     /**

@@ -43,7 +43,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     private List<?> bannerPatterns;
 
     @Unique
-    private List<LoomPatternData> loomPatterns = Collections.emptyList();
+    private List<LoomPatternData> mmLoomPatterns = Collections.emptyList();
 
     private LoomScreenMixin() {
         super(null, null, null);
@@ -122,14 +122,14 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
         if (this.bannerPatterns != null) {
             ItemStack banner = (this.handler).getOutputSlot().getStack();
             NbtList ls = LoomPatternConversions.getLoomPatternTag(banner);
-            loomPatterns = LoomPatternConversions.makeLoomPatternData(ls);
+            mmLoomPatterns = LoomPatternConversions.makeLoomPatternData(ls);
         } else {
-            loomPatterns = Collections.emptyList();
+            mmLoomPatterns = Collections.emptyList();
         }
     }
 
     @Unique
-    private int loomPatternIndex;
+    private int mmLoomPatternIndex;
 
     /**
      * Prevents an ArrayIndexOutOfBoundsException from occuring when the vanilla
@@ -142,7 +142,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     ordinal = 0
     )
     private int disarmBppIndexForVanilla(int patternIndex) {
-        loomPatternIndex = patternIndex;
+        mmLoomPatternIndex = patternIndex;
 
         if (patternIndex < 0) {
             patternIndex = 0;
@@ -152,7 +152,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     }
 
     @Unique
-    private static final List<LoomPatternData> singleBppPattern = new ArrayList<>();
+    private static final List<LoomPatternData> mmSingleBppPattern = new ArrayList<>();
 
     /**
      * If the pattern index indicates a Banner++ pattern, put the Banner++
@@ -167,10 +167,10 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     )
     )
     private NbtElement proxyPutPatterns(NbtCompound nbt, String key, NbtElement patterns) {
-        singleBppPattern.clear();
+        mmSingleBppPattern.clear();
 
-        if (loomPatternIndex < 0) {
-            int loomPatternIdx = -loomPatternIndex - (1 + BannerPattern.LOOM_APPLICABLE_COUNT);
+        if (mmLoomPatternIndex < 0) {
+            int loomPatternIdx = -mmLoomPatternIndex - (1 + BannerPattern.LOOM_APPLICABLE_COUNT);
             LoomPattern pattern = LoomPatternsInternal.byLoomIndex(loomPatternIdx);
             NbtList loomPatterns = new NbtList();
             NbtCompound patternNbtElement = new NbtCompound();
@@ -183,10 +183,10 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
             assert vanillaPatterns.size() == 2 : vanillaPatterns.size();
             vanillaPatterns.remove(1);
             nbt.put(LoomPatternContainer.NBT_KEY, loomPatterns);
-            singleBppPattern.add(new LoomPatternData(pattern, DyeColor.WHITE, 1));
+            mmSingleBppPattern.add(new LoomPatternData(pattern, DyeColor.WHITE, 1));
         }
 
-        LoomPatternRenderContext.setLoomPatterns(singleBppPattern);
+        LoomPatternRenderContext.setLoomPatterns(mmSingleBppPattern);
         return nbt.put(key, patterns);
     }
 
@@ -198,7 +198,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     )
     )
     private void setEmptyBppPattern(CallbackInfo info) {
-        LoomPatternRenderContext.setLoomPatterns(loomPatterns);
+        LoomPatternRenderContext.setLoomPatterns(mmLoomPatterns);
     }
 
     /**

@@ -47,7 +47,7 @@ public abstract class LoomContainerMixin extends ScreenHandler {
     private Slot outputSlot;
 
     @Unique
-    private PlayerEntity player;
+    private PlayerEntity mmPlayer;
 
     private LoomContainerMixin() {
         super(null, 0);
@@ -64,7 +64,7 @@ public abstract class LoomContainerMixin extends ScreenHandler {
     at = @At("RETURN")
     )
     private void bppSavePlayer(int capacity, PlayerInventory playerInventory, ScreenHandlerContext ctx, CallbackInfo info) {
-        player = playerInventory.player;
+        mmPlayer = playerInventory.player;
     }
 
     /**
@@ -84,7 +84,7 @@ public abstract class LoomContainerMixin extends ScreenHandler {
     }
 
     @Unique
-    private int patternLimit;
+    private int mmPatternLimit;
 
     /**
      * Computes and saves the banner pattern limit for this player to be
@@ -92,7 +92,7 @@ public abstract class LoomContainerMixin extends ScreenHandler {
      */
     @Inject(method = "onContentChanged", at = @At("HEAD"))
     private void invokePatternLimitEvent(CallbackInfo info) {
-        patternLimit = PatternLimitModifier.EVENT.invoker().computePatternLimit(6, player);
+        mmPatternLimit = PatternLimitModifier.EVENT.invoker().computePatternLimit(6, mmPlayer);
     }
 
     /**
@@ -129,7 +129,7 @@ public abstract class LoomContainerMixin extends ScreenHandler {
     )
     private boolean addBppLoomPatternsToFullCond(boolean original) {
         ItemStack banner = this.bannerSlot.getStack();
-        return original || BannerBlockEntity.getPatternCount(banner) >= patternLimit;
+        return original || BannerBlockEntity.getPatternCount(banner) >= mmPatternLimit;
     }
 
     /**
@@ -159,7 +159,7 @@ public abstract class LoomContainerMixin extends ScreenHandler {
 
         // only run for special loom patterns
         if (!patternStack.isEmpty() && patternStack.getItem() instanceof LoomPatternProvider provider) {
-            boolean overfull = BannerBlockEntity.getPatternCount(banner) >= patternLimit;
+            boolean overfull = BannerBlockEntity.getPatternCount(banner) >= mmPatternLimit;
 
             if (!overfull) {
                 LoomPattern pattern = provider.getPattern();

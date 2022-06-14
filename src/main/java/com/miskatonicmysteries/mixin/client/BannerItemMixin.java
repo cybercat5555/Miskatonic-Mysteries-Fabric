@@ -27,10 +27,10 @@ public abstract class BannerItemMixin extends WallStandingBlockItem {
     }
 
     @Unique
-    private static NbtList loomPatterns;
+    private static NbtList mmLoomPatterns;
 
     @Unique
-    private static int nextLoomPatternIndex;
+    private static int mmNextLoomPatternIndex;
 
     /**
      * Reads in Banner++ loom pattern data and resets current loom pattern index.
@@ -40,11 +40,11 @@ public abstract class BannerItemMixin extends WallStandingBlockItem {
     at = @At("HEAD")
     )
     private static void preAppendBppLoomPatterns(ItemStack stack, List<Text> lines, CallbackInfo info) {
-        nextLoomPatternIndex = 0;
+        mmNextLoomPatternIndex = 0;
         NbtCompound beTag = stack.getSubNbt("BlockEntityTag");
 
         if (beTag != null && beTag.contains(LoomPatternContainer.NBT_KEY)) {
-            loomPatterns = beTag.getList(LoomPatternContainer.NBT_KEY, 10);
+            mmLoomPatterns = beTag.getList(LoomPatternContainer.NBT_KEY, 10);
         }
     }
 
@@ -62,13 +62,13 @@ public abstract class BannerItemMixin extends WallStandingBlockItem {
     private static void appendBppLoomPatternsInline(ItemStack stack, List<Text> lines, CallbackInfo info) {
         int nextIndex = lines.size() - 1;
 
-        if (loomPatterns != null) {
-            while (nextLoomPatternIndex < loomPatterns.size()) {
-                NbtCompound data = loomPatterns.getCompound(nextLoomPatternIndex);
+        if (mmLoomPatterns != null) {
+            while (mmNextLoomPatternIndex < mmLoomPatterns.size()) {
+                NbtCompound data = mmLoomPatterns.getCompound(mmNextLoomPatternIndex);
 
                 if (data.getInt("Index") == nextIndex) {
                     addLoomPatternLine(data, lines);
-                    nextLoomPatternIndex++;
+                    mmNextLoomPatternIndex++;
                 } else {
                     break;
                 }
@@ -83,14 +83,14 @@ public abstract class BannerItemMixin extends WallStandingBlockItem {
      */
     @Inject(method = "appendBannerTooltip", at = @At("RETURN"))
     private static void appendBppLoomPatternsPost(ItemStack stack, List<Text> lines, CallbackInfo info) {
-        if (loomPatterns != null) {
-            for (int i = nextLoomPatternIndex; i < loomPatterns.size(); i++) {
-                NbtCompound data = loomPatterns.getCompound(i);
+        if (mmLoomPatterns != null) {
+            for (int i = mmNextLoomPatternIndex; i < mmLoomPatterns.size(); i++) {
+                NbtCompound data = mmLoomPatterns.getCompound(i);
                 addLoomPatternLine(data, lines);
             }
 
             // allow NBT tag to be garbage collected
-            loomPatterns = null;
+            mmLoomPatterns = null;
         }
     }
 
