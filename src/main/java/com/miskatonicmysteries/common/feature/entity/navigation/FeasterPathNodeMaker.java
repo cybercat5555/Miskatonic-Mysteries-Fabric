@@ -21,8 +21,6 @@ public class FeasterPathNodeMaker extends MobNavigation {
         this.nodeMaker.setCanSwim(true);
     }
 
-
-
     public enum NavType {
         WALKING,
         FLYING

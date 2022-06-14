@@ -3,15 +3,15 @@ package com.miskatonicmysteries.common.feature.entity;
 import com.miskatonicmysteries.common.feature.entity.navigation.FeasterLogic;
 import com.miskatonicmysteries.common.feature.entity.navigation.FeasterMoveController;
 import com.miskatonicmysteries.common.feature.entity.navigation.FeasterPathNodeMaker;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.FuzzyTargeting;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.boss.BossBar;
-import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -19,8 +19,8 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -43,12 +43,10 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
     public FeasterLogic feasterLogic;
 
     AnimationFactory factory = new AnimationFactory(this);
-    private final ServerBossBar bossBar;
     private static final Predicate<LivingEntity> CAN_ATTACK_PREDICATE = (entity) -> entity.getGroup() != EntityGroup.UNDEAD && entity.isMobOrPlayer();
 
     public FeasterEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
-        this.bossBar = (ServerBossBar)(new ServerBossBar(this.getDisplayName(), BossBar.Color.PURPLE, BossBar.Style.PROGRESS)).setDarkenSky(true);
         this.experiencePoints = 50;
         this.feasterLogic = createFeasterLogic();
     }
@@ -68,12 +66,12 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
     }
     public void changeEntityNavigation(int navType){
         if (navType == 0) {
-            this.moveControl = new FeasterMoveController.GroundMover(this);
+            this.moveControl = new FeasterMoveController.GroundMoveControl(this);
             this.navigation = createNavigation(world, FeasterPathNodeMaker.NavType.WALKING);
             this.navigationType = 0;
             this.setFlying(false);
         } else {
-            this.moveControl = new FeasterMoveController.FlightMover(this);
+            this.moveControl = new FeasterMoveController.FlightMoveControl(this);
             this.navigation = createNavigation(world, FeasterPathNodeMaker.NavType.FLYING);
             this.navigationType = 1;
         }
@@ -84,14 +82,18 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5).add(EntityAttributes.GENERIC_MAX_HEALTH, 100).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.32F).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6000000238418579D);
+        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 100)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32)
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.32F)
+                .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6000000238418579D);
     }
 
     @Override
     protected void initGoals() {
         super.initGoals();
-        this.goalSelector.add(5, new FlyGoal(this, 1.0D));
         this.goalSelector.add(1, new FeasterMeleeAttackGoal());
+        this.goalSelector.add(2, new FeasterWanderGoal(this));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(7, new LookAroundGoal(this));
         this.targetSelector.add(1, new RevengeGoal(this));
@@ -101,13 +103,12 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 
     @Override
     protected void mobTick() {
-        this.bossBar.setPercent(this.getHealth() / this.getMaxHealth());
         super.mobTick();
         if(!this.isDead()){
             if (!world.isClient()) {
                 this.feasterLogic.updateLogic();
                 if(isFlying()){
-                    this.feasterMoveController.tick();
+                    this.feasterMoveController.flyingTick();
                 }
             }
         }
@@ -134,31 +135,6 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.putBoolean("Flying", this.isFlying());
-    }
-
-    @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        if (this.hasCustomName()) {
-            this.bossBar.setName(this.getDisplayName());
-        }
-    }
-    @Override
-    public void setCustomName(@Nullable Text name) {
-        super.setCustomName(name);
-        this.bossBar.setName(this.getDisplayName());
-    }
-
-    @Override
-    public void onStartedTrackingBy(ServerPlayerEntity player) {
-        super.onStartedTrackingBy(player);
-        this.bossBar.addPlayer(player);
-    }
-
-    @Override
-    public void onStoppedTrackingBy(ServerPlayerEntity player) {
-        super.onStoppedTrackingBy(player);
-        this.bossBar.removePlayer(player);
     }
 
     @Override
@@ -229,8 +205,39 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
         return factory;
     }
 
-    class FeasterMeleeAttackGoal extends MeleeAttackGoal {
+    //AI
 
+    private static class FeasterWanderGoal extends Goal{
+        private final FeasterEntity feasterEntity;
+        private FeasterWanderGoal(FeasterEntity feasterEntity){
+            this.feasterEntity = feasterEntity;
+        }
+
+        @Override
+        public boolean canStart() {
+            return !feasterEntity.isFlying();
+        }
+
+        @Override
+        public boolean shouldContinue() {
+            return feasterEntity.getNavigation().isIdle();
+        }
+
+        @Override
+        public void start() {
+            Vec3d vec3d = this.getRandomLocation();
+            if (vec3d != null) {
+                feasterEntity.getNavigation().startMovingAlong(feasterEntity.getNavigation().findPathTo((new BlockPos(vec3d)), 2), 1.0D);
+            }
+        }
+
+        @Nullable
+        private Vec3d getRandomLocation() {
+            return FuzzyTargeting.find(feasterEntity, 16, 16);
+        }
+    }
+
+    private class FeasterMeleeAttackGoal extends MeleeAttackGoal {
         public FeasterMeleeAttackGoal() {
             super(FeasterEntity.this, 1.0F, false);
         }
