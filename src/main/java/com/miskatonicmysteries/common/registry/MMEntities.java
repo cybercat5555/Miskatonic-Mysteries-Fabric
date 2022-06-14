@@ -82,7 +82,7 @@ public class MMEntities {
 		.build();
 
 	public static final EntityType<FeasterEntity> FEASTER = FabricEntityTypeBuilder
-	.create(SpawnGroup.MONSTER, FeasterEntity::new).dimensions(EntityDimensions.fixed(2F, 3F)).trackRangeBlocks(16).build();
+	.create(SpawnGroup.MONSTER, FeasterEntity::new).dimensions(EntityDimensions.fixed(2F, 3F)).trackRangeBlocks(64).build();
 
 	public static final MemoryModuleType<GlobalPos> CONGREGATION_POINT = MemoryModuleTypeAccessor.invokeRegister(
 		Constants.MOD_ID + ":congregation_point",
