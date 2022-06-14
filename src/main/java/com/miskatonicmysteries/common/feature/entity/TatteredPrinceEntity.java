@@ -374,7 +374,6 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 			if (internalCooldown > 0) {
 				internalCooldown--;
 			}
-			System.out.println(internalCooldown);
 			return internalCooldown <= 0 && getTarget() != null && getTarget().distanceTo(TatteredPrinceEntity.this) < 10;
 		}
 
