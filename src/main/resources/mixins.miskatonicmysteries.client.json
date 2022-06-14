@@ -13,7 +13,6 @@
     "client.PlayerSkinTextureAccessor",
     "client.WorldRendererAccessor",
     "client.WorldRendererMixin",
-    "client.BlockModelRendererMixin",
     "client.ClientEntityMixin",
     "client.BannerBlockEntityClientMixin",
     "client.BannerItemMixin",

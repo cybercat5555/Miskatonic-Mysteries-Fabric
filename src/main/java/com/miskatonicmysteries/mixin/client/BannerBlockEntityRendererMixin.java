@@ -28,10 +28,10 @@ import java.util.List;
 @Mixin(BannerBlockEntityRenderer.class)
 public abstract class BannerBlockEntityRendererMixin {
     @Unique
-    private static List<LoomPatternData> loomPatterns;
+    private static List<LoomPatternData> mmLoomPatterns;
 
     @Unique
-    private static int nextLoomPatternIndex;
+    private static int mmNextLoomPatternIndex;
 
     /**
      * Saves Banner++ loom pattens in a field for rendering.
@@ -53,8 +53,8 @@ public abstract class BannerBlockEntityRendererMixin {
     at = @At("HEAD")
     )
     private static void bppResetLocalCtx(CallbackInfo info) {
-        nextLoomPatternIndex = 0;
-        loomPatterns = LoomPatternRenderContext.getLoomPatterns();
+        mmNextLoomPatternIndex = 0;
+        mmLoomPatterns = LoomPatternRenderContext.getLoomPatterns();
     }
 
     /**
@@ -82,12 +82,12 @@ public abstract class BannerBlockEntityRendererMixin {
     boolean glint,
     CallbackInfo info,
     int idx) {
-        while (nextLoomPatternIndex < loomPatterns.size()) {
-            LoomPatternData data = loomPatterns.get(nextLoomPatternIndex);
+        while (mmNextLoomPatternIndex < mmLoomPatterns.size()) {
+            LoomPatternData data = mmLoomPatterns.get(mmNextLoomPatternIndex);
 
             if (data.index() == idx - 1) {
                 renderBppLoomPattern(data, stack, provider, canvas, light, overlay, isBanner);
-                nextLoomPatternIndex++;
+                mmNextLoomPatternIndex++;
             } else {
                 break;
             }
@@ -112,11 +112,11 @@ public abstract class BannerBlockEntityRendererMixin {
     List<Pair<BannerPattern, DyeColor>> patterns,
     boolean glint,
     CallbackInfo info) {
-        for (int i = nextLoomPatternIndex; i < loomPatterns.size(); i++) {
-            renderBppLoomPattern(loomPatterns.get(i), stack, provider, canvas, light, overlay, isBanner);
+        for (int i = mmNextLoomPatternIndex; i < mmLoomPatterns.size(); i++) {
+            renderBppLoomPattern(mmLoomPatterns.get(i), stack, provider, canvas, light, overlay, isBanner);
         }
 
-        loomPatterns = Collections.emptyList();
+        mmLoomPatterns = Collections.emptyList();
     }
 
     @Unique

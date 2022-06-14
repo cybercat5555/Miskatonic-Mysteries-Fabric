@@ -4,7 +4,7 @@ import com.miskatonicmysteries.common.feature.entity.FeasterEntity;
 
 public class FeasterLogic {
 
-    private FeasterEntity feasterEntity;
+    private final FeasterEntity feasterEntity;
     public FeasterLogic(FeasterEntity feasterEntity) {
         this.feasterEntity = feasterEntity;
     }
