@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "miskatonicmysteries:yog_statue_stone"
+		},
+		{
+			"tag": "c:mossifiers"
+		}
+	],
+	"result": {
+		"item": "miskatonicmysteries:yog_statue_mossy"
+	}
+}

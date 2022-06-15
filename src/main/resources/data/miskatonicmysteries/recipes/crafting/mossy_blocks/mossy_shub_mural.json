@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "miskatonicmysteries:stone_shub_mural"
+		},
+		{
+			"tag": "c:mossifiers"
+		}
+	],
+	"result": {
+		"item": "miskatonicmysteries:mossy_shub_mural"
+	}
+}

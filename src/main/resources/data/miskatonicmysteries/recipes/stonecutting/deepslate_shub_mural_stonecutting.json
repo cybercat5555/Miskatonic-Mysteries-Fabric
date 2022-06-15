@@ -1,0 +1,8 @@
+{
+	"type": "minecraft:stonecutting",
+	"ingredient": {
+		"item": "minecraft:deepslate"
+	},
+	"result": "miskatonicmysteries:deepslate_shub_mural",
+	"count": 1
+}

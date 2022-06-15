@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "miskatonicmysteries:stone_altar"
+		},
+		{
+			"tag": "c:mossifiers"
+		}
+	],
+	"result": {
+		"item": "miskatonicmysteries:mossy_stone_altar"
+	}
+}

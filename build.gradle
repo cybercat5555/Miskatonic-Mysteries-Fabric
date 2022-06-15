@@ -97,6 +97,7 @@ dependencies {
 
 	//REI
 	modImplementation("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}")
+	modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}")
 
 	//Satin
 	modImplementation("io.github.ladysnake:satin:${project.satin_version}")

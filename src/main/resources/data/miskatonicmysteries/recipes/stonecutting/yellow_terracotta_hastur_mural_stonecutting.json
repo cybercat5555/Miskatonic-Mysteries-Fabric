@@ -1,0 +1,8 @@
+{
+	"type": "minecraft:stonecutting",
+	"ingredient": {
+		"item": "minecraft:yellow_terracotta"
+	},
+	"result": "miskatonicmysteries:yellow_terracotta_hastur_mural",
+	"count": 1
+}

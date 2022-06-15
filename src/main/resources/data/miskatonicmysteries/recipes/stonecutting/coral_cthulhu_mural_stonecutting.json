@@ -1,0 +1,8 @@
+{
+	"type": "minecraft:stonecutting",
+	"ingredient": {
+		"tag": "minecraft:dead_coral_blocks"
+	},
+	"result": "miskatonicmysteries:coral_cthulhu_mural",
+	"count": 1
+}

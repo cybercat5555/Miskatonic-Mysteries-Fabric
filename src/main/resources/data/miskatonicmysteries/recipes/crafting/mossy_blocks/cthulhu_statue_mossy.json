@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "miskatonicmysteries:cthulhu_statue_stone"
+		},
+		{
+			"tag": "c:mossifiers"
+		}
+	],
+	"result": {
+		"item": "miskatonicmysteries:cthulhu_statue_mossy"
+	}
+}

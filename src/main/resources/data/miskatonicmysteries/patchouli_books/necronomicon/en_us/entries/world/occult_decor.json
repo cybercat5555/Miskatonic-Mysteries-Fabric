@@ -9,11 +9,13 @@
 		},
 		{
 			"type": "spotlight",
+			"title": "Murals",
 			"item": "miskatonicmysteries:stone_hastur_mural",
-			"text": "$(item)Murals$() are simple objects of worship finely carved from a material. They are usually found in $(ml:miskatonicmysteries:world/shrines)$(marked)Shrines$() and always dedicated to a Great Old One.$(br)$(o)Some might find them to look quite suspicious.$()"
+			"text": "$(item)Murals$() are simple objects of worship finely carved from a material. They are usually found in $(ml:miskatonicmysteries:world/shrines)Shrines$() and always dedicated to a Great Old One. An $(ml:world/affiliation)affiliated$() Entheator may craft their kin's murals using the base material in a $(item)Stonecutter$().$(br)$(o)Some might find Murals to look quite suspicious.$()"
 		},
 		{
 			"type": "spotlight",
+			"title": "Idols",
 			"item": "miskatonicmysteries:hastur_statue_stone",
 			"text": "$(item)Idols$() are more complex objects of worship and almost always found in $(ml:world/shrines)shrines$().$(br)Much like $(item)Murals$(), they are dedicated to a Great Old One.$(br)Unlike Murals, they are actually of slightly supernatural nature. Worshippers find a lot of power in them, especially after rest."
 		},

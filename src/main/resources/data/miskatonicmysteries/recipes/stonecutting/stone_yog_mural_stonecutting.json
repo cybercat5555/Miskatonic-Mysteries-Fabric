@@ -1,0 +1,8 @@
+{
+	"type": "minecraft:stonecutting",
+	"ingredient": {
+		"item": "minecraft:stone"
+	},
+	"result": "miskatonicmysteries:stone_yog_mural",
+	"count": 1
+}
