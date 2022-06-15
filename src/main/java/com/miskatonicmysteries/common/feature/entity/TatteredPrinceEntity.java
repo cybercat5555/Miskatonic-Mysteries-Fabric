@@ -19,6 +19,7 @@ import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Util;
 import java.util.EnumSet;
+import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -76,7 +77,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 		super(entityType, world);
 		bossBar = new ServerBossBar(getDisplayName(), BossBar.Color.YELLOW, BossBar.Style.PROGRESS);
 		((MobNavigation) this.getNavigation())
-			.setCanPathThroughDoors(true); //probably make own navigation that allows re-size, or do teleport ig
+			.setCanPathThroughDoors(true);
 		this.getNavigation().setCanSwim(true);
 	}
 
@@ -159,6 +160,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 		this.targetSelector.add(0, new RevengeGoal(this, TatteredPrinceEntity.class));
 		super.initGoals();
 	}
+
 
 	@Override
 	public boolean isAffectedBySplashPotions() {
@@ -355,6 +357,16 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 	@Override
 	public boolean canTarget(LivingEntity target) {
 		return (target instanceof  PlayerEntity || MiskatonicMysteriesAPI.getNonNullAffiliation(target, true) != MMAffiliations.HASTUR) && super.canTarget(target);
+	}
+
+	@Override
+	protected void attackLivingEntity(LivingEntity target) {
+		super.attackLivingEntity(target);
+		List<HasturCultistEntity> cultists = world.getEntitiesByClass(HasturCultistEntity.class, getBoundingBox().expand(16, 8, 16),
+			cultist -> !cultist.isAttacking());
+		for (HasturCultistEntity cultist : cultists) {
+			cultist.setTarget(target);
+		}
 	}
 
 	@Override
