@@ -5,13 +5,15 @@ import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.entity.HarrowEntity;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.util.Constants;
-import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class HarrowSpellEffect extends SpellEffect {
 
@@ -21,14 +23,14 @@ public class HarrowSpellEffect extends SpellEffect {
 
 	@Override
 	public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity,
-		@Nullable Entity secondaryMedium) {
+						  @Nullable Entity secondaryMedium) {
 		if (pos != null) {
 			boolean flag = false;
 			if (!world.isClient) {
 				for (int i = 0; i < (intensity + 1); i++) {
 					HarrowEntity harrow = MMEntities.HARROW.create(world);
 					harrow.refreshPositionAndAngles(caster.getParticleX(1), caster.getRandomBodyY(), caster.getParticleZ(1),
-						caster.getHeadYaw(), caster.getPitch(1));
+													caster.getHeadYaw(), caster.getPitch(1));
 					harrow.setLifeTicks(400 + caster.getRandom().nextInt(80) + intensity * 400);
 					if (target instanceof LivingEntity && (target != caster || (target instanceof TameableEntity
 						&& ((TameableEntity) target).getOwner() != caster))) {

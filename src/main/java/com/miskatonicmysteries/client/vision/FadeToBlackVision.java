@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.client.vision;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.BufferBuilder;
@@ -13,8 +13,10 @@ import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 @Environment(EnvType.CLIENT)
-public class FadeToBlackVision extends VisionSequence{
+public class FadeToBlackVision extends VisionSequence {
 
 	@Override
 	public void render(MinecraftClient client, ClientPlayerEntity player, MatrixStack stack, float tickDelta) {

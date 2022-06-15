@@ -17,13 +17,7 @@ import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Constants.Tags;
-import com.mojang.datafixers.util.Pair;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CandleBlock;
@@ -47,6 +41,15 @@ import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.PositionSource;
 import net.minecraft.world.event.PositionSourceType;
 import net.minecraft.world.event.listener.GameEventListener;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import com.mojang.datafixers.util.Pair;
 import org.jetbrains.annotations.Nullable;
 
 public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedBlockEntityInventory, Affiliated,
@@ -96,7 +99,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 				if (blockEntity.currentRite.isFinished(blockEntity)) {
 					if (blockEntity.getOriginalCaster() instanceof ServerPlayerEntity) {
 						MMCriteria.RITE_CAST.trigger((ServerPlayerEntity) blockEntity.getOriginalCaster(),
-							blockEntity.currentRite);
+													 blockEntity.currentRite);
 					}
 					blockEntity.handleInvestigators();
 					blockEntity.permanentRiteActive = blockEntity.currentRite.isPermanent(blockEntity);
@@ -132,6 +135,34 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		markDirty();
 	}
 
+	public void setFlag(int index, boolean value) {
+		if (value) {
+			octagramFlags |= 1 << index;
+		} else {
+			octagramFlags &= ~(1 << index);
+		}
+		markDirty();
+	}
+
+	private void clear(boolean success) {
+		for (int i = 0; i < size(); i++) {
+			if (!success && (world.random.nextFloat() + 0.15F < instability)) {
+				continue;
+			}
+			if (getStack(i).getItem().hasRecipeRemainder()) {
+				setStack(i, new ItemStack(getStack(i).getItem().getRecipeRemainder()));
+				continue;
+			}
+			if (!getStack(i).isEmpty() && getStack(i).isIn(Constants.Tags.RITE_TOOLS)) {
+				if (getStack(i).getItem() instanceof IncantationYogItem) {
+					IncantationYogItem.clear(getStack(i));
+				}
+				continue;
+			}
+			setStack(i, ItemStack.EMPTY);
+		}
+	}
+
 	private boolean handleInstabilityEvents() {
 		if (tickCount % MiskatonicMysteries.config.mechanics.modUpdateInterval == 0) {
 			calculateInstability();
@@ -151,7 +182,8 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		if (!world.isClient) {
 			BiomeEffect biomeEffect = MiskatonicMysteriesAPI.getBiomeEffect(world, getPos());
 			float instability = biomeEffect != null ? (biomeEffect
-				.getAffiliation(false) == getAffiliation(false) ? 0.1F : 0.8F) : currentRite.getInstabilityBase(this);
+														   .getAffiliation(false) == getAffiliation(false) ? 0.1F : 0.8F)
+													: currentRite.getInstabilityBase(this);
 			int stabilizerCount = 0;
 			Set<Block> strongStabilizerCache = new HashSet<>();
 			for (BlockPos blockPos : BlockPos.iterateOutwards(getPos(), 5, 3, 5)) {
@@ -162,7 +194,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 						continue;
 					}
 					float strength = state.isIn(Constants.Tags.STRONG_STABILIZERS) && strongStabilizerCache.add(block) ? 0.05F :
-						state.isIn(Constants.Tags.WEAK_STABILIZERS) ? 0.025F : 0.03F;
+									 state.isIn(Constants.Tags.WEAK_STABILIZERS) ? 0.025F : 0.03F;
 
 					if (block instanceof Affiliated a && a.getAffiliation(false) != MMAffiliations.NONE && a
 						.getAffiliation(false) != getAffiliation(false)) {
@@ -178,85 +210,20 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		}
 	}
 
-	public void setFlag(int index, boolean value) {
-		if (value) {
-			octagramFlags |= 1 << index;
-		} else {
-			octagramFlags &= ~(1 << index);
-		}
-		markDirty();
-	}
-
-	public boolean getFlag(int index) {
-		return (octagramFlags & 1 << index) != 0;
+	@Override
+	public Affiliation getAffiliation(boolean apparent) {
+		return getCachedState().getBlock() instanceof OctagramBlock o ? o.getAffiliation(true) : null;
 	}
 
 	@Override
-	public void writeNbt(NbtCompound tag) {
-		Inventories.writeNbt(tag, ITEMS);
-		tag.putInt(Constants.NBT.TICK_COUNT, tickCount);
-		if (currentRite != null) {
-			tag.putString(Constants.NBT.RITE, currentRite.getId().toString());
-		}
-		tag.putBoolean(Constants.NBT.PERMANENT_RITE, permanentRiteActive);
-		if (originalCaster != null) {
-			tag.putUuid(Constants.NBT.PLAYER_UUID, originalCaster);
-		}
-		if (boundPos != null) {
-			tag.putString(Constants.NBT.DIMENSION, boundPos.getFirst().toString());
-			tag.putLong(Constants.NBT.POSITION, boundPos.getSecond().asLong());
-		}
-		tag.putBoolean(Constants.NBT.TRIGGERED, triggered);
-		tag.putByte(Constants.NBT.FLAGS, octagramFlags);
-		tag.putFloat(Constants.NBT.INSTABILITY, instability);
+	public boolean isSupernatural() {
+		return getCachedState().getBlock() instanceof OctagramBlock o && o.isSupernatural();
 	}
 
-	@Override
-	public void readNbt(NbtCompound tag) {
-		ITEMS.clear();
-		Inventories.readNbt(tag, ITEMS);
-		tickCount = tag.getInt(Constants.NBT.TICK_COUNT);
-		if (tag.contains(Constants.NBT.RITE)) {
-			currentRite = MMRegistries.RITES.get(new Identifier(tag.getString(Constants.NBT.RITE)));
-		} else {
-			currentRite = null;
+	public void sync(World world, BlockPos pos) {
+		if (world != null && !world.isClient) {
+			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
 		}
-		permanentRiteActive = tag.getBoolean(Constants.NBT.PERMANENT_RITE);
-		if (tag.contains(Constants.NBT.PLAYER_UUID)) {
-			originalCaster = tag.getUuid(Constants.NBT.PLAYER_UUID);
-		} else {
-			originalCaster = null;
-		}
-		if (tag.contains(Constants.NBT.DIMENSION)) {
-			boundPos = new Pair<>(new Identifier(tag.getString(Constants.NBT.DIMENSION)),
-				BlockPos.fromLong(tag.getLong(Constants.NBT.POSITION)));
-		} else {
-			boundPos = null;
-		}
-		triggered = tag.getBoolean(Constants.NBT.TRIGGERED);
-		octagramFlags = tag.getByte(Constants.NBT.FLAGS);
-		this.instability = tag.getFloat(Constants.NBT.INSTABILITY);
-		super.readNbt(tag);
-	}
-
-	@Override
-	public void markDirty() {
-		super.markDirty();
-		if (currentRite != null && !permanentRiteActive && !currentRite.shouldContinue(this)) {
-			currentRite.onCancelled(this);
-			tickCount = 0;
-			currentRite = null;
-		}
-	}
-
-	@Override
-	public int getMaxCountPerStack() {
-		return 1;
-	}
-
-	@Override
-	public DefaultedList<ItemStack> getItems() {
-		return ITEMS;
 	}
 
 	private void handleInvestigators() {
@@ -302,38 +269,81 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		}
 	}
 
-	@Override
-	public Affiliation getAffiliation(boolean apparent) {
-		return getCachedState().getBlock() instanceof OctagramBlock o ? o.getAffiliation(true) : null;
+	public boolean getFlag(int index) {
+		return (octagramFlags & 1 << index) != 0;
 	}
 
 	@Override
-	public boolean isSupernatural() {
-		return getCachedState().getBlock() instanceof OctagramBlock o && o.isSupernatural();
+	public void readNbt(NbtCompound tag) {
+		ITEMS.clear();
+		Inventories.readNbt(tag, ITEMS);
+		tickCount = tag.getInt(Constants.NBT.TICK_COUNT);
+		if (tag.contains(Constants.NBT.RITE)) {
+			currentRite = MMRegistries.RITES.get(new Identifier(tag.getString(Constants.NBT.RITE)));
+		} else {
+			currentRite = null;
+		}
+		permanentRiteActive = tag.getBoolean(Constants.NBT.PERMANENT_RITE);
+		if (tag.contains(Constants.NBT.PLAYER_UUID)) {
+			originalCaster = tag.getUuid(Constants.NBT.PLAYER_UUID);
+		} else {
+			originalCaster = null;
+		}
+		if (tag.contains(Constants.NBT.DIMENSION)) {
+			boundPos = new Pair<>(new Identifier(tag.getString(Constants.NBT.DIMENSION)),
+								  BlockPos.fromLong(tag.getLong(Constants.NBT.POSITION)));
+		} else {
+			boundPos = null;
+		}
+		triggered = tag.getBoolean(Constants.NBT.TRIGGERED);
+		octagramFlags = tag.getByte(Constants.NBT.FLAGS);
+		this.instability = tag.getFloat(Constants.NBT.INSTABILITY);
+		super.readNbt(tag);
+	}
+
+	@Override
+	public void writeNbt(NbtCompound tag) {
+		Inventories.writeNbt(tag, ITEMS);
+		tag.putInt(Constants.NBT.TICK_COUNT, tickCount);
+		if (currentRite != null) {
+			tag.putString(Constants.NBT.RITE, currentRite.getId().toString());
+		}
+		tag.putBoolean(Constants.NBT.PERMANENT_RITE, permanentRiteActive);
+		if (originalCaster != null) {
+			tag.putUuid(Constants.NBT.PLAYER_UUID, originalCaster);
+		}
+		if (boundPos != null) {
+			tag.putString(Constants.NBT.DIMENSION, boundPos.getFirst().toString());
+			tag.putLong(Constants.NBT.POSITION, boundPos.getSecond().asLong());
+		}
+		tag.putBoolean(Constants.NBT.TRIGGERED, triggered);
+		tag.putByte(Constants.NBT.FLAGS, octagramFlags);
+		tag.putFloat(Constants.NBT.INSTABILITY, instability);
+	}
+
+	@Override
+	public void markDirty() {
+		super.markDirty();
+		if (currentRite != null && !permanentRiteActive && !currentRite.shouldContinue(this)) {
+			currentRite.onCancelled(this);
+			tickCount = 0;
+			currentRite = null;
+		}
+	}
+
+	@Override
+	public int getMaxCountPerStack() {
+		return 1;
+	}
+
+	@Override
+	public DefaultedList<ItemStack> getItems() {
+		return ITEMS;
 	}
 
 	@Override
 	public void clear() {
 		clear(true);
-	}
-
-	private void clear(boolean success) {
-		for (int i = 0; i < size(); i++) {
-			if (!success && (world.random.nextFloat() + 0.15F < instability)) {
-				continue;
-			}
-			if (getStack(i).getItem().hasRecipeRemainder()) {
-				setStack(i, new ItemStack(getStack(i).getItem().getRecipeRemainder()));
-				continue;
-			}
-			if (!getStack(i).isEmpty() && getStack(i).isIn(Constants.Tags.RITE_TOOLS)) {
-				if (getStack(i).getItem() instanceof IncantationYogItem) {
-					IncantationYogItem.clear(getStack(i));
-				}
-				continue;
-			}
-			setStack(i, ItemStack.EMPTY);
-		}
 	}
 
 	public Vec3d getSummoningPos() {
@@ -350,7 +360,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 
 	public ServerWorld getBoundDimension() {
 		return boundPos != null && !world.isClient ? world.getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY,
-			boundPos.getFirst())) : null;
+																							   boundPos.getFirst())) : null;
 	}
 
 	public void bind(World world, BlockPos pos) {
@@ -390,12 +400,6 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 			return true;
 		}
 		return false;
-	}
-
-	public void sync(World world, BlockPos pos) {
-		if (world != null && !world.isClient) {
-			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
-		}
 	}
 
 	public boolean checkPillars(Affiliation affiliation) {

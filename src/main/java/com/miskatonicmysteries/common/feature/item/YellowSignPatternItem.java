@@ -4,9 +4,10 @@ import com.miskatonicmysteries.api.banner.loom.LoomPatternItem;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Constants.Tags;
-import java.util.List;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -30,6 +31,9 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 public class YellowSignPatternItem extends LoomPatternItem {
@@ -115,7 +119,7 @@ public class YellowSignPatternItem extends LoomPatternItem {
 	public void appendTooltip(ItemStack stack, World world, List<Text> lines, TooltipContext ctx) {
 		super.appendTooltip(stack, world, lines, ctx);
 		lines.add(new TranslatableText("item.%s.%s.tooltip"
-			.formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath())).formatted(Formatting.GRAY));
+										   .formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath())).formatted(Formatting.GRAY));
 		lines.add(new TranslatableText("tooltip.%s.place_instruction".formatted(Constants.MOD_ID), "§e" + I18n
 			.translate(Items.YELLOW_DYE.getTranslationKey()) + "§8").formatted(Formatting.GRAY));
 

@@ -1,7 +1,5 @@
 package com.miskatonicmysteries.common.feature.entity;
 
-import static com.miskatonicmysteries.common.util.Constants.NBT.ALTERNATE_WEAPON;
-
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.item.GunItem;
@@ -15,15 +13,10 @@ import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.AbstractMap;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import javax.annotation.Nullable;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.entity.CrossbowUser;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -71,6 +64,16 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
+import java.util.AbstractMap;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+
+import static com.miskatonicmysteries.common.util.Constants.NBT.ALTERNATE_WEAPON;
+import javax.annotation.Nullable;
+
 public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMob, CrossbowUser {
 
 	protected static final Map<AbstractMap.SimpleEntry<EquipmentSlot, ItemStack>, Integer> ARMOR_MAP = new HashMap<>();
@@ -86,7 +89,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 	protected static final TrackedData<Optional<UUID>> TARGET_UUID = DataTracker
 		.registerData(ProtagonistEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 	private static final EntityAttributeModifier DEFAULT_MOD = new EntityAttributeModifier("210caf3b-c286-4142-98d1-136e8b59b1b1", 0,
-		EntityAttributeModifier.Operation.ADDITION);
+																						   EntityAttributeModifier.Operation.ADDITION);
 
 	static {
 		ARMOR_MAP.put(new AbstractMap.SimpleEntry<>(EquipmentSlot.CHEST, new ItemStack(Items.CHAINMAIL_CHESTPLATE)), 0);
@@ -130,15 +133,6 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		dataTracker.startTracking(VARIANT, 0);
-		dataTracker.startTracking(STAGE, 0);
-		dataTracker.startTracking(LOADING, false);
-		dataTracker.startTracking(TARGET_UUID, Optional.empty());
-	}
-
-	@Override
 	protected void initGoals() {
 		this.goalSelector.add(0, new LongDoorInteractGoal(this, false));
 		this.goalSelector.add(1, new SwimGoal(this));
@@ -154,88 +148,96 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 		this.targetSelector
 			.add(1, new ActiveTargetGoal<>(this, LivingEntity.class, 10, true, true, MiskatonicMysteriesAPI::isDefiniteAffiliated));
 		this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, true,
-			player -> (getTargetUUID().isPresent() && player.getUuid().equals(getTargetUUID().get())) || (Sanity.of(player).isPresent()
-				&& Sanity.of(player).get().getSanity() <= MiskatonicMysteries.config.entities.protagonistAggressionThreshold)));
+														  player -> (getTargetUUID().isPresent() && player.getUuid().equals(getTargetUUID().get()))
+															  || (Sanity.of(player).isPresent()
+															  && Sanity.of(player).get().getSanity()
+															  <= MiskatonicMysteries.config.entities.protagonistAggressionThreshold)));
 		this.targetSelector.add(3, new ActiveTargetGoal<>(this, HostileEntity.class, 5, true, true,
-			mob -> !(mob instanceof ProtagonistEntity) && !(mob instanceof CreeperEntity)));
+														  mob -> !(mob instanceof ProtagonistEntity) && !(mob instanceof CreeperEntity)));
 		super.initGoals();
 	}
 
-	public void removeAfterTargetKill() {
-		for (int i = 0; i < 10; i++) {
-			world.addParticle(MMParticles.FLAME, getParticleX(1), getRandomBodyY(), getParticleZ(1), 1, 0, 0);
-			world.addParticle(ParticleTypes.LARGE_SMOKE, getParticleX(1), getRandomBodyY(), getParticleZ(1), 0, 0, 0);
-		}
-		ProtagonistHandler.removeProtagonist(world, this);
-		remove(RemovalReason.KILLED);
+	@Override
+	protected void initDataTracker() {
+		super.initDataTracker();
+		dataTracker.startTracking(VARIANT, 0);
+		dataTracker.startTracking(STAGE, 0);
+		dataTracker.startTracking(LOADING, false);
+		dataTracker.startTracking(TARGET_UUID, Optional.empty());
 	}
 
 	@Override
-	public boolean canBeLeashedBy(PlayerEntity player) {
-		return false;
-	}
-
-	@Nullable
-	@Override
-	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
-		@Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
-		setCanPickUpLoot(true);
-		if (spawnReason != SpawnReason.EVENT) {
-			dataTracker.set(VARIANT, random.nextInt(4));
-			dataTracker.set(STAGE, random.nextInt(4));
-		}
-		initEquipment(difficulty);
-		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
-	}
-
-	@Override
-	public void onDeath(DamageSource source) {
-		if (!world.isClient && getTargetUUID().isPresent() && getStage() < Constants.DataTrackers.PROTAGONIST_MAX_LEVEL) {
-			world.sendEntityStatus(this, (byte) 10);
-		}
-		super.onDeath(source);
-	}
-
-	@Override
-	protected void updatePostDeath() {
-		if (getTargetUUID().isPresent() && getStage() < Constants.DataTrackers.PROTAGONIST_MAX_LEVEL) {
-			if (getAttacker() instanceof PlayerEntity || (getAttacker() instanceof TameableEntity && getTargetUUID().isPresent()
-				&& getTargetUUID().get().equals(((TameableEntity) getAttacker()).getOwnerUuid()))) {
-				if (!world.isClient) {
-					ProtagonistHandler.levelProtagonist(world, this);
-				}
+	@Environment(EnvType.CLIENT)
+	public void handleStatus(byte status) {
+		if (status == 10) {
+			for (int i = 0; i < 10; i++) {
+				world.addParticle(MMParticles.FLAME, getX() + random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(),
+								  getY() + random.nextFloat() * MMEntities.PROTAGONIST.getHeight(),
+								  getZ() + random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(), 1, 0, 0);
 			}
-			remove(RemovalReason.KILLED);
+			for (int i = 0; i < 15; i++) {
+				world.addParticle(ParticleTypes.LARGE_SMOKE, getX() + random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(),
+								  getY() + random.nextFloat() * MMEntities.PROTAGONIST.getHeight(),
+								  getZ() + random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(), 0, 0, 0);
+			}
 		} else {
-			if (!world.isClient) {
-				if (getTargetUUID().isPresent() && getAttacker() instanceof ServerPlayerEntity) {
-					try {
-						AdvancementHandler.grantAdvancement(new Identifier(Constants.MOD_ID, "misc/true_villain"), "truly_kill_protagonist",
-							(ServerPlayerEntity) getAttacker());
-					} catch (NullPointerException e) {
-						e.printStackTrace();
-					}
-				}
-				ProtagonistHandler.removeProtagonist(world, this);
-			}
-			++this.deathTime;
-			if (this.deathTime == 40) {
-				this.remove(RemovalReason.KILLED);
-
-				for (int i = 0; i < 20; ++i) {
-					double d = this.random.nextGaussian() * 0.02D;
-					double e = this.random.nextGaussian() * 0.02D;
-					double f = this.random.nextGaussian() * 0.02D;
-					this.world
-						.addParticle(ParticleTypes.POOF, this.getParticleX(1.0D), this.getRandomBodyY(), this.getParticleZ(1.0D), d, e, f);
-				}
-			}
+			super.handleStatus(status);
 		}
+	}
+
+	@Override
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
+		tag.putInt(Constants.NBT.VARIANT, getVariant());
+		tag.putInt(Constants.NBT.STAGE, getStage());
+		NbtCompound alternateWeaponTag = new NbtCompound();
+		alternateWeapon.writeNbt(alternateWeaponTag);
+		tag.put(ALTERNATE_WEAPON, alternateWeaponTag);
+		tag.putBoolean(Constants.NBT.CHARGING, dataTracker.get(LOADING));
+		if (getTargetUUID().isPresent()) {
+			tag.putUuid(Constants.NBT.PLAYER_UUID, getTargetUUID().get());
+		}
+	}
+
+	public int getVariant() {
+		return dataTracker.get(VARIANT);
+	}
+
+	@Override
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
+		dataTracker.set(VARIANT, tag.getInt(Constants.NBT.VARIANT));
+		setStage(tag.getInt(Constants.NBT.STAGE));
+		alternateWeapon = ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.ALTERNATE_WEAPON));
+		setCharging(tag.getBoolean(Constants.NBT.CHARGING));
+		if (tag.contains(Constants.NBT.PLAYER_UUID)) {
+			setTargetUUID(tag.getUuid(Constants.NBT.PLAYER_UUID));
+		}
+	}
+
+	@Override
+	public void tickMovement() {
+		this.tickHandSwing();
+		super.tickMovement();
 	}
 
 	@Override
 	protected boolean prefersNewEquipment(ItemStack newStack, ItemStack oldStack) {
 		return oldStack.isEmpty() && (isValidRangedItem(newStack.getItem()) || newStack.getItem() instanceof SwordItem);
+	}
+
+	private boolean isValidRangedItem(Item item) {
+		return item instanceof GunItem || item instanceof RangedWeaponItem;
+	}
+
+	@Override
+	public boolean cannotDespawn() {
+		return true;
+	}
+
+	@Override
+	public void equipStack(EquipmentSlot slot, ItemStack stack) {
+		super.equipStack(slot, stack);
 	}
 
 	@Override
@@ -270,27 +272,22 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 		});
 	}
 
+	@Nullable
 	@Override
-	public void equipStack(EquipmentSlot slot, ItemStack stack) {
-		super.equipStack(slot, stack);
-	}
-
-	@Override
-	public void tickMovement() {
-		this.tickHandSwing();
-		super.tickMovement();
-	}
-
-	@Override
-	public void remove(RemovalReason reason) {
-		if (!world.isClient && getTargetUUID().isPresent() && reason != RemovalReason.CHANGED_DIMENSION) {
-			ProtagonistHandler.setSpawnState(this, false);
+	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
+								 @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
+		setCanPickUpLoot(true);
+		if (spawnReason != SpawnReason.EVENT) {
+			dataTracker.set(VARIANT, random.nextInt(4));
+			dataTracker.set(STAGE, random.nextInt(4));
 		}
-		super.remove(reason);
+		initEquipment(difficulty);
+		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 	}
 
-	public int getVariant() {
-		return dataTracker.get(VARIANT);
+	@Override
+	public boolean canBeLeashedBy(PlayerEntity player) {
+		return false;
 	}
 
 	public int getStage() {
@@ -301,11 +298,6 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 		dataTracker.set(STAGE, stage);
 	}
 
-	@Nullable
-	public PlayerEntity getTargetPlayer() {
-		return getTargetUUID().isPresent() ? world.getPlayerByUuid(getTargetUUID().get()) : null;
-	}
-
 	public Optional<UUID> getTargetUUID() {
 		return dataTracker.get(TARGET_UUID);
 	}
@@ -314,30 +306,71 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 		dataTracker.set(TARGET_UUID, Optional.of(targetUUID));
 	}
 
+	public void removeAfterTargetKill() {
+		for (int i = 0; i < 10; i++) {
+			world.addParticle(MMParticles.FLAME, getParticleX(1), getRandomBodyY(), getParticleZ(1), 1, 0, 0);
+			world.addParticle(ParticleTypes.LARGE_SMOKE, getParticleX(1), getRandomBodyY(), getParticleZ(1), 0, 0, 0);
+		}
+		ProtagonistHandler.removeProtagonist(world, this);
+		remove(RemovalReason.KILLED);
+	}
+
 	@Override
-	public void writeCustomDataToNbt(NbtCompound tag) {
-		super.writeCustomDataToNbt(tag);
-		tag.putInt(Constants.NBT.VARIANT, getVariant());
-		tag.putInt(Constants.NBT.STAGE, getStage());
-		NbtCompound alternateWeaponTag = new NbtCompound();
-		alternateWeapon.writeNbt(alternateWeaponTag);
-		tag.put(ALTERNATE_WEAPON, alternateWeaponTag);
-		tag.putBoolean(Constants.NBT.CHARGING, dataTracker.get(LOADING));
-		if (getTargetUUID().isPresent()) {
-			tag.putUuid(Constants.NBT.PLAYER_UUID, getTargetUUID().get());
+	public void remove(RemovalReason reason) {
+		if (!world.isClient && getTargetUUID().isPresent() && reason != RemovalReason.CHANGED_DIMENSION) {
+			ProtagonistHandler.setSpawnState(this, false);
+		}
+		super.remove(reason);
+	}
+
+	@Override
+	protected void updatePostDeath() {
+		if (getTargetUUID().isPresent() && getStage() < Constants.DataTrackers.PROTAGONIST_MAX_LEVEL) {
+			if (getAttacker() instanceof PlayerEntity || (getAttacker() instanceof TameableEntity && getTargetUUID().isPresent()
+				&& getTargetUUID().get().equals(((TameableEntity) getAttacker()).getOwnerUuid()))) {
+				if (!world.isClient) {
+					ProtagonistHandler.levelProtagonist(world, this);
+				}
+			}
+			remove(RemovalReason.KILLED);
+		} else {
+			if (!world.isClient) {
+				if (getTargetUUID().isPresent() && getAttacker() instanceof ServerPlayerEntity) {
+					try {
+						AdvancementHandler.grantAdvancement(new Identifier(Constants.MOD_ID, "misc/true_villain"), "truly_kill_protagonist",
+															(ServerPlayerEntity) getAttacker());
+					} catch (NullPointerException e) {
+						e.printStackTrace();
+					}
+				}
+				ProtagonistHandler.removeProtagonist(world, this);
+			}
+			++this.deathTime;
+			if (this.deathTime == 40) {
+				this.remove(RemovalReason.KILLED);
+
+				for (int i = 0; i < 20; ++i) {
+					double d = this.random.nextGaussian() * 0.02D;
+					double e = this.random.nextGaussian() * 0.02D;
+					double f = this.random.nextGaussian() * 0.02D;
+					this.world
+						.addParticle(ParticleTypes.POOF, this.getParticleX(1.0D), this.getRandomBodyY(), this.getParticleZ(1.0D), d, e, f);
+				}
+			}
 		}
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound tag) {
-		super.readCustomDataFromNbt(tag);
-		dataTracker.set(VARIANT, tag.getInt(Constants.NBT.VARIANT));
-		setStage(tag.getInt(Constants.NBT.STAGE));
-		alternateWeapon = ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.ALTERNATE_WEAPON));
-		setCharging(tag.getBoolean(Constants.NBT.CHARGING));
-		if (tag.contains(Constants.NBT.PLAYER_UUID)) {
-			setTargetUUID(tag.getUuid(Constants.NBT.PLAYER_UUID));
+	public void onDeath(DamageSource source) {
+		if (!world.isClient && getTargetUUID().isPresent() && getStage() < Constants.DataTrackers.PROTAGONIST_MAX_LEVEL) {
+			world.sendEntityStatus(this, (byte) 10);
 		}
+		super.onDeath(source);
+	}
+
+	@Nullable
+	public PlayerEntity getTargetPlayer() {
+		return getTargetUUID().isPresent() ? world.getPlayerByUuid(getTargetUUID().get()) : null;
 	}
 
 	public void switchWeapons() {
@@ -346,10 +379,6 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 			setStackInHand(Hand.MAIN_HAND, alternateWeapon);
 			alternateWeapon = stack;
 		}
-	}
-
-	private boolean isValidRangedItem(Item item) {
-		return item instanceof GunItem || item instanceof RangedWeaponItem;
 	}
 
 	@Override
@@ -382,30 +411,6 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 	@Override
 	public void postShoot() {
 
-	}
-
-	@Override
-	public boolean cannotDespawn() {
-		return true;
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public void handleStatus(byte status) {
-		if (status == 10) {
-			for (int i = 0; i < 10; i++) {
-				world.addParticle(MMParticles.FLAME, getX() + random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(),
-					getY() + random.nextFloat() * MMEntities.PROTAGONIST.getHeight(),
-					getZ() + random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(), 1, 0, 0);
-			}
-			for (int i = 0; i < 15; i++) {
-				world.addParticle(ParticleTypes.LARGE_SMOKE, getX() + random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(),
-					getY() + random.nextFloat() * MMEntities.PROTAGONIST.getHeight(),
-					getZ() + random.nextGaussian() * MMEntities.PROTAGONIST.getWidth(), 0, 0, 0);
-			}
-		} else {
-			super.handleStatus(status);
-		}
 	}
 
 	public void setData(ProtagonistData data) {
@@ -464,7 +469,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 
 		public static ProtagonistData fromTag(NbtCompound compoundTag) {
 			return new ProtagonistData(compoundTag.getInt(Constants.NBT.STAGE), compoundTag.getInt(Constants.NBT.VARIANT),
-				compoundTag.getBoolean(Constants.NBT.SPAWNED));
+									   compoundTag.getBoolean(Constants.NBT.SPAWNED));
 		}
 
 		public void toTag(NbtCompound compoundTag) {

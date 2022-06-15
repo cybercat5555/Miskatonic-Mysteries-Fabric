@@ -3,9 +3,10 @@ package com.miskatonicmysteries.common.feature.item;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.List;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,6 +27,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
+
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 public class IncantationYogItem extends Item {
@@ -34,31 +38,12 @@ public class IncantationYogItem extends Item {
 		super(new Settings().group(Constants.MM_GROUP).maxCount(1));
 	}
 
-	public static ItemStack storePosition(ItemStack stack, World world, BlockPos pos) {
-		if (pos == null) {
-			return stack;
-		}
-		if (!stack.hasNbt()) {
-			stack.setNbt(new NbtCompound());
-		}
-		stack.getNbt().putLong(Constants.NBT.POSITION, pos.asLong());
-		stack.getNbt().putString(Constants.NBT.DIMENSION, world.getRegistryKey().getValue().toString());
-		return stack;
-	}
-
-	public static BlockPos getPosition(ItemStack stack) {
-		if (!stack.hasNbt() || !stack.getNbt().contains(Constants.NBT.POSITION)) {
-			return null;
-		}
-		return BlockPos.fromLong(stack.getNbt().getLong(Constants.NBT.POSITION));
-	}
-
 	public static ServerWorld getWorld(ServerWorld world, ItemStack stack) {
 		if (!stack.hasNbt() || !stack.getNbt().contains(Constants.NBT.DIMENSION)) {
 			return null;
 		}
 		return world.getServer().getWorld(RegistryKey
-			.of(Registry.WORLD_KEY, new Identifier(stack.getNbt().getString(Constants.NBT.DIMENSION))));
+											  .of(Registry.WORLD_KEY, new Identifier(stack.getNbt().getString(Constants.NBT.DIMENSION))));
 	}
 
 	public static void clear(ItemStack stack) {
@@ -66,22 +51,6 @@ public class IncantationYogItem extends Item {
 			stack.getNbt().remove(Constants.NBT.POSITION);
 			stack.getNbt().remove(Constants.NBT.DIMENSION);
 		}
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		BlockPos boundPos = getPosition(stack);
-		if (boundPos != null) {
-			tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.bound_to", boundPos.getX(), boundPos
-				.getY(), boundPos.getZ()));
-		}
-		super.appendTooltip(stack, world, tooltip, context);
-	}
-
-	@Override
-	public Rarity getRarity(ItemStack stack) {
-		return getPosition(stack) != null ? Rarity.UNCOMMON : super.getRarity(stack);
 	}
 
 	@Override
@@ -105,6 +74,18 @@ public class IncantationYogItem extends Item {
 		return storePosition(stack, world, foundPos);
 	}
 
+	public static ItemStack storePosition(ItemStack stack, World world, BlockPos pos) {
+		if (pos == null) {
+			return stack;
+		}
+		if (!stack.hasNbt()) {
+			stack.setNbt(new NbtCompound());
+		}
+		stack.getNbt().putLong(Constants.NBT.POSITION, pos.asLong());
+		stack.getNbt().putString(Constants.NBT.DIMENSION, world.getRegistryKey().getValue().toString());
+		return stack;
+	}
+
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
 		return UseAction.BOW;
@@ -113,5 +94,28 @@ public class IncantationYogItem extends Item {
 	@Override
 	public int getMaxUseTime(ItemStack stack) {
 		return 20;
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+		BlockPos boundPos = getPosition(stack);
+		if (boundPos != null) {
+			tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.bound_to", boundPos.getX(), boundPos
+				.getY(), boundPos.getZ()));
+		}
+		super.appendTooltip(stack, world, tooltip, context);
+	}
+
+	public static BlockPos getPosition(ItemStack stack) {
+		if (!stack.hasNbt() || !stack.getNbt().contains(Constants.NBT.POSITION)) {
+			return null;
+		}
+		return BlockPos.fromLong(stack.getNbt().getLong(Constants.NBT.POSITION));
+	}
+
+	@Override
+	public Rarity getRarity(ItemStack stack) {
+		return getPosition(stack) != null ? Rarity.UNCOMMON : super.getRarity(stack);
 	}
 }

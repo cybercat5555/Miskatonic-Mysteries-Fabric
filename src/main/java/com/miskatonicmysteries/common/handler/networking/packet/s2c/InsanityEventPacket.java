@@ -1,12 +1,15 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
 import com.miskatonicmysteries.common.util.Constants;
-import io.netty.buffer.Unpooled;
+
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+
+import io.netty.buffer.Unpooled;
 
 public class InsanityEventPacket {
 

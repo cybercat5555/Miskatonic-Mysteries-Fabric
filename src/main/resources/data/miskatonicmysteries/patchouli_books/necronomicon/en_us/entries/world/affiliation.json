@@ -1,16 +1,16 @@
 {
-  "name": "Affiliation",
-  "category": "miskatonicmysteries:world",
-  "icon": "miskatonicmysteries:wild_mask",
-  "pages": [
-    {
-      "type": "text",
-      "text": "Affiliation is a hidden aspect. It is assigned to anything that interacts with Great Old Ones, and is divided into $(marked)inherent$() and $(marked)apparent$() affiliation.$(br2)$(marked)Inherent$() affiliation is gained through ascension - for originally normal humans at least. It is relevant for certain $(ml:rites/rite_intro)rites$() and in further ascension."
-    },
-    {
-      "type": "miskatonicmysteries:mask_showcase",
-      "text": "$(marked)Apparent$() affiliation commonly matches inherent affiliation. It is irrelevant for most occult practice, but does play a role when interacting among other Entheators or affiliated entities. The apparent affiliation can be covered or changed using $(item)masks$().",
-      "text2": "These masks are usually worn by and acquired from other practitioners representing their Great Old One."
-    }
-  ]
+	"name": "Affiliation",
+	"category": "miskatonicmysteries:world",
+	"icon": "miskatonicmysteries:wild_mask",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Affiliation is a hidden aspect. It is assigned to anything that interacts with Great Old Ones, and is divided into $(marked)inherent$() and $(marked)apparent$() affiliation.$(br2)$(marked)Inherent$() affiliation is gained through ascension - for originally normal humans at least. It is relevant for certain $(ml:rites/rite_intro)rites$() and in further ascension."
+		},
+		{
+			"type": "miskatonicmysteries:mask_showcase",
+			"text": "$(marked)Apparent$() affiliation commonly matches inherent affiliation. It is irrelevant for most occult practice, but does play a role when interacting among other Entheators or affiliated entities. The apparent affiliation can be covered or changed using $(item)masks$().",
+			"text2": "These masks are usually worn by and acquired from other practitioners representing their Great Old One."
+		}
+	]
 }

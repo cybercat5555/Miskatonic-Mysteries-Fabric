@@ -9,17 +9,18 @@ import static com.miskatonicmysteries.api.banner.MMBannerRegistry.LOOM_PATTERN_R
  * API location of the loom pattern registry.
  */
 public final class LoomPatterns {
-    /**
-     * The registry key for custom banner patterns, called Loom Patterns.
-     */
 
-    @SuppressWarnings("unchecked")
-    public static final RegistryKey<Registry<LoomPattern>> REGISTRY_KEY = (RegistryKey<Registry<LoomPattern>>) LOOM_PATTERN_REGISTRY.getKey();
-    /**
-     * The registry for custom banner patterns, called Loom Patterns.
-     */
-    public static final Registry<LoomPattern> REGISTRY = LOOM_PATTERN_REGISTRY;
+	/**
+	 * The registry key for custom banner patterns, called Loom Patterns.
+	 */
 
-    private LoomPatterns() {
-    }
+	@SuppressWarnings("unchecked")
+	public static final RegistryKey<Registry<LoomPattern>> REGISTRY_KEY = (RegistryKey<Registry<LoomPattern>>) LOOM_PATTERN_REGISTRY.getKey();
+	/**
+	 * The registry for custom banner patterns, called Loom Patterns.
+	 */
+	public static final Registry<LoomPattern> REGISTRY = LOOM_PATTERN_REGISTRY;
+
+	private LoomPatterns() {
+	}
 }

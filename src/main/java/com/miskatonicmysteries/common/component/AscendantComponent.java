@@ -6,15 +6,18 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.Blessi
 import com.miskatonicmysteries.common.registry.MMComponents;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.NbtUtil;
-import dev.onyxstudios.cca.api.v3.component.ComponentV3;
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
-import java.util.ArrayList;
-import java.util.List;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import dev.onyxstudios.cca.api.v3.component.ComponentV3;
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent;
 import org.jetbrains.annotations.NotNull;
 
 public class AscendantComponent implements Ascendant, ComponentV3, AutoSyncedComponent, CommonTickingComponent {
@@ -81,16 +84,6 @@ public class AscendantComponent implements Ascendant, ComponentV3, AutoSyncedCom
 	}
 
 	@Override
-	public void applySyncPacket(PacketByteBuf buf) {
-		if (buf.readBoolean()) {
-			AutoSyncedComponent.super.applySyncPacket(buf);
-			this.syncBlessings = false;
-		} else {
-			setAscensionStage(buf.readInt());
-		}
-	}
-
-	@Override
 	public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
 		if (syncBlessings) {
 			buf.writeBoolean(true);
@@ -98,6 +91,16 @@ public class AscendantComponent implements Ascendant, ComponentV3, AutoSyncedCom
 		} else {
 			buf.writeBoolean(false);
 			buf.writeInt(getAscensionStage());
+		}
+	}
+
+	@Override
+	public void applySyncPacket(PacketByteBuf buf) {
+		if (buf.readBoolean()) {
+			AutoSyncedComponent.super.applySyncPacket(buf);
+			this.syncBlessings = false;
+		} else {
+			setAscensionStage(buf.readInt());
 		}
 	}
 

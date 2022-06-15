@@ -81,7 +81,7 @@ import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Constants.Tags;
 import com.miskatonicmysteries.common.util.NbtUtil;
-import dev.emi.trinkets.api.client.TrinketRendererRegistry;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -93,6 +93,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
+
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -104,6 +105,8 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+
+import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import vazkii.patchouli.api.PatchouliAPI;
 import vazkii.patchouli.common.multiblock.DenseMultiblock;
 import vazkii.patchouli.common.multiblock.StateMatcher;
@@ -112,7 +115,7 @@ import vazkii.patchouli.common.multiblock.StateMatcher;
 public class MiskatonicMysteriesClient implements ClientModInitializer {
 
 	public static final Identifier OBFUSCATED_FONT_ID = new Identifier(Constants.MOD_ID,
-		"obfuscated_font");
+																	   "obfuscated_font");
 
 	@Override
 	public void onInitializeClient() {
@@ -172,13 +175,13 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 	private void registerItemRenderers() {
 		FabricModelPredicateProviderRegistry
 			.register(MMObjects.RIFLE, new Identifier("loading"), (stack, world,
-				entity, seed) -> GunItem
-				.isLoading(stack) ? 1 : 0);
+																   entity, seed) -> GunItem
+																						.isLoading(stack) ? 1 : 0);
 		StatueBlock.STATUES
 			.forEach(statue -> BuiltinItemRendererRegistry.INSTANCE.register(statue.asItem(),
-				new StatueBlockRender.BuiltinItemStatueRenderer()));
+																			 new StatueBlockRender.BuiltinItemStatueRenderer()));
 		BuiltinItemRendererRegistry.INSTANCE.register(MMObjects.MASTERPIECE_STATUE,
-			new MasterpieceStatueBlockRender.BuiltinItemStatueRenderer());
+													  new MasterpieceStatueBlockRender.BuiltinItemStatueRenderer());
 	}
 
 	private void registerPackets() {
@@ -209,7 +212,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 			client.execute(() -> SpellCaster.of(client.player).ifPresent(caster -> NbtUtil.readSpellData(caster, tag)));
 		});
 		ClientPlayNetworking.registerGlobalReceiver(OpenSpellEditorPacket.ID, (client, networkHandler, packetByteBuf, sender) ->
-				client.execute(() -> client.setScreen(new EditSpellScreen((SpellCaster) client.player))));
+			client.execute(() -> client.setScreen(new EditSpellScreen((SpellCaster) client.player))));
 		ClientPlayNetworking.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SyncBiomeReversionPacket.ID, SyncBiomeReversionPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SyncBiomeSpreadPacket.ID, SyncBiomeSpreadPacket::handle);
@@ -229,11 +232,11 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 
 	private void registerArmorRenderers() {
 		ArmorRenderer.register(new CultistRobesArmorRenderer(
-			new Identifier(Constants.MOD_ID, "textures/model/armor" + "/yellow_robes.png")),
-			MMObjects.YELLOW_HOOD, MMObjects.YELLOW_ROBE, MMObjects.YELLOW_SKIRT);
+								   new Identifier(Constants.MOD_ID, "textures/model/armor" + "/yellow_robes.png")),
+							   MMObjects.YELLOW_HOOD, MMObjects.YELLOW_ROBE, MMObjects.YELLOW_SKIRT);
 		ArmorRenderer.register(new CultistRobesArmorRenderer(
-			new Identifier(Constants.MOD_ID, "textures/model/armor" + "/dark_robes.png")),
-			MMObjects.DARK_HOOD, MMObjects.DARK_ROBE, MMObjects.DARK_SKIRT);
+								   new Identifier(Constants.MOD_ID, "textures/model/armor" + "/dark_robes.png")),
+							   MMObjects.DARK_HOOD, MMObjects.DARK_ROBE, MMObjects.DARK_SKIRT);
 	}
 
 	private void registerParticleFactories() {
@@ -242,22 +245,22 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		ParticleFactoryRegistry.getInstance()
 			.register(MMParticles.AMBIENT, AmbientMagicParticle.DefaultFactory::new);
 		ParticleFactoryRegistry.getInstance().register(MMParticles.AMBIENT_MAGIC,
-			AmbientMagicParticle.MagicFactory::new);
+													   AmbientMagicParticle.MagicFactory::new);
 		ParticleFactoryRegistry.getInstance().register(MMParticles.SHRINKING_MAGIC,
-			ShrinkingMagicParticle.Factory::new);
+													   ShrinkingMagicParticle.Factory::new);
 		ParticleFactoryRegistry.getInstance()
 			.register(MMParticles.FLAME, CandleFlameParticle.Factory::new);
 		ParticleFactoryRegistry.getInstance().register(MMParticles.RESONATOR_CREATURE,
-			ResonatorCreatureParticle.Factory::new);
+													   ResonatorCreatureParticle.Factory::new);
 		ParticleFactoryRegistry.getInstance().register(MMParticles.WEIRD_CUBE,
-			provider -> new WeirdCubeParticle.Factory());
+													   provider -> new WeirdCubeParticle.Factory());
 	}
 
 	private void registerPatchoulies() {
 		PatchouliAPI.get().registerFunction("obfs", (param, iStyleStack) -> {
 			String[] args = param.split(";");
 			Affiliation affiliation = args[0].equals("") ? null :
-				MMRegistries.AFFILIATIONS.get(new Identifier(args[0]));
+									  MMRegistries.AFFILIATIONS.get(new Identifier(args[0]));
 			int stage = args.length > 1 ? Integer.parseInt(args[1]) : 0;
 			boolean hasStage =
 				Ascendant.of(MinecraftClient.getInstance().player)
@@ -282,10 +285,10 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 				.map(knowledge -> index < knowledge.getKnowledge().size() ? "\u2022 " + I18n
 					.translate(
 						"knowledge.miskatonicmysteries." + knowledge.getKnowledge().get(index))
-					: "")
+																		  : "")
 				.orElse("");
 		});
-		PatchouliAPI.get().registerMultiblock(new Identifier(Constants.MOD_ID, "pillar"), new DenseMultiblock(new String[][] {
+		PatchouliAPI.get().registerMultiblock(new Identifier(Constants.MOD_ID, "pillar"), new DenseMultiblock(new String[][]{
 			{
 				"S___S",
 				"_____",
@@ -308,23 +311,25 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 				"B___B"
 			},
 		}, 'B', StateMatcher.fromPredicate(Blocks.STONE_BRICKS, state -> state.isIn(Tags.PILLAR_BOTTOM)),
-			'M', StateMatcher.fromPredicate(MMObjects.STONE_HASTUR_MURAL, state -> state.isIn(Tags.PILLAR_MIDDLE)),
-			'S', StateMatcher.fromPredicate(MMObjects.HASTUR_STATUE_STONE, state -> state.isIn(Tags.PILLAR_TOP)),
-			'0', MMObjects.HASTUR_OCTAGRAM));
+																											  'M', StateMatcher.fromPredicate(
+			MMObjects.STONE_HASTUR_MURAL, state -> state.isIn(Tags.PILLAR_MIDDLE)),
+																											  'S', StateMatcher.fromPredicate(
+			MMObjects.HASTUR_STATUE_STONE, state -> state.isIn(Tags.PILLAR_TOP)),
+																											  '0', MMObjects.HASTUR_OCTAGRAM));
 	}
 
 	private void registerTrinketRenderers() {
 		TrinketRendererRegistry.registerRenderer(MMObjects.ELEGANT_MASK,
-			new MaskTrinketRenderer(
-				(ctx) -> new HasturMaskModel(ctx.getModelPart(MMModels.HASTUR_MASK)),
-				new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png")));
+												 new MaskTrinketRenderer(
+													 (ctx) -> new HasturMaskModel(ctx.getModelPart(MMModels.HASTUR_MASK)),
+													 new Identifier(Constants.MOD_ID, "textures/model/mask/elegant_mask.png")));
 		TrinketRendererRegistry.registerRenderer(MMObjects.FERAL_MASK,
-			new MaskTrinketRenderer(
-				(ctx) -> new ShubMaskModel(ctx.getModelPart(MMModels.SHUB_MASK)),
-				new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png")));
+												 new MaskTrinketRenderer(
+													 (ctx) -> new ShubMaskModel(ctx.getModelPart(MMModels.SHUB_MASK)),
+													 new Identifier(Constants.MOD_ID, "textures/model/mask/feral_mask.png")));
 		TrinketRendererRegistry.registerRenderer(MMObjects.WILD_MASK,
-			new MaskTrinketRenderer(
-				(ctx) -> new ShubAlternateMaskModel(ctx.getModelPart(MMModels.SHUB_ALT_MASK)),
-				new Identifier(Constants.MOD_ID, "textures/model/mask/wild_mask.png")));
+												 new MaskTrinketRenderer(
+													 (ctx) -> new ShubAlternateMaskModel(ctx.getModelPart(MMModels.SHUB_ALT_MASK)),
+													 new Identifier(Constants.MOD_ID, "textures/model/mask/wild_mask.png")));
 	}
 }

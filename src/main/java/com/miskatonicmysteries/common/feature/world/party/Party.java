@@ -1,23 +1,14 @@
 package com.miskatonicmysteries.common.feature.world.party;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.ai.task.PartyTask;
 import com.miskatonicmysteries.common.feature.entity.brain.HasturCultistBrain;
-import com.miskatonicmysteries.common.feature.world.party.Party.Status;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
-import com.mojang.datafixers.util.Pair;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.function.Predicate;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
@@ -53,15 +44,26 @@ import net.minecraft.village.VillageGossipType;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.function.Predicate;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
+import com.mojang.datafixers.util.Pair;
+
 public class Party {
 
 	public static final int FIREWORK_BONUS = 40;
 	public static final int DRUGS_BONUS = 10;
 	public static final Text EVENT_TEXT = new TranslatableText("event.miskatonicmysteries.hastur_party");
 	public static final Text EVENT_TEXT_CONCLUDED = new TranslatableText("event.miskatonicmysteries.hastur_party" +
-		".finish");
+																			 ".finish");
 	public static final Text EVENT_TEXT_WAITING = new TranslatableText("event.miskatonicmysteries.hastur_party" +
-		".waiting");
+																		   ".waiting");
 	public static final int PARTY_POWER_MAX = 1000;
 	private final ServerWorld world;
 	private final ServerBossBar bar;
@@ -74,17 +76,6 @@ public class Party {
 	private int bonusCooldown;
 	private Status status;
 
-
-	public Party(ServerWorld world, BlockPos center, int id) {
-		this.world = world;
-		this.bar = new ServerBossBar(EVENT_TEXT, BossBar.Color.YELLOW, BossBar.Style.PROGRESS);
-		this.centerPos = center;
-		this.id = id;
-		this.status = Status.WAITING;
-		this.partyPower = 0;
-		this.tickCount = 0;
-		this.bonusCooldown = 0;
-	}
 
 	public Party(ServerWorld world, NbtCompound tag) {
 		this(world, NbtHelper.toBlockPos(tag.getCompound(Constants.NBT.CENTER_POS)), tag.getInt(Constants.NBT.ID));
@@ -99,14 +90,74 @@ public class Party {
 		updateMembers();
 	}
 
+	public Party(ServerWorld world, BlockPos center, int id) {
+		this.world = world;
+		this.bar = new ServerBossBar(EVENT_TEXT, BossBar.Color.YELLOW, BossBar.Style.PROGRESS);
+		this.centerPos = center;
+		this.id = id;
+		this.status = Status.WAITING;
+		this.partyPower = 0;
+		this.tickCount = 0;
+		this.bonusCooldown = 0;
+	}
+
+	private List<ServerPlayerEntity> updateMembers() {
+		List<ServerPlayerEntity> playersAround = this.world.getPlayers(this.isInPartyDistance());
+		if (tickCount % 100 == 0) {
+			for (LivingEntity participant : participants) {
+				if (participant instanceof VillagerEntity v) {
+					v.reinitializeBrain(world);
+				}
+			}
+			participants.clear();
+			participants.addAll(playersAround);
+			participants.addAll(world.getEntitiesByType(TypeFilter.instanceOf(VillagerEntity.class),
+														isInPartyDistance()));
+			for (LivingEntity participant : participants) {
+				if (participant instanceof VillagerEntity v) {
+					setPartyBrain(v, v.getBrain());
+					v.setJumping(true);
+				}
+			}
+		}
+		return playersAround;
+	}
+
+	private void setPartyBrain(VillagerEntity villager, Brain<VillagerEntity> brain) {
+		brain.setSchedule(Schedule.EMPTY);
+		brain.setTaskList(Activity.CORE, VillagerTaskListProvider.createCoreTasks(VillagerProfession.NITWIT, 0.65F));
+		brain.setTaskList(Activity.PANIC, VillagerTaskListProvider.createPanicTasks(VillagerProfession.NITWIT, 0.65F));
+		brain.setTaskList(Activity.IDLE, createPartyTasks(0.65F));
+		if (villager instanceof HasturCultistEntity cultist) {
+			brain.setTaskList(Activity.FIGHT, 10, HasturCultistBrain.createFightTasks(cultist, 0.65F),
+							  MemoryModuleType.ATTACK_TARGET);
+		}
+
+		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
+		brain.setDefaultActivity(Activity.IDLE);
+		brain.doExclusively(Activity.IDLE);
+		brain.refreshActivities(this.world.getTimeOfDay(), this.world.getTime());
+	}
+
 	private static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> createPartyTasks(float speed) {
 		return ImmutableList.of(Pair.of(4, new PartyTask()), Pair.of(4,
-			new RandomTask<>(ImmutableList.of(Pair.of(new GoToIfNearbyTask(MemoryModuleType.MEETING_POINT, speed,
-				80), 2), Pair.of(new WanderAroundTask(40, 80), 1)))), Pair.of(3,
-			new FindInteractionTargetTask(EntityType.PLAYER, 4)), Pair.of(3, new MeetVillagerTask()), Pair.of(2,
-			new VillagerWalkTowardsTask(MemoryModuleType.MEETING_POINT, speed, 12, 100, 200)), Pair.of(3,
-			new ForgetCompletedPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT)),
-			Pair.of(99, new ScheduleActivityTask()));
+																	 new RandomTask<>(ImmutableList.of(Pair.of(
+																		 new GoToIfNearbyTask(MemoryModuleType.MEETING_POINT, speed,
+																							  80), 2), Pair.of(new WanderAroundTask(40, 80), 1)))),
+								Pair.of(3,
+										new FindInteractionTargetTask(EntityType.PLAYER, 4)), Pair.of(3, new MeetVillagerTask()), Pair.of(2,
+																																		  new VillagerWalkTowardsTask(
+																																			  MemoryModuleType.MEETING_POINT,
+																																			  speed,
+																																			  12, 100,
+																																			  200)),
+								Pair.of(3,
+										new ForgetCompletedPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT)),
+								Pair.of(99, new ScheduleActivityTask()));
+	}
+
+	private Predicate<? super LivingEntity> isInPartyDistance() {
+		return (entity) -> entity.isAlive() && MMPartyState.get(world).getParty(entity.getBlockPos()) == this;
 	}
 
 	public void tick() {
@@ -137,14 +188,6 @@ public class Party {
 		}
 	}
 
-	public void addPartyPower(int power) {
-		if (bonusCooldown > 0) {
-			return;
-		}
-		this.partyPower += power;
-		this.bonusCooldown = 40;
-	}
-
 	private void updatePartyPower() {
 		partyPower -= 12 + (18 * partyPower / PARTY_POWER_MAX);
 		for (LivingEntity participant : participants) {
@@ -171,22 +214,6 @@ public class Party {
 		bar.setPercent(Math.min(partyPower / (float) PARTY_POWER_MAX, 1));
 	}
 
-	private void setPartyBrain(VillagerEntity villager, Brain<VillagerEntity> brain) {
-		brain.setSchedule(Schedule.EMPTY);
-		brain.setTaskList(Activity.CORE, VillagerTaskListProvider.createCoreTasks(VillagerProfession.NITWIT, 0.65F));
-		brain.setTaskList(Activity.PANIC, VillagerTaskListProvider.createPanicTasks(VillagerProfession.NITWIT, 0.65F));
-		brain.setTaskList(Activity.IDLE, createPartyTasks(0.65F));
-		if (villager instanceof HasturCultistEntity cultist) {
-			brain.setTaskList(Activity.FIGHT, 10, HasturCultistBrain.createFightTasks(cultist, 0.65F),
-				MemoryModuleType.ATTACK_TARGET);
-		}
-
-		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
-		brain.setDefaultActivity(Activity.IDLE);
-		brain.doExclusively(Activity.IDLE);
-		brain.refreshActivities(this.world.getTimeOfDay(), this.world.getTime());
-	}
-
 	private void updateBarToPlayers(List<ServerPlayerEntity> playersAround) {
 		Set<ServerPlayerEntity> trackedPlayers = Sets.newHashSet(this.bar.getPlayers());
 		for (ServerPlayerEntity serverPlayerEntity : playersAround) {
@@ -208,30 +235,12 @@ public class Party {
 		}
 	}
 
-	private List<ServerPlayerEntity> updateMembers() {
-		List<ServerPlayerEntity> playersAround = this.world.getPlayers(this.isInPartyDistance());
-		if (tickCount % 100 == 0) {
-			for (LivingEntity participant : participants) {
-				if (participant instanceof VillagerEntity v) {
-					v.reinitializeBrain(world);
-				}
-			}
-			participants.clear();
-			participants.addAll(playersAround);
-			participants.addAll(world.getEntitiesByType(TypeFilter.instanceOf(VillagerEntity.class),
-				isInPartyDistance()));
-			for (LivingEntity participant : participants) {
-				if (participant instanceof VillagerEntity v) {
-					setPartyBrain(v, v.getBrain());
-					v.setJumping(true);
-				}
-			}
+	public void addPartyPower(int power) {
+		if (bonusCooldown > 0) {
+			return;
 		}
-		return playersAround;
-	}
-
-	private Predicate<? super LivingEntity> isInPartyDistance() {
-		return (entity) -> entity.isAlive() && MMPartyState.get(world).getParty(entity.getBlockPos()) == this;
+		this.partyPower += power;
+		this.bonusCooldown = 40;
 	}
 
 	public void writeNbt(NbtCompound tag) {
@@ -262,7 +271,7 @@ public class Party {
 					if (partyPower > 300
 						&& MiskatonicMysteriesAPI.getNonNullAffiliation(serverPlayerEntity, true) == MMAffiliations.HASTUR) {
 						v.getGossip().startGossip(serverPlayerEntity.getUuid(), VillageGossipType.MAJOR_POSITIVE,
-							world.random.nextInt(partyPower / 20));
+												  world.random.nextInt(partyPower / 20));
 					}
 					v.getGossip().startGossip(serverPlayerEntity.getUuid(), VillageGossipType.MINOR_POSITIVE, partyPower / 20 - 2);
 				}

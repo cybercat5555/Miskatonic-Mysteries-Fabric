@@ -6,24 +6,22 @@ import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.entity.LivingEntityAccessor;
-import javax.annotation.Nullable;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
-import net.minecraft.item.ShieldItem;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class SpellProjectileEntity extends ThrownEntity {
 
@@ -50,11 +48,9 @@ public class SpellProjectileEntity extends ThrownEntity {
 	}
 
 	@Override
-	protected void onCollision(HitResult hitResult) {
-		super.onCollision(hitResult);
-		remove(RemovalReason.DISCARDED);
+	protected float getGravity() {
+		return 0.005F;
 	}
-
 
 	@Override
 	protected void writeCustomDataToNbt(NbtCompound tag) {
@@ -70,21 +66,10 @@ public class SpellProjectileEntity extends ThrownEntity {
 		setSpell(MMRegistries.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))));
 	}
 
-	@Nullable
-	public SpellEffect getSpell() {
-		return MMRegistries.SPELL_EFFECTS.get(new Identifier(dataTracker.get(EFFECT)));
-	}
-
-	public void setSpell(SpellEffect effect) {
-		dataTracker.set(EFFECT, effect == null ? "" : effect.getId().toString());
-	}
-
-	public int getIntensity() {
-		return dataTracker.get(INTENSITY);
-	}
-
-	public void setIntensity(int intensity) {
-		dataTracker.set(INTENSITY, intensity);
+	@Override
+	protected void onCollision(HitResult hitResult) {
+		super.onCollision(hitResult);
+		remove(RemovalReason.DISCARDED);
 	}
 
 	@Override
@@ -98,8 +83,17 @@ public class SpellProjectileEntity extends ThrownEntity {
 			}
 			getSpell()
 				.effect(world, (LivingEntity) getOwner(), entityHitResult.getEntity(), entityHitResult.getPos(), MMSpellMediums.PROJECTILE,
-					getIntensity(), this);
+						getIntensity(), this);
 		}
+	}
+
+	@Nullable
+	public SpellEffect getSpell() {
+		return MMRegistries.SPELL_EFFECTS.get(new Identifier(dataTracker.get(EFFECT)));
+	}
+
+	public void setSpell(SpellEffect effect) {
+		dataTracker.set(EFFECT, effect == null ? "" : effect.getId().toString());
 	}
 
 	@Override
@@ -111,9 +105,12 @@ public class SpellProjectileEntity extends ThrownEntity {
 		}
 	}
 
-	@Override
-	protected boolean updateWaterState() {
-		return false;
+	public int getIntensity() {
+		return dataTracker.get(INTENSITY);
+	}
+
+	public void setIntensity(int intensity) {
+		dataTracker.set(INTENSITY, intensity);
 	}
 
 	@Override
@@ -123,7 +120,7 @@ public class SpellProjectileEntity extends ThrownEntity {
 	}
 
 	@Override
-	protected float getGravity() {
-		return 0.005F;
+	protected boolean updateWaterState() {
+		return false;
 	}
 }

@@ -2,11 +2,12 @@ package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
 import com.miskatonicmysteries.api.interfaces.Knowledge;
 import com.miskatonicmysteries.common.util.Constants;
-import io.netty.buffer.Unpooled;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.LivingEntity;
@@ -17,6 +18,8 @@ import net.minecraft.nbt.NbtString;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+
+import io.netty.buffer.Unpooled;
 
 public class SyncKnowledgePacket {
 
@@ -38,7 +41,7 @@ public class SyncKnowledgePacket {
 
 	@Environment(EnvType.CLIENT)
 	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler,
-		PacketByteBuf packetByteBuf, PacketSender sender) {
+							  PacketByteBuf packetByteBuf, PacketSender sender) {
 		if (client.player != null) {
 			NbtList knowledgeList = packetByteBuf.readNbt().getList(Constants.NBT.KNOWLEDGE, 8);
 			client.execute(() -> {

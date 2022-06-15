@@ -1,22 +1,24 @@
 package com.miskatonicmysteries.common.handler;
 
-import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SANITY_CAP;
-
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.registry.InsanityEvent;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.stream.Collectors;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SANITY_CAP;
 
 public class InsanityHandler {
 

@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.feature.entity;
 
 import com.miskatonicmysteries.common.feature.entity.ai.FloatyWanderAroundGoal;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -12,6 +13,7 @@ import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -23,19 +25,6 @@ public class AberrationEntity extends PhantasmaEntity implements Monster {
 
 	public AberrationEntity(EntityType<? extends PhantasmaEntity> entityType, World world) {
 		super(entityType, world);
-	}
-
-	@Override
-	public int getMaxVariants() {
-		return 1;
-	}
-
-	@Override
-	public void tick() {
-		if (getTarget() != null && distanceTo(getTarget()) < 2) {
-			swingHand(Hand.MAIN_HAND, false);
-		}
-		super.tick();
 	}
 
 	@Override
@@ -54,8 +43,8 @@ public class AberrationEntity extends PhantasmaEntity implements Monster {
 	}
 
 	@Override
-	public void swingHand(Hand hand) {
-		super.swingHand(hand);
+	public boolean tryAttack(Entity target) {
+		return super.tryAttack(target);
 	}
 
 	@Override
@@ -67,23 +56,21 @@ public class AberrationEntity extends PhantasmaEntity implements Monster {
 	}
 
 	@Override
+	public void tick() {
+		if (getTarget() != null && distanceTo(getTarget()) < 2) {
+			swingHand(Hand.MAIN_HAND, false);
+		}
+		super.tick();
+	}
+
+	@Override
+	public int getMaxVariants() {
+		return 1;
+	}
+
+	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<>(this, "controller", 20, this::animationPredicate));
-	}
-
-	@Override
-	public void applyDamageEffects(LivingEntity attacker, Entity target) {
-		super.applyDamageEffects(attacker, target);
-	}
-
-	@Override
-	protected void applyDamage(DamageSource source, float amount) {
-		super.applyDamage(source, amount);
-	}
-
-	@Override
-	public boolean tryAttack(Entity target) {
-		return super.tryAttack(target);
 	}
 
 	public <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
@@ -99,5 +86,20 @@ public class AberrationEntity extends PhantasmaEntity implements Monster {
 			event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
 		}
 		return PlayState.CONTINUE;
+	}
+
+	@Override
+	public void applyDamageEffects(LivingEntity attacker, Entity target) {
+		super.applyDamageEffects(attacker, target);
+	}
+
+	@Override
+	protected void applyDamage(DamageSource source, float amount) {
+		super.applyDamage(source, amount);
+	}
+
+	@Override
+	public void swingHand(Hand hand) {
+		super.swingHand(hand);
 	}
 }

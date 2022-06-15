@@ -1,10 +1,10 @@
 {
-  "replace": false,
-  "values": [
-    "#minecraft:lectern_books",
-    "minecraft:enchanted_book",
-    "minecraft:book",
-    "miskatonicmysteries:science_journal",
-    "miskatonicmysteries:necronomicon"
-  ]
+	"replace": false,
+	"values": [
+		"#minecraft:lectern_books",
+		"minecraft:enchanted_book",
+		"minecraft:book",
+		"miskatonicmysteries:science_journal",
+		"miskatonicmysteries:necronomicon"
+	]
 }

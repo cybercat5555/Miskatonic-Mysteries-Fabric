@@ -4,14 +4,17 @@ import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.client.gui.SpellClientHandler;
 import com.miskatonicmysteries.client.gui.widget.SelectSpellWidget;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
-import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
+
+import com.mojang.blaze3d.systems.RenderSystem;
 
 @Environment(EnvType.CLIENT)
 public class CurrentSpellHUD extends DrawableHelper {
@@ -20,12 +23,12 @@ public class CurrentSpellHUD extends DrawableHelper {
 	private float alpha;
 
 	public void render(MinecraftClient client, MatrixStack matrixStack, float tickDelta, int scaledWidth, int scaledHeight,
-		PlayerEntity player) {
+					   PlayerEntity player) {
 		if (SpellClientHandler.selectedSpell != null) {
 			SpellCaster.of(player).ifPresent(caster -> {
 				matrixStack.push();
 				matrixStack.translate(scaledWidth - MiskatonicMysteries.config.client.currentSpellHUD.marginX,
-					scaledHeight - MiskatonicMysteries.config.client.currentSpellHUD.marginY, 0);
+									  scaledHeight - MiskatonicMysteries.config.client.currentSpellHUD.marginY, 0);
 				RenderSystem.setShaderTexture(0, SelectSpellWidget.getTexture(SpellClientHandler.selectedSpell.intensity));
 				this.alpha = 1 - shiftTicks / 20F;
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);

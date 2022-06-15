@@ -1,10 +1,10 @@
 {
-  "replace": false,
-  "values": [
-    "miskatonicmysteries:elderian_stone",
-    "miskatonicmysteries:elderian_stone_smooth",
-    "miskatonicmysteries:elderian_bricks",
-    "miskatonicmysteries:elderian_bricks_mossy",
-    "miskatonicmysteries:elderian_bricks_cracked"
-  ]
+	"replace": false,
+	"values": [
+		"miskatonicmysteries:elderian_stone",
+		"miskatonicmysteries:elderian_stone_smooth",
+		"miskatonicmysteries:elderian_bricks",
+		"miskatonicmysteries:elderian_bricks_mossy",
+		"miskatonicmysteries:elderian_bricks_cracked"
+	]
 }

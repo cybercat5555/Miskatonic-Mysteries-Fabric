@@ -1,18 +1,18 @@
 {
-  "parent": "minecraft:recipes/root",
-  "criteria": {
-    "kill_evoker": {
-      "trigger": "minecraft:player_killed_entity",
-      "conditions": {
-        "entity": {
-          "type": "minecraft:evoker"
-        }
-      }
-    }
-  },
-  "requirements": [
-    [
-      "kill_evoker"
-    ]
-  ]
+	"parent": "minecraft:recipes/root",
+	"criteria": {
+		"kill_evoker": {
+			"trigger": "minecraft:player_killed_entity",
+			"conditions": {
+				"entity": {
+					"type": "minecraft:evoker"
+				}
+			}
+		}
+	},
+	"requirements": [
+		[
+			"kill_evoker"
+		]
+	]
 }

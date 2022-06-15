@@ -4,15 +4,18 @@ import com.miskatonicmysteries.client.gui.SpellClientHandler;
 import com.miskatonicmysteries.client.gui.SpellSelectionScreen;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.util.Constants;
-import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+
+import com.mojang.blaze3d.systems.RenderSystem;
 
 @Environment(EnvType.CLIENT)
 public class SelectSpellWidget extends ClickableWidget {
@@ -26,23 +29,6 @@ public class SelectSpellWidget extends ClickableWidget {
 		this.spell = spell;
 		this.screen = screen;
 		this.active = true;
-	}
-
-	public static Identifier getTexture(int potency) {
-		return new Identifier(Constants.MOD_ID, String.format("textures/gui/spell_widgets/potency/potency_%d.png", potency));
-	}
-
-	@Override
-	public void onClick(double mouseX, double mouseY) {
-		if (!isSelected()) {
-			SpellClientHandler.selectedSpell = spell;
-		} else {
-			SpellClientHandler.selectedSpell = null;
-		}
-	}
-
-	private boolean isSelected() {
-		return SpellClientHandler.selectedSpell == spell;
 	}
 
 	@Override
@@ -74,6 +60,23 @@ public class SelectSpellWidget extends ClickableWidget {
 			matrices.pop();
 		}
 		this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
+	}
+
+	public static Identifier getTexture(int potency) {
+		return new Identifier(Constants.MOD_ID, String.format("textures/gui/spell_widgets/potency/potency_%d.png", potency));
+	}
+
+	@Override
+	public void onClick(double mouseX, double mouseY) {
+		if (!isSelected()) {
+			SpellClientHandler.selectedSpell = spell;
+		} else {
+			SpellClientHandler.selectedSpell = null;
+		}
+	}
+
+	private boolean isSelected() {
+		return SpellClientHandler.selectedSpell == spell;
 	}
 
 	@Override

@@ -13,10 +13,10 @@ import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.List;
-import java.util.Random;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
@@ -40,6 +40,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Random;
+
 public class SculptorRite extends Rite {
 
 	private final int ticksNeeded = 140;
@@ -47,36 +50,11 @@ public class SculptorRite extends Rite {
 
 	public SculptorRite() {
 		super(new Identifier(Constants.MOD_ID, "sculptor_rite"), MMAffiliations.HASTUR, 0.2F,
-			Ingredient.ofItems(Blocks.CLAY), Ingredient.ofItems(Items.YELLOW_DYE), Ingredient.ofItems(MMObjects.IRIDESCENT_PEARL),
-			Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(Items.TERRACOTTA, Items.STONE),
-			Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(MMObjects.IRIDESCENT_PEARL),
-			Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
+			  Ingredient.ofItems(Blocks.CLAY), Ingredient.ofItems(Items.YELLOW_DYE), Ingredient.ofItems(MMObjects.IRIDESCENT_PEARL),
+			  Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(Items.TERRACOTTA, Items.STONE),
+			  Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(MMObjects.IRIDESCENT_PEARL),
+			  Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
 		this.knowledge = MMAffiliations.HASTUR.getId().getPath();
-	}
-
-	private static StatueBlock getStatueForIngredients(OctagramBlockEntity octagram) {
-		for (ItemStack item : octagram.getItems()) {
-			if (item.getItem() == Items.STONE) {
-				return MMObjects.HASTUR_STATUE_STONE;
-			} else if (item.getItem() == Items.TERRACOTTA) {
-				return MMObjects.HASTUR_STATUE_TERRACOTTA;
-			}
-		}
-		return MMObjects.HASTUR_STATUE_STONE;
-	}
-
-	@Override
-	public boolean canCast(OctagramBlockEntity octagram) {
-		if (super.canCast(octagram)) {
-			if (!octagram.doesCasterHaveKnowledge(knowledge)) {
-				if (octagram.getOriginalCaster() != null) {
-					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.knowledge"), true);
-				}
-				return false;
-			}
-			return true;
-		}
-		return false;
 	}
 
 	@Override
@@ -92,9 +70,9 @@ public class SculptorRite extends Rite {
 				Random random = world.random;
 				for (int i = 0; i < 7; i++) {
 					MMParticles.spawnCandleParticle(world, pos.x + random.nextGaussian() / 4F, pos.y + random.nextGaussian() / 4F,
-						pos.z + random.nextGaussian() / 4F, 1, true);
+													pos.z + random.nextGaussian() / 4F, 1, true);
 					world.addParticle(MMParticles.DRIPPING_BLOOD, pos.x + random.nextGaussian() / 2F, pos.y + random.nextGaussian() / 2,
-						pos.z + random.nextGaussian() / 2, 0, 0.05F, 0);
+									  pos.z + random.nextGaussian() / 2, 0, 0.05F, 0);
 				}
 			}
 		}
@@ -113,8 +91,8 @@ public class SculptorRite extends Rite {
 	}
 
 	@Override
-	public boolean shouldContinue(OctagramBlockEntity octagram) {
-		return octagram.getOriginalCaster() != null && !octagram.getOriginalCaster().isDead();
+	public boolean isFinished(OctagramBlockEntity octagram) {
+		return octagram.triggered && octagram.tickCount >= ticksNeeded;
 	}
 
 	@Override
@@ -124,35 +102,54 @@ public class SculptorRite extends Rite {
 		Vec3d pos = octagram.getSummoningPos().add(0, 0.5F, 0);
 		if (!world.isClient) {
 			ItemEntity result = new ItemEntity(world, pos.x, pos.y, pos.z,
-				StatueBlock.setCreator(new ItemStack(getStatueForIngredients(octagram)), octagram.getOriginalCaster()));
+											   StatueBlock
+												   .setCreator(new ItemStack(getStatueForIngredients(octagram)), octagram.getOriginalCaster()));
 			result.setVelocity(0, 0, 0);
 			result.setNoGravity(true);
 			world.spawnEntity(result);
 		} else {
 			for (int i = 0; i < 20; i++) {
 				MMParticles.spawnCandleParticle(world, pos.x + world.random.nextGaussian(), pos.y + world.random.nextGaussian(),
-					pos.z + world.random.nextGaussian(), 1, true);
+												pos.z + world.random.nextGaussian(), 1, true);
 			}
 		}
 		super.onFinished(octagram);
 	}
 
-	@Override
-	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.triggered && octagram.tickCount >= ticksNeeded;
+	private static StatueBlock getStatueForIngredients(OctagramBlockEntity octagram) {
+		for (ItemStack item : octagram.getItems()) {
+			if (item.getItem() == Items.STONE) {
+				return MMObjects.HASTUR_STATUE_STONE;
+			} else if (item.getItem() == Items.TERRACOTTA) {
+				return MMObjects.HASTUR_STATUE_TERRACOTTA;
+			}
+		}
+		return MMObjects.HASTUR_STATUE_STONE;
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
-	public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
-		int light, int overlay, BlockEntityRendererFactory.Context context) {
-		return 1;
+	public boolean shouldContinue(OctagramBlockEntity octagram) {
+		return octagram.getOriginalCaster() != null && !octagram.getOriginalCaster().isDead();
+	}
+
+	@Override
+	public boolean canCast(OctagramBlockEntity octagram) {
+		if (super.canCast(octagram)) {
+			if (!octagram.doesCasterHaveKnowledge(knowledge)) {
+				if (octagram.getOriginalCaster() != null) {
+					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.knowledge"), true);
+				}
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
-		int light, int overlay, BlockEntityRendererFactory.Context context) {
+						   int light, int overlay, BlockEntityRendererFactory.Context context) {
 		VertexConsumer vertexConsumer = ResourceHandler.STATUE_SPRITES.get(getStatueForIngredients(entity))
 			.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid);
 		matrixStack.translate(1.5F, 0, 1.5F);
@@ -174,7 +171,7 @@ public class SculptorRite extends Rite {
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void renderRiteItems(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack,
-		VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
+								VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
 		int count = 0;
 		int maxAllowedCount = 3 - (entity.tickCount / 40);
 		for (int i = 0; i < entity.size(); i++) {
@@ -191,8 +188,15 @@ public class SculptorRite extends Rite {
 			matrixStack.multiply(Vec3f.NEGATIVE_X.getDegreesQuaternion(90));
 			MinecraftClient.getInstance().getItemRenderer()
 				.renderItem(entity.getStack(i), ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrixStack,
-					vertexConsumers, (int) entity.getPos().asLong());
+							vertexConsumers, (int) entity.getPos().asLong());
 			matrixStack.pop();
 		}
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
+							 int light, int overlay, BlockEntityRendererFactory.Context context) {
+		return 1;
 	}
 }

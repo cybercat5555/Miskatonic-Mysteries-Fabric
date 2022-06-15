@@ -2,10 +2,10 @@ package com.miskatonicmysteries.client.sound;
 
 import com.miskatonicmysteries.common.feature.block.blockentity.energy.ResonatorBlockEntity;
 import com.miskatonicmysteries.common.registry.MMSounds;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.MovingSoundInstance;
@@ -14,6 +14,9 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Environment(EnvType.CLIENT)
 public class ResonatorSound extends MovingSoundInstance implements TickableSoundInstance {

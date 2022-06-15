@@ -10,8 +10,7 @@ import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.List;
-import java.util.Random;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -28,45 +27,15 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.VillageGossipType;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Random;
+
 public class GoldenFlockRite extends AscensionLockedRite {
 
 	public GoldenFlockRite() {
 		super(new Identifier(Constants.MOD_ID, "golden_flock"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.5F, 1,
-			Ingredient.ofItems(MMObjects.OCEANIC_GOLD), Ingredient.ofItems(Items.YELLOW_WOOL), Ingredient.ofItems(Items.YELLOW_WOOL),
-			Ingredient.ofItems(Items.YELLOW_WOOL), Ingredient.ofItems(MMObjects.ORNATE_DAGGER));
-	}
-
-	@Override
-	public boolean shouldContinue(OctagramBlockEntity octagram) {
-		if (octagram.getOriginalCaster() == null) {
-			return false;
-		}
-		if (octagram.targetedEntity == null && !octagram.getWorld().isClient) {
-			octagram.tickCount++;
-			Vec3d pos = octagram.getSummoningPos();
-			octagram.targetedEntity = octagram.getWorld().getClosestEntity(VillagerEntity.class,
-				TargetPredicate.createNonAttackable()
-					.setPredicate(villager -> villager instanceof VillagerEntity && villager.hasStatusEffect(MMStatusEffects.MANIA)),
-				null, pos.x, pos.y, pos.z, octagram.getSelectionBox().expand(10, 5, 10));
-			if (octagram.targetedEntity != null) {
-				octagram.tickCount = 0;
-				SyncRiteTargetPacket.send(octagram.targetedEntity, octagram);
-				octagram.markDirty();
-				octagram.sync(octagram.getWorld(), octagram.getPos());
-			}
-		}
-		return !(octagram.targetedEntity == null && octagram.tickCount > 20);
-	}
-
-	@Override
-	public void onCancelled(OctagramBlockEntity octagram) {
-		super.onCancelled(octagram);
-	}
-
-	@Override
-	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.targetedEntity != null && octagram.targetedEntity.squaredDistanceTo(octagram.getSummoningPos()) < 8
-			&& octagram.tickCount >= 200;
+			  Ingredient.ofItems(MMObjects.OCEANIC_GOLD), Ingredient.ofItems(Items.YELLOW_WOOL), Ingredient.ofItems(Items.YELLOW_WOOL),
+			  Ingredient.ofItems(Items.YELLOW_WOOL), Ingredient.ofItems(MMObjects.ORNATE_DAGGER));
 	}
 
 	@Override
@@ -81,7 +50,7 @@ public class GoldenFlockRite extends AscensionLockedRite {
 			villager.getNavigation().startMovingTo(pos.x, pos.y, pos.z, 0.75F);
 			List<HasturCultistEntity> cultists = octagram.getWorld()
 				.getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 5, 10),
-					cultist -> !cultist.isAttacking());
+									cultist -> !cultist.isAttacking());
 			for (HasturCultistEntity cultist : cultists) {
 				cultist.getNavigation().startMovingTo(pos.x, pos.y, pos.z, 0.8F);
 				if (cultist.getPos().distanceTo(pos) < 5) {
@@ -109,6 +78,12 @@ public class GoldenFlockRite extends AscensionLockedRite {
 	}
 
 	@Override
+	public boolean isFinished(OctagramBlockEntity octagram) {
+		return octagram.targetedEntity != null && octagram.targetedEntity.squaredDistanceTo(octagram.getSummoningPos()) < 8
+			&& octagram.tickCount >= 200;
+	}
+
+	@Override
 	public void onFinished(OctagramBlockEntity octagram) {
 		if (octagram.targetedEntity instanceof VillagerEntity) {
 			octagram.targetedEntity
@@ -116,10 +91,13 @@ public class GoldenFlockRite extends AscensionLockedRite {
 			if (octagram.getWorld().isClient) {
 				for (int i = 0; i < 20; i++) {
 					MMParticles.spawnCandleParticle(octagram.getWorld(),
-						octagram.targetedEntity.getX() + octagram.getWorld().random.nextGaussian() * octagram.targetedEntity.getWidth(),
-						octagram.targetedEntity.getY() + octagram.getWorld().random.nextFloat() * octagram.targetedEntity.getHeight(),
-						octagram.targetedEntity.getZ() + octagram.getWorld().random.nextFloat() * octagram.targetedEntity.getWidth(), 1,
-						true);
+													octagram.targetedEntity.getX()
+														+ octagram.getWorld().random.nextGaussian() * octagram.targetedEntity.getWidth(),
+													octagram.targetedEntity.getY() + octagram.getWorld().random.nextFloat() * octagram.targetedEntity
+														.getHeight(),
+													octagram.targetedEntity.getZ() + octagram.getWorld().random.nextFloat() * octagram.targetedEntity
+														.getWidth(), 1,
+													true);
 				}
 			}
 			if (octagram.getWorld() instanceof ServerWorld) {
@@ -127,7 +105,7 @@ public class GoldenFlockRite extends AscensionLockedRite {
 				ServerWorld world = (ServerWorld) octagram.getWorld();
 				HasturCultistEntity cultist = MMEntities.HASTUR_CULTIST.create(world);
 				cultist.refreshPositionAndAngles(recipient.getX(), recipient.getY(), recipient.getZ(), recipient.getYaw(),
-					recipient.getPitch());
+												 recipient.getPitch());
 				cultist.initialize(world, world.getLocalDifficulty(cultist.getBlockPos()), SpawnReason.CONVERSION, null, null);
 				cultist.setAiDisabled(recipient.isAiDisabled());
 				if (recipient.hasCustomName()) {
@@ -152,16 +130,50 @@ public class GoldenFlockRite extends AscensionLockedRite {
 		super.onFinished(octagram);
 	}
 
+	@Override
+	public void onCancelled(OctagramBlockEntity octagram) {
+		super.onCancelled(octagram);
+	}
+
+	@Override
+	public boolean shouldContinue(OctagramBlockEntity octagram) {
+		if (octagram.getOriginalCaster() == null) {
+			return false;
+		}
+		if (octagram.targetedEntity == null && !octagram.getWorld().isClient) {
+			octagram.tickCount++;
+			Vec3d pos = octagram.getSummoningPos();
+			octagram.targetedEntity = octagram.getWorld().getClosestEntity(VillagerEntity.class,
+																		   TargetPredicate.createNonAttackable()
+																			   .setPredicate(
+																				   villager -> villager instanceof VillagerEntity && villager
+																					   .hasStatusEffect(MMStatusEffects.MANIA)),
+																		   null, pos.x, pos.y, pos.z, octagram.getSelectionBox().expand(10, 5, 10));
+			if (octagram.targetedEntity != null) {
+				octagram.tickCount = 0;
+				SyncRiteTargetPacket.send(octagram.targetedEntity, octagram);
+				octagram.markDirty();
+				octagram.sync(octagram.getWorld(), octagram.getPos());
+			}
+		}
+		return !(octagram.targetedEntity == null && octagram.tickCount > 20);
+	}
+
+	@Override
+	public float getInstabilityBase(OctagramBlockEntity blockEntity) {
+		return 0.35F;
+	}
+
 	private void playMusic(World world, Vec3d pos, int tickCount) {
 		if (tickCount % 12 == 0) {
 			world.playSound(null, pos.x, pos.y, pos.z, SoundEvents.BLOCK_NOTE_BLOCK_SNARE, SoundCategory.PLAYERS, 0.5F + tickCount / 200F,
-				1);
+							1);
 		} else if (tickCount % 15 == 6) {
 			world.playSound(null, pos.x, pos.y, pos.z, SoundEvents.BLOCK_NOTE_BLOCK_SNARE, SoundCategory.PLAYERS, 0.4F + tickCount / 200F,
-				1);
+							1);
 		} else if (tickCount % 15 == 9) {
 			world.playSound(null, pos.x, pos.y, pos.z, SoundEvents.BLOCK_NOTE_BLOCK_SNARE, SoundCategory.PLAYERS, 0.4F + tickCount / 200F,
-				1);
+							1);
 		}
 	}
 
@@ -180,10 +192,5 @@ public class GoldenFlockRite extends AscensionLockedRite {
 					.nextFloat() * 0.25F, random.nextFloat() * 0.1F);
 			}
 		}
-	}
-
-	@Override
-	public float getInstabilityBase(OctagramBlockEntity blockEntity) {
-		return 0.35F;
 	}
 }

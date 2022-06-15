@@ -1,7 +1,7 @@
 {
-  "parent": "block/cube_column",
-  "textures": {
-    "end": "miskatonicmysteries:block/elderian/elderian_tentacled_pillar_top",
-    "side": "miskatonicmysteries:block/elderian/elderian_tentacled_pillar_side_1"
-  }
+	"parent": "block/cube_column",
+	"textures": {
+		"end": "miskatonicmysteries:block/elderian/elderian_tentacled_pillar_top",
+		"side": "miskatonicmysteries:block/elderian/elderian_tentacled_pillar_side_1"
+	}
 }

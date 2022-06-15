@@ -1,33 +1,33 @@
 {
-  "parent": "miskatonicmysteries:science/illegal_chemistry",
-  "display": {
-    "icon": {
-      "item": "miskatonicmysteries:tranquilizer"
-    },
-    "title": {
-      "translate": "advancements.miskatonicmysteries.therapy.title"
-    },
-    "description": {
-      "translate": "advancements.miskatonicmysteries.therapy.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "tranquilized": {
-      "trigger": "minecraft:effects_changed",
-      "conditions": {
-        "effects": {
-          "miskatonicmysteries:tranquilized": {}
-        }
-      }
-    }
-  },
-  "tranquilized": [
-    [
-      "chemistry_set"
-    ]
-  ]
+	"parent": "miskatonicmysteries:science/illegal_chemistry",
+	"display": {
+		"icon": {
+			"item": "miskatonicmysteries:tranquilizer"
+		},
+		"title": {
+			"translate": "advancements.miskatonicmysteries.therapy.title"
+		},
+		"description": {
+			"translate": "advancements.miskatonicmysteries.therapy.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"tranquilized": {
+			"trigger": "minecraft:effects_changed",
+			"conditions": {
+				"effects": {
+					"miskatonicmysteries:tranquilized": {}
+				}
+			}
+		}
+	},
+	"tranquilized": [
+		[
+			"chemistry_set"
+		]
+	]
 }

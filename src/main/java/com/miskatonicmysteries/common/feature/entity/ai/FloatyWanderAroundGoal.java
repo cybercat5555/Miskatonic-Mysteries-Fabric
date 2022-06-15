@@ -1,11 +1,13 @@
 package com.miskatonicmysteries.common.feature.entity.ai;
 
-import java.util.EnumSet;
 import net.minecraft.entity.ai.FuzzyTargeting;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.EnumSet;
+
 import org.jetbrains.annotations.Nullable;
 
 public class FloatyWanderAroundGoal extends Goal {

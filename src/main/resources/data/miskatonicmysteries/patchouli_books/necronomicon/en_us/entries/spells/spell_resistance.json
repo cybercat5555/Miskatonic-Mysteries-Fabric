@@ -1,12 +1,12 @@
 {
-  "name": "Resistance",
-  "category": "miskatonicmysteries:spells",
-  "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/resistance.png",
-  "advancement": "miskatonicmysteries:recipes/hidden_knowledge/witch_secret",
-  "pages": [
-    {
-      "type": "text",
-      "text": "Another good spell for starters, which applies a hardening effect to their flesh. It is unlocked by default."
-    }
-  ]
+	"name": "Resistance",
+	"category": "miskatonicmysteries:spells",
+	"icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/resistance.png",
+	"advancement": "miskatonicmysteries:recipes/hidden_knowledge/witch_secret",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Another good spell for starters, which applies a hardening effect to their flesh. It is unlocked by default."
+		}
+	]
 }

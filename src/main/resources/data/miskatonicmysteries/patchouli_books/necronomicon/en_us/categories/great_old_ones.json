@@ -1,6 +1,6 @@
 {
-  "name": "Great Old Ones",
-  "description": "The Great Old ones are the ineffable forces of the universe.$(br)They have a Face and a Shadow, and we will try to outline them and their paths. ",
-  "icon": "miskatonicmysteries:textures/gui/icons/great_old_ones.png",
-  "sortnum": 3
+	"name": "Great Old Ones",
+	"description": "The Great Old ones are the ineffable forces of the universe.$(br)They have a Face and a Shadow, and we will try to outline them and their paths. ",
+	"icon": "miskatonicmysteries:textures/gui/icons/great_old_ones.png",
+	"sortnum": 3
 }

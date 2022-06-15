@@ -2,7 +2,6 @@ package com.miskatonicmysteries.common;
 
 import com.miskatonicmysteries.api.banner.MMBannerRegistry;
 import com.miskatonicmysteries.common.feature.ModCommand;
-import com.miskatonicmysteries.common.feature.recipe.rite.BiomeConversionRite;
 import com.miskatonicmysteries.common.handler.SchedulingHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
@@ -24,10 +23,12 @@ import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.registry.MMTrades;
 import com.miskatonicmysteries.common.registry.MMWorld;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
+
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 
 public class MiskatonicMysteries implements ModInitializer {
 

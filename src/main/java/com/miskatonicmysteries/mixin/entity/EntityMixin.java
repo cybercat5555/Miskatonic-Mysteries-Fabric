@@ -1,8 +1,10 @@
 package com.miskatonicmysteries.mixin.entity;
 
 import com.miskatonicmysteries.api.interfaces.HiddenEntity;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

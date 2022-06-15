@@ -1,11 +1,9 @@
 package com.miskatonicmysteries.common.feature.entity.ai.task;
 
-import com.google.common.collect.ImmutableMap;
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.registry.MMEntities;
-import java.util.List;
-import java.util.stream.Collectors;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
@@ -19,27 +17,16 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.village.VillagerData;
 import net.minecraft.village.VillagerProfession;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.google.common.collect.ImmutableMap;
+
 public class RecruitTask extends Task<VillagerEntity> {
 
 	public RecruitTask() {
 		super(ImmutableMap.of(MemoryModuleType.MOBS, MemoryModuleState.VALUE_PRESENT, MemoryModuleType.INTERACTION_TARGET,
-			MemoryModuleState.VALUE_PRESENT));
-	}
-
-	@Override
-	protected boolean shouldRun(ServerWorld world, VillagerEntity entity) {
-		return entity instanceof HasturCultistEntity && ((HasturCultistEntity) entity).isAscended()
-			&& world.getDimension().getMoonPhase(world.getTime()) == 0 && isRecipientQualified(entity,
-			entity.getBrain().getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).get());
-	}
-
-	private boolean isRecipientQualified(VillagerEntity entity, LivingEntity recipient) {
-		if (recipient instanceof VillagerEntity) {
-			VillagerData data = ((VillagerEntity) recipient).getVillagerData();
-			return (data.getProfession().equals(VillagerProfession.NONE) || data.getProfession().equals(VillagerProfession.NITWIT))
-				&& recipient.distanceTo(entity) <= 4;
-		}
-		return false;
+							  MemoryModuleState.VALUE_PRESENT));
 	}
 
 	@Override
@@ -76,5 +63,22 @@ public class RecruitTask extends Task<VillagerEntity> {
 			cultist.reinitializeBrain(world);
 		}
 
+	}
+
+	@Override
+	protected boolean shouldRun(ServerWorld world, VillagerEntity entity) {
+		return entity instanceof HasturCultistEntity && ((HasturCultistEntity) entity).isAscended()
+			&& world.getDimension().getMoonPhase(world.getTime()) == 0 && isRecipientQualified(entity,
+																							   entity.getBrain().getOptionalMemory(
+																								   MemoryModuleType.INTERACTION_TARGET).get());
+	}
+
+	private boolean isRecipientQualified(VillagerEntity entity, LivingEntity recipient) {
+		if (recipient instanceof VillagerEntity) {
+			VillagerData data = ((VillagerEntity) recipient).getVillagerData();
+			return (data.getProfession().equals(VillagerProfession.NONE) || data.getProfession().equals(VillagerProfession.NITWIT))
+				&& recipient.distanceTo(entity) <= 4;
+		}
+		return false;
 	}
 }

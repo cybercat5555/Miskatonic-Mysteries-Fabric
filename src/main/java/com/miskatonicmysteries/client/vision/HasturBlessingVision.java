@@ -2,9 +2,10 @@ package com.miskatonicmysteries.client.vision;
 
 import com.miskatonicmysteries.client.gui.hud.SpellBurnoutHUD;
 import com.miskatonicmysteries.common.util.Constants;
-import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.BufferBuilder;
@@ -18,14 +19,50 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 @Environment(EnvType.CLIENT)
 public class HasturBlessingVision extends VisionSequence {
 
 	private static final Identifier YELLOW_SIGN_TEXTURE = new Identifier(Constants.MOD_ID, "textures/block/yellow_sign.png");
 	private static final int totalLength = 280;
 
+	@Override
+	public void render(MinecraftClient client, ClientPlayerEntity player, MatrixStack stack, float tickDelta) {
+		ticks++;
+		int width = client.getWindow().getScaledWidth();
+		int height = client.getWindow().getScaledHeight();
+		float backgroundProgress;
+		float signProgress = 0;
+		if (ticks > 160) {
+			backgroundProgress = MathHelper.clamp(1 - (ticks - 160) / 40F, 0, 1);
+		} else {
+			backgroundProgress = MathHelper.clamp(ticks / 80F, 0, 1);
+		}
+		if (ticks > 180) {
+			signProgress = MathHelper.clamp(1 - (ticks - 180) / 100F, 0, 1);
+		} else if (ticks > 20) {
+			signProgress = MathHelper.clamp((ticks - 20) / 100F, 0, 1);
+		}
+		float colorProgress = Math.min(signProgress, backgroundProgress);
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+		drawBackground(width, height, backgroundProgress, colorProgress, bufferBuilder);
+		drawSign(stack.peek().getPositionMatrix(), width, height, signProgress, tessellator, bufferBuilder);
+		drawVignette(width, height, colorProgress, tessellator, bufferBuilder);
+
+		RenderSystem.depthMask(true);
+		RenderSystem.enableDepthTest();
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+
+		if (ticks >= totalLength - 1) {
+			VisionHandler.setVisionSequence(player, null);
+			ticks = 0;
+		}
+	}
+
 	public static void drawSign(Matrix4f matrix4f, int width, int height, float signProgress, Tessellator tessellator,
-		BufferBuilder bufferBuilder) {
+								BufferBuilder bufferBuilder) {
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1F, 1F, 1F, signProgress);
 		RenderSystem.setShaderTexture(0, YELLOW_SIGN_TEXTURE);
@@ -62,39 +99,5 @@ public class HasturBlessingVision extends VisionSequence {
 		bufferBuilder.vertex(0.0D, 0.0D, -90.0D).color(0, 0, 0, backgroundProgress).next();
 		bufferBuilder.end();
 		BufferRenderer.draw(bufferBuilder);
-	}
-
-	@Override
-	public void render(MinecraftClient client, ClientPlayerEntity player, MatrixStack stack, float tickDelta) {
-		ticks++;
-		int width = client.getWindow().getScaledWidth();
-		int height = client.getWindow().getScaledHeight();
-		float backgroundProgress;
-		float signProgress = 0;
-		if (ticks > 160) {
-			backgroundProgress = MathHelper.clamp(1 - (ticks - 160) / 40F, 0, 1);
-		} else {
-			backgroundProgress = MathHelper.clamp(ticks / 80F, 0, 1);
-		}
-		if (ticks > 180) {
-			signProgress = MathHelper.clamp(1 - (ticks - 180) / 100F, 0, 1);
-		} else if (ticks > 20) {
-			signProgress = MathHelper.clamp((ticks - 20) / 100F, 0, 1);
-		}
-		float colorProgress = Math.min(signProgress, backgroundProgress);
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferBuilder = tessellator.getBuffer();
-		drawBackground(width, height, backgroundProgress, colorProgress, bufferBuilder);
-		drawSign(stack.peek().getPositionMatrix(), width, height, signProgress, tessellator, bufferBuilder);
-		drawVignette(width, height, colorProgress, tessellator, bufferBuilder);
-
-		RenderSystem.depthMask(true);
-		RenderSystem.enableDepthTest();
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
-		if (ticks >= totalLength - 1) {
-			VisionHandler.setVisionSequence(player, null);
-			ticks = 0;
-		}
 	}
 }

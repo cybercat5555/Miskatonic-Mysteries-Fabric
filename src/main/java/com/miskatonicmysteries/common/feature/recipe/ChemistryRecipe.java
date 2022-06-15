@@ -1,12 +1,9 @@
 package com.miskatonicmysteries.common.feature.recipe;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.miskatonicmysteries.api.interfaces.LazySerializable;
 import com.miskatonicmysteries.common.feature.PotentialItem;
 import com.miskatonicmysteries.common.registry.MMRecipes;
-import java.util.ArrayList;
-import java.util.List;
+
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
@@ -14,6 +11,12 @@ import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class ChemistryRecipe implements LazySerializable {
 
@@ -85,7 +88,7 @@ public class ChemistryRecipe implements LazySerializable {
 			}
 
 			return new ChemistryRecipe(id, ingredients.toArray(new Ingredient[ingredients.size()]), buf.readInt(),
-				outputs.toArray(new PotentialItem[outputs.size()]));
+									   outputs.toArray(new PotentialItem[outputs.size()]));
 		}
 
 		@Override

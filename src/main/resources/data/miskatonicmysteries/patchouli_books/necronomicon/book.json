@@ -1,18 +1,18 @@
 {
-  "name": "item.miskatonicmysteries.necronomicon",
-  "subtitle": "miskatonicmysteries.necronomicon.subtitle",
-  "landing_text": "miskatonicmysteries.necronomicon.landing",
-  "book_texture": "miskatonicmysteries:textures/gui/necronomicon.png",
-  "filler_texture": "miskatonicmysteries:textures/gui/necronomicon_page_filler.png",
-  "progress_bar_background": "FDFDC1",
-  "progress_bar_color": "F5CE8C",
-  "dont_generate_book": true,
-  "show_progress": false,
-  "custom_book_item": "miskatonicmysteries:necronomicon",
-  "macros": {
-    "$(marked)": "$(#EE0000)",
-    "$(item)": "$(#EE0000)",
-    "$(ml:": "$(marked)$(l:"
-  },
-  "advancements_tab": "miskatonicmysteries:root"
+	"name": "item.miskatonicmysteries.necronomicon",
+	"subtitle": "miskatonicmysteries.necronomicon.subtitle",
+	"landing_text": "miskatonicmysteries.necronomicon.landing",
+	"book_texture": "miskatonicmysteries:textures/gui/necronomicon.png",
+	"filler_texture": "miskatonicmysteries:textures/gui/necronomicon_page_filler.png",
+	"progress_bar_background": "FDFDC1",
+	"progress_bar_color": "F5CE8C",
+	"dont_generate_book": true,
+	"show_progress": false,
+	"custom_book_item": "miskatonicmysteries:necronomicon",
+	"macros": {
+		"$(marked)": "$(#EE0000)",
+		"$(item)": "$(#EE0000)",
+		"$(ml:": "$(marked)$(l:"
+	},
+	"advancements_tab": "miskatonicmysteries:root"
 }

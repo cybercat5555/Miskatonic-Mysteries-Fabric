@@ -2,8 +2,10 @@ package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.client.model.entity.TindalosHoundModel;
 import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -12,6 +14,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+
 import software.bernie.geckolib3.core.util.Color;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
@@ -30,13 +33,15 @@ public class TindalosHoundEntityRenderer extends GeoEntityRenderer<TindalosHound
 
 	@Override
 	public RenderLayer getRenderType(TindalosHoundEntity animatable, float partialTicks, MatrixStack stack,
-		VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn, Identifier textureLocation) {
+									 VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn,
+									 Identifier textureLocation) {
 		return RenderLayer.getEntityTranslucent(textureLocation);
 	}
 
 
 	@Override
-	public Color getRenderColor(TindalosHoundEntity animatable, float partialTicks, MatrixStack stack, VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn) {
+	public Color getRenderColor(TindalosHoundEntity animatable, float partialTicks, MatrixStack stack, VertexConsumerProvider renderTypeBuffer,
+								VertexConsumer vertexBuilder, int packedLightIn) {
 		int progress = animatable.getPhasingProgress();
 		if (progress > 0) {
 			return Color.ofRGBA(1.0F, 1.0F, 1.0F, MathHelper.clamp((progress - 100) / 100F, 0, 1.0F));

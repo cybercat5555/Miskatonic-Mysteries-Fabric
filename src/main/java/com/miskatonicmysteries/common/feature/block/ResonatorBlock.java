@@ -1,14 +1,11 @@
 package com.miskatonicmysteries.common.feature.block;
 
-import static net.minecraft.state.property.Properties.LIT;
-import static net.minecraft.state.property.Properties.POWERED;
-import static net.minecraft.state.property.Properties.WATERLOGGED;
-
 import com.miskatonicmysteries.common.feature.block.blockentity.energy.ResonatorBlockEntity;
 import com.miskatonicmysteries.common.registry.MMParticles;
-import java.util.Random;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -40,6 +37,12 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
+
+import java.util.Random;
+
+import static net.minecraft.state.property.Properties.LIT;
+import static net.minecraft.state.property.Properties.POWERED;
+import static net.minecraft.state.property.Properties.WATERLOGGED;
 import org.jetbrains.annotations.Nullable;
 
 public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntityProvider, Waterloggable, Shootable {
@@ -48,22 +51,11 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
 
 	public ResonatorBlock() {
 		super(Settings.of(Material.METAL).nonOpaque().requiresTool().strength(2F, 4F)
-			.allowsSpawning((state, world, pos, type) -> false).solidBlock((state, world, pos) -> false)
-			.suffocates((state, world, pos) -> false)
-			.blockVision((state, world, pos) -> false)
-			.luminance((state -> state.get(POWERED) ? 10 : 0)));
+				  .allowsSpawning((state, world, pos, type) -> false).solidBlock((state, world, pos) -> false)
+				  .suffocates((state, world, pos) -> false)
+				  .blockVision((state, world, pos) -> false)
+				  .luminance((state -> state.get(POWERED) ? 10 : 0)));
 		setDefaultState(getStateManager().getDefaultState().with(FACING, Direction.NORTH).with(POWERED, false).with(WATERLOGGED, false));
-	}
-
-	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return SHAPE;
-	}
-
-
-	@Environment(EnvType.CLIENT)
-	public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
-		return 1.0F;
 	}
 
 	@Override
@@ -72,9 +64,14 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
 	}
 
 	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		super.appendProperties(builder);
-		builder.add(POWERED, FACING, WATERLOGGED);
+	@Environment(EnvType.CLIENT)
+	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+		super.randomDisplayTick(state, world, pos, random);
+		boolean powered = state.get(POWERED);
+		if (powered) {
+			world.addParticle(MMParticles.AMBIENT, pos.getX() + 0.5F + random.nextGaussian() * 2,
+							  pos.getY() + 0.5F + random.nextGaussian() * 1.5F, pos.getZ() + 0.5F + random.nextGaussian() * 2, 0.75F, 0, 1);
+		}
 	}
 
 	@Override
@@ -89,8 +86,14 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
 	}
 
 	@Override
+	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+		super.appendProperties(builder);
+		builder.add(POWERED, FACING, WATERLOGGED);
+	}
+
+	@Override
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
-		BlockPos posFrom) {
+												BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
 			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
@@ -126,19 +129,18 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
 	}
 
 	@Override
+	public FluidState getFluidState(BlockState state) {
+		return state.contains(WATERLOGGED) && state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+	}
+
 	@Environment(EnvType.CLIENT)
-	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-		super.randomDisplayTick(state, world, pos, random);
-		boolean powered = state.get(POWERED);
-		if (powered) {
-			world.addParticle(MMParticles.AMBIENT, pos.getX() + 0.5F + random.nextGaussian() * 2,
-				pos.getY() + 0.5F + random.nextGaussian() * 1.5F, pos.getZ() + 0.5F + random.nextGaussian() * 2, 0.75F, 0, 1);
-		}
+	public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
+		return 1.0F;
 	}
 
 	@Override
-	public FluidState getFluidState(BlockState state) {
-		return state.contains(WATERLOGGED) && state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+		return SHAPE;
 	}
 
 	@Override

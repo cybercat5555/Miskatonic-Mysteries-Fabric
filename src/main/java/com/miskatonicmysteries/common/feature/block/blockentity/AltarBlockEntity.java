@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.feature.block.blockentity;
 
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.inventory.Inventories;
@@ -21,16 +22,15 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBloc
 	}
 
 	@Override
-	public void writeNbt(NbtCompound tag) {
-		Inventories.writeNbt(tag, ITEMS);
-	}
-
-
-	@Override
 	public void readNbt(NbtCompound nbt) {
 		ITEMS.clear();
 		Inventories.readNbt(nbt, ITEMS);
 		super.readNbt(nbt);
+	}
+
+	@Override
+	public void writeNbt(NbtCompound tag) {
+		Inventories.writeNbt(tag, ITEMS);
 	}
 
 	@Override
@@ -41,14 +41,15 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBloc
 		super.markDirty();
 	}
 
-	@Override
-	public int getMaxCountPerStack() {
-		return 1;
+	public void sync(World world, BlockPos pos) {
+		if (world != null && !world.isClient) {
+			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
+		}
 	}
 
 	@Override
-	public DefaultedList<ItemStack> getItems() {
-		return ITEMS;
+	public int getMaxCountPerStack() {
+		return 1;
 	}
 
 	@Override
@@ -56,13 +57,12 @@ public class AltarBlockEntity extends BaseBlockEntity implements ImplementedBloc
 		return stack.isIn(Constants.Tags.ALTAR_BOOKS);
 	}
 
-	public Item getBook() {
-		return getStack(0).getItem();
+	@Override
+	public DefaultedList<ItemStack> getItems() {
+		return ITEMS;
 	}
 
-	public void sync(World world, BlockPos pos) {
-		if (world != null && !world.isClient) {
-			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
-		}
+	public Item getBook() {
+		return getStack(0).getItem();
 	}
 }

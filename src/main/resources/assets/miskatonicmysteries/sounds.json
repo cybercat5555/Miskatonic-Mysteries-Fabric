@@ -1,97 +1,97 @@
 {
-  "ambient.scary": {
-    "subtitle": "subtitles.miskatonicmysteries.ambient.scary",
-    "sounds": [
-      "ambient/cave/cave10",
-      "ambient/cave/cave3",
-      "ambient/cave/cave5",
-      "random/fuse",
-      "random/burp"
-    ]
-  },
-  "block.resonator.ambient": {
-    "subtitle": "subtitles.miskatonicmysteries.block.resonator.ambient",
-    "sounds": [
-      "miskatonicmysteries:resonator/resonator_ambiance"
-    ]
-  },
-  "entity.harrow.ambient": {
-    "subtitle": "subtitles.miskatonicmysteries.entity.harrow.ambient",
-    "sounds": [
-    ]
-  },
-  "entity.harrow.death": {
-    "subtitle": "subtitles.miskatonicmysteries.entity.harrow.death",
-    "sounds": [
-    ]
-  },
-  "entity.harrow.hurt": {
-    "subtitle": "subtitles.miskatonicmysteries.entity.harrow.hurt",
-    "sounds": [
-    ]
-  },
-  "entity.harrow.charge": {
-    "subtitle": "subtitles.miskatonicmysteries.entity.harrow.charge",
-    "sounds": [
-    ]
-  },
-  "item.gun.gun_shot": {
-    "subtitle": "subtitles.miskatonicmysteries.item.gun.gun_shot",
-    "sounds": [
-      "miskatonicmysteries:gun/shoot",
-      "miskatonicmysteries:gun/shoot2"
-    ]
-  },
-  "item.incantation_yog.incantation_bound": {
-    "subtitle": "subtitles.miskatonicmysteries.item.incantation_yog.incantation_bound",
-    "sounds": [
-      "random/successful_hit"
-    ]
-  },
-  "item.infested_wheat.use": {
-    "subtitle": "subtitles.miskatonicmysteries.item.infested_wheat.use",
-    "sounds": [
-      "miskatonicmysteries:infested_wheat/infested_wheat",
-      "miskatonicmysteries:infested_wheat/infested_wheat2",
-      "miskatonicmysteries:infested_wheat/infested_wheat3",
-      "miskatonicmysteries:infested_wheat/infested_wheat4"
-    ]
-  },
-  "random.pling": {
-    "subtitle": "subtitles.miskatonicmysteries.pling",
-    "sounds": [
-      "random/orb"
-    ]
-  },
-  "rite.spotlight": {
-    "subtitle": "subtitles.miskatonicmysteries.rite.spotlight",
-    "sounds": [
-      "miskatonicmysteries:spotlight/spotlight"
-    ]
-  },
-  "rite.rite_triggered": {
-    "subtitle": "subtitles.miskatonicmysteries.rite.rite_triggered",
-    "sounds": [
-      "mob/ghast/fireball4"
-    ]
-  },
-  "rite.teleport": {
-    "subtitle": "subtitles.miskatonicmysteries.rite.teleport",
-    "sounds": [
-      "mob/endermen/portal",
-      "mob/endermen/portal2"
-    ]
-  },
-  "rite.veil_spawn": {
-    "subtitle": "subtitles.miskatonicmysteries.rite.veil_spawn",
-    "sounds": [
-      "mob/ghast/fireball4"
-    ]
-  },
-  "spell.spell_cast": {
-    "subtitle": "subtitles.miskatonicmysteries.spell.spell_cast",
-    "sounds": [
-      "mob/ghast/fireball4"
-    ]
-  }
+	"ambient.scary": {
+		"subtitle": "subtitles.miskatonicmysteries.ambient.scary",
+		"sounds": [
+			"ambient/cave/cave10",
+			"ambient/cave/cave3",
+			"ambient/cave/cave5",
+			"random/fuse",
+			"random/burp"
+		]
+	},
+	"block.resonator.ambient": {
+		"subtitle": "subtitles.miskatonicmysteries.block.resonator.ambient",
+		"sounds": [
+			"miskatonicmysteries:resonator/resonator_ambiance"
+		]
+	},
+	"entity.harrow.ambient": {
+		"subtitle": "subtitles.miskatonicmysteries.entity.harrow.ambient",
+		"sounds": [
+		]
+	},
+	"entity.harrow.death": {
+		"subtitle": "subtitles.miskatonicmysteries.entity.harrow.death",
+		"sounds": [
+		]
+	},
+	"entity.harrow.hurt": {
+		"subtitle": "subtitles.miskatonicmysteries.entity.harrow.hurt",
+		"sounds": [
+		]
+	},
+	"entity.harrow.charge": {
+		"subtitle": "subtitles.miskatonicmysteries.entity.harrow.charge",
+		"sounds": [
+		]
+	},
+	"item.gun.gun_shot": {
+		"subtitle": "subtitles.miskatonicmysteries.item.gun.gun_shot",
+		"sounds": [
+			"miskatonicmysteries:gun/shoot",
+			"miskatonicmysteries:gun/shoot2"
+		]
+	},
+	"item.incantation_yog.incantation_bound": {
+		"subtitle": "subtitles.miskatonicmysteries.item.incantation_yog.incantation_bound",
+		"sounds": [
+			"random/successful_hit"
+		]
+	},
+	"item.infested_wheat.use": {
+		"subtitle": "subtitles.miskatonicmysteries.item.infested_wheat.use",
+		"sounds": [
+			"miskatonicmysteries:infested_wheat/infested_wheat",
+			"miskatonicmysteries:infested_wheat/infested_wheat2",
+			"miskatonicmysteries:infested_wheat/infested_wheat3",
+			"miskatonicmysteries:infested_wheat/infested_wheat4"
+		]
+	},
+	"random.pling": {
+		"subtitle": "subtitles.miskatonicmysteries.pling",
+		"sounds": [
+			"random/orb"
+		]
+	},
+	"rite.spotlight": {
+		"subtitle": "subtitles.miskatonicmysteries.rite.spotlight",
+		"sounds": [
+			"miskatonicmysteries:spotlight/spotlight"
+		]
+	},
+	"rite.rite_triggered": {
+		"subtitle": "subtitles.miskatonicmysteries.rite.rite_triggered",
+		"sounds": [
+			"mob/ghast/fireball4"
+		]
+	},
+	"rite.teleport": {
+		"subtitle": "subtitles.miskatonicmysteries.rite.teleport",
+		"sounds": [
+			"mob/endermen/portal",
+			"mob/endermen/portal2"
+		]
+	},
+	"rite.veil_spawn": {
+		"subtitle": "subtitles.miskatonicmysteries.rite.veil_spawn",
+		"sounds": [
+			"mob/ghast/fireball4"
+		]
+	},
+	"spell.spell_cast": {
+		"subtitle": "subtitles.miskatonicmysteries.spell.spell_cast",
+		"sounds": [
+			"mob/ghast/fireball4"
+		]
+	}
 }

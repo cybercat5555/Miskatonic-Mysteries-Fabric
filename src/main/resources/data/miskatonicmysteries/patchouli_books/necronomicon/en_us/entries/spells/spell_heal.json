@@ -1,12 +1,12 @@
 {
-  "name": "Healing",
-  "category": "miskatonicmysteries:spells",
-  "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/heal.png",
-  "advancement": "miskatonicmysteries:recipes/hidden_knowledge/witch_secret",
-  "pages": [
-    {
-      "type": "text",
-      "text": "A key part of any Entheator's tool kit is a simple $(marked)healing spell$().$(br)This effect will restore some health based on its intensity and is unlocked by default."
-    }
-  ]
+	"name": "Healing",
+	"category": "miskatonicmysteries:spells",
+	"icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/heal.png",
+	"advancement": "miskatonicmysteries:recipes/hidden_knowledge/witch_secret",
+	"pages": [
+		{
+			"type": "text",
+			"text": "A key part of any Entheator's tool kit is a simple $(marked)healing spell$().$(br)This effect will restore some health based on its intensity and is unlocked by default."
+		}
+	]
 }

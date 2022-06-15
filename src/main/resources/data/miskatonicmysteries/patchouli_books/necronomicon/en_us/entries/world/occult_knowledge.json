@@ -1,15 +1,15 @@
 {
-  "name": "Occult Knowledge",
-  "category": "miskatonicmysteries:world",
-  "icon": "minecraft:paper",
-  "pages": [
-    {
-      "type": "text",
-      "text": "A lot of knowledge in this world cannot be described using mere words. Sometimes, one has to experience it by themselves. Such $(marked)occult knowledge$() is often used in $(ml:rites/rite_intro)rites$(), especially when dealing with $(ml:world/ascension)ascension$()."
-    },
-    {
-      "type": "text",
-      "text": "This entry will also list your $(marked)current knowledge$():$(br)$(expandknowledge:0)$(br)$(expandknowledge:1)$(br)$(expandknowledge:2)$(br)$(expandknowledge:3)$(br)$(expandknowledge:4)$(br)$(expandknowledge:5)$(br)$(expandknowledge:6)$(br)$(expandknowledge:7)$(br)$(expandknowledge:8)$(br)$(expandknowledge:9)$(br)$(expandknowledge:10)$(br)$(o)You probably don't have any knowledge should this page be empty.$()"
-    }
-  ]
+	"name": "Occult Knowledge",
+	"category": "miskatonicmysteries:world",
+	"icon": "minecraft:paper",
+	"pages": [
+		{
+			"type": "text",
+			"text": "A lot of knowledge in this world cannot be described using mere words. Sometimes, one has to experience it by themselves. Such $(marked)occult knowledge$() is often used in $(ml:rites/rite_intro)rites$(), especially when dealing with $(ml:world/ascension)ascension$()."
+		},
+		{
+			"type": "text",
+			"text": "This entry will also list your $(marked)current knowledge$():$(br)$(expandknowledge:0)$(br)$(expandknowledge:1)$(br)$(expandknowledge:2)$(br)$(expandknowledge:3)$(br)$(expandknowledge:4)$(br)$(expandknowledge:5)$(br)$(expandknowledge:6)$(br)$(expandknowledge:7)$(br)$(expandknowledge:8)$(br)$(expandknowledge:9)$(br)$(expandknowledge:10)$(br)$(o)You probably don't have any knowledge should this page be empty.$()"
+		}
+	]
 }

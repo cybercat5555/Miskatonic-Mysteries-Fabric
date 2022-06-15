@@ -1,26 +1,26 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "CSC",
-    "MGM",
-    "MGM"
-  ],
-  "key": {
-    "S": {
-      "item": "minecraft:blackstone_slab"
-    },
-    "M": {
-      "item": "minecraft:blackstone"
-    },
-    "C": {
-      "item": "minecraft:candle"
-    },
-    "G": {
-      "item": "miskatonicmysteries:oceanic_gold"
-    }
-  },
-  "result": {
-    "item": "miskatonicmysteries:blackstone_altar",
-    "count": 1
-  }
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"CSC",
+		"MGM",
+		"MGM"
+	],
+	"key": {
+		"S": {
+			"item": "minecraft:blackstone_slab"
+		},
+		"M": {
+			"item": "minecraft:blackstone"
+		},
+		"C": {
+			"item": "minecraft:candle"
+		},
+		"G": {
+			"item": "miskatonicmysteries:oceanic_gold"
+		}
+	},
+	"result": {
+		"item": "miskatonicmysteries:blackstone_altar",
+		"count": 1
+	}
 }

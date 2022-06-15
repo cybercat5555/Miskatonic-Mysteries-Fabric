@@ -10,10 +10,7 @@ import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
-import java.awt.Color;
-import java.util.Optional;
-import java.util.Random;
-import javax.annotation.Nullable;
+
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.recipe.Ingredient;
@@ -22,12 +19,18 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.Optional;
+import java.util.Random;
+
+import java.awt.Color;
+import javax.annotation.Nullable;
+
 public class SpellGivingRite extends AscensionLockedRite {
 
 	private final SpellEffect grantedEffect;
 
 	public SpellGivingRite(SpellEffect effect, String knowledge, Identifier id, @Nullable Affiliation octagram, int stage,
-		Ingredient... ingredients) {
+						   Ingredient... ingredients) {
 		super(id, octagram, knowledge, 0.25F, stage, ingredients);
 		this.grantedEffect = effect;
 	}
@@ -43,16 +46,6 @@ public class SpellGivingRite extends AscensionLockedRite {
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public boolean shouldContinue(OctagramBlockEntity octagram) {
-		return octagram.getOriginalCaster() != null;
-	}
-
-	@Override
-	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.getOriginalCaster() != null && octagram.tickCount >= 240;
 	}
 
 	@Override
@@ -81,6 +74,11 @@ public class SpellGivingRite extends AscensionLockedRite {
 	}
 
 	@Override
+	public boolean isFinished(OctagramBlockEntity octagram) {
+		return octagram.getOriginalCaster() != null && octagram.tickCount >= 240;
+	}
+
+	@Override
 	public void onFinished(OctagramBlockEntity octagram) {
 		PlayerEntity player = octagram.getOriginalCaster();
 		player.setVelocity(0, 0.5F, 0);
@@ -89,8 +87,8 @@ public class SpellGivingRite extends AscensionLockedRite {
 			for (int i = 0; i < 20; i++) {
 				MMParticles
 					.spawnCandleParticle(octagram.getWorld(), player.getX() + octagram.getWorld().random.nextGaussian() * player.getWidth(),
-						player.getY() + octagram.getWorld().random.nextFloat() * player.getHeight(),
-						player.getZ() + octagram.getWorld().random.nextFloat() * player.getWidth(), 1.5F, true);
+										 player.getY() + octagram.getWorld().random.nextFloat() * player.getHeight(),
+										 player.getZ() + octagram.getWorld().random.nextFloat() * player.getWidth(), 1.5F, true);
 			}
 		} else {
 			Vec3d pos = player.getPos();
@@ -110,13 +108,9 @@ public class SpellGivingRite extends AscensionLockedRite {
 		super.onFinished(octagram);
 	}
 
-	private void spawnBolt(PlayerEntity player, Vec3d pos, World world, float height, Random random) {
-		BoltEntity bolt = MMEntities.BOLT.create(world);
-		bolt.setPos(pos.x, pos.y + height, pos.z);
-		bolt.setYaw(random.nextInt(360));
-		bolt.setPitch(random.nextInt(360));
-		bolt.setColor(grantedEffect.getColor(player));
-		world.spawnEntity(bolt);
+	@Override
+	public boolean shouldContinue(OctagramBlockEntity octagram) {
+		return octagram.getOriginalCaster() != null;
 	}
 
 	private void spawnParticles(World world, Vec3d pos, Random random, int ticks, PlayerEntity player) {
@@ -136,9 +130,18 @@ public class SpellGivingRite extends AscensionLockedRite {
 				y = (ticks % 20) / 20F;
 			}
 			world.addParticle(MMParticles.SHRINKING_MAGIC, pos.x + Math.sin(rad), pos.y + y, pos.z + Math.cos(rad), color.getRed() / 255F,
-				color.getGreen() / 255F, color.getBlue() / 255F);
+							  color.getGreen() / 255F, color.getBlue() / 255F);
 			world.addParticle(MMParticles.SHRINKING_MAGIC, pos.x + Math.sin(rad + Math.PI), pos.y + y, pos.z + Math.cos(rad + Math.PI),
-				color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
+							  color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
 		}
+	}
+
+	private void spawnBolt(PlayerEntity player, Vec3d pos, World world, float height, Random random) {
+		BoltEntity bolt = MMEntities.BOLT.create(world);
+		bolt.setPos(pos.x, pos.y + height, pos.z);
+		bolt.setYaw(random.nextInt(360));
+		bolt.setPitch(random.nextInt(360));
+		bolt.setColor(grantedEffect.getColor(player));
+		world.spawnEntity(bolt);
 	}
 }

@@ -2,12 +2,13 @@ package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
-import io.netty.buffer.Unpooled;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
@@ -17,6 +18,8 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
+
+import io.netty.buffer.Unpooled;
 
 public class TeleportEffectPacket {
 
@@ -33,14 +36,14 @@ public class TeleportEffectPacket {
 
 	@Environment(EnvType.CLIENT)
 	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
-		PacketSender sender) {
+							  PacketSender sender) {
 		if (client.world != null) {
 			Entity entity = client.world.getEntityById(packetByteBuf.readInt());
 			if (entity != null) {
 				client.execute(() -> {
 					if (entity instanceof LivingEntity) {
 						client.world.playSound(entity
-							.getBlockPos(), MMSounds.RITE_TELEPORT, SoundCategory.PLAYERS, 0.5F, 0.8F, false);
+												   .getBlockPos(), MMSounds.RITE_TELEPORT, SoundCategory.PLAYERS, 0.5F, 0.8F, false);
 					}
 					for (int i = 0; i < 5; i++) {
 						client.world.addParticle(ParticleTypes.PORTAL, entity.getX() + client.world.getRandom()

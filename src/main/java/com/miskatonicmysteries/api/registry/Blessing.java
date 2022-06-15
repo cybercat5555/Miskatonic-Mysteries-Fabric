@@ -1,9 +1,11 @@
 package com.miskatonicmysteries.api.registry;
 
 import com.miskatonicmysteries.api.interfaces.Affiliated;
-import java.util.function.Function;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
+
+import java.util.function.Function;
 
 public class Blessing implements Affiliated {
 

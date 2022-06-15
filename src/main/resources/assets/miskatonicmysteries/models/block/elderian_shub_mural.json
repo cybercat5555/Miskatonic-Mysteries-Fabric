@@ -1,6 +1,6 @@
 {
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "miskatonicmysteries:block/elderian_shub_mural"
-  }
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "miskatonicmysteries:block/elderian_shub_mural"
+	}
 }

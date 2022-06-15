@@ -1,12 +1,14 @@
 package com.miskatonicmysteries.common.feature;
 
-import com.google.gson.JsonObject;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.util.JsonHelper;
+
+import com.google.gson.JsonObject;
 
 public class PotentialItem {
 
@@ -31,7 +33,7 @@ public class PotentialItem {
 
 	public static PotentialItem fromTag(NbtCompound tag) {
 		return new PotentialItem(ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.RECEIVED_STACK)),
-			ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.REALIZED_STACK)));
+								 ItemStack.fromNbt((NbtCompound) tag.get(Constants.NBT.REALIZED_STACK)));
 	}
 
 	public boolean canRealize(ItemStack stack) {

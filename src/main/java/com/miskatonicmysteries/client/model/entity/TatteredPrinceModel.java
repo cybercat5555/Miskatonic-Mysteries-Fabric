@@ -2,9 +2,12 @@ package com.miskatonicmysteries.client.model.entity;
 
 import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.util.Identifier;
+
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
@@ -16,7 +19,7 @@ public class TatteredPrinceModel extends AnimatedGeoModel<TatteredPrinceEntity> 
 	private static final Identifier MODEL = new Identifier(Constants.MOD_ID, "geo/tattered_prince/tattered_prince.geo.json");
 	private static final Identifier TEXTURE = new Identifier(Constants.MOD_ID, "textures/entity/tattered_prince/tattered_prince.png");
 	private static final Identifier ANIMATION = new Identifier(Constants.MOD_ID,
-		"animations/tattered_prince/tattered_prince.animation.json");
+															   "animations/tattered_prince/tattered_prince.animation.json");
 
 	@Override
 	public Identifier getModelLocation(TatteredPrinceEntity entity) {

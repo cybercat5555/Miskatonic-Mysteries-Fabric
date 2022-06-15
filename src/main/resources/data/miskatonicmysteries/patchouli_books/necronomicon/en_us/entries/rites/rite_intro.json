@@ -1,36 +1,36 @@
 {
-  "name": "Rites",
-  "category": "miskatonicmysteries:rites",
-  "icon": "",
-  "priority": true,
-  "pages": [
-    {
-      "type": "text",
-      "text": "The first act most Entheators perform in the realm of the Sunken is that of $(marked)rites$().$(br)All rites are conducted through sacred geometric patterns known as $(ml:miskatonicmysteries:world/octagrams)Octagrams$(), with the aid of reagents.$(br)Reagents can be placed in each point of the Octagram, rites are activated by interacting with the center."
-    },
-    {
-      "type": "text",
-      "text": "However, all of that is easier said than done; rites are supernatural and as such cannot be reduced to general terms.$(br)Some rites require $(ml:miskatonicmysteries:world/occult_knowledge)special knowledge$(), provided by the original caster.$(br)Sometimes, a rite will call on one specific Great Old One. This requires a matching Octagram."
-    },
-    {
-      "type": "text",
-      "title": "Instability",
-      "text": "Since they fiddle with cosmic powers, rites have a decent potential to go haywire when not set up properly. This usually results in collateral damage, or the rite failing.$(br)A rite's stability may be helped with $(marked)lit candles$(), $(marked)skulls$(), or $(marked)decorations matching the addressed Great Old One$(). Keep in mind that these decorations may as well increase instability when used improperly, such as when a statue to the Black Goat"
-    },
-    {
-      "type": "text",
-      "text": "is placed in a rite to the Yellow King.$(br)These $(marked)stabilizers$() are tragically $(marked)suspicious$() most of the time. They may, along with the rite itself, attract unwanted attention, though this may be helped with $(marked)subtle blocks$() such as some $(ml:world/occult_decor)occult paraphernalia$() or candles."
-    },
-    {
-      "type": "text",
-      "title": "Sacrificial Rites",
-      "text": "In order to finish, some rites require a blood sacrifice. Note that not any living being is a valid sacrifice; for instance, a chicken may provide too little. On the other hand, humans and large livestock such as pigs and cows usually suffice. "
-    },
-    {
-      "type": "text",
-      "title": "Triggered Rites",
-      "anchor": "triggered_rites",
-      "text": "Lastly, one last thing to note: rites are, in theory, very versatile.$(br)For example, some rites may be cast as a $(marked)triggered rite$(). They are not truly active until something steps on them. A rite that allows this may be cast as such by $(marked)sneaking$() while starting it, otherwise it will activate normally."
-    }
-  ]
+	"name": "Rites",
+	"category": "miskatonicmysteries:rites",
+	"icon": "",
+	"priority": true,
+	"pages": [
+		{
+			"type": "text",
+			"text": "The first act most Entheators perform in the realm of the Sunken is that of $(marked)rites$().$(br)All rites are conducted through sacred geometric patterns known as $(ml:miskatonicmysteries:world/octagrams)Octagrams$(), with the aid of reagents.$(br)Reagents can be placed in each point of the Octagram, rites are activated by interacting with the center."
+		},
+		{
+			"type": "text",
+			"text": "However, all of that is easier said than done; rites are supernatural and as such cannot be reduced to general terms.$(br)Some rites require $(ml:miskatonicmysteries:world/occult_knowledge)special knowledge$(), provided by the original caster.$(br)Sometimes, a rite will call on one specific Great Old One. This requires a matching Octagram."
+		},
+		{
+			"type": "text",
+			"title": "Instability",
+			"text": "Since they fiddle with cosmic powers, rites have a decent potential to go haywire when not set up properly. This usually results in collateral damage, or the rite failing.$(br)A rite's stability may be helped with $(marked)lit candles$(), $(marked)skulls$(), or $(marked)decorations matching the addressed Great Old One$(). Keep in mind that these decorations may as well increase instability when used improperly, such as when a statue to the Black Goat"
+		},
+		{
+			"type": "text",
+			"text": "is placed in a rite to the Yellow King.$(br)These $(marked)stabilizers$() are tragically $(marked)suspicious$() most of the time. They may, along with the rite itself, attract unwanted attention, though this may be helped with $(marked)subtle blocks$() such as some $(ml:world/occult_decor)occult paraphernalia$() or candles."
+		},
+		{
+			"type": "text",
+			"title": "Sacrificial Rites",
+			"text": "In order to finish, some rites require a blood sacrifice. Note that not any living being is a valid sacrifice; for instance, a chicken may provide too little. On the other hand, humans and large livestock such as pigs and cows usually suffice. "
+		},
+		{
+			"type": "text",
+			"title": "Triggered Rites",
+			"anchor": "triggered_rites",
+			"text": "Lastly, one last thing to note: rites are, in theory, very versatile.$(br)For example, some rites may be cast as a $(marked)triggered rite$(). They are not truly active until something steps on them. A rite that allows this may be cast as such by $(marked)sneaking$() while starting it, otherwise it will activate normally."
+		}
+	]
 }

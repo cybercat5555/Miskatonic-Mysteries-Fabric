@@ -1,7 +1,5 @@
 package com.miskatonicmysteries.common.feature.entity.ai.task;
 
-import com.google.common.collect.ImmutableMap;
-import java.util.function.Predicate;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.EntityLookTarget;
@@ -15,6 +13,10 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
 
+import java.util.function.Predicate;
+
+import com.google.common.collect.ImmutableMap;
+
 public class TacticalApproachTask extends Task<MobEntity> {
 
 	private final Predicate<MobEntity> predicate;
@@ -24,9 +26,9 @@ public class TacticalApproachTask extends Task<MobEntity> {
 
 	public TacticalApproachTask(float speed, Predicate<MobEntity> predicate) {
 		super(ImmutableMap
-			.of(MemoryModuleType.WALK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED,
-				MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT, MemoryModuleType.VISIBLE_MOBS,
-				MemoryModuleState.REGISTERED, MemoryModuleType.ATTACK_COOLING_DOWN, MemoryModuleState.REGISTERED));
+				  .of(MemoryModuleType.WALK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED,
+					  MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT, MemoryModuleType.VISIBLE_MOBS,
+					  MemoryModuleState.REGISTERED, MemoryModuleType.ATTACK_COOLING_DOWN, MemoryModuleState.REGISTERED));
 		this.speed = speed;
 		this.predicate = predicate;
 	}
@@ -42,13 +44,6 @@ public class TacticalApproachTask extends Task<MobEntity> {
 			this.rememberWalkTarget(mob, livingEntity);
 		}
 
-	}
-
-	@Override
-	protected boolean shouldKeepRunning(ServerWorld world, MobEntity entity, long time) {
-		return entity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isPresent() && (
-			entity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_COOLING_DOWN).isPresent() || predicate.test(entity)
-				|| entity.age - entity.getLastAttackedTime() <= 30);
 	}
 
 	@Override
@@ -91,6 +86,13 @@ public class TacticalApproachTask extends Task<MobEntity> {
 	protected void finishRunning(ServerWorld world, MobEntity entity, long time) {
 		entity.clearActiveItem();
 		super.finishRunning(world, entity, time);
+	}
+
+	@Override
+	protected boolean shouldKeepRunning(ServerWorld world, MobEntity entity, long time) {
+		return entity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isPresent() && (
+			entity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_COOLING_DOWN).isPresent() || predicate.test(entity)
+				|| entity.age - entity.getLastAttackedTime() <= 30);
 	}
 
 	private void rememberWalkTarget(LivingEntity entity, LivingEntity target) {

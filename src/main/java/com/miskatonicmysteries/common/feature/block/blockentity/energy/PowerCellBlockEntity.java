@@ -4,16 +4,19 @@ import com.miskatonicmysteries.common.feature.block.PowerCellBlock;
 import com.miskatonicmysteries.common.feature.block.blockentity.BaseBlockEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 import team.reborn.energy.api.EnergyStorageUtil;
 import team.reborn.energy.api.base.SimpleSidedEnergyContainer;
 
 public class PowerCellBlockEntity extends BaseBlockEntity {
+
 	public static final int MAX_STORAGE = 64000;
 	public final SimpleSidedEnergyContainer energyStorage = new SimpleSidedEnergyContainer() {
 		@Override
@@ -52,14 +55,14 @@ public class PowerCellBlockEntity extends BaseBlockEntity {
 	}
 
 	@Override
-	public void writeNbt(NbtCompound tag) {
-		tag.putLong(Constants.NBT.ENERGY, energyStorage.amount);
-	}
-
-	@Override
 	public void readNbt(NbtCompound tag) {
 		energyStorage.amount = tag.getLong(Constants.NBT.ENERGY);
 		super.readNbt(tag);
+	}
+
+	@Override
+	public void writeNbt(NbtCompound tag) {
+		tag.putLong(Constants.NBT.ENERGY, energyStorage.amount);
 	}
 
 	@Override

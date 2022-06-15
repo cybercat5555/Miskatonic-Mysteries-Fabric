@@ -1,5 +1,5 @@
 {
-  "textures": {
-    "particle": "miskatonicmysteries:block/octagram/yog_octagram"
-  }
+	"textures": {
+		"particle": "miskatonicmysteries:block/octagram/yog_octagram"
+	}
 }

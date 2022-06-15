@@ -1,15 +1,15 @@
 {
-  "name": "Ascension",
-  "category": "miskatonicmysteries:world",
-  "icon": "miskatonicmysteries:the_orb",
-  "pages": [
-    {
-      "type": "text",
-      "text": "Pursuing $(marked)ascension$() is the preferred method of acquiring more power and knowledge. It is also essential for unlocking $(marked)obfuscated text$() and deciphering it.$(br)Ascension is always dedicated towards a Great Old One, so you must pick a path. Each ascension is different in a way, so make sure to check them in the $(marked)Great Old Ones chapter.$()"
-    },
-    {
-      "type": "text",
-      "text": "An aspect common to all ascensions is that they will eventually grant you $(marked)blessings$(). These are individually explained in respective entries. Starting an ascension will also immediately grant you an inherent $(ml:world/affiliation)affiliation$()."
-    }
-  ]
+	"name": "Ascension",
+	"category": "miskatonicmysteries:world",
+	"icon": "miskatonicmysteries:the_orb",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Pursuing $(marked)ascension$() is the preferred method of acquiring more power and knowledge. It is also essential for unlocking $(marked)obfuscated text$() and deciphering it.$(br)Ascension is always dedicated towards a Great Old One, so you must pick a path. Each ascension is different in a way, so make sure to check them in the $(marked)Great Old Ones chapter.$()"
+		},
+		{
+			"type": "text",
+			"text": "An aspect common to all ascensions is that they will eventually grant you $(marked)blessings$(). These are individually explained in respective entries. Starting an ascension will also immediately grant you an inherent $(ml:world/affiliation)affiliation$()."
+		}
+	]
 }

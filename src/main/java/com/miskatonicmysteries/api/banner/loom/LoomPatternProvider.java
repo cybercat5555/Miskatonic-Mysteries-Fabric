@@ -6,8 +6,9 @@ package com.miskatonicmysteries.api.banner.loom;
  * @see io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatternItem for a convenience implementation.
  */
 public interface LoomPatternProvider {
-    /**
-     * @return The pattern associated with this item. Must not be null.
-     */
-    LoomPattern getPattern();
+
+	/**
+	 * @return The pattern associated with this item. Must not be null.
+	 */
+	LoomPattern getPattern();
 }

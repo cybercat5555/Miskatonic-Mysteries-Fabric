@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRecipes;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ItemEntity;
@@ -40,7 +41,7 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 				blockEntity.workProgress++;
 				if (blockEntity.workProgress >= 100) {
 					blockEntity.world.playSound(null, blockEntity.pos, SoundEvents.BLOCK_BREWING_STAND_BREW, SoundCategory.BLOCKS, 0.6F,
-						blockEntity.world.random.nextFloat() * 0.4F + 0.8F);
+												blockEntity.world.random.nextFloat() * 0.4F + 0.8F);
 					blockEntity.changeSmokeColor(recipe.color);
 					for (int i = 0; i < recipe.output.size(); i++) {
 						blockEntity.potentialItems.set(i, recipe.output.get(i));
@@ -61,19 +62,29 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 		}
 	}
 
-	@Override
-	public void writeNbt(NbtCompound tag) {
-		Inventories.writeNbt(tag, items);
-		NbtList potentialItemTag = new NbtList();
-		for (int i = 0; i < potentialItems.size(); i++) {
-			PotentialItem item = potentialItems.get(i);
-			NbtCompound compoundTag = new NbtCompound();
-			compoundTag.putByte("Slot", (byte) i);
-			item.toTag(compoundTag);
-			potentialItemTag.add(compoundTag);
+	private void changeSmokeColor(int color) {
+		smokeColor[0] = (color >> 16) & 0xff;
+		smokeColor[1] = (color >> 8) & 0xff;
+		smokeColor[2] = color & 0xff;
+	}
+
+	public void finish() {
+		world.setBlockState(pos, world.getBlockState(pos).with(Properties.LIT, false));
+		workProgress = 0;
+	}
+
+	public boolean canWork() {
+		return MMRecipes.getChemistryRecipe(this) != null;
+	}
+
+	public boolean isLit() {
+		return getCachedState().get(Properties.LIT);
+	}
+
+	public void sync(World world, BlockPos pos) {
+		if (world != null && !world.isClient) {
+			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
 		}
-		tag.put(Constants.NBT.POTENTIAL_ITEMS, potentialItemTag);
-		tag.putInt(Constants.NBT.WORK_PROGRESS, workProgress);
 	}
 
 	@Override
@@ -93,10 +104,19 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 		super.readNbt(tag);
 	}
 
-	private void changeSmokeColor(int color) {
-		smokeColor[0] = (color >> 16) & 0xff;
-		smokeColor[1] = (color >> 8) & 0xff;
-		smokeColor[2] = color & 0xff;
+	@Override
+	public void writeNbt(NbtCompound tag) {
+		Inventories.writeNbt(tag, items);
+		NbtList potentialItemTag = new NbtList();
+		for (int i = 0; i < potentialItems.size(); i++) {
+			PotentialItem item = potentialItems.get(i);
+			NbtCompound compoundTag = new NbtCompound();
+			compoundTag.putByte("Slot", (byte) i);
+			item.toTag(compoundTag);
+			potentialItemTag.add(compoundTag);
+		}
+		tag.put(Constants.NBT.POTENTIAL_ITEMS, potentialItemTag);
+		tag.putInt(Constants.NBT.WORK_PROGRESS, workProgress);
 	}
 
 	public boolean convertPotentialItem(PlayerEntity player, Hand hand) {
@@ -114,15 +134,6 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 		return false;
 	}
 
-	public void finish() {
-		world.setBlockState(pos, world.getBlockState(pos).with(Properties.LIT, false));
-		workProgress = 0;
-	}
-
-	public boolean canWork() {
-		return MMRecipes.getChemistryRecipe(this) != null;
-	}
-
 	public boolean canBeLit(PlayerEntity playerEntity) {
 		if (containsPotentialItems()) {
 			playerEntity.sendMessage(new TranslatableText("message.miskatonicmysteries.chemistry_set.contains_items"), true);
@@ -132,10 +143,6 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 			return false;
 		}
 		return true;
-	}
-
-	public boolean isLit() {
-		return getCachedState().get(Properties.LIT);
 	}
 
 	public boolean containsPotentialItems() {
@@ -159,11 +166,5 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 
 	public DefaultedList<PotentialItem> getPotentialItems() {
 		return potentialItems;
-	}
-
-	public void sync(World world, BlockPos pos) {
-		if (world != null && !world.isClient) {
-			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
-		}
 	}
 }

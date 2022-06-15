@@ -1,47 +1,47 @@
 {
-  "name": "Occult Paraphernalia",
-  "category": "miskatonicmysteries:world",
-  "icon": "minecraft:candle",
-  "pages": [
-    {
-      "type": "text",
-      "text": "While usually not of any power, $(item)Occult Paraphernalia$() are still nice to have around.$(br)They usually serve as simple decoration, but they may sometimes help with things beyond $(o)the ambiance$()."
-    },
-    {
-      "type": "spotlight",
-      "item": "miskatonicmysteries:stone_hastur_mural",
-      "text": "$(item)Murals$() are simple objects of worship finely carved from a material. They are usually found in $(ml:miskatonicmysteries:world/shrines)$(marked)Shrines$() and always dedicated to a Great Old One.$(br)$(o)Some might find them to look quite suspicious.$()"
-    },
-    {
-      "type": "spotlight",
-      "item": "miskatonicmysteries:hastur_statue_stone",
-      "text": "$(item)Idols$() are more complex objects of worship and almost always found in $(ml:world/shrines)shrines$().$(br)Much like $(item)Murals$(), they are dedicated to a Great Old One.$(br)Unlike Murals, they are actually of slightly supernatural nature. Worshippers find a lot of power in them, especially after rest."
-    },
-    {
-      "type": "text",
-      "title": "Altars",
-      "anchor": "altar",
-      "text": "$(item)Altars$() are lectern-like objects made of a mundane material, from stone to coral to blackstone, adorned with candles and inlaid with $(ml:miskatonicmysteries:world/occult_artifacts#gold)$(item)Oceanic Gold$().$(br)Altars can be used to hold this book or similar grimoires."
-    },
-    {
-      "type": "crafting",
-      "recipe": "miskatonicmysteries:crafting/altars/stone_altar",
-      "recipe2": "miskatonicmysteries:crafting/altars/sandstone_altar"
-    },
-    {
-      "type": "crafting",
-      "recipe": "miskatonicmysteries:crafting/altars/mossy_stone_altar",
-      "recipe2": "miskatonicmysteries:crafting/altars/deepslate_altar"
-    },
-    {
-      "type": "crafting",
-      "recipe": "miskatonicmysteries:crafting/altars/blackstone_altar",
-      "recipe2": "miskatonicmysteries:crafting/altars/coral_altar"
-    },
-    {
-      "type": "crafting",
-      "recipe": "miskatonicmysteries:crafting/altars/funky_altar",
-      "recipe2": "miskatonicmysteries:crafting/altars/prismarine_altar"
-    }
-  ]
+	"name": "Occult Paraphernalia",
+	"category": "miskatonicmysteries:world",
+	"icon": "minecraft:candle",
+	"pages": [
+		{
+			"type": "text",
+			"text": "While usually not of any power, $(item)Occult Paraphernalia$() are still nice to have around.$(br)They usually serve as simple decoration, but they may sometimes help with things beyond $(o)the ambiance$()."
+		},
+		{
+			"type": "spotlight",
+			"item": "miskatonicmysteries:stone_hastur_mural",
+			"text": "$(item)Murals$() are simple objects of worship finely carved from a material. They are usually found in $(ml:miskatonicmysteries:world/shrines)$(marked)Shrines$() and always dedicated to a Great Old One.$(br)$(o)Some might find them to look quite suspicious.$()"
+		},
+		{
+			"type": "spotlight",
+			"item": "miskatonicmysteries:hastur_statue_stone",
+			"text": "$(item)Idols$() are more complex objects of worship and almost always found in $(ml:world/shrines)shrines$().$(br)Much like $(item)Murals$(), they are dedicated to a Great Old One.$(br)Unlike Murals, they are actually of slightly supernatural nature. Worshippers find a lot of power in them, especially after rest."
+		},
+		{
+			"type": "text",
+			"title": "Altars",
+			"anchor": "altar",
+			"text": "$(item)Altars$() are lectern-like objects made of a mundane material, from stone to coral to blackstone, adorned with candles and inlaid with $(ml:miskatonicmysteries:world/occult_artifacts#gold)$(item)Oceanic Gold$().$(br)Altars can be used to hold this book or similar grimoires."
+		},
+		{
+			"type": "crafting",
+			"recipe": "miskatonicmysteries:crafting/altars/stone_altar",
+			"recipe2": "miskatonicmysteries:crafting/altars/sandstone_altar"
+		},
+		{
+			"type": "crafting",
+			"recipe": "miskatonicmysteries:crafting/altars/mossy_stone_altar",
+			"recipe2": "miskatonicmysteries:crafting/altars/deepslate_altar"
+		},
+		{
+			"type": "crafting",
+			"recipe": "miskatonicmysteries:crafting/altars/blackstone_altar",
+			"recipe2": "miskatonicmysteries:crafting/altars/coral_altar"
+		},
+		{
+			"type": "crafting",
+			"recipe": "miskatonicmysteries:crafting/altars/funky_altar",
+			"recipe2": "miskatonicmysteries:crafting/altars/prismarine_altar"
+		}
+	]
 }

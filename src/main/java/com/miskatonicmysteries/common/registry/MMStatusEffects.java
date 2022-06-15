@@ -2,9 +2,19 @@ package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.api.interfaces.Resonating;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
-import com.miskatonicmysteries.common.feature.effect.*;
+import com.miskatonicmysteries.common.feature.effect.BleedStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.ClairvoyanceStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.ExoticCravingsStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.ManiaStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.OthervibesStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.OvermedicalizedStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.ResonanceStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.TranquilizedStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.UltraViolenceStatusEffect;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import com.miskatonicmysteries.mixin.BrewingRecipeRegistryAccessor;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;

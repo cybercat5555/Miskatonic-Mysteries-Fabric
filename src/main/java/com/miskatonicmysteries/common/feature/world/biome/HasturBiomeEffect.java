@@ -5,7 +5,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.VisionPacket
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -21,6 +21,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOfferList;
 
+import java.util.List;
+
 public class HasturBiomeEffect extends BiomeEffect {
 
 	public HasturBiomeEffect() {
@@ -32,10 +34,11 @@ public class HasturBiomeEffect extends BiomeEffect {
 			if (offer.getOriginalFirstBuyItem().getCount() > 1) {
 				int reduction = (int) Math.floor(
 					(MiskatonicMysteriesAPI
-						.getNonNullAffiliation(player, false) == MMAffiliations.HASTUR ? MathHelper
-						.clamp(MiskatonicMysteriesAPI
-							.getAscensionStage(player) * 0.2, 0.2, 0.8) : (MiskatonicMysteriesAPI
-						.getNonNullAffiliation(player, true) == MMAffiliations.HASTUR ? 0.2 : 0.1)) *
+						 .getNonNullAffiliation(player, false) == MMAffiliations.HASTUR ? MathHelper
+						 .clamp(MiskatonicMysteriesAPI
+									.getAscensionStage(player) * 0.2, 0.2, 0.8) : (MiskatonicMysteriesAPI
+																					   .getNonNullAffiliation(player, true) == MMAffiliations.HASTUR
+																				   ? 0.2 : 0.1)) *
 						(double) offer.getOriginalFirstBuyItem().getCount());
 				offer.increaseSpecialPrice(-reduction);
 			}
@@ -73,7 +76,8 @@ public class HasturBiomeEffect extends BiomeEffect {
 						.getNonNullAffiliation(target, false) == getAffiliation(false) && entity.canSee(target));
 					if (mindFrickEntities.size() > 0) {
 						entity.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, mindFrickEntities
-							.size() > 2 ? 400 : 200, mindFrickEntities.size() > 2 ? 1 : 0));
+																								   .size() > 2 ? 400 : 200,
+																		mindFrickEntities.size() > 2 ? 1 : 0));
 					}
 				} else if (entity instanceof ZombieVillagerEntity && entity.getRandom().nextFloat() < 0.2) {
 					List<Entity> nearbyHasturEntities = entity.world.getOtherEntities(entity, entity.getBoundingBox()

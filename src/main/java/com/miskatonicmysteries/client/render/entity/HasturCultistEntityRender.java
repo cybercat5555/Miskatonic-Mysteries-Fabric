@@ -5,8 +5,10 @@ import com.miskatonicmysteries.client.model.entity.AscendedHasturCultistEntityMo
 import com.miskatonicmysteries.client.model.entity.HasturCultistEntityModel;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -27,14 +29,14 @@ public class HasturCultistEntityRender extends MobEntityRenderer<HasturCultistEn
 		super(context, new HasturCultistEntityModel(context.getPart(MMModels.HASTUR_CULTIST)), 0.5F);
 		this.addFeature(new HeldItemFeatureRenderer<>(this));
 		this.addFeature(new ArmorFeatureRenderer<>(this, new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_INNER_ARMOR)),
-			new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_OUTER_ARMOR))));
+												   new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_OUTER_ARMOR))));
 		this.normalModel = model;
 		this.ascendedModel = new AscendedHasturCultistEntityModel(context.getPart(MMModels.ASCENDED_HASTUR_CULTIST));
 	}
 
 	@Override
 	public void render(HasturCultistEntity mobEntity, float f, float g, MatrixStack matrixStack,
-		VertexConsumerProvider vertexConsumerProvider, int i) {
+					   VertexConsumerProvider vertexConsumerProvider, int i) {
 		if (mobEntity.isAscended()) {
 			model = ascendedModel;
 		} else {

@@ -1,20 +1,20 @@
 {
-  "type": "minecraft:chest",
-  "pools": [
-    {
-      "rolls": 1.0,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "miskatonicmysteries:incantation_yog",
-          "conditions": [
-            {
-              "condition": "minecraft:random_chance",
-              "chance": 0.4
-            }
-          ]
-        }
-      ]
-    }
-  ]
+	"type": "minecraft:chest",
+	"pools": [
+		{
+			"rolls": 1.0,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "miskatonicmysteries:incantation_yog",
+					"conditions": [
+						{
+							"condition": "minecraft:random_chance",
+							"chance": 0.4
+						}
+					]
+				}
+			]
+		}
+	]
 }

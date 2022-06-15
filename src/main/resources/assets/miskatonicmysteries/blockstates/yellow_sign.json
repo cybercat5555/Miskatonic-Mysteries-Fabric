@@ -1,74 +1,74 @@
 {
-  "variants": {
-    "facing=north,in_wall=false": [
-      {
-        "model": "miskatonicmysteries:block/yellow_sign"
-      }
-    ],
-    "facing=south,in_wall=false": [
-      {
-        "model": "miskatonicmysteries:block/yellow_sign",
-        "y": 180
-      }
-    ],
-    "facing=west,in_wall=false": [
-      {
-        "model": "miskatonicmysteries:block/yellow_sign",
-        "y": 270
-      }
-    ],
-    "facing=east,in_wall=false": [
-      {
-        "model": "miskatonicmysteries:block/yellow_sign",
-        "y": 90
-      }
-    ],
-    "facing=up,in_wall=false": [
-      {
-        "model": "miskatonicmysteries:block/yellow_sign"
-      }
-    ],
-    "facing=down,in_wall=false": [
-      {
-        "model": "miskatonicmysteries:block/yellow_sign"
-      }
-    ],
-    "facing=north,in_wall=true": [
-      {
-        "model": "miskatonicmysteries:block/yellow_sign",
-        "x": 90
-      }
-    ],
-    "facing=south,in_wall=true": [
-      {
-        "model": "miskatonicmysteries:block/yellow_sign",
-        "y": 180,
-        "x": 90
-      }
-    ],
-    "facing=west,in_wall=true": [
-      {
-        "model": "miskatonicmysteries:block/yellow_sign",
-        "y": 270,
-        "x": 90
-      }
-    ],
-    "facing=east,in_wall=true": [
-      {
-        "model": "miskatonicmysteries:block/yellow_sign",
-        "y": 90,
-        "x": 90
-      }
-    ],
-    "facing=up,in_wall=true": [
-      {
-        "model": "miskatonicmysteries:block/yellow_sign"
-      }
-    ],
-    "facing=down,in_wall=true": [
-      {
-        "model": "miskatonicmysteries:block/yellow_sign"
-      }
-    ]
-  }
+	"variants": {
+		"facing=north,in_wall=false": [
+			{
+				"model": "miskatonicmysteries:block/yellow_sign"
+			}
+		],
+		"facing=south,in_wall=false": [
+			{
+				"model": "miskatonicmysteries:block/yellow_sign",
+				"y": 180
+			}
+		],
+		"facing=west,in_wall=false": [
+			{
+				"model": "miskatonicmysteries:block/yellow_sign",
+				"y": 270
+			}
+		],
+		"facing=east,in_wall=false": [
+			{
+				"model": "miskatonicmysteries:block/yellow_sign",
+				"y": 90
+			}
+		],
+		"facing=up,in_wall=false": [
+			{
+				"model": "miskatonicmysteries:block/yellow_sign"
+			}
+		],
+		"facing=down,in_wall=false": [
+			{
+				"model": "miskatonicmysteries:block/yellow_sign"
+			}
+		],
+		"facing=north,in_wall=true": [
+			{
+				"model": "miskatonicmysteries:block/yellow_sign",
+				"x": 90
+			}
+		],
+		"facing=south,in_wall=true": [
+			{
+				"model": "miskatonicmysteries:block/yellow_sign",
+				"y": 180,
+				"x": 90
+			}
+		],
+		"facing=west,in_wall=true": [
+			{
+				"model": "miskatonicmysteries:block/yellow_sign",
+				"y": 270,
+				"x": 90
+			}
+		],
+		"facing=east,in_wall=true": [
+			{
+				"model": "miskatonicmysteries:block/yellow_sign",
+				"y": 90,
+				"x": 90
+			}
+		],
+		"facing=up,in_wall=true": [
+			{
+				"model": "miskatonicmysteries:block/yellow_sign"
+			}
+		],
+		"facing=down,in_wall=true": [
+			{
+				"model": "miskatonicmysteries:block/yellow_sign"
+			}
+		]
+	}
 }

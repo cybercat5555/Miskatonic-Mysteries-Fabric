@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.effect.StatusEffect;
@@ -56,7 +57,7 @@ public class ManiaStatusEffect extends StatusEffect {
 	public void onApplied(LivingEntity entity, AttributeContainer attributes, int amplifier) {
 		if (entity instanceof MobEntity) {
 			entity.world.getOtherEntities(entity, entity.getBoundingBox().expand(8, 3, 8),
-				target -> target instanceof LivingEntity && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(target))
+										  target -> target instanceof LivingEntity && EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(target))
 				.stream().findAny().ifPresent(value -> ((MobEntity) entity).setTarget((LivingEntity) value));
 		}
 	}

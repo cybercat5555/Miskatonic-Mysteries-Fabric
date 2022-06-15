@@ -1,7 +1,7 @@
 {
-  "variants": {
-    "": {
-      "model": "miskatonicmysteries:block/resonator_off"
-    }
-  }
+	"variants": {
+		"": {
+			"model": "miskatonicmysteries:block/resonator_off"
+		}
+	}
 }

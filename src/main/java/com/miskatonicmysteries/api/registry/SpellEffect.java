@@ -1,14 +1,16 @@
 package com.miskatonicmysteries.api.registry;
 
-import java.util.Random;
-import java.util.function.Predicate;
-import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.Random;
+import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
 
 public abstract class SpellEffect {
 
@@ -25,13 +27,13 @@ public abstract class SpellEffect {
 	public static void spawnParticleEffectsOnTarget(LivingEntity caster, SpellEffect effect, Entity target) {
 		for (int i = 0; i < 15; i++) {
 			target.world.addParticle(ParticleTypes.ENTITY_EFFECT,
-				target.getX() + target.world.random.nextGaussian() * target.getWidth(),
-				target.getY() + target.world.random.nextFloat()
-					* target.getHeight(),
-				target.getZ() + target.world.random.nextGaussian() * target.getWidth(),
-				((effect.getColor(caster) >> 16) & 255) / 255F,
-				((effect.getColor(caster) >> 8) & 255) / 255F,
-				(effect.getColor(caster) & 255) / 255F);
+									 target.getX() + target.world.random.nextGaussian() * target.getWidth(),
+									 target.getY() + target.world.random.nextFloat()
+										 * target.getHeight(),
+									 target.getZ() + target.world.random.nextGaussian() * target.getWidth(),
+									 ((effect.getColor(caster) >> 16) & 255) / 255F,
+									 ((effect.getColor(caster) >> 8) & 255) / 255F,
+									 (effect.getColor(caster) & 255) / 255F);
 		}
 	}
 
@@ -43,7 +45,7 @@ public abstract class SpellEffect {
 	 * @return if the spell was successfully cast
 	 */
 	public abstract boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium,
-		int intensity, @Nullable Entity secondaryMedium);
+								   int intensity, @Nullable Entity secondaryMedium);
 
 	public boolean canCast(LivingEntity caster, SpellMedium medium) {
 		return castingPredicate.test(caster);

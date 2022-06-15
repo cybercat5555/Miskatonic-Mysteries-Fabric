@@ -4,8 +4,9 @@ import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.feature.block.PowerCellBlock;
 import com.miskatonicmysteries.common.registry.MMObjects;
-import javax.annotation.Nullable;
+
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
@@ -27,6 +28,8 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+
+import javax.annotation.Nullable;
 
 public class Constants {
 
@@ -72,9 +75,9 @@ public class Constants {
 		public static final TagKey<Item> HASTUR_CULTIST_OFFERINGS = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "hastur_cultist_offerings"));
 		public static final TagKey<Item> HASTUR_STATUES = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "hastur_statues"));
 
-		public static final TagKey<EntityType<?>> BURNED_VEIL_MOBS = TagKey.of(Registry.ENTITY_TYPE_KEY,  new Identifier(MOD_ID, "burned_veil_mobs"));
-		public static final TagKey<EntityType<?>> BROKEN_VEIL_MOBS = TagKey.of(Registry.ENTITY_TYPE_KEY,  new Identifier(MOD_ID, "broken_veil_mobs"));
-		public static final TagKey<EntityType<?>> VALID_SACRIFICES = TagKey.of(Registry.ENTITY_TYPE_KEY,  new Identifier(MOD_ID, "valid_sacrifices"));
+		public static final TagKey<EntityType<?>> BURNED_VEIL_MOBS = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "burned_veil_mobs"));
+		public static final TagKey<EntityType<?>> BROKEN_VEIL_MOBS = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "broken_veil_mobs"));
+		public static final TagKey<EntityType<?>> VALID_SACRIFICES = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "valid_sacrifices"));
 	}
 
 	public static class NBT {
@@ -196,7 +199,7 @@ public class Constants {
 			@Override
 			public Text getDeathMessage(LivingEntity entity) {
 				return new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(3)),
-					entity.getDisplayName());
+											entity.getDisplayName());
 			}
 		}.setBypassesArmor();
 
@@ -213,7 +216,7 @@ public class Constants {
 			@Override
 			public Text getDeathMessage(LivingEntity entity) {
 				return new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(4)),
-					entity.getDisplayName());
+											entity.getDisplayName());
 			}
 		}
 	}

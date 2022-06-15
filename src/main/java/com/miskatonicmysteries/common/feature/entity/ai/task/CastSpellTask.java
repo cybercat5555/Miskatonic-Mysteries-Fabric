@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.common.feature.entity.ai.task;
 
-import com.google.common.collect.ImmutableMap;
 import com.miskatonicmysteries.common.feature.entity.util.CastingMob;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.registry.MMSpellEffects;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
@@ -13,24 +13,16 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.server.world.ServerWorld;
 
+import com.google.common.collect.ImmutableMap;
+
 public class CastSpellTask extends Task<VillagerEntity> {
 
 	private int timer;
 
 	public CastSpellTask() {
 		super(ImmutableMap
-			.of(MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT,
-				MemoryModuleType.ATTACK_COOLING_DOWN, MemoryModuleState.VALUE_ABSENT));
-	}
-
-	@Override
-	protected boolean shouldRun(ServerWorld world, VillagerEntity entity) {
-		return entity instanceof CastingMob && LookTargetUtil.isVisibleInMemory(entity, getTarget(entity))
-			&& ((CastingMob) entity).getCastTime() <= 0 && getTarget(entity).distanceTo(entity) > 3;
-	}
-
-	private LivingEntity getTarget(MobEntity mobEntity) {
-		return mobEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
+				  .of(MemoryModuleType.LOOK_TARGET, MemoryModuleState.REGISTERED, MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_PRESENT,
+					  MemoryModuleType.ATTACK_COOLING_DOWN, MemoryModuleState.VALUE_ABSENT));
 	}
 
 	@Override
@@ -45,5 +37,15 @@ public class CastSpellTask extends Task<VillagerEntity> {
 			((CastingMob) entity).setCastTime(timer);
 			LookTargetUtil.lookAt(entity, getTarget(entity));
 		}
+	}
+
+	@Override
+	protected boolean shouldRun(ServerWorld world, VillagerEntity entity) {
+		return entity instanceof CastingMob && LookTargetUtil.isVisibleInMemory(entity, getTarget(entity))
+			&& ((CastingMob) entity).getCastTime() <= 0 && getTarget(entity).distanceTo(entity) > 3;
+	}
+
+	private LivingEntity getTarget(MobEntity mobEntity) {
+		return mobEntity.getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get();
 	}
 }

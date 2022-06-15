@@ -18,13 +18,13 @@ public interface LazySerializable extends Recipe<Inventory> {
 	}
 
 	@Override
-	default ItemStack getOutput() {
-		return ItemStack.EMPTY;
+	default boolean fits(int width, int height) {
+		return true;
 	}
 
 	@Override
-	default boolean fits(int width, int height) {
-		return true;
+	default ItemStack getOutput() {
+		return ItemStack.EMPTY;
 	}
 
 	@Override

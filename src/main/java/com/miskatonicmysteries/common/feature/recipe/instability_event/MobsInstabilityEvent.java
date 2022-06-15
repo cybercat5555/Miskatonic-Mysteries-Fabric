@@ -5,10 +5,12 @@ import com.miskatonicmysteries.common.feature.entity.HarrowEntity;
 import com.miskatonicmysteries.common.feature.entity.TentacleEntity;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.Random;
+
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class MobsInstabilityEvent extends InstabilityEvent {
 

@@ -6,8 +6,17 @@ import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+
+import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -21,12 +30,6 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategory.OctagramDisplay> {
@@ -46,17 +49,6 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
 	}
 
 	@Override
-	public CategoryIdentifier<? extends OctagramRiteCategory.OctagramDisplay> getCategoryIdentifier() {
-		return MMREICompat.OCTAGRAM_RITE;
-	}
-
-
-	@Override
-	public int getDisplayHeight() {
-		return 88;
-	}
-
-	@Override
 	public @NotNull List<Widget> setupDisplay(OctagramDisplay recipeDisplay, Rectangle bounds) {
 		List<Widget> widgets = new ArrayList<>();
 		Point startPoint = new Point(bounds.getCenterX() - 32, bounds.getCenterY() - 6);
@@ -69,30 +61,30 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
 		int size = recipeDisplay.getInputEntries().size();
 		if (size > 0) { //peak elegance haha yes
 			widgets.add(Widgets.createSlot(new Point(startPoint.x + 24, startPoint.y - 24)).entries(recipeDisplay.getInputEntries().get(0))
-				.disableBackground().markInput());
+							.disableBackground().markInput());
 			if (size > 1) {
 				widgets.add(
 					Widgets.createSlot(new Point(startPoint.x + 24, startPoint.y + 24)).entries(recipeDisplay.getInputEntries().get(1))
 						.disableBackground().markInput());
 				if (size > 2) {
 					widgets.add(Widgets.createSlot(new Point(startPoint.x, startPoint.y)).entries(recipeDisplay.getInputEntries().get(2))
-						.disableBackground().markInput());
+									.disableBackground().markInput());
 					if (size > 3) {
 						widgets.add(
 							Widgets.createSlot(new Point(startPoint.x + 48, startPoint.y)).entries(recipeDisplay.getInputEntries().get(3))
 								.disableBackground().markInput());
 						if (size > 4) {
 							widgets.add(Widgets.createSlot(new Point(startPoint.x + 7, startPoint.y - 17))
-								.entries(recipeDisplay.getInputEntries().get(4)).disableBackground().markInput());
+											.entries(recipeDisplay.getInputEntries().get(4)).disableBackground().markInput());
 							if (size > 5) {
 								widgets.add(Widgets.createSlot(new Point(startPoint.x + 7, startPoint.y + 17))
-									.entries(recipeDisplay.getInputEntries().get(5)).disableBackground().markInput());
+												.entries(recipeDisplay.getInputEntries().get(5)).disableBackground().markInput());
 								if (size > 6) {
 									widgets.add(Widgets.createSlot(new Point(startPoint.x + 41, startPoint.y - 17))
-										.entries(recipeDisplay.getInputEntries().get(6)).disableBackground().markInput());
+													.entries(recipeDisplay.getInputEntries().get(6)).disableBackground().markInput());
 									if (size > 7) {
 										widgets.add(Widgets.createSlot(new Point(startPoint.x + 41, startPoint.y + 17))
-											.entries(recipeDisplay.getInputEntries().get(7)).disableBackground().markInput());
+														.entries(recipeDisplay.getInputEntries().get(7)).disableBackground().markInput());
 									}
 								}
 							}
@@ -112,6 +104,16 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
 		return widgets;
 	}
 
+	@Override
+	public int getDisplayHeight() {
+		return 88;
+	}
+
+	@Override
+	public CategoryIdentifier<? extends OctagramRiteCategory.OctagramDisplay> getCategoryIdentifier() {
+		return MMREICompat.OCTAGRAM_RITE;
+	}
+
 	public static class OctagramDisplay implements Display {
 
 		private final List<EntryIngredient> input;
@@ -129,6 +131,11 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
 		}
 
 		@Override
+		public List<EntryIngredient> getInputEntries() {
+			return input;
+		}
+
+		@Override
 		public List<EntryIngredient> getOutputEntries() {
 			return output;
 		}
@@ -136,11 +143,6 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
 		@Override
 		public CategoryIdentifier<?> getCategoryIdentifier() {
 			return MMREICompat.OCTAGRAM_RITE;
-		}
-
-		@Override
-		public List<EntryIngredient> getInputEntries() {
-			return input;
 		}
 	}
 }

@@ -1,37 +1,37 @@
 {
-  "parent": "miskatonicmysteries:science/miskatonic_university",
-  "display": {
-    "icon": {
-      "item": "miskatonicmysteries:chemistry_set"
-    },
-    "title": {
-      "translate": "advancements.miskatonicmysteries.illegal_chemistry.title"
-    },
-    "description": {
-      "translate": "advancements.miskatonicmysteries.illegal_chemistry.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "chemistry_set": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "miskatonicmysteries:chemistry_set"
-            ]
-          }
-        ]
-      }
-    }
-  },
-  "requirements": [
-    [
-      "chemistry_set"
-    ]
-  ]
+	"parent": "miskatonicmysteries:science/miskatonic_university",
+	"display": {
+		"icon": {
+			"item": "miskatonicmysteries:chemistry_set"
+		},
+		"title": {
+			"translate": "advancements.miskatonicmysteries.illegal_chemistry.title"
+		},
+		"description": {
+			"translate": "advancements.miskatonicmysteries.illegal_chemistry.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"chemistry_set": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"miskatonicmysteries:chemistry_set"
+						]
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"chemistry_set"
+		]
+	]
 }

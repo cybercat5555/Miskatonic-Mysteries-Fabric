@@ -11,8 +11,10 @@ import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -35,10 +37,69 @@ public class MasterpieceRite extends TriggeredRite {
 
 	public MasterpieceRite() {
 		super(new Identifier(Constants.MOD_ID, "masterpiece"), MMAffiliations.HASTUR, 0.5F, 60,
-			Ingredient.ofItems(Items.STONE), Ingredient.ofItems(Items.STONE), Ingredient.ofItems(Items.DEEPSLATE),
-			Ingredient.ofItems(Items.DEEPSLATE), Ingredient.ofItems(Items.BLACKSTONE),
-			Ingredient.ofItems(Items.BLACKSTONE), Ingredient.ofItems(Items.DIAMOND),
-			Ingredient.ofItems(Items.IRON_INGOT));
+			  Ingredient.ofItems(Items.STONE), Ingredient.ofItems(Items.STONE), Ingredient.ofItems(Items.DEEPSLATE),
+			  Ingredient.ofItems(Items.DEEPSLATE), Ingredient.ofItems(Items.BLACKSTONE),
+			  Ingredient.ofItems(Items.BLACKSTONE), Ingredient.ofItems(Items.DIAMOND),
+			  Ingredient.ofItems(Items.IRON_INGOT));
+	}
+
+	@Override
+	public void tick(OctagramBlockEntity octagram) {
+		if (octagram.tickCount < ticksNeeded || octagram.triggered) {
+			super.tick(octagram);
+		}
+		if (octagram.tickCount > ticksNeeded) {
+			Vec3d pos = octagram.getSummoningPos();
+			if (!octagram.getWorld().isClient && (octagram.targetedEntity == null || (
+				octagram.targetedEntity == octagram.getOriginalCaster() && octagram.targetedEntity.isSneaking()))) {
+				LivingEntity foundEntity = octagram.getWorld().getClosestEntity(LivingEntity.class,
+																				TargetPredicate.createAttackable().setBaseMaxDistance(4).setPredicate(
+																					entity -> entity instanceof VillagerEntity || (
+																						entity instanceof PlayerEntity p && !p.isCreative() && (
+																							p != octagram.getOriginalCaster() || !p.isSneaking()))),
+																				null, pos.x, pos.y, pos.z, octagram.getSelectionBox());
+				octagram.targetedEntity = foundEntity;
+				if (!octagram.getWorld().isClient && octagram.targetedEntity != null) {
+					SyncRiteTargetPacket.send(octagram.targetedEntity, octagram);
+				}
+			}
+
+			if (octagram.targetedEntity instanceof LivingEntity l) {
+				Vec3d motionVec = new Vec3d(pos.x - l.getX(), pos.y - l.getY(), pos.z - l.getZ());
+				motionVec = motionVec.multiply(0.25F);
+				l.setVelocity(motionVec);
+				l.velocityModified = true;
+			}
+
+			if (octagram.getWorld().isClient && octagram.tickCount % 20 < 10) {
+				spawnParticles(octagram.getWorld(), pos);
+			}
+		}
+	}
+
+	@Override
+	public void trigger(OctagramBlockEntity octagram, Entity triggeringEntity) {
+		super.trigger(octagram, triggeringEntity);
+		octagram.targetedEntity = triggeringEntity;
+		if (triggeringEntity != null) {
+			SyncRiteTargetPacket.send(triggeringEntity, octagram);
+		}
+	}
+
+	@Environment(EnvType.CLIENT)
+	private void spawnParticles(World world, Vec3d pos) {
+		for (int i = 0; i < 8; i++) {
+			Vec3d particlePos = pos.add(Math.sin(Math.PI / 4 * i) * 2, 0, Math.cos(Math.PI / 4 * i) * 2);
+			Vec3d motionVec = new Vec3d(pos.x - particlePos.x, pos.y - particlePos.y, pos.z - particlePos.z);
+			motionVec = motionVec.multiply(0.025);
+			world.addParticle(MMParticles.AMBIENT_MAGIC, true, particlePos.x, particlePos.y, particlePos.z,
+							  motionVec.x, motionVec.y, motionVec.z);
+		}
+	}
+
+	@Override
+	public boolean isFinished(OctagramBlockEntity octagram) {
+		return octagram.triggered && octagram.tickCount >= 600 + ticksNeeded;
 	}
 
 	@Override
@@ -68,72 +129,17 @@ public class MasterpieceRite extends TriggeredRite {
 	}
 
 	@Override
-	public void trigger(OctagramBlockEntity octagram, Entity triggeringEntity) {
-		super.trigger(octagram, triggeringEntity);
-		octagram.targetedEntity = triggeringEntity;
-		if (triggeringEntity != null) {
-			SyncRiteTargetPacket.send(triggeringEntity, octagram);
-		}
-	}
-
-	@Override
-	public void tick(OctagramBlockEntity octagram) {
-		if (octagram.tickCount < ticksNeeded || octagram.triggered) {
-			super.tick(octagram);
-		}
-		if (octagram.tickCount > ticksNeeded) {
-			Vec3d pos = octagram.getSummoningPos();
-			if (!octagram.getWorld().isClient && (octagram.targetedEntity == null || (
-				octagram.targetedEntity == octagram.getOriginalCaster() && octagram.targetedEntity.isSneaking()))) {
-				LivingEntity foundEntity = octagram.getWorld().getClosestEntity(LivingEntity.class,
-					TargetPredicate.createAttackable().setBaseMaxDistance(4).setPredicate(
-						entity -> entity instanceof VillagerEntity || (entity instanceof PlayerEntity p && !p.isCreative() && (
-							p != octagram.getOriginalCaster() || !p.isSneaking()))), null, pos.x, pos.y, pos.z, octagram.getSelectionBox());
-				octagram.targetedEntity = foundEntity;
-				if (!octagram.getWorld().isClient && octagram.targetedEntity != null) {
-					SyncRiteTargetPacket.send(octagram.targetedEntity, octagram);
-				}
-			}
-
-			if (octagram.targetedEntity instanceof LivingEntity l) {
-				Vec3d motionVec = new Vec3d(pos.x - l.getX(), pos.y - l.getY(), pos.z - l.getZ());
-				motionVec = motionVec.multiply(0.25F);
-				l.setVelocity(motionVec);
-				l.velocityModified = true;
-			}
-
-			if (octagram.getWorld().isClient && octagram.tickCount % 20 < 10) {
-				spawnParticles(octagram.getWorld(), pos);
-			}
-		}
-	}
-
-	@Environment(EnvType.CLIENT)
-	private void spawnParticles(World world, Vec3d pos) {
-		for (int i = 0; i < 8; i++) {
-			Vec3d particlePos = pos.add(Math.sin(Math.PI / 4 * i) * 2, 0, Math.cos(Math.PI / 4 * i) * 2);
-			Vec3d motionVec = new Vec3d(pos.x - particlePos.x, pos.y - particlePos.y, pos.z - particlePos.z);
-			motionVec = motionVec.multiply(0.025);
-			world.addParticle(MMParticles.AMBIENT_MAGIC, true, particlePos.x, particlePos.y, particlePos.z,
-				motionVec.x, motionVec.y, motionVec.z);
-		}
-	}
-
-	@Override
-	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.triggered && octagram.tickCount >= 600 + ticksNeeded;
-	}
-
-	@Override
 	public boolean listen(OctagramBlockEntity blockEntity, World world, GameEvent event, Entity entity, BlockPos pos) {
 		if (!world.isClient && event == GameEvent.ENTITY_KILLED && entity == blockEntity.targetedEntity) {
 			ItemStack statueStack = new ItemStack(MMObjects.MASTERPIECE_STATUE);
 			if (entity instanceof PlayerEntity player) {
 				MasterpieceStatueBlock.setSculptureData(statueStack, blockEntity.getOriginalCaster(), player,
-					MasterpieceStatueBlockEntity.selectRandomPose(world.random));
+														MasterpieceStatueBlockEntity.selectRandomPose(world.random));
 			}
 			BlockState statueState = MMObjects.MASTERPIECE_STATUE.getDefaultState().with(Properties.ROTATION,
-				MathHelper.floor((double) (entity.getYaw() * 16.0F / 360.0F) + 0.5D) & 15);
+																						 MathHelper.floor(
+																							 (double) (entity.getYaw() * 16.0F / 360.0F) + 0.5D)
+																							 & 15);
 			MasterpieceStatueBlockEntity statue = new MasterpieceStatueBlockEntity(pos, statueState);
 			BlockPos targetPos = blockEntity.getPos();
 			SchedulingHandler.addTask((server) -> {

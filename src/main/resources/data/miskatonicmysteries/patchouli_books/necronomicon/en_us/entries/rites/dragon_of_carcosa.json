@@ -1,17 +1,17 @@
 {
-  "name": "Dragon of Carcosa",
-  "category": "miskatonicmysteries:rites",
-  "icon": "minecraft:saddle",
-  "advancement": "miskatonicmysteries:hastur/inner_light",
-  "pages": [
-    {
-      "type": "text",
-      "text": "$(obfs:miskatonicmysteries:hastur;2)Summons forth a majestic $(ml:bestiary/byakhee)Byakhee$()$(obfs:miskatonicmysteries:hastur;2) from the halls of Carcosa.$(br)Much like other summoning rites, this requires a sufficient $(marked)blood sacrifice$()."
-    },
-    {
-      "type": "miskatonicmysteries:rite",
-      "rite": "miskatonicmysteries:summon_byakhee",
-      "text": "$(obfs:miskatonicmysteries:hastur;2)The creature will spawn untamed$()."
-    }
-  ]
+	"name": "Dragon of Carcosa",
+	"category": "miskatonicmysteries:rites",
+	"icon": "minecraft:saddle",
+	"advancement": "miskatonicmysteries:hastur/inner_light",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(obfs:miskatonicmysteries:hastur;2)Summons forth a majestic $(ml:bestiary/byakhee)Byakhee$()$(obfs:miskatonicmysteries:hastur;2) from the halls of Carcosa.$(br)Much like other summoning rites, this requires a sufficient $(marked)blood sacrifice$()."
+		},
+		{
+			"type": "miskatonicmysteries:rite",
+			"rite": "miskatonicmysteries:summon_byakhee",
+			"text": "$(obfs:miskatonicmysteries:hastur;2)The creature will spawn untamed$()."
+		}
+	]
 }

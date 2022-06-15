@@ -4,10 +4,7 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.util.BiomeUtil;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
+
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -16,17 +13,24 @@ import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeCoords;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.system.CallbackI.S;
 
 public class BiomeConversionRite extends AscensionLockedRite {
+
 	private static final int RUNNING_TIME = 24000 / 60;
 	private static final int RANGE = 16;
 	private static final int INTERVAL = RUNNING_TIME / RANGE;
 	protected final Function<World, Optional<RegistryEntry<Biome>>> biomeSupplier;
 
-	public BiomeConversionRite(Identifier id, @Nullable Affiliation octagram, Function<World, Optional<RegistryEntry<Biome>>> biomeSupplier, String knowledge,
-		int stage, Ingredient... ingredients) {
+	public BiomeConversionRite(Identifier id, @Nullable Affiliation octagram, Function<World, Optional<RegistryEntry<Biome>>> biomeSupplier,
+							   String knowledge,
+							   int stage, Ingredient... ingredients) {
 		super(id, octagram, knowledge, 0, stage, ingredients);
 		this.biomeSupplier = biomeSupplier;
 	}
@@ -39,14 +43,27 @@ public class BiomeConversionRite extends AscensionLockedRite {
 	}
 
 	@Override
+	public void tick(OctagramBlockEntity octagram) {
+		super.tick(octagram);
+		biomeSpreadTick(octagram, octagram.tickCount);
+	}
+
+	@Override
 	public boolean isFinished(OctagramBlockEntity octagram) {
 		return false;
 	}
 
 	@Override
-	public void tick(OctagramBlockEntity octagram) {
-		super.tick(octagram);
-		biomeSpreadTick(octagram, octagram.tickCount);
+	public void onCancelled(OctagramBlockEntity octagram) {
+		super.onCancelled(octagram);
+		if (octagram.getWorld() instanceof ServerWorld serverWorld) {
+			MMDimensionalWorldState.get(serverWorld).setBiomeKnot(octagram.getPos(), getRadius(octagram) * 4, false, true);
+		}
+	}
+
+	@Override
+	public boolean isPermanent(OctagramBlockEntity octagram) {
+		return true;
 	}
 
 	protected void biomeSpreadTick(OctagramBlockEntity octagram, int tickCount) {
@@ -63,19 +80,6 @@ public class BiomeConversionRite extends AscensionLockedRite {
 
 	protected int getRadius(OctagramBlockEntity octagram) {
 		return Math.min(octagram.tickCount / INTERVAL, RANGE);
-	}
-
-	@Override
-	public void onCancelled(OctagramBlockEntity octagram) {
-		super.onCancelled(octagram);
-		if (octagram.getWorld() instanceof ServerWorld serverWorld) {
-			MMDimensionalWorldState.get(serverWorld).setBiomeKnot(octagram.getPos(), getRadius(octagram) * 4, false, true);
-		}
-	}
-
-	@Override
-	public boolean isPermanent(OctagramBlockEntity octagram) {
-		return true;
 	}
 
 	public static void spreadBiome(World world, BlockPos root, int radius, RegistryEntry<Biome> biome) {

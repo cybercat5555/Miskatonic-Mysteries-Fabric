@@ -7,24 +7,26 @@ import net.minecraft.block.enums.SlabType;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
+
 import org.jetbrains.annotations.Nullable;
 
 public class ElderianSlabBlock extends SlabBlock {
-    public static final IntProperty VARIANTS = IntProperty.of("variants", 0, 1);
 
-    public ElderianSlabBlock(Settings settings) {
-        super(settings);
-        this.setDefaultState((this.getDefaultState().with(VARIANTS, 0).with(TYPE, SlabType.BOTTOM)).with(WATERLOGGED, false));
-    }
+	public static final IntProperty VARIANTS = IntProperty.of("variants", 0, 1);
 
-    @Nullable
-    @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return super.getPlacementState(ctx).with(VARIANTS, ctx.getWorld().random.nextInt(2));
-    }
+	public ElderianSlabBlock(Settings settings) {
+		super(settings);
+		this.setDefaultState((this.getDefaultState().with(VARIANTS, 0).with(TYPE, SlabType.BOTTOM)).with(WATERLOGGED, false));
+	}
 
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(VARIANTS, TYPE, WATERLOGGED);
-    }
+	@Override
+	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+		builder.add(VARIANTS, TYPE, WATERLOGGED);
+	}
+
+	@Nullable
+	@Override
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		return super.getPlacementState(ctx).with(VARIANTS, ctx.getWorld().random.nextInt(2));
+	}
 }

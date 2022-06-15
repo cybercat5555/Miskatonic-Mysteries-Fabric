@@ -1,26 +1,26 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "CSC",
-    "MGM",
-    "MGM"
-  ],
-  "key": {
-    "S": {
-      "item": "minecraft:stone_slab"
-    },
-    "M": {
-      "item": "minecraft:stone"
-    },
-    "C": {
-      "item": "minecraft:candle"
-    },
-    "G": {
-      "item": "miskatonicmysteries:oceanic_gold"
-    }
-  },
-  "result": {
-    "item": "miskatonicmysteries:stone_altar",
-    "count": 1
-  }
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"CSC",
+		"MGM",
+		"MGM"
+	],
+	"key": {
+		"S": {
+			"item": "minecraft:stone_slab"
+		},
+		"M": {
+			"item": "minecraft:stone"
+		},
+		"C": {
+			"item": "minecraft:candle"
+		},
+		"G": {
+			"item": "miskatonicmysteries:oceanic_gold"
+		}
+	},
+	"result": {
+		"item": "miskatonicmysteries:stone_altar",
+		"count": 1
+	}
 }

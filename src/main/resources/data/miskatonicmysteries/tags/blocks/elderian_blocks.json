@@ -1,14 +1,14 @@
 {
-  "replace": false,
-  "values": [
-    "miskatonicmysteries:elderian_bricks",
-    "miskatonicmysteries:elderian_bricks_cracked",
-    "miskatonicmysteries:elderian_bricks_iced",
-    "miskatonicmysteries:elderian_bricks_mossy",
-    "miskatonicmysteries:elderian_smooth_pillar",
-    "miskatonicmysteries:elderian_tentacled_pillar",
-    "miskatonicmysteries:elderian_stone",
-    "miskatonicmysteries:elderian_stone_chiseled",
-    "miskatonicmysteries:elderian_stone_smooth"
-  ]
+	"replace": false,
+	"values": [
+		"miskatonicmysteries:elderian_bricks",
+		"miskatonicmysteries:elderian_bricks_cracked",
+		"miskatonicmysteries:elderian_bricks_iced",
+		"miskatonicmysteries:elderian_bricks_mossy",
+		"miskatonicmysteries:elderian_smooth_pillar",
+		"miskatonicmysteries:elderian_tentacled_pillar",
+		"miskatonicmysteries:elderian_stone",
+		"miskatonicmysteries:elderian_stone_chiseled",
+		"miskatonicmysteries:elderian_stone_smooth"
+	]
 }

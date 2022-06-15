@@ -3,11 +3,13 @@ package com.miskatonicmysteries.common.feature.spell.medium;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class GroupSpellMedium extends SpellMedium {
 
@@ -20,7 +22,7 @@ public class GroupSpellMedium extends SpellMedium {
 		boolean successfulCast = false;
 		List<Entity> entities = world
 			.getOtherEntities(null, caster.getBoundingBox().expand(3 + (4 * intensity), 3 + (4 * intensity), 3 + (4 * intensity)),
-				entity -> entity instanceof LivingEntity);
+							  entity -> entity instanceof LivingEntity);
 		for (Entity otherEntity : entities) {
 			if (effect.effect(world, caster, otherEntity, otherEntity.getPos(), this, intensity, caster)) {
 				successfulCast = true;

@@ -1,15 +1,15 @@
 {
-  "name": "Managing the Occult",
-  "category": "miskatonicmysteries:world",
-  "icon": "miskatonicmysteries:warded_paper",
-  "pages": [
-    {
-      "type": "text",
-      "text": "Managing the occult is a key-competence of any aspiring Entheator. It requires $(li)Keeping sanity at a reasonable level$(li)Warding off $(marked)Investigators$()$(br2)Both can be achieved by casting not too many $(ml:rites/rite_intro)rites$(). Additionally, sanity can be regenerated using medicine such as $(item)Tranquilizers$() and $(item)Laudanum$()."
-    },
-    {
-      "type": "text",
-      "text": "Low sanity will result in continuous debilitation and, eventually, $(marked)death$(), so be careful.$(br)Likewise, $(marked)Investigators$() are also quite deadly. To prevent them from appearing in the first place, rites can be decorated to increase (or decrease) subtlety.$(br)You should eliminate any Investigator you come across with, but be wary: getting killed by one will destroy most of your progress."
-    }
-  ]
+	"name": "Managing the Occult",
+	"category": "miskatonicmysteries:world",
+	"icon": "miskatonicmysteries:warded_paper",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Managing the occult is a key-competence of any aspiring Entheator. It requires $(li)Keeping sanity at a reasonable level$(li)Warding off $(marked)Investigators$()$(br2)Both can be achieved by casting not too many $(ml:rites/rite_intro)rites$(). Additionally, sanity can be regenerated using medicine such as $(item)Tranquilizers$() and $(item)Laudanum$()."
+		},
+		{
+			"type": "text",
+			"text": "Low sanity will result in continuous debilitation and, eventually, $(marked)death$(), so be careful.$(br)Likewise, $(marked)Investigators$() are also quite deadly. To prevent them from appearing in the first place, rites can be decorated to increase (or decrease) subtlety.$(br)You should eliminate any Investigator you come across with, but be wary: getting killed by one will destroy most of your progress."
+		}
+	]
 }

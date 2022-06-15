@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.feature.recipe.instability_event;
 
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+
 import net.minecraft.util.Identifier;
 
 public class InstabilityEvent {

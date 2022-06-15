@@ -1,10 +1,10 @@
 {
-  "replace": false,
-  "values": [
-    "#miskatonicmysteries:altars",
-    "#miskatonicmysteries:murals",
-    "#miskatonicmysteries:idols",
-    "miskatonicmysteries:yellow_sign",
-    "#c:skulls"
-  ]
+	"replace": false,
+	"values": [
+		"#miskatonicmysteries:altars",
+		"#miskatonicmysteries:murals",
+		"#miskatonicmysteries:idols",
+		"miskatonicmysteries:yellow_sign",
+		"#c:skulls"
+	]
 }

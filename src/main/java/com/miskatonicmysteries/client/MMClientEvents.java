@@ -7,11 +7,13 @@ import com.miskatonicmysteries.client.sound.ResonatorSound;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.mixin.client.WorldRendererAccessor;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OutlineVertexConsumerProvider;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -73,21 +75,21 @@ public class MMClientEvents {
 					outlineVertexConsumerProvider.setColor(r, g, b, 255);
 					Vec3d cameraPos = context.camera().getPos();
 					renderEntityFullBright(entity, cameraPos.x, cameraPos.y, cameraPos.z, context.tickDelta(), context.matrixStack(),
-						outlineVertexConsumerProvider, client.getEntityRenderDispatcher());
+										   outlineVertexConsumerProvider, client.getEntityRenderDispatcher());
 				}
 			}
 		}
 	}
 
 	private static void renderEntityFullBright(Entity entity, double cameraX, double cameraY, double cameraZ,
-		float tickDelta, MatrixStack matrices,
-		VertexConsumerProvider vertexConsumers,
-		EntityRenderDispatcher dispatcher) {
+											   float tickDelta, MatrixStack matrices,
+											   VertexConsumerProvider vertexConsumers,
+											   EntityRenderDispatcher dispatcher) {
 		double d = MathHelper.lerp(tickDelta, entity.lastRenderX, entity.getX());
 		double e = MathHelper.lerp(tickDelta, entity.lastRenderY, entity.getY());
 		double f = MathHelper.lerp(tickDelta, entity.lastRenderZ, entity.getZ());
 		float g = MathHelper.lerp(tickDelta, entity.prevYaw, entity.getYaw());
 		dispatcher.render(entity, d - cameraX, e - cameraY, f - cameraZ, g, tickDelta, matrices, vertexConsumers,
-			15728880);
+						  15728880);
 	}
 }

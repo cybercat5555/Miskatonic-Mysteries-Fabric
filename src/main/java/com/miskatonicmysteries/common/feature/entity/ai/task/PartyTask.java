@@ -1,11 +1,8 @@
 package com.miskatonicmysteries.common.feature.entity.ai.task;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.miskatonicmysteries.common.feature.world.party.MMPartyState;
 import com.miskatonicmysteries.common.feature.world.party.Party;
-import java.util.List;
-import java.util.Random;
+
 import net.minecraft.entity.ai.brain.task.SeekSkyTask;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.entity.passive.VillagerEntity;
@@ -19,6 +16,12 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.List;
+import java.util.Random;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import org.jetbrains.annotations.Nullable;
 
 public class PartyTask extends Task<VillagerEntity> {
@@ -29,21 +32,6 @@ public class PartyTask extends Task<VillagerEntity> {
 
 	public PartyTask() {
 		super(ImmutableMap.of(), 100, 400);
-	}
-
-	protected boolean shouldRun(ServerWorld serverWorld, VillagerEntity villagerEntity) {
-		BlockPos blockPos = villagerEntity.getBlockPos();
-		this.party = MMPartyState.get(serverWorld).getParty(blockPos);
-		return this.party != null;
-	}
-
-	protected boolean shouldKeepRunning(ServerWorld serverWorld, VillagerEntity villagerEntity, long l) {
-		return this.party != null && !party.shouldStop();
-	}
-
-	protected void finishRunning(ServerWorld serverWorld, VillagerEntity villagerEntity, long l) {
-		this.party = null;
-		villagerEntity.getBrain().refreshActivities(serverWorld.getTimeOfDay(), serverWorld.getTime());
 	}
 
 	protected void keepRunning(ServerWorld serverWorld, VillagerEntity villagerEntity, long l) {
@@ -57,18 +45,36 @@ public class PartyTask extends Task<VillagerEntity> {
 		}
 
 		if (random.nextFloat() * 400 <= party.getPercentualPartyPower() && SeekSkyTask.isSkyVisible(serverWorld,
-			villagerEntity, villagerEntity.getBlockPos())) {
+																									villagerEntity, villagerEntity.getBlockPos())) {
 			DyeColor dyeColor = Util.getRandom(fireworkColors, random);
 			DyeColor dyeColor2 = Util.getRandom(fireworkColors, random);
 			int i = 1 + random.nextInt(2);
 			ItemStack itemStack = this.createFirework(dyeColor, dyeColor2, i, random.nextBoolean() ?
-				FireworkRocketItem.Type.BURST : (random.nextFloat() <= partyPower - 0.5F) ?
-				FireworkRocketItem.Type.LARGE_BALL : FireworkRocketItem.Type.SMALL_BALL);
+																			  FireworkRocketItem.Type.BURST
+																								   : (random.nextFloat() <= partyPower - 0.5F) ?
+																									 FireworkRocketItem.Type.LARGE_BALL
+																																			   : FireworkRocketItem.Type.SMALL_BALL);
 			FireworkRocketEntity fireworkRocketEntity = new FireworkRocketEntity(villagerEntity.world, villagerEntity,
-				villagerEntity.getX(), villagerEntity.getEyeY(), villagerEntity.getZ(), itemStack);
+																				 villagerEntity.getX(), villagerEntity.getEyeY(),
+																				 villagerEntity.getZ(), itemStack);
 			villagerEntity.world.spawnEntity(fireworkRocketEntity);
 		}
 
+	}
+
+	protected void finishRunning(ServerWorld serverWorld, VillagerEntity villagerEntity, long l) {
+		this.party = null;
+		villagerEntity.getBrain().refreshActivities(serverWorld.getTimeOfDay(), serverWorld.getTime());
+	}
+
+	protected boolean shouldKeepRunning(ServerWorld serverWorld, VillagerEntity villagerEntity, long l) {
+		return this.party != null && !party.shouldStop();
+	}
+
+	protected boolean shouldRun(ServerWorld serverWorld, VillagerEntity villagerEntity) {
+		BlockPos blockPos = villagerEntity.getBlockPos();
+		this.party = MMPartyState.get(serverWorld).getParty(blockPos);
+		return this.party != null;
 	}
 
 	private ItemStack createFirework(DyeColor color, DyeColor color2, int flight, FireworkRocketItem.Type type) {

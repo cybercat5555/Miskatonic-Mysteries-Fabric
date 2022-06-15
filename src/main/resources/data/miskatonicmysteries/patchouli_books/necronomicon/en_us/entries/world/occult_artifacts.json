@@ -1,56 +1,56 @@
 {
-  "name": "Occult Artifacts",
-  "category": "miskatonicmysteries:world",
-  "icon": "miskatonicmysteries:incantation_yog",
-  "extra_recipe_mappings": {
-    "miskatonicmysteries:oceanic_gold_block_warded": 1,
-    "miskatonicmysteries:oceanic_gold_tiles": 1,
-    "miskatonicmysteries:oceanic_gold_pillar": 1,
-    "miskatonicmysteries:oceanic_gold_pillar_ornate": 1,
-    "miskatonicmysteries:oceanic_gold_pillar_split": 1,
-    "miskatonicmysteries:incantation_yog": 4
-  },
-  "pages": [
-    {
-      "type": "text",
-      "text": "Delving into the art, many will find themselves limited to what power they can muster with normal materials. $(br)Thankfully, times of old have left plenty of relics drawing from higher powers, which will be outlined here."
-    },
-    {
-      "anchor": "gold",
-      "type": "text",
-      "text": "$(item)Oceanic Gold$() has a pearlescent shimmer and is engraved with aquatic images, from sea creatures to other images evocative of the sea. It may be found in lost treasure chests, or acquired from some traders. On top of having significant ritual uses, Oceanic Gold can be used to make several decorative blocks with a nautical flare, using a $(marked)Stonecutter$()."
-    },
-    {
-      "type": "crafting",
-      "recipe": "miskatonicmysteries:crafting/oceanic_gold/oceanic_gold_item",
-      "recipe2": "miskatonicmysteries:crafting/oceanic_gold/oceanic_gold_block"
-    },
-    {
-      "type": "smelting",
-      "recipe": "miskatonicmysteries:smelting/oceanic_gold_to_regular",
-      "text": "Oceanic Gold is still gold however, and can always be melted back into it."
-    },
-    {
-      "type": "spotlight",
-      "anchor": "incantation_yog",
-      "title": "Incantation",
-      "item": "miskatonicmysteries:incantation_yog",
-      "text": "The Gate-and-Key isn't primarily worshipped in this world, not anymore; however, older civilizations have left one particularly powerful and commonly used incantation, able to hold an exact position in space. Using this binds it to the position of a nearby $(ml:world/octagrams)Octagram$(), which may be used in practices such as the $(ml:rites/teleport)Rite of the Open Way$()."
-    },
-    {
-      "type": "text",
-      "text": "The Incantation can be found in $(marked)stronghold libraries$(), smaller $(marked)dungeon chests$() or $(marked)igloos$().$(br)It can be reused, so you should not worry about having to find one again."
-    },
-    {
-      "type": "miskatonicmysteries:chemistry",
-      "recipe": "miskatonicmysteries:chemistry/iridescent_pearl",
-      "header": "Iridescent Pearl",
-      "text": "An alchemically-created pearl that shines a multitude of colours. It is said to resemble the orbs of the Gate-and-Key, and thus contains an atom of his power. However, it is a fragile object and will be destroyed in the rite."
-    },
-    {
-      "type": "text",
-      "title": "Mysterious Traders",
-      "text": "Rumor has it that there are many more curious artifacts sold by traders deeply affiliated with a certain Great Old One who shall remain unnamed.$(br)These $(t:Wandering Traders)$(marked)traders$() walk the world, selling their peculiar goods. Keep an eye open for them, they might sell unique wares to grant you interesting $(ml:spells/spells)spells$()."
-    }
-  ]
+	"name": "Occult Artifacts",
+	"category": "miskatonicmysteries:world",
+	"icon": "miskatonicmysteries:incantation_yog",
+	"extra_recipe_mappings": {
+		"miskatonicmysteries:oceanic_gold_block_warded": 1,
+		"miskatonicmysteries:oceanic_gold_tiles": 1,
+		"miskatonicmysteries:oceanic_gold_pillar": 1,
+		"miskatonicmysteries:oceanic_gold_pillar_ornate": 1,
+		"miskatonicmysteries:oceanic_gold_pillar_split": 1,
+		"miskatonicmysteries:incantation_yog": 4
+	},
+	"pages": [
+		{
+			"type": "text",
+			"text": "Delving into the art, many will find themselves limited to what power they can muster with normal materials. $(br)Thankfully, times of old have left plenty of relics drawing from higher powers, which will be outlined here."
+		},
+		{
+			"anchor": "gold",
+			"type": "text",
+			"text": "$(item)Oceanic Gold$() has a pearlescent shimmer and is engraved with aquatic images, from sea creatures to other images evocative of the sea. It may be found in lost treasure chests, or acquired from some traders. On top of having significant ritual uses, Oceanic Gold can be used to make several decorative blocks with a nautical flare, using a $(marked)Stonecutter$()."
+		},
+		{
+			"type": "crafting",
+			"recipe": "miskatonicmysteries:crafting/oceanic_gold/oceanic_gold_item",
+			"recipe2": "miskatonicmysteries:crafting/oceanic_gold/oceanic_gold_block"
+		},
+		{
+			"type": "smelting",
+			"recipe": "miskatonicmysteries:smelting/oceanic_gold_to_regular",
+			"text": "Oceanic Gold is still gold however, and can always be melted back into it."
+		},
+		{
+			"type": "spotlight",
+			"anchor": "incantation_yog",
+			"title": "Incantation",
+			"item": "miskatonicmysteries:incantation_yog",
+			"text": "The Gate-and-Key isn't primarily worshipped in this world, not anymore; however, older civilizations have left one particularly powerful and commonly used incantation, able to hold an exact position in space. Using this binds it to the position of a nearby $(ml:world/octagrams)Octagram$(), which may be used in practices such as the $(ml:rites/teleport)Rite of the Open Way$()."
+		},
+		{
+			"type": "text",
+			"text": "The Incantation can be found in $(marked)stronghold libraries$(), smaller $(marked)dungeon chests$() or $(marked)igloos$().$(br)It can be reused, so you should not worry about having to find one again."
+		},
+		{
+			"type": "miskatonicmysteries:chemistry",
+			"recipe": "miskatonicmysteries:chemistry/iridescent_pearl",
+			"header": "Iridescent Pearl",
+			"text": "An alchemically-created pearl that shines a multitude of colours. It is said to resemble the orbs of the Gate-and-Key, and thus contains an atom of his power. However, it is a fragile object and will be destroyed in the rite."
+		},
+		{
+			"type": "text",
+			"title": "Mysterious Traders",
+			"text": "Rumor has it that there are many more curious artifacts sold by traders deeply affiliated with a certain Great Old One who shall remain unnamed.$(br)These $(t:Wandering Traders)$(marked)traders$() walk the world, selling their peculiar goods. Keep an eye open for them, they might sell unique wares to grant you interesting $(ml:spells/spells)spells$()."
+		}
+	]
 }

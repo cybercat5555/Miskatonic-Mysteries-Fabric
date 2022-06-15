@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.feature.item.consumable;
 import com.miskatonicmysteries.api.interfaces.VillagerPartyDrug;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -35,8 +36,9 @@ public class LaudanumItem extends Item implements VillagerPartyDrug {
 		if (!world.isClient) {
 			user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.TRANQUILIZED, 2400, 0));
 			user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.OVERMEDICATED, 24000,
-				user.getStatusEffect(MMStatusEffects.OVERMEDICATED) != null ?
-					user.getStatusEffect(MMStatusEffects.OVERMEDICATED).getAmplifier() + 1 : 0, false, false, false));
+														  user.getStatusEffect(MMStatusEffects.OVERMEDICATED) != null ?
+														  user.getStatusEffect(MMStatusEffects.OVERMEDICATED).getAmplifier() + 1 : 0, false, false,
+														  false));
 			stack.decrement(1);
 			if (user instanceof ServerPlayerEntity) {
 				Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity) user, stack);

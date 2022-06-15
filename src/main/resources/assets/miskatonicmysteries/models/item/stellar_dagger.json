@@ -1,6 +1,6 @@
 {
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "miskatonicmysteries:item/stellar_dagger"
-  }
+	"parent": "item/handheld",
+	"textures": {
+		"layer0": "miskatonicmysteries:item/stellar_dagger"
+	}
 }

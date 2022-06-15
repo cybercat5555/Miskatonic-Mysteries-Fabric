@@ -1,16 +1,16 @@
 {
-  "name": "Mania",
-  "category": "miskatonicmysteries:general",
-  "icon": "miskatonicmysteries:textures/mob_effect/mania.png",
-  "pages": [
-    {
-      "type": "text",
-      "text": "An altered state of mind in which the patient undergoes heightened senses, shifting colours, and general delirium. This state can be induced through chemicals, stress, or other overwhelming sensations and experiences.$(br)Unlike other conditions, this ailment cannot be subsided with milk."
-    },
-    {
-      "type": "miskatonicmysteries:advert",
-      "text": "The patient must either let it run its course, or consume our patented $(l:miskatonicmysteries:tranquilizers)$(item)Tranquilizers$().",
-      "advert": "miskatonicmysteries:textures/gui/adverts/protag.png"
-    }
-  ]
+	"name": "Mania",
+	"category": "miskatonicmysteries:general",
+	"icon": "miskatonicmysteries:textures/mob_effect/mania.png",
+	"pages": [
+		{
+			"type": "text",
+			"text": "An altered state of mind in which the patient undergoes heightened senses, shifting colours, and general delirium. This state can be induced through chemicals, stress, or other overwhelming sensations and experiences.$(br)Unlike other conditions, this ailment cannot be subsided with milk."
+		},
+		{
+			"type": "miskatonicmysteries:advert",
+			"text": "The patient must either let it run its course, or consume our patented $(l:miskatonicmysteries:tranquilizers)$(item)Tranquilizers$().",
+			"advert": "miskatonicmysteries:textures/gui/adverts/protag.png"
+		}
+	]
 }

@@ -5,6 +5,7 @@ import com.miskatonicmysteries.api.interfaces.VillagerPartyDrug;
 import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -18,11 +19,12 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class BlotterItem extends Item implements VillagerPartyDrug {
+
 	private boolean potent;
+
 	public BlotterItem(boolean potent) {
 		super(new Settings().group(Constants.MM_GROUP));
 		this.potent = potent;
@@ -36,9 +38,9 @@ public class BlotterItem extends Item implements VillagerPartyDrug {
 	@Override
 	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
 		if (!world.isClient) {
-			if(!potent){
+			if (!potent) {
 				user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 2400, 0));
-			}else{
+			} else {
 				user.addStatusEffect(new StatusEffectInstance(MMStatusEffects.OTHERVIBES, 2400, 0));
 			}
 			stack.decrement(1);
@@ -47,7 +49,7 @@ public class BlotterItem extends Item implements VillagerPartyDrug {
 				((ServerPlayerEntity) user).incrementStat(Stats.USED.getOrCreateStat(this));
 			}
 			SpellCaster.of(user).ifPresent(caster -> {
-				if(!potent){
+				if (!potent) {
 					caster.learnEffect(MMSpellEffects.MANIA);
 					caster.syncSpellData();
 				}

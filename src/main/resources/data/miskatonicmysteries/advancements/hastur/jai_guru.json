@@ -1,32 +1,32 @@
 {
-  "parent": "miskatonicmysteries:hastur/peace_and_love",
-  "display": {
-    "icon": {
-      "item": "miskatonicmysteries:hastur_statue_gold"
-    },
-    "title": {
-      "translate": "advancements.miskatonicmysteries.jai_guru.title"
-    },
-    "description": {
-      "translate": "advancements.miskatonicmysteries.jai_guru.description"
-    },
-    "frame": "challenge",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "leveled_up": {
-      "trigger": "miskatonicmysteries:level_up",
-      "conditions": {
-        "affiliation": "miskatonicmysteries:hastur",
-        "stage": 4
-      }
-    }
-  },
-  "requirements": [
-    [
-      "leveled_up"
-    ]
-  ]
+	"parent": "miskatonicmysteries:hastur/peace_and_love",
+	"display": {
+		"icon": {
+			"item": "miskatonicmysteries:hastur_statue_gold"
+		},
+		"title": {
+			"translate": "advancements.miskatonicmysteries.jai_guru.title"
+		},
+		"description": {
+			"translate": "advancements.miskatonicmysteries.jai_guru.description"
+		},
+		"frame": "challenge",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"leveled_up": {
+			"trigger": "miskatonicmysteries:level_up",
+			"conditions": {
+				"affiliation": "miskatonicmysteries:hastur",
+				"stage": 4
+			}
+		}
+	},
+	"requirements": [
+		[
+			"leveled_up"
+		]
+	]
 }

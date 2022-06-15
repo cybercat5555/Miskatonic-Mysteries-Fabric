@@ -4,8 +4,7 @@ import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Constants.NBT;
-import java.util.EnumSet;
-import java.util.Random;
+
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -27,7 +26,6 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvent;
@@ -38,6 +36,10 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+
+import java.util.EnumSet;
+import java.util.Random;
+
 import org.jetbrains.annotations.Nullable;
 
 public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
@@ -45,8 +47,8 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 	protected static final TrackedData<Byte> HARROW_FLAGS = DataTracker.registerData(HarrowEntity.class, TrackedDataHandlerRegistry.BYTE);
 	protected static final TrackedData<Integer> LIFETICKS = DataTracker
 		.registerData(HarrowEntity.class, TrackedDataHandlerRegistry.INTEGER);
-	private LivingEntity owner;
 	public boolean summoned = true;
+	private LivingEntity owner;
 
 	public HarrowEntity(EntityType<? extends HarrowEntity> entityType, World world) {
 		super(entityType, world);
@@ -58,39 +60,17 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 		return MobEntity.createMobAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE);
 	}
 
+	public static boolean canSpawn(EntityType<HarrowEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
+		if (pos.getY() > world.getSeaLevel()) {
+			return world.isAir(pos);
+		}
+		return false;
+	}
+
 	@Override
 	public void move(MovementType type, Vec3d movement) {
 		super.move(type, movement);
 		this.checkBlockCollision();
-	}
-
-	@Override
-	public void tick() {
-		this.noClip = true;
-		super.tick();
-		this.noClip = false;
-		this.setNoGravity(true);
-		if (!world.isClient && summoned) {
-			if (getLifeTicks() > 0) {
-				setLifeTicks(getLifeTicks() - 1);
-			} else {
-				remove(RemovalReason.KILLED);
-			}
-		}
-		if (world.isClient && age % 5 == 0) {
-			world.addParticle(MMParticles.AMBIENT_MAGIC, getParticleX(1F), getRandomBodyY(), getParticleZ(1F), -getVelocity().x,
-				-getVelocity().y, -getVelocity().z);
-		}
-	}
-
-	@Override
-	protected int getXpToDrop(PlayerEntity player) {
-		return owner instanceof PlayerEntity ? 0 : experiencePoints;
-	}
-
-	@Override
-	public boolean canBeLeashedBy(PlayerEntity player) {
-		return false;
 	}
 
 	@Override
@@ -114,51 +94,28 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 	}
 
 	@Override
-	public void readCustomDataFromNbt(NbtCompound tag) {
-		super.readCustomDataFromNbt(tag);
-		setLifeTicks(tag.getInt("LifeTicks"));
-		summoned = tag.getBoolean(NBT.MONSTER);
+	protected int getXpToDrop(PlayerEntity player) {
+		return owner instanceof PlayerEntity ? 0 : experiencePoints;
 	}
 
 	@Override
-	public void writeCustomDataToNbt(NbtCompound tag) {
-		super.writeCustomDataToNbt(tag);
-		tag.putInt("LifeTicks", getLifeTicks());
-		tag.putBoolean(Constants.NBT.SUMMONED, summoned);
-	}
-
-	public LivingEntity getOwner() {
-		return this.owner;
-	}
-
-	public void setOwner(LivingEntity owner) {
-		this.owner = owner;
-	}
-
-	private boolean areFlagsSet(int mask) {
-		int i = this.dataTracker.get(HARROW_FLAGS);
-		return (i & mask) != 0;
-	}
-
-	private void setHarrowFlag(int mask, boolean value) {
-		int i = this.dataTracker.get(HARROW_FLAGS);
-		if (value) {
-			i |= mask;
-		} else {
-			i &= ~mask;
+	public void tick() {
+		this.noClip = true;
+		super.tick();
+		this.noClip = false;
+		this.setNoGravity(true);
+		if (!world.isClient && summoned) {
+			if (getLifeTicks() > 0) {
+				setLifeTicks(getLifeTicks() - 1);
+			} else {
+				remove(RemovalReason.KILLED);
+			}
 		}
-
-		this.dataTracker.set(HARROW_FLAGS, (byte) (i & 255));
+		if (world.isClient && age % 5 == 0) {
+			world.addParticle(MMParticles.AMBIENT_MAGIC, getParticleX(1F), getRandomBodyY(), getParticleZ(1F), -getVelocity().x,
+							  -getVelocity().y, -getVelocity().z);
+		}
 	}
-
-	public boolean isCharging() {
-		return this.areFlagsSet(1);
-	}
-
-	public void setCharging(boolean charging) {
-		this.setHarrowFlag(1, charging);
-	}
-
 
 	public int getLifeTicks() {
 		return dataTracker.get(LIFETICKS);
@@ -172,28 +129,72 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 		return MMSounds.ENTITY_HARROW_AMBIENT;
 	}
 
-	protected SoundEvent getDeathSound() {
-		return MMSounds.ENTITY_HARROW_DEATH;
+	@Override
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
+		tag.putInt("LifeTicks", getLifeTicks());
+		tag.putBoolean(Constants.NBT.SUMMONED, summoned);
 	}
 
-	protected SoundEvent getHurtSound(DamageSource source) {
-		return MMSounds.ENTITY_HARROW_HURT;
+	@Override
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
+		setLifeTicks(tag.getInt("LifeTicks"));
+		summoned = tag.getBoolean(NBT.MONSTER);
 	}
 
 	@Nullable
 	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
-		@Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
+								 @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
 		if (spawnReason != SpawnReason.MOB_SUMMONED) {
 			summoned = false;
 		}
 		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 	}
 
-	public static boolean canSpawn(EntityType<HarrowEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random) {
-		if (pos.getY() > world.getSeaLevel()) {
-			return world.isAir(pos);
-		}
+	@Override
+	public boolean canBeLeashedBy(PlayerEntity player) {
 		return false;
+	}
+
+	public LivingEntity getOwner() {
+		return this.owner;
+	}
+
+	public void setOwner(LivingEntity owner) {
+		this.owner = owner;
+	}
+
+	public boolean isCharging() {
+		return this.areFlagsSet(1);
+	}
+
+	private boolean areFlagsSet(int mask) {
+		int i = this.dataTracker.get(HARROW_FLAGS);
+		return (i & mask) != 0;
+	}
+
+	public void setCharging(boolean charging) {
+		this.setHarrowFlag(1, charging);
+	}
+
+	private void setHarrowFlag(int mask, boolean value) {
+		int i = this.dataTracker.get(HARROW_FLAGS);
+		if (value) {
+			i |= mask;
+		} else {
+			i &= ~mask;
+		}
+
+		this.dataTracker.set(HARROW_FLAGS, (byte) (i & 255));
+	}
+
+	protected SoundEvent getHurtSound(DamageSource source) {
+		return MMSounds.ENTITY_HARROW_HURT;
+	}
+
+	protected SoundEvent getDeathSound() {
+		return MMSounds.ENTITY_HARROW_DEATH;
 	}
 
 	class TrackOwnerTargetGoal extends TrackTargetGoal {
@@ -240,11 +241,11 @@ public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
 				BlockPos blockPos2 = blockPos.add(random.nextInt(15) - 7, random.nextInt(11) - 5, random.nextInt(15) - 7);
 				if (world.isAir(blockPos2)) {
 					moveControl.moveTo((double) blockPos2.getX() + 0.5D, (double) blockPos2.getY() + 0.5D, (double) blockPos2.getZ() + 0.5D,
-						0.25D);
+									   0.25D);
 					if (getTarget() == null) {
 						getLookControl()
 							.lookAt((double) blockPos2.getX() + 0.5D, (double) blockPos2.getY() + 0.5D, (double) blockPos2.getZ() + 0.5D,
-								180.0F, 20.0F);
+									180.0F, 20.0F);
 					}
 					break;
 				}

@@ -1,25 +1,25 @@
 {
-  "name": "The Resonator",
-  "category": "miskatonicmysteries:general",
-  "icon": "miskatonicmysteries:resonator",
-  "pages": [
-    {
-      "type": "text",
-      "text": "A fantastic device, a marvel of modern engineering, physics, and cognition.$(br)When powered, the $(item)Resonator$() emits a vibration that matches that of the brain’s pineal gland waves when it is at its highest point. $(br)This vibration also happens to bathe the area in a soothing purple-magenta glow."
-    },
-    {
-      "type": "text",
-      "text": "In addition, this vibration resonates on the exact frequency of an otherwise intangible world that exists concurrent to ours, sometimes even allowing us and them to touch and see each other. "
-    },
-    {
-      "type": "spotlight",
-      "item": "miskatonicmysteries:resonator",
-      "text": "This cutting-edge technology can only be acquired through certified Miskatonic Faculty. However, one should be careful with operation as this machine must use up a large amount of power, though our patented $(l:power_cell)Power Cells$() can aid with this.  "
-    },
-    {
-      "type": "miskatonicmysteries:advert",
-      "text": "Avoid agitating the machine if possible, such as using it for target practice.",
-      "advert": "miskatonicmysteries:textures/gui/adverts/revolver.png"
-    }
-  ]
+	"name": "The Resonator",
+	"category": "miskatonicmysteries:general",
+	"icon": "miskatonicmysteries:resonator",
+	"pages": [
+		{
+			"type": "text",
+			"text": "A fantastic device, a marvel of modern engineering, physics, and cognition.$(br)When powered, the $(item)Resonator$() emits a vibration that matches that of the brain’s pineal gland waves when it is at its highest point. $(br)This vibration also happens to bathe the area in a soothing purple-magenta glow."
+		},
+		{
+			"type": "text",
+			"text": "In addition, this vibration resonates on the exact frequency of an otherwise intangible world that exists concurrent to ours, sometimes even allowing us and them to touch and see each other. "
+		},
+		{
+			"type": "spotlight",
+			"item": "miskatonicmysteries:resonator",
+			"text": "This cutting-edge technology can only be acquired through certified Miskatonic Faculty. However, one should be careful with operation as this machine must use up a large amount of power, though our patented $(l:power_cell)Power Cells$() can aid with this.  "
+		},
+		{
+			"type": "miskatonicmysteries:advert",
+			"text": "Avoid agitating the machine if possible, such as using it for target practice.",
+			"advert": "miskatonicmysteries:textures/gui/adverts/revolver.png"
+		}
+	]
 }

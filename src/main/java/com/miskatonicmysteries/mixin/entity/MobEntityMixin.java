@@ -1,16 +1,11 @@
 package com.miskatonicmysteries.mixin.entity;
 
-import com.google.common.collect.ImmutableSet;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Appeasable;
 import com.miskatonicmysteries.api.interfaces.HiddenEntity;
-import com.miskatonicmysteries.api.interfaces.OthervibeMobEntityAccessor;
 import com.miskatonicmysteries.api.interfaces.OthervibeEntity;
+import com.miskatonicmysteries.api.interfaces.OthervibeMobEntityAccessor;
 import com.miskatonicmysteries.common.util.Constants;
-
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -28,6 +23,12 @@ import net.minecraft.potion.Potions;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+
+import com.google.common.collect.ImmutableSet;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -45,11 +46,11 @@ public abstract class MobEntityMixin extends LivingEntity implements HiddenEntit
 
 	@Unique
 	private static final TrackedData<Boolean> HIDDEN = DataTracker.registerData(MobEntity.class,
-		TrackedDataHandlerRegistry.BOOLEAN);
+																				TrackedDataHandlerRegistry.BOOLEAN);
 
 	@Unique
 	private static final TrackedData<Optional<UUID>> OTHERVIBES_AFFECTED_PLAYER = DataTracker.registerData(MobEntity.class,
-		TrackedDataHandlerRegistry.OPTIONAL_UUID);
+																										   TrackedDataHandlerRegistry.OPTIONAL_UUID);
 
 	protected MobEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
@@ -62,23 +63,24 @@ public abstract class MobEntityMixin extends LivingEntity implements HiddenEntit
 	}
 
 	@Override
-	public boolean isHidden() {
-		return this.dataTracker.get(HIDDEN);
-	}
-
-	@Override
-	public void setHidden(boolean hide) {
-		this.dataTracker.set(HIDDEN, hide);
+	public boolean access(PlayerEntity player) {
+		return this.isVisibleTo(player);
 	}
 
 	@Override
 	public boolean isVisibleTo(PlayerEntity player) {
-		return this.dataTracker.get(OTHERVIBES_AFFECTED_PLAYER).isPresent() && this.dataTracker.get(OTHERVIBES_AFFECTED_PLAYER).get() == player.getUuid();
+		return this.dataTracker.get(OTHERVIBES_AFFECTED_PLAYER).isPresent() && this.dataTracker.get(OTHERVIBES_AFFECTED_PLAYER).get() == player
+			.getUuid();
 	}
 
 	@Override
 	public void setIsVisibleTo(PlayerEntity player) {
 		this.dataTracker.set(OTHERVIBES_AFFECTED_PLAYER, Optional.of(player.getUuid()));
+	}
+
+	@Override
+	public Optional<UUID> getData(MobEntity mobEntity) {
+		return this.dataTracker.get(OTHERVIBES_AFFECTED_PLAYER);
 	}
 
 	/*
@@ -91,26 +93,23 @@ public abstract class MobEntityMixin extends LivingEntity implements HiddenEntit
 	 */
 
 	@Override
-	public Optional<UUID> getData(MobEntity mobEntity) {
-		return this.dataTracker.get(OTHERVIBES_AFFECTED_PLAYER);
-	}
-
-	@Override
 	public void setData(Optional<UUID> uuidData) {
 		this.dataTracker.set(OTHERVIBES_AFFECTED_PLAYER, uuidData);
 	}
 
-	@Override
-	public boolean access(PlayerEntity player) {
-		return this.isVisibleTo(player);
-	}
-
-
-
-
 	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
 	private void writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
 		nbt.putBoolean(Constants.NBT.HIDDEN, isHidden());
+	}
+
+	@Override
+	public boolean isHidden() {
+		return this.dataTracker.get(HIDDEN);
+	}
+
+	@Override
+	public void setHidden(boolean hide) {
+		this.dataTracker.set(HIDDEN, hide);
 	}
 
 	@Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))

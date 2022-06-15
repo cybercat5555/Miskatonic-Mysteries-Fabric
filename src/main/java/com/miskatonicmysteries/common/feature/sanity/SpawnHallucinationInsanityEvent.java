@@ -5,6 +5,7 @@ import com.miskatonicmysteries.api.registry.InsanityEvent;
 import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Util;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnReason;

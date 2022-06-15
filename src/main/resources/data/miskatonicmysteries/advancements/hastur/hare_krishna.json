@@ -1,33 +1,33 @@
 {
-  "parent": "miskatonicmysteries:root",
-  "display": {
-    "icon": {
-      "item": "miskatonicmysteries:yellow_hood"
-    },
-    "title": {
-      "translate": "advancements.miskatonicmysteries.hare_krishna.title"
-    },
-    "description": {
-      "translate": "advancements.miskatonicmysteries.hare_krishna.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "trade_with_cultist": {
-      "trigger": "minecraft:villager_trade",
-      "conditions": {
-        "villager": {
-          "type": "miskatonicmysteries:hastur_cultist"
-        }
-      }
-    }
-  },
-  "requirements": [
-    [
-      "trade_with_cultist"
-    ]
-  ]
+	"parent": "miskatonicmysteries:root",
+	"display": {
+		"icon": {
+			"item": "miskatonicmysteries:yellow_hood"
+		},
+		"title": {
+			"translate": "advancements.miskatonicmysteries.hare_krishna.title"
+		},
+		"description": {
+			"translate": "advancements.miskatonicmysteries.hare_krishna.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"trade_with_cultist": {
+			"trigger": "minecraft:villager_trade",
+			"conditions": {
+				"villager": {
+					"type": "miskatonicmysteries:hastur_cultist"
+				}
+			}
+		}
+	},
+	"requirements": [
+		[
+			"trade_with_cultist"
+		]
+	]
 }

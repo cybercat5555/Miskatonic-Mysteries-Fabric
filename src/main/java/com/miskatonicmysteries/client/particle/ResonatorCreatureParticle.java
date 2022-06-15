@@ -1,9 +1,8 @@
 package com.miskatonicmysteries.client.particle;
 
-import com.miskatonicmysteries.client.particle.ResonatorCreatureParticle.Variant;
-import java.util.function.BiConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.particle.AbstractSlowingParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleFactory;
@@ -11,6 +10,8 @@ import net.minecraft.client.particle.ParticleTextureSheet;
 import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
+
+import java.util.function.BiConsumer;
 
 @Environment(EnvType.CLIENT)
 public class ResonatorCreatureParticle extends AbstractSlowingParticle {
@@ -20,7 +21,7 @@ public class ResonatorCreatureParticle extends AbstractSlowingParticle {
 	private int frames;
 
 	protected ResonatorCreatureParticle(ClientWorld clientWorld, double d, double e, double f, double g, double h,
-		double i, Variant variant, SpriteProvider spriteProvider) {
+										double i, Variant variant, SpriteProvider spriteProvider) {
 		super(clientWorld, d, e, f, g, h, i);
 		this.variant = variant;
 		this.spriteProvider = spriteProvider;
@@ -65,7 +66,7 @@ public class ResonatorCreatureParticle extends AbstractSlowingParticle {
 		BUG(0, 3, (particle, frames) -> {
 			if (frames % 3 < 2) {
 				particle.setVelocity(particle.random.nextGaussian() / 20F, particle.random.nextGaussian() / 20F,
-					particle.random.nextGaussian() / 20F);
+									 particle.random.nextGaussian() / 20F);
 			}
 		}), JELLYFISH(3, 2, (particle, frames) -> {
 			if (frames % 2 == 0) {
@@ -96,9 +97,10 @@ public class ResonatorCreatureParticle extends AbstractSlowingParticle {
 		}
 
 		public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x,
-			double y, double z, double g, double h, double i) {
+									   double y, double z, double g, double h, double i) {
 			ResonatorCreatureParticle creatureParticle = new ResonatorCreatureParticle(clientWorld, x, y, z, g, h, i,
-				Variant.values()[clientWorld.random.nextInt(Variant.values().length)]
+																					   Variant.values()[clientWorld.random
+																						   .nextInt(Variant.values().length)]
 				, spriteProvider);
 			creatureParticle.setSpriteForFrame(0);
 			return creatureParticle;

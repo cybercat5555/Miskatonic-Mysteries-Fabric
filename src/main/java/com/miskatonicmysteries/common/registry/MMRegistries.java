@@ -9,7 +9,9 @@ import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.recipe.instability_event.InstabilityEvent;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
+
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 

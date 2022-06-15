@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.feature.world.MMWorldState;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Util;
+
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;

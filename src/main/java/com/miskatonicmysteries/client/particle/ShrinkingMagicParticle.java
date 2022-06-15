@@ -1,8 +1,10 @@
 package com.miskatonicmysteries.client.particle;
 
 import com.miskatonicmysteries.common.registry.MMParticles;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.ParticleTextureSheet;
@@ -28,6 +30,13 @@ public class ShrinkingMagicParticle extends SpriteBillboardParticle {
 		maxAge = 20;
 	}
 
+	@Override
+	public void tick() {
+		float lifeRatio = (float) this.age / (float) this.maxAge;
+		this.scale = scale - (lifeRatio * scale);
+		super.tick();
+	}
+
 	public ParticleTextureSheet getType() {
 		return MMParticles.ParticleTextureSheets.GLOWING;
 	}
@@ -35,13 +44,6 @@ public class ShrinkingMagicParticle extends SpriteBillboardParticle {
 	public void move(double dx, double dy, double dz) {
 		this.setBoundingBox(this.getBoundingBox().offset(dx, dy, dz));
 		this.repositionFromBoundingBox();
-	}
-
-	@Override
-	public void tick() {
-		float lifeRatio = (float) this.age / (float) this.maxAge;
-		this.scale = scale - (lifeRatio * scale);
-		super.tick();
 	}
 
 	public int getBrightness(float tint) {
@@ -73,7 +75,7 @@ public class ShrinkingMagicParticle extends SpriteBillboardParticle {
 		}
 
 		public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z,
-			double r, double g, double b) {
+									   double r, double g, double b) {
 			ShrinkingMagicParticle particle = new ShrinkingMagicParticle(clientWorld, x, y, z, (float) r, (float) g, (float) b);
 			particle.setSpriteForAge(this.spriteProvider);
 			return particle;

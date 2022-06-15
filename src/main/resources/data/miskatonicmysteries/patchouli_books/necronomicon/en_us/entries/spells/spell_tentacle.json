@@ -1,18 +1,18 @@
 {
-  "name": "Summon Tentacle",
-  "category": "miskatonicmysteries:spells",
-  "icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/tentacles.png",
-  "advancement": "miskatonicmysteries:recipes/hidden_knowledge/tentacle_spell",
-  "secret": true,
-  "pages": [
-    {
-      "type": "text",
-      "text": "A popular ensorcell for various reasons, this spell creates a small rift in spacetime, allowing thrashing tendrils of pure energy to rupture forth. They will attack anything that threatens them or their summoner, as well as attack anything that is not of the same affiliations as their caster. Such crude rifts can only last for so long, then the rupture will close and the tentacles with it."
-    },
-    {
-      "type": "spotlight",
-      "item": "miskatonicmysteries:cirrhosus_flesh",
-      "text": "This spell is acquired through the consumption of $(item)Cirrhosus Flesh$()."
-    }
-  ]
+	"name": "Summon Tentacle",
+	"category": "miskatonicmysteries:spells",
+	"icon": "miskatonicmysteries:textures/gui/spell_widgets/effect/tentacles.png",
+	"advancement": "miskatonicmysteries:recipes/hidden_knowledge/tentacle_spell",
+	"secret": true,
+	"pages": [
+		{
+			"type": "text",
+			"text": "A popular ensorcell for various reasons, this spell creates a small rift in spacetime, allowing thrashing tendrils of pure energy to rupture forth. They will attack anything that threatens them or their summoner, as well as attack anything that is not of the same affiliations as their caster. Such crude rifts can only last for so long, then the rupture will close and the tentacles with it."
+		},
+		{
+			"type": "spotlight",
+			"item": "miskatonicmysteries:cirrhosus_flesh",
+			"text": "This spell is acquired through the consumption of $(item)Cirrhosus Flesh$()."
+		}
+	]
 }

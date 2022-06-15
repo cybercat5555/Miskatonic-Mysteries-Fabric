@@ -2,9 +2,10 @@ package com.miskatonicmysteries.common.feature.item;
 
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.List;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -29,6 +30,9 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 
 public class WardingMarkItem extends Item {
@@ -76,7 +80,7 @@ public class WardingMarkItem extends Item {
 				}
 				BlockSoundGroup blockSoundGroup = blockState2.getSoundGroup();
 				world.playSound(playerEntity, blockPos, this.getPlaceSound(blockState2), SoundCategory.BLOCKS,
-					(blockSoundGroup.getVolume() + 1.0F) / 2.0F, blockSoundGroup.getPitch() * 0.8F);
+								(blockSoundGroup.getVolume() + 1.0F) / 2.0F, blockSoundGroup.getPitch() * 0.8F);
 				block.onPlaced(world, blockPos, blockState, playerEntity, itemStack);
 
 				return ActionResult.success(world.isClient);
@@ -110,8 +114,8 @@ public class WardingMarkItem extends Item {
 	public void appendTooltip(ItemStack stack, World world, List<Text> lines, TooltipContext ctx) {
 		super.appendTooltip(stack, world, lines, ctx);
 		lines.add(new TranslatableText("item.%s.%s.tooltip".formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath()))
-			.formatted(Formatting.GRAY));
+					  .formatted(Formatting.GRAY));
 		lines.add(new TranslatableText("tooltip.%s.place_instruction".formatted(Constants.MOD_ID),
-			"§b" + I18n.translate(Items.GLOW_INK_SAC.getTranslationKey()) + "§8").formatted(Formatting.GRAY));
+									   "§b" + I18n.translate(Items.GLOW_INK_SAC.getTranslationKey()) + "§8").formatted(Formatting.GRAY));
 	}
 }

@@ -1,10 +1,10 @@
 {
-  "replace": false,
-  "values": [
-    "miskatonicmysteries:stone_hastur_mural",
-    "miskatonicmysteries:mossy_hastur_mural",
-    "miskatonicmysteries:terracotta_hastur_mural",
-    "miskatonicmysteries:yellow_terracotta_hastur_mural",
-    "miskatonicmysteries:elderian_hastur_mural"
-  ]
+	"replace": false,
+	"values": [
+		"miskatonicmysteries:stone_hastur_mural",
+		"miskatonicmysteries:mossy_hastur_mural",
+		"miskatonicmysteries:terracotta_hastur_mural",
+		"miskatonicmysteries:yellow_terracotta_hastur_mural",
+		"miskatonicmysteries:elderian_hastur_mural"
+	]
 }

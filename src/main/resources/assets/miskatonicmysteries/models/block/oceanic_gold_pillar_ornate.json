@@ -1,7 +1,7 @@
 {
-  "parent": "block/cube_column",
-  "textures": {
-    "end": "miskatonicmysteries:block/oceanic_gold_pillar_top",
-    "side": "miskatonicmysteries:block/oceanic_gold_pillar_ornate"
-  }
+	"parent": "block/cube_column",
+	"textures": {
+		"end": "miskatonicmysteries:block/oceanic_gold_pillar_top",
+		"side": "miskatonicmysteries:block/oceanic_gold_pillar_ornate"
+	}
 }

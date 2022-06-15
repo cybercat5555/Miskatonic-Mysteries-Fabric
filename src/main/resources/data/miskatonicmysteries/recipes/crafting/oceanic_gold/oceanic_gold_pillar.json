@@ -1,16 +1,16 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "G",
-    "G"
-  ],
-  "key": {
-    "G": {
-      "item": "miskatonicmysteries:oceanic_gold_block"
-    }
-  },
-  "result": {
-    "item": "miskatonicmysteries:oceanic_gold_pillar",
-    "count": 2
-  }
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"G",
+		"G"
+	],
+	"key": {
+		"G": {
+			"item": "miskatonicmysteries:oceanic_gold_block"
+		}
+	},
+	"result": {
+		"item": "miskatonicmysteries:oceanic_gold_pillar",
+		"count": 2
+	}
 }

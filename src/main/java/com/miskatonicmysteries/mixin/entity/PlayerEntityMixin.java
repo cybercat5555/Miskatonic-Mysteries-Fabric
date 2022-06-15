@@ -1,15 +1,5 @@
 package com.miskatonicmysteries.mixin.entity;
 
-import static com.miskatonicmysteries.common.util.Constants.DataTrackers.AFFILIATION;
-import static com.miskatonicmysteries.common.util.Constants.DataTrackers.APPARENT_AFFILIATION;
-import static com.miskatonicmysteries.common.util.Constants.DataTrackers.MAX_SPELLS;
-import static com.miskatonicmysteries.common.util.Constants.DataTrackers.POWER_POOL;
-import static com.miskatonicmysteries.common.util.Constants.DataTrackers.RESONANCE;
-import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SANITY;
-import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SANITY_CAP;
-import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SHOCKED;
-import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SPELL_COOLDOWN;
-
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.api.interfaces.Knowledge;
@@ -40,15 +30,10 @@ import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.NbtUtil;
-import com.mojang.authlib.GameProfile;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -64,6 +49,24 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.AFFILIATION;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.APPARENT_AFFILIATION;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.MAX_SPELLS;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.POWER_POOL;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.RESONANCE;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SANITY;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SANITY_CAP;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SHOCKED;
+import static com.miskatonicmysteries.common.util.Constants.DataTrackers.SPELL_COOLDOWN;
+import com.mojang.authlib.GameProfile;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -110,6 +113,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 		}
 	}
 
+	@Shadow
+	public abstract boolean canResetTimeBySleeping();
+
 	@Inject(method = "tick()V", at = @At("TAIL"))
 	private void handleMiskStats(CallbackInfo info) {
 		TindalosHoundEntity.handleSpawning((PlayerEntity) (Object) this);
@@ -140,35 +146,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 	@Shadow
 	public abstract void addExperienceLevels(int levels);
 
-	@Shadow
-	public abstract boolean canResetTimeBySleeping();
-
-	@Shadow
-	public abstract boolean damage(DamageSource source, float amount);
-
-	@Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"), cancellable = true)
-	private void manipulateDamage(DamageSource source, float amount,
-		CallbackInfoReturnable<Boolean> infoReturnable) {
-		MMServerEvents.playerDamagePre((PlayerEntity) (Object) this, source, amount, infoReturnable);
-	}
-
-	@Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("RETURN"), cancellable = true)
-	private void manipulateDeath(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
-		this.dead = MMServerEvents.playerDamageDeath((PlayerEntity) (Object) this, source, amount, infoReturnable);
-	}
-
-	@Inject(method = "initDataTracker()V", at = @At("TAIL"))
-	private void addMiskStats(CallbackInfo info) {
-		dataTracker.startTracking(SANITY, SANITY_CAP);
-		dataTracker.startTracking(SHOCKED, false);
-		dataTracker.startTracking(POWER_POOL, 2);
-		dataTracker.startTracking(SPELL_COOLDOWN, 0);
-		dataTracker.startTracking(MAX_SPELLS, Constants.DataTrackers.MIN_SPELLS);
-		dataTracker.startTracking(AFFILIATION, MMAffiliations.NONE);
-		dataTracker.startTracking(APPARENT_AFFILIATION, MMAffiliations.NONE);
-		dataTracker.startTracking(RESONANCE, 0F);
-	}
-
 	@Override
 	public int getSanity() {
 		return dataTracker.get(SANITY);
@@ -189,15 +166,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 	@Override
 	public void setShocked(boolean shocked) {
 		dataTracker.set(SHOCKED, shocked);
-	}
-
-	@Override
-	public int getMaxSanity() {
-		int mod = 0;
-		for (Integer value : getSanityCapExpansions().values()) {
-			mod += value;
-		}
-		return Constants.DataTrackers.SANITY_CAP + mod;
 	}
 
 	@Override
@@ -229,6 +197,51 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 		if (!world.isClient) {
 			sanityCapOverrides.forEach((s, i) -> ExpandSanityPacket.send((PlayerEntity) (Object) this, s, i));
 		}
+	}
+
+	@Override
+	public int getMaxSanity() {
+		int mod = 0;
+		for (Integer value : getSanityCapExpansions().values()) {
+			mod += value;
+		}
+		return Constants.DataTrackers.SANITY_CAP + mod;
+	}
+
+	@Override
+	public float getResonance() {
+		return dataTracker.get(RESONANCE);
+	}
+
+	@Override
+	public void setResonance(float resonance) {
+		this.dataTracker.set(RESONANCE, resonance);
+	}
+
+	@Shadow
+	public abstract boolean damage(DamageSource source, float amount);
+
+	@Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("HEAD"), cancellable = true)
+	private void manipulateDamage(DamageSource source, float amount,
+								  CallbackInfoReturnable<Boolean> infoReturnable) {
+		MMServerEvents.playerDamagePre((PlayerEntity) (Object) this, source, amount, infoReturnable);
+	}
+
+	@Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("RETURN"), cancellable = true)
+	private void manipulateDeath(DamageSource source, float amount, CallbackInfoReturnable<Boolean> infoReturnable) {
+		this.dead = MMServerEvents.playerDamageDeath((PlayerEntity) (Object) this, source, amount, infoReturnable);
+	}
+
+	@Inject(method = "initDataTracker()V", at = @At("TAIL"))
+	private void addMiskStats(CallbackInfo info) {
+		dataTracker.startTracking(SANITY, SANITY_CAP);
+		dataTracker.startTracking(SHOCKED, false);
+		dataTracker.startTracking(POWER_POOL, 2);
+		dataTracker.startTracking(SPELL_COOLDOWN, 0);
+		dataTracker.startTracking(MAX_SPELLS, Constants.DataTrackers.MIN_SPELLS);
+		dataTracker.startTracking(AFFILIATION, MMAffiliations.NONE);
+		dataTracker.startTracking(APPARENT_AFFILIATION, MMAffiliations.NONE);
+		dataTracker.startTracking(RESONANCE, 0F);
 	}
 
 	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
@@ -263,59 +276,14 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 		compoundTag.put(Constants.NBT.MISK_DATA, tag);
 	}
 
-	@Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-	public void readMiskData(NbtCompound compoundTag, CallbackInfo info) {
-		NbtCompound tag = (NbtCompound) compoundTag.get(Constants.NBT.MISK_DATA);
-		if (tag != null) {
-			setSanity(tag.getInt(Constants.NBT.SANITY), true);
-			setShocked(tag.getBoolean(Constants.NBT.SHOCKED));
-			getSanityCapExpansions().clear();
-			((NbtList) tag.get(Constants.NBT.SANITY_EXPANSIONS))
-				.forEach(s -> sanityCapOverrides.put(((NbtCompound) s).getString("Name"), ((NbtCompound) s).getInt("Amount")));
-			setPowerPool(tag.getInt(Constants.NBT.POWER_POOL));
-			setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
-			setSpellCooldown(tag.getInt(Constants.NBT.SPELL_COOLDOWN));
-			NbtUtil.readSpellData(this, tag);
-
-			setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.AFFILIATION))),
-				false);
-			setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.APPARENT_AFFILIATION))), true);
-
-			setResonance(tag.getFloat(Constants.NBT.RESONANCE));
-
-			NbtList knowledgeList = tag.getList(Constants.NBT.KNOWLEDGE, 8);
-			knowledge.clear();
-			for (NbtElement knowledgeTag : knowledgeList) {
-				knowledge.add(knowledgeTag.asString());
-			}
-
-		}
-	}
-
-
-	@Override
-	public boolean isSupernatural() {
-		return false;
-	}
-
 	@Override
 	public Affiliation getAffiliation(boolean apparent) {
 		return dataTracker.get(apparent ? APPARENT_AFFILIATION : AFFILIATION);
 	}
 
 	@Override
-	public void setAffiliation(Affiliation affiliation, boolean apparent) {
-		dataTracker.set(apparent ? APPARENT_AFFILIATION : AFFILIATION, affiliation);
-	}
-
-	@Override
-	public int getMaxSpells() {
-		return dataTracker.get(MAX_SPELLS);
-	}
-
-	@Override
-	public void setMaxSpells(int amount) {
-		dataTracker.set(MAX_SPELLS, amount);
+	public boolean isSupernatural() {
+		return false;
 	}
 
 	@Override
@@ -329,6 +297,16 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 	}
 
 	@Override
+	public int getMaxSpells() {
+		return dataTracker.get(MAX_SPELLS);
+	}
+
+	@Override
+	public void setMaxSpells(int amount) {
+		dataTracker.set(MAX_SPELLS, amount);
+	}
+
+	@Override
 	public List<Spell> getSpells() {
 		return spells;
 	}
@@ -339,16 +317,16 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 	}
 
 	@Override
-	public Set<SpellMedium> getLearnedMediums() {
-		return learnedMediums;
-	}
-
-	@Override
 	public void learnEffect(SpellEffect effect) {
 		if ((Object) this instanceof ServerPlayerEntity p && !learnedEffects.contains(effect)) {
 			SpellEffectToastPacket.send(p, effect);
 		}
 		learnedEffects.add(effect);
+	}
+
+	@Override
+	public Set<SpellMedium> getLearnedMediums() {
+		return learnedMediums;
 	}
 
 	@Override
@@ -376,19 +354,38 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 		}
 	}
 
-	@Override
-	public float getResonance() {
-		return dataTracker.get(RESONANCE);
+	@Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
+	public void readMiskData(NbtCompound compoundTag, CallbackInfo info) {
+		NbtCompound tag = (NbtCompound) compoundTag.get(Constants.NBT.MISK_DATA);
+		if (tag != null) {
+			setSanity(tag.getInt(Constants.NBT.SANITY), true);
+			setShocked(tag.getBoolean(Constants.NBT.SHOCKED));
+			getSanityCapExpansions().clear();
+			((NbtList) tag.get(Constants.NBT.SANITY_EXPANSIONS))
+				.forEach(s -> sanityCapOverrides.put(((NbtCompound) s).getString("Name"), ((NbtCompound) s).getInt("Amount")));
+			setPowerPool(tag.getInt(Constants.NBT.POWER_POOL));
+			setMaxSpells(tag.getInt(Constants.NBT.MAX_SPELLS));
+			setSpellCooldown(tag.getInt(Constants.NBT.SPELL_COOLDOWN));
+			NbtUtil.readSpellData(this, tag);
+
+			setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.AFFILIATION))),
+						   false);
+			setAffiliation(MMRegistries.AFFILIATIONS.get(new Identifier(tag.getString(Constants.NBT.APPARENT_AFFILIATION))), true);
+
+			setResonance(tag.getFloat(Constants.NBT.RESONANCE));
+
+			NbtList knowledgeList = tag.getList(Constants.NBT.KNOWLEDGE, 8);
+			knowledge.clear();
+			for (NbtElement knowledgeTag : knowledgeList) {
+				knowledge.add(knowledgeTag.asString());
+			}
+
+		}
 	}
 
 	@Override
-	public void setResonance(float resonance) {
-		this.dataTracker.set(RESONANCE, resonance);
-	}
-
-	@Override
-	public boolean hasKnowledge(String knowledge) {
-		return this.knowledge.contains(knowledge);
+	public void setAffiliation(Affiliation affiliation, boolean apparent) {
+		dataTracker.set(apparent ? APPARENT_AFFILIATION : AFFILIATION, affiliation);
 	}
 
 	@Override
@@ -397,15 +394,20 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 	}
 
 	@Override
-	public void syncKnowledge() {
-		if (!world.isClient) {
-			SyncKnowledgePacket.send(this, this);
-		}
+	public boolean hasKnowledge(String knowledge) {
+		return this.knowledge.contains(knowledge);
 	}
 
 	@Override
 	public void clearKnowledge() {
 		knowledge.clear();
+	}
+
+	@Override
+	public void syncKnowledge() {
+		if (!world.isClient) {
+			SyncKnowledgePacket.send(this, this);
+		}
 	}
 
 	@Override

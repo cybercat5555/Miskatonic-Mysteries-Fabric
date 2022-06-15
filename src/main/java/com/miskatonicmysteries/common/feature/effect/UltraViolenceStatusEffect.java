@@ -23,8 +23,9 @@ public class UltraViolenceStatusEffect extends StatusEffect {
 			Vec3d vec3d3 = vec3d.add(vec3d2.x * 4, vec3d2.y * 4, vec3d2.z * 4);
 			double distance = Math.pow(4, 2);
 			EntityHitResult hit = ProjectileUtil.getEntityCollision(entity.world, entity, vec3d, vec3d3,
-				entity.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
-				(target) -> !target.isSpectator() && target.isAttackable());
+																	entity.getBoundingBox().stretch(vec3d2.multiply(distance))
+																		.expand(1.0D, 1.0D, 1.0D),
+																	(target) -> !target.isSpectator() && target.isAttackable());
 			if (hit != null && hit.getEntity() != null) {
 				if (entity instanceof PlayerEntity) {
 					((PlayerEntity) entity).attack(hit.getEntity());

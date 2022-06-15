@@ -12,7 +12,7 @@ import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.Optional;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,6 +20,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.Optional;
 
 public class Spell {
 
@@ -35,7 +37,8 @@ public class Spell {
 
 	public static Spell fromTag(NbtCompound tag) {
 		return tag.isEmpty() ? null : new Spell(MMRegistries.SPELL_MEDIUMS.get(new Identifier(tag.getString(Constants.NBT.SPELL_MEDIUM))),
-			MMRegistries.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))), tag.getInt(Constants.NBT.INTENSITY));
+												MMRegistries.SPELL_EFFECTS.get(new Identifier(tag.getString(Constants.NBT.SPELL_EFFECT))),
+												tag.getInt(Constants.NBT.INTENSITY));
 	}
 
 	public boolean cast(LivingEntity caster) {
@@ -43,7 +46,7 @@ public class Spell {
 
 		if (spellCaster.isPresent()) {
 			caster.world.playSound(caster.getX(), caster.getY(), caster.getZ(), MMSounds.SPELL_SPELL_CAST, SoundCategory.PLAYERS, 0.85F,
-				(float) caster.getRandom().nextGaussian() * 0.2F + 1.0F, true);
+								   (float) caster.getRandom().nextGaussian() * 0.2F + 1.0F, true);
 
 		}
 		if (!caster.world.isClient) {

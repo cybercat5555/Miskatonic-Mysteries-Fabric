@@ -9,7 +9,7 @@ import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.Random;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -20,6 +20,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.world.World;
+
+import java.util.Random;
+
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -39,16 +42,6 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 
 	public LivingEntityMixin(EntityType<?> type, World world) {
 		super(type, world);
-	}
-
-	@Override
-	public boolean hasOverridenDrops() {
-		return overrideDrops;
-	}
-
-	@Override
-	public void setDropOveride(boolean dropOveride) {
-		overrideDrops = dropOveride;
 	}
 
 	@Override
@@ -90,18 +83,8 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 		}
 	}
 
-	@Inject(method = "drop", at = @At("HEAD"), cancellable = true)
-	public void dropLoot(CallbackInfo info) {
-		if (hasOverridenDrops()) {
-			info.cancel();
-		}
-	}
-
 	@Shadow
 	public abstract boolean hasStatusEffect(StatusEffect effect);
-
-	@Shadow
-	public abstract Random getRandom();
 
 	@Shadow
 	public abstract @Nullable StatusEffectInstance getStatusEffect(StatusEffect effect);
@@ -115,6 +98,13 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 	@Shadow
 	public abstract boolean addStatusEffect(StatusEffectInstance effect);
 
+	@Inject(method = "drop", at = @At("HEAD"), cancellable = true)
+	public void dropLoot(CallbackInfo info) {
+		if (hasOverridenDrops()) {
+			info.cancel();
+		}
+	}
+
 	@Inject(method = "heal", at = @At("HEAD"), cancellable = true)
 	private void preventHeal(float amount, CallbackInfo callbackInfo) {
 		if (hasStatusEffect(MMStatusEffects.BLEED) && getRandom()
@@ -122,6 +112,9 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 			callbackInfo.cancel();
 		}
 	}
+
+	@Shadow
+	public abstract Random getRandom();
 
 	@Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
 	private void writeMiscData(NbtCompound compoundTag, CallbackInfo info) {
@@ -137,6 +130,16 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 		Appeasable.of(this).ifPresent(appeasable -> {
 			appeasable.setAppeasedTicks(compoundTag.getInt(Constants.NBT.APPEASE_TICKS));
 		});
+	}
+
+	@Override
+	public void setDropOveride(boolean dropOveride) {
+		overrideDrops = dropOveride;
+	}
+
+	@Override
+	public boolean hasOverridenDrops() {
+		return overrideDrops;
 	}
 
 	@Inject(method = "canTarget(Lnet/minecraft/entity/EntityType;)Z", at = @At("HEAD"), cancellable = true)

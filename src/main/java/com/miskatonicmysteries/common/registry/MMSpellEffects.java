@@ -11,6 +11,7 @@ import com.miskatonicmysteries.common.feature.spell.effect.ManiaSpellEffect;
 import com.miskatonicmysteries.common.feature.spell.effect.PulseSpellEffect;
 import com.miskatonicmysteries.common.feature.spell.effect.ResistanceSpellEffect;
 import com.miskatonicmysteries.common.feature.spell.effect.TentacleSpellEffect;
+
 import net.minecraft.util.registry.Registry;
 
 public class MMSpellEffects {

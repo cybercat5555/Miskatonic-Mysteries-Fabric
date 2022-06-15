@@ -1,24 +1,24 @@
 {
-  "name": "Introduction",
-  "category": "miskatonicmysteries:world",
-  "icon": "miskatonicmysteries:necronomicon",
-  "priority": true,
-  "pages": [
-    {
-      "type": "text",
-      "text": "Welcome reader, to the fine arts of the invisible! This book, filled with the thoughts and experiences of many generations of practitioners, is meant to guide you through this unseen world and let you see beyond it.$(br)As you may have noticed, this book is divided into five categories, each meant to guide you through certain aspects."
-    },
-    {
-      "type": "text",
-      "text": "This category focuses an the basics. You should read each of its entries carefully, as most of this $(m)mod$() builds on it. Additional entries will unlock over time as you collect $(marked)advancements$().$(br2)$(o)Keep in mind that you cannot expect one particularly occult book to convey all knowledge needed. Perhaps you will find out more from a somewhat scientific perspective.$()"
-    },
-    {
-      "type": "text",
-      "text": "Additionally to entries appearing with advancements, some entries may be partially $(marked)obfuscated$(). Here an artistic interpretation of said obfuscation: $(br)$(obfs:;69)jafiagshuaighailglakg aguluasjkgö afgugagaö auögaö öhgalsugf aliagf f agfuaf aöfiahsifhö asgfugf aglfaf$()$(br)Of course, obfuscation does not have to be permanent. You may easily get rid of it by reshaping your mind and widening your understanding of the Great Old Ones."
-    },
-    {
-      "type": "text",
-      "text": "Naturally, this happens through the process of $(ml:world/ascension)ascension$(), so make sure to check some obfuscated entries when having ascended a bit further.$(br)Keep in mind that a lot of knowledge is locked behind affiliation to a Great Old One. Since you can only be affiliated to one Great Old One at a time, you should wisely pick which path to choose."
-    }
-  ]
+	"name": "Introduction",
+	"category": "miskatonicmysteries:world",
+	"icon": "miskatonicmysteries:necronomicon",
+	"priority": true,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Welcome reader, to the fine arts of the invisible! This book, filled with the thoughts and experiences of many generations of practitioners, is meant to guide you through this unseen world and let you see beyond it.$(br)As you may have noticed, this book is divided into five categories, each meant to guide you through certain aspects."
+		},
+		{
+			"type": "text",
+			"text": "This category focuses an the basics. You should read each of its entries carefully, as most of this $(m)mod$() builds on it. Additional entries will unlock over time as you collect $(marked)advancements$().$(br2)$(o)Keep in mind that you cannot expect one particularly occult book to convey all knowledge needed. Perhaps you will find out more from a somewhat scientific perspective.$()"
+		},
+		{
+			"type": "text",
+			"text": "Additionally to entries appearing with advancements, some entries may be partially $(marked)obfuscated$(). Here an artistic interpretation of said obfuscation: $(br)$(obfs:;69)jafiagshuaighailglakg aguluasjkgö afgugagaö auögaö öhgalsugf aliagf f agfuaf aöfiahsifhö asgfugf aglfaf$()$(br)Of course, obfuscation does not have to be permanent. You may easily get rid of it by reshaping your mind and widening your understanding of the Great Old Ones."
+		},
+		{
+			"type": "text",
+			"text": "Naturally, this happens through the process of $(ml:world/ascension)ascension$(), so make sure to check some obfuscated entries when having ascended a bit further.$(br)Keep in mind that a lot of knowledge is locked behind affiliation to a Great Old One. Since you can only be affiliated to one Great Old One at a time, you should wisely pick which path to choose."
+		}
+	]
 }

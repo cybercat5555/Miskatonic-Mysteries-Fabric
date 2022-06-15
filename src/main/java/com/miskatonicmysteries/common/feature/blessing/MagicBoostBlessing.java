@@ -4,6 +4,7 @@ import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 

@@ -3,14 +3,17 @@ package com.miskatonicmysteries.client.gui.widget;
 import com.miskatonicmysteries.client.gui.EditSpellScreen;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.registry.MMRegistries;
-import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
+
+import com.mojang.blaze3d.systems.RenderSystem;
 
 @Environment(EnvType.CLIENT)
 public class CombinedSpellWidget extends ClickableWidget {
@@ -23,26 +26,6 @@ public class CombinedSpellWidget extends ClickableWidget {
 		this.screen = screen;
 		this.index = index;
 	}
-
-	@Override
-	public void onClick(double mouseX, double mouseY) {
-		screen.spells[index] = null;
-		if ((screen.selectedMedium != null && screen.selectedEffect != null && screen.power >= 0)) {
-			screen.spells[index] = new Spell(screen.selectedMedium.medium, MMRegistries.SPELL_EFFECTS.get(screen.selectedEffect.linkedId),
-				screen.power);
-			screen.selectedMedium = null;
-			screen.selectedEffect = null;
-			screen.power = -1;
-		}
-		screen.updateAvailablePower();
-	}
-
-	@Override
-	protected boolean isValidClickButton(int button) {
-		return ((screen.selectedMedium != null && screen.selectedEffect != null && screen.power >= 0) || screen.spells[index] != null)
-			&& super.isValidClickButton(button);
-	}
-
 
 	@Override
 	public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
@@ -69,6 +52,25 @@ public class CombinedSpellWidget extends ClickableWidget {
 			drawTexture(matrices, this.x + 19, this.y + 1, 0, 0, 18, 18, 18, 18);
 		}
 		this.renderBackground(matrices, minecraftClient, mouseX, mouseY);
+	}
+
+	@Override
+	public void onClick(double mouseX, double mouseY) {
+		screen.spells[index] = null;
+		if ((screen.selectedMedium != null && screen.selectedEffect != null && screen.power >= 0)) {
+			screen.spells[index] = new Spell(screen.selectedMedium.medium, MMRegistries.SPELL_EFFECTS.get(screen.selectedEffect.linkedId),
+											 screen.power);
+			screen.selectedMedium = null;
+			screen.selectedEffect = null;
+			screen.power = -1;
+		}
+		screen.updateAvailablePower();
+	}
+
+	@Override
+	protected boolean isValidClickButton(int button) {
+		return ((screen.selectedMedium != null && screen.selectedEffect != null && screen.power >= 0) || screen.spells[index] != null)
+			&& super.isValidClickButton(button);
 	}
 
 	@Override

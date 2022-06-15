@@ -1,10 +1,8 @@
 package com.miskatonicmysteries.client.particle;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import java.util.Random;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.particle.Particle;
@@ -21,6 +19,11 @@ import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
+import java.util.Random;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+
 @Environment(EnvType.CLIENT)
 public class WeirdCubeParticle extends Particle {
 
@@ -35,6 +38,20 @@ public class WeirdCubeParticle extends Particle {
 		this.velocityX = g;
 		this.velocityY = h;
 		this.velocityZ = i;
+	}
+
+	@Override
+	public Particle scale(float scale) {
+		this.scale = scale;
+		return super.scale(scale);
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		yaw += yawGain;
+		pitch += pitchGain;
+		roll += rollGain;
 	}
 
 	@Override
@@ -57,20 +74,6 @@ public class WeirdCubeParticle extends Particle {
 	}
 
 	@Override
-	public void tick() {
-		super.tick();
-		yaw += yawGain;
-		pitch += pitchGain;
-		roll += rollGain;
-	}
-
-	@Override
-	public Particle scale(float scale) {
-		this.scale = scale;
-		return super.scale(scale);
-	}
-
-	@Override
 	public ParticleTextureSheet getType() {
 		return ParticleTextureSheet.CUSTOM;
 	}
@@ -88,7 +91,7 @@ public class WeirdCubeParticle extends Particle {
 	public static class Factory implements ParticleFactory<DefaultParticleType> {
 
 		public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z,
-			double g, double h, double i) {
+									   double g, double h, double i) {
 			WeirdCubeParticle cube = new WeirdCubeParticle(clientWorld, x, y, z, g, h, i);
 			Random random = clientWorld.random;
 			cube.scale(MathHelper.nextFloat(random, 0.5F, 1.2F));

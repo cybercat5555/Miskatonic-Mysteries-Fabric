@@ -1,7 +1,7 @@
 {
-  "variants": {
-    "": {
-      "model": "miskatonicmysteries:block/cthulhu_statue_stone"
-    }
-  }
+	"variants": {
+		"": {
+			"model": "miskatonicmysteries:block/cthulhu_statue_stone"
+		}
+	}
 }

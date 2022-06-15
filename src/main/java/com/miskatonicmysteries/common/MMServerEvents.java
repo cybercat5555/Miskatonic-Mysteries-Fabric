@@ -11,7 +11,6 @@ import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
-import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.feature.world.biome.HasturBiomeEffect;
 import com.miskatonicmysteries.common.feature.world.party.MMPartyState;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
@@ -21,12 +20,13 @@ import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.registry.MMWorld;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.InventoryUtil;
-import dev.onyxstudios.cca.api.v3.entity.PlayerSyncCallback;
+
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+
 import net.minecraft.block.BellBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -42,6 +42,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import dev.onyxstudios.cca.api.v3.entity.PlayerSyncCallback;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 public class MMServerEvents {
@@ -124,12 +126,31 @@ public class MMServerEvents {
 		Knowledge.of(player).ifPresent(Knowledge::syncKnowledge);
 	}
 
+	private static void onStopSleeping(LivingEntity entity, BlockPos sleepingPos) {
+		World world = entity.world;
+		if (!world.isClient && entity instanceof PlayerEntity p && p.canResetTimeBySleeping()) {
+			if (p instanceof BiomeAffected affected && affected.getCurrentBiomeEffect() == MMWorld.HASTUR_BIOME_EFFECT) {
+				HasturBiomeEffect.onWakeUp(p, sleepingPos);
+			}
+			if (world.random.nextFloat() < MiskatonicMysteries.config.entities.statueEffectChance) {
+				Iterable<BlockPos> positions = BlockPos.iterateOutwards(entity.getBlockPos(), 10, 10, 10);
+				for (BlockPos position : positions) {
+					if (world.getBlockState(position).getBlock() instanceof StatueBlock) {
+						((StatueBlock) world.getBlockState(position).getBlock())
+							.selectStatusEffects(p, (Affiliated) p);
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	public static void playerDamagePre(PlayerEntity player, DamageSource source, float amount,
-		CallbackInfoReturnable<Boolean> infoReturnable) {
+									   CallbackInfoReturnable<Boolean> infoReturnable) {
 		if (source
 			.getAttacker() instanceof ProtagonistEntity && !(source instanceof Constants.DamageSources.ProtagonistDamageSource)) {
 			infoReturnable.setReturnValue(player
-				.damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount));
+											  .damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount));
 			return;
 		}
 		if (source.getAttacker() instanceof HallucinationEntity && source != Constants.DamageSources.INSANITY) {
@@ -157,11 +178,11 @@ public class MMServerEvents {
 	}
 
 	public static boolean playerDamageDeath(PlayerEntity player, DamageSource source, float amount,
-		CallbackInfoReturnable<Boolean> infoReturnable) {
+											CallbackInfoReturnable<Boolean> infoReturnable) {
 		if (player.isDead() && !source.isOutOfWorld()) {
 			if (InventoryUtil.getSlotForItemInHotbar(player, MMObjects.RE_AGENT_SYRINGE) >= 0) {
 				player.getInventory().getStack(InventoryUtil.getSlotForItemInHotbar(player,
-					MMObjects.RE_AGENT_SYRINGE)).decrement(1);
+																					MMObjects.RE_AGENT_SYRINGE)).decrement(1);
 				if (LazarusStatusEffect.revive(player)) {
 					infoReturnable.setReturnValue(false);
 					return false;
@@ -175,24 +196,5 @@ public class MMServerEvents {
 			}
 		}
 		return player.isDead();
-	}
-
-	private static void onStopSleeping(LivingEntity entity, BlockPos sleepingPos) {
-		World world = entity.world;
-		if (!world.isClient && entity instanceof PlayerEntity p && p.canResetTimeBySleeping ()) {
-			if (p instanceof BiomeAffected affected && affected.getCurrentBiomeEffect() == MMWorld.HASTUR_BIOME_EFFECT) {
-				HasturBiomeEffect.onWakeUp(p, sleepingPos);
-			}
-			if (world.random.nextFloat() < MiskatonicMysteries.config.entities.statueEffectChance) {
-				Iterable<BlockPos> positions = BlockPos.iterateOutwards(entity.getBlockPos(), 10, 10, 10);
-				for (BlockPos position : positions) {
-					if (world.getBlockState(position).getBlock() instanceof StatueBlock) {
-						((StatueBlock) world.getBlockState(position).getBlock())
-							.selectStatusEffects(p, (Affiliated) p);
-						break;
-					}
-				}
-			}
-		}
 	}
 }

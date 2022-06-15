@@ -8,8 +8,10 @@ import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.model.Model;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
@@ -24,11 +26,11 @@ public class ByakheeSummoningRite extends SummoningRite {
 
 	public ByakheeSummoningRite() {
 		super(new Identifier(Constants.MOD_ID, "summon_byakhee"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.25F, 1,
-			MMEntities.BYAKHEE,
-			Ingredient.ofItems(MMObjects.INCANTATION_YOG), Ingredient.ofItems(Items.PHANTOM_MEMBRANE),
-			Ingredient.ofItems(Items.PHANTOM_MEMBRANE), Ingredient.ofItems(Items.PHANTOM_MEMBRANE),
-			Ingredient.fromTag(Constants.Tags.OCEANIC_GOLD_BLOCKS_ITEM), Ingredient.ofItems(Items.DIAMOND),
-			Ingredient.ofItems(Items.EMERALD), Ingredient.ofItems(Items.ENDER_EYE));
+			  MMEntities.BYAKHEE,
+			  Ingredient.ofItems(MMObjects.INCANTATION_YOG), Ingredient.ofItems(Items.PHANTOM_MEMBRANE),
+			  Ingredient.ofItems(Items.PHANTOM_MEMBRANE), Ingredient.ofItems(Items.PHANTOM_MEMBRANE),
+			  Ingredient.fromTag(Constants.Tags.OCEANIC_GOLD_BLOCKS_ITEM), Ingredient.ofItems(Items.DIAMOND),
+			  Ingredient.ofItems(Items.EMERALD), Ingredient.ofItems(Items.ENDER_EYE));
 	}
 
 	@Override
@@ -38,7 +40,7 @@ public class ByakheeSummoningRite extends SummoningRite {
 		if (!octagram.getFlag(0)) {
 			if (world.isClient) {
 				world.addParticle(MMParticles.DRIPPING_BLOOD, pos.x + world.random.nextGaussian(),
-					pos.y - 0.25F + world.random.nextFloat() * 2, pos.z + world.random.nextGaussian(), 0, 0.1F, 0);
+								  pos.y - 0.25F + world.random.nextFloat() * 2, pos.z + world.random.nextGaussian(), 0, 0.1F, 0);
 			}
 		} else {
 			if (octagram.tickCount == 0) {
@@ -48,7 +50,7 @@ public class ByakheeSummoningRite extends SummoningRite {
 				Vec3d particlePos = pos
 					.add(world.random.nextGaussian() * 2, -0.25F + world.random.nextFloat() * 5, world.random.nextGaussian() * 2);
 				world.addParticle(MMParticles.AMBIENT, particlePos.x, particlePos.y, particlePos.z, 1,
-					0.75 + world.random.nextFloat() * 0.25F, world.random.nextFloat() * 0.1F);
+								  0.75 + world.random.nextFloat() * 0.25F, world.random.nextFloat() * 0.1F);
 			}
 			super.tick(octagram);
 		}

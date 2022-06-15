@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.feature.recipe.instability_event;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.Random;
+
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -11,6 +11,8 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class PotionInstabilityEvent extends InstabilityEvent {
 
@@ -23,7 +25,7 @@ public class PotionInstabilityEvent extends InstabilityEvent {
 		World world = blockEntity.getWorld();
 		Random random = world.getRandom();
 		StatusEffectInstance effect = new StatusEffectInstance(pickStatusEffect(random, instability), (int) (200 + 100 * instability),
-			(int) (instability / 0.5F));
+															   (int) (instability / 0.5F));
 		Vec3d pos = blockEntity.getSummoningPos().add(random.nextGaussian(), -0.2, random.nextGaussian());
 		AreaEffectCloudEntity cloud = new AreaEffectCloudEntity(world, pos.x, pos.y, pos.z);
 		cloud.addEffect(effect);

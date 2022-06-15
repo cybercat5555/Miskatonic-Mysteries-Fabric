@@ -1,11 +1,13 @@
 package com.miskatonicmysteries.mixin.entity;
 
 import com.miskatonicmysteries.api.interfaces.Appeasable;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.WitchEntity;
 import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.world.World;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

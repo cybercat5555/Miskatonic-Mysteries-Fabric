@@ -1,14 +1,15 @@
 package com.miskatonicmysteries.client.render;
 
+import net.minecraft.client.texture.NativeImage;
+import net.minecraft.util.math.MathHelper;
+
+import java.util.stream.Collectors;
+
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
-import net.minecraft.client.texture.NativeImage;
-import net.minecraft.util.math.MathHelper;
-
-import java.util.stream.Collectors;
 
 public class ColorUtil { //blatantly taken from https://github.com/LambdAurora/AurorasDecorations/blob/1.17/src/main/java/dev/lambdaurora/aurorasdeco/util/ColorUtil.java
 
@@ -165,7 +166,9 @@ public class ColorUtil { //blatantly taken from https://github.com/LambdAurora/A
 				int color = palette.getInt(i);
 				float luminance = luminance(color);
 
-				if (MathHelper.abs(luminance - lastLuminance) < 3.1f) continue;
+				if (MathHelper.abs(luminance - lastLuminance) < 3.1f) {
+					continue;
+				}
 
 				lastLuminance = luminance;
 

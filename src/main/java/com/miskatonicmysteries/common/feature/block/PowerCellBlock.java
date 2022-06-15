@@ -1,20 +1,13 @@
 package com.miskatonicmysteries.common.feature.block;
 
-import static net.minecraft.state.property.Properties.EAST;
-import static net.minecraft.state.property.Properties.NORTH;
-import static net.minecraft.state.property.Properties.SOUTH;
-import static net.minecraft.state.property.Properties.WATERLOGGED;
-import static net.minecraft.state.property.Properties.WEST;
-
 import com.miskatonicmysteries.common.feature.block.blockentity.energy.PowerCellBlockEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Util;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -48,6 +41,16 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static net.minecraft.state.property.Properties.EAST;
+import static net.minecraft.state.property.Properties.NORTH;
+import static net.minecraft.state.property.Properties.SOUTH;
+import static net.minecraft.state.property.Properties.WATERLOGGED;
+import static net.minecraft.state.property.Properties.WEST;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
@@ -66,9 +69,9 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 
 	public PowerCellBlock() {
 		super(Settings.of(Material.METAL).strength(2F, 4F).nonOpaque().requiresTool()
-			.allowsSpawning((state, world, pos, type) -> false).solidBlock((state, world, pos) -> false)
-			.suffocates((state, world, pos) -> false)
-			.blockVision((state, world, pos) -> false));
+				  .allowsSpawning((state, world, pos, type) -> false).solidBlock((state, world, pos) -> false)
+				  .suffocates((state, world, pos) -> false)
+				  .blockVision((state, world, pos) -> false));
 		setDefaultState(
 			getStateManager().getDefaultState().with(WATERLOGGED, false).with(FACING, Direction.NORTH).with(NORTH, false).with(EAST, false)
 				.with(SOUTH, false).with(WEST, false));
@@ -85,41 +88,20 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 	}
 
 	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return OUTLINE_SHAPE;
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-		if (stack.hasNbt() && stack.getNbt().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
-			NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
-			if (compoundTag != null && compoundTag.contains(Constants.NBT.ENERGY)) {
-				tooltip.add(Util.createPowerPercentageText(compoundTag.getDouble(Constants.NBT.ENERGY), PowerCellBlockEntity.MAX_STORAGE));
-			}
-		}
-		super.appendTooltip(stack, world, tooltip, options);
-	}
-
-	@Override
-	public boolean hasComparatorOutput(BlockState state) {
+	public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
 		return true;
 	}
 
 	@Override
-	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-		if (world.getBlockEntity(pos) instanceof PowerCellBlockEntity cell) {
-			return (int) (16 * (cell.energyStorage.amount / PowerCellBlockEntity.MAX_STORAGE));
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		final BlockState state = changeConnectionState(this.getDefaultState().with(FACING, ctx.getPlayerFacing()), ctx.getWorld(),
+													   ctx.getBlockPos());
+		if (state.contains(WATERLOGGED)) {
+			final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
+			final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
+			return state.with(WATERLOGGED, source);
 		}
-		return 0;
-	}
-
-	@Override
-	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-		if (!state.isOf(newState.getBlock())) {
-			world.updateComparators(pos, state.getBlock());
-		}
-		super.onStateReplaced(state, world, pos, newState, moved);
+		return state;
 	}
 
 	@Override
@@ -132,16 +114,6 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 		return super.getPickStack(world, pos, state);
 	}
 
-	@Environment(EnvType.CLIENT)
-	public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
-		return 1.0F;
-	}
-
-	@Override
-	public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
-		return true;
-	}
-
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
@@ -149,16 +121,15 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (!world.isClient) {
-			BlockEntity cell = world.getBlockEntity(pos);
-			if (cell instanceof PowerCellBlockEntity) {
-				player.sendMessage(
-					Util.createPowerPercentageText(((PowerCellBlockEntity) cell).energyStorage.amount, PowerCellBlockEntity.MAX_STORAGE),
-					true);
+	@Environment(EnvType.CLIENT)
+	public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+		if (stack.hasNbt() && stack.getNbt().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
+			NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
+			if (compoundTag != null && compoundTag.contains(Constants.NBT.ENERGY)) {
+				tooltip.add(Util.createPowerPercentageText(compoundTag.getDouble(Constants.NBT.ENERGY), PowerCellBlockEntity.MAX_STORAGE));
 			}
 		}
-		return super.onUse(state, world, pos, player, hand, hit);
+		super.appendTooltip(stack, world, tooltip, options);
 	}
 
 	private BlockState changeConnectionState(BlockState state, World world, BlockPos pos) {
@@ -177,20 +148,8 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 	}
 
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		final BlockState state = changeConnectionState(this.getDefaultState().with(FACING, ctx.getPlayerFacing()), ctx.getWorld(),
-			ctx.getBlockPos());
-		if (state.contains(WATERLOGGED)) {
-			final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
-			final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
-			return state.with(WATERLOGGED, source);
-		}
-		return state;
-	}
-
-	@Override
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
-		BlockPos posFrom) {
+												BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
 			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
@@ -199,8 +158,52 @@ public class PowerCellBlock extends HorizontalFacingBlock implements BlockEntity
 	}
 
 	@Override
+	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+		if (!state.isOf(newState.getBlock())) {
+			world.updateComparators(pos, state.getBlock());
+		}
+		super.onStateReplaced(state, world, pos, newState, moved);
+	}
+
+	@Override
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (!world.isClient) {
+			BlockEntity cell = world.getBlockEntity(pos);
+			if (cell instanceof PowerCellBlockEntity) {
+				player.sendMessage(
+					Util.createPowerPercentageText(((PowerCellBlockEntity) cell).energyStorage.amount, PowerCellBlockEntity.MAX_STORAGE),
+					true);
+			}
+		}
+		return super.onUse(state, world, pos, player, hand, hit);
+	}
+
+	@Override
 	public FluidState getFluidState(BlockState state) {
 		return state.contains(WATERLOGGED) && state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+	}
+
+	@Override
+	public boolean hasComparatorOutput(BlockState state) {
+		return true;
+	}
+
+	@Environment(EnvType.CLIENT)
+	public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
+		return 1.0F;
+	}
+
+	@Override
+	public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+		if (world.getBlockEntity(pos) instanceof PowerCellBlockEntity cell) {
+			return (int) (16 * (cell.energyStorage.amount / PowerCellBlockEntity.MAX_STORAGE));
+		}
+		return 0;
+	}
+
+	@Override
+	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+		return OUTLINE_SHAPE;
 	}
 
 	@Override

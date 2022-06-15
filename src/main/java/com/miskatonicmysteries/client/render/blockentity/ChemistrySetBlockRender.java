@@ -1,8 +1,10 @@
 package com.miskatonicmysteries.client.render.blockentity;
 
 import com.miskatonicmysteries.common.feature.block.blockentity.ChemistrySetBlockEntity;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
@@ -24,7 +26,7 @@ public class ChemistrySetBlockRender implements BlockEntityRenderer<ChemistrySet
 
 	@Override
 	public void render(ChemistrySetBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-		int light, int overlay) {
+					   int light, int overlay) {
 		int lightAbove = WorldRenderer.getLightmapCoordinates(entity.getWorld(), entity.getPos().up());
 		int seed = (int) entity.getPos().asLong();
 		matrices.push();
@@ -37,15 +39,15 @@ public class ChemistrySetBlockRender implements BlockEntityRenderer<ChemistrySet
 		matrices.scale(0.3F, 0.3F, 0.3F);
 		MinecraftClient.getInstance().getItemRenderer()
 			.renderItem(entity.getStack(0), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices,
-				vertexConsumers, seed);
+						vertexConsumers, seed);
 		matrices.translate(0.3, 0, 0.3);
 		MinecraftClient.getInstance().getItemRenderer()
 			.renderItem(entity.getStack(1), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices,
-				vertexConsumers, seed);
+						vertexConsumers, seed);
 		matrices.translate(-0.1, 0, -0.1);
 		MinecraftClient.getInstance().getItemRenderer()
 			.renderItem(entity.getStack(2), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices,
-				vertexConsumers, seed);
+						vertexConsumers, seed);
 		matrices.pop();
 		//bottom left
 		matrices.push();
@@ -53,7 +55,7 @@ public class ChemistrySetBlockRender implements BlockEntityRenderer<ChemistrySet
 		matrices.scale(0.3F, 0.3F, 0.3F);
 		MinecraftClient.getInstance().getItemRenderer()
 			.renderItem(entity.getStack(3), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices,
-				vertexConsumers, seed);
+						vertexConsumers, seed);
 		matrices.pop();
 		//top right
 		matrices.push();
@@ -61,7 +63,7 @@ public class ChemistrySetBlockRender implements BlockEntityRenderer<ChemistrySet
 		matrices.scale(0.3F, 0.3F, 0.3F);
 		MinecraftClient.getInstance().getItemRenderer()
 			.renderItem(entity.getStack(4), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices,
-				vertexConsumers, seed);
+						vertexConsumers, seed);
 		matrices.pop();
 		//top left
 		matrices.push();
@@ -69,7 +71,7 @@ public class ChemistrySetBlockRender implements BlockEntityRenderer<ChemistrySet
 		matrices.scale(0.3F, 0.3F, 0.3F);
 		MinecraftClient.getInstance().getItemRenderer()
 			.renderItem(entity.getStack(5), ModelTransformation.Mode.GROUND, lightAbove, OverlayTexture.DEFAULT_UV, matrices,
-				vertexConsumers, seed);
+						vertexConsumers, seed);
 		matrices.pop();
 		matrices.pop();
 

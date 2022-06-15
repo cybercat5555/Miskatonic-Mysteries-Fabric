@@ -5,8 +5,10 @@ import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEnt
 import com.miskatonicmysteries.common.feature.item.IncantationYogItem;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
@@ -26,59 +28,8 @@ public class TeleportRite extends Rite {
 
 	public TeleportRite() {
 		super(new Identifier(Constants.MOD_ID, "teleport"), null, 0, Ingredient.ofItems(MMObjects.INCANTATION_YOG),
-			Ingredient.ofItems(Items.ENDER_PEARL), Ingredient.ofItems(Items.ENDER_EYE), Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
+			  Ingredient.ofItems(Items.ENDER_PEARL), Ingredient.ofItems(Items.ENDER_EYE), Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
 		ticksNeeded = 60;
-	}
-
-	public static OctagramBlockEntity getBoundOctagram(OctagramBlockEntity octagram) {
-		BlockPos octagramPos = octagram.getBoundPos();
-		ServerWorld boundWorld = octagram.getBoundDimension();
-		if (octagramPos != null && boundWorld != null) {
-			BlockEntity be = boundWorld.getBlockEntity(octagramPos);
-			if (be instanceof OctagramBlockEntity) {
-				return (OctagramBlockEntity) be;
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public boolean canCast(OctagramBlockEntity octagram) {
-		if (super.canCast(octagram)) {
-			if (octagram.getWorld().isClient) {
-				return true;
-			}
-			PlayerEntity caster = octagram.getOriginalCaster();
-			ItemStack incantation = octagram.getStack(MMObjects.INCANTATION_YOG);
-			if (!incantation.isEmpty() && IncantationYogItem.getPosition(incantation) != null
-				&& IncantationYogItem.getWorld((ServerWorld) octagram.getWorld(), incantation) != null) {
-				BlockPos octagramPos = IncantationYogItem.getPosition(incantation);
-				ServerWorld boundWorld = IncantationYogItem.getWorld((ServerWorld) octagram.getWorld(), incantation);
-				if (!(boundWorld.getBlockEntity(octagramPos) instanceof OctagramBlockEntity)) {
-					caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_octagram.not_present"), true);
-					return false;
-				}
-				if (octagramPos.equals(octagram.getPos())) {
-					caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_connection.self_reference"), true);
-					return false;
-				}
-				if (((OctagramBlockEntity) boundWorld.getBlockEntity(octagramPos)).getAffiliation(false) != octagram
-					.getAffiliation(false)) {
-					caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_octagram.bad_affiliation"), true);
-					return false;
-				}
-				if (((OctagramBlockEntity) boundWorld.getBlockEntity(octagramPos)).boundPos != null) {
-					caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_octagram.already_bound"), true);
-					return false;
-				}
-
-				return true;
-			} else if (caster != null) {
-				caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_incantation"), true);
-				return false;
-			}
-		}
-		return false;
 	}
 
 	@Override
@@ -86,6 +37,11 @@ public class TeleportRite extends Rite {
 		if (!isFinished(octagram) && !octagram.permanentRiteActive) {
 			super.tick(octagram);
 		}
+	}
+
+	@Override
+	public boolean isFinished(OctagramBlockEntity octagram) {
+		return octagram.tickCount >= ticksNeeded;
 	}
 
 	@Override
@@ -128,14 +84,16 @@ public class TeleportRite extends Rite {
 		super.onCancelled(octagram);
 	}
 
-	@Override
-	public boolean shouldContinue(OctagramBlockEntity octagram) {
-		return super.shouldContinue(octagram);
-	}
-
-	@Override
-	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.tickCount >= ticksNeeded;
+	public static OctagramBlockEntity getBoundOctagram(OctagramBlockEntity octagram) {
+		BlockPos octagramPos = octagram.getBoundPos();
+		ServerWorld boundWorld = octagram.getBoundDimension();
+		if (octagramPos != null && boundWorld != null) {
+			BlockEntity be = boundWorld.getBlockEntity(octagramPos);
+			if (be instanceof OctagramBlockEntity) {
+				return (OctagramBlockEntity) be;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -144,23 +102,67 @@ public class TeleportRite extends Rite {
 	}
 
 	@Override
-	public float getInstabilityBase(OctagramBlockEntity blockEntity) {
-		return 0.05F;
+	public boolean shouldContinue(OctagramBlockEntity octagram) {
+		return super.shouldContinue(octagram);
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
-	public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
-		int light, int overlay, BlockEntityRendererFactory.Context context) {
-		return super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
+	public boolean canCast(OctagramBlockEntity octagram) {
+		if (super.canCast(octagram)) {
+			if (octagram.getWorld().isClient) {
+				return true;
+			}
+			PlayerEntity caster = octagram.getOriginalCaster();
+			ItemStack incantation = octagram.getStack(MMObjects.INCANTATION_YOG);
+			if (!incantation.isEmpty() && IncantationYogItem.getPosition(incantation) != null
+				&& IncantationYogItem.getWorld((ServerWorld) octagram.getWorld(), incantation) != null) {
+				BlockPos octagramPos = IncantationYogItem.getPosition(incantation);
+				ServerWorld boundWorld = IncantationYogItem.getWorld((ServerWorld) octagram.getWorld(), incantation);
+				if (!(boundWorld.getBlockEntity(octagramPos) instanceof OctagramBlockEntity)) {
+					caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_octagram.not_present"), true);
+					return false;
+				}
+				if (octagramPos.equals(octagram.getPos())) {
+					caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_connection.self_reference"), true);
+					return false;
+				}
+				if (((OctagramBlockEntity) boundWorld.getBlockEntity(octagramPos)).getAffiliation(false) != octagram
+					.getAffiliation(false)) {
+					caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_octagram.bad_affiliation"), true);
+					return false;
+				}
+				if (((OctagramBlockEntity) boundWorld.getBlockEntity(octagramPos)).boundPos != null) {
+					caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_octagram.already_bound"), true);
+					return false;
+				}
+
+				return true;
+			} else if (caster != null) {
+				caster.sendMessage(new TranslatableText("message.miskatonicmysteries.invalid_incantation"), true);
+				return false;
+			}
+		}
+		return false;
 	}
 
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
-		int light, int overlay, BlockEntityRendererFactory.Context context) {
+						   int light, int overlay, BlockEntityRendererFactory.Context context) {
 		float alpha = entity.permanentRiteActive ? 1 : entity.tickCount / (float) ticksNeeded;
 		renderPortalOctagram(alpha, entity.getAffiliation(true).getColor(), entity, tickDelta, matrixStack, vertexConsumers, light, overlay,
-			context);
+							 context);
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
+							 int light, int overlay, BlockEntityRendererFactory.Context context) {
+		return super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
+	}
+
+	@Override
+	public float getInstabilityBase(OctagramBlockEntity blockEntity) {
+		return 0.05F;
 	}
 }

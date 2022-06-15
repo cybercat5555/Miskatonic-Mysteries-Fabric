@@ -1,6 +1,6 @@
 {
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "miskatonicmysteries:item/fishy_dagger"
-  }
+	"parent": "item/handheld",
+	"textures": {
+		"layer0": "miskatonicmysteries:item/fishy_dagger"
+	}
 }

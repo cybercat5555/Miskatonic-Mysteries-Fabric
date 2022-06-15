@@ -1,17 +1,17 @@
 {
-  "name": "Burned Veil",
-  "category": "miskatonicmysteries:rites",
-  "icon": "minecraft:blaze_powder",
-  "advancement": "miskatonicmysteries:main/evocation",
-  "pages": [
-    {
-      "type": "text",
-      "text": "A demonic rite used as protection or traps.$(br)By creating a modified form of a warp point held under tension, one can allow burning horrors from the $(marked)Infernal Kingdom$() to enter this reality $(ml:miskatonicmysteries:rites/rite_intro#triggered_rites)$(t:Triggered Rites)once a living being passes nearby the rite$(), or upon simple activation. It will release waves of these demonic monsters to destroy those nearby."
-    },
-    {
-      "type": "miskatonicmysteries:rite",
-      "rite": "miskatonicmysteries:burned_veil",
-      "text": ""
-    }
-  ]
+	"name": "Burned Veil",
+	"category": "miskatonicmysteries:rites",
+	"icon": "minecraft:blaze_powder",
+	"advancement": "miskatonicmysteries:main/evocation",
+	"pages": [
+		{
+			"type": "text",
+			"text": "A demonic rite used as protection or traps.$(br)By creating a modified form of a warp point held under tension, one can allow burning horrors from the $(marked)Infernal Kingdom$() to enter this reality $(ml:miskatonicmysteries:rites/rite_intro#triggered_rites)$(t:Triggered Rites)once a living being passes nearby the rite$(), or upon simple activation. It will release waves of these demonic monsters to destroy those nearby."
+		},
+		{
+			"type": "miskatonicmysteries:rite",
+			"rite": "miskatonicmysteries:burned_veil",
+			"text": ""
+		}
+	]
 }

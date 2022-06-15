@@ -1,15 +1,18 @@
 package com.miskatonicmysteries.client.vision;
 
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.HashMap;
-import java.util.Map;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 public class VisionHandler {
@@ -33,6 +36,10 @@ public class VisionHandler {
 		}
 	}
 
+	public static VisionSequence register(Identifier id, VisionSequence sequence) {
+		return VISIONS.put(id, sequence);
+	}
+
 	public static void setVisionSequence(ClientPlayerEntity player, VisionSequence sequence) {
 		if (sequence == null) {
 			VisionHandler.sequence = null;
@@ -46,10 +53,6 @@ public class VisionHandler {
 
 	public static VisionSequence getCurrentSequence() {
 		return VisionHandler.sequence;
-	}
-
-	public static VisionSequence register(Identifier id, VisionSequence sequence) {
-		return VISIONS.put(id, sequence);
 	}
 
 	public static VisionSequence getSequence(Identifier id) {

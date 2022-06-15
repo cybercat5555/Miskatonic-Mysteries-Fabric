@@ -1,26 +1,26 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "com.miskatonicmysteries.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "mixins": [
-    "client.ClientPlayerEntityMixin",
-    "client.InventoryScreenMixin",
-    "client.LightmapTextureManagerMixin",
-    "client.MobEntityRendererMixin",
-    "client.ParticleManagerMixin",
-    "client.PlayerModelMixin",
-    "client.PlayerSkinTextureAccessor",
-    "client.WorldRendererAccessor",
-    "client.WorldRendererMixin",
-    "client.ClientEntityMixin",
-    "client.BannerBlockEntityClientMixin",
-    "client.BannerItemMixin",
-    "client.BannerBlockEntityRendererMixin",
-    "client.BuiltinModelItemRendererMixin",
-    "client.LoomScreenMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+	"required": true,
+	"minVersion": "0.8",
+	"package": "com.miskatonicmysteries.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [
+		"client.BannerBlockEntityClientMixin",
+		"client.BannerBlockEntityRendererMixin",
+		"client.BannerItemMixin",
+		"client.BuiltinModelItemRendererMixin",
+		"client.ClientEntityMixin",
+		"client.ClientPlayerEntityMixin",
+		"client.InventoryScreenMixin",
+		"client.LightmapTextureManagerMixin",
+		"client.LoomScreenMixin",
+		"client.MobEntityRendererMixin",
+		"client.ParticleManagerMixin",
+		"client.PlayerModelMixin",
+		"client.PlayerSkinTextureAccessor",
+		"client.WorldRendererAccessor",
+		"client.WorldRendererMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
 }

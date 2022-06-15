@@ -1,7 +1,7 @@
 {
-  "parent": "miskatonicmysteries:block/eldritch_altar",
-  "textures": {
-    "all": "miskatonicmysteries:block/nether_brick_altar",
-    "particle": "miskatonicmysteries:block/nether_brick_altar"
-  }
+	"parent": "miskatonicmysteries:block/eldritch_altar",
+	"textures": {
+		"all": "miskatonicmysteries:block/nether_brick_altar",
+		"particle": "miskatonicmysteries:block/nether_brick_altar"
+	}
 }

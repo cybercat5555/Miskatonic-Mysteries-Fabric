@@ -1,7 +1,5 @@
 package com.miskatonicmysteries.common.util;
 
-import java.util.EnumSet;
-import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -25,6 +23,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
+
+import java.util.EnumSet;
+
+import javax.annotation.Nullable;
 
 public class Util {
 
@@ -102,7 +104,7 @@ public class Util {
 
 	@Nullable
 	public static BlockPos getPossibleMobSpawnPos(ServerWorld world, LivingEntity player, int tries, int radius, int zoneRadius,
-		EntityType<?> type) {
+												  EntityType<?> type) {
 		BlockPos.Mutable mutable = new BlockPos.Mutable();
 
 		for (int j = 0; j < tries; ++j) {

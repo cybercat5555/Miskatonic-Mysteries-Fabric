@@ -3,16 +3,10 @@ package com.miskatonicmysteries.common.feature.entity;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
-import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.registry.MMWorld;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Constants.NBT;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
@@ -27,20 +21,22 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -72,12 +68,10 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 	}
 
 	@Override
-	public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
-		@Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
-		if (spawnReason != SpawnReason.MOB_SUMMONED) {
-			summoned = false;
-		}
-		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
+	protected void initGoals() {
+		this.goalSelector.add(0, new SwingAtTargetGoal());
+		this.targetSelector
+			.add(0, new ActiveTargetGoal<>(this, LivingEntity.class, 10, false, false, this::isValidTarget));
 	}
 
 	@Override
@@ -88,70 +82,6 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 		dataTracker.startTracking(BROAD_SWING, false);
 		dataTracker.startTracking(SIZE, 1F);
 		dataTracker.startTracking(IS_SIMPLE, false);
-	}
-
-	@Override
-	protected void initGoals() {
-		this.goalSelector.add(0, new SwingAtTargetGoal());
-		this.targetSelector
-			.add(0, new ActiveTargetGoal<>(this, LivingEntity.class, 10, false, false, this::isValidTarget));
-	}
-
-	protected boolean isValidTarget(LivingEntity target) {
-		if (isSimple()) {
-			return false;
-		}
-		if (getOwnerUUID().isEmpty()) {
-			if (target instanceof TentacleEntity) {
-				return false;
-			}
-			Affiliation affiliation = MiskatonicMysteriesAPI.getNonNullAffiliation(target, true);
-			if ((getAffiliation(false) == MMAffiliations.NONE || affiliation != getAffiliation(false))) {
-				return true;
-			}
-		}else {
-			if (target.getUuid().equals(getOwnerUUID().get())) {
-				if (owner == null) {
-					owner = target;
-				}
-				return false;
-			}
-			if (owner != null && (target.equals(owner.getAttacker()) || owner.equals(target.getAttacker()))) {
-				return true;
-			}
-		}
-		if (getTargetUUID().isPresent() && getTargetUUID().get().equals(target.getUuid())) {
-			return true;
-		}
-		return target instanceof ProtagonistEntity;
-	}
-
-	public void setMaxAge(int maxAge) {
-		this.maxAge = maxAge;
-	}
-
-	@Override
-	public void registerControllers(AnimationData data) {
-		data.addAnimationController(new AnimationController<>(this, "controller", 5, this::animationPredicate));
-	}
-
-	public <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
-		if (handSwinging) {
-			event.getController().setAnimation(new AnimationBuilder()
-				.addAnimation(isBroadSwing() ? "attack_spread" : "attack", false));
-			return PlayState.CONTINUE;
-		}
-		if (isAttacking()) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("alert", true));
-			return PlayState.CONTINUE;
-		}
-		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
-		return PlayState.CONTINUE;
-	}
-
-	@Override
-	public AnimationFactory getFactory() {
-		return this.factory;
 	}
 
 	@Override
@@ -183,13 +113,6 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 	}
 
 	@Override
-	public void move(MovementType type, Vec3d movement) {
-		if (type != MovementType.PLAYER) {
-			super.move(type, movement);
-		}
-	}
-
-	@Override
 	public void tickMovement() {
 		int maxProgress = isBroadSwing() ? 37 : 18;
 		int hitTick = isBroadSwing() ? 15 : 10;
@@ -198,9 +121,9 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 			if (handSwingTicks == hitTick) {
 				if (isSimple()) {
 					List<Entity> targets = world.getOtherEntities(this,
-						getBoundingBox().expand(3, 0, 3),
-						(entity) -> entity instanceof LivingEntity && entity != getOwner() &&
-							(!(entity instanceof TentacleEntity t) || t.getOwner() != getOwner()));
+																  getBoundingBox().expand(3, 0, 3),
+																  (entity) -> entity instanceof LivingEntity && entity != getOwner() &&
+																	  (!(entity instanceof TentacleEntity t) || t.getOwner() != getOwner()));
 					for (Entity target : targets) {
 						if (target.distanceTo(this) <= 3 && isWithinAngle((LivingEntity) target)) {
 							tryAttack(target);
@@ -237,6 +160,22 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 		return Math.abs(targetYaw - headYaw) < (isSimple() ? 100 : (isBroadSwing() ? 60 : 15));
 	}
 
+	public LivingEntity getOwner() {
+		if (owner != null) {
+			return owner;
+		}
+		return getOwnerUUID().isPresent() ? world.getPlayerByUuid(getOwnerUUID().get()) : null;
+	}
+
+	public void setOwner(LivingEntity owner) {
+		dataTracker.set(OWNER, Optional.of(owner.getUuid()));
+	}
+
+	@Override
+	protected boolean isDisallowedInPeaceful() {
+		return getOwnerUUID().isEmpty();
+	}
+
 	@Override
 	protected void mobTick() {
 		if (!isSimple()) {
@@ -255,12 +194,13 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 		}
 	}
 
-	public float getSize() {
-		return dataTracker.get(SIZE);
-	}
-
-	public void setSize(float size) {
-		dataTracker.set(SIZE, size);
+	@Override
+	public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
+										   @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
+		if (spawnReason != SpawnReason.MOB_SUMMONED) {
+			summoned = false;
+		}
+		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 	}
 
 	@Override
@@ -292,28 +232,41 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 		return damage;
 	}
 
-	@Override
-	public void pushAwayFrom(Entity entity) {
-
+	public float getSize() {
+		return dataTracker.get(SIZE);
 	}
 
-	public LivingEntity getOwner() {
-		if (owner != null) {
-			return owner;
+	public void setSize(float size) {
+		dataTracker.set(SIZE, size);
+	}
+
+	protected boolean isValidTarget(LivingEntity target) {
+		if (isSimple()) {
+			return false;
 		}
-		return getOwnerUUID().isPresent() ? world.getPlayerByUuid(getOwnerUUID().get()) : null;
-	}
-
-	public void setOwner(LivingEntity owner) {
-		dataTracker.set(OWNER, Optional.of(owner.getUuid()));
-	}
-
-	public boolean isBroadSwing() {
-		return dataTracker.get(BROAD_SWING);
-	}
-
-	public void setBroadSwing(boolean broadSwing) {
-		this.dataTracker.set(BROAD_SWING, broadSwing);
+		if (getOwnerUUID().isEmpty()) {
+			if (target instanceof TentacleEntity) {
+				return false;
+			}
+			Affiliation affiliation = MiskatonicMysteriesAPI.getNonNullAffiliation(target, true);
+			if ((getAffiliation(false) == MMAffiliations.NONE || affiliation != getAffiliation(false))) {
+				return true;
+			}
+		} else {
+			if (target.getUuid().equals(getOwnerUUID().get())) {
+				if (owner == null) {
+					owner = target;
+				}
+				return false;
+			}
+			if (owner != null && (target.equals(owner.getAttacker()) || owner.equals(target.getAttacker()))) {
+				return true;
+			}
+		}
+		if (getTargetUUID().isPresent() && getTargetUUID().get().equals(target.getUuid())) {
+			return true;
+		}
+		return target instanceof ProtagonistEntity;
 	}
 
 	public Optional<UUID> getOwnerUUID() {
@@ -324,11 +277,6 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 		return dataTracker.get(SPECIFIC_TARGET);
 	}
 
-	public void setSpecificTarget(LivingEntity target) {
-		dataTracker.set(SPECIFIC_TARGET, Optional.of(target.getUuid()));
-	}
-
-
 	public boolean isSimple() {
 		return dataTracker.get(IS_SIMPLE);
 	}
@@ -337,9 +285,56 @@ public abstract class TentacleEntity extends PathAwareEntity implements Affiliat
 		this.dataTracker.set(IS_SIMPLE, simple);
 	}
 
+	public void setMaxAge(int maxAge) {
+		this.maxAge = maxAge;
+	}
+
 	@Override
-	protected boolean isDisallowedInPeaceful() {
-		return getOwnerUUID().isEmpty();
+	public void registerControllers(AnimationData data) {
+		data.addAnimationController(new AnimationController<>(this, "controller", 5, this::animationPredicate));
+	}
+
+	public <P extends IAnimatable> PlayState animationPredicate(AnimationEvent<P> event) {
+		if (handSwinging) {
+			event.getController().setAnimation(new AnimationBuilder()
+												   .addAnimation(isBroadSwing() ? "attack_spread" : "attack", false));
+			return PlayState.CONTINUE;
+		}
+		if (isAttacking()) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("alert", true));
+			return PlayState.CONTINUE;
+		}
+		event.getController().setAnimation(new AnimationBuilder().addAnimation("idle", true));
+		return PlayState.CONTINUE;
+	}
+
+	public boolean isBroadSwing() {
+		return dataTracker.get(BROAD_SWING);
+	}
+
+	public void setBroadSwing(boolean broadSwing) {
+		this.dataTracker.set(BROAD_SWING, broadSwing);
+	}
+
+	@Override
+	public AnimationFactory getFactory() {
+		return this.factory;
+	}
+
+	@Override
+	public void move(MovementType type, Vec3d movement) {
+		if (type != MovementType.PLAYER) {
+			super.move(type, movement);
+		}
+	}
+
+	@Override
+	public void pushAwayFrom(Entity entity) {
+
+	}
+
+	public void setSpecificTarget(LivingEntity target) {
+		dataTracker.set(SPECIFIC_TARGET, Optional.of(target.getUuid()));
 	}
 
 	@Override

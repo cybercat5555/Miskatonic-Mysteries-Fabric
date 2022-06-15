@@ -9,17 +9,33 @@ import net.minecraft.util.collection.DefaultedList;
 
 public interface ImplementedBlockEntityInventory extends Inventory {
 
-	static ImplementedBlockEntityInventory of(DefaultedList<ItemStack> items) {
-		return () -> items;
-	}
-
 	static ImplementedBlockEntityInventory ofSize(int size) {
 		return of(DefaultedList.ofSize(size, ItemStack.EMPTY));
 	}
 
-	DefaultedList<ItemStack> getItems();
+	static ImplementedBlockEntityInventory of(DefaultedList<ItemStack> items) {
+		return () -> items;
+	}
 
+	/**
+	 * Clears {@linkplain #getItems() the item list}}.
+	 */
 	@Override
+	default void clear() {
+		for (int i = 0; i < size(); i++) {
+			setStack(i, ItemStack.EMPTY);
+		}
+		markDirty();
+	}	DefaultedList<ItemStack> getItems();
+
+	default ItemStack getStack(Item item) {
+		for (int i = 0; i < size(); i++) {
+			if (item.equals(getStack(i).getItem())) {
+				return getStack(i);
+			}
+		}
+		return ItemStack.EMPTY;
+	}	@Override
 	default int size() {
 		return getItems().size();
 	}
@@ -78,29 +94,13 @@ public interface ImplementedBlockEntityInventory extends Inventory {
 		markDirty();
 	}
 
-	/**
-	 * Clears {@linkplain #getItems() the item list}}.
-	 */
-	@Override
-	default void clear() {
-		for (int i = 0; i < size(); i++) {
-			setStack(i, ItemStack.EMPTY);
-		}
-		markDirty();
-	}
+
 
 	@Override
 	default boolean canPlayerUse(PlayerEntity player) {
 		return true;
 	}
 
-	default ItemStack getStack(Item item) {
-		for (int i = 0; i < size(); i++) {
-			if (item.equals(getStack(i).getItem())) {
-				return getStack(i);
-			}
-		}
-		return ItemStack.EMPTY;
-	}
+
 
 }

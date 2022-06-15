@@ -2,10 +2,11 @@ package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
-import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.ParticleTextureSheet;
 import net.minecraft.client.render.BufferBuilder;
@@ -18,6 +19,8 @@ import net.minecraft.client.texture.TextureManager;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+
+import com.mojang.blaze3d.systems.RenderSystem;
 import org.lwjgl.opengl.GL11;
 
 public class MMParticles {

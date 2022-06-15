@@ -1,7 +1,5 @@
 package com.miskatonicmysteries.api.block;
 
-import static net.minecraft.state.property.Properties.WATERLOGGED;
-
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.block.blockentity.AltarBlockEntity;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.OpenSpellEditorPacket;
@@ -9,12 +7,10 @@ import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.InventoryUtil;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import javax.annotation.Nullable;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -40,6 +36,13 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+import static net.minecraft.state.property.Properties.WATERLOGGED;
+
 public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, BlockEntityProvider {
 
 	public static VoxelShape SHAPE = createCuboidShape(3, 0, 3, 13, 18, 13);
@@ -51,6 +54,15 @@ public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, 
 		this.spawnParticles = spawnParticles;
 		setDefaultState(getDefaultState().with(FACING, Direction.NORTH));
 		ALTARS.add(this);
+	}
+
+	@Override
+	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
+												BlockPos posFrom) {
+		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
+			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+		}
+		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
 	}
 
 	@Override
@@ -92,36 +104,14 @@ public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, 
 	}
 
 	@Override
+	public FluidState getFluidState(BlockState state) {
+		return state.contains(WATERLOGGED) && state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+	}
+
+	@Override
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return SHAPE;
 	}
-
-	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		final BlockState state = this.getDefaultState().with(FACING, ctx.getPlayerFacing());
-		if (state.contains(WATERLOGGED)) {
-			final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
-			final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
-			return state.with(WATERLOGGED, source);
-		}
-		return state;
-	}
-
-	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		super.appendProperties(builder);
-		builder.add(FACING, WATERLOGGED);
-	}
-
-	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
-		BlockPos posFrom) {
-		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
-			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-		}
-		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
-	}
-
 
 	@Override
 	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
@@ -146,6 +136,23 @@ public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, 
 		super.randomDisplayTick(state, world, pos, random);
 	}
 
+	@Override
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		final BlockState state = this.getDefaultState().with(FACING, ctx.getPlayerFacing());
+		if (state.contains(WATERLOGGED)) {
+			final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
+			final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
+			return state.with(WATERLOGGED, source);
+		}
+		return state;
+	}
+
+	@Override
+	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+		super.appendProperties(builder);
+		builder.add(FACING, WATERLOGGED);
+	}
+
 	@Environment(EnvType.CLIENT)
 	public void generateParticle(World world, BlockPos pos, Direction direction, double xCoord, double yCoord, double zCoord, float size) {
 		//see if I can do GL rotate magic instead lol
@@ -161,12 +168,7 @@ public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, 
 			xCoord = tempZ;
 		}
 		MMParticles.spawnCandleParticle(world, x + (xCoord * Constants.BLOCK_BIT - 0.5) * (reverse ? -mult : mult),
-			y + yCoord * Constants.BLOCK_BIT, z + (zCoord * Constants.BLOCK_BIT - 0.5) * mult, size, false);
-	}
-
-	@Override
-	public FluidState getFluidState(BlockState state) {
-		return state.contains(WATERLOGGED) && state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+										y + yCoord * Constants.BLOCK_BIT, z + (zCoord * Constants.BLOCK_BIT - 0.5) * mult, size, false);
 	}
 
 	@Nullable

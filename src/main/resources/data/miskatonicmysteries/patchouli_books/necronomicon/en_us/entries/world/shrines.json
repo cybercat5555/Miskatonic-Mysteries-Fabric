@@ -1,15 +1,15 @@
 {
-  "name": "Shrines",
-  "category": "miskatonicmysteries:world",
-  "icon": "miskatonicmysteries:stone_hastur_mural",
-  "pages": [
-    {
-      "type": "text",
-      "text": "Dotting the world one may find $(marked)shrines$() dedicated to Great Old Ones. One may find Shrines dedicated to the Goat in the deepest woods, or shrines to the Yellow King in the midst of bustling towns. It is also not uncommon to find congregations of revelers at these shrines, though one must use caution as not all are welcoming.$(br)Most shrines contain $(l:miskatonicmysteries:world/occult_decor)$(item)Idols$() or $(l:miskatonicmysteries:world/occult_decor)$(item)Murals$()."
-    },
-    {
-      "type": "text",
-      "text": "However, more important than the idols are the people that worship them. They may introduce you into the depths of the Great Old Ones, setting the rails for a possible $(ml:world/ascension)ascension$()."
-    }
-  ]
+	"name": "Shrines",
+	"category": "miskatonicmysteries:world",
+	"icon": "miskatonicmysteries:stone_hastur_mural",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Dotting the world one may find $(marked)shrines$() dedicated to Great Old Ones. One may find Shrines dedicated to the Goat in the deepest woods, or shrines to the Yellow King in the midst of bustling towns. It is also not uncommon to find congregations of revelers at these shrines, though one must use caution as not all are welcoming.$(br)Most shrines contain $(l:miskatonicmysteries:world/occult_decor)$(item)Idols$() or $(l:miskatonicmysteries:world/occult_decor)$(item)Murals$()."
+		},
+		{
+			"type": "text",
+			"text": "However, more important than the idols are the people that worship them. They may introduce you into the depths of the Great Old Ones, setting the rails for a possible $(ml:world/ascension)ascension$()."
+		}
+	]
 }

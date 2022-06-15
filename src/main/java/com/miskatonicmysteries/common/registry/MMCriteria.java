@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.registry;
 import com.miskatonicmysteries.common.feature.criterion.KnowledgeCriterion;
 import com.miskatonicmysteries.common.feature.criterion.LevelUpCriterion;
 import com.miskatonicmysteries.common.feature.criterion.RiteCastCriterion;
+
 import net.fabricmc.fabric.api.object.builder.v1.advancement.CriterionRegistry;
 
 public class MMCriteria {

@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.feature.world.biome;
 
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
+
 import net.minecraft.entity.LivingEntity;
 
 public class BiomeEffect implements Affiliated {

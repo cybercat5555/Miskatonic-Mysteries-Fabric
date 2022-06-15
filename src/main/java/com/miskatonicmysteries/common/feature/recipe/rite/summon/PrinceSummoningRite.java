@@ -12,7 +12,7 @@ import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.List;
+
 import net.minecraft.client.model.Model;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
@@ -25,15 +25,17 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class PrinceSummoningRite extends SummoningRite {
 
 	public PrinceSummoningRite() {
 		super(new Identifier(Constants.MOD_ID, "summon_prince"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.75F, 0,
-			MMEntities.TATTERED_PRINCE,
-			//Ingredient.ofItems(MMObjects.INCANTATION_YOG), Ingredient.ofItems(MMObjects.YELLOW_SIGN_LOOM_PATTERN), TODO BANNER
-			Ingredient.ofItems(Items.ANCIENT_DEBRIS), Ingredient.fromTag(Constants.Tags.OCEANIC_GOLD_BLOCKS_ITEM),
-			Ingredient.ofItems(Items.GOLDEN_HELMET), Ingredient.ofItems(Items.DIAMOND),
-			Ingredient.fromTag(Constants.Tags.HASTUR_CULTIST_OFFERINGS), Ingredient.ofItems(MMObjects.ORNATE_DAGGER));
+			  MMEntities.TATTERED_PRINCE,
+			  //Ingredient.ofItems(MMObjects.INCANTATION_YOG), Ingredient.ofItems(MMObjects.YELLOW_SIGN_LOOM_PATTERN), TODO BANNER
+			  Ingredient.ofItems(Items.ANCIENT_DEBRIS), Ingredient.fromTag(Constants.Tags.OCEANIC_GOLD_BLOCKS_ITEM),
+			  Ingredient.ofItems(Items.GOLDEN_HELMET), Ingredient.ofItems(Items.DIAMOND),
+			  Ingredient.fromTag(Constants.Tags.HASTUR_CULTIST_OFFERINGS), Ingredient.ofItems(MMObjects.ORNATE_DAGGER));
 	}
 
 	@Override
@@ -45,7 +47,7 @@ public class PrinceSummoningRite extends SummoningRite {
 				return true;
 			}
 			List serfs = world.getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 10, 10),
-				cultist -> cultist.isLoyalTo(originalCaster));
+												  cultist -> cultist.isLoyalTo(originalCaster));
 			if (serfs.size() < 4) {
 				originalCaster
 					.sendMessage(new TranslatableText("message.miskatonicmysteries.summon_prince_fail.cultists", serfs.size()), true);
@@ -63,7 +65,7 @@ public class PrinceSummoningRite extends SummoningRite {
 		if (!octagram.getFlag(0)) {
 			if (world.isClient) {
 				world.addParticle(MMParticles.DRIPPING_BLOOD, pos.x + world.random.nextGaussian(),
-					pos.y - 0.25F + world.random.nextFloat() * 2, pos.z + world.random.nextGaussian(), 0, 0.1F, 0);
+								  pos.y - 0.25F + world.random.nextFloat() * 2, pos.z + world.random.nextGaussian(), 0, 0.1F, 0);
 			}
 		} else {
 			if (octagram.tickCount == 0) {
@@ -73,13 +75,13 @@ public class PrinceSummoningRite extends SummoningRite {
 				Vec3d particlePos = pos
 					.add(world.random.nextGaussian() * 2, -0.25F + world.random.nextFloat() * 5, world.random.nextGaussian() * 2);
 				world.addParticle(MMParticles.AMBIENT, particlePos.x, particlePos.y, particlePos.z, 1,
-					0.75 + world.random.nextFloat() * 0.25F, world.random.nextFloat() * 0.1F);
+								  0.75 + world.random.nextFloat() * 0.25F, world.random.nextFloat() * 0.1F);
 			}
 			super.tick(octagram);
 		}
 		List<HasturCultistEntity> cultists = octagram.getWorld()
 			.getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 10, 10),
-				cultist -> !cultist.isAttacking());
+								cultist -> !cultist.isAttacking());
 		for (HasturCultistEntity cultist : cultists) {
 			cultist.getNavigation().startMovingTo(pos.x, pos.y, pos.z, 0.8F);
 			if (cultist.getPos().distanceTo(pos) < 5) {
@@ -104,7 +106,7 @@ public class PrinceSummoningRite extends SummoningRite {
 		}
 		List<HasturCultistEntity> cultists = octagram.getWorld()
 			.getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 10, 10),
-				cultist -> !cultist.isAttacking());
+								cultist -> !cultist.isAttacking());
 		for (HasturCultistEntity cultist : cultists) {
 			cultist.getNavigation().startMovingTo(pos.x, pos.y, pos.z, 0.8F);
 			if (cultist.getPos().distanceTo(pos) < 5) {

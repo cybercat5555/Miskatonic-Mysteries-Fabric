@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.client.vision;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.BufferBuilder;
@@ -10,6 +10,8 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
+
+import com.mojang.blaze3d.systems.RenderSystem;
 
 @Environment(EnvType.CLIENT)
 public class HasturManiaVision extends VisionSequence {
@@ -64,7 +66,7 @@ public class HasturManiaVision extends VisionSequence {
 	}
 
 	private void renderDefaultVersion(int width, int height, float backgroundProgress, Tessellator tessellator, BufferBuilder bufferBuilder,
-		MatrixStack matrix, float tickDelta) {
+									  MatrixStack matrix, float tickDelta) {
 		matrix.push();
 		matrix.translate(width / 2F, height / 2F, 0.0);
 		matrix.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(360.0F * (ticks + tickDelta) / 200.0F));
@@ -75,7 +77,7 @@ public class HasturManiaVision extends VisionSequence {
 	}
 
 	private void renderLines(int width, int height, float backgroundProgress, Tessellator tessellator, BufferBuilder bufferBuilder,
-		MatrixStack matrix, float tickDelta) {
+							 MatrixStack matrix, float tickDelta) {
 		float scale = 0.5F;
 		int perRow = (int) (Math.ceil(width / (144 * scale)) + 1);
 		int perColumn = (int) Math.ceil(width / (160 * scale));
@@ -88,7 +90,7 @@ public class HasturManiaVision extends VisionSequence {
 			for (int x = 0; x < perRow; x++) {
 				HasturBlessingVision
 					.drawSign(matrix.peek()
-						.getPositionMatrix(), width, height, backgroundProgress, tessellator, bufferBuilder);
+								  .getPositionMatrix(), width, height, backgroundProgress, tessellator, bufferBuilder);
 				matrix.translate(144, 0, 0);
 			}
 			matrix.pop();
@@ -98,7 +100,7 @@ public class HasturManiaVision extends VisionSequence {
 	}
 
 	private void renderDvdBounce(int width, int height, float backgroundProgress, Tessellator tessellator, BufferBuilder bufferBuilder,
-		MatrixStack matrix, float tickDelta) {
+								 MatrixStack matrix, float tickDelta) {
 		float speed = 2 + ((ticks + tickDelta) / totalLengths[2]) * 4;
 		currentPos[0] += moveRight ? speed : -speed;
 		currentPos[1] += moveUp ? speed : -speed;

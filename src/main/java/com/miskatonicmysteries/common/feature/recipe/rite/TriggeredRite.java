@@ -5,9 +5,10 @@ import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
-import javax.annotation.Nullable;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
@@ -15,12 +16,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 
+import javax.annotation.Nullable;
+
 public abstract class TriggeredRite extends Rite {
 
 	public final int ticksNeeded;
 
 	public TriggeredRite(Identifier id, @Nullable Affiliation octagram, float investigatorChance, int tickCount,
-		Ingredient... ingredients) {
+						 Ingredient... ingredients) {
 		super(id, octagram, investigatorChance, ingredients);
 		ticksNeeded = tickCount;
 	}
@@ -33,11 +36,6 @@ public abstract class TriggeredRite extends Rite {
 			octagram.clear();
 			octagram.markDirty();
 		}
-	}
-
-	public void trigger(OctagramBlockEntity octagram, Entity triggeringEntity) {
-		octagram.triggered = true;
-		octagram.tickCount = ticksNeeded;
 	}
 
 	@Override
@@ -55,21 +53,26 @@ public abstract class TriggeredRite extends Rite {
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
-		int light, int overlay, BlockEntityRendererFactory.Context context) {
-		return !entity.triggered ? 2 : super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
 	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
-		int light, int overlay, BlockEntityRendererFactory.Context context) {
+						   int light, int overlay, BlockEntityRendererFactory.Context context) {
 		if (!entity.triggered) {
 			float alpha = entity.tickCount >= ticksNeeded ? 1 : entity.tickCount / (float) ticksNeeded;
 			matrixStack.translate(0, 0.001F, 0);
 			RenderHelper.renderTexturedPlane(3, ResourceHandler.getOctagramTextureFor(entity).getSprite(), matrixStack,
-				vertexConsumers.getBuffer(RenderHelper.getTransparency()), light, overlay,
-				new float[]{1, 1, 1, Math.max(1 - alpha, 0.15F)});
+											 vertexConsumers.getBuffer(RenderHelper.getTransparency()), light, overlay,
+											 new float[]{1, 1, 1, Math.max(1 - alpha, 0.15F)});
 		}
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
+							 int light, int overlay, BlockEntityRendererFactory.Context context) {
+		return !entity.triggered ? 2 : super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
+	}
+
+	public void trigger(OctagramBlockEntity octagram, Entity triggeringEntity) {
+		octagram.triggered = true;
+		octagram.tickCount = ticksNeeded;
 	}
 }

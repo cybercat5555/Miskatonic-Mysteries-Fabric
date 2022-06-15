@@ -1,35 +1,35 @@
 {
-  "parent": "miskatonicmysteries:science/illegal_chemistry",
-  "display": {
-    "icon": {
-      "item": "miskatonicmysteries:blotter"
-    },
-    "title": {
-      "translate": "advancements.miskatonicmysteries.drugs.title"
-    },
-    "description": {
-      "translate": "advancements.miskatonicmysteries.drugs.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "eat_blot": {
-      "trigger": "minecraft:consume_item",
-      "conditions": {
-        "item": {
-          "items": [
-            "miskatonicmysteries:blotter"
-          ]
-        }
-      }
-    }
-  },
-  "requirements": [
-    [
-      "eat_blot"
-    ]
-  ]
+	"parent": "miskatonicmysteries:science/illegal_chemistry",
+	"display": {
+		"icon": {
+			"item": "miskatonicmysteries:blotter"
+		},
+		"title": {
+			"translate": "advancements.miskatonicmysteries.drugs.title"
+		},
+		"description": {
+			"translate": "advancements.miskatonicmysteries.drugs.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"eat_blot": {
+			"trigger": "minecraft:consume_item",
+			"conditions": {
+				"item": {
+					"items": [
+						"miskatonicmysteries:blotter"
+					]
+				}
+			}
+		}
+	},
+	"requirements": [
+		[
+			"eat_blot"
+		]
+	]
 }

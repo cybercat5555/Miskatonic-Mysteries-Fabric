@@ -1,6 +1,6 @@
 {
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "miskatonicmysteries:block/blackstone_yog_mural"
-  }
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "miskatonicmysteries:block/blackstone_yog_mural"
+	}
 }

@@ -4,11 +4,13 @@ import com.miskatonicmysteries.common.feature.block.blockentity.ChemistrySetBloc
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.common.util.InventoryUtil;
 import com.miskatonicmysteries.common.util.RegistryUtil;
-import java.util.Objects;
+
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.util.registry.Registry;
+
+import java.util.Objects;
 
 public class MMRecipes {
 

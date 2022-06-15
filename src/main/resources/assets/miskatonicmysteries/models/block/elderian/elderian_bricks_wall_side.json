@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:block/template_wall_side",
-  "textures": {
-    "wall": "miskatonicmysteries:block/elderian/elderian_bricks_1"
-  }
+	"parent": "minecraft:block/template_wall_side",
+	"textures": {
+		"wall": "miskatonicmysteries:block/elderian/elderian_bricks_1"
+	}
 }

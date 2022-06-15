@@ -1,19 +1,7 @@
 package com.miskatonicmysteries.common.feature.world;
 
-import static com.miskatonicmysteries.common.util.Constants.NBT.ACTIVE;
-import static com.miskatonicmysteries.common.util.Constants.NBT.IS_CORE;
-import static com.miskatonicmysteries.common.util.Constants.NBT.KNOTS;
-import static com.miskatonicmysteries.common.util.Constants.NBT.KNOT_POS;
-import static com.miskatonicmysteries.common.util.Constants.NBT.RADIUS;
-import static com.miskatonicmysteries.common.util.Constants.NBT.WARDING_MARKS;
-
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
@@ -22,10 +10,29 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static com.miskatonicmysteries.common.util.Constants.NBT.ACTIVE;
+import static com.miskatonicmysteries.common.util.Constants.NBT.IS_CORE;
+import static com.miskatonicmysteries.common.util.Constants.NBT.KNOTS;
+import static com.miskatonicmysteries.common.util.Constants.NBT.KNOT_POS;
+import static com.miskatonicmysteries.common.util.Constants.NBT.RADIUS;
+import static com.miskatonicmysteries.common.util.Constants.NBT.WARDING_MARKS;
+
 public class MMDimensionalWorldState extends PersistentState {
 
 	private final Set<BlockPos> wardingMarks = new HashSet<>();
 	private final Map<BlockPos, BiomeKnot> biomeKnots = new HashMap<>();
+
+	public static MMDimensionalWorldState get(ServerWorld world) {
+		return world.getPersistentStateManager()
+			.getOrCreate(MMDimensionalWorldState::fromNbt, MMDimensionalWorldState::new, Constants.MOD_ID + "_dimensional");
+	}
 
 	public static MMDimensionalWorldState fromNbt(NbtCompound tag) {
 		MMDimensionalWorldState state = new MMDimensionalWorldState();
@@ -43,11 +50,6 @@ public class MMDimensionalWorldState extends PersistentState {
 			}
 		}
 		return state;
-	}
-
-	public static MMDimensionalWorldState get(ServerWorld world) {
-		return world.getPersistentStateManager()
-			.getOrCreate(MMDimensionalWorldState::fromNbt, MMDimensionalWorldState::new, Constants.MOD_ID + "_dimensional");
 	}
 
 	public void addMark(BlockPos markPos) {
@@ -115,6 +117,7 @@ public class MMDimensionalWorldState extends PersistentState {
 	}
 
 	public static class BiomeKnot {
+
 		private final BlockPos pos;
 		private boolean active, core;
 		private int radius;

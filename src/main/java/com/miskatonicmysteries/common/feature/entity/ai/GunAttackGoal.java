@@ -1,12 +1,14 @@
 package com.miskatonicmysteries.common.feature.entity.ai;
 
 import com.miskatonicmysteries.api.item.GunItem;
-import java.util.EnumSet;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+
+import java.util.EnumSet;
 
 public class GunAttackGoal extends Goal {
 

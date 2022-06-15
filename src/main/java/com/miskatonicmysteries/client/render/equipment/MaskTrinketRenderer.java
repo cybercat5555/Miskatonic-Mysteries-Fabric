@@ -1,10 +1,8 @@
 package com.miskatonicmysteries.client.render.equipment;
 
-import dev.emi.trinkets.api.SlotReference;
-import dev.emi.trinkets.api.client.TrinketRenderer;
-import java.util.function.Function;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -18,6 +16,11 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+
+import java.util.function.Function;
+
+import dev.emi.trinkets.api.SlotReference;
+import dev.emi.trinkets.api.client.TrinketRenderer;
 
 @Environment(EnvType.CLIENT)
 public class MaskTrinketRenderer implements TrinketRenderer {
@@ -33,8 +36,8 @@ public class MaskTrinketRenderer implements TrinketRenderer {
 
 	@Override
 	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, MatrixStack matrices,
-		VertexConsumerProvider vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta,
-		float animationProgress, float headYaw, float headPitch) {
+					   VertexConsumerProvider vertexConsumers, int light, LivingEntity entity, float limbAngle, float limbDistance, float tickDelta,
+					   float animationProgress, float headYaw, float headPitch) {
 		if (model == null && MinecraftClient.getInstance().getEntityModelLoader() != null) {
 			model = modelFunction.apply(MinecraftClient.getInstance().getEntityModelLoader());
 		}
@@ -44,7 +47,7 @@ public class MaskTrinketRenderer implements TrinketRenderer {
 		}
 		matrices.translate(0, 0.25, 0.3);
 		model.render(matrices, vertexConsumers.getBuffer(RenderLayer.getEntityCutout(texture)), light, OverlayTexture.DEFAULT_UV, 1, 1, 1,
-			1);
+					 1);
 
 	}
 }

@@ -5,10 +5,10 @@ import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.rite.AscensionLockedRite;
-import com.mojang.blaze3d.systems.RenderSystem;
-import javax.annotation.Nullable;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -27,6 +27,9 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import javax.annotation.Nullable;
+
 public abstract class SummoningRite<T extends Entity> extends AscensionLockedRite {
 
 	protected int tickCount;
@@ -37,10 +40,15 @@ public abstract class SummoningRite<T extends Entity> extends AscensionLockedRit
 	EntityData data;
 
 	public SummoningRite(Identifier id, @Nullable Affiliation octagram, String knowledge, float investigatorChance, int stage,
-		EntityType<T> summon, Ingredient... ingredients) {
+						 EntityType<T> summon, Ingredient... ingredients) {
 		super(id, octagram, knowledge, investigatorChance, stage, ingredients);
 		this.summon = summon;
 		tickCount = 200;
+	}
+
+	@Override
+	public boolean isFinished(OctagramBlockEntity octagram) {
+		return octagram.tickCount >= 200;
 	}
 
 	@Override
@@ -66,7 +74,7 @@ public abstract class SummoningRite<T extends Entity> extends AscensionLockedRit
 
 	@Override
 	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
-		int light, int overlay, BlockEntityRendererFactory.Context context) {
+						   int light, int overlay, BlockEntityRendererFactory.Context context) {
 		super.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
 		if (entity.tickCount > 0) {
 			float alpha = entity.tickCount > 20 ? 1 : entity.tickCount / (float) 20;
@@ -86,9 +94,4 @@ public abstract class SummoningRite<T extends Entity> extends AscensionLockedRit
 
 	@Environment(EnvType.CLIENT)
 	protected abstract Model getRenderedModel(OctagramBlockEntity entity);
-
-	@Override
-	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.tickCount >= 200;
-	}
 }

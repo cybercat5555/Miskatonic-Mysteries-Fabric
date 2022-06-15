@@ -3,8 +3,10 @@ package com.miskatonicmysteries.client.render.entity.feature;
 import com.miskatonicmysteries.client.model.entity.ByakheeEntityModel;
 import com.miskatonicmysteries.common.feature.entity.ByakheeEntity;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
@@ -22,10 +24,10 @@ public class ByakheeDecoFeatureRenderer extends FeatureRenderer<ByakheeEntity, B
 
 	@Override
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ByakheeEntity entity, float limbAngle,
-		float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+					   float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
 		if (entity.isDecorated()) {
 			render(getContextModel(), getContextModel(), getTexture(entity), matrices, vertexConsumers, light, entity, limbAngle,
-				limbDistance, animationProgress, headYaw, headPitch, tickDelta, 1, 1, 1);
+				   limbDistance, animationProgress, headYaw, headPitch, tickDelta, 1, 1, 1);
 		}
 	}
 

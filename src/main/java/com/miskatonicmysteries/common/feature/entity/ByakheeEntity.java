@@ -6,9 +6,10 @@ import com.miskatonicmysteries.common.feature.entity.util.InputAware;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.EnumSet;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -47,6 +48,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.EnumSet;
+
 import org.jetbrains.annotations.Nullable;
 
 public class ByakheeEntity extends TameableEntity implements Saddleable, InputAware, Affiliated {
@@ -74,6 +78,30 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 		this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.targetSelector.add(1, (new RevengeGoal(this)).setGroupRevenge());
+	}
+
+	@Override
+	protected EntityNavigation createNavigation(World world) {
+		return super.createNavigation(world);
+	}
+
+	@Override
+	public int getMaxHeadRotation() {
+		return 10;
+	}
+
+	@Override
+	public boolean canBeControlledByRider() {
+		return getPrimaryPassenger() instanceof LivingEntity && isOwner((LivingEntity) getPrimaryPassenger());
+	}
+
+	@Override
+	public boolean tryAttack(Entity target) {
+		boolean bl = target.damage(DamageSource.mob(this), (float) ((int) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)));
+		if (bl) {
+			this.applyDamageEffects(this, target);
+		}
+		return bl;
 	}
 
 	@Override
@@ -115,18 +143,70 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 		updateSaddle();
 	}
 
-	@Override
-	public boolean tryAttack(Entity target) {
-		boolean bl = target.damage(DamageSource.mob(this), (float) ((int) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)));
-		if (bl) {
-			this.applyDamageEffects(this, target);
+	public void updateSaddle() {
+		if (!world.isClient) {
+			dataTracker.set(SADDLED, !items.getStack(0).isEmpty());
+			dataTracker.set(DECORATED, !items.getStack(1).isEmpty());
 		}
-		return bl;
+	}
+
+	public boolean isGliding() {
+		return dataTracker.get(GLIDING);
+	}
+
+	public void setGliding(boolean gliding) {
+		dataTracker.set(GLIDING, gliding);
+	}
+
+	public boolean bondWithPlayer(PlayerEntity player) {
+		this.setOwnerUuid(player.getUuid());
+		this.setTamed(true);
+		if (player instanceof ServerPlayerEntity) {
+			Criteria.TAME_ANIMAL.trigger((ServerPlayerEntity) player, this);
+		}
+		this.world.sendEntityStatus(this, (byte) 7);
+		return true;
 	}
 
 	@Override
-	public int getMaxHeadRotation() {
-		return 10;
+	public boolean canBeSaddled() {
+		return isTamed();
+	}
+
+	@Override
+	public void saddle(@Nullable SoundCategory sound) {
+		this.items.setStack(0, new ItemStack(Items.SADDLE));
+		if (sound != null) {
+			this.world.playSoundFromEntity(null, this, MMSounds.ENTITY_BYAKHEE_SADDLE, sound, 0.5F, 1.0F);
+		}
+		updateSaddle();
+	}
+
+	@Override
+	public boolean isSaddled() {
+		return dataTracker.get(SADDLED);
+	}
+
+	@Override
+	public void tickMovement() {
+		super.tickMovement();
+		if (headShakeTicks > 0) {
+			headShakeTicks--;
+		}
+		if (!isOnGround()) {
+			if (!world.isClient && ++ticksOffGround > 10) {
+				setGliding(true);
+			}
+		} else {
+			ticksOffGround = 0;
+			setGliding(false);
+		}
+		if (isLogicalSideForUpdatingMovement() && flapTicks > 0) {
+			if (flapTicks > 10) {
+				addVelocity(0, 0.2F, 0);
+			}
+			flapTicks--;
+		}
 	}
 
 	@Override
@@ -164,44 +244,41 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 		this.world.sendEntityStatus(this, (byte) 6);
 	}
 
-	public boolean bondWithPlayer(PlayerEntity player) {
-		this.setOwnerUuid(player.getUuid());
-		this.setTamed(true);
-		if (player instanceof ServerPlayerEntity) {
-			Criteria.TAME_ANIMAL.trigger((ServerPlayerEntity) player, this);
-		}
-		this.world.sendEntityStatus(this, (byte) 7);
-		return true;
-	}
-
-	@Override
-	public boolean canBeSaddled() {
-		return isTamed();
-	}
-
-	@Override
-	public void saddle(@Nullable SoundCategory sound) {
-		this.items.setStack(0, new ItemStack(Items.SADDLE));
-		if (sound != null) {
-			this.world.playSoundFromEntity(null, this, MMSounds.ENTITY_BYAKHEE_SADDLE, sound, 0.5F, 1.0F);
-		}
-		updateSaddle();
-	}
-
-	@Override
-	public boolean isSaddled() {
-		return dataTracker.get(SADDLED);
-	}
-
 	public boolean isDecorated() {
 		return dataTracker.get(DECORATED);
 	}
 
-	public void updateSaddle() {
-		if (!world.isClient) {
-			dataTracker.set(SADDLED, !items.getStack(0).isEmpty());
-			dataTracker.set(DECORATED, !items.getStack(1).isEmpty());
+	protected void putPlayerOnBack(PlayerEntity player) {
+		if (!this.world.isClient) {
+			player.setYaw(getYaw());
+			player.setPitch(getPitch());
+			player.startRiding(this);
 		}
+	}
+
+	@Override
+	public void updatePassengerPosition(Entity passenger) {
+		PositionUpdater updater = Entity::setPosition;
+		float x = MathHelper.sin(this.bodyYaw * 0.017453292F);
+		float z = MathHelper.cos(this.bodyYaw * 0.017453292F);
+		updater.accept(passenger, this.getX() + x * 0.5, this.getY() + this.getMountedHeightOffset() + passenger.getHeightOffset(),
+					   this.getZ() - z * 0.5F);
+	}
+
+	@Override
+	public double getMountedHeightOffset() {
+		return getDimensions(getPose()).height * 0.9F;
+	}
+
+	@Nullable
+	@Override
+	public Entity getPrimaryPassenger() {
+		return this.getPassengerList().isEmpty() ? null : this.getPassengerList().get(0);
+	}
+
+	@Override
+	protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
+
 	}
 
 	@Override
@@ -215,36 +292,6 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 				}
 			}
 
-		}
-	}
-
-	@Override
-	public void tickMovement() {
-		super.tickMovement();
-		if (headShakeTicks > 0) {
-			headShakeTicks--;
-		}
-		if (!isOnGround()) {
-			if (!world.isClient && ++ticksOffGround > 10) {
-				setGliding(true);
-			}
-		} else {
-			ticksOffGround = 0;
-			setGliding(false);
-		}
-		if (isLogicalSideForUpdatingMovement() && flapTicks > 0) {
-			if (flapTicks > 10) {
-				addVelocity(0, 0.2F, 0);
-			}
-			flapTicks--;
-		}
-	}
-
-	protected void putPlayerOnBack(PlayerEntity player) {
-		if (!this.world.isClient) {
-			player.setYaw(getYaw());
-			player.setPitch(getPitch());
-			player.startRiding(this);
 		}
 	}
 
@@ -303,49 +350,6 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 		}
 	}
 
-	@Override
-	public boolean canBeControlledByRider() {
-		return getPrimaryPassenger() instanceof LivingEntity && isOwner((LivingEntity) getPrimaryPassenger());
-	}
-
-	@Override
-	public void updatePassengerPosition(Entity passenger) {
-		PositionUpdater updater = Entity::setPosition;
-		float x = MathHelper.sin(this.bodyYaw * 0.017453292F);
-		float z = MathHelper.cos(this.bodyYaw * 0.017453292F);
-		updater.accept(passenger, this.getX() + x * 0.5, this.getY() + this.getMountedHeightOffset() + passenger.getHeightOffset(),
-			this.getZ() - z * 0.5F);
-	}
-
-	@Override
-	public double getMountedHeightOffset() {
-		return getDimensions(getPose()).height * 0.9F;
-	}
-
-	@Nullable
-	@Override
-	public Entity getPrimaryPassenger() {
-		return this.getPassengerList().isEmpty() ? null : this.getPassengerList().get(0);
-	}
-
-	public boolean isGliding() {
-		return dataTracker.get(GLIDING);
-	}
-
-	public void setGliding(boolean gliding) {
-		dataTracker.set(GLIDING, gliding);
-	}
-
-	@Override
-	protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
-
-	}
-
-	@Override
-	protected EntityNavigation createNavigation(World world) {
-		return super.createNavigation(world);
-	}
-
 	@Nullable
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
@@ -396,12 +400,12 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 			}
 		}
 
-		public void start() {
-			getNavigation().startMovingTo(this.targetX, this.targetY, this.targetZ, 0.6F);
-		}
-
 		public boolean shouldContinue() {
 			return !isTamed() && !getNavigation().isIdle() && hasPassengers();
+		}
+
+		public void start() {
+			getNavigation().startMovingTo(this.targetX, this.targetY, this.targetZ, 0.6F);
 		}
 
 		public void tick() {

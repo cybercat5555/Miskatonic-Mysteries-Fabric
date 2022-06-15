@@ -1,8 +1,10 @@
 package com.miskatonicmysteries.common.feature.entity;
 
 import com.miskatonicmysteries.common.registry.MMEntities;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.command.argument.EntityAnchorArgumentType.EntityAnchor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -13,7 +15,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -25,14 +26,6 @@ public class BoltEntity extends Entity {
 	public float[] color = {1, 0, 0, 1};
 	private int ambientTick;
 
-	public BoltEntity(EntityType<BoltEntity> entityType, World world) {
-		super(entityType, world);
-		this.ignoreCameraFrustum = true;
-		this.ambientTick = 6;
-		this.seed = this.random.nextLong();
-		setLength(10);
-	}
-
 	public BoltEntity(LivingEntity caster, double length, int color) {
 		this(MMEntities.BOLT, caster.world);
 		setYaw(caster.getYaw());
@@ -40,6 +33,14 @@ public class BoltEntity extends Entity {
 		setPos(caster.getX(), caster.getEyeY(), caster.getZ());
 		setLength((float) length);
 		setColor(color);
+	}
+
+	public BoltEntity(EntityType<BoltEntity> entityType, World world) {
+		super(entityType, world);
+		this.ignoreCameraFrustum = true;
+		this.ambientTick = 6;
+		this.seed = this.random.nextLong();
+		setLength(10);
 	}
 
 	public BoltEntity(World world, Vec3d pos, Vec3d direction, int color) {
@@ -88,8 +89,9 @@ public class BoltEntity extends Entity {
 		return distance < d * d;
 	}
 
-	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(this);
+	@Override
+	protected void readCustomDataFromNbt(NbtCompound tag) {
+
 	}
 
 	@Override
@@ -97,9 +99,8 @@ public class BoltEntity extends Entity {
 
 	}
 
-	@Override
-	protected void readCustomDataFromNbt(NbtCompound tag) {
-
+	public Packet<?> createSpawnPacket() {
+		return new EntitySpawnS2CPacket(this);
 	}
 
 }

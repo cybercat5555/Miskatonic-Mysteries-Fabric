@@ -1,14 +1,18 @@
 package com.miskatonicmysteries.mixin.client;
 
-import com.google.common.collect.ImmutableList;
 import com.miskatonicmysteries.common.registry.MMParticles;
-import java.util.List;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.particle.ParticleTextureSheet;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.world.ClientWorld;
+
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;

@@ -4,6 +4,7 @@ import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.registry.InsanityEvent;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
@@ -18,7 +19,7 @@ public class UltraViolenceInsanityEvent extends InsanityEvent {
 	public boolean execute(PlayerEntity playerEntity, Sanity sanity) {
 		if (!playerEntity.world.isClient) {
 			playerEntity.addStatusEffect(new StatusEffectInstance(MMStatusEffects.ULTRA_VIOLENCE, 4800,
-				(Constants.DataTrackers.SANITY_CAP - sanity.getSanity()) / 200, true, true));
+																  (Constants.DataTrackers.SANITY_CAP - sanity.getSanity()) / 200, true, true));
 		}
 		return super.execute(playerEntity, sanity);
 	}

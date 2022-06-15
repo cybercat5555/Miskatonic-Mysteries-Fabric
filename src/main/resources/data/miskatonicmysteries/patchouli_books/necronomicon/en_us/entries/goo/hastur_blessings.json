@@ -1,27 +1,27 @@
 {
-  "name": "The Yellow Blessings",
-  "category": "miskatonicmysteries:great_old_ones",
-  "icon": "miskatonicmysteries:textures/gui/icons/hastur_ascension.png",
-  "advancement": "miskatonicmysteries:hastur/hare_krishna",
-  "pages": [
-    {
-      "type": "text",
-      "text": "Entheators ascending under the $(ml:miskatonicmysteries:goo/hastur)King of Carcosa$() may be granted several $(marked)blessings$() during their journey. Unlike most other blessings, these do not have an exact impact on the body, but they may be noticeable nonetheless."
-    },
-    {
-      "type": "text",
-      "title": "Magic Boost",
-      "text": "This rather universal blessing increases magic capability. The available pool of power during $(ml:spells/spells)spell creation$() is additionally increased, new mediums are unlocked and intensity occasionally heightened."
-    },
-    {
-      "type": "text",
-      "title": "Charming Personality",
-      "text": "When blessed with $(marked)Charming Personality$(), $(marked)Villagers$() won't think bad of you, ever. Additionally, social interaction energizes you."
-    },
-    {
-      "type": "text",
-      "title": "Royal Entourage",
-      "text": "This blessing will force nearby $(ml:bestiary/serfs)Serfs$() to aid you in slaughter, or to protect you. It also grants access to the $(marked)group$() spell medium."
-    }
-  ]
+	"name": "The Yellow Blessings",
+	"category": "miskatonicmysteries:great_old_ones",
+	"icon": "miskatonicmysteries:textures/gui/icons/hastur_ascension.png",
+	"advancement": "miskatonicmysteries:hastur/hare_krishna",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Entheators ascending under the $(ml:miskatonicmysteries:goo/hastur)King of Carcosa$() may be granted several $(marked)blessings$() during their journey. Unlike most other blessings, these do not have an exact impact on the body, but they may be noticeable nonetheless."
+		},
+		{
+			"type": "text",
+			"title": "Magic Boost",
+			"text": "This rather universal blessing increases magic capability. The available pool of power during $(ml:spells/spells)spell creation$() is additionally increased, new mediums are unlocked and intensity occasionally heightened."
+		},
+		{
+			"type": "text",
+			"title": "Charming Personality",
+			"text": "When blessed with $(marked)Charming Personality$(), $(marked)Villagers$() won't think bad of you, ever. Additionally, social interaction energizes you."
+		},
+		{
+			"type": "text",
+			"title": "Royal Entourage",
+			"text": "This blessing will force nearby $(ml:bestiary/serfs)Serfs$() to aid you in slaughter, or to protect you. It also grants access to the $(marked)group$() spell medium."
+		}
+	]
 }

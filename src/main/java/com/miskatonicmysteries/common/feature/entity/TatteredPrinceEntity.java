@@ -18,9 +18,7 @@ import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Util;
-import java.util.EnumSet;
-import java.util.List;
-import javax.annotation.Nullable;
+
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -53,6 +51,11 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+
+import java.util.EnumSet;
+import java.util.List;
+
+import javax.annotation.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -82,28 +85,6 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 	}
 
 	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		dataTracker.startTracking(CASTING_TIME_LEFT, 0);
-		dataTracker.startTracking(BLESSING_TIME, 0);
-	}
-
-	@Override
-	protected ActionResult interactMob(PlayerEntity player, Hand hand) {
-		if (!player.world.isClient && getBlessingTicks() <= 0 && MiskatonicMysteriesAPI
-			.canLevelUp(Ascendant.of(player).get(), Affiliated.of(player).get(), 2, getAffiliation(false))) {
-			Vec3d pos = Util.getYawRelativePos(getPos().add(0, 2, 0), 2.5, getYaw(), 0);
-			Vec3d motionVec = new Vec3d(pos.x - player.getX(), pos.y - player.getY(), pos.z - player.getZ());
-			if (motionVec.length() < 4) {
-				setBlessTarget(player);
-				dataTracker.set(BLESSING_TIME, 0);
-				return ActionResult.SUCCESS;
-			}
-		}
-		return super.interactMob(player, hand);
-	}
-
-	@Override
 	public boolean isInvulnerableTo(DamageSource damageSource) {
 		if (damageSource == DamageSource.OUT_OF_WORLD) {
 			return false;
@@ -112,6 +93,106 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 		} else {
 			return damageSource != DamageSource.MAGIC && damageSource != DamageSource.GENERIC && damageSource.getAttacker() == null;
 		}
+	}
+
+	@Override
+	public void setCustomName(@Nullable Text name) {
+		super.setCustomName(name);
+		bossBar.setName(getDisplayName());
+	}
+
+	@Override
+	public void onStartedTrackingBy(ServerPlayerEntity player) {
+		super.onStartedTrackingBy(player);
+		bossBar.addPlayer(player);
+	}
+
+	@Override
+	public void onStoppedTrackingBy(ServerPlayerEntity player) {
+		super.onStoppedTrackingBy(player);
+		bossBar.removePlayer(player);
+	}
+
+	@Override
+	protected void initGoals() {
+		this.goalSelector.add(0, new LongDoorInteractGoal(this, false));
+		this.goalSelector.add(1, new SwimGoal(this));
+		this.goalSelector.add(2, new BlessGoal());
+		this.goalSelector.add(3, new CastSpellGoal<>(this));
+		this.goalSelector.add(3, new ChokeTargetGoal());
+		this.goalSelector.add(4, new SwingAtTargetGoal());
+		this.goalSelector.add(5, new LookAroundGoal(this));
+		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 12));
+		this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
+		this.targetSelector.add(0, new RevengeGoal(this, TatteredPrinceEntity.class));
+		super.initGoals();
+	}
+
+	@Override
+	protected void initDataTracker() {
+		super.initDataTracker();
+		dataTracker.startTracking(CASTING_TIME_LEFT, 0);
+		dataTracker.startTracking(BLESSING_TIME, 0);
+	}
+
+	@Override
+	public void tick() {
+		if (world.isClient) {
+			if (getBlessingTicks() > 0 && getBlessTarget() != null) {
+				Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, getYaw(), 0);
+				world.addParticle(MMParticles.AMBIENT, pos.x + random.nextGaussian() * 1.5F, pos.y + 2 + random.nextFloat() * 1.5F,
+								  pos.z + random.nextGaussian() * 1.5F, 1, random.nextFloat(), 0);
+			}
+		}
+		super.tick();
+	}
+
+	@Override
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
+		tag.putInt(Constants.NBT.CASTING, getCastTime());
+		if (currentSpell != null) {
+			NbtCompound spell = currentSpell.toTag(new NbtCompound());
+			tag.put(Constants.NBT.SPELL, spell);
+		}
+		//don't save blessing stuff to tag
+	}
+
+	@Override
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
+		if (hasCustomName()) {
+			bossBar.setName(getDisplayName());
+		}
+		if (tag.contains(Constants.NBT.SPELL)) {
+			currentSpell = Spell.fromTag((NbtCompound) tag.get(Constants.NBT.SPELL));
+		}
+		setCastTime(tag.getInt(Constants.NBT.CASTING));
+	}
+
+	@Override
+	public void tickMovement() {
+		int maxProgress = 40;
+		int hitTick = 20;
+		if (this.handSwinging) {
+			++this.handSwingTicks;
+			if (handSwingTicks == hitTick && getTarget() != null) {
+				tryAttack(getTarget());
+			}
+			if (this.handSwingTicks >= maxProgress) {
+				this.handSwingTicks = 0;
+				this.handSwinging = false;
+			}
+		} else {
+			this.handSwingTicks = 0;
+		}
+		this.handSwingProgress = (float) this.handSwingTicks / maxProgress;
+		super.tickMovement();
+	}
+
+	@Override
+	public boolean cannotDespawn() {
+		return true;
 	}
 
 	@Override
@@ -134,65 +215,63 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 		bossBar.setPercent(getHealth() / getMaxHealth());
 	}
 
+	@Nullable
 	@Override
-	public void tick() {
-		if (world.isClient) {
-			if (getBlessingTicks() > 0 && getBlessTarget() != null) {
-				Vec3d pos = Util.getYawRelativePos(getPos(), 2.5, getYaw(), 0);
-				world.addParticle(MMParticles.AMBIENT, pos.x + random.nextGaussian() * 1.5F, pos.y + 2 + random.nextFloat() * 1.5F,
-					pos.z + random.nextGaussian() * 1.5F, 1, random.nextFloat(), 0);
+	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
+								 @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
+		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
+	}
+
+	@Override
+	protected ActionResult interactMob(PlayerEntity player, Hand hand) {
+		if (!player.world.isClient && getBlessingTicks() <= 0 && MiskatonicMysteriesAPI
+			.canLevelUp(Ascendant.of(player).get(), Affiliated.of(player).get(), 2, getAffiliation(false))) {
+			Vec3d pos = Util.getYawRelativePos(getPos().add(0, 2, 0), 2.5, getYaw(), 0);
+			Vec3d motionVec = new Vec3d(pos.x - player.getX(), pos.y - player.getY(), pos.z - player.getZ());
+			if (motionVec.length() < 4) {
+				setBlessTarget(player);
+				dataTracker.set(BLESSING_TIME, 0);
+				return ActionResult.SUCCESS;
 			}
 		}
-		super.tick();
+		return super.interactMob(player, hand);
 	}
 
 	@Override
-	protected void initGoals() {
-		this.goalSelector.add(0, new LongDoorInteractGoal(this, false));
-		this.goalSelector.add(1, new SwimGoal(this));
-		this.goalSelector.add(2, new BlessGoal());
-		this.goalSelector.add(3, new CastSpellGoal<>(this));
-		this.goalSelector.add(3, new ChokeTargetGoal());
-		this.goalSelector.add(4, new SwingAtTargetGoal());
-		this.goalSelector.add(5, new LookAroundGoal(this));
-		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 12));
-		this.goalSelector.add(7, new WanderAroundFarGoal(this, 1.0D));
-		this.targetSelector.add(0, new RevengeGoal(this, TatteredPrinceEntity.class));
-		super.initGoals();
-	}
-
-
-	@Override
-	public boolean isAffectedBySplashPotions() {
+	public boolean canBeLeashedBy(PlayerEntity player) {
 		return false;
 	}
 
+	public int getBlessingTicks() {
+		return dataTracker.get(BLESSING_TIME);
+	}
+
 	@Override
-	public boolean cannotDespawn() {
+	public Affiliation getAffiliation(boolean apparent) {
+		return MMAffiliations.HASTUR;
+	}
+
+	@Override
+	public boolean isSupernatural() {
 		return true;
+	}
+
+	public void decreaseBlessingTicks() {
+		dataTracker.set(BLESSING_TIME, getBlessingTicks() - 1);
+	}
+
+	public @Nullable
+	LivingEntity getBlessTarget() {
+		return blessTarget;
+	}
+
+	public void setBlessTarget(LivingEntity blessTarget) {
+		this.blessTarget = blessTarget;
 	}
 
 	@Override
 	public boolean canSpawn(WorldAccess world, SpawnReason spawnReason) {
 		return world.getEntitiesByClass(TatteredPrinceEntity.class, getBoundingBox().expand(50, 50, 50), null).size() < 1;
-	}
-
-	@Override
-	public void setCustomName(@Nullable Text name) {
-		super.setCustomName(name);
-		bossBar.setName(getDisplayName());
-	}
-
-	@Override
-	public void onStartedTrackingBy(ServerPlayerEntity player) {
-		super.onStartedTrackingBy(player);
-		bossBar.addPlayer(player);
-	}
-
-	@Override
-	public void onStoppedTrackingBy(ServerPlayerEntity player) {
-		super.onStoppedTrackingBy(player);
-		bossBar.removePlayer(player);
 	}
 
 	@Override
@@ -228,73 +307,6 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 		return PlayState.CONTINUE;
 	}
 
-	public <P extends IAnimatable> PlayState movementAnimationPredicate(AnimationEvent<P> event) {
-		float limbSwingAmount = event.getLimbSwingAmount();
-		boolean isMoving = !(limbSwingAmount > -0.4F && limbSwingAmount < 0.4F);
-		if (isMoving) {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking_lower", true));
-			return PlayState.CONTINUE;
-		} else {
-			event.getController().setAnimation(new AnimationBuilder().addAnimation("tentacle_idle", true));
-		}
-		return PlayState.CONTINUE;
-	}
-
-	@Override
-	public boolean canBeLeashedBy(PlayerEntity player) {
-		return false;
-	}
-
-	@Nullable
-	@Override
-	public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
-		@Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
-		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
-	}
-
-	@Override
-	public void tickMovement() {
-		int maxProgress = 40;
-		int hitTick = 20;
-		if (this.handSwinging) {
-			++this.handSwingTicks;
-			if (handSwingTicks == hitTick && getTarget() != null) {
-				tryAttack(getTarget());
-			}
-			if (this.handSwingTicks >= maxProgress) {
-				this.handSwingTicks = 0;
-				this.handSwinging = false;
-			}
-		} else {
-			this.handSwingTicks = 0;
-		}
-		this.handSwingProgress = (float) this.handSwingTicks / maxProgress;
-		super.tickMovement();
-	}
-
-	@Override
-	public void writeCustomDataToNbt(NbtCompound tag) {
-		super.writeCustomDataToNbt(tag);
-		tag.putInt(Constants.NBT.CASTING, getCastTime());
-		if (currentSpell != null) {
-			NbtCompound spell = currentSpell.toTag(new NbtCompound());
-			tag.put(Constants.NBT.SPELL, spell);
-		}
-		//don't save blessing stuff to tag
-	}
-
-	@Override
-	public void readCustomDataFromNbt(NbtCompound tag) {
-		super.readCustomDataFromNbt(tag);
-		if (hasCustomName()) {
-			bossBar.setName(getDisplayName());
-		}
-		if (tag.contains(Constants.NBT.SPELL)) {
-			currentSpell = Spell.fromTag((NbtCompound) tag.get(Constants.NBT.SPELL));
-		}
-		setCastTime(tag.getInt(Constants.NBT.CASTING));
-	}
-
 	@Override
 	public int getCastTime() {
 		return dataTracker.get(CASTING_TIME_LEFT);
@@ -328,55 +340,48 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 		return new Spell(medium, effect, 2 + random.nextInt(3));
 	}
 
-	public @Nullable
-	LivingEntity getBlessTarget() {
-		return blessTarget;
-	}
-
-	public void setBlessTarget(LivingEntity blessTarget) {
-		this.blessTarget = blessTarget;
+	public <P extends IAnimatable> PlayState movementAnimationPredicate(AnimationEvent<P> event) {
+		float limbSwingAmount = event.getLimbSwingAmount();
+		boolean isMoving = !(limbSwingAmount > -0.4F && limbSwingAmount < 0.4F);
+		if (isMoving) {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("walking_lower", true));
+			return PlayState.CONTINUE;
+		} else {
+			event.getController().setAnimation(new AnimationBuilder().addAnimation("tentacle_idle", true));
+		}
+		return PlayState.CONTINUE;
 	}
 
 	public void startBlessing() {
 		dataTracker.set(BLESSING_TIME, 204); //animation time + transition ticks + blessing vision part
 	}
 
-	public void decreaseBlessingTicks() {
-		dataTracker.set(BLESSING_TIME, getBlessingTicks() - 1);
-	}
-
-	public int getBlessingTicks() {
-		return dataTracker.get(BLESSING_TIME);
-	}
-
-	@Override
-	public Affiliation getAffiliation(boolean apparent) {
-		return MMAffiliations.HASTUR;
-	}
-
 	@Override
 	public boolean canTarget(LivingEntity target) {
-		return (target instanceof  PlayerEntity || MiskatonicMysteriesAPI.getNonNullAffiliation(target, true) != MMAffiliations.HASTUR) && super.canTarget(target);
+		return (target instanceof PlayerEntity || MiskatonicMysteriesAPI.getNonNullAffiliation(target, true) != MMAffiliations.HASTUR) && super
+			.canTarget(target);
 	}
 
 	@Override
 	protected void attackLivingEntity(LivingEntity target) {
 		super.attackLivingEntity(target);
 		List<HasturCultistEntity> cultists = world.getEntitiesByClass(HasturCultistEntity.class, getBoundingBox().expand(16, 8, 16),
-			cultist -> !cultist.isAttacking());
+																	  cultist -> !cultist.isAttacking());
 		for (HasturCultistEntity cultist : cultists) {
 			cultist.setTarget(target);
 		}
 	}
 
 	@Override
-	public boolean isSupernatural() {
-		return true;
+	public boolean isAffectedBySplashPotions() {
+		return false;
 	}
 
 	public class ChokeTargetGoal extends Goal {
+
 		private int internalCooldown;
 		private int chokeTimer;
+
 		public ChokeTargetGoal() {
 			setControls(EnumSet.of(Control.TARGET));
 		}
@@ -390,24 +395,24 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 		}
 
 		@Override
-		public void start() {
-			chokeTimer = 100;
-		}
-
-		@Override
 		public boolean shouldContinue() {
 			return chokeTimer > 0 && getTarget() != null;
 		}
 
 		@Override
-		public boolean shouldRunEveryTick() {
-			return true;
+		public void start() {
+			chokeTimer = 100;
 		}
 
 		@Override
 		public void stop() {
 			chokeTimer = 0;
 			internalCooldown = 100;
+		}
+
+		@Override
+		public boolean shouldRunEveryTick() {
+			return true;
 		}
 
 		@Override
@@ -443,23 +448,23 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 		}
 
 		@Override
-		public void start() {
-			startBlessing();
-		}
-
-		@Override
 		public boolean shouldContinue() {
 			return getBlessTarget() != null && getBlessingTicks() > 0;
 		}
 
 		@Override
-		public boolean shouldRunEveryTick() {
-			return true;
+		public void start() {
+			startBlessing();
 		}
 
 		@Override
 		public void stop() {
 			setBlessTarget(null);
+		}
+
+		@Override
+		public boolean shouldRunEveryTick() {
+			return true;
 		}
 
 		@Override

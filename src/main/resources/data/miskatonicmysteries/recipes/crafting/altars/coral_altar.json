@@ -1,26 +1,26 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "CSC",
-    "MGM",
-    "MGM"
-  ],
-  "key": {
-    "S": {
-      "tag": "minecraft:slabs"
-    },
-    "M": {
-      "tag": "minecraft:dead_coral_blocks"
-    },
-    "C": {
-      "item": "minecraft:candle"
-    },
-    "G": {
-      "item": "miskatonicmysteries:oceanic_gold"
-    }
-  },
-  "result": {
-    "item": "miskatonicmysteries:coral_altar",
-    "count": 1
-  }
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"CSC",
+		"MGM",
+		"MGM"
+	],
+	"key": {
+		"S": {
+			"tag": "minecraft:slabs"
+		},
+		"M": {
+			"tag": "minecraft:dead_coral_blocks"
+		},
+		"C": {
+			"item": "minecraft:candle"
+		},
+		"G": {
+			"item": "miskatonicmysteries:oceanic_gold"
+		}
+	},
+	"result": {
+		"item": "miskatonicmysteries:coral_altar",
+		"count": 1
+	}
 }

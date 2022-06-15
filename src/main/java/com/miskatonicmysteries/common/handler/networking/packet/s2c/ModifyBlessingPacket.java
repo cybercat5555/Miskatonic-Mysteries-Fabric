@@ -4,17 +4,20 @@ import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
-import io.netty.buffer.Unpooled;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+
+import io.netty.buffer.Unpooled;
 
 public class ModifyBlessingPacket {
 
@@ -30,7 +33,7 @@ public class ModifyBlessingPacket {
 
 	@Environment(EnvType.CLIENT)
 	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
-		PacketSender sender) {
+							  PacketSender sender) {
 		Blessing blessing = MMRegistries.BLESSINGS.get(new Identifier(packetByteBuf.readString()));
 		boolean add = packetByteBuf.readBoolean();
 		client.execute(() -> Ascendant.of(client.player).ifPresent(ascendant -> {

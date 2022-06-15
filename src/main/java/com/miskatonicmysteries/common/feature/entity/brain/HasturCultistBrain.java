@@ -1,23 +1,25 @@
 package com.miskatonicmysteries.common.feature.entity.brain;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
-import com.miskatonicmysteries.common.feature.entity.ai.task.*;
+import com.miskatonicmysteries.common.feature.entity.ai.task.CastSpellTask;
+import com.miskatonicmysteries.common.feature.entity.ai.task.CrownAscendedCultistTask;
+import com.miskatonicmysteries.common.feature.entity.ai.task.HealthCareTask;
+import com.miskatonicmysteries.common.feature.entity.ai.task.RecruitTask;
+import com.miskatonicmysteries.common.feature.entity.ai.task.TacticalApproachTask;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMBlessings;
 import com.miskatonicmysteries.common.registry.MMEntities;
-import com.mojang.datafixers.util.Pair;
-
-import java.util.List;
-import java.util.Optional;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.*;
+import net.minecraft.entity.ai.brain.Activity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.LivingTargetCache;
+import net.minecraft.entity.ai.brain.MemoryModuleState;
+import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.brain.task.ConditionalTask;
@@ -42,11 +44,20 @@ import net.minecraft.entity.ai.brain.task.VillagerWalkTowardsTask;
 import net.minecraft.entity.ai.brain.task.WakeUpTask;
 import net.minecraft.entity.ai.brain.task.WalkToNearestVisibleWantedItemTask;
 import net.minecraft.entity.ai.brain.task.WanderAroundTask;
-import net.minecraft.entity.mob.*;
+import net.minecraft.entity.mob.AbstractPiglinEntity;
+import net.minecraft.entity.mob.CreeperEntity;
+import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.world.poi.PointOfInterestType;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.mojang.datafixers.util.Pair;
 
 public class HasturCultistBrain {
 
@@ -70,7 +81,7 @@ public class HasturCultistBrain {
 	public static void init(HasturCultistEntity entity, Brain<VillagerEntity> brain) {
 		brain.setTaskList(Activity.CORE, 0, createCoreTasks(entity, 0.65F));
 		brain.setTaskList(Activity.IDLE, VillagerTaskListProvider.createIdleTasks(entity.getVillagerData().getProfession(), 0.65F),
-			ImmutableSet.of(Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT)));
+						  ImmutableSet.of(Pair.of(MemoryModuleType.ATTACK_TARGET, MemoryModuleState.VALUE_ABSENT)));
 		brain.setTaskList(Activity.FIGHT, 10, createFightTasks(entity, 0.65F), MemoryModuleType.ATTACK_TARGET);
 		brain.setTaskList(Activity.MEET, createMeetTasks(0.65F), ImmutableSet
 			.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleState.VALUE_PRESENT),
@@ -127,14 +138,13 @@ public class HasturCultistBrain {
 			.getEntitiesByClass(HasturCultistEntity.class, cultist.getBoundingBox().expand(10, 4, 10), (nearby) -> true);
 	}
 
-	private static Optional<LivingEntity> getAngryAt(AbstractPiglinEntity piglin) {
-		return LookTargetUtil.getEntity(piglin, MemoryModuleType.ANGRY_AT);
-	}
-
 	private static boolean shouldAttack(LivingEntity target) {
 		return EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(target);
 	}
 
+	private static Optional<LivingEntity> getAngryAt(AbstractPiglinEntity piglin) {
+		return LookTargetUtil.getEntity(piglin, MemoryModuleType.ANGRY_AT);
+	}
 
 	private static boolean isAscended(LivingEntity entity) {
 		return entity instanceof HasturCultistEntity && ((HasturCultistEntity) entity).isAscended();
@@ -150,7 +160,8 @@ public class HasturCultistBrain {
 				LivingTargetCache livingTargetCache = brain.getOptionalMemory(MemoryModuleType.VISIBLE_MOBS).orElse(LivingTargetCache.empty());
 				LivingEntity bestTarget = null;
 				for (LivingEntity livingEntity : livingTargetCache.iterate((livingEntityx) -> true)) {
-					if (Ascendant.of(livingEntity).isPresent() && MiskatonicMysteriesAPI.hasBlessing(Ascendant.of(livingEntity).get(), MMBlessings.ROYAL_ENTOURAGE)) {
+					if (Ascendant.of(livingEntity).isPresent() && MiskatonicMysteriesAPI
+						.hasBlessing(Ascendant.of(livingEntity).get(), MMBlessings.ROYAL_ENTOURAGE)) {
 						if (livingEntity.getAttacker() != null) {
 							bestTarget = livingEntity.getAttacker();
 							break;
@@ -158,9 +169,10 @@ public class HasturCultistBrain {
 							bestTarget = livingEntity.getAttacking();
 							break;
 						}
-					}if (MiskatonicMysteriesAPI.getNonNullAffiliation(livingEntity, true) == MMAffiliations.SHUB
-					|| livingEntity instanceof ProtagonistEntity || (livingEntity instanceof Monster
-					&& !(livingEntity instanceof CreeperEntity))) {
+					}
+					if (MiskatonicMysteriesAPI.getNonNullAffiliation(livingEntity, true) == MMAffiliations.SHUB
+						|| livingEntity instanceof ProtagonistEntity || (livingEntity instanceof Monster
+						&& !(livingEntity instanceof CreeperEntity))) {
 						if (bestTarget == null || livingEntity.distanceTo(cultist) < bestTarget.distanceTo(cultist)) {
 							bestTarget = livingEntity;
 						}
@@ -198,7 +210,7 @@ public class HasturCultistBrain {
 			new HealthCareTask(),
 			new WalkToNearestVisibleWantedItemTask(f, false, 4),
 			new FindPointOfInterestTask(MMEntities.HASTUR_POI, MMEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true,
-				Optional.empty()),
+										Optional.empty()),
 			new FindPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14)),
 			new ForgetAttackTargetTask<>((livingEntity) -> !isPreferredAttackTarget(cultist, livingEntity)));
 	}

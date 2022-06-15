@@ -2,8 +2,10 @@ package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.registry.MMEntities;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -31,7 +33,7 @@ public class HallucinationRenderer extends EntityRenderer<HallucinationEntity> {
 
 	@Override
 	public void render(HallucinationEntity entity, float yaw, float tickDelta, MatrixStack matrices,
-		VertexConsumerProvider vertexConsumers, int light) {
+					   VertexConsumerProvider vertexConsumers, int light) {
 		EntityType<?> type = entity.getEntityHallucination();
 		if (type != null && type != MMEntities.HALLUCINATION) {
 			Entity rendererHallucination = type.create(entity.world);

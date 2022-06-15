@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.api.interfaces;
 
 import com.miskatonicmysteries.api.registry.Affiliation;
+
 import java.util.Optional;
 
 public interface MalleableAffiliated extends Affiliated {

@@ -2,6 +2,7 @@ package com.miskatonicmysteries.api.interfaces;
 
 import net.minecraft.util.collection.IndexedIterable;
 import net.minecraft.world.biome.Biome;
+
 import org.jetbrains.annotations.Nullable;
 
 public interface BiomeMask {

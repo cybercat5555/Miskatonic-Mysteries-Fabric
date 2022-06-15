@@ -5,14 +5,17 @@ import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.util.Constants;
-import com.mojang.blaze3d.systems.RenderSystem;
-import java.util.Optional;
-import java.util.function.UnaryOperator;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+
+import java.util.Optional;
+import java.util.function.UnaryOperator;
+
+import com.mojang.blaze3d.systems.RenderSystem;
 import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;

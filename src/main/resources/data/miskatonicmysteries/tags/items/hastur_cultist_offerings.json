@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "values": [
-    "#miskatonicmysteries:hastur_statues"
-  ]
+	"replace": false,
+	"values": [
+		"#miskatonicmysteries:hastur_statues"
+	]
 }

@@ -5,13 +5,15 @@ import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.entity.GenericTentacleEntity;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.util.Constants;
-import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class TentacleSpellEffect extends SpellEffect {
 
@@ -21,14 +23,14 @@ public class TentacleSpellEffect extends SpellEffect {
 
 	@Override
 	public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity,
-		@Nullable Entity secondaryMedium) {
+						  @Nullable Entity secondaryMedium) {
 		if (pos != null) {
 			boolean flag = false;
 			if (!world.isClient) {
 				for (int i = 0; i < (intensity + 1); i++) {
 					GenericTentacleEntity tentacle = MMEntities.GENERIC_TENTACLE.create(world);
 					tentacle.refreshPositionAndAngles(pos.x + world.random.nextGaussian(), pos.y, pos.z + world.random.nextGaussian(),
-						caster.getRandom().nextInt(360), 0);
+													  caster.getRandom().nextInt(360), 0);
 					tentacle.setMaxAge(200 + caster.getRandom().nextInt(80) + intensity * 100);
 					if (target instanceof LivingEntity && (target != caster || (target instanceof TameableEntity
 						&& ((TameableEntity) target).getOwner() != caster))) {

@@ -7,6 +7,7 @@ import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Util;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
@@ -19,6 +20,7 @@ import net.minecraft.util.UseAction;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -57,8 +59,9 @@ public abstract class ItemMixin {
 					Vec3d vec3d2 = user.getRotationVec(1);
 					Vec3d vec3d3 = vec3d.add(vec3d2.x * distance, vec3d2.y * distance, vec3d2.z * distance);
 					EntityHitResult hit = ProjectileUtil.getEntityCollision(world, user, vec3d, vec3d3,
-						user.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
-						(target) -> !target.isSpectator() && target.collides());
+																			user.getBoundingBox().stretch(vec3d2.multiply(distance))
+																				.expand(1.0D, 1.0D, 1.0D),
+																			(target) -> !target.isSpectator() && target.collides());
 					if (hit != null && hit.getEntity() instanceof LivingEntity && ((LivingEntity) hit.getEntity()).canSee(user)
 						&& !MiskatonicMysteriesAPI.isImmuneToYellowSign((LivingEntity) hit.getEntity())) {
 						LivingEntity target = (LivingEntity) hit.getEntity();

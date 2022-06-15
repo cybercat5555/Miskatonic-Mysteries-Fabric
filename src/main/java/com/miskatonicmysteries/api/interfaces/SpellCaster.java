@@ -3,6 +3,7 @@ package com.miskatonicmysteries.api.interfaces;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.spell.Spell;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

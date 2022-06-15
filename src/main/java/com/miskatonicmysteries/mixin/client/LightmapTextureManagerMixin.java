@@ -1,11 +1,14 @@
 package com.miskatonicmysteries.mixin.client;
 
 import com.miskatonicmysteries.client.render.ShaderHandler;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

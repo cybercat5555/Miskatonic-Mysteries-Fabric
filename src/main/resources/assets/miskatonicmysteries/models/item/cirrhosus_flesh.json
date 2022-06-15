@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "miskatonicmysteries:item/cirrhosus_flesh"
-  }
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "miskatonicmysteries:item/cirrhosus_flesh"
+	}
 }

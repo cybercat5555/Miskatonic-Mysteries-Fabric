@@ -1,10 +1,12 @@
 package com.miskatonicmysteries.common.feature.entity.ai;
 
 import com.miskatonicmysteries.common.feature.entity.util.CastingMob;
-import java.util.EnumSet;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.PathAwareEntity;
+
+import java.util.EnumSet;
 
 public class CastSpellGoal<T extends PathAwareEntity & CastingMob> extends Goal {
 

@@ -4,8 +4,10 @@ import com.miskatonicmysteries.client.model.MMModels;
 import com.miskatonicmysteries.client.model.entity.HarrowEntityModel;
 import com.miskatonicmysteries.common.feature.entity.HarrowEntity;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -22,6 +24,11 @@ public class HarrowEntityRenderer extends MobEntityRenderer<HarrowEntity, Harrow
 		super(context, new HarrowEntityModel(context.getPart(MMModels.HARROW)), 0F);
 	}
 
+	@Override
+	protected void setupTransforms(HarrowEntity entity, MatrixStack matrices, float animationProgress, float bodyYaw, float tickDelta) {
+		matrices.translate(0, -0.25F, 0);
+		super.setupTransforms(entity, matrices, animationProgress, bodyYaw, tickDelta);
+	}
 
 	@Override
 	protected void scale(HarrowEntity entity, MatrixStack matrices, float amount) {
@@ -34,12 +41,6 @@ public class HarrowEntityRenderer extends MobEntityRenderer<HarrowEntity, Harrow
 			}
 		}
 		matrices.scale(scale, scale, scale);
-	}
-
-	@Override
-	protected void setupTransforms(HarrowEntity entity, MatrixStack matrices, float animationProgress, float bodyYaw, float tickDelta) {
-		matrices.translate(0, -0.25F, 0);
-		super.setupTransforms(entity, matrices, animationProgress, bodyYaw, tickDelta);
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.feature.recipe.instability_event;
 
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.Random;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.util.Identifier;
@@ -10,6 +10,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
+
+import java.util.Random;
 
 public class EntropyInstabilityEvent extends InstabilityEvent {
 
@@ -31,7 +33,7 @@ public class EntropyInstabilityEvent extends InstabilityEvent {
 			Vec3d pos = blockEntity.getSummoningPos()
 				.add(random.nextGaussian(), random.nextGaussian(), random.nextGaussian());
 			world.createExplosion(null, pos.x, pos.y, pos.z, 2 * instability, random.nextFloat() < instability,
-				instability > 0.9 ? Explosion.DestructionType.BREAK : Explosion.DestructionType.NONE);
+								  instability > 0.9 ? Explosion.DestructionType.BREAK : Explosion.DestructionType.NONE);
 			return instability > 0.6F && random.nextFloat() < instability - 0.6F;
 		}
 	}

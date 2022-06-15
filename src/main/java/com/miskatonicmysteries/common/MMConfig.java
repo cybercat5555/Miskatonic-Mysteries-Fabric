@@ -1,11 +1,13 @@
 package com.miskatonicmysteries.common;
 
 import com.miskatonicmysteries.common.util.Constants;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 @Config(name = Constants.MOD_ID)
 public class MMConfig implements ConfigData {
@@ -99,7 +101,7 @@ public class MMConfig implements ConfigData {
 	public static class Client {
 
 		public boolean useShaders = true;
-		
+
 		public boolean forceChunkColorUpdates = true;
 
 		@ConfigEntry.Gui.CollapsibleObject

@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.feature.entity;
 import com.miskatonicmysteries.api.interfaces.Resonating;
 import com.miskatonicmysteries.common.feature.entity.ai.FloatyWanderAroundGoal;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -25,6 +26,7 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -52,6 +54,37 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
 	}
 
 	@Override
+	protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
+
+	}
+
+	@Override
+	protected void initGoals() {
+		this.goalSelector.add(0, new EscapeDangerGoal(this, 1.5D));
+		this.goalSelector.add(1, new FloatyWanderAroundGoal(this, 100));
+		this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+		super.initGoals();
+	}
+
+	@Override
+	protected EntityNavigation createNavigation(World world) {
+		BirdNavigation flightNavigation = new BirdNavigation(this, world) {
+			public boolean isValidPosition(BlockPos pos) {
+				return true;
+			}
+		};
+		flightNavigation.setCanSwim(false);
+		return flightNavigation;
+	}
+
+	@Override
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(RESONANCE, 0F);
+		this.dataTracker.startTracking(VARIATION, 0);
+	}
+
+	@Override
 	public void tick() {
 		noClip = true;
 		super.tick();
@@ -66,13 +99,22 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
 	}
 
 	@Override
-	protected void fall(double heightDifference, boolean onGround, BlockState landedState, BlockPos landedPosition) {
+	public void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
+		tag.putFloat(Constants.NBT.RESONANCE, getResonance());
+		tag.putInt(Constants.NBT.VARIANT, getVariation());
+	}
 
+	@Override
+	public void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
+		setResonance(tag.getFloat(Constants.NBT.RESONANCE));
+		dataTracker.set(VARIATION, MathHelper.clamp(tag.getInt(Constants.NBT.VARIANT), 0, getMaxVariants() - 1));
 	}
 
 	@Override
 	public @Nullable EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason,
-		@Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
+										   @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
 		setResonance(Math.max(world.getRandom().nextFloat(), 0.2F));
 		dataTracker.set(VARIATION, world.getRandom().nextInt(getMaxVariants()));
 		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
@@ -82,12 +124,18 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
 		return 3;
 	}
 
+	public int getVariation() {
+		return dataTracker.get(VARIATION);
+	}
+
 	@Override
-	protected void initGoals() {
-		this.goalSelector.add(0, new EscapeDangerGoal(this, 1.5D));
-		this.goalSelector.add(1, new FloatyWanderAroundGoal(this, 100));
-		this.goalSelector.add(2, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-		super.initGoals();
+	public float getResonance() {
+		return dataTracker.get(RESONANCE);
+	}
+
+	@Override
+	public void setResonance(float resonance) {
+		dataTracker.set(RESONANCE, resonance);
 	}
 
 	@Override
@@ -106,57 +154,9 @@ public class PhantasmaEntity extends PathAwareEntity implements IAnimatable, Res
 		return PlayState.CONTINUE;
 	}
 
-
 	@Override
 	public AnimationFactory getFactory() {
 		return this.factory;
-	}
-
-	@Override
-	public void writeCustomDataToNbt(NbtCompound tag) {
-		super.writeCustomDataToNbt(tag);
-		tag.putFloat(Constants.NBT.RESONANCE, getResonance());
-		tag.putInt(Constants.NBT.VARIANT, getVariation());
-	}
-
-	@Override
-	public void readCustomDataFromNbt(NbtCompound tag) {
-		super.readCustomDataFromNbt(tag);
-		setResonance(tag.getFloat(Constants.NBT.RESONANCE));
-		dataTracker.set(VARIATION, MathHelper.clamp(tag.getInt(Constants.NBT.VARIANT), 0, getMaxVariants() - 1));
-	}
-
-
-	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(RESONANCE, 0F);
-		this.dataTracker.startTracking(VARIATION, 0);
-	}
-
-	public int getVariation() {
-		return dataTracker.get(VARIATION);
-	}
-
-	@Override
-	public float getResonance() {
-		return dataTracker.get(RESONANCE);
-	}
-
-	@Override
-	public void setResonance(float resonance) {
-		dataTracker.set(RESONANCE, resonance);
-	}
-
-	@Override
-	protected EntityNavigation createNavigation(World world) {
-		BirdNavigation flightNavigation = new BirdNavigation(this, world) {
-			public boolean isValidPosition(BlockPos pos) {
-				return true;
-			}
-		};
-		flightNavigation.setCanSwim(false);
-		return flightNavigation;
 	}
 
 	@Override

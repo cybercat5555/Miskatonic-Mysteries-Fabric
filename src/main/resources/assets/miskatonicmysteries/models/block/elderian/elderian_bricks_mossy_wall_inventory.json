@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:block/wall_inventory",
-  "textures": {
-    "wall": "miskatonicmysteries:block/elderian/elderian_bricks_mossy_1"
-  }
+	"parent": "minecraft:block/wall_inventory",
+	"textures": {
+		"wall": "miskatonicmysteries:block/elderian/elderian_bricks_mossy_1"
+	}
 }

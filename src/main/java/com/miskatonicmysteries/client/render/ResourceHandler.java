@@ -9,11 +9,11 @@ import com.miskatonicmysteries.common.feature.block.blockentity.StatueBlockEntit
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.HashMap;
-import java.util.Map;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+
 import net.minecraft.client.render.block.entity.EnchantingTableBlockEntityRenderer;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
@@ -21,24 +21,27 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Environment(EnvType.CLIENT)
 public class ResourceHandler {
 
 	public static final SpriteIdentifier DEFAULT_OCTAGRAM = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
-		new Identifier(Constants.MOD_ID, "block/octagram/generic_octagram"));
+																				 new Identifier(Constants.MOD_ID, "block/octagram/generic_octagram"));
 	public static final Identifier DEFAULT_OCTAGRAM_MASK = new Identifier(Constants.MOD_ID,
-		"textures/block/octagram/mask/yog_octagram_mask.png");
+																		  "textures/block/octagram/mask/yog_octagram_mask.png");
 	public static final SpriteIdentifier AURA_SPRITE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
-		new Identifier(Constants.MOD_ID, "misc/aura"));
+																			new Identifier(Constants.MOD_ID, "misc/aura"));
 	public static final SpriteIdentifier TOTAL_DARK = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
-		new Identifier(Constants.MOD_ID, "misc/total_dark"));
+																		   new Identifier(Constants.MOD_ID, "misc/total_dark"));
 
 	public static final SpriteIdentifier HASTUR_SIGIL_CENTER = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
-		new Identifier(Constants.MOD_ID, "misc/sigil/hastur/center"));
+																					new Identifier(Constants.MOD_ID, "misc/sigil/hastur/center"));
 	public static final SpriteIdentifier HASTUR_SIGIL_INNER = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
-		new Identifier(Constants.MOD_ID, "misc/sigil/hastur/inner"));
+																				   new Identifier(Constants.MOD_ID, "misc/sigil/hastur/inner"));
 	public static final SpriteIdentifier HASTUR_SIGIL_OUTER = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
-		new Identifier(Constants.MOD_ID, "misc/sigil/hastur/outer"));
+																				   new Identifier(Constants.MOD_ID, "misc/sigil/hastur/outer"));
 
 	public static final Map<Item, SpriteIdentifier> BOOK_SPRITES = new HashMap<>();
 	public static final Map<OctagramBlock, SpriteIdentifier> OCTAGRAM_SPRITES = new HashMap<>();
@@ -69,31 +72,31 @@ public class ResourceHandler {
 
 		ResourceHandler
 			.addOctagramTextureFor(MMObjects.CTHULHU_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/cthulhu_octagram"),
-				new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/cthulhu_octagram_mask.png"));
+								   new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/cthulhu_octagram_mask.png"));
 		ResourceHandler
 			.addOctagramTextureFor(MMObjects.HASTUR_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/hastur_octagram"),
-				new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/hastur_octagram_mask.png"));
+								   new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/hastur_octagram_mask.png"));
 		ResourceHandler
 			.addOctagramTextureFor(MMObjects.SHUB_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/shub_octagram"),
-				new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/shub_octagram_mask.png"));
+								   new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/shub_octagram_mask.png"));
 		ResourceHandler
 			.addOctagramTextureFor(MMObjects.YOG_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/yog_octagram"),
-				new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/yog_octagram_mask.png"));
+								   new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/yog_octagram_mask.png"));
 
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_gold"));
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_mossy"));
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_PRISMARINE,
-			new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_prismarine"));
+							new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_prismarine"));
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_stone"));
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_ELDERIAN,
-			new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_elderian_stone"));
+							new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_elderian_stone"));
 
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_gold"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_mossy"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_TERRACOTTA, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_terracotta"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_stone"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_ELDERIAN,
-			new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_elderian_stone"));
+							new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_elderian_stone"));
 
 		addStatueTextureFor(MMObjects.SHUB_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_gold"));
 		addStatueTextureFor(MMObjects.SHUB_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_mossy"));
@@ -137,7 +140,7 @@ public class ResourceHandler {
 
 	public static SpriteIdentifier getStatueTextureFor(StatueBlockEntity statue) {
 		return STATUE_SPRITES.getOrDefault(statue.getCachedState().getBlock(),
-			new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("")));
+										   new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, new Identifier("")));
 	}
 
 	public static SpriteIdentifier getMatchingOctagramTexture(Affiliation affiliation) {

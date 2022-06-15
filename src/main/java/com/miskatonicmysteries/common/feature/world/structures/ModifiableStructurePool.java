@@ -1,10 +1,13 @@
 package com.miskatonicmysteries.common.feature.world.structures;
 
 import com.miskatonicmysteries.mixin.world.StructurePoolAccessor;
-import com.mojang.datafixers.util.Pair;
-import java.util.List;
+
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
+
+import java.util.List;
+
+import com.mojang.datafixers.util.Pair;
 
 //credit goes to Foundationgames and Draylar
 public class ModifiableStructurePool {

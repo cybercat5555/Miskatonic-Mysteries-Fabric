@@ -12,9 +12,9 @@ import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.BiomeUtil;
 import com.miskatonicmysteries.common.util.Constants.NBT;
-import java.util.ArrayList;
-import java.util.List;
+
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
@@ -23,6 +23,9 @@ import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeCoords;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ObeliskBlockEntity extends BaseBlockEntity implements Affiliated {
 
@@ -71,6 +74,16 @@ public class ObeliskBlockEntity extends BaseBlockEntity implements Affiliated {
 		}
 	}
 
+	@Override
+	public Affiliation getAffiliation(boolean apparent) {
+		return getCachedState().getBlock() instanceof ObeliskBlock o ? o.getAffiliation(apparent) : MMAffiliations.NONE;
+	}
+
+	@Override
+	public boolean isSupernatural() {
+		return true;
+	}
+
 	public static void revertChangedBiomes(World world, BlockPos pos) {
 		if (world instanceof ServerWorld serverWorld) {
 			List<BlockPos> changedPoses = new ArrayList<>();
@@ -112,23 +125,13 @@ public class ObeliskBlockEntity extends BaseBlockEntity implements Affiliated {
 	}
 
 	@Override
-	public void writeNbt(NbtCompound tag) {
-		tag.putInt(NBT.TICK_COUNT, ticks);
-	}
-
-	@Override
 	public void readNbt(NbtCompound tag) {
 		ticks = tag.getInt(NBT.TICK_COUNT);
 		super.readNbt(tag);
 	}
 
 	@Override
-	public Affiliation getAffiliation(boolean apparent) {
-		return getCachedState().getBlock() instanceof ObeliskBlock o ? o.getAffiliation(apparent) : MMAffiliations.NONE;
-	}
-
-	@Override
-	public boolean isSupernatural() {
-		return true;
+	public void writeNbt(NbtCompound tag) {
+		tag.putInt(NBT.TICK_COUNT, ticks);
 	}
 }

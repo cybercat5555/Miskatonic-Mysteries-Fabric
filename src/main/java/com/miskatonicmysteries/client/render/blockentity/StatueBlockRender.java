@@ -7,11 +7,11 @@ import com.miskatonicmysteries.client.model.block.HasturStatueModel;
 import com.miskatonicmysteries.client.model.block.StatueModel;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.StatueBlockEntity;
-import java.util.HashMap;
-import java.util.Map;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -23,6 +23,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Vec3f;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 public class StatueBlockRender implements BlockEntityRenderer<StatueBlockEntity> {
@@ -37,7 +40,7 @@ public class StatueBlockRender implements BlockEntityRenderer<StatueBlockEntity>
 
 	@Override
 	public void render(StatueBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light,
-		int overlay) {
+					   int overlay) {
 		matrices.push();
 		int rotation = entity.getCachedState().get(Properties.ROTATION);
 		matrices.translate(0.5, 1.5, 0.5);
@@ -54,7 +57,7 @@ public class StatueBlockRender implements BlockEntityRenderer<StatueBlockEntity>
 
 		@Override
 		public void render(ItemStack stack, ModelTransformation.Mode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers,
-			int light, int overlay) {
+						   int light, int overlay) {
 			Block block = Block.getBlockFromItem(stack.getItem());
 			if (block instanceof StatueBlock statue) {
 				matrices.push();

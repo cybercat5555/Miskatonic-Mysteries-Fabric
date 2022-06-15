@@ -2,17 +2,21 @@ package com.miskatonicmysteries.client.gui.toast;
 
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
-import com.mojang.blaze3d.systems.RenderSystem;
-import java.util.ArrayList;
-import java.util.List;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.toast.Toast;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mojang.blaze3d.systems.RenderSystem;
 
 @Environment(EnvType.CLIENT)
 public class KnowledgeToast implements Toast {
@@ -35,6 +39,11 @@ public class KnowledgeToast implements Toast {
 		}
 	}
 
+	public void setKnowledge(String knowledge) {
+		this.knowledge.add(knowledge);
+		justUpdated = true;
+	}
+
 	@Override
 	public Visibility draw(MatrixStack matrices, ToastManager manager, long startTime) {
 		if (this.justUpdated) {
@@ -49,7 +58,7 @@ public class KnowledgeToast implements Toast {
 		String string =
 			this.knowledge.get((int) (startTime / Math.max(1L, 5000L / (long) this.knowledge.size()) % (long) this.knowledge.size()));
 		manager.getClient().textRenderer.draw(matrices, new TranslatableText("knowledge.miskatonicmysteries." + string),
-			30.0F, 18.0F, MMAffiliations.NONE.textColorSecondary);
+											  30.0F, 18.0F, MMAffiliations.NONE.textColorSecondary);
 		RenderSystem.applyModelViewMatrix();
 		manager.getClient().getItemRenderer().renderInGui(MMObjects.NECRONOMICON.getDefaultStack(), 8, 8);
 		return startTime - this.startTime >= 5000L ? Toast.Visibility.HIDE : Toast.Visibility.SHOW;
@@ -57,10 +66,5 @@ public class KnowledgeToast implements Toast {
 
 	protected Text getTitle() {
 		return TITLE;
-	}
-
-	public void setKnowledge(String knowledge) {
-		this.knowledge.add(knowledge);
-		justUpdated = true;
 	}
 }

@@ -21,13 +21,11 @@ import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMWorld;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Constants.Tags;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -53,6 +51,11 @@ import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
 public class HasturBiomeRite extends BiomeConversionRite {
 
 	private static final int RADIUS = 64;
@@ -60,12 +63,12 @@ public class HasturBiomeRite extends BiomeConversionRite {
 
 	public HasturBiomeRite() {
 		super(new Identifier(Constants.MOD_ID, "hastur_simulacrum"), MMAffiliations.HASTUR,
-			(world) -> world.getRegistryManager().get(Registry.BIOME_KEY).getEntry(BuiltinRegistries.BIOME.getRawId(MMWorld.HASTUR_BIOME)),
-			MMAffiliations.HASTUR.getId().getPath(), 3,
-			Ingredient.ofItems(Items.NETHER_STAR), Ingredient.ofItems(MMObjects.INCANTATION_YOG),
-			Ingredient.fromTag(Constants.Tags.HASTUR_STATUES), Ingredient.ofItems(Items.DIAMOND),
-			Ingredient.ofItems(Items.EMERALD), Ingredient.ofItems(MMObjects.YELLOW_SIGN_LOOM_PATTERN),
-			Ingredient.fromTag(Tags.OCEANIC_GOLD_BLOCKS_ITEM), Ingredient.ofItems(Items.ANCIENT_DEBRIS));
+			  (world) -> world.getRegistryManager().get(Registry.BIOME_KEY).getEntry(BuiltinRegistries.BIOME.getRawId(MMWorld.HASTUR_BIOME)),
+			  MMAffiliations.HASTUR.getId().getPath(), 3,
+			  Ingredient.ofItems(Items.NETHER_STAR), Ingredient.ofItems(MMObjects.INCANTATION_YOG),
+			  Ingredient.fromTag(Constants.Tags.HASTUR_STATUES), Ingredient.ofItems(Items.DIAMOND),
+			  Ingredient.ofItems(Items.EMERALD), Ingredient.ofItems(MMObjects.YELLOW_SIGN_LOOM_PATTERN),
+			  Ingredient.fromTag(Tags.OCEANIC_GOLD_BLOCKS_ITEM), Ingredient.ofItems(Items.ANCIENT_DEBRIS));
 	}
 
 	@Override
@@ -89,14 +92,14 @@ public class HasturBiomeRite extends BiomeConversionRite {
 			return false;
 		}
 		List<HasturCultistEntity> cultists = world.getEntitiesByClass(HasturCultistEntity.class,
-			octagram.getSelectionBox().expand(15, 5, 15), entity -> true);
+																	  octagram.getSelectionBox().expand(15, 5, 15), entity -> true);
 		if (cultists.size() < 3) {
 			caster.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.serfs"), true);
 			return false;
 		}
 
 		List<TatteredPrinceEntity> princes = world.getEntitiesByClass(TatteredPrinceEntity.class,
-			octagram.getSelectionBox().expand(8, 5, 8), entity -> true);
+																	  octagram.getSelectionBox().expand(8, 5, 8), entity -> true);
 		if (princes.size() < 1) {
 			caster.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.prince"), true);
 			return false;
@@ -119,6 +122,99 @@ public class HasturBiomeRite extends BiomeConversionRite {
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
+	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
+						   int light, int overlay, BlockEntityRendererFactory.Context context) {
+		long time = entity.getWorld().getTime();
+		if (entity.tickCount < 120) {
+			Random random = new Random(42069);
+			PlayerEntity player = entity.getOriginalCaster();
+			Vec3f direction = new Vec3f(0, 10000, 0);
+			if (player != null && entity.tickCount > 100) {
+				direction = new Vec3f((float) (player.getX() - entity.getSummoningPos().x),
+									  (float) (player.getEyeY() - entity.getSummoningPos().y), (float) (player.getZ() - entity.getSummoningPos().z));
+			}
+			matrixStack.push();
+			matrixStack.translate(1.5F, 0, 1.5F);
+			matrixStack.multiply(Vec3f.POSITIVE_Y
+									 .getDegreesQuaternion(
+										 entity.getCachedState().get(HorizontalFacingBlock.FACING).getOpposite().asRotation() - 90F));
+			VertexConsumer vertices = vertexConsumers.getBuffer(RenderLayer.getLightning());
+			matrixStack.translate(-1F, 0, -1F);
+			direction.add(-0.75F, 0, 0.75F);
+			drawLightCone(matrixStack, vertices, entity.tickCount, 20, time, tickDelta, random);
+			matrixStack.translate(2, 0, 0);
+			direction.add(0, 0, -1.5F);
+			drawLightCone(matrixStack, vertices, entity.tickCount, 40, time, tickDelta, random);
+			direction.add(1.5F, 0, 0);
+			matrixStack.translate(0, 0, 2);
+			drawLightCone(matrixStack, vertices, entity.tickCount, 60, time, tickDelta, random);
+			matrixStack.translate(-2, 0, 0);
+			direction.add(0, 0, 1.5F);
+			drawLightCone(matrixStack, vertices, entity.tickCount, 80, time, tickDelta, random);
+			matrixStack.pop();
+		} else {
+			int progressTick = entity.tickCount - 120;
+			Sprite centerSprite = ResourceHandler.HASTUR_SIGIL_CENTER.getSprite();
+			Sprite innerSprite = ResourceHandler.HASTUR_SIGIL_INNER.getSprite();
+			Sprite outerSprite = ResourceHandler.HASTUR_SIGIL_OUTER.getSprite();
+			matrixStack.push();
+			float scale = progressTick < 200 ? (progressTick + tickDelta) / 200F : 1;
+			float rotationProgress = (time % 200 + tickDelta) / 200F * 360;
+			float translationProgress = MathHelper.sin((time + tickDelta) / 20F);
+			matrixStack.translate(1.5F, 0.5F + translationProgress * 0.25F, 1.5F);
+			matrixStack.scale(scale, scale, scale);
+			matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(rotationProgress));
+			matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(10F));
+			RenderHelper.renderCenteredTexturedPlane(3, outerSprite, matrixStack,
+													 outerSprite
+														 .getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped())),
+													 15728880, overlay,
+													 new float[]{1, 1, 1, 1}, true);
+			matrixStack.push();
+			matrixStack.translate(0, 0.15F, 0);
+			matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(rotationProgress * 2));
+			RenderHelper.renderCenteredTexturedPlane(3, centerSprite, matrixStack,
+													 centerSprite
+														 .getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped())),
+													 15728880, overlay,
+													 new float[]{1, 1, 1, 1}, true);
+			matrixStack.pop();
+			matrixStack.push();
+			matrixStack.translate(0, 0.3F, 0);
+			matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(rotationProgress));
+			RenderHelper.renderCenteredTexturedPlane(3, innerSprite, matrixStack,
+													 innerSprite
+														 .getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped())),
+													 15728880, overlay,
+													 new float[]{1, 1, 1, 1}, true);
+			matrixStack.pop();
+			matrixStack.pop();
+		}
+	}
+
+	@Environment(EnvType.CLIENT)
+	private void drawLightCone(MatrixStack matrixStack, VertexConsumer vertices, int ticks, int startTick, long time, float tickDelta,
+							   Random random) {
+		if (ticks >= startTick) {
+			matrixStack.push();
+			Matrix4f matrix = matrixStack.peek().getPositionMatrix();
+			matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(5));
+			matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(random.nextFloat() + time + tickDelta));
+			float alpha = 0.55F - 0.45F * MathHelper.sin((time + tickDelta + startTick) / 20F);
+			vertices.vertex(matrix, 0.0f, 0.0f, 0.0f).color(1.0F, 1.0F, 1.0F, alpha).next();
+			vertices.vertex(matrix, -HALF_SQRT_3, 6, -0.5f).color(1.0F, 1.0F, 0, 0).next();
+			vertices.vertex(matrix, HALF_SQRT_3, 6, -0.5f).color(1.0F, 1.0F, 0, 0).next();
+			vertices.vertex(matrix, 0.0f, 0.0f, 0.0f).color(1.0F, 1.0F, 1.0F, alpha).next();
+			vertices.vertex(matrix, HALF_SQRT_3, 6, -0.5f).color(1.0F, 1.0F, 0, 0).next();
+			vertices.vertex(matrix, 0.0f, 6, 1).color(1.0F, 1.0F, 0, 0).next();
+			vertices.vertex(matrix, 0.0f, 0.0f, 0.0f).color(1.0F, 1.0F, 1.0F, alpha).next();
+			vertices.vertex(matrix, 0.0f, 6, 1).color(1.0F, 1.0F, 0, 0).next();
+			matrixStack.pop();
+		}
+	}
+
+	@Override
 	public void tick(OctagramBlockEntity octagram) {
 		World world = octagram.getWorld();
 		Random random = octagram.getWorld().getRandom();
@@ -134,7 +230,8 @@ public class HasturBiomeRite extends BiomeConversionRite {
 				world.playSound(pos.getX(), pos.getY(), pos.getZ(), MMSounds.RITE_SPOTLIGHT, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
 			}
 			List<HasturCultistEntity> cultists = octagram.getWorld().getEntitiesByClass(HasturCultistEntity.class,
-				octagram.getSelectionBox().expand(15, 5, 15), cultist -> !cultist.isAttacking());
+																						octagram.getSelectionBox().expand(15, 5, 15),
+																						cultist -> !cultist.isAttacking());
 			for (HasturCultistEntity cultist : cultists) {
 				cultist.getNavigation().startMovingTo(pos.x, pos.y, pos.z, 0.8F);
 				if (cultist.getPos().distanceTo(pos) < 5) {
@@ -144,7 +241,8 @@ public class HasturBiomeRite extends BiomeConversionRite {
 				}
 			}
 			List<TatteredPrinceEntity> princes = octagram.getWorld().getEntitiesByClass(TatteredPrinceEntity.class,
-				octagram.getSelectionBox().expand(8, 5, 8), prince -> !prince.isAttacking());
+																						octagram.getSelectionBox().expand(8, 5, 8),
+																						prince -> !prince.isAttacking());
 			for (TatteredPrinceEntity prince : princes) {
 				prince.getNavigation().startMovingTo(pos.x, pos.y, pos.z, 0.8F);
 				prince.lookAtEntity(octagram.getOriginalCaster(), 180, 45);
@@ -160,8 +258,8 @@ public class HasturBiomeRite extends BiomeConversionRite {
 			} else if (!octagram.getFlag(1)) {
 				double rad = random.nextDouble() * Math.PI * 2;
 				world.addParticle(MMParticles.AMBIENT_MAGIC, pos.x + Math.sin(rad) * 1.5F, pos.y, pos.z + Math.cos(rad) * 1.5F,
-					-Math.sin(rad) * random.nextFloat() * 0.05,
-					0F, -Math.cos(rad) * random.nextFloat() * 0.05F);
+								  -Math.sin(rad) * random.nextFloat() * 0.05,
+								  0F, -Math.cos(rad) * random.nextFloat() * 0.05F);
 				if (caster.getPos().distanceTo(pos) < 1) {
 					octagram.tickCount = MathHelper.clamp(octagram.tickCount + 1, 100, 119);
 					Vec3d motionVec = new Vec3d(pos.x - caster.getX(), pos.y - caster.getY(), pos.z - caster.getZ());
@@ -171,13 +269,14 @@ public class HasturBiomeRite extends BiomeConversionRite {
 					if (world.isClient) {
 						if (octagram.tickCount == 101) {
 							VisionHandler
-								.setVisionSequence((ClientPlayerEntity) caster, VisionHandler.getSequence(new Identifier(Constants.MOD_ID, "fade_to_black")));
+								.setVisionSequence((ClientPlayerEntity) caster,
+												   VisionHandler.getSequence(new Identifier(Constants.MOD_ID, "fade_to_black")));
 						} else if (octagram.tickCount == 110) {
 							openScreen();
 						}
-					}else {
+					} else {
 						ServerPlayerEntity server = (ServerPlayerEntity) caster;
- 						if (random.nextFloat() < 0.001f) {
+						if (random.nextFloat() < 0.001f) {
 							if (!ProtagonistHandler.spawnProtagonist(server.getWorld(), server) && random.nextBoolean()) {
 								ProtagonistHandler.spawnProtagonistReinforcements(server.getWorld(), server);
 							}
@@ -210,7 +309,9 @@ public class HasturBiomeRite extends BiomeConversionRite {
 								spreadBiome(world, octagram.getPos(), RADIUS / 4, biome);
 								int biomeId = BuiltinRegistries.BIOME.getRawId(MMWorld.HASTUR_BIOME);
 								PlayerLookup.tracking(serverWorld, octagram.getPos()).forEach(serverPlayer ->
-									SyncBiomeSpreadPacket.send(serverPlayer, octagram.getPos(), biomeId, RADIUS / 4));
+																								  SyncBiomeSpreadPacket
+																									  .send(serverPlayer, octagram.getPos(), biomeId,
+																											RADIUS / 4));
 							});
 						}
 					}
@@ -229,91 +330,5 @@ public class HasturBiomeRite extends BiomeConversionRite {
 	@Override
 	public void onCancelled(OctagramBlockEntity octagram) {
 		super.onCancelled(octagram);
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
-		int light, int overlay, BlockEntityRendererFactory.Context context) {
-		long time = entity.getWorld().getTime();
-		if (entity.tickCount < 120) {
-			Random random = new Random(42069);
-			PlayerEntity player = entity.getOriginalCaster();
-			Vec3f direction = new Vec3f(0, 10000, 0);
-			if (player != null && entity.tickCount > 100) {
-				direction = new Vec3f((float) (player.getX() - entity.getSummoningPos().x),
-					(float) (player.getEyeY() - entity.getSummoningPos().y), (float) (player.getZ() - entity.getSummoningPos().z));
-			}
-			matrixStack.push();
-			matrixStack.translate(1.5F, 0, 1.5F);
-			matrixStack.multiply(Vec3f.POSITIVE_Y
-				.getDegreesQuaternion(entity.getCachedState().get(HorizontalFacingBlock.FACING).getOpposite().asRotation() - 90F));
-			VertexConsumer vertices = vertexConsumers.getBuffer(RenderLayer.getLightning());
-			matrixStack.translate(-1F, 0, -1F);
-			direction.add(-0.75F, 0, 0.75F);
-			drawLightCone(matrixStack, vertices, entity.tickCount, 20, time, tickDelta, random);
-			matrixStack.translate(2, 0, 0);
-			direction.add(0, 0, -1.5F);
-			drawLightCone(matrixStack, vertices, entity.tickCount, 40, time, tickDelta, random);
-			direction.add(1.5F, 0, 0);
-			matrixStack.translate(0, 0, 2);
-			drawLightCone(matrixStack, vertices, entity.tickCount, 60, time, tickDelta, random);
-			matrixStack.translate(-2, 0, 0);
-			direction.add(0, 0, 1.5F);
-			drawLightCone(matrixStack, vertices, entity.tickCount, 80, time, tickDelta, random);
-			matrixStack.pop();
-		} else {
-			int progressTick = entity.tickCount - 120;
-			Sprite centerSprite = ResourceHandler.HASTUR_SIGIL_CENTER.getSprite();
-			Sprite innerSprite = ResourceHandler.HASTUR_SIGIL_INNER.getSprite();
-			Sprite outerSprite = ResourceHandler.HASTUR_SIGIL_OUTER.getSprite();
-			matrixStack.push();
-			float scale = progressTick < 200 ? (progressTick + tickDelta) / 200F : 1;
-			float rotationProgress = (time % 200 + tickDelta) / 200F * 360;
-			float translationProgress = MathHelper.sin((time + tickDelta) / 20F);
-			matrixStack.translate(1.5F, 0.5F + translationProgress * 0.25F, 1.5F);
-			matrixStack.scale(scale, scale, scale);
-			matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(rotationProgress));
-			matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(10F));
-			RenderHelper.renderCenteredTexturedPlane(3, outerSprite, matrixStack,
-				outerSprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped())), 15728880, overlay,
-				new float[]{1, 1, 1, 1}, true);
-			matrixStack.push();
-			matrixStack.translate(0, 0.15F, 0);
-			matrixStack.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(rotationProgress * 2));
-			RenderHelper.renderCenteredTexturedPlane(3, centerSprite, matrixStack,
-				centerSprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped())), 15728880, overlay,
-				new float[]{1, 1, 1, 1}, true);
-			matrixStack.pop();
-			matrixStack.push();
-			matrixStack.translate(0, 0.3F, 0);
-			matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(rotationProgress));
-			RenderHelper.renderCenteredTexturedPlane(3, innerSprite, matrixStack,
-				innerSprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(RenderLayer.getCutoutMipped())), 15728880, overlay,
-				new float[]{1, 1, 1, 1}, true);
-			matrixStack.pop();
-			matrixStack.pop();
-		}
-	}
-
-	@Environment(EnvType.CLIENT)
-	private void drawLightCone(MatrixStack matrixStack, VertexConsumer vertices, int ticks, int startTick, long time, float tickDelta,
-		Random random) {
-		if (ticks >= startTick) {
-			matrixStack.push();
-			Matrix4f matrix = matrixStack.peek().getPositionMatrix();
-			matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(5));
-			matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(random.nextFloat() + time + tickDelta));
-			float alpha = 0.55F - 0.45F * MathHelper.sin((time + tickDelta + startTick) / 20F);
-			vertices.vertex(matrix, 0.0f, 0.0f, 0.0f).color(1.0F, 1.0F, 1.0F, alpha).next();
-			vertices.vertex(matrix, -HALF_SQRT_3, 6, -0.5f).color(1.0F, 1.0F, 0, 0).next();
-			vertices.vertex(matrix, HALF_SQRT_3, 6, -0.5f).color(1.0F, 1.0F, 0, 0).next();
-			vertices.vertex(matrix, 0.0f, 0.0f, 0.0f).color(1.0F, 1.0F, 1.0F, alpha).next();
-			vertices.vertex(matrix, HALF_SQRT_3, 6, -0.5f).color(1.0F, 1.0F, 0, 0).next();
-			vertices.vertex(matrix, 0.0f, 6, 1).color(1.0F, 1.0F, 0, 0).next();
-			vertices.vertex(matrix, 0.0f, 0.0f, 0.0f).color(1.0F, 1.0F, 1.0F, alpha).next();
-			vertices.vertex(matrix, 0.0f, 6, 1).color(1.0F, 1.0F, 0, 0).next();
-			matrixStack.pop();
-		}
 	}
 }

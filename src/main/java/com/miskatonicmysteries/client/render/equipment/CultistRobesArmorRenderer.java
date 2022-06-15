@@ -2,9 +2,11 @@ package com.miskatonicmysteries.client.render.equipment;
 
 import com.miskatonicmysteries.client.model.MMModels;
 import com.miskatonicmysteries.client.model.armor.CultistRobesModel;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -27,7 +29,7 @@ public class CultistRobesArmorRenderer implements ArmorRenderer {
 
 	@Override
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, LivingEntity entity,
-		EquipmentSlot slot, int light, BipedEntityModel<LivingEntity> contextModel) {
+					   EquipmentSlot slot, int light, BipedEntityModel<LivingEntity> contextModel) {
 		if (armorModel == null) {
 			armorModel = new CultistRobesModel(MinecraftClient.getInstance().getEntityModelLoader().getModelPart(MMModels.ROBES));
 		}

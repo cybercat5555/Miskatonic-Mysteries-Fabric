@@ -1,20 +1,20 @@
 {
-  "name": "Feaster",
-  "category": "miskatonicmysteries:bestiary",
-  "icon": "miskatonicmysteries:cirrhosus_flesh",
-  "advancement": "miskatonicmysteries:hastur/jai_guru",
-  "pages": [
-    {
-      "type": "text",
-      "text": "The Feaster’s origin and goals are unknown. They are closely associated with Hastur and Carcosa, though what that entails is unclear. Some believe they are an avatar of Hastur much like the Tattered Prince, though some believe them to be his offspring, akin to the Goat and her Lambs, or perhaps just some cosmic pest attracted to the latent emissions of Carcosa like a moth to a flame."
-    },
-    {
-      "type": "miskatonicmysteries:drawing",
-      "drawing": "miskatonicmysteries:textures/gui/drawings/feaster.png"
-    },
-    {
-      "type": "text",
-      "text": "They feed on the brains of intelligent life, siphoning them out with barbed tentacles. They seem to incite mania, and especially enjoy the brains of those in a panicked state. Even escaping from one is rather painful, as they leave their escaped prey in a delirious state, unable to enunciate themselves."
-    }
-  ]
+	"name": "Feaster",
+	"category": "miskatonicmysteries:bestiary",
+	"icon": "miskatonicmysteries:cirrhosus_flesh",
+	"advancement": "miskatonicmysteries:hastur/jai_guru",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The Feaster’s origin and goals are unknown. They are closely associated with Hastur and Carcosa, though what that entails is unclear. Some believe they are an avatar of Hastur much like the Tattered Prince, though some believe them to be his offspring, akin to the Goat and her Lambs, or perhaps just some cosmic pest attracted to the latent emissions of Carcosa like a moth to a flame."
+		},
+		{
+			"type": "miskatonicmysteries:drawing",
+			"drawing": "miskatonicmysteries:textures/gui/drawings/feaster.png"
+		},
+		{
+			"type": "text",
+			"text": "They feed on the brains of intelligent life, siphoning them out with barbed tentacles. They seem to incite mania, and especially enjoy the brains of those in a panicked state. Even escaping from one is rather painful, as they leave their escaped prey in a delirious state, unable to enunciate themselves."
+		}
+	]
 }

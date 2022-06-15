@@ -1,9 +1,7 @@
 package com.miskatonicmysteries.api.block;
 
-import static net.minecraft.state.property.Properties.FACING;
-import static net.minecraft.state.property.Properties.IN_WALL;
-
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -15,6 +13,9 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldView;
+
+import static net.minecraft.state.property.Properties.FACING;
+import static net.minecraft.state.property.Properties.IN_WALL;
 import org.jetbrains.annotations.Nullable;
 
 public class SignBlock extends Block {
@@ -31,11 +32,31 @@ public class SignBlock extends Block {
 		setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(IN_WALL, false));
 	}
 
+	@Override
+	public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
+		if (isPlacementValid(ctx.getWorld(), ctx.getBlockPos(), ctx.getSide())) {
+			if (ctx.getSide() != Direction.UP) {
+				return this.getDefaultState().with(FACING, ctx.getSide()).with(IN_WALL, true);
+			}
+			return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite()).with(IN_WALL, false);
+		}
+		return null;
+	}
 
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
 		builder.add(FACING, IN_WALL);
+	}
+
+	public boolean isPlacementValid(WorldView world, BlockPos pos, Direction direction) {
+		return direction != Direction.DOWN && world.getBlockState(pos.offset(direction.getOpposite()))
+			.isSideSolidFullSquare(world, pos, direction);
+	}
+
+	@Override
+	public PistonBehavior getPistonBehavior(BlockState state) {
+		return PistonBehavior.DESTROY;
 	}
 
 	@Override
@@ -53,26 +74,5 @@ public class SignBlock extends Block {
 			}
 		}
 		return GROUND_SHAPE;
-	}
-
-	@Override
-	public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
-		if (isPlacementValid(ctx.getWorld(), ctx.getBlockPos(), ctx.getSide())) {
-			if (ctx.getSide() != Direction.UP) {
-				return this.getDefaultState().with(FACING, ctx.getSide()).with(IN_WALL, true);
-			}
-			return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite()).with(IN_WALL, false);
-		}
-		return null;
-	}
-
-	public boolean isPlacementValid(WorldView world, BlockPos pos, Direction direction) {
-		return direction != Direction.DOWN && world.getBlockState(pos.offset(direction.getOpposite()))
-			.isSideSolidFullSquare(world, pos, direction);
-	}
-
-	@Override
-	public PistonBehavior getPistonBehavior(BlockState state) {
-		return PistonBehavior.DESTROY;
 	}
 }

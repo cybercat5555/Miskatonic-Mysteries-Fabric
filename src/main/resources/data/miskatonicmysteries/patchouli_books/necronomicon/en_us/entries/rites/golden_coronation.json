@@ -1,17 +1,17 @@
 {
-  "name": "Golden Coronation",
-  "category": "miskatonicmysteries:rites",
-  "icon": "minecraft:gold_ingot",
-  "advancement": "miskatonicmysteries:hastur/hare_rama",
-  "pages": [
-    {
-      "type": "text",
-      "text": "The $(marked)Golden Coronation$() is an essential part of ascension. It is used to summon a $(ml:miskatonicmysteries:bestiary/prince)Tattered Prince$() from the depths of $(marked)Carcosa$().$(br)The rite will require four loyal $(ml:bestiary/serfs)Serfs$() nearby, as well as $(ml:miskatonicmysteries:world/occult_knowledge)their secret$(). These Serfs are usually manually recruited, but they can also just think very highly of you.$(br)Once started, the rite will require a sufficient sacrifice to establish a connection."
-    },
-    {
-      "type": "miskatonicmysteries:rite",
-      "rite": "miskatonicmysteries:summon_prince",
-      "text": "We recommend using a Sheep or a Pig rather than a Villager, as Serfs are not very enthusiastic about manslaughter."
-    }
-  ]
+	"name": "Golden Coronation",
+	"category": "miskatonicmysteries:rites",
+	"icon": "minecraft:gold_ingot",
+	"advancement": "miskatonicmysteries:hastur/hare_rama",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The $(marked)Golden Coronation$() is an essential part of ascension. It is used to summon a $(ml:miskatonicmysteries:bestiary/prince)Tattered Prince$() from the depths of $(marked)Carcosa$().$(br)The rite will require four loyal $(ml:bestiary/serfs)Serfs$() nearby, as well as $(ml:miskatonicmysteries:world/occult_knowledge)their secret$(). These Serfs are usually manually recruited, but they can also just think very highly of you.$(br)Once started, the rite will require a sufficient sacrifice to establish a connection."
+		},
+		{
+			"type": "miskatonicmysteries:rite",
+			"rite": "miskatonicmysteries:summon_prince",
+			"text": "We recommend using a Sheep or a Pig rather than a Villager, as Serfs are not very enthusiastic about manslaughter."
+		}
+	]
 }

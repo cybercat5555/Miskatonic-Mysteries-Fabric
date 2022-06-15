@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.common.feature.criterion;
 
-import com.google.gson.JsonObject;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
@@ -12,6 +12,8 @@ import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+
+import com.google.gson.JsonObject;
 
 public class RiteCastCriterion extends AbstractCriterion<RiteCastCriterion.Conditions> {
 
@@ -22,7 +24,7 @@ public class RiteCastCriterion extends AbstractCriterion<RiteCastCriterion.Condi
 	}
 
 	public Conditions conditionsFromJson(JsonObject jsonObject, EntityPredicate.Extended extended,
-		AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
+										 AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) throws NullPointerException {
 		Identifier riteId = new Identifier(JsonHelper.getString(jsonObject, "rite"));
 		return new Conditions(extended, MMRegistries.RITES.get(riteId));
 	}

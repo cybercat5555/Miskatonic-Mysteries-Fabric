@@ -1,13 +1,13 @@
 {
-  "variants": {
-    "type=bottom": {
-      "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth_slab"
-    },
-    "type=double": {
-      "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth"
-    },
-    "type=top": {
-      "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth_slab_top"
-    }
-  }
+	"variants": {
+		"type=bottom": {
+			"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth_slab"
+		},
+		"type=double": {
+			"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth"
+		},
+		"type=top": {
+			"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth_slab_top"
+		}
+	}
 }

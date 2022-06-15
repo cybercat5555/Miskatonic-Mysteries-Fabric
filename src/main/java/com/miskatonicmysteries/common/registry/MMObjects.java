@@ -8,8 +8,6 @@ import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.item.BlessedSwordItem;
 import com.miskatonicmysteries.api.item.ChalkItem;
-import com.miskatonicmysteries.common.feature.item.InfestedWheatItem;
-import com.miskatonicmysteries.common.feature.item.MMBookItem;
 import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.common.feature.block.ChemistrySetBlock;
 import com.miskatonicmysteries.common.feature.block.ElderianBlock;
@@ -32,6 +30,8 @@ import com.miskatonicmysteries.common.feature.block.blockentity.StatueBlockEntit
 import com.miskatonicmysteries.common.feature.block.blockentity.energy.PowerCellBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.energy.ResonatorBlockEntity;
 import com.miskatonicmysteries.common.feature.item.IncantationYogItem;
+import com.miskatonicmysteries.common.feature.item.InfestedWheatItem;
+import com.miskatonicmysteries.common.feature.item.MMBookItem;
 import com.miskatonicmysteries.common.feature.item.RevolverItem;
 import com.miskatonicmysteries.common.feature.item.RifleItem;
 import com.miskatonicmysteries.common.feature.item.WardingMarkItem;
@@ -47,7 +47,9 @@ import com.miskatonicmysteries.common.feature.item.consumable.TheOrbItem;
 import com.miskatonicmysteries.common.feature.item.consumable.TranquilizerItem;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
+
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -67,6 +69,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
+
 import team.reborn.energy.api.EnergyStorage;
 
 public class MMObjects {
@@ -76,22 +79,29 @@ public class MMObjects {
 		.create(ChemistrySetBlockEntity::new, CHEMISTRY_SET).build(null);
 
 	public static final Block BLACKSTONE_ALTAR = new AltarBlock(true,
-		AbstractBlock.Settings.copy(Blocks.BLACKSTONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+																AbstractBlock.Settings.copy(Blocks.BLACKSTONE)
+																	.luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
 	public static final Block CORAL_ALTAR = new AltarBlock(true,
-		AbstractBlock.Settings.copy(Blocks.DEAD_BRAIN_CORAL_BLOCK).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+														   AbstractBlock.Settings.copy(Blocks.DEAD_BRAIN_CORAL_BLOCK)
+															   .luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
 	public static final Block FUNKY_ALTAR = new AltarBlock(false, AbstractBlock.Settings.copy(Blocks.PURPUR_BLOCK).luminance(state -> 12));
 	public static final Block MOSSY_STONE_ALTAR = new AltarBlock(true,
-		AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+																 AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE)
+																	 .luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
 	public static final Block NETHER_BRICK_ALTAR = new AltarBlock(true,
-		AbstractBlock.Settings.copy(Blocks.NETHER_BRICKS).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+																  AbstractBlock.Settings.copy(Blocks.NETHER_BRICKS)
+																	  .luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
 	public static final Block PRISMARINE_ALTAR = new AltarBlock(false,
-		AbstractBlock.Settings.copy(Blocks.PRISMARINE).luminance(state -> 8));
+																AbstractBlock.Settings.copy(Blocks.PRISMARINE).luminance(state -> 8));
 	public static final Block SANDSTONE_ALTAR = new AltarBlock(true,
-		AbstractBlock.Settings.copy(Blocks.SANDSTONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+															   AbstractBlock.Settings.copy(Blocks.SANDSTONE)
+																   .luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
 	public static final Block STONE_ALTAR = new AltarBlock(true,
-		AbstractBlock.Settings.copy(Blocks.STONE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+														   AbstractBlock.Settings.copy(Blocks.STONE)
+															   .luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
 	public static final Block DEEPSLATE_ALTAR = new AltarBlock(true,
-		AbstractBlock.Settings.copy(Blocks.DEEPSLATE).luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
+															   AbstractBlock.Settings.copy(Blocks.DEEPSLATE)
+																   .luminance(state -> state.get(Properties.WATERLOGGED) ? 0 : 8));
 	public static final BlockEntityType<AltarBlockEntity> ALTAR_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder
 		.create(AltarBlockEntity::new, AltarBlock.ALTARS.toArray(new AltarBlock[AltarBlock.ALTARS.size()])).build(null);
 
@@ -102,49 +112,49 @@ public class MMObjects {
 	public static final OctagramBlock YOG_OCTAGRAM = new OctagramBlock(MMAffiliations.YOG);
 
 	public static final ChalkItem CTHULHU_CHALK = new ChalkItem(CTHULHU_OCTAGRAM,
-		new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
+																new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
 	public static final ChalkItem HASTUR_CHALK = new ChalkItem(HASTUR_OCTAGRAM, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
 	public static final ChalkItem SHUB_CHALK = new ChalkItem(SHUB_OCTAGRAM, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
 	public static final ChalkItem YOG_CHALK = new ChalkItem(YOG_OCTAGRAM, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
 	public static final BlockEntityType<OctagramBlockEntity> OCTAGRAM_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder
 		.create(OctagramBlockEntity::new, OctagramBlock.OCTAGRAMS.toArray(new OctagramBlock[OctagramBlock.OCTAGRAMS.size()])).build(null);
 	public static final StatueBlock CTHULHU_STATUE_GOLD = new StatueBlock(MMAffiliations.CTHULHU, true,
-		AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+																		  AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
 	public static final StatueBlock CTHULHU_STATUE_MOSSY = new StatueBlock(MMAffiliations.CTHULHU, false,
-		AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+																		   AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
 	public static final StatueBlock CTHULHU_STATUE_PRISMARINE = new StatueBlock(MMAffiliations.CTHULHU, false,
-		AbstractBlock.Settings.copy(Blocks.PRISMARINE));
+																				AbstractBlock.Settings.copy(Blocks.PRISMARINE));
 	public static final StatueBlock CTHULHU_STATUE_STONE = new StatueBlock(MMAffiliations.CTHULHU, false,
-		AbstractBlock.Settings.copy(Blocks.STONE));
+																		   AbstractBlock.Settings.copy(Blocks.STONE));
 
 	public static final StatueBlock HASTUR_STATUE_GOLD = new StatueBlock(MMAffiliations.HASTUR, true,
-		AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+																		 AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
 	public static final StatueBlock HASTUR_STATUE_MOSSY = new StatueBlock(MMAffiliations.HASTUR, false,
-		AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+																		  AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
 	public static final StatueBlock HASTUR_STATUE_TERRACOTTA = new StatueBlock(MMAffiliations.HASTUR, false,
-		AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
+																			   AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
 	public static final StatueBlock HASTUR_STATUE_STONE = new StatueBlock(MMAffiliations.HASTUR, false,
-		AbstractBlock.Settings.copy(Blocks.STONE));
+																		  AbstractBlock.Settings.copy(Blocks.STONE));
 
 	public static final StatueBlock SHUB_STATUE_GOLD = new StatueBlock(MMAffiliations.SHUB, true,
-		AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+																	   AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
 	public static final StatueBlock SHUB_STATUE_MOSSY = new StatueBlock(MMAffiliations.SHUB, false,
-		AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+																		AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
 	public static final StatueBlock SHUB_STATUE_DEEPSLATE = new StatueBlock(MMAffiliations.SHUB, false,
-		AbstractBlock.Settings.copy(Blocks.DEEPSLATE));
+																			AbstractBlock.Settings.copy(Blocks.DEEPSLATE));
 	public static final StatueBlock SHUB_STATUE_STONE = new StatueBlock(MMAffiliations.SHUB, false,
-		AbstractBlock.Settings.copy(Blocks.STONE));
+																		AbstractBlock.Settings.copy(Blocks.STONE));
 
 	public static final StatueBlock YOG_STATUE_GOLD = new StatueBlock(MMAffiliations.YOG, true,
-		AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
+																	  AbstractBlock.Settings.copy(Blocks.GOLD_BLOCK));
 	public static final StatueBlock YOG_STATUE_MOSSY = new StatueBlock(MMAffiliations.YOG, false,
-		AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+																	   AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
 	public static final StatueBlock YOG_STATUE_END_STONE = new StatueBlock(MMAffiliations.YOG, false,
-		AbstractBlock.Settings.copy(Blocks.END_STONE));
+																		   AbstractBlock.Settings.copy(Blocks.END_STONE));
 	public static final StatueBlock YOG_STATUE_STONE = new StatueBlock(MMAffiliations.YOG, false,
-		AbstractBlock.Settings.copy(Blocks.STONE));
+																	   AbstractBlock.Settings.copy(Blocks.STONE));
 	public static final StatueBlock YOG_STATUE_BLACKSTONE = new StatueBlock(MMAffiliations.YOG, false,
-		AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
+																			AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
 
 
 	public static final MasterpieceStatueBlock MASTERPIECE_STATUE = new MasterpieceStatueBlock(AbstractBlock.Settings.copy(Blocks.STONE));
@@ -157,32 +167,32 @@ public class MMObjects {
 
 	public static final Block STONE_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU, AbstractBlock.Settings.copy(Blocks.STONE));
 	public static final Block MOSSY_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU,
-		AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+																   AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
 	public static final Block CORAL_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU,
-		AbstractBlock.Settings.copy(Blocks.DEAD_BRAIN_CORAL_BLOCK));
+																   AbstractBlock.Settings.copy(Blocks.DEAD_BRAIN_CORAL_BLOCK));
 	public static final Block PRISMARINE_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU,
-		AbstractBlock.Settings.copy(Blocks.PRISMARINE));
+																		AbstractBlock.Settings.copy(Blocks.PRISMARINE));
 
 
 	public static final Block STONE_HASTUR_MURAL = new MuralBlock(MMAffiliations.HASTUR, AbstractBlock.Settings.copy(Blocks.STONE));
 	public static final Block MOSSY_HASTUR_MURAL = new MuralBlock(MMAffiliations.HASTUR,
-		AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
+																  AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
 	public static final Block TERRACOTTA_HASTUR_MURAL = new MuralBlock(MMAffiliations.HASTUR,
-		AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
+																	   AbstractBlock.Settings.copy(Blocks.TERRACOTTA));
 	public static final Block YELLOW_TERRACOTTA_HASTUR_MURAL = new MuralBlock(MMAffiliations.HASTUR,
-		AbstractBlock.Settings.copy(Blocks.YELLOW_TERRACOTTA));
+																			  AbstractBlock.Settings.copy(Blocks.YELLOW_TERRACOTTA));
 
 	public static final Block STONE_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB, AbstractBlock.Settings.copy(Blocks.STONE));
 	public static final Block MOSSY_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
 	public static final Block DEEPSLATE_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
 	public static final Block BLACKSTONE_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB,
-		AbstractBlock.Settings.copy(Blocks.GILDED_BLACKSTONE));
+																	 AbstractBlock.Settings.copy(Blocks.GILDED_BLACKSTONE));
 
 	public static final Block STONE_YOG_MURAL = new MuralBlock(MMAffiliations.YOG, AbstractBlock.Settings.copy(Blocks.STONE));
 	public static final Block MOSSY_YOG_MURAL = new MuralBlock(MMAffiliations.YOG, AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE));
 	public static final Block BLACKSTONE_YOG_MURAL = new MuralBlock(MMAffiliations.YOG, AbstractBlock.Settings.copy(Blocks.BLACKSTONE));
 	public static final Block END_STONE_YOG_MURAL = new MuralBlock(MMAffiliations.YOG,
-		AbstractBlock.Settings.copy(Blocks.END_STONE));
+																   AbstractBlock.Settings.copy(Blocks.END_STONE));
 
 	public static final Block OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD);
 	public static final Block WARDED_OCEANIC_GOLD_BLOCK = new PillarBlock(Constants.BlockSettings.OCEANIC_GOLD.strength(2.5F, 12));
@@ -227,22 +237,22 @@ public class MMObjects {
 	public static final Block ELDERIAN_PILLAR_TENTACLED = new ElderianPillarBlock(Constants.BlockSettings.ELDERIAN);
 
 	public static final Block ELDERIAN_CTHULHU_MURAL = new MuralBlock(MMAffiliations.CTHULHU,
-		AbstractBlock.Settings.copy(ELDERIAN_STONE));
+																	  AbstractBlock.Settings.copy(ELDERIAN_STONE));
 	public static final Block ELDERIAN_HASTUR_MURAL = new MuralBlock(MMAffiliations.HASTUR,
-		AbstractBlock.Settings.copy(ELDERIAN_STONE));
+																	 AbstractBlock.Settings.copy(ELDERIAN_STONE));
 	public static final Block ELDERIAN_SHUB_MURAL = new MuralBlock(MMAffiliations.SHUB,
-		AbstractBlock.Settings.copy(ELDERIAN_STONE));
+																   AbstractBlock.Settings.copy(ELDERIAN_STONE));
 	public static final Block ELDERIAN_YOG_MURAL = new MuralBlock(MMAffiliations.YOG,
-		AbstractBlock.Settings.copy(ELDERIAN_STONE));
+																  AbstractBlock.Settings.copy(ELDERIAN_STONE));
 
 	public static final StatueBlock CTHULHU_STATUE_ELDERIAN = new StatueBlock(MMAffiliations.CTHULHU, false,
-		AbstractBlock.Settings.copy(ELDERIAN_STONE));
+																			  AbstractBlock.Settings.copy(ELDERIAN_STONE));
 	public static final StatueBlock HASTUR_STATUE_ELDERIAN = new StatueBlock(MMAffiliations.HASTUR, false,
-		AbstractBlock.Settings.copy(ELDERIAN_STONE));
+																			 AbstractBlock.Settings.copy(ELDERIAN_STONE));
 	public static final StatueBlock SHUB_STATUE_ELDERIAN = new StatueBlock(MMAffiliations.SHUB, false,
-		AbstractBlock.Settings.copy(ELDERIAN_STONE));
+																		   AbstractBlock.Settings.copy(ELDERIAN_STONE));
 	public static final StatueBlock YOG_STATUE_ELDERIAN = new StatueBlock(MMAffiliations.YOG, false,
-		AbstractBlock.Settings.copy(ELDERIAN_STONE));
+																		  AbstractBlock.Settings.copy(ELDERIAN_STONE));
 
 
 	public static final BlockEntityType<StatueBlockEntity> STATUE_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder
@@ -261,17 +271,19 @@ public class MMObjects {
 
 	public static final Block INFESTED_WHEAT_CROP = new InfestedWheatCropBlock();
 	public static final Block BIRCH_LOG = new PillarBlock(AbstractBlock.Settings
-		.of(Material.WOOD, (blockState) -> blockState.get(PillarBlock.AXIS) == Direction.Axis.Y ? MapColor.PALE_YELLOW : MapColor.WHITE)
-		.strength(2.0F).sounds(BlockSoundGroup.WOOD));
+															  .of(Material.WOOD, (blockState) -> blockState.get(PillarBlock.AXIS) == Direction.Axis.Y
+																								 ? MapColor.PALE_YELLOW : MapColor.WHITE)
+															  .strength(2.0F).sounds(BlockSoundGroup.WOOD));
 
 	public static final LoomPattern YELLOW_SIGN_BANNER = new LoomPattern(true);
 	public static final Item YELLOW_SIGN_LOOM_PATTERN = new YellowSignPatternItem();
 
 
 	public static final MMBookItem SCIENCE_JOURNAL = new MMBookItem(new Identifier(Constants.MOD_ID, "science_journal"),
-		MMAffiliations.NONE, false, new Item.Settings().maxCount(1).group(Constants.MM_GROUP));
+																	MMAffiliations.NONE, false,
+																	new Item.Settings().maxCount(1).group(Constants.MM_GROUP));
 	public static final MMBookItem NECRONOMICON = new MMBookItem(new Identifier(Constants.MOD_ID, "necronomicon"), MMAffiliations.NONE,
-		true, new Item.Settings().maxCount(1).group(Constants.MM_GROUP));
+																 true, new Item.Settings().maxCount(1).group(Constants.MM_GROUP));
 
 	public static final Item OCEANIC_GOLD = new Item(new Item.Settings().group(Constants.MM_GROUP));
 
@@ -292,47 +304,51 @@ public class MMObjects {
 	public static final Item THE_ORB = new TheOrbItem();
 
 	public static final Item ORNATE_DAGGER = new BlessedSwordItem(MMAffiliations.HASTUR, 2, -2.3F,
-		(target, attacker) -> target.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 100, 1, true, false, false)),
-		new Item.Settings().group(Constants.MM_GROUP));
+																  (target, attacker) -> target.addStatusEffect(
+																	  new StatusEffectInstance(MMStatusEffects.MANIA, 100, 1, true, false, false)),
+																  new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item GUTTING_DAGGER = new BlessedSwordItem(MMAffiliations.SHUB, 3, -2.6F,
-		(target, attacker) -> target.addStatusEffect(new StatusEffectInstance(MMStatusEffects.BLEED, 600, 0, false, false, false)),
-		new Item.Settings().group(Constants.MM_GROUP));
+																   (target, attacker) -> target.addStatusEffect(
+																	   new StatusEffectInstance(MMStatusEffects.BLEED, 600, 0, false, false, false)),
+																   new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item HORNED_DAGGER = new BlessedSwordItem(MMAffiliations.SHUB, 4, -2.3F, (target, attacker) -> {
 	},
-		new Item.Settings().group(Constants.MM_GROUP));
+																  new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item FISHY_DAGGER = new BlessedSwordItem(MMAffiliations.CTHULHU, 3, -2.3F,
-		(target, attacker) -> target.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 0, false, true, true)),
-		new Item.Settings().group(Constants.MM_GROUP));
+																 (target, attacker) -> target.addStatusEffect(
+																	 new StatusEffectInstance(StatusEffects.POISON, 100, 0, false, true, true)),
+																 new Item.Settings().group(Constants.MM_GROUP));
 
 	public static final Item STELLAR_DAGGER = new BlessedSwordItem(MMAffiliations.YOG, 3, -2.3F,
-		(target, attacker) -> target.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100, 0, false, true, true)),
-		new Item.Settings().group(Constants.MM_GROUP));
+																   (target, attacker) -> target.addStatusEffect(
+																	   new StatusEffectInstance(StatusEffects.NAUSEA, 100, 0, false, true, true)),
+																   new Item.Settings().group(Constants.MM_GROUP));
 
 	public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(MMEntities.PROTAGONIST, 4137472, 14592,
-		new Item.Settings().group(Constants.MM_GROUP));
+																	  new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item HASTUR_CULTIST_SPAWN_EGG = new SpawnEggItem(MMEntities.HASTUR_CULTIST, 0xEAC800, 0xFFFFFF,
-		new Item.Settings().group(Constants.MM_GROUP));
+																		 new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item PHANTASMA_SPAWN_EGG = new SpawnEggItem(MMEntities.PHANTASMA, 0x77329F, 0xDA329F,
-		new Item.Settings().group(Constants.MM_GROUP));
+																	new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item ABERRATION_SPAWN_EGG = new SpawnEggItem(MMEntities.ABERRATION, 0x77329F, 0x8c2066,
-		new Item.Settings().group(Constants.MM_GROUP));
+																	 new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item BYAKHEE_SPAWN_EGG = new SpawnEggItem(MMEntities.BYAKHEE, 0x5a6049, 0xEAC800,
-		new Item.Settings().group(Constants.MM_GROUP));
+																  new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item TATTERED_PRINCE_SPAWN_EGG = new SpawnEggItem(MMEntities.TATTERED_PRINCE, 0xEAC800, 0xFF0000,
-		new Item.Settings().group(Constants.MM_GROUP));
+																		  new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item TENTACLE_SPAWN_EGG = new SpawnEggItem(MMEntities.GENERIC_TENTACLE, 0xf9da5c, 0xefc623,
-		new Item.Settings().group(Constants.MM_GROUP));
+																   new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item HARROW_SPAWN_EGG = new SpawnEggItem(MMEntities.HARROW, 0xefc623, 0xf9da5c,
-		new Item.Settings().group(Constants.MM_GROUP));
+																 new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item TINDALOS_HOUND_SPAWN_EGG = new SpawnEggItem(MMEntities.TINDALOS_HOUND, 0x0b5c8c, 0x284b7f,
-		new Item.Settings().group(Constants.MM_GROUP));
+																		 new Item.Settings().group(Constants.MM_GROUP));
 
 	public static final Item ELEGANT_MASK = new MaskTrinketItem(MMAffiliations.HASTUR, false,
-		new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
+																new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
 	public static final Item FERAL_MASK = new MaskTrinketItem(MMAffiliations.SHUB, false,
-		new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
+															  new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
 	public static final Item WILD_MASK = new MaskTrinketItem(MMAffiliations.SHUB, false,
-		new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
+															 new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
 
 	public static final Item YELLOW_HOOD = new HasturCultistArmor(EquipmentSlot.HEAD);
 	public static final Item YELLOW_ROBE = new HasturCultistArmor(EquipmentSlot.CHEST);
@@ -406,8 +422,6 @@ public class MMObjects {
 		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "masterpiece_statue", MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE);
 		RegistryUtil.register(Registry.BLOCK, "masterpiece_statue", MASTERPIECE_STATUE);
 		RegistryUtil.register(Registry.ITEM, "masterpiece_statue", new MasterpieceStatueBlock.MasterpieceStatueBlockItem());
-
-
 
 		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "hastur_obelisk", HASTUR_OBELISK_BLOCK_ENTITY_TYPE);
 		RegistryUtil.register(Registry.BLOCK, "hastur_obelisk", HASTUR_OBELISK);
@@ -483,11 +497,11 @@ public class MMObjects {
 		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "resonator", RESONATOR_BLOCK_ENTITY_TYPE);
 		RegistryUtil.registerBlock(RESONATOR, "resonator");
 		EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage.getSideStorage(direction),
-			RESONATOR_BLOCK_ENTITY_TYPE);
+												   RESONATOR_BLOCK_ENTITY_TYPE);
 		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "power_cell", POWER_CELL_BLOCK_ENTITY_TYPE);
 		RegistryUtil.registerBlock(POWER_CELL, "power_cell");
 		EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage.getSideStorage(direction),
-			POWER_CELL_BLOCK_ENTITY_TYPE);
+												   POWER_CELL_BLOCK_ENTITY_TYPE);
 
 		RegistryUtil.register(LoomPatterns.REGISTRY, "yellow_sign", YELLOW_SIGN_BANNER);
 

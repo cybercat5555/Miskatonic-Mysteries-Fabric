@@ -2,21 +2,23 @@ package com.miskatonicmysteries.common.util;
 
 import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.mixin.biomes.ChunkSectionAccessor;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class BiomeUtil {
 
@@ -53,7 +55,7 @@ public class BiomeUtil {
 
 	public static void setBiome(World world, BlockPos pos, RegistryEntry<Biome> biome) {
 		setBiome(world, world.getWorldChunk(pos), BiomeCoords.fromBlock(pos.getX()), BiomeCoords.fromBlock(pos.getY()),
-			BiomeCoords.fromBlock(pos.getZ()), biome);
+				 BiomeCoords.fromBlock(pos.getZ()), biome);
 	}
 
 	public static void setBiome(World world, Chunk chunk, int biomeX, int biomeY, int biomeZ, RegistryEntry<Biome> biome) {
@@ -70,8 +72,8 @@ public class BiomeUtil {
 	}
 
 	public static void revertBiome(World world, BlockPos pos) {
-		revertBiome(world, world.getWorldChunk(pos),  BiomeCoords.fromBlock(pos.getX()), BiomeCoords.fromBlock(pos.getY()),
-			BiomeCoords.fromBlock(pos.getZ()));
+		revertBiome(world, world.getWorldChunk(pos), BiomeCoords.fromBlock(pos.getX()), BiomeCoords.fromBlock(pos.getY()),
+					BiomeCoords.fromBlock(pos.getZ()));
 	}
 
 	public static void revertBiome(World world, Chunk chunk, int biomeX, int biomeY, int biomeZ) {

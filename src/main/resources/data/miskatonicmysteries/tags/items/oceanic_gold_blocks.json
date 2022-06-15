@@ -1,11 +1,11 @@
 {
-  "replace": false,
-  "values": [
-    "miskatonicmysteries:oceanic_gold_block",
-    "miskatonicmysteries:oceanic_gold_block_warded",
-    "miskatonicmysteries:oceanic_gold_tiles",
-    "miskatonicmysteries:oceanic_gold_pillar",
-    "miskatonicmysteries:oceanic_gold_pillar_ornate",
-    "miskatonicmysteries:oceanic_gold_pillar_split"
-  ]
+	"replace": false,
+	"values": [
+		"miskatonicmysteries:oceanic_gold_block",
+		"miskatonicmysteries:oceanic_gold_block_warded",
+		"miskatonicmysteries:oceanic_gold_tiles",
+		"miskatonicmysteries:oceanic_gold_pillar",
+		"miskatonicmysteries:oceanic_gold_pillar_ornate",
+		"miskatonicmysteries:oceanic_gold_pillar_split"
+	]
 }

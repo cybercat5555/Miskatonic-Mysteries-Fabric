@@ -5,10 +5,12 @@ import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
-import javax.annotation.Nullable;
+
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
+
+import javax.annotation.Nullable;
 
 public abstract class AscensionLockedRite extends Rite {
 
@@ -17,7 +19,7 @@ public abstract class AscensionLockedRite extends Rite {
 	private final String knowledge;
 
 	public AscensionLockedRite(Identifier id, @Nullable Affiliation octagram, String knowledge, float investigatorChance, int stage,
-		Ingredient... ingredients) {
+							   Ingredient... ingredients) {
 		super(id, octagram, investigatorChance, ingredients);
 		this.stage = stage;
 		this.ascensionAffiliation = octagram;

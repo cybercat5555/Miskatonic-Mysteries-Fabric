@@ -7,6 +7,7 @@ import com.miskatonicmysteries.common.feature.sanity.SpawnHallucinationInsanityE
 import com.miskatonicmysteries.common.feature.sanity.SpookySoundInsanityEvent;
 import com.miskatonicmysteries.common.feature.sanity.UltraViolenceInsanityEvent;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -19,7 +20,7 @@ public class MMInsanity {
 	public static final InsanityEvent ULTRA_VIOLENCE = new UltraViolenceInsanityEvent();
 
 	public static final InsanityInducer BASE_INDUCERS = new InsanityInducer(new Identifier(Constants.MOD_ID, "base_insanity_inducers"),
-		20, false, true, true, Ingredient.ofItems(MMObjects.BLOTTER));
+																			20, false, true, true, Ingredient.ofItems(MMObjects.BLOTTER));
 
 	public static void init() {
 		registerEvent(SPOOKY_SOUND);

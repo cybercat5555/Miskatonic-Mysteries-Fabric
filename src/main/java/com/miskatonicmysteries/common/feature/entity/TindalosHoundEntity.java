@@ -7,14 +7,7 @@ import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Util;
-import com.mojang.datafixers.util.Pair;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -50,6 +43,16 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkCache;
+
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+
+import com.mojang.datafixers.util.Pair;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -83,6 +86,27 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 		return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5)
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 30).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.32F);
+	}
+
+	public static void handleSpawning(PlayerEntity playerEntity) {
+		if (!playerEntity.world.isClient && playerEntity.age % 20 == 0) {
+			if (!MMWorldState.get(playerEntity.world).getHoundState(playerEntity.getUuid())) {
+				spawnFor(playerEntity);
+			}
+		}
+	}
+
+	public static void spawnFor(PlayerEntity playerEntity) {
+		TindalosHoundEntity hound = MMEntities.TINDALOS_HOUND.create(playerEntity.world);
+		findPhasingBlock(playerEntity).ifPresent(location -> {
+			hound.startPhasingTo(location.getFirst(), location.getSecond(), false);
+			hound.setPos(location.getFirst().getX(), location.getFirst().getY(), location.getFirst().getZ());
+			hound.setTarget(playerEntity);
+			hound.setHardTargetUUID(playerEntity.getUuid());
+			if (playerEntity.world.spawnEntity(hound)) {
+				MMWorldState.get(playerEntity.world).markHoundState(playerEntity.getUuid(), true);
+			}
+		});
 	}
 
 	public static Optional<Pair<BlockPos, Direction>> findPhasingBlock(LivingEntity target) {
@@ -127,25 +151,10 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 		return Optional.empty();
 	}
 
-	public static void handleSpawning(PlayerEntity playerEntity) {
-		if (!playerEntity.world.isClient && playerEntity.age % 20 == 0) {
-			if (!MMWorldState.get(playerEntity.world).getHoundState(playerEntity.getUuid())) {
-				spawnFor(playerEntity);
-			}
-		}
-	}
-
-	public static void spawnFor(PlayerEntity playerEntity) {
-		TindalosHoundEntity hound = MMEntities.TINDALOS_HOUND.create(playerEntity.world);
-		findPhasingBlock(playerEntity).ifPresent(location -> {
-			hound.startPhasingTo(location.getFirst(), location.getSecond(), false);
-			hound.setPos(location.getFirst().getX(), location.getFirst().getY(), location.getFirst().getZ());
-			hound.setTarget(playerEntity);
-			hound.setHardTargetUUID(playerEntity.getUuid());
-			if (playerEntity.world.spawnEntity(hound)) {
-				MMWorldState.get(playerEntity.world).markHoundState(playerEntity.getUuid(), true);
-			}
-		});
+	public void startPhasingTo(BlockPos pos, Direction direction, boolean inWorld) {
+		setPhasingProgress(inWorld ? 200 : 100);
+		setPhasingDestination(pos);
+		setPhasingDirection(direction);
 	}
 
 	@Override
@@ -158,8 +167,18 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 		this.goalSelector.add(3, new WanderAroundFarGoal(this, 1.0D));
 		this.targetSelector.add(1, new RevengeGoal(this));
 		this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class,
-			10, false, false,
-			(entity) -> getHardTargetUUID().map(uuid -> uuid.equals(entity.getUuid())).orElse(true)));
+														  10, false, false,
+														  (entity) -> getHardTargetUUID().map(uuid -> uuid.equals(entity.getUuid())).orElse(true)));
+	}
+
+	@Override
+	protected void initDataTracker() {
+		super.initDataTracker();
+		this.dataTracker.startTracking(HARD_TARGET, Optional.empty());
+		this.dataTracker.startTracking(PHASING_PROGRESS, 0);
+		this.dataTracker.startTracking(PHASING_DESTINATION, Optional.empty());
+		this.dataTracker.startTracking(PHASING_DIRECTION, Direction.UP);
+		this.dataTracker.startTracking(HOUND_DATA, (byte) 0);
 	}
 
 	@Override
@@ -167,9 +186,9 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 		super.tick();
 		if (world.isClient && random.nextFloat() < 0.1F) {
 			world.addParticle(MMParticles.WEIRD_CUBE, getParticleX(1), getRandomBodyY(), getParticleZ(1),
-				MathHelper.nextGaussian(random, 0, 0.01F),
-				MathHelper.nextGaussian(random, 0, 0.01F),
-				MathHelper.nextGaussian(random, 0, 0.01F));
+							  MathHelper.nextGaussian(random, 0, 0.01F),
+							  MathHelper.nextGaussian(random, 0, 0.01F),
+							  MathHelper.nextGaussian(random, 0, 0.01F));
 		}
 
 		int phasingProgress = getPhasingProgress();
@@ -218,6 +237,74 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 		}
 	}
 
+	public int getPhasingProgress() {
+		return this.dataTracker.get(PHASING_PROGRESS);
+	}
+
+	public void setPhasingProgress(int phasingProgress) {
+		this.dataTracker.set(PHASING_PROGRESS, phasingProgress);
+	}
+
+	public Optional<BlockPos> getPhasingDestination() {
+		return this.dataTracker.get(PHASING_DESTINATION);
+	}
+
+	public void setPhasingDestination(BlockPos phasingDestination) {
+		this.dataTracker
+			.set(PHASING_DESTINATION, phasingDestination != null ?
+									  Optional.of(phasingDestination) :
+									  Optional.empty());
+	}
+
+	public Direction getPhasingDirection() {
+		return this.dataTracker.get(PHASING_DIRECTION);
+	}
+
+	public void setPhasingDirection(Direction phasingDirection) {
+		this.dataTracker.set(PHASING_DIRECTION, phasingDirection);
+	}
+
+	@Override
+	public void writeCustomDataToNbt(NbtCompound nbt) {
+		super.writeCustomDataToNbt(nbt);
+		getHardTargetUUID().ifPresent(targetUUID -> nbt.putUuid(Constants.NBT.TARGET, targetUUID));
+		nbt.putInt(Constants.NBT.PHASE_TICKS, getPhasingProgress());
+		getPhasingDestination().ifPresent(destination -> {
+			nbt.put(Constants.NBT.POSITION, NbtHelper.fromBlockPos(destination));
+			nbt.putInt(Constants.NBT.PHASE_DIRECTION, getPhasingDirection().getId());
+		});
+
+	}
+
+	@Override
+	public void readCustomDataFromNbt(NbtCompound nbt) {
+		super.readCustomDataFromNbt(nbt);
+		if (nbt.containsUuid(Constants.NBT.TARGET)) {
+			setHardTargetUUID(nbt.getUuid(Constants.NBT.TARGET));
+		}
+		setPhasingProgress(nbt.getInt(Constants.NBT.PHASE_TICKS));
+		if (nbt.contains(Constants.NBT.POSITION)) {
+			setPhasingDestination(NbtHelper.toBlockPos((NbtCompound) nbt.get(Constants.NBT.POSITION)));
+			setPhasingDirection(Direction.byId(nbt.getInt(Constants.NBT.PHASE_DIRECTION)));
+		}
+	}
+
+	@Override
+	protected void mobTick() {
+		super.mobTick();
+		if (getTarget() != null) {
+			getLookControl().lookAt(getTarget(), 10.0F, 10.0F);
+		}
+	}
+
+	public Optional<UUID> getHardTargetUUID() {
+		return this.dataTracker.get(HARD_TARGET);
+	}
+
+	public void setHardTargetUUID(UUID uuid) {
+		this.dataTracker.set(HARD_TARGET, Optional.of(uuid));
+	}
+
 	@Override
 	public void onAttacking(Entity target) {
 		super.onAttacking(target);
@@ -237,104 +324,12 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 	}
 
 	@Override
-	public boolean isInvisible() {
-		return isDeepPhasing();
-	}
-
-	@Override
-	public boolean isInvulnerable() {
-		return isDeepPhasing();
-	}
-
-	private boolean isDeepPhasing() {
-		return getPhasingProgress() > 0 && getPhasingProgress() < 100;
-	}
-
-	@Override
-	protected void initDataTracker() {
-		super.initDataTracker();
-		this.dataTracker.startTracking(HARD_TARGET, Optional.empty());
-		this.dataTracker.startTracking(PHASING_PROGRESS, 0);
-		this.dataTracker.startTracking(PHASING_DESTINATION, Optional.empty());
-		this.dataTracker.startTracking(PHASING_DIRECTION, Direction.UP);
-		this.dataTracker.startTracking(HOUND_DATA, (byte) 0);
-	}
-
-	public Optional<UUID> getHardTargetUUID() {
-		return this.dataTracker.get(HARD_TARGET);
-	}
-
-	public void setHardTargetUUID(UUID uuid) {
-		this.dataTracker.set(HARD_TARGET, Optional.of(uuid));
-	}
-
-	public int getPhasingProgress() {
-		return this.dataTracker.get(PHASING_PROGRESS);
-	}
-
-	public void setPhasingProgress(int phasingProgress) {
-		this.dataTracker.set(PHASING_PROGRESS, phasingProgress);
-	}
-
-	public Optional<BlockPos> getPhasingDestination() {
-		return this.dataTracker.get(PHASING_DESTINATION);
-	}
-
-	public void setPhasingDestination(BlockPos phasingDestination) {
-		this.dataTracker
-			.set(PHASING_DESTINATION, phasingDestination != null ?
-				Optional.of(phasingDestination) :
-				Optional.empty());
-	}
-
-	public Direction getPhasingDirection() {
-		return this.dataTracker.get(PHASING_DIRECTION);
-	}
-
-	public void setPhasingDirection(Direction phasingDirection) {
-		this.dataTracker.set(PHASING_DIRECTION, phasingDirection);
-	}
-
-	public void startPhasingTo(BlockPos pos, Direction direction, boolean inWorld) {
-		setPhasingProgress(inWorld ? 200 : 100);
-		setPhasingDestination(pos);
-		setPhasingDirection(direction);
-	}
-
-	@Override
-	public void readCustomDataFromNbt(NbtCompound nbt) {
-		super.readCustomDataFromNbt(nbt);
-		if (nbt.containsUuid(Constants.NBT.TARGET)) {
-			setHardTargetUUID(nbt.getUuid(Constants.NBT.TARGET));
-		}
-		setPhasingProgress(nbt.getInt(Constants.NBT.PHASE_TICKS));
-		if (nbt.contains(Constants.NBT.POSITION)) {
-			setPhasingDestination(NbtHelper.toBlockPos((NbtCompound) nbt.get(Constants.NBT.POSITION)));
-			setPhasingDirection(Direction.byId(nbt.getInt(Constants.NBT.PHASE_DIRECTION)));
-		}
-	}
-
-	@Override
-	public void writeCustomDataToNbt(NbtCompound nbt) {
-		super.writeCustomDataToNbt(nbt);
-		getHardTargetUUID().ifPresent(targetUUID -> nbt.putUuid(Constants.NBT.TARGET, targetUUID));
-		nbt.putInt(Constants.NBT.PHASE_TICKS, getPhasingProgress());
-		getPhasingDestination().ifPresent(destination -> {
-			nbt.put(Constants.NBT.POSITION, NbtHelper.fromBlockPos(destination));
-			nbt.putInt(Constants.NBT.PHASE_DIRECTION, getPhasingDirection().getId());
-		});
-
-	}
-
-	@Override
 	public void registerControllers(AnimationData data) {
 		data.addAnimationController(new AnimationController<>(this, "main_controller", 4, this::animationPredicate));
 
 	}
 
 	private <T extends IAnimatable> PlayState animationPredicate(AnimationEvent<T> event) {
-
-
 
 		float limbSwingAmount = event.getLimbSwingAmount();
 		boolean isMoving = limbSwingAmount > 0.1F;
@@ -344,7 +339,7 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 		} else if (isSucking()) {
 			event.getController()
 				.setAnimation(new AnimationBuilder()
-					.addAnimation("animation.tindalos_hound.attack_drain_loop", true));
+								  .addAnimation("animation.tindalos_hound.attack_drain_loop", true));
 		} else if (isMoving) {
 			event.getController()
 				.setAnimation(new AnimationBuilder().addAnimation("animation.tindalos_hound.walk", true));
@@ -356,11 +351,6 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 				.setAnimation(new AnimationBuilder().addAnimation("animation.tindalos_hound.idle", true));
 		}
 		return PlayState.CONTINUE;
-	}
-
-	@Override
-	public AnimationFactory getFactory() {
-		return factory;
 	}
 
 	private boolean isPouncing() {
@@ -382,11 +372,8 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 	}
 
 	@Override
-	protected void mobTick() {
-		super.mobTick();
-		if (getTarget() != null) {
-			getLookControl().lookAt(getTarget(), 10.0F, 10.0F);
-		}
+	public AnimationFactory getFactory() {
+		return factory;
 	}
 
 	@Override
@@ -401,6 +388,20 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 				}
 			});
 		}
+	}
+
+	@Override
+	public boolean isInvisible() {
+		return isDeepPhasing();
+	}
+
+	@Override
+	public boolean isInvulnerable() {
+		return isDeepPhasing();
+	}
+
+	private boolean isDeepPhasing() {
+		return getPhasingProgress() > 0 && getPhasingProgress() < 100;
 	}
 
 	class HoundDrainTargetGoal extends Goal {
@@ -426,6 +427,14 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 		}
 
 		@Override
+		public void stop() {
+			super.stop();
+			setSucking(false);
+			drainCooldown = 40;
+			suckTicks = 0;
+		}
+
+		@Override
 		public void tick() {
 			super.tick();
 			if (isSucking()) {
@@ -448,14 +457,6 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 			} else {
 				stop();
 			}
-		}
-
-		@Override
-		public void stop() {
-			super.stop();
-			setSucking(false);
-			drainCooldown = 40;
-			suckTicks = 0;
 		}
 	}
 
@@ -538,7 +539,7 @@ public class TindalosHoundEntity extends HostileEntity implements IAnimatable {
 		public boolean canStart() {
 			return phasingCooldown-- < 0 && isOnGround() && getPhasingProgress() == 0 && (getTarget() == null ? getHardTargetUUID()
 				.isPresent() && isPlayerInRange() : getNavigation()
-				.isIdle() && !canNavigateToEntity(getTarget()));
+																							  .isIdle() && !canNavigateToEntity(getTarget()));
 		}
 
 		private boolean canNavigateToEntity(LivingEntity entity) {

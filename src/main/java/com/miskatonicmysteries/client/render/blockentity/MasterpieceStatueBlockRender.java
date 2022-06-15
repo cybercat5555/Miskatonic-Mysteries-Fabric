@@ -6,23 +6,12 @@ import com.miskatonicmysteries.client.render.ColorUtil;
 import com.miskatonicmysteries.common.feature.block.blockentity.MasterpieceStatueBlockEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.client.PlayerSkinTextureAccessor;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import it.unimi.dsi.fastutil.ints.Int2IntMap;
-import it.unimi.dsi.fastutil.ints.IntList;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.impl.client.indigo.renderer.helper.ColorHelper;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.RenderLayer;
@@ -53,6 +42,21 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3f;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
+import it.unimi.dsi.fastutil.ints.IntList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -70,7 +74,7 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 	private final VillagerResemblingModel<VillagerEntity> villagerModel;
 	private final StoneTexture villagerTexture;
 	private final SpriteIdentifier statueSprite = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
-		new Identifier(Constants.MOD_ID, "block/statue/masterpiece_statue"));
+																	   new Identifier(Constants.MOD_ID, "block/statue/masterpiece_statue"));
 	private final List<Consumer<PlayerEntityModel<PlayerEntity>>> poses = new ArrayList<>();
 
 	public MasterpieceStatueBlockRender(BlockEntityRendererFactory.Context context) {
@@ -132,9 +136,15 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 		});
 	}
 
+	public void setRotationAngle(ModelPart part, float pitch, float yaw, float roll) {
+		part.pitch = pitch;
+		part.yaw = yaw;
+		part.roll = roll;
+	}
+
 	@Override
 	public void render(MasterpieceStatueBlockEntity entity, float tickDelta, MatrixStack matrices,
-		VertexConsumerProvider vertexConsumers, int light, int overlay) {
+					   VertexConsumerProvider vertexConsumers, int light, int overlay) {
 		matrices.push();
 		int rotation = entity.getCachedState() != null ? entity.getCachedState().get(Properties.ROTATION) : 0;
 		matrices.translate(0.5, 1.5, 0.5);
@@ -147,7 +157,7 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 	}
 
 	private void renderPlayer(@Nullable GameProfile profile, MatrixStack matrices,
-		VertexConsumerProvider vertexConsumers, int light, int overlay, int pose) {
+							  VertexConsumerProvider vertexConsumers, int light, int overlay, int pose) {
 		matrices.translate(0, -0.375F, 0);
 		if (profile != null) {
 			RenderLayer layer = getLayer(profile);
@@ -193,13 +203,13 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 				if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) {
 					try {
 						return new StoneTexture(minecraftClient.getSkinProvider()
-							.loadSkin(map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN), true);
+													.loadSkin(map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN), true);
 					} catch (NullPointerException e) {
 						return defaultTexture;
 					}
 				} else {
 					return new StoneTexture(DefaultSkinHelper.getTexture(PlayerEntity.getUuidFromProfile(profile)),
-						false);
+											false);
 				}
 			} else {
 				if (stoneTexture.needsUpdate) {
@@ -215,12 +225,6 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 			"default") ? steveModel : alexModel;
 	}
 
-	public void setRotationAngle(ModelPart part, float pitch, float yaw, float roll) {
-		part.pitch = pitch;
-		part.yaw = yaw;
-		part.roll = roll;
-	}
-
 	public static class BuiltinItemStatueRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer {
 
 		private static BlockEntityRenderDispatcher dispatcher;
@@ -232,7 +236,7 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 
 		@Override
 		public void render(ItemStack stack, ModelTransformation.Mode mode, MatrixStack matrices,
-			VertexConsumerProvider vertexConsumers, int light, int overlay) {
+						   VertexConsumerProvider vertexConsumers, int light, int overlay) {
 			if (dispatcher != null) {
 				NbtCompound compound = stack.getNbt();
 				if (compound != null && compound.contains(Constants.NBT.BLOCK_ENTITY_TAG)) {
@@ -297,7 +301,7 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 						for (int x = 0; x < width; x++) {
 							int color = colorMap.get(inputImage.getColor(x, y));
 							color = ColorHelper.multiplyColor(color,
-								stoneImage.getColor(x % stoneImage.getWidth(), y % stoneImage.getHeight()));
+															  stoneImage.getColor(x % stoneImage.getWidth(), y % stoneImage.getHeight()));
 							texture.getImage().setColor(x, y, color);
 						}
 					}

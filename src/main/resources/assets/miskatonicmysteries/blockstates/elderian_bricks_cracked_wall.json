@@ -1,90 +1,90 @@
 {
-  "multipart": [
-    {
-      "when": {
-        "up": "true"
-      },
-      "apply": {
-          "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_post_1"
-      }
-    },
-    {
-      "when": {
-        "north": "low"
-      },
-      "apply": {
-          "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_1",
-          "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "east": "low"
-      },
-      "apply": {
-          "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_1",
-          "y": 90,
-          "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "south": "low"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_1",
-        "y": 180,
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "west": "low"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_1",
-        "y": 270,
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "north": "tall"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_tall_1",
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "east": "tall"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_tall_1",
-        "y": 90,
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "south": "tall"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_tall_1",
-        "y": 180,
-        "uvlock": true
-      }
-    },
-    {
-      "when": {
-        "west": "tall"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_tall_1",
-        "y": 270,
-        "uvlock": true
-      }
-    }
-  ]
+	"multipart": [
+		{
+			"when": {
+				"up": "true"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_post_1"
+			}
+		},
+		{
+			"when": {
+				"north": "low"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_1",
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"east": "low"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_1",
+				"y": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"south": "low"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_1",
+				"y": 180,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"west": "low"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_1",
+				"y": 270,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"north": "tall"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_tall_1",
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"east": "tall"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_tall_1",
+				"y": 90,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"south": "tall"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_tall_1",
+				"y": 180,
+				"uvlock": true
+			}
+		},
+		{
+			"when": {
+				"west": "tall"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_wall_side_tall_1",
+				"y": 270,
+				"uvlock": true
+			}
+		}
+	]
 }

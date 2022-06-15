@@ -1,10 +1,10 @@
 {
-  "variants": {
-    "variants=0": {
-      "model": "miskatonicmysteries:block/elderian/elderian_bricks_mossy_1"
-    },
-    "variants=1": {
-      "model": "miskatonicmysteries:block/elderian/elderian_bricks_mossy_2"
-    }
-  }
+	"variants": {
+		"variants=0": {
+			"model": "miskatonicmysteries:block/elderian/elderian_bricks_mossy_1"
+		},
+		"variants=1": {
+			"model": "miskatonicmysteries:block/elderian/elderian_bricks_mossy_2"
+		}
+	}
 }

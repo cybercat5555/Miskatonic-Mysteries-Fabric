@@ -8,7 +8,6 @@ import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
@@ -18,17 +17,7 @@ import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMCriteria;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
-import com.miskatonicmysteries.mixin.biomes.ChunkSectionAccessor;
-import dev.emi.trinkets.api.TrinketsApi;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.annotation.Nullable;
-import net.minecraft.client.world.ClientWorld;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.player.PlayerEntity;
@@ -39,14 +28,16 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.source.BiomeCoords;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkSection;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import dev.emi.trinkets.api.TrinketsApi;
+import javax.annotation.Nullable;
 
 public class MiskatonicMysteriesAPI {
 
@@ -58,7 +49,7 @@ public class MiskatonicMysteriesAPI {
 		public Affiliation read(PacketByteBuf packetByteBuf) {
 			Identifier id = packetByteBuf.readIdentifier();
 			return MMRegistries.AFFILIATIONS.getIds().contains(id) ? MMRegistries.AFFILIATIONS.get(id) :
-				MMAffiliations.NONE;
+				   MMAffiliations.NONE;
 		}
 
 		public Affiliation copy(Affiliation affiliation) {
@@ -66,10 +57,6 @@ public class MiskatonicMysteriesAPI {
 		}
 	};
 	private static final Map<RegistryKey<Biome>, BiomeEffect> biomeEffects = new HashMap<>();
-
-	public static Affiliation getNonNullAffiliation(Object obj, boolean apparent) {
-		return Affiliated.of(obj).map(affiliated -> affiliated.getAffiliation(apparent)).orElse(MMAffiliations.NONE);
-	}
 
 	public static Affiliation getApparentAffiliationFromEquipment(@Nullable ItemStack exclude, LivingEntity entity) {
 		var trinkets =
@@ -120,7 +107,7 @@ public class MiskatonicMysteriesAPI {
 		Optional<Ascendant> ascendant = Ascendant.of(player);
 		Optional<MalleableAffiliated> affiliated = MalleableAffiliated.of(player);
 		if (ascendant.isPresent() && affiliated.isPresent() && canLevelUp(ascendant.get(), affiliated.get(), stage,
-			affiliation)) {
+																		  affiliation)) {
 			ascendant.ifPresent(a -> a.setAscensionStage(stage));
 			affiliated.ifPresent(a -> a.setAffiliation(affiliation, false));
 			SpellCaster.of(player).ifPresent(caster -> {
@@ -142,11 +129,6 @@ public class MiskatonicMysteriesAPI {
 		return affiliated.getAffiliation(false) == affiliation || (stage - 1) <= 0;
 	}
 
-	public static int getAscensionStage(Object object) {
-		Optional<Ascendant> ascendant = Ascendant.of(object);
-		return ascendant.map(Ascendant::getAscensionStage).orElse(0);
-	}
-
 	public static void guaranteeSpellPower(int power, SpellCaster caster) {
 		if (caster.getPowerPool() < power) {
 			caster.setPowerPool(power);
@@ -162,6 +144,15 @@ public class MiskatonicMysteriesAPI {
 		return getNonNullAffiliation(entity, false)
 			.equals(MMAffiliations.HASTUR) && (!(entity instanceof PlayerEntity)
 			|| getAscensionStage(entity) >= HasturAscensionHandler.SIGN_IMMUNITY_STAGE);
+	}
+
+	public static Affiliation getNonNullAffiliation(Object obj, boolean apparent) {
+		return Affiliated.of(obj).map(affiliated -> affiliated.getAffiliation(apparent)).orElse(MMAffiliations.NONE);
+	}
+
+	public static int getAscensionStage(Object object) {
+		Optional<Ascendant> ascendant = Ascendant.of(object);
+		return ascendant.map(Ascendant::getAscensionStage).orElse(0);
 	}
 
 	public static boolean grantBlessing(PlayerEntity player, Affiliation affiliation) {

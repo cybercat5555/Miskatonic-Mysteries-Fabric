@@ -5,7 +5,13 @@ import com.miskatonicmysteries.client.model.armor.CultistRobesModel;
 import com.miskatonicmysteries.client.model.armor.HasturMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubAlternateMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubMaskModel;
-import com.miskatonicmysteries.client.model.block.*;
+import com.miskatonicmysteries.client.model.block.CthulhuStatueModel;
+import com.miskatonicmysteries.client.model.block.HasturObeliskModel;
+import com.miskatonicmysteries.client.model.block.HasturStatueModel;
+import com.miskatonicmysteries.client.model.block.MasterpieceStatueModel;
+import com.miskatonicmysteries.client.model.block.ShubStatueModel;
+import com.miskatonicmysteries.client.model.block.StatueModel;
+import com.miskatonicmysteries.client.model.block.YogsothothStatueModel;
 import com.miskatonicmysteries.client.model.entity.AscendedHasturCultistEntityModel;
 import com.miskatonicmysteries.client.model.entity.ByakheeEntityModel;
 import com.miskatonicmysteries.client.model.entity.HarrowEntityModel;
@@ -14,15 +20,18 @@ import com.miskatonicmysteries.client.model.entity.ProtagonistEntityModel;
 import com.miskatonicmysteries.client.model.entity.dummy.TatteredPrinceDummyModel;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityModelLayerRegistry;
+
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
 public class MMModels {
@@ -58,10 +67,10 @@ public class MMModels {
 		EntityModelLayerRegistry.registerModelLayer(HARROW, HarrowEntityModel::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(HASTUR_CULTIST, HasturCultistEntityModel::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(ASCENDED_HASTUR_CULTIST,
-			AscendedHasturCultistEntityModel::getTexturedModelData);
+													AscendedHasturCultistEntityModel::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(PROTAGONIST, ProtagonistEntityModel::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(TATTERED_PRINCE_DUMMY,
-			TatteredPrinceDummyModel::getTexturedModelData);
+													TatteredPrinceDummyModel::getTexturedModelData);
 
 		EntityModelLayerRegistry.registerModelLayer(HASTUR_MASK, HasturMaskModel::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(SHUB_MASK, ShubMaskModel::getTexturedModelData);
@@ -78,13 +87,13 @@ public class MMModels {
 		EntityModelLayerRegistry.registerModelLayer(HASTUR_OBELISK, HasturObeliskModel::getTexturedModelData);
 
 		registerStatueModel(MMAffiliations.CTHULHU,
-			(ctx) -> new CthulhuStatueModel(ctx.getLayerModelPart(CTHULHU_STATUE)));
+							(ctx) -> new CthulhuStatueModel(ctx.getLayerModelPart(CTHULHU_STATUE)));
 		registerStatueModel(MMAffiliations.HASTUR,
-			(ctx) -> new HasturStatueModel(ctx.getLayerModelPart(HASTUR_STATUE)));
+							(ctx) -> new HasturStatueModel(ctx.getLayerModelPart(HASTUR_STATUE)));
 		registerStatueModel(MMAffiliations.SHUB,
-			(ctx) -> new ShubStatueModel(ctx.getLayerModelPart(SHUB_STATUE)));
+							(ctx) -> new ShubStatueModel(ctx.getLayerModelPart(SHUB_STATUE)));
 		registerStatueModel(MMAffiliations.YOG,
-		(ctx) -> new YogsothothStatueModel(ctx.getLayerModelPart(YOGSOTHOTH_STATUE)));
+							(ctx) -> new YogsothothStatueModel(ctx.getLayerModelPart(YOGSOTHOTH_STATUE)));
 	}
 
 	public static void registerStatueModel(Affiliation affiliation, Function<BlockEntityRendererFactory.Context,

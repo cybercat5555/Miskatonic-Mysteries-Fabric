@@ -1,78 +1,78 @@
 {
-  "variants": {
-    "": [
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth"
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "x": 90
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "x": 180
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "x": 270
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "y": 90
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "y": 90,
-        "x": 90
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "y": 90,
-        "x": 180
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "y": 90,
-        "x": 270
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "y": 180
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "y": 180,
-        "x": 90
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "y": 180,
-        "x": 180
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "y": 180,
-        "x": 270
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "y": 270
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "y": 270,
-        "x": 90
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "y": 270,
-        "x": 180
-      },
-      {
-        "model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
-        "y": 270,
-        "x": 270
-      }
-    ]
-  }
+	"variants": {
+		"": [
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth"
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"x": 90
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"x": 180
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"x": 270
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"y": 90
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"y": 90,
+				"x": 90
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"y": 90,
+				"x": 180
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"y": 90,
+				"x": 270
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"y": 180
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"y": 180,
+				"x": 90
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"y": 180,
+				"x": 180
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"y": 180,
+				"x": 270
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"y": 270
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"y": 270,
+				"x": 90
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"y": 270,
+				"x": 180
+			},
+			{
+				"model": "miskatonicmysteries:block/elderian/elderian_stone_smooth",
+				"y": 270,
+				"x": 270
+			}
+		]
+	}
 }

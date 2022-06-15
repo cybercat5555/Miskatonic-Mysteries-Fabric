@@ -1,19 +1,14 @@
 package com.miskatonicmysteries.api.block;
 
-import static net.minecraft.state.property.Properties.WATERLOGGED;
-
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.feature.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Nullable;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
@@ -47,6 +42,14 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class StatueBlock extends Block implements Waterloggable, BlockEntityProvider, Affiliated {
 
@@ -110,7 +113,7 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 				if (entity.world.getRandom().nextInt(POSITIVE_STATUE_EFFECTS.get(statusEffect)) == 0) {
 					entity.addStatusEffect(
 						new StatusEffectInstance(statusEffect, duration, buffed && statusEffect != StatusEffects.REGENERATION ? 1 : 0, true,
-							false, false));
+												 false, false));
 				}
 			}
 		} else {
@@ -128,40 +131,13 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
-	public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
-		if (stack.hasNbt() && stack.getNbt().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
-			NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
-			if (compoundTag != null && compoundTag.contains(Constants.NBT.PLAYER_NAME)) {
-				tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.created_by", compoundTag.getString(Constants.NBT.PLAYER_NAME))
-					.formatted(Formatting.GRAY));
-			}
-		}
-		super.appendTooltip(stack, world, tooltip, options);
-	}
-
-	public BlockState rotate(BlockState state, BlockRotation rotation) {
-		return state.with(Properties.ROTATION, rotation.rotate(state.get(Properties.ROTATION), 16));
-	}
-
-	public BlockState mirror(BlockState state, BlockMirror mirror) {
-		return state.with(Properties.ROTATION, mirror.mirror(state.get(Properties.ROTATION), 16));
+	public Affiliation getAffiliation(boolean apparent) {
+		return affiliation;
 	}
 
 	@Override
-	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return SHAPE;
-	}
-
-	@Override
-	public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return VoxelShapes.empty();
-	}
-
-
-	@Override
-	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.ENTITYBLOCK_ANIMATED;
+	public boolean isSupernatural() {
+		return true;
 	}
 
 	@Override
@@ -183,8 +159,21 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 	}
 
 	@Override
+	@Environment(EnvType.CLIENT)
+	public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
+		if (stack.hasNbt() && stack.getNbt().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
+			NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
+			if (compoundTag != null && compoundTag.contains(Constants.NBT.PLAYER_NAME)) {
+				tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.created_by", compoundTag.getString(Constants.NBT.PLAYER_NAME))
+								.formatted(Formatting.GRAY));
+			}
+		}
+		super.appendTooltip(stack, world, tooltip, options);
+	}
+
+	@Override
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
-		BlockPos posFrom) {
+												BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
 			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
@@ -192,23 +181,36 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 	}
 
 	@Override
+	public BlockRenderType getRenderType(BlockState state) {
+		return BlockRenderType.ENTITYBLOCK_ANIMATED;
+	}
+
+	@Override
 	public FluidState getFluidState(BlockState state) {
 		return state.contains(WATERLOGGED) && state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+	}
+
+	public BlockState rotate(BlockState state, BlockRotation rotation) {
+		return state.with(Properties.ROTATION, rotation.rotate(state.get(Properties.ROTATION), 16));
+	}
+
+	public BlockState mirror(BlockState state, BlockMirror mirror) {
+		return state.with(Properties.ROTATION, mirror.mirror(state.get(Properties.ROTATION), 16));
+	}
+
+	@Override
+	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+		return SHAPE;
+	}
+
+	@Override
+	public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+		return VoxelShapes.empty();
 	}
 
 	@Nullable
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
 		return new StatueBlockEntity(pos, state);
-	}
-
-	@Override
-	public Affiliation getAffiliation(boolean apparent) {
-		return affiliation;
-	}
-
-	@Override
-	public boolean isSupernatural() {
-		return true;
 	}
 }

@@ -11,7 +11,7 @@ import com.miskatonicmysteries.common.feature.world.party.Party;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.registry.MMBlessings;
 import com.miskatonicmysteries.common.registry.MMWorld;
-import java.util.Optional;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityInteraction;
 import net.minecraft.entity.EntityType;
@@ -28,6 +28,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.village.VillageGossipType;
 import net.minecraft.village.VillagerGossips;
 import net.minecraft.world.World;
+
+import java.util.Optional;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -47,14 +50,11 @@ public abstract class VillagerEntityMixin extends MerchantEntity {
 		super(entityType, world);
 	}
 
-	@Shadow
-	protected abstract void sayNo();
-
 	@Inject(method = "onInteractionWith", at = @At("HEAD"), cancellable = true)
 	private void onInteractionWith(EntityInteraction interaction, Entity entity, CallbackInfo ci) {
 		Optional<Ascendant> optionalAscendant = Ascendant.of(entity);
 		if (optionalAscendant.isPresent() && MiskatonicMysteriesAPI.hasBlessing(optionalAscendant.get(),
-			MMBlessings.CHARMING_PERSONALITY)) {
+																				MMBlessings.CHARMING_PERSONALITY)) {
 			if (interaction == EntityInteraction.ZOMBIE_VILLAGER_CURED) {
 				this.gossip.startGossip(entity.getUuid(), VillageGossipType.MAJOR_POSITIVE, 40);
 				this.gossip.startGossip(entity.getUuid(), VillageGossipType.MINOR_POSITIVE, 60);
@@ -100,6 +100,9 @@ public abstract class VillagerEntityMixin extends MerchantEntity {
 			}
 		}
 	}
+
+	@Shadow
+	protected abstract void sayNo();
 
 	@Inject(method = "prepareOffersFor", at = @At("TAIL"))
 	private void prepareOffersFor(PlayerEntity player, CallbackInfo ci) {

@@ -4,10 +4,10 @@ import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.registry.Affiliation;
-import java.util.List;
-import java.util.function.BiConsumer;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -18,6 +18,10 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.function.BiConsumer;
+
 import org.jetbrains.annotations.Nullable;
 
 public class BlessedSwordItem extends SwordItem implements Affiliated {
@@ -26,7 +30,7 @@ public class BlessedSwordItem extends SwordItem implements Affiliated {
 	protected BiConsumer<LivingEntity, LivingEntity> specialEffect;
 
 	public BlessedSwordItem(Affiliation affiliation, int attackDamage, float attackSpeed,
-		BiConsumer<LivingEntity, LivingEntity> specialEffect, Settings settings) {
+							BiConsumer<LivingEntity, LivingEntity> specialEffect, Settings settings) {
 		super(ToolMaterials.IRON, attackDamage, attackSpeed, settings);
 		this.affiliation = affiliation;
 		this.specialEffect = specialEffect;
@@ -49,13 +53,6 @@ public class BlessedSwordItem extends SwordItem implements Affiliated {
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
-	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText(getTranslationKey() + ".tooltip").formatted(Formatting.ITALIC));
-		super.appendTooltip(stack, world, tooltip, context);
-	}
-
-	@Override
 	public Affiliation getAffiliation(boolean apparent) {
 		return affiliation;
 	}
@@ -63,5 +60,12 @@ public class BlessedSwordItem extends SwordItem implements Affiliated {
 	@Override
 	public boolean isSupernatural() {
 		return true;
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+		tooltip.add(new TranslatableText(getTranslationKey() + ".tooltip").formatted(Formatting.ITALIC));
+		super.appendTooltip(stack, world, tooltip, context);
 	}
 }

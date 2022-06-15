@@ -1,78 +1,78 @@
 {
-  "multipart": [
-    {
-      "when": {
-        "facing": "north"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/power_cell"
-      }
-    },
-    {
-      "when": {
-        "facing": "east"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/power_cell",
-        "y": 90
-      }
-    },
-    {
-      "when": {
-        "facing": "south"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/power_cell",
-        "y": 180
-      }
-    },
-    {
-      "when": {
-        "facing": "west"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/power_cell",
-        "y": 270
-      }
-    },
-    {
-      "when": {
-        "north": "true"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/power_cell_connector",
-        "uvlock": false
-      }
-    },
-    {
-      "when": {
-        "east": "true"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/power_cell_connector",
-        "y": 90,
-        "uvlock": false
-      }
-    },
-    {
-      "when": {
-        "south": "true"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/power_cell_connector",
-        "y": 180,
-        "uvlock": false
-      }
-    },
-    {
-      "when": {
-        "west": "true"
-      },
-      "apply": {
-        "model": "miskatonicmysteries:block/power_cell_connector",
-        "y": 270,
-        "uvlock": false
-      }
-    }
-  ]
+	"multipart": [
+		{
+			"when": {
+				"facing": "north"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/power_cell"
+			}
+		},
+		{
+			"when": {
+				"facing": "east"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/power_cell",
+				"y": 90
+			}
+		},
+		{
+			"when": {
+				"facing": "south"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/power_cell",
+				"y": 180
+			}
+		},
+		{
+			"when": {
+				"facing": "west"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/power_cell",
+				"y": 270
+			}
+		},
+		{
+			"when": {
+				"north": "true"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/power_cell_connector",
+				"uvlock": false
+			}
+		},
+		{
+			"when": {
+				"east": "true"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/power_cell_connector",
+				"y": 90,
+				"uvlock": false
+			}
+		},
+		{
+			"when": {
+				"south": "true"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/power_cell_connector",
+				"y": 180,
+				"uvlock": false
+			}
+		},
+		{
+			"when": {
+				"west": "true"
+			},
+			"apply": {
+				"model": "miskatonicmysteries:block/power_cell_connector",
+				"y": 270,
+				"uvlock": false
+			}
+		}
+	]
 }

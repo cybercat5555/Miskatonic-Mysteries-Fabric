@@ -1,22 +1,22 @@
 {
-  "variants": {
-    "type=bottom,variants=0": {
-      "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_slab_1"
-    },
-    "type=double,variants=0": {
-      "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_1"
-    },
-    "type=top,variants=0": {
-      "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_slab_top_1"
-    },
-    "type=bottom,variants=1": {
-      "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_slab_2"
-    },
-    "type=double,variants=1": {
-      "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_2"
-    },
-    "type=top,variants=1": {
-      "model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_slab_top_2"
-    }
-  }
+	"variants": {
+		"type=bottom,variants=0": {
+			"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_slab_1"
+		},
+		"type=double,variants=0": {
+			"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_1"
+		},
+		"type=top,variants=0": {
+			"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_slab_top_1"
+		},
+		"type=bottom,variants=1": {
+			"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_slab_2"
+		},
+		"type=double,variants=1": {
+			"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_2"
+		},
+		"type=top,variants=1": {
+			"model": "miskatonicmysteries:block/elderian/elderian_bricks_cracked_slab_top_2"
+		}
+	}
 }

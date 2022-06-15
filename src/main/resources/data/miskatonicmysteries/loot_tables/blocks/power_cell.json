@@ -1,27 +1,27 @@
 {
-  "type": "minecraft:block",
-  "pools": [
-    {
-      "rolls": 1,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:copy_nbt",
-              "source": "block_entity",
-              "ops": [
-                {
-                  "source": "Energy",
-                  "target": "BlockEntityTag.Energy",
-                  "op": "replace"
-                }
-              ]
-            }
-          ],
-          "name": "miskatonicmysteries:power_cell"
-        }
-      ]
-    }
-  ]
+	"type": "minecraft:block",
+	"pools": [
+		{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"functions": [
+						{
+							"function": "minecraft:copy_nbt",
+							"source": "block_entity",
+							"ops": [
+								{
+									"source": "Energy",
+									"target": "BlockEntityTag.Energy",
+									"op": "replace"
+								}
+							]
+						}
+					],
+					"name": "miskatonicmysteries:power_cell"
+				}
+			]
+		}
+	]
 }

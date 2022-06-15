@@ -1,16 +1,12 @@
 package com.miskatonicmysteries.common.feature.block;
 
-import static net.minecraft.state.property.Properties.WATERLOGGED;
-
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.feature.block.blockentity.MasterpieceStatueBlockEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
-import com.mojang.authlib.GameProfile;
-import java.util.List;
-import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
@@ -45,11 +41,19 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 
+import java.util.List;
+
+import com.mojang.authlib.GameProfile;
+import javax.annotation.Nullable;
+import static net.minecraft.state.property.Properties.WATERLOGGED;
+
 public class MasterpieceStatueBlock extends Block implements Waterloggable, BlockEntityProvider, Affiliated {
 
 	private static final VoxelShape PLINTH_SHAPE = VoxelShapes.union(VoxelShapes.cuboid(1 / 32F, 0, 1 / 32F,
-		1 - 1 / 32F, 3 / 16F, 1 - 1 / 32F), VoxelShapes.cuboid(3 / 32F, 3 / 16F, 3 / 32F, 1 - 3 / 32F, 6 / 16F,
-		1 - 3 / 32F), VoxelShapes.cuboid(3 / 16F, 6 / 16F, 3 / 16F, 1 - 3 / 16F, 2.5F, 1 - 3 / 16F));
+																						1 - 1 / 32F, 3 / 16F, 1 - 1 / 32F),
+																	 VoxelShapes.cuboid(3 / 32F, 3 / 16F, 3 / 32F, 1 - 3 / 32F, 6 / 16F,
+																						1 - 3 / 32F),
+																	 VoxelShapes.cuboid(3 / 16F, 6 / 16F, 3 / 16F, 1 - 3 / 16F, 2.5F, 1 - 3 / 16F));
 
 	public MasterpieceStatueBlock(Settings settings) {
 		super(settings.nonOpaque());
@@ -61,7 +65,7 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 			stack.setNbt(new NbtCompound());
 		}
 		NbtCompound blockEntityTag = stack.getNbt().contains(Constants.NBT.BLOCK_ENTITY_TAG) ?
-			stack.getNbt().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) : new NbtCompound();
+									 stack.getNbt().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) : new NbtCompound();
 		if (creator != null) {
 			blockEntityTag.putString(Constants.NBT.PLAYER_NAME, creator.getName().asString());
 			blockEntityTag.putUuid(Constants.NBT.PLAYER_UUID, creator.getUuid());
@@ -82,16 +86,54 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 	}
 
 	@Override
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		final BlockState state = this.getDefaultState().with(Properties.ROTATION,
+															 MathHelper.floor((double) (ctx.getPlayerYaw() * 16.0F / 360.0F) + 0.5D) & 15);
+		if (state.contains(WATERLOGGED)) {
+			final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
+			final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
+			return state.with(WATERLOGGED, source);
+		}
+		return state;
+	}
+
+	@Override
+	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+		super.appendProperties(builder);
+		builder.add(Properties.ROTATION, WATERLOGGED);
+	}
+
+	@Override
 	public void appendTooltip(ItemStack stack, @org.jetbrains.annotations.Nullable BlockView world, List<Text> tooltip,
-		TooltipContext options) {
+							  TooltipContext options) {
 		if (stack.hasNbt() && stack.getNbt().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
 			NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
 			if (compoundTag != null && compoundTag.contains(Constants.NBT.PLAYER_NAME)) {
 				tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.created_by",
-					compoundTag.getString(Constants.NBT.PLAYER_NAME)).formatted(Formatting.GRAY));
+												 compoundTag.getString(Constants.NBT.PLAYER_NAME)).formatted(Formatting.GRAY));
 			}
 		}
 		super.appendTooltip(stack, world, tooltip, options);
+	}
+
+	@Override
+	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState,
+												WorldAccess world, BlockPos pos, BlockPos posFrom) {
+		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
+			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+		}
+		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
+	}
+
+	@Override
+	public BlockRenderType getRenderType(BlockState state) {
+		return BlockRenderType.ENTITYBLOCK_ANIMATED;
+	}
+
+	@Override
+	public FluidState getFluidState(BlockState state) {
+		return state.contains(WATERLOGGED) && state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) :
+			   super.getFluidState(state);
 	}
 
 	@Override
@@ -112,44 +154,6 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 	@Override
 	public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return VoxelShapes.empty();
-	}
-
-	@Override
-	public BlockRenderType getRenderType(BlockState state) {
-		return BlockRenderType.ENTITYBLOCK_ANIMATED;
-	}
-
-	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		final BlockState state = this.getDefaultState().with(Properties.ROTATION,
-			MathHelper.floor((double) (ctx.getPlayerYaw() * 16.0F / 360.0F) + 0.5D) & 15);
-		if (state.contains(WATERLOGGED)) {
-			final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
-			final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
-			return state.with(WATERLOGGED, source);
-		}
-		return state;
-	}
-
-	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		super.appendProperties(builder);
-		builder.add(Properties.ROTATION, WATERLOGGED);
-	}
-
-	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState,
-		WorldAccess world, BlockPos pos, BlockPos posFrom) {
-		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
-			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-		}
-		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
-	}
-
-	@Override
-	public FluidState getFluidState(BlockState state) {
-		return state.contains(WATERLOGGED) && state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) :
-			super.getFluidState(state);
 	}
 
 	@Nullable

@@ -1,6 +1,6 @@
 {
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "miskatonicmysteries:block/oceanic_gold_tiles"
-  }
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "miskatonicmysteries:block/oceanic_gold_tiles"
+	}
 }

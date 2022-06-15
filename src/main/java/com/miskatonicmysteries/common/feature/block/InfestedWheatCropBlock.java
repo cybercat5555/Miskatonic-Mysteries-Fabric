@@ -17,11 +17,6 @@ public class InfestedWheatCropBlock extends CropBlock {
 	}
 
 	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(AGE);
-	}
-
-	@Override
 	public IntProperty getAgeProperty() {
 		return AGE;
 	}
@@ -29,5 +24,10 @@ public class InfestedWheatCropBlock extends CropBlock {
 	@Override
 	public int getMaxAge() {
 		return 1;
+	}
+
+	@Override
+	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+		builder.add(AGE);
 	}
 }

@@ -1,8 +1,8 @@
 {
-  "replace": false,
-  "values": [
-    "minecraft:beef",
-    "minecraft:mutton",
-    "minecraft:rotten_flesh"
-  ]
+	"replace": false,
+	"values": [
+		"minecraft:beef",
+		"minecraft:mutton",
+		"minecraft:rotten_flesh"
+	]
 }

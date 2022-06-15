@@ -1,11 +1,10 @@
 package com.miskatonicmysteries.client.gui.toast;
 
 import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.mojang.blaze3d.systems.RenderSystem;
-import java.util.ArrayList;
-import java.util.List;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.toast.Toast;
 import net.minecraft.client.toast.ToastManager;
@@ -13,6 +12,11 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mojang.blaze3d.systems.RenderSystem;
 
 @Environment(EnvType.CLIENT)
 public abstract class SimpleIconToast implements Toast {
@@ -44,7 +48,7 @@ public abstract class SimpleIconToast implements Toast {
 		RenderSystem.applyModelViewMatrix();
 		RenderSystem.setShaderTexture(0, icon);
 		ToastManager.drawTexture(matrices, getDisplayedWidth() / 2, getDisplayedHeight() / 2, 0, 0,
-			getDisplayedWidth(), getDisplayedHeight(), getDisplayedWidth(), getDisplayedHeight());
+								 getDisplayedWidth(), getDisplayedHeight(), getDisplayedWidth(), getDisplayedHeight());
 		return startTime - this.startTime >= 5000L ? Toast.Visibility.HIDE : Toast.Visibility.SHOW;
 	}
 
@@ -60,7 +64,8 @@ public abstract class SimpleIconToast implements Toast {
 
 	protected Text getDescription(long startTime) {
 		return new TranslatableText(this.translationStrings.get((int) (startTime / Math.max(1L,
-			5000L / (long) this.translationStrings.size()) % (long) this.translationStrings.size())));
+																							5000L / (long) this.translationStrings.size())
+			% (long) this.translationStrings.size())));
 	}
 
 	protected void addIcon(Identifier icon, String translationString) {

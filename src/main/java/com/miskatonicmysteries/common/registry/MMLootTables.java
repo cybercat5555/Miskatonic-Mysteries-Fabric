@@ -1,16 +1,18 @@
 package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.HashMap;
-import java.util.Map;
 
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
+
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.LootTableEntry;
 import net.minecraft.util.Identifier;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MMLootTables {
 
@@ -54,7 +56,6 @@ public class MMLootTables {
 				fabricLootSupplierBuilder.withPool(LootPool.builder().with(LootTableEntry.builder(IDOL_TABLE).weight(1)).build());
 			}
 		});
-
 
 
 	}

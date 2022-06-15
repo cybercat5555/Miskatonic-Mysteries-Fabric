@@ -1,19 +1,5 @@
 package com.miskatonicmysteries.mixin.biomes;
 
-import com.miskatonicmysteries.api.interfaces.BiomeMask;
-import net.minecraft.util.collection.IndexedIterable;
-import net.minecraft.world.HeightLimitView;
-import net.minecraft.world.biome.Biome;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 //@Mixin(BiomeArray.class) TODO BIOME
 
 public class BiomeArrayMixin /* implements BiomeMask */ {

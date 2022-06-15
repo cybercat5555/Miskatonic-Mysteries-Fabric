@@ -1,16 +1,9 @@
 package com.miskatonicmysteries.common.feature.world;
 
-import static com.miskatonicmysteries.common.util.Constants.NBT.HOUNDS;
-import static com.miskatonicmysteries.common.util.Constants.NBT.PLAYER_UUID;
-import static com.miskatonicmysteries.common.util.Constants.NBT.PROTAGONISTS;
-import static com.miskatonicmysteries.common.util.Constants.NBT.SPAWNED;
-
 import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -20,10 +13,24 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.world.PersistentState;
 import net.minecraft.world.World;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import static com.miskatonicmysteries.common.util.Constants.NBT.HOUNDS;
+import static com.miskatonicmysteries.common.util.Constants.NBT.PLAYER_UUID;
+import static com.miskatonicmysteries.common.util.Constants.NBT.PROTAGONISTS;
+import static com.miskatonicmysteries.common.util.Constants.NBT.SPAWNED;
+
 public class MMWorldState extends PersistentState {
 
 	private final Map<UUID, ProtagonistEntity.ProtagonistData> protagonistMap = new HashMap<>();
 	private final Map<UUID, Boolean> houndMap = new HashMap<>(); //uuid - player; boolean - is the hound in-world?
+
+	public static MMWorldState get(World world) {
+		return world.getServer().getOverworld().getPersistentStateManager()
+			.getOrCreate(MMWorldState::fromNbt, MMWorldState::new, Constants.MOD_ID);
+	}
 
 	public static MMWorldState fromNbt(NbtCompound tag) {
 		MMWorldState state = new MMWorldState();
@@ -43,11 +50,6 @@ public class MMWorldState extends PersistentState {
 			}
 		}
 		return state;
-	}
-
-	public static MMWorldState get(World world) {
-		return world.getServer().getOverworld().getPersistentStateManager()
-			.getOrCreate(MMWorldState::fromNbt, MMWorldState::new, Constants.MOD_ID);
 	}
 
 	public void addProtagonist(PlayerEntity player, ProtagonistEntity.ProtagonistData data) {

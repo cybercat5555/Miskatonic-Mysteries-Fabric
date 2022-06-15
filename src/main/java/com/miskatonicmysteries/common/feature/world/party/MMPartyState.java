@@ -1,14 +1,17 @@
 package com.miskatonicmysteries.common.feature.world.party;
 
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.PersistentState;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.jetbrains.annotations.Nullable;
 
 public class MMPartyState extends PersistentState {
@@ -17,6 +20,11 @@ public class MMPartyState extends PersistentState {
 	private ServerWorld world;
 	private int nextAvailableId;
 	private int tickCount;
+
+	public static MMPartyState get(ServerWorld world) {
+		return world.getPersistentStateManager().getOrCreate(nbtCompound -> MMPartyState.fromNbt(world, nbtCompound),
+															 MMPartyState::new, Constants.MOD_ID + "parties");
+	}
 
 	public static MMPartyState fromNbt(ServerWorld world, NbtCompound tag) {
 		MMPartyState state = new MMPartyState();
@@ -29,11 +37,6 @@ public class MMPartyState extends PersistentState {
 			state.parties.put(party.getId(), party);
 		}
 		return state;
-	}
-
-	public static MMPartyState get(ServerWorld world) {
-		return world.getPersistentStateManager().getOrCreate(nbtCompound -> MMPartyState.fromNbt(world, nbtCompound),
-			MMPartyState::new, Constants.MOD_ID + "parties");
 	}
 
 	public void tick() {
@@ -83,10 +86,6 @@ public class MMPartyState extends PersistentState {
 		return getPartyAt(pos, 9216);
 	}
 
-	public int nextId() {
-		return ++this.nextAvailableId;
-	}
-
 	@Nullable
 	public Party getPartyAt(BlockPos pos, int searchDistance) {
 		for (Party party : parties.values()) {
@@ -95,5 +94,9 @@ public class MMPartyState extends PersistentState {
 			}
 		}
 		return null;
+	}
+
+	public int nextId() {
+		return ++this.nextAvailableId;
 	}
 }

@@ -6,8 +6,10 @@ import com.miskatonicmysteries.client.render.entity.feature.ByakheeDecoFeatureRe
 import com.miskatonicmysteries.client.render.entity.feature.ByakheeSaddleFeatureRenderer;
 import com.miskatonicmysteries.common.feature.entity.ByakheeEntity;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;

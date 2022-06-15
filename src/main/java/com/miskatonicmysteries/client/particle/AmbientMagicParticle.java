@@ -1,8 +1,10 @@
 package com.miskatonicmysteries.client.particle;
 
 import com.miskatonicmysteries.common.registry.MMParticles;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.particle.AbstractSlowingParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleFactory;
@@ -26,15 +28,6 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
 		maxAge = 40 + clientWorld.random.nextInt(40);
 	}
 
-	public ParticleTextureSheet getType() {
-		return MMParticles.ParticleTextureSheets.GLOWING;
-	}
-
-	public void move(double dx, double dy, double dz) {
-		this.setBoundingBox(this.getBoundingBox().offset(dx, dy, dz));
-		this.repositionFromBoundingBox();
-	}
-
 	@Override
 	public void tick() {
 		super.tick();
@@ -43,6 +36,15 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
 		if (lifeRatio >= 1) {
 			markDead();
 		}
+	}
+
+	public ParticleTextureSheet getType() {
+		return MMParticles.ParticleTextureSheets.GLOWING;
+	}
+
+	public void move(double dx, double dy, double dz) {
+		this.setBoundingBox(this.getBoundingBox().offset(dx, dy, dz));
+		this.repositionFromBoundingBox();
 	}
 
 	public int getBrightness(float tint) {
@@ -74,7 +76,7 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
 		}
 
 		public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z,
-			double r, double g, double b) {
+									   double r, double g, double b) {
 			AmbientMagicParticle particle = new AmbientMagicParticle(clientWorld, x, y, z, (float) r, (float) g, (float) b);
 			particle.scale(0.75F + clientWorld.random.nextFloat() / 4F);
 			particle.setSpriteForAge(this.spriteProvider);
@@ -92,10 +94,11 @@ public class AmbientMagicParticle extends AbstractSlowingParticle {
 		}
 
 		public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z,
-			double velX, double velY, double velZ) {
+									   double velX, double velY, double velZ) {
 			AmbientMagicParticle particle = new AmbientMagicParticle(clientWorld, x, y, z,
-				MathHelper.nextFloat(clientWorld.random, 0.8F, 1F), MathHelper.nextFloat(clientWorld.random, 0.5F, 0.6F),
-				MathHelper.nextFloat(clientWorld.random, 0.05F, 0.1F));
+																	 MathHelper.nextFloat(clientWorld.random, 0.8F, 1F),
+																	 MathHelper.nextFloat(clientWorld.random, 0.5F, 0.6F),
+																	 MathHelper.nextFloat(clientWorld.random, 0.05F, 0.1F));
 			particle.scale(MathHelper.nextFloat(clientWorld.random, 0.5F, 0.75F));
 			particle.velocityX = velX;
 			particle.velocityY = velY;

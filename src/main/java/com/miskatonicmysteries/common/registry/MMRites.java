@@ -15,18 +15,10 @@ import com.miskatonicmysteries.common.feature.recipe.rite.HysteriaRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.MasterpieceRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.MourningDeadRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.SculptorRite;
-import com.miskatonicmysteries.common.feature.recipe.rite.SpellGivingRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.TeleportRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.summon.ByakheeSummoningRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.summon.PrinceSummoningRite;
-import com.miskatonicmysteries.common.util.Constants;
-import java.util.Arrays;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.potion.PotionUtil;
-import net.minecraft.potion.Potions;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.util.Identifier;
+
 import net.minecraft.util.registry.Registry;
 
 public class MMRites {

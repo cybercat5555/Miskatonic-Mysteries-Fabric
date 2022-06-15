@@ -6,9 +6,6 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
-import com.mojang.authlib.GameProfile;
-import java.util.Random;
-import java.util.UUID;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -20,6 +17,11 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.StringHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Random;
+import java.util.UUID;
+
+import com.mojang.authlib.GameProfile;
 import org.jetbrains.annotations.Nullable;
 
 public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Affiliated {
@@ -40,23 +42,6 @@ public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Aff
 		} else {
 			return random.nextInt(3);
 		}
-	}
-
-	@Override
-	public void writeNbt(NbtCompound tag) {
-		if (creator != null) {
-			tag.putUuid(Constants.NBT.PLAYER_UUID, creator);
-		}
-		if (statueOwner != null) {
-			NbtCompound nbtCompound = new NbtCompound();
-			NbtHelper.writeGameProfile(nbtCompound, statueOwner);
-			tag.put(Constants.NBT.STATUE_OWNER, nbtCompound);
-		}
-
-		if (creatorName != null) {
-			tag.putString(Constants.NBT.PLAYER_NAME, creatorName);
-		}
-		tag.putInt(Constants.NBT.POSE, pose);
 	}
 
 	@Override
@@ -81,6 +66,23 @@ public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Aff
 	}
 
 	@Override
+	public void writeNbt(NbtCompound tag) {
+		if (creator != null) {
+			tag.putUuid(Constants.NBT.PLAYER_UUID, creator);
+		}
+		if (statueOwner != null) {
+			NbtCompound nbtCompound = new NbtCompound();
+			NbtHelper.writeGameProfile(nbtCompound, statueOwner);
+			tag.put(Constants.NBT.STATUE_OWNER, nbtCompound);
+		}
+
+		if (creatorName != null) {
+			tag.putString(Constants.NBT.PLAYER_NAME, creatorName);
+		}
+		tag.putInt(Constants.NBT.POSE, pose);
+	}
+
+	@Override
 	public Affiliation getAffiliation(boolean apparent) {
 		return getCachedState().getBlock() instanceof StatueBlock statue ? statue.getAffiliation(apparent) : MMAffiliations.NONE;
 	}
@@ -93,13 +95,6 @@ public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Aff
 	public void setCreator(@Nullable PlayerEntity player) {
 		this.creator = player == null ? null : player.getUuid();
 		this.creatorName = player == null ? "" : player.getDisplayName().asString();
-	}
-
-	private void loadOwnerProperties() {
-		SkullBlockEntity.loadProperties(this.statueOwner, (owner) -> {
-			this.statueOwner = owner;
-			this.markDirty();
-		});
 	}
 
 	public GameProfile getStatueProfile() {
@@ -116,6 +111,13 @@ public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Aff
 		if (world instanceof ServerWorld) {
 			sync(world, pos);
 		}
+	}
+
+	private void loadOwnerProperties() {
+		SkullBlockEntity.loadProperties(this.statueOwner, (owner) -> {
+			this.statueOwner = owner;
+			this.markDirty();
+		});
 	}
 
 	public void sync(World world, BlockPos pos) {

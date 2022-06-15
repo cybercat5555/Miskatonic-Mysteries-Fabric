@@ -5,9 +5,10 @@ import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Util;
-import java.util.List;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.EntityDamageSource;
@@ -34,10 +35,33 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public abstract class GunItem extends Item {
 
 	public GunItem(Settings settings) {
 		super(settings);
+	}
+
+	@Override
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		ItemStack stack = user.getStackInHand(hand);
+		if (!canUse(user)) {
+			if (world.isClient) {
+				user.sendMessage(new TranslatableText("message." + Constants.MOD_ID + ".heavy_gun.needs_offhand"), true);
+			}
+			return TypedActionResult.fail(stack);
+		}
+		if (user.isSneaking()) {
+			setLoading(stack, true);
+			user.setCurrentHand(hand);
+			return TypedActionResult.consume(stack);
+		} else if (!isLoading(stack) && isLoaded(stack)) {
+			shoot(world, user, stack);
+			stack.damage(1, user, playerEntity -> playerEntity.sendToolBreakStatus(hand));
+			return TypedActionResult.consume(stack);
+		}
+		return TypedActionResult.pass(stack);
 	}
 
 	public static boolean isLoading(ItemStack stack) {
@@ -65,47 +89,8 @@ public abstract class GunItem extends Item {
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		ItemStack stack = user.getStackInHand(hand);
-		if (!canUse(user)) {
-			if (world.isClient) {
-				user.sendMessage(new TranslatableText("message." + Constants.MOD_ID + ".heavy_gun.needs_offhand"), true);
-			}
-			return TypedActionResult.fail(stack);
-		}
-		if (user.isSneaking()) {
-			setLoading(stack, true);
-			user.setCurrentHand(hand);
-			return TypedActionResult.consume(stack);
-		} else if (!isLoading(stack) && isLoaded(stack)) {
-			shoot(world, user, stack);
-			stack.damage(1, user, playerEntity -> playerEntity.sendToolBreakStatus(hand));
-			return TypedActionResult.consume(stack);
-		}
-		return TypedActionResult.pass(stack);
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(
-			new TranslatableText(isLoaded(stack) ? "tooltip.miskatonicmysteries.gun_loaded" : "tooltip.miskatonicmysteries.gun_not_loaded",
-				stack.getNbt().getInt(Constants.NBT.SHOTS), getMaxShots())
-				.setStyle(Style.EMPTY.withColor(isLoaded(stack) ? TextColor.fromRgb(0x00FF00) : TextColor.fromRgb(0xFF0000))));
-		tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.gun_tip_load")
-			.setStyle(Style.EMPTY.withItalic(true).withColor(Formatting.GRAY)));
-		super.appendTooltip(stack, world, tooltip, context);
-	}
-
-	@Override
 	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
 		return isLoading(stack) ? loadGun(stack, world, user) : stack;
-	}
-
-	@Override
-	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-		stack.getNbt().putBoolean(Constants.NBT.LOADING, false);
-		super.onStoppedUsing(stack, world, user, remainingUseTicks);
 	}
 
 	public ItemStack loadGun(ItemStack stack, World world, LivingEntity user) {
@@ -114,7 +99,9 @@ public abstract class GunItem extends Item {
 		}
 
 		int generatedShots = user instanceof PlayerEntity && !((PlayerEntity) user).isCreative() ? loadBullets((PlayerEntity) user,
-			stack.getNbt().getInt(Constants.NBT.SHOTS)) : getMaxShots();
+																											   stack.getNbt()
+																												   .getInt(Constants.NBT.SHOTS))
+																								 : getMaxShots();
 		stack.getNbt().putInt(Constants.NBT.SHOTS, generatedShots);
 		setLoading(stack, false);
 		if (user instanceof PlayerEntity) {
@@ -136,9 +123,34 @@ public abstract class GunItem extends Item {
 		return bullets;
 	}
 
+	public abstract int getLoadingTime();
+
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
 		return UseAction.BOW;
+	}
+
+	@Override
+	public int getMaxUseTime(ItemStack stack) {
+		return isLoading(stack) ? getLoadingTime() : 10;
+	}
+
+	@Override
+	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+		stack.getNbt().putBoolean(Constants.NBT.LOADING, false);
+		super.onStoppedUsing(stack, world, user, remainingUseTicks);
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+		tooltip.add(
+			new TranslatableText(isLoaded(stack) ? "tooltip.miskatonicmysteries.gun_loaded" : "tooltip.miskatonicmysteries.gun_not_loaded",
+								 stack.getNbt().getInt(Constants.NBT.SHOTS), getMaxShots())
+				.setStyle(Style.EMPTY.withColor(isLoaded(stack) ? TextColor.fromRgb(0x00FF00) : TextColor.fromRgb(0xFF0000))));
+		tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.gun_tip_load")
+						.setStyle(Style.EMPTY.withItalic(true).withColor(Formatting.GRAY)));
+		super.appendTooltip(stack, world, tooltip, context);
 	}
 
 	public abstract int getMaxShots();
@@ -146,6 +158,8 @@ public abstract class GunItem extends Item {
 	private boolean canUse(PlayerEntity entity) {
 		return !isHeavy() || entity.getOffHandStack().isEmpty();
 	}
+
+	public abstract boolean isHeavy();
 
 	public void shoot(World world, LivingEntity player, ItemStack stack) {
 		Vec3d vec3d = player.getCameraPosVec(1);
@@ -155,8 +169,8 @@ public abstract class GunItem extends Item {
 			.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, player));
 		double distance = Math.pow(getMaxDistance(), 2);
 		EntityHitResult hit = ProjectileUtil.getEntityCollision(world, player, vec3d, vec3d3,
-			player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
-			(target) -> !target.isSpectator() && target.collides());
+																player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
+																(target) -> !target.isSpectator() && target.collides());
 		BlockPos blockPos = new BlockPos(blockHit.getPos());
 		if (world.getBlockState(blockPos).getBlock() instanceof Shootable) {
 			((Shootable) world.getBlockState(blockPos).getBlock()).onShot(world, blockPos, player);
@@ -166,7 +180,8 @@ public abstract class GunItem extends Item {
 			if (world.isClient) {
 				for (int i = 0; i < 4; i++) {
 					world.addParticle(ParticleTypes.SMOKE, hit.getPos().x + world.random.nextGaussian() / 20F,
-						hit.getPos().y + world.random.nextGaussian() / 20F, hit.getPos().z + world.random.nextGaussian() / 20F, 0, 0, 0);
+									  hit.getPos().y + world.random.nextGaussian() / 20F, hit.getPos().z + world.random.nextGaussian() / 20F, 0, 0,
+									  0);
 				}
 			}
 		}
@@ -174,22 +189,13 @@ public abstract class GunItem extends Item {
 		setLoading(stack, false);
 		stack.getNbt().putInt(Constants.NBT.SHOTS, stack.getNbt().getInt(Constants.NBT.SHOTS) - 1);
 		world.playSound(null, player.getX(), player.getY(), player.getZ(), MMSounds.ITEM_GUN_GUN_SHOT, SoundCategory.PLAYERS, 0.6F,
-			1.0F / (world.random.nextFloat() * 0.2F + (isHeavy() ? 1F : 0.5F)));
+						1.0F / (world.random.nextFloat() * 0.2F + (isHeavy() ? 1F : 0.5F)));
 
 		if (player instanceof PlayerEntity) {
 			((PlayerEntity) player).getItemCooldownManager().set(this, getCooldown());
 			((PlayerEntity) player).incrementStat(Stats.USED.getOrCreateStat(this));
 		}
 	}
-
-	public abstract boolean isHeavy();
-
-	@Override
-	public int getMaxUseTime(ItemStack stack) {
-		return isLoading(stack) ? getLoadingTime() : 10;
-	}
-
-	public abstract int getLoadingTime();
 
 	public abstract int getCooldown();
 

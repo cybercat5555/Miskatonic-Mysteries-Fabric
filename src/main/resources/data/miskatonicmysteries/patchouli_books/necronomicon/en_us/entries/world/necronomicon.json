@@ -1,16 +1,16 @@
 {
-  "name": "Necronomicon",
-  "category": "miskatonicmysteries:world",
-  "icon": "miskatonicmysteries:necronomicon",
-  "pages": [
-    {
-      "type": "text",
-      "text": "The $(item)Necronomicon$() is a book, written by generations of Entheators, containing vast amounts of knowledge on the occult. $(br2)$(o)If you are reading this, you probably already know this. Nonetheless, we will provide some more potentially interesting information on it.$()"
-    },
-    {
-      "type": "spotlight",
-      "item": "miskatonicmysteries:necronomicon",
-      "text": "This book can be acquired through $(m)a multitude of ways$() other cultists. You can buy it for a fair price.$(br)$(o)Within the book, you may find an entry index listing all entries you have unlocked so far. You can also check your advancements and reading history in it. Additionally, all entries may be marked as read if you know what you're doing.$()"
-    }
-  ]
+	"name": "Necronomicon",
+	"category": "miskatonicmysteries:world",
+	"icon": "miskatonicmysteries:necronomicon",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The $(item)Necronomicon$() is a book, written by generations of Entheators, containing vast amounts of knowledge on the occult. $(br2)$(o)If you are reading this, you probably already know this. Nonetheless, we will provide some more potentially interesting information on it.$()"
+		},
+		{
+			"type": "spotlight",
+			"item": "miskatonicmysteries:necronomicon",
+			"text": "This book can be acquired through $(m)a multitude of ways$() other cultists. You can buy it for a fair price.$(br)$(o)Within the book, you may find an entry index listing all entries you have unlocked so far. You can also check your advancements and reading history in it. Additionally, all entries may be marked as read if you know what you're doing.$()"
+		}
+	]
 }

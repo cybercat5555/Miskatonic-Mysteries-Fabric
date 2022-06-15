@@ -1,37 +1,37 @@
 {
-  "parent": "miskatonicmysteries:root",
-  "display": {
-    "icon": {
-      "item": "miskatonicmysteries:science_journal"
-    },
-    "title": {
-      "translate": "advancements.miskatonicmysteries.miskatonic_university.title"
-    },
-    "description": {
-      "translate": "advancements.miskatonicmysteries.miskatonic_university.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "get_journal": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "miskatonicmysteries:science_journal"
-            ]
-          }
-        ]
-      }
-    }
-  },
-  "requirements": [
-    [
-      "get_journal"
-    ]
-  ]
+	"parent": "miskatonicmysteries:root",
+	"display": {
+		"icon": {
+			"item": "miskatonicmysteries:science_journal"
+		},
+		"title": {
+			"translate": "advancements.miskatonicmysteries.miskatonic_university.title"
+		},
+		"description": {
+			"translate": "advancements.miskatonicmysteries.miskatonic_university.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"get_journal": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"miskatonicmysteries:science_journal"
+						]
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"get_journal"
+		]
+	]
 }

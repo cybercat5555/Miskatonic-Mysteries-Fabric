@@ -4,17 +4,20 @@ import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.client.gui.widget.SelectSpellWidget;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
 public class SpellSelectionScreen extends Screen {
@@ -25,6 +28,11 @@ public class SpellSelectionScreen extends Screen {
 	protected SpellSelectionScreen() {
 		super(new TranslatableText(Constants.MOD_ID + ".gui.spell_select"));
 		this.passEvents = true;
+	}
+
+	@Override
+	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+		super.render(matrices, mouseX, mouseY, delta);
 	}
 
 	@Override
@@ -44,11 +52,6 @@ public class SpellSelectionScreen extends Screen {
 		});
 	}
 
-	private boolean isSpellSelectionKeyPressed() {
-		return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
-			KeyBindingHelper.getBoundKeyOf(SpellClientHandler.spellSelectionKey).getCode());
-	}
-
 	@Override
 	public void tick() {
 		super.tick();
@@ -61,9 +64,9 @@ public class SpellSelectionScreen extends Screen {
 		}
 	}
 
-	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		super.render(matrices, mouseX, mouseY, delta);
+	private boolean isSpellSelectionKeyPressed() {
+		return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),
+									  KeyBindingHelper.getBoundKeyOf(SpellClientHandler.spellSelectionKey).getCode());
 	}
 
 	@Override

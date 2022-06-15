@@ -5,6 +5,7 @@ import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.MobSpellPacket;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;

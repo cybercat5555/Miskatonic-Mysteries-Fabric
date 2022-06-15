@@ -1,17 +1,17 @@
 {
-  "name": "Golden Flock",
-  "category": "miskatonicmysteries:rites",
-  "icon": "minecraft:yellow_wool",
-  "advancement": "miskatonicmysteries:hastur/hare_rama",
-  "pages": [
-    {
-      "type": "text",
-      "text": "The rite of the $(marked)Golden Flock$() is used to actively convert $(marked)Villagers$() into $(ml:bestiary/serfs)Yellow Serfs$().$(br2)You must be initiated into the ways of $(ml:goo/hastur)the Yellow King$() to cast this."
-    },
-    {
-      "type": "miskatonicmysteries:rite",
-      "rite": "miskatonicmysteries:golden_flock",
-      "text": "The converted Villager must be under the effect of $(marked)mania$(), best achieved with the $(ml:rites/hysteria)Hysteria$() rite."
-    }
-  ]
+	"name": "Golden Flock",
+	"category": "miskatonicmysteries:rites",
+	"icon": "minecraft:yellow_wool",
+	"advancement": "miskatonicmysteries:hastur/hare_rama",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The rite of the $(marked)Golden Flock$() is used to actively convert $(marked)Villagers$() into $(ml:bestiary/serfs)Yellow Serfs$().$(br2)You must be initiated into the ways of $(ml:goo/hastur)the Yellow King$() to cast this."
+		},
+		{
+			"type": "miskatonicmysteries:rite",
+			"rite": "miskatonicmysteries:golden_flock",
+			"text": "The converted Villager must be under the effect of $(marked)mania$(), best achieved with the $(ml:rites/hysteria)Hysteria$() rite."
+		}
+	]
 }

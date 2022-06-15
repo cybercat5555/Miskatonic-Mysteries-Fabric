@@ -1,16 +1,16 @@
 {
-  "variants": {
-    "axis=y": {
-      "model": "miskatonicmysteries:block/oceanic_gold_block_warded"
-    },
-    "axis=z": {
-      "model": "miskatonicmysteries:block/oceanic_gold_block_warded",
-      "x": 90
-    },
-    "axis=x": {
-      "model": "miskatonicmysteries:block/oceanic_gold_block_warded",
-      "x": 90,
-      "y": 90
-    }
-  }
+	"variants": {
+		"axis=y": {
+			"model": "miskatonicmysteries:block/oceanic_gold_block_warded"
+		},
+		"axis=z": {
+			"model": "miskatonicmysteries:block/oceanic_gold_block_warded",
+			"x": 90
+		},
+		"axis=x": {
+			"model": "miskatonicmysteries:block/oceanic_gold_block_warded",
+			"x": 90,
+			"y": 90
+		}
+	}
 }

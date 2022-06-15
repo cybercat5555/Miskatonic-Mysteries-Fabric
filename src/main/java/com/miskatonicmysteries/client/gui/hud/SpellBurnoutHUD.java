@@ -2,9 +2,10 @@ package com.miskatonicmysteries.client.gui.hud;
 
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.util.Constants;
-import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.BufferBuilder;
@@ -14,6 +15,8 @@ import net.minecraft.client.render.VertexFormats;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+
+import com.mojang.blaze3d.systems.RenderSystem;
 
 @Environment(EnvType.CLIENT)
 public class SpellBurnoutHUD extends DrawableHelper {

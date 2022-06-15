@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.api.item;
 
-import java.util.Iterator;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -18,16 +17,15 @@ import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Iterator;
+
 import org.jetbrains.annotations.Nullable;
 
 public class ChalkItem extends BlockItem {
 
 	public ChalkItem(Block block, Settings setting) {
 		super(block, setting);
-	}
-
-	protected static <T extends Comparable<T>> BlockState with(BlockState state, Property<T> property, String name) {
-		return property.parse(name).map((value) -> state.with(property, value)).orElse(state);
 	}
 
 	@Override
@@ -62,7 +60,7 @@ public class ChalkItem extends BlockItem {
 
 					BlockSoundGroup blockSoundGroup = blockState2.getSoundGroup();
 					world.playSound(playerEntity, blockPos, this.getPlaceSound(blockState2), SoundCategory.BLOCKS,
-						(blockSoundGroup.getVolume() + 1.0F) / 2.0F, blockSoundGroup.getPitch() * 0.8F);
+									(blockSoundGroup.getVolume() + 1.0F) / 2.0F, blockSoundGroup.getPitch() * 0.8F);
 					if (playerEntity == null || !playerEntity.isCreative()) {
 						if (playerEntity != null) {
 							itemStack.damage(1, playerEntity, (e) -> {
@@ -99,6 +97,10 @@ public class ChalkItem extends BlockItem {
 		}
 
 		return blockState;
+	}
+
+	protected static <T extends Comparable<T>> BlockState with(BlockState state, Property<T> property, String name) {
+		return property.parse(name).map((value) -> state.with(property, value)).orElse(state);
 	}
 
 	@Override

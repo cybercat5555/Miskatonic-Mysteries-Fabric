@@ -1,7 +1,7 @@
 {
-  "variants": {
-    "": {
-      "model": "miskatonicmysteries:block/elderian/elderian_stone_chiseled"
-    }
-  }
+	"variants": {
+		"": {
+			"model": "miskatonicmysteries:block/elderian/elderian_stone_chiseled"
+		}
+	}
 }

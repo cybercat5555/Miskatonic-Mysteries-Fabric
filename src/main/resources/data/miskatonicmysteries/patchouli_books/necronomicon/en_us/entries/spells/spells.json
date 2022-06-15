@@ -1,27 +1,27 @@
 {
-  "name": "Spells",
-  "category": "miskatonicmysteries:spells",
-  "icon": "",
-  "priority": true,
-  "pages": [
-    {
-      "type": "text",
-      "text": "While often considered to be stored in special books that only chosen ones can read and wield, in reality anyone can possess these powers, assuming they allow themselves to open up to these energies.$(br)Spells are simply created by putting this book on an $(ml:world/occult_decor#altar)Altar$() and selecting the effect, the medium, and the intensity.$(br)The final product is placed in a free spell slot."
-    },
-    {
-      "type": "text",
-      "title": "Mediums",
-      "text": "Spells can be cast though several mediums, five of which are accessible to humans:$(li)Vision$(li)Bolt$(li)Projectile$(li)Self$(li)Group$(br)mediums, once unlocked, need to be selected with potency and effect.$(br)The exact process of unlocking a medium is very vague, but you will know when you have by checking spell creation."
-    },
-    {
-      "type": "text",
-      "title": "Intensity",
-      "text": "Intensity may have one of the following three levels: weak, medium and strong. As the name implies, it affects the intensity of the cast spell's effect. Additionally, more intense spells will usually drain the user more. $(br)Casters only have a limited pool of power to choose from, so spend those points wisely. Maximum available power may increase through $(l:world/ascension)ascension$()."
-    },
-    {
-      "type": "text",
-      "title": "Casting a Spell",
-      "text": "Casting requires the caster to settle on what spell to cast, then focus their energies until it is done. Casting a spell will always drain the caster for some time, during which you cannot cast any other spells. $(br2)$(o)Press $(k:miskatonicmysteries.select_spell) and click a spell to select it, then press $(k:miskatonicmysteries.cast). Click the same spell again to de-select it.$()"
-    }
-  ]
+	"name": "Spells",
+	"category": "miskatonicmysteries:spells",
+	"icon": "",
+	"priority": true,
+	"pages": [
+		{
+			"type": "text",
+			"text": "While often considered to be stored in special books that only chosen ones can read and wield, in reality anyone can possess these powers, assuming they allow themselves to open up to these energies.$(br)Spells are simply created by putting this book on an $(ml:world/occult_decor#altar)Altar$() and selecting the effect, the medium, and the intensity.$(br)The final product is placed in a free spell slot."
+		},
+		{
+			"type": "text",
+			"title": "Mediums",
+			"text": "Spells can be cast though several mediums, five of which are accessible to humans:$(li)Vision$(li)Bolt$(li)Projectile$(li)Self$(li)Group$(br)mediums, once unlocked, need to be selected with potency and effect.$(br)The exact process of unlocking a medium is very vague, but you will know when you have by checking spell creation."
+		},
+		{
+			"type": "text",
+			"title": "Intensity",
+			"text": "Intensity may have one of the following three levels: weak, medium and strong. As the name implies, it affects the intensity of the cast spell's effect. Additionally, more intense spells will usually drain the user more. $(br)Casters only have a limited pool of power to choose from, so spend those points wisely. Maximum available power may increase through $(l:world/ascension)ascension$()."
+		},
+		{
+			"type": "text",
+			"title": "Casting a Spell",
+			"text": "Casting requires the caster to settle on what spell to cast, then focus their energies until it is done. Casting a spell will always drain the caster for some time, during which you cannot cast any other spells. $(br2)$(o)Press $(k:miskatonicmysteries.select_spell) and click a spell to select it, then press $(k:miskatonicmysteries.cast). Click the same spell again to de-select it.$()"
+		}
+	]
 }

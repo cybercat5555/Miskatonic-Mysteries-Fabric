@@ -2,12 +2,14 @@ package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
+
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class MMSounds {
+
 	//todo more entity sounds
 	public static final SoundEvent AMBIENT_SCARY = new SoundEvent(new Identifier(Constants.MOD_ID, "ambient.scary"));
 	public static final SoundEvent BLOCK_RESONATOR_AMBIENT = new SoundEvent(new Identifier(Constants.MOD_ID, "block.resonator.ambient"));
@@ -17,7 +19,8 @@ public class MMSounds {
 	public static final SoundEvent ENTITY_HARROW_HURT = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.hurt"));
 	public static final SoundEvent ENTITY_HARROW_CHARGE = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.charge"));
 	public static final SoundEvent ITEM_GUN_GUN_SHOT = new SoundEvent(new Identifier(Constants.MOD_ID, "item.gun.gun_shot"));
-	public static final SoundEvent ITEM_INCANTATION_YOG_INCANTATION_BOUND = new SoundEvent(new Identifier(Constants.MOD_ID, "item.incantation_yog.incantation_bound"));
+	public static final SoundEvent ITEM_INCANTATION_YOG_INCANTATION_BOUND = new SoundEvent(
+		new Identifier(Constants.MOD_ID, "item.incantation_yog.incantation_bound"));
 	public static final SoundEvent ITEM_INFESTED_WHEAT_USE = new SoundEvent(new Identifier(Constants.MOD_ID, "item.infested_wheat.use"));
 	public static final SoundEvent RANDOM_PLING = new SoundEvent(new Identifier(Constants.MOD_ID, "random.pling"));
 	public static final SoundEvent RITE_RITE_TRIGGERED = new SoundEvent(new Identifier(Constants.MOD_ID, "rite.rite_triggered"));

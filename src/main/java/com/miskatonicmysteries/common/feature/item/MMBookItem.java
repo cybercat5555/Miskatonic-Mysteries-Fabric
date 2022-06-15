@@ -10,9 +10,10 @@ import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.List;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,6 +32,9 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+
+import java.util.List;
+
 import vazkii.patchouli.api.PatchouliAPI;
 import vazkii.patchouli.common.base.PatchouliSounds;
 import vazkii.patchouli.common.book.Book;
@@ -49,8 +53,20 @@ public class MMBookItem extends Item implements Affiliated {
 		this.special = special;
 	}
 
-	public Book getBook() {
-		return BookRegistry.INSTANCE.books.get(id);
+	@Override
+	public ActionResult useOnBlock(ItemUsageContext context) {
+		World world = context.getWorld();
+		BlockPos pos = context.getBlockPos();
+		if (MiskatonicMysteriesAPI.getNonNullAffiliation(context.getPlayer(), false) == MMAffiliations.HASTUR
+			&& MiskatonicMysteriesAPI.getAscensionStage(context.getPlayer()) >= HasturAscensionHandler.END_STAGE) {
+			BlockPattern blockPattern = ObeliskBlock.getHasturObeliskPattern();
+			BlockPattern.Result result = blockPattern.searchAround(world, pos);
+			if (result == null || result.getUp() != Direction.EAST) {
+				return ActionResult.PASS;
+			}
+			return ObeliskBlock.buildObelisk(context, blockPattern, result);
+		}
+		return ActionResult.PASS;
 	}
 
 	@Override
@@ -68,20 +84,8 @@ public class MMBookItem extends Item implements Affiliated {
 		return TypedActionResult.success(player.getStackInHand(hand));
 	}
 
-	@Override
-	public ActionResult useOnBlock(ItemUsageContext context) {
-		World world = context.getWorld();
-		BlockPos pos = context.getBlockPos();
-		if (MiskatonicMysteriesAPI.getNonNullAffiliation(context.getPlayer(), false) == MMAffiliations.HASTUR
-			&& MiskatonicMysteriesAPI.getAscensionStage(context.getPlayer()) >= HasturAscensionHandler.END_STAGE) {
-			BlockPattern blockPattern = ObeliskBlock.getHasturObeliskPattern();
-			BlockPattern.Result result = blockPattern.searchAround(world, pos);
-			if (result == null || result.getUp() != Direction.EAST) {
-				return ActionResult.PASS;
-			}
-			return ObeliskBlock.buildObelisk(context, blockPattern, result);
-		}
-		return ActionResult.PASS;
+	public Book getBook() {
+		return BookRegistry.INSTANCE.books.get(id);
 	}
 
 	@Environment(EnvType.CLIENT)

@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.api.interfaces;
 
 import com.miskatonicmysteries.api.registry.Blessing;
+
 import java.util.List;
 import java.util.Optional;
 

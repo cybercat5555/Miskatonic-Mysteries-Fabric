@@ -5,17 +5,18 @@ import net.minecraft.nbt.NbtList;
 import java.util.List;
 
 public interface LoomPatternContainer {
-    String NBT_KEY = "Bannerpp_LoomPatterns";
 
-    List<LoomPatternData> bannerpp_getLoomPatterns();
+	String NBT_KEY = "Bannerpp_LoomPatterns";
 
-    /**
-     * Internal interface that allows the client mixin to communicate
-     * with the common mixin.
-     */
-    interface Internal {
-        NbtList bannerpp_getLoomPatternTag();
+	List<LoomPatternData> bannerpp_getLoomPatterns();
 
-        void bannerpp_setLoomPatternTag(NbtList tag);
-    }
+	/**
+	 * Internal interface that allows the client mixin to communicate with the common mixin.
+	 */
+	interface Internal {
+
+		NbtList bannerpp_getLoomPatternTag();
+
+		void bannerpp_setLoomPatternTag(NbtList tag);
+	}
 }

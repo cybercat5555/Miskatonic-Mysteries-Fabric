@@ -6,9 +6,10 @@ import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
 import com.miskatonicmysteries.common.util.Util;
-import java.util.Random;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.block.AbstractBannerBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -17,6 +18,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.Random;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -36,7 +40,7 @@ public abstract class BlockMixin extends AbstractBlock {
 		if (client.player != null && client.player.age % MiskatonicMysteries.config.sanity.insanityInterval == 0
 			&& random.nextFloat() < 0.1F) {
 			InsanityHandler.handleClientSideBlockChange(client.player, world, state, pos,
-				random); //could probably do this in an actual insanity event rather than mixin TODO BANNER
+														random); //could probably do this in an actual insanity event rather than mixin TODO BANNER
 		} else if ((state.getBlock() instanceof AbstractBannerBlock) && random.nextInt(5) == 0 && world
 			.getBlockEntity(pos) instanceof LoomPatternContainer.Internal internal
 			&& Util.isValidYellowSign(internal.bannerpp_getLoomPatternTag())) {

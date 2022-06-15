@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.feature.spell.effect;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.util.Constants;
-import javax.annotation.Nullable;
+
 import net.minecraft.block.AbstractFireBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CampfireBlock;
@@ -16,6 +16,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+
 public class FireSpellEffect extends SpellEffect {
 
 	public FireSpellEffect() {
@@ -24,29 +26,30 @@ public class FireSpellEffect extends SpellEffect {
 
 	@Override
 	public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity,
-		@Nullable Entity secondaryMedium) {
+						  @Nullable Entity secondaryMedium) {
 		boolean flag = false;
 		if (target != null) {
 			target.setFireTicks(intensity * 40);
 			flag = true;
 		}
 		if (pos != null) {
-			 if (!world.isClient) {
-				 BlockPos center = new BlockPos(pos);
-				 int range = Math.min(intensity, 5);
-				 for (int i = 0; i < (range * 3) + 1; i++) {
-					 lightFire(world, center, range);
-				 }
-			 }
-			 flag = true;
+			if (!world.isClient) {
+				BlockPos center = new BlockPos(pos);
+				int range = Math.min(intensity, 5);
+				for (int i = 0; i < (range * 3) + 1; i++) {
+					lightFire(world, center, range);
+				}
+			}
+			flag = true;
 		}
 		return flag;
 	}
 
 	private boolean lightFire(World world, BlockPos center, int range) {
 		return BlockPos.Mutable.findClosest(center, range, range,
-			blockPos -> (range >= 2 || world.random.nextBoolean()) && (AbstractFireBlock.canPlaceAt(world, blockPos, Direction.DOWN)
-				|| CampfireBlock.canBeLit(world.getBlockState(blockPos)))).map(blockPos -> {
+											blockPos -> (range >= 2 || world.random.nextBoolean()) && (
+												AbstractFireBlock.canPlaceAt(world, blockPos, Direction.DOWN)
+													|| CampfireBlock.canBeLit(world.getBlockState(blockPos)))).map(blockPos -> {
 			BlockState blockState = world.getBlockState(blockPos);
 			if (CampfireBlock.canBeLit(blockState)) {
 				world.setBlockState(blockPos, blockState.with(Properties.LIT, true), 11);

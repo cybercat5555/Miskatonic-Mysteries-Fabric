@@ -8,13 +8,15 @@ import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.List;
-import java.util.Random;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
+import java.util.List;
+import java.util.Random;
 
 public class SpellEffectInstabilityEvent extends InstabilityEvent {
 
@@ -42,7 +44,7 @@ public class SpellEffectInstabilityEvent extends InstabilityEvent {
 			}
 		}
 		world.playSound(null, blockEntity.getPos(), MMSounds.SPELL_SPELL_CAST, SoundCategory.NEUTRAL, MathHelper.nextGaussian(random, 1, 0.2F),
-			MathHelper.nextGaussian(random, 1, 0.2F));
+						MathHelper.nextGaussian(random, 1, 0.2F));
 		return false;
 	}
 

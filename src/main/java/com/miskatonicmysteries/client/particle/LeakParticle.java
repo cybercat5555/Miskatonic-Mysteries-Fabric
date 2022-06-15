@@ -2,6 +2,7 @@ package com.miskatonicmysteries.client.particle;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleFactory;
 import net.minecraft.client.particle.ParticleTextureSheet;
@@ -38,14 +39,14 @@ public class LeakParticle extends SpriteBillboardParticle {
 	}
 
 	@Override
-	public void move(double dx, double dy, double dz) {
-		this.setBoundingBox(this.getBoundingBox().offset(dx, dy, dz));
-		this.repositionFromBoundingBox();
+	public ParticleTextureSheet getType() {
+		return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
 	}
 
 	@Override
-	public ParticleTextureSheet getType() {
-		return ParticleTextureSheet.PARTICLE_SHEET_OPAQUE;
+	public void move(double dx, double dy, double dz) {
+		this.setBoundingBox(this.getBoundingBox().offset(dx, dy, dz));
+		this.repositionFromBoundingBox();
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -58,7 +59,7 @@ public class LeakParticle extends SpriteBillboardParticle {
 		}
 
 		public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double x, double y, double z,
-			double g, double h, double i) {
+									   double g, double h, double i) {
 			LeakParticle blockLeakParticle = new LeakParticle(clientWorld, x, y, z);
 			blockLeakParticle.velocityX += g;
 			blockLeakParticle.velocityY += h;

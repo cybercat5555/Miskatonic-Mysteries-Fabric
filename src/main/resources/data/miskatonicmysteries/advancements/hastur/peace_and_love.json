@@ -1,32 +1,32 @@
 {
-  "parent": "miskatonicmysteries:hastur/inner_light",
-  "display": {
-    "icon": {
-      "item": "minecraft:emerald"
-    },
-    "title": {
-      "translate": "advancements.miskatonicmysteries.peace_and_love.title"
-    },
-    "description": {
-      "translate": "advancements.miskatonicmysteries.peace_and_love.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "leveled_up": {
-      "trigger": "miskatonicmysteries:level_up",
-      "conditions": {
-        "affiliation": "miskatonicmysteries:hastur",
-        "stage": 3
-      }
-    }
-  },
-  "requirements": [
-    [
-      "leveled_up"
-    ]
-  ]
+	"parent": "miskatonicmysteries:hastur/inner_light",
+	"display": {
+		"icon": {
+			"item": "minecraft:emerald"
+		},
+		"title": {
+			"translate": "advancements.miskatonicmysteries.peace_and_love.title"
+		},
+		"description": {
+			"translate": "advancements.miskatonicmysteries.peace_and_love.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"leveled_up": {
+			"trigger": "miskatonicmysteries:level_up",
+			"conditions": {
+				"affiliation": "miskatonicmysteries:hastur",
+				"stage": 3
+			}
+		}
+	},
+	"requirements": [
+		[
+			"leveled_up"
+		]
+	]
 }

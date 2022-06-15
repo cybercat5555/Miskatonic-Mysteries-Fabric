@@ -1,16 +1,16 @@
 {
-  "name": "item.miskatonicmysteries.science_journal",
-  "subtitle": "miskatonicmysteries.science_journal.subtitle",
-  "landing_text": "miskatonicmysteries.science_journal.landing",
-  "book_texture": "miskatonicmysteries:textures/gui/science_journal.png",
-  "filler_texture": "miskatonicmysteries:textures/gui/science_journal_page_filler.png",
-  "dont_generate_book": true,
-  "custom_book_item": "miskatonicmysteries:science_journal",
-  "show_progress": false,
-  "macros": {
-    "$(marked)": "$(#FF00FF)",
-    "$(item)": "$(#2F32FF)"
-  },
-  "link_color ": "AE32FF",
-  "pamphlet": true
+	"name": "item.miskatonicmysteries.science_journal",
+	"subtitle": "miskatonicmysteries.science_journal.subtitle",
+	"landing_text": "miskatonicmysteries.science_journal.landing",
+	"book_texture": "miskatonicmysteries:textures/gui/science_journal.png",
+	"filler_texture": "miskatonicmysteries:textures/gui/science_journal_page_filler.png",
+	"dont_generate_book": true,
+	"custom_book_item": "miskatonicmysteries:science_journal",
+	"show_progress": false,
+	"macros": {
+		"$(marked)": "$(#FF00FF)",
+		"$(item)": "$(#2F32FF)"
+	},
+	"link_color ": "AE32FF",
+	"pamphlet": true
 }

@@ -1,8 +1,8 @@
 {
-  "replace": false,
-  "values": [
-    "minecraft:phantom",
-    "minecraft:enderman",
-    "miskatonicmysteries:energy_tentacle"
-  ]
+	"replace": false,
+	"values": [
+		"minecraft:phantom",
+		"minecraft:enderman",
+		"miskatonicmysteries:energy_tentacle"
+	]
 }

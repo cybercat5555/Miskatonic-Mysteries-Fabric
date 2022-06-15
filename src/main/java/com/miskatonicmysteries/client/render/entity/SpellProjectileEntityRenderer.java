@@ -2,8 +2,10 @@ package com.miskatonicmysteries.client.render.entity;
 
 import com.miskatonicmysteries.common.feature.entity.SpellProjectileEntity;
 import com.miskatonicmysteries.common.registry.MMParticles;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -22,7 +24,7 @@ public class SpellProjectileEntityRenderer extends EntityRenderer<SpellProjectil
 
 	@Override
 	public void render(SpellProjectileEntity entity, float yaw, float tickDelta, MatrixStack matrices,
-		VertexConsumerProvider vertexConsumers, int light) {
+					   VertexConsumerProvider vertexConsumers, int light) {
 		super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
 		if (entity.getSpell() != null) {
 			Vec3d rgb = Vec3d

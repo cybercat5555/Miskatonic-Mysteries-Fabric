@@ -9,6 +9,7 @@ import com.miskatonicmysteries.common.feature.world.party.Party;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Util;
+
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -32,7 +33,7 @@ public class HasturAscensionHandler {
 
 	public static boolean offerArtToCultist(PlayerEntity player, Hand hand, HasturCultistEntity entity) {
 		if (StatueBlock.isPlayerMade(player.getStackInHand(hand)) && MiskatonicMysteriesAPI.levelUp(player, ART_STAGE,
-			MMAffiliations.HASTUR)) {
+																									MMAffiliations.HASTUR)) {
 			player.getStackInHand(hand).decrement(1);
 			entity.lookAtEntity(player, 40, 40);
 			MiskatonicMysteriesAPI.guaranteeSpellPower(3, SpellCaster.of(player).get());
@@ -40,7 +41,7 @@ public class HasturAscensionHandler {
 			if (!player.world.isClient()) {
 				entity.playSound(SoundEvents.ENTITY_VILLAGER_YES, 1F, 1F);
 				player.world.spawnEntity(new ExperienceOrbEntity(player.world, entity.getX(), entity.getX(),
-					entity.getX(), 15));
+																 entity.getX(), 15));
 			}
 			entity.setCastTime(100);
 			return true;
@@ -50,11 +51,11 @@ public class HasturAscensionHandler {
 
 	public static void blessThroughPrince(LivingEntity blessTarget, TatteredPrinceEntity prince) {
 		if (blessTarget instanceof PlayerEntity && MiskatonicMysteriesAPI.levelUp((PlayerEntity) blessTarget, GATHERING_STAGE,
-			MMAffiliations.HASTUR)) {
+																				  MMAffiliations.HASTUR)) {
 			prince.playSound(MMSounds.SPELL_SPELL_CAST, 1, 1);
 			Vec3d pos = Util.getYawRelativePos(prince.getPos(), 3, prince.getYaw(), prince.getPitch());
 			Vec3d motionVec = new Vec3d(pos.x - blessTarget.getX(), pos.y + 2 - blessTarget.getY(),
-				pos.z - blessTarget.getZ());
+										pos.z - blessTarget.getZ());
 			if (motionVec.length() > 0.1) {
 				blessTarget.setVelocity(motionVec);
 				blessTarget.velocityModified = true;
@@ -77,8 +78,8 @@ public class HasturAscensionHandler {
 				return false;
 			}
 			if (world.getClosestEntity(TatteredPrinceEntity.class,
-				TargetPredicate.createNonAttackable().setBaseMaxDistance(40).ignoreVisibility(), player, player.getX(),
-				player.getY(), player.getZ(), player.getBoundingBox().expand(40)) == null) {
+									   TargetPredicate.createNonAttackable().setBaseMaxDistance(40).ignoreVisibility(), player, player.getX(),
+									   player.getY(), player.getZ(), player.getBoundingBox().expand(40)) == null) {
 				player.sendMessage(new TranslatableText("message.miskatonicmysteries.need_prince"), true);
 				return false;
 			}
@@ -89,7 +90,7 @@ public class HasturAscensionHandler {
 
 	public static void holdGoldenGathering(ServerPlayerEntity serverPlayerEntity, int partyPower) {
 		if (partyPower >= Party.PARTY_POWER_MAX && MiskatonicMysteriesAPI.levelUp(serverPlayerEntity, SIMULACRUM_STAGE,
-			MMAffiliations.HASTUR)) {
+																				  MMAffiliations.HASTUR)) {
 			serverPlayerEntity.playSound(MMSounds.SPELL_SPELL_CAST, 1, 1);
 			MiskatonicMysteriesAPI.grantBlessing(serverPlayerEntity, MMAffiliations.HASTUR);
 		}

@@ -1,22 +1,22 @@
 {
-  "name": "The Rorschach Test",
-  "category": "miskatonicmysteries:general",
-  "icon": "minecraft:ink_sac",
-  "pages": [
-    {
-      "type": "text",
-      "text": "The Rorschach Test is created by pressing an ink-splattered page against a blank one, forming a symmetrical image. The image is nothing more than an abstract design, but the objects seen in the image can help highlight the observer's underlying thought processes and how they view the world, along with some deeper insights. "
-    },
-    {
-      "type": "text",
-      "text": "According to professionals, the following image is nothing more than a meaningless shape, but those suffering from insanity and cult behaviour may view it as a fantastical image, with the detail and clarity of the image increasing with the level of mental decay the patient is under."
-    },
-    {
-      "type": "miskatonicmysteries:inkblot"
-    },
-    {
-      "type": "empty",
-      "draw_filler": false
-    }
-  ]
+	"name": "The Rorschach Test",
+	"category": "miskatonicmysteries:general",
+	"icon": "minecraft:ink_sac",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The Rorschach Test is created by pressing an ink-splattered page against a blank one, forming a symmetrical image. The image is nothing more than an abstract design, but the objects seen in the image can help highlight the observer's underlying thought processes and how they view the world, along with some deeper insights. "
+		},
+		{
+			"type": "text",
+			"text": "According to professionals, the following image is nothing more than a meaningless shape, but those suffering from insanity and cult behaviour may view it as a fantastical image, with the detail and clarity of the image increasing with the level of mental decay the patient is under."
+		},
+		{
+			"type": "miskatonicmysteries:inkblot"
+		},
+		{
+			"type": "empty",
+			"draw_filler": false
+		}
+	]
 }

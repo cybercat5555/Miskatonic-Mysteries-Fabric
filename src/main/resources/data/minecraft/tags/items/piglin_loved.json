@@ -1,7 +1,7 @@
 {
-  "replace": false,
-  "values": [
-    "#miskatonicmysteries:oceanic_gold_blocks",
-    "miskatonicmysteries:oceanic_gold"
-  ]
+	"replace": false,
+	"values": [
+		"#miskatonicmysteries:oceanic_gold_blocks",
+		"miskatonicmysteries:oceanic_gold"
+	]
 }

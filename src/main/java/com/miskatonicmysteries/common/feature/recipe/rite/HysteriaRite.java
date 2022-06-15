@@ -6,6 +6,7 @@ import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Items;
@@ -19,7 +20,7 @@ public class HysteriaRite extends TriggeredRite {
 	public HysteriaRite() {
 		super(new Identifier(Constants.MOD_ID, "hysteria"), null, 0.05F, 60, Ingredient
 			.ofItems(MMObjects.BLOTTER), Ingredient.ofItems(Items.RED_MUSHROOM), Ingredient
-			.ofItems(Items.REDSTONE), Ingredient.ofItems(Items.GLOWSTONE_DUST));
+				  .ofItems(Items.REDSTONE), Ingredient.ofItems(Items.GLOWSTONE_DUST));
 	}
 
 	@Override

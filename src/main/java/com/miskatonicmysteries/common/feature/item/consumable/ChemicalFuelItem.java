@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.feature.item.consumable;
 
 import com.miskatonicmysteries.common.feature.block.blockentity.energy.PowerCellBlockEntity;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.DispenserBehavior;
@@ -25,6 +26,7 @@ import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 import team.reborn.energy.api.EnergyStorage;
 
 public class ChemicalFuelItem extends Item {
@@ -37,7 +39,8 @@ public class ChemicalFuelItem extends Item {
 			if (pointer.getWorld().getBlockEntity(pos) instanceof PowerCellBlockEntity cell) {
 				EnergyStorage storage = cell.energyStorage.getSideStorage(null);
 				if (storage.getAmount() < storage.getCapacity()) {
-					cell.energyStorage.amount = Math.min(cell.energyStorage.getCapacity(), cell.energyStorage.amount + cell.energyStorage.getCapacity() / 4);
+					cell.energyStorage.amount = Math
+						.min(cell.energyStorage.getCapacity(), cell.energyStorage.amount + cell.energyStorage.getCapacity() / 4);
 					Item remainder = stack.getItem().getRecipeRemainder();
 					stack.decrement(1);
 					if (stack.isEmpty()) {
@@ -60,16 +63,12 @@ public class ChemicalFuelItem extends Item {
 	}
 
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		return ItemUsage.consumeHeldItem(world, user, hand);
-	}
-
-	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
 		if (context.getWorld().getBlockEntity(context.getBlockPos()) instanceof PowerCellBlockEntity cell) {
 			EnergyStorage storage = cell.energyStorage.getSideStorage(null);
 			if (storage.getAmount() < storage.getCapacity()) {
-				cell.energyStorage.amount = Math.min(cell.energyStorage.getCapacity(), cell.energyStorage.amount + cell.energyStorage.getCapacity() / 4);
+				cell.energyStorage.amount = Math
+					.min(cell.energyStorage.getCapacity(), cell.energyStorage.amount + cell.energyStorage.getCapacity() / 4);
 				context.getPlayer().getStackInHand(context.getHand()).decrement(1);
 				ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
 				if (context.getPlayer().getStackInHand(context.getHand()).isEmpty()) {
@@ -84,6 +83,11 @@ public class ChemicalFuelItem extends Item {
 			}
 		}
 		return ActionResult.PASS;
+	}
+
+	@Override
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		return ItemUsage.consumeHeldItem(world, user, hand);
 	}
 
 	@Override

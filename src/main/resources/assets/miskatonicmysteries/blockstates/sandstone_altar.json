@@ -1,19 +1,19 @@
 {
-  "variants": {
-    "facing=south": {
-      "model": "miskatonicmysteries:block/sandstone_altar"
-    },
-    "facing=west": {
-      "model": "miskatonicmysteries:block/sandstone_altar",
-      "y": 90
-    },
-    "facing=north": {
-      "model": "miskatonicmysteries:block/sandstone_altar",
-      "y": 180
-    },
-    "facing=east": {
-      "model": "miskatonicmysteries:block/sandstone_altar",
-      "y": 270
-    }
-  }
+	"variants": {
+		"facing=south": {
+			"model": "miskatonicmysteries:block/sandstone_altar"
+		},
+		"facing=west": {
+			"model": "miskatonicmysteries:block/sandstone_altar",
+			"y": 90
+		},
+		"facing=north": {
+			"model": "miskatonicmysteries:block/sandstone_altar",
+			"y": 180
+		},
+		"facing=east": {
+			"model": "miskatonicmysteries:block/sandstone_altar",
+			"y": 270
+		}
+	}
 }

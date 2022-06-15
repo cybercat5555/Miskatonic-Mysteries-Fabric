@@ -1,5 +1,5 @@
 {
-  "textures": {
-    "particle": "miskatonicmysteries:block/octagram/cthulhu_octagram"
-  }
+	"textures": {
+		"particle": "miskatonicmysteries:block/octagram/cthulhu_octagram"
+	}
 }

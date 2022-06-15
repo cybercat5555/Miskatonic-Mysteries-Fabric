@@ -1,7 +1,5 @@
 package com.miskatonicmysteries.common.feature.entity.ai;
 
-import com.miskatonicmysteries.common.feature.entity.ai.MobCrossbowAttackGoal.Stage;
-import java.util.EnumSet;
 import net.minecraft.entity.CrossbowUser;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.RangedAttackMob;
@@ -13,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
+
+import java.util.EnumSet;
 
 //copy-paste vanilla classes to avoid vicious hackery
 public class MobCrossbowAttackGoal<T extends PathAwareEntity & RangedAttackMob & CrossbowUser> extends Goal {
@@ -34,7 +34,12 @@ public class MobCrossbowAttackGoal<T extends PathAwareEntity & RangedAttackMob &
 		this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
 	}
 
-	public boolean canStart() {
+	enum Stage {
+		UNCHARGED,
+		CHARGING,
+		CHARGED,
+		READY_TO_ATTACK
+	}	public boolean canStart() {
 		return this.hasAliveTarget() && this.isEntityHoldingCrossbow();
 	}
 
@@ -130,10 +135,5 @@ public class MobCrossbowAttackGoal<T extends PathAwareEntity & RangedAttackMob &
 		return this.stage == Stage.UNCHARGED;
 	}
 
-	enum Stage {
-		UNCHARGED,
-		CHARGING,
-		CHARGED,
-		READY_TO_ATTACK
-	}
+
 }

@@ -1,7 +1,7 @@
 {
-  "variants": {
-    "": {
-      "model": "miskatonicmysteries:block/hastur_statue_terracotta"
-    }
-  }
+	"variants": {
+		"": {
+			"model": "miskatonicmysteries:block/hastur_statue_terracotta"
+		}
+	}
 }

@@ -4,10 +4,10 @@ import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.util.InventoryUtil;
-import java.util.List;
-import javax.annotation.Nullable;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
@@ -19,6 +19,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+
+import java.util.List;
+
+import javax.annotation.Nullable;
 
 public abstract class Rite {
 
@@ -38,8 +42,8 @@ public abstract class Rite {
 
 	@Environment(EnvType.CLIENT)
 	public static void renderPortalOctagram(float alpha, float[] origColors, OctagramBlockEntity entity, float tickDelta,
-		MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay,
-		BlockEntityRendererFactory.Context context) {
+											MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay,
+											BlockEntityRendererFactory.Context context) {
 		Identifier mask = ResourceHandler.getOctagramMaskTextureFor(entity);
 		float[] colors = {origColors[0], origColors[1], origColors[2], alpha};
 		matrixStack.push();
@@ -98,24 +102,23 @@ public abstract class Rite {
 
 	@Environment(EnvType.CLIENT)
 	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
-		int light, int overlay, BlockEntityRendererFactory.Context context) {
+						   int light, int overlay, BlockEntityRendererFactory.Context context) {
 	}
 
 	@Environment(EnvType.CLIENT)
 	public void renderRiteItems(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack,
-		VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
+								VertexConsumerProvider vertexConsumers, int light, int overlay, BlockEntityRendererFactory.Context context) {
 	}
 
 	/**
-	 * Called in {@link com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender} before anything else. Used to set up very
-	 * special rendering Flags: 2 - Render Items 1 - Render the Octagram 0 - Render None Flags can be combined e.g. 2 | 1 to render both
-	 * normally
+	 * Called in {@link com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender} before anything else. Used to set up very special
+	 * rendering Flags: 2 - Render Items 1 - Render the Octagram 0 - Render None Flags can be combined e.g. 2 | 1 to render both normally
 	 *
 	 * @return bitwise flag combination used for rendering, see above
 	 */
 	@Environment(EnvType.CLIENT)
 	public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
-		int light, int overlay, BlockEntityRendererFactory.Context context) {
+							 int light, int overlay, BlockEntityRendererFactory.Context context) {
 		return 2 | 1;
 	}
 

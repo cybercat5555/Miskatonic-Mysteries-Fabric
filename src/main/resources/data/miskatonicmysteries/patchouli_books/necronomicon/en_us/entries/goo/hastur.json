@@ -1,42 +1,42 @@
 {
-  "name": "Hastur",
-  "category": "miskatonicmysteries:great_old_ones",
-  "icon": "miskatonicmysteries:textures/gui/icons/hastur.png",
-  "turnin": "miskatonicmysteries:hastur/inner_light",
-  "pages": [
-    {
-      "type": "text",
-      "text": "The $(marked)Yellow King$(), or Hastur, often associates with mortals, actings as a noble king or protector of shepherds. He is marked by the $(marked)Yellow Sign$(), a sigil which induces madness in those who gaze upon it. His very aura is known to grant people amazing artistic skills, if only as a way to express their $(o)fascination$(). Accordingly, the Yellow King is by far the most popular among the unknowing population."
-    },
-    {
-      "type": "text",
-      "turnin": "miskatonicmysteries:hastur/hare_krishna",
-      "text": "Those who decide to ascend under him can expect powerful magic and the King's blessing among the people.$(br)Ascending under Hastur involves a lot of interaction with other $(marked)Villagers$() and his $(ml:bestiary/serfs)Serfs$().$(br)Try trading with a $(marked)Yellow Vassal$() if you are interested in the Yellow King's ways.$(br2)$(o)This entry will get expanded as you proceed.$()"
-    },
-    {
-      "title": "Act One",
-      "type": "text",
-      "advancement": "miskatonicmysteries:hastur/hare_krishna",
-      "text": "Introduction to the serfs is as easy as it gets: simply fabricate a $(marked)Idol$() using the $(ml:rites/sculptor_rite)Sculptor Rite$(). The product must be handed to a $(marked)Yellow Vassal$(), who will set you on the King's path. This will change your $(ml:world/affiliation)internal affiliation$() to that of the Yellow King.$(br)Casting this requires $(ml:world/occult_knowledge)Yellow Knowledge$(), acquired from simply interacting with the Vassals."
-    },
-    {
-      "title": "Act Two",
-      "type": "text",
-      "advancement": "miskatonicmysteries:hastur/hare_rama",
-      "text": "The next is a bit more elaborate. Perform a $(ml:rites/golden_coronation)Golden Coronation$() and bring forth a $(ml:bestiary/prince)Tattered Prince$(). He will be your guiding hand in this ascension. Once summoned, he will also grant you your first $(ml:goo/hastur_blessings)blessing$(), provided you interact with him. Keep him around, for he will give you another blessing once entertained enough."
-    },
-    {
-      "title": "Act Three",
-      "type": "text",
-      "advancement": "miskatonicmysteries:hastur/inner_light",
-      "text": "To receive your second blessing, you must attend a perfect $(ml:goo/golden_gathering)Golden Gathering$(). This will require your previously summoned $(ml:bestiary/prince)Tattered Prince$() and lead you to the last act."
-    },
-    {
-      "title": "Final Act",
-      "anchor": "finale",
-      "type": "text",
-      "advancement": "miskatonicmysteries:hastur/peace_and_love",
-      "text": "The final blessing is acquired by setting a piece of the Yellow King into the world, a $(ml:goo/hastur_simulacrum)Simulacrum$(). The Simulacrum of Carcosa is created through the equally named $(ml:rites/hastur_simulacrum)rite$(). This final act will leave you exposed to saboteurs, so make sure to prepare accordingly."
-    }
-  ]
+	"name": "Hastur",
+	"category": "miskatonicmysteries:great_old_ones",
+	"icon": "miskatonicmysteries:textures/gui/icons/hastur.png",
+	"turnin": "miskatonicmysteries:hastur/inner_light",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The $(marked)Yellow King$(), or Hastur, often associates with mortals, actings as a noble king or protector of shepherds. He is marked by the $(marked)Yellow Sign$(), a sigil which induces madness in those who gaze upon it. His very aura is known to grant people amazing artistic skills, if only as a way to express their $(o)fascination$(). Accordingly, the Yellow King is by far the most popular among the unknowing population."
+		},
+		{
+			"type": "text",
+			"turnin": "miskatonicmysteries:hastur/hare_krishna",
+			"text": "Those who decide to ascend under him can expect powerful magic and the King's blessing among the people.$(br)Ascending under Hastur involves a lot of interaction with other $(marked)Villagers$() and his $(ml:bestiary/serfs)Serfs$().$(br)Try trading with a $(marked)Yellow Vassal$() if you are interested in the Yellow King's ways.$(br2)$(o)This entry will get expanded as you proceed.$()"
+		},
+		{
+			"title": "Act One",
+			"type": "text",
+			"advancement": "miskatonicmysteries:hastur/hare_krishna",
+			"text": "Introduction to the serfs is as easy as it gets: simply fabricate a $(marked)Idol$() using the $(ml:rites/sculptor_rite)Sculptor Rite$(). The product must be handed to a $(marked)Yellow Vassal$(), who will set you on the King's path. This will change your $(ml:world/affiliation)internal affiliation$() to that of the Yellow King.$(br)Casting this requires $(ml:world/occult_knowledge)Yellow Knowledge$(), acquired from simply interacting with the Vassals."
+		},
+		{
+			"title": "Act Two",
+			"type": "text",
+			"advancement": "miskatonicmysteries:hastur/hare_rama",
+			"text": "The next is a bit more elaborate. Perform a $(ml:rites/golden_coronation)Golden Coronation$() and bring forth a $(ml:bestiary/prince)Tattered Prince$(). He will be your guiding hand in this ascension. Once summoned, he will also grant you your first $(ml:goo/hastur_blessings)blessing$(), provided you interact with him. Keep him around, for he will give you another blessing once entertained enough."
+		},
+		{
+			"title": "Act Three",
+			"type": "text",
+			"advancement": "miskatonicmysteries:hastur/inner_light",
+			"text": "To receive your second blessing, you must attend a perfect $(ml:goo/golden_gathering)Golden Gathering$(). This will require your previously summoned $(ml:bestiary/prince)Tattered Prince$() and lead you to the last act."
+		},
+		{
+			"title": "Final Act",
+			"anchor": "finale",
+			"type": "text",
+			"advancement": "miskatonicmysteries:hastur/peace_and_love",
+			"text": "The final blessing is acquired by setting a piece of the Yellow King into the world, a $(ml:goo/hastur_simulacrum)Simulacrum$(). The Simulacrum of Carcosa is created through the equally named $(ml:rites/hastur_simulacrum)rite$(). This final act will leave you exposed to saboteurs, so make sure to prepare accordingly."
+		}
+	]
 }

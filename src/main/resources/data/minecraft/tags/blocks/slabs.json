@@ -1,6 +1,6 @@
 {
-  "replace": false,
-  "values": [
-    "#miskatonicmysteries:elderian_slabs"
-  ]
+	"replace": false,
+	"values": [
+		"#miskatonicmysteries:elderian_slabs"
+	]
 }

@@ -3,8 +3,10 @@ package com.miskatonicmysteries.client.render.blockentity;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.AltarBlockEntity;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
 import net.minecraft.block.LecternBlock;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -27,7 +29,7 @@ public class AltarBlockRender implements BlockEntityRenderer<AltarBlockEntity> {
 
 	@Override
 	public void render(AltarBlockEntity entity, float tickDelta, MatrixStack matrixStack,
-		VertexConsumerProvider vertexConsumers, int light, int overlay) {
+					   VertexConsumerProvider vertexConsumers, int light, int overlay) {
 		if (!entity.getStack(0).isEmpty()) {
 			matrixStack.push();
 			matrixStack.translate(0.5D, 1.35D, 0.5D);
@@ -39,7 +41,7 @@ public class AltarBlockRender implements BlockEntityRenderer<AltarBlockEntity> {
 			this.book.setPageAngles(0.0F, 0.01F, 0.99F, 1.2F);
 			VertexConsumer vertexConsumer =
 				ResourceHandler.getBookTextureFor(entity.getStack(0)).getVertexConsumer(vertexConsumers,
-					RenderLayer::getEntitySolid);
+																						RenderLayer::getEntitySolid);
 			this.book.renderBook(matrixStack, vertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
 			matrixStack.pop();
 		}

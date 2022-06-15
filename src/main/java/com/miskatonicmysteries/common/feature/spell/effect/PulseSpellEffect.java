@@ -6,8 +6,7 @@ import com.miskatonicmysteries.common.feature.entity.GenericTentacleEntity;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
-import java.util.UUID;
-import javax.annotation.Nullable;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -21,14 +20,24 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 
+import java.util.UUID;
+
+import javax.annotation.Nullable;
+
 public class PulseSpellEffect extends SpellEffect {
 
 	private static final EntityAttributeModifier dmgMod1 = new EntityAttributeModifier(UUID
-		.fromString("a98bd513-e606-477e-8ce1-381943a8cb0c"), "MM_SpellDMG_1", -2, EntityAttributeModifier.Operation.ADDITION);
+																						   .fromString("a98bd513-e606-477e-8ce1-381943a8cb0c"),
+																					   "MM_SpellDMG_1", -2,
+																					   EntityAttributeModifier.Operation.ADDITION);
 	private static final EntityAttributeModifier dmgMod2 = new EntityAttributeModifier(UUID
-		.fromString("736f28f2-f423-44a4-b819-b3cc46395f2b"), "MM_SpellDMG_1", 0, EntityAttributeModifier.Operation.ADDITION);
+																						   .fromString("736f28f2-f423-44a4-b819-b3cc46395f2b"),
+																					   "MM_SpellDMG_1", 0,
+																					   EntityAttributeModifier.Operation.ADDITION);
 	private static final EntityAttributeModifier dmgMod3 = new EntityAttributeModifier(UUID
-		.fromString("d622463f-ff36-4b42-a340-8dd209b5c2b5"), "MM_SpellDMG_1", 2, EntityAttributeModifier.Operation.ADDITION);
+																						   .fromString("d622463f-ff36-4b42-a340-8dd209b5c2b5"),
+																					   "MM_SpellDMG_1", 2,
+																					   EntityAttributeModifier.Operation.ADDITION);
 	private static final EntityAttributeModifier[] dmgMods = {dmgMod1, dmgMod2, dmgMod3};
 
 	public PulseSpellEffect() {
@@ -37,7 +46,7 @@ public class PulseSpellEffect extends SpellEffect {
 
 	@Override
 	public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity,
-		@Nullable Entity secondaryMedium) {
+						  @Nullable Entity secondaryMedium) {
 		if (target != null && !(target instanceof LivingEntity)) {
 			return false;
 		}
@@ -59,9 +68,9 @@ public class PulseSpellEffect extends SpellEffect {
 			for (int i = 0; i < 5; ++i) {
 				double l = 1.5D * (double) (i + 1);
 				conjureTentacle(caster, target == caster ? null : (LivingEntity) target,
-					caster.getX() + (double) MathHelper.cos(yaw) * l,
-					caster.getZ() + (double) MathHelper.sin(yaw) * l,
-					minY, startY, yaw * 57.295776F - 90F + 20F, i, intensity, broad);
+								caster.getX() + (double) MathHelper.cos(yaw) * l,
+								caster.getZ() + (double) MathHelper.sin(yaw) * l,
+								minY, startY, yaw * 57.295776F - 90F + 20F, i, intensity, broad);
 			}
 		} else {
 			for (int i = 0; i < 8; i++) {
@@ -76,7 +85,7 @@ public class PulseSpellEffect extends SpellEffect {
 	}
 
 	private void conjureTentacle(LivingEntity caster, @Nullable LivingEntity target, double x, double z, double maxY, double y, float yaw,
-		int index, int intensity, boolean broad) {
+								 int index, int intensity, boolean broad) {
 		BlockPos blockPos = new BlockPos(x, y, z);
 		boolean bl = false;
 		double d = 0.0D;

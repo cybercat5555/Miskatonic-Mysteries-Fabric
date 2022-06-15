@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.feature.item;
 
 import com.miskatonicmysteries.api.item.GunItem;
 import com.miskatonicmysteries.common.util.Constants;
+
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 
 public class RifleItem extends GunItem {
@@ -11,13 +12,18 @@ public class RifleItem extends GunItem {
 	}
 
 	@Override
-	public boolean isHeavy() {
-		return true;
+	public int getLoadingTime() {
+		return 40;
 	}
 
 	@Override
-	public int getLoadingTime() {
-		return 40;
+	public int getMaxShots() {
+		return 1;
+	}
+
+	@Override
+	public boolean isHeavy() {
+		return true;
 	}
 
 	@Override
@@ -26,17 +32,12 @@ public class RifleItem extends GunItem {
 	}
 
 	@Override
-	public int getMaxDistance() {
-		return 64;
-	}
-
-	@Override
 	public int getDamage() {
 		return 15;
 	}
 
 	@Override
-	public int getMaxShots() {
-		return 1;
+	public int getMaxDistance() {
+		return 64;
 	}
 }

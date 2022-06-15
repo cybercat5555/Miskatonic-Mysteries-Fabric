@@ -5,12 +5,7 @@ import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.entity.BoltEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.entity.LivingEntityAccessor;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -24,6 +19,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BoltSpellMedium extends SpellMedium {
 
@@ -40,12 +40,13 @@ public class BoltSpellMedium extends SpellMedium {
 		HitResult blockHit = world
 			.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, caster));
 		EntityHitResult hit = ProjectileUtil.getEntityCollision(world, caster, vec3d, vec3d3,
-			caster.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
-			(target) -> !target.isSpectator() && target.collides());
+																caster.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
+																(target) -> !target.isSpectator() && target.collides());
 		if (!world.isClient && blockHit.getPos() != null) {
 			BoltEntity bolt = new BoltEntity(caster,
-				hit != null && hit.getEntity() != null ? hit.getEntity().distanceTo(caster) : blockHit.getPos().distanceTo(caster.getPos()),
-				effect.getColor(caster));
+											 hit != null && hit.getEntity() != null ? hit.getEntity().distanceTo(caster)
+																					: blockHit.getPos().distanceTo(caster.getPos()),
+											 effect.getColor(caster));
 			world.spawnEntity(bolt);
 		}
 		if (hit != null && blockHit.squaredDistanceTo(caster) > hit.getEntity().squaredDistanceTo(caster)) {
@@ -58,7 +59,7 @@ public class BoltSpellMedium extends SpellMedium {
 			boolean hadEffect = effect.effect(world, caster, hitEntity, hit.getPos(), this, intensity, caster);
 			if (intensity > 0) {
 				jumpBolt(world, caster, hit.getPos().add(0, hitEntity.getHeight() / 2.0, 0), hitEntity, new ArrayList<>(), effect,
-					MathHelper.clamp(intensity, 0, 4));
+						 MathHelper.clamp(intensity, 0, 4));
 			}
 			return hadEffect;
 		} else {
@@ -66,7 +67,13 @@ public class BoltSpellMedium extends SpellMedium {
 		}
 	}
 
-	private void jumpBolt(World world, LivingEntity caster, Vec3d startPos, Entity specificTarget, List<Entity> targets, SpellEffect effect, int recursions) {
+	@Override
+	public float getCooldownModifier(LivingEntity caster) {
+		return 1.5F;
+	}
+
+	private void jumpBolt(World world, LivingEntity caster, Vec3d startPos, Entity specificTarget, List<Entity> targets, SpellEffect effect,
+						  int recursions) {
 		List<Entity> otherTargets = getOtherTargets(world, specificTarget, targets);
 		if (targets.isEmpty()) {
 			targets.add(specificTarget);
@@ -87,21 +94,17 @@ public class BoltSpellMedium extends SpellMedium {
 			}
 		}
 	}
+
 	private List<Entity> getOtherTargets(World world, Entity target, List<Entity> totalTargets) {
 		Box box = target.getBoundingBox().expand(2, 2, 2);
 		boolean aliveTargets = target instanceof LivingEntity;
 		List<Entity> targets = world.getOtherEntities(target, box,
-			entity -> (!aliveTargets || entity instanceof MobEntity) && !totalTargets.contains(entity))
+													  entity -> (!aliveTargets || entity instanceof MobEntity) && !totalTargets.contains(entity))
 			.stream().sorted(Comparator.comparingDouble(e -> e.distanceTo(target))).collect(Collectors.toList());
 		return targets.subList(0, Math.min(2, targets.size()));
 	}
 
 	private int getMaxDistance() {
 		return 24;
-	}
-
-	@Override
-	public float getCooldownModifier(LivingEntity caster) {
-		return 1.5F;
 	}
 }

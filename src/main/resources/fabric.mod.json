@@ -1,61 +1,64 @@
 {
-  "schemaVersion": 1,
-  "id": "miskatonicmysteries",
-  "version": "${version}",
-  "contact": {
-    "sources": "https://github.com/cybercat5555/Miskatonic-Mysteries-Fabric",
-    "issues": "https://github.com/cybercat5555/Miskatonic-Mysteries-Fabric/issues"
-  },
-  "name": "Miskatonic Mysteries",
-  "description": "Dive into the darkest swirls of insanity with this Lovecraft-themed mod.",
-  "authors": [
-    "cybercat5555", "Aelpecyem"
-  ],
-  "credit": [
-    "MrSterner", "LambdAurora"
-  ],
-  "license": "CC BY-NC-ND 4.0",
-  "icon": "assets/miskatonicmysteries/icon.png",
-  "environment": "*",
-  "accessWidener" : "miskatonikmysteries.accesswidener",
-  "entrypoints": {
-    "main": [
-      "com.miskatonicmysteries.common.MiskatonicMysteries"
-    ],
-    "client": [
-      "com.miskatonicmysteries.client.MiskatonicMysteriesClient"
-    ],
-    "modmenu": [
-      "com.miskatonicmysteries.client.compat.MMModMenu"
-    ],
-    "rei_plugins": [
-      "com.miskatonicmysteries.client.compat.rei.MMREICompat"
-    ],
-    "cardinal-components-entity": [
-      "com.miskatonicmysteries.common.registry.MMComponents"
-    ]
-  },
-  "mixins": [
-    {
-      "environment": "*",
-      "config": "mixins.miskatonicmysteries.common.json"
-    }, {
-      "environment": "client",
-      "config": "mixins.miskatonicmysteries.client.json"
-    }
-  ],
-  "depends": {
-    "fabricloader": ">=0.12.12",
-    "fabric": "*",
-    "minecraft": "1.18.x",
-    "patchouli": ">=1.18.1-64-FABRIC",
-    "trinkets": ">=3.1.0",
-    "cloth-config2": "*",
-    "geckolib3": ">=3.0.30"
-  },
-  "custom": {
-    "cardinal-components": [
-      "miskatonicmysteries:ascendant"
-    ]
-  }
+	"schemaVersion": 1,
+	"id": "miskatonicmysteries",
+	"version": "${version}",
+	"contact": {
+		"sources": "https://github.com/cybercat5555/Miskatonic-Mysteries-Fabric",
+		"issues": "https://github.com/cybercat5555/Miskatonic-Mysteries-Fabric/issues"
+	},
+	"name": "Miskatonic Mysteries",
+	"description": "Dive into the darkest swirls of insanity with this Lovecraft-themed mod.",
+	"authors": [
+		"cybercat5555",
+		"Aelpecyem"
+	],
+	"credit": [
+		"MrSterner",
+		"LambdAurora"
+	],
+	"license": "CC BY-NC-ND 4.0",
+	"icon": "assets/miskatonicmysteries/icon.png",
+	"environment": "*",
+	"accessWidener": "miskatonikmysteries.accesswidener",
+	"entrypoints": {
+		"main": [
+			"com.miskatonicmysteries.common.MiskatonicMysteries"
+		],
+		"client": [
+			"com.miskatonicmysteries.client.MiskatonicMysteriesClient"
+		],
+		"modmenu": [
+			"com.miskatonicmysteries.client.compat.MMModMenu"
+		],
+		"rei_plugins": [
+			"com.miskatonicmysteries.client.compat.rei.MMREICompat"
+		],
+		"cardinal-components-entity": [
+			"com.miskatonicmysteries.common.registry.MMComponents"
+		]
+	},
+	"mixins": [
+		{
+			"environment": "*",
+			"config": "mixins.miskatonicmysteries.common.json"
+		},
+		{
+			"environment": "client",
+			"config": "mixins.miskatonicmysteries.client.json"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.12.12",
+		"fabric": "*",
+		"minecraft": "1.18.x",
+		"patchouli": ">=1.18.1-64-FABRIC",
+		"trinkets": ">=3.1.0",
+		"cloth-config2": "*",
+		"geckolib3": ">=3.0.30"
+	},
+	"custom": {
+		"cardinal-components": [
+			"miskatonicmysteries:ascendant"
+		]
+	}
 }

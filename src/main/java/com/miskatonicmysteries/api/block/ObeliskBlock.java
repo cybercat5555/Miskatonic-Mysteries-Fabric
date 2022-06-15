@@ -1,12 +1,10 @@
 package com.miskatonicmysteries.api.block;
 
-import static net.minecraft.state.property.Properties.WATERLOGGED;
-
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.feature.block.blockentity.ObeliskBlockEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
-import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
@@ -41,6 +39,9 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldEvents;
+
+import javax.annotation.Nullable;
+import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class ObeliskBlock extends HorizontalFacingBlock implements Waterloggable, BlockEntityProvider, Affiliated {
 
@@ -110,13 +111,45 @@ public class ObeliskBlock extends HorizontalFacingBlock implements Waterloggable
 		return ActionResult.SUCCESS;
 	}
 
-	private boolean isCore(BlockState state) {
-		return state.get(Properties.AGE_2) == 0;
-	}
-
 	@Override
 	public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
 		super.onBroken(world, pos, state);
+	}
+
+	@Override
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		final BlockState state = getDefaultState().with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
+		if (state.contains(WATERLOGGED)) {
+			final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
+			final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
+			return state.with(WATERLOGGED, source);
+		}
+		return state;
+	}
+
+	@Override
+	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer,
+						 ItemStack itemStack) {
+		if (isCore(state)) {
+			world.setBlockState(pos.up(2), state.with(Properties.AGE_2, 1));
+			world.setBlockState(pos.up(3), state.with(Properties.AGE_2, 2));
+		}
+		super.onPlaced(world, pos, state, placer, itemStack);
+	}
+
+	@Override
+	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+		super.appendProperties(builder);
+		builder.add(WATERLOGGED, Properties.HORIZONTAL_FACING, Properties.AGE_2);
+	}
+
+	@Override
+	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
+												BlockPos posFrom) {
+		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
+			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+		}
+		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
 	}
 
 	@Override
@@ -135,23 +168,12 @@ public class ObeliskBlock extends HorizontalFacingBlock implements Waterloggable
 		}
 	}
 
+	private boolean isCore(BlockState state) {
+		return state.get(Properties.AGE_2) == 0;
+	}
+
 	private BlockState getOriginalState(int i) {
 		return (i == 1 ? MMObjects.STONE_HASTUR_MURAL : Blocks.STONE_BRICKS).getDefaultState();
-	}
-
-	@Override
-	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer,
-		ItemStack itemStack) {
-		if (isCore(state)) {
-			world.setBlockState(pos.up(2), state.with(Properties.AGE_2, 1));
-			world.setBlockState(pos.up(3), state.with(Properties.AGE_2, 2));
-		}
-		super.onPlaced(world, pos, state, placer, itemStack);
-	}
-
-	@Override
-	public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return VoxelShapes.empty();
 	}
 
 	@Override
@@ -160,34 +182,13 @@ public class ObeliskBlock extends HorizontalFacingBlock implements Waterloggable
 	}
 
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		final BlockState state = getDefaultState().with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
-		if (state.contains(WATERLOGGED)) {
-			final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
-			final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
-			return state.with(WATERLOGGED, source);
-		}
-		return state;
-	}
-
-	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		super.appendProperties(builder);
-		builder.add(WATERLOGGED, Properties.HORIZONTAL_FACING, Properties.AGE_2);
-	}
-
-	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
-		BlockPos posFrom) {
-		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
-			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-		}
-		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
-	}
-
-	@Override
 	public FluidState getFluidState(BlockState state) {
 		return state.contains(WATERLOGGED) && state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+	}
+
+	@Override
+	public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+		return VoxelShapes.empty();
 	}
 
 	@Nullable

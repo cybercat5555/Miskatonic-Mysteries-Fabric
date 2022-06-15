@@ -1,7 +1,7 @@
 {
-  "variants": {
-    "": {
-      "model": "miskatonicmysteries:block/shub_octagram"
-    }
-  }
+	"variants": {
+		"": {
+			"model": "miskatonicmysteries:block/shub_octagram"
+		}
+	}
 }
