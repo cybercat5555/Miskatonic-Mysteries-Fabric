@@ -375,7 +375,7 @@ public class ModCommand {
 	}
 
 	private static RequiredArgumentBuilder<ServerCommandSource, EntitySelector> queryPlayer() {
-		return queryPlayer();
+		return CommandManager.argument("player", EntityArgumentType.player());
 	}
 
 	private static ServerPlayerEntity collectPlayer(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
