@@ -44,7 +44,6 @@ import net.minecraft.entity.ai.brain.task.VillagerWalkTowardsTask;
 import net.minecraft.entity.ai.brain.task.WakeUpTask;
 import net.minecraft.entity.ai.brain.task.WalkToNearestVisibleWantedItemTask;
 import net.minecraft.entity.ai.brain.task.WanderAroundTask;
-import net.minecraft.entity.mob.AbstractPiglinEntity;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.VillagerEntity;
@@ -142,10 +141,6 @@ public class HasturCultistBrain {
 		return EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(target);
 	}
 
-	private static Optional<LivingEntity> getAngryAt(AbstractPiglinEntity piglin) {
-		return LookTargetUtil.getEntity(piglin, MemoryModuleType.ANGRY_AT);
-	}
-
 	private static boolean isAscended(LivingEntity entity) {
 		return entity instanceof HasturCultistEntity && ((HasturCultistEntity) entity).isAscended();
 	}
@@ -208,16 +203,15 @@ public class HasturCultistBrain {
 			new WanderAroundTask(),
 			new MeetVillagerTask(),
 			new HealthCareTask(),
-			new WalkToNearestVisibleWantedItemTask(f, false, 4),
-			new FindPointOfInterestTask(MMEntities.HASTUR_POI, MMEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true,
-										Optional.empty()),
+			new WalkToNearestVisibleWantedItemTask<>(f, false, 4),
+			new FindPointOfInterestTask(MMEntities.HASTUR_POI, MMEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true, Optional.empty()),
 			new FindPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14)),
 			new ForgetAttackTargetTask<>((livingEntity) -> !isPreferredAttackTarget(cultist, livingEntity)));
 	}
 
 	public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> createMeetTasks(float f) {
 		return ImmutableList.of(
-			Pair.of(2, new RandomTask(ImmutableList.of(
+			Pair.of(2, new RandomTask<>(ImmutableList.of(
 				Pair.of(new GoToIfNearbyTask(MemoryModuleType.MEETING_POINT, 0.4F, 40), 2),
 				Pair.of(new GoToIfNearbyTask(MMEntities.CONGREGATION_POINT, 0.4F, 80), 2),
 				Pair.of(new MeetVillagerTask(), 2),

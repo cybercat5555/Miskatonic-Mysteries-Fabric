@@ -38,6 +38,9 @@ public class CrownAscendedCultistTask extends Task<LivingEntity> {
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, LivingEntity entity) {
+		if (entity.age < 600) {
+			return false;
+		}
 		List<HasturCultistEntity> cultistEntities = getCultists(entity, true);
 		int cultistCount = (int) cultistEntities.stream().filter(Objects::nonNull).count();
 		return cultistCount < 1;

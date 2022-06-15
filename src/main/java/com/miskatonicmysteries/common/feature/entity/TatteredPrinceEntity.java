@@ -7,6 +7,7 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.entity.ai.CastSpellGoal;
+import com.miskatonicmysteries.common.feature.entity.brain.HasturCultistBrain;
 import com.miskatonicmysteries.common.feature.entity.util.CastingMob;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
@@ -242,10 +243,6 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 		return false;
 	}
 
-	public int getBlessingTicks() {
-		return dataTracker.get(BLESSING_TIME);
-	}
-
 	@Override
 	public Affiliation getAffiliation(boolean apparent) {
 		return MMAffiliations.HASTUR;
@@ -258,6 +255,43 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 
 	public void decreaseBlessingTicks() {
 		dataTracker.set(BLESSING_TIME, getBlessingTicks() - 1);
+	}
+
+	@Override
+	public int getCastTime() {
+		return dataTracker.get(CASTING_TIME_LEFT);
+	}
+
+	@Override
+	public void setCastTime(int castTime) {
+		dataTracker.set(CASTING_TIME_LEFT, castTime);
+	}
+
+	@Override
+	public boolean isCasting() {
+		return dataTracker.get(CASTING_TIME_LEFT) > 0;
+	}
+
+	@Override
+	@Nullable
+	public Spell getCurrentSpell() {
+		return currentSpell;
+	}
+
+	@Override
+	public void setCurrentSpell(@Nullable Spell currentSpell) {
+		this.currentSpell = currentSpell;
+	}
+
+	@Override
+	public Spell selectSpell() {
+		SpellMedium medium = random.nextBoolean() ? MMSpellMediums.BOLT : MMSpellMediums.PROJECTILE;
+		SpellEffect effect = MMSpellEffects.DAMAGE;
+		return new Spell(medium, effect, 2 + random.nextInt(3));
+	}
+
+	public int getBlessingTicks() {
+		return dataTracker.get(BLESSING_TIME);
 	}
 
 	public @Nullable
@@ -307,39 +341,6 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 		return PlayState.CONTINUE;
 	}
 
-	@Override
-	public int getCastTime() {
-		return dataTracker.get(CASTING_TIME_LEFT);
-	}
-
-	@Override
-	public void setCastTime(int castTime) {
-		dataTracker.set(CASTING_TIME_LEFT, castTime);
-	}
-
-	@Override
-	public boolean isCasting() {
-		return dataTracker.get(CASTING_TIME_LEFT) > 0;
-	}
-
-	@Override
-	@Nullable
-	public Spell getCurrentSpell() {
-		return currentSpell;
-	}
-
-	@Override
-	public void setCurrentSpell(@Nullable Spell currentSpell) {
-		this.currentSpell = currentSpell;
-	}
-
-	@Override
-	public Spell selectSpell() {
-		SpellMedium medium = random.nextBoolean() ? MMSpellMediums.BOLT : MMSpellMediums.PROJECTILE;
-		SpellEffect effect = MMSpellEffects.DAMAGE;
-		return new Spell(medium, effect, 2 + random.nextInt(3));
-	}
-
 	public <P extends IAnimatable> PlayState movementAnimationPredicate(AnimationEvent<P> event) {
 		float limbSwingAmount = event.getLimbSwingAmount();
 		boolean isMoving = !(limbSwingAmount > -0.4F && limbSwingAmount < 0.4F);
@@ -363,13 +364,15 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 	}
 
 	@Override
-	protected void attackLivingEntity(LivingEntity target) {
-		super.attackLivingEntity(target);
-		List<HasturCultistEntity> cultists = world.getEntitiesByClass(HasturCultistEntity.class, getBoundingBox().expand(16, 8, 16),
-																	  cultist -> !cultist.isAttacking());
-		for (HasturCultistEntity cultist : cultists) {
-			cultist.setTarget(target);
+	public boolean damage(DamageSource source, float amount) {
+		if (!world.isClient && source.getAttacker() instanceof LivingEntity l) {
+			List<HasturCultistEntity> cultists = world.getEntitiesByClass(HasturCultistEntity.class, getBoundingBox().expand(32, 16, 32),
+																		  cultist -> true);
+			for (HasturCultistEntity cultist : cultists) {
+				HasturCultistBrain.onAttacked(cultist, l);
+			}
 		}
+		return super.damage(source, amount);
 	}
 
 	@Override

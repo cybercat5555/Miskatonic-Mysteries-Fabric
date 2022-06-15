@@ -98,23 +98,11 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 	public void tickMovement() {
 		this.tickHandSwing();
 		super.tickMovement();
-	}	@Override
-	protected void mobTick() {
-		super.mobTick();
-		this.world.getProfiler().push("hasturCultistBrain");
-		this.getBrain().tick((ServerWorld) this.world, this);
-		this.world.getProfiler().pop();
-		HasturCultistBrain.tickActivities(this);
 	}
 
 	@Override
 	public boolean cannotDespawn() {
 		return true;
-	}	@Override
-	public @Nullable
-	LivingEntity getAttacking() {
-		return !world.isClient && getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isPresent() ? getBrain()
-			.getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get() : super.getAttacking();
 	}
 
 	@Override
@@ -122,11 +110,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 		if (getEquippedStack(slot).isEmpty()) {
 			super.equipStack(slot, stack);
 		}
-	}	@Override
-	protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
-		Brain<VillagerEntity> brain = this.createBrainProfile().deserialize(dynamic);
-		this.initBrain(brain);
-		return brain;
 	}
 
 	@Override
@@ -137,12 +120,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 		if (!isAscended()) {
 			this.equipStack(EquipmentSlot.OFFHAND, createYellowSignShield());
 		}
-	}	@Override
-	public void reinitializeBrain(ServerWorld world) {
-		Brain<VillagerEntity> brain = this.getBrain();
-		brain.stopAllTasks(world, this);
-		this.brain = brain.copy();
-		this.initBrain(this.getBrain());
 	}
 
 	public static ItemStack createYellowSignShield() {
@@ -156,8 +133,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 		bannerpptag.add(yellowTag);
 		tag.put(Constants.NBT.BANNER_PP_TAG, bannerpptag);
 		return stack;
-	}	private void initBrain(Brain<VillagerEntity> brain) {
-		HasturCultistBrain.init(this, brain);
 	}
 
 	public void ascend() {
@@ -165,32 +140,95 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 		if (offers == null || offers.isEmpty()) {
 			fillRecipes();
 		}
-	}	@Override
-	protected Brain.Profile<VillagerEntity> createBrainProfile() {
-		return HasturCultistBrain.createProfile();
 	}
 
 	@Override
 	public int getAngerTime() {
 		return angerTime;
-	}	@Override
-	public VillagerEntity createChild(ServerWorld serverWorld, PassiveEntity passiveEntity) {
-		return null;
 	}
 
 	@Override
 	public void setAngerTime(int ticks) {
 		this.angerTime = ticks;
-	}	@Override
-	public VillagerData getVillagerData() {
-		return super.getVillagerData().withProfession(VillagerProfession.NITWIT); //always the same profession
 	}
 
 	@Override
 	public @Nullable
 	UUID getAngryAt() {
 		return targetUuid;
-	}	@Override
+	}
+
+	@Override
+	public void setAngryAt(@Nullable UUID uuid) {
+		this.targetUuid = uuid;
+	}
+
+	@Override
+	public void chooseRandomAngerTime() {
+		setAngerTime(ANGER_TIME_RANGE.get(this.random));
+	}
+
+	@Override
+	public Affiliation getAffiliation(boolean apparent) {
+		return MMAffiliations.HASTUR;
+	}
+
+	@Override
+	public boolean isSupernatural() {
+		return isAscended();
+	}
+
+	@Override
+	protected void mobTick() {
+		super.mobTick();
+		this.world.getProfiler().push("hasturCultistBrain");
+		this.getBrain().tick((ServerWorld) this.world, this);
+		this.world.getProfiler().pop();
+		HasturCultistBrain.tickActivities(this);
+	}
+
+	@Override
+	public @Nullable
+	LivingEntity getAttacking() {
+		return !world.isClient && getBrain().getOptionalMemory(MemoryModuleType.ATTACK_TARGET).isPresent() ? getBrain()
+			.getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get() : super.getAttacking();
+	}
+
+	@Override
+	protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
+		Brain<VillagerEntity> brain = this.createBrainProfile().deserialize(dynamic);
+		this.initBrain(brain);
+		return brain;
+	}
+
+	@Override
+	public void reinitializeBrain(ServerWorld world) {
+		Brain<VillagerEntity> brain = this.getBrain();
+		brain.stopAllTasks(world, this);
+		this.brain = brain.copy();
+		this.initBrain(this.getBrain());
+	}
+
+	private void initBrain(Brain<VillagerEntity> brain) {
+		HasturCultistBrain.init(this, brain);
+	}
+
+	@Override
+	protected Brain.Profile<VillagerEntity> createBrainProfile() {
+		return HasturCultistBrain.createProfile();
+	}
+
+	@Override
+	public VillagerEntity createChild(ServerWorld serverWorld, PassiveEntity passiveEntity) {
+		return null;
+	}
+
+	@Override
+	public VillagerData getVillagerData() {
+		return super.getVillagerData().withProfession(VillagerProfession.NITWIT); //always the same profession
+	}
+
+	@Override
 	public ActionResult interactMob(PlayerEntity player, Hand hand) {
 		if (getAttacking() != null) {
 			return ActionResult.FAIL;
@@ -208,14 +246,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 	}
 
 	@Override
-	public void setAngryAt(@Nullable UUID uuid) {
-		this.targetUuid = uuid;
-	}
-
-	@Override
-	public void chooseRandomAngerTime() {
-		setAngerTime(ANGER_TIME_RANGE.get(this.random));
-	}	@Override
 	protected void fillRecipes() {
 		if (isAscended()) {
 			VillagerData villagerData = this.getVillagerData();
@@ -231,24 +261,14 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 	}
 
 	@Override
-	public Affiliation getAffiliation(boolean apparent) {
-		return MMAffiliations.HASTUR;
-	}	@Override
 	public boolean isReadyToBreed() {
 		return false; //this is a celibate
-	}
-
-	@Override
-	public boolean isSupernatural() {
-		return isAscended();
 	}
 
 	@Override
 	public void onStruckByLightning(ServerWorld world, LightningEntity lightning) {
 		//no witches :)
 	}
-
-
 
 	@Override
 	public void tick() {
@@ -293,8 +313,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 		super.takeKnockback(strength, x, z);
 	}
 
-
-
 	@Override
 	public void onDeath(DamageSource source) {
 		super.onDeath(source);
@@ -333,7 +351,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 	}
 
 
-
 	@Override
 	protected void initDataTracker() {
 		super.initDataTracker();
@@ -348,8 +365,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 	public boolean isAscended() {
 		return dataTracker.get(VARIANT) == 2;
 	}
-
-
 
 	@Override
 	public void writeCustomDataToNbt(NbtCompound tag) {
@@ -379,16 +394,6 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 			this.reinitializeBrain((ServerWorld) this.world);
 		}
 	}
-
-
-
-
-
-
-
-
-
-
 
 	@Override
 	public int getCastTime() {
@@ -442,17 +447,13 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 							: new TranslatableText("entity.miskatonicmysteries.hastur_cultist");
 	}
 
-
-
-
-
 	public boolean isLoyalTo(PlayerEntity player) {
 		return getReputation(player) >= 20 || MiskatonicMysteriesAPI.hasKnowledge(MMAffiliations.HASTUR.getId().getPath(), player);
 	}
 
 	@Override
 	public boolean canTarget(LivingEntity target) {
-		return (target instanceof PlayerEntity || MiskatonicMysteriesAPI.getNonNullAffiliation(target, true) != MMAffiliations.HASTUR) && super
-			.canTarget(target);
+		return (target instanceof PlayerEntity || MiskatonicMysteriesAPI.getNonNullAffiliation(target, true) != MMAffiliations.HASTUR)
+			&& super.canTarget(target);
 	}
 }
