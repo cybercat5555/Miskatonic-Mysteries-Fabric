@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.feature.recipe.rite.summon;
 import com.miskatonicmysteries.client.render.entity.TatteredPrinceRenderer;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
+import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMEntities;
@@ -27,12 +28,12 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class PrinceSummoningRite extends SummoningRite {
+public class PrinceSummoningRite extends SummoningRite<TatteredPrinceEntity> {
 
 	public PrinceSummoningRite() {
 		super(new Identifier(Constants.MOD_ID, "summon_prince"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.75F, 0,
 			  MMEntities.TATTERED_PRINCE,
-			  //Ingredient.ofItems(MMObjects.INCANTATION_YOG), Ingredient.ofItems(MMObjects.YELLOW_SIGN_LOOM_PATTERN), TODO BANNER
+			  Ingredient.ofItems(MMObjects.INCANTATION_YOG), Ingredient.ofItems(MMObjects.YELLOW_SIGN_LOOM_PATTERN),
 			  Ingredient.ofItems(Items.ANCIENT_DEBRIS), Ingredient.fromTag(Constants.Tags.OCEANIC_GOLD_BLOCKS_ITEM),
 			  Ingredient.ofItems(Items.GOLDEN_HELMET), Ingredient.ofItems(Items.DIAMOND),
 			  Ingredient.fromTag(Constants.Tags.HASTUR_CULTIST_OFFERINGS), Ingredient.ofItems(MMObjects.ORNATE_DAGGER));
@@ -46,8 +47,8 @@ public class PrinceSummoningRite extends SummoningRite {
 			if (originalCaster.isCreative()) {
 				return true;
 			}
-			List serfs = world.getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 10, 10),
-												  cultist -> cultist.isLoyalTo(originalCaster));
+			List<HasturCultistEntity> serfs = world.getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 10, 10),
+																	   cultist -> cultist.isLoyalTo(originalCaster));
 			if (serfs.size() < 4) {
 				originalCaster
 					.sendMessage(new TranslatableText("message.miskatonicmysteries.summon_prince_fail.cultists", serfs.size()), true);
@@ -79,9 +80,8 @@ public class PrinceSummoningRite extends SummoningRite {
 			}
 			super.tick(octagram);
 		}
-		List<HasturCultistEntity> cultists = octagram.getWorld()
-			.getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 10, 10),
-								cultist -> !cultist.isAttacking());
+		List<HasturCultistEntity> cultists = world.getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 10, 10),
+																	  cultist -> !cultist.isAttacking());
 		for (HasturCultistEntity cultist : cultists) {
 			cultist.getNavigation().startMovingTo(pos.x, pos.y, pos.z, 0.8F);
 			if (cultist.getPos().distanceTo(pos) < 5) {
