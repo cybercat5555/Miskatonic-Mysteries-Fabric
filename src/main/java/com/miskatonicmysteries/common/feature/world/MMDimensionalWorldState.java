@@ -1,5 +1,7 @@
 package com.miskatonicmysteries.common.feature.world;
 
+import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.util.Constants;
 
 import net.minecraft.nbt.NbtCompound;
@@ -23,6 +25,7 @@ import static com.miskatonicmysteries.common.util.Constants.NBT.KNOTS;
 import static com.miskatonicmysteries.common.util.Constants.NBT.KNOT_POS;
 import static com.miskatonicmysteries.common.util.Constants.NBT.RADIUS;
 import static com.miskatonicmysteries.common.util.Constants.NBT.WARDING_MARKS;
+import org.jetbrains.annotations.Nullable;
 
 public class MMDimensionalWorldState extends PersistentState {
 
@@ -71,7 +74,7 @@ public class MMDimensionalWorldState extends PersistentState {
 		return false;
 	}
 
-	public void setBiomeKnot(BlockPos pos, int radius, boolean active, boolean core) {
+	public void setBiomeKnot(BlockPos pos, int radius, boolean active, boolean core, @Nullable Affiliation affiliation) {
 		if (radius <= 0) {
 			biomeKnots.remove(pos);
 			markDirty();
@@ -79,12 +82,13 @@ public class MMDimensionalWorldState extends PersistentState {
 		}
 		biomeKnots.compute(pos, (knotPos, knot) -> {
 			if (knot == null) {
-				knot = new BiomeKnot(pos, active, core, radius);
+				knot = new BiomeKnot(pos, active, core, radius, affiliation);
 				return knot;
 			}
 			knot.active = active;
 			knot.radius = radius;
 			knot.core = core;
+			knot.affiliation = affiliation;
 			return knot;
 		});
 		markDirty();
@@ -121,17 +125,19 @@ public class MMDimensionalWorldState extends PersistentState {
 		private final BlockPos pos;
 		private boolean active, core;
 		private int radius;
+		private @Nullable Affiliation affiliation;
 
-		private BiomeKnot(BlockPos pos, boolean active, boolean core, int radius) {
+		private BiomeKnot(BlockPos pos, boolean active, boolean core, int radius, Affiliation affiliation) {
 			this.pos = pos;
 			this.radius = radius;
 			this.active = active;
 			this.core = core;
+			this.affiliation = affiliation;
 		}
 
 		public static BiomeKnot fromNbt(NbtCompound knotTag) {
 			BlockPos pos = NbtHelper.toBlockPos(knotTag.getCompound(KNOT_POS));
-			return new BiomeKnot(pos, knotTag.getBoolean(ACTIVE), knotTag.getBoolean(IS_CORE), knotTag.getInt(RADIUS));
+			return new BiomeKnot(pos, knotTag.getBoolean(ACTIVE), knotTag.getBoolean(IS_CORE), knotTag.getInt(RADIUS), Affiliation.fromTag(knotTag));
 		}
 
 		public NbtCompound writeNbt() {
@@ -140,6 +146,7 @@ public class MMDimensionalWorldState extends PersistentState {
 			compound.putBoolean(ACTIVE, active);
 			compound.putBoolean(IS_CORE, core);
 			compound.putInt(RADIUS, radius);
+			(affiliation == null ? MMAffiliations.NONE : affiliation).toTag(compound);
 			return compound;
 		}
 

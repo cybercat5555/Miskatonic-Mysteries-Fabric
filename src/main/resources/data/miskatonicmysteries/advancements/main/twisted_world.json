@@ -1,0 +1,33 @@
+{
+	"parent": "miskatonicmysteries:main/evocation",
+	"display": {
+		"icon": {
+			"item": "miskatonicmysteries:yog_chalk"
+		},
+		"title": {
+			"translate": "advancements.miskatonicmysteries.twisted_world.title"
+		},
+		"description": {
+			"translate": "advancements.miskatonicmysteries.twisted_world.description"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"hastur": {
+			"trigger": "minecraft:location",
+			"conditions": {
+				"location": {
+					"biome": "miskatonicmysteries:hastur"
+				}
+			}
+		}
+	},
+	"requirements": [
+		[
+			"hastur"
+		]
+	]
+}

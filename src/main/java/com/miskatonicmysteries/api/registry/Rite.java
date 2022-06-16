@@ -95,9 +95,7 @@ public abstract class Rite {
 	}
 
 	public boolean canCast(OctagramBlockEntity octagram) {
-		return (octagramAffiliation == null || octagramAffiliation
-			.equals(octagram.getAffiliation(false))) && InventoryUtil
-			.areItemStackListsExactlyEqual(ingredients, octagram);
+		return (octagramAffiliation == null || octagramAffiliation.equals(octagram.getAffiliation(false)));
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -127,7 +125,6 @@ public abstract class Rite {
 	}
 
 	public boolean listen(OctagramBlockEntity blockEntity, World world, GameEvent event, Entity entity, BlockPos pos) {
-
 		return false;
 	}
 

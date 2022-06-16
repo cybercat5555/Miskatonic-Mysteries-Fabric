@@ -197,7 +197,7 @@ public class MiskatonicMysteriesAPI {
 		biomeEffects.put(biome, effect);
 	}
 
-	public static BiomeEffect getBiomeEffect(World world, BlockPos blockPos) {
+	public static @Nullable BiomeEffect getBiomeEffect(World world, BlockPos blockPos) {
 		return world.getBiome(blockPos).getKey().map(biomeEffects::get).orElse(null);
 	}
 }

@@ -70,7 +70,7 @@ public class ObeliskBlockEntity extends BaseBlockEntity implements Affiliated {
 		}
 		BiomeUtil.updateBiomeColor(world, changedPoses);
 		if (world instanceof ServerWorld serverWorld) {
-			MMDimensionalWorldState.get(serverWorld).setBiomeKnot(pos, range * 4, true, false);
+			MMDimensionalWorldState.get(serverWorld).setBiomeKnot(pos, range * 4, true, false, obelisk.getAffiliation(false));
 		}
 	}
 
@@ -89,7 +89,7 @@ public class ObeliskBlockEntity extends BaseBlockEntity implements Affiliated {
 			List<BlockPos> changedPoses = new ArrayList<>();
 			MMDimensionalWorldState worldState = MMDimensionalWorldState.get(serverWorld);
 
-			worldState.setBiomeKnot(pos, -1, false, false);
+			worldState.setBiomeKnot(pos, -1, false, false, null);
 			List<BiomeKnot> knots = worldState.getNearbyKnots(pos, RANGE);
 			int biomeX = BiomeCoords.fromBlock(pos.getX());
 			int biomeY = BiomeCoords.fromBlock(pos.getY());
@@ -105,7 +105,7 @@ public class ObeliskBlockEntity extends BaseBlockEntity implements Affiliated {
 					}
 				}
 			}
-			PlayerLookup.tracking(serverWorld, pos).forEach(player -> SyncBiomeReversionPacket.send(player, changedPoses));
+			SyncBiomeReversionPacket.send(serverWorld, pos, changedPoses);
 		}
 	}
 

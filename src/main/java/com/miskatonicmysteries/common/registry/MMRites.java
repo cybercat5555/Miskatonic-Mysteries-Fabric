@@ -7,6 +7,7 @@ import com.miskatonicmysteries.common.feature.recipe.instability_event.Instabili
 import com.miskatonicmysteries.common.feature.recipe.instability_event.MobsInstabilityEvent;
 import com.miskatonicmysteries.common.feature.recipe.instability_event.PotionInstabilityEvent;
 import com.miskatonicmysteries.common.feature.recipe.instability_event.SpellEffectInstabilityEvent;
+import com.miskatonicmysteries.common.feature.recipe.rite.BiomeReversionRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.BrokenVeilRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.BurnedVeilRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.GoldenFlockRite;
@@ -18,6 +19,7 @@ import com.miskatonicmysteries.common.feature.recipe.rite.SculptorRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.TeleportRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.summon.ByakheeSummoningRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.summon.PrinceSummoningRite;
+import com.miskatonicmysteries.common.util.InventoryUtil;
 
 import net.minecraft.util.registry.Registry;
 
@@ -34,6 +36,7 @@ public class MMRites {
 	public static final Rite MOURNING_DEAD_RITE = new MourningDeadRite();
 
 	public static final Rite HASTUR_BIOME_RITE = new HasturBiomeRite();
+	public static final Rite BIOME_REVERSION_RITE = new BiomeReversionRite();
 
 	public static final Rite MASTERPIECE_RITE = new MasterpieceRite();
 
@@ -47,9 +50,10 @@ public class MMRites {
 		register(SUMMON_PRINCE_RITE);
 		register(SUMMON_BYAKHEE);
 		register(MOURNING_DEAD_RITE);
+		register(MASTERPIECE_RITE);
 
 		register(HASTUR_BIOME_RITE);
-		register(MASTERPIECE_RITE);
+		register(BIOME_REVERSION_RITE);
 
 		registerInstabilityEvent(new EntropyInstabilityEvent());
 		registerInstabilityEvent(new PotionInstabilityEvent());
@@ -66,6 +70,7 @@ public class MMRites {
 	}
 
 	public static Rite getRite(OctagramBlockEntity octagram) {
-		return MMRegistries.RITES.stream().filter(r -> r.canCast(octagram)).findFirst().orElse(null);
+		return MMRegistries.RITES.stream().filter(r -> InventoryUtil.areItemStackListsExactlyEqual(r.getIngredients(), octagram)
+			&& r.canCast(octagram)).findFirst().orElse(null);
 	}
 }

@@ -1,0 +1,25 @@
+{
+	"name": "Clearing Simulacra",
+	"category": "miskatonicmysteries:rites",
+	"icon": "miskatonicmysteries:warded_paper",
+	"advancement": "miskatonicmysteries:main/twisted_world",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(marked)Simulacra$() are reflections of $(marked)Great Old Ones$() upon the face of the world. They reflect their very being, though sometimes their presence is uncalled for...$(br2)Casting this rite will remove the closest simulacrum; however, a few requirements must be met before casting it."
+		},
+		{
+			"type": "text",
+			"text": "This rite targets the core of the simulacrum. These cores are usually maintained by means of a peculiar setup usually involving an Octagram. Get to the very center of the core, remove the setup to deactivate the core, then cast this rite.$(br2)Note that deactivating a simulacrum is not enough to remove it. You will still have to cast this rite, even if there is no Octagram to maintain the simulacrum. "
+		},
+		{
+			"type": "text",
+			"text": "Clearing a simulacrum will earn you the wrath of its inhabitants. Make sure to arrange proper defenses for yourself, as you will be unable to interact with your surroundings during this procedure.$(br2)As for the actual procedure of the rite, having to step inside the Octagram once it has started is all you need to be aware of."
+		},
+		{
+			"type": "miskatonicmysteries:rite",
+			"rite": "miskatonicmysteries:revert_biome",
+			"text": "$(o)Goodb ye$()"
+		}
+	]
+}
