@@ -42,11 +42,10 @@ import java.util.Random;
 
 import org.jetbrains.annotations.Nullable;
 
-public class HarrowEntity extends PathAwareEntity { //mostly copies Vex code
+public class HarrowEntity extends PathAwareEntity {
 
 	protected static final TrackedData<Byte> HARROW_FLAGS = DataTracker.registerData(HarrowEntity.class, TrackedDataHandlerRegistry.BYTE);
-	protected static final TrackedData<Integer> LIFETICKS = DataTracker
-		.registerData(HarrowEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	protected static final TrackedData<Integer> LIFETICKS = DataTracker.registerData(HarrowEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	public boolean summoned = true;
 	private LivingEntity owner;
 
