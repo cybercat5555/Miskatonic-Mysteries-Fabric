@@ -75,6 +75,8 @@ public class Constants {
 		public static final TagKey<Item> HASTUR_CULTIST_OFFERINGS = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "hastur_cultist_offerings"));
 		public static final TagKey<Item> HASTUR_STATUES = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "hastur_statues"));
 
+		public static final TagKey<Item> IDOLS = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "idols"));
+
 		public static final TagKey<EntityType<?>> BURNED_VEIL_MOBS = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "burned_veil_mobs"));
 		public static final TagKey<EntityType<?>> BROKEN_VEIL_MOBS = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "broken_veil_mobs"));
 		public static final TagKey<EntityType<?>> VALID_SACRIFICES = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "valid_sacrifices"));

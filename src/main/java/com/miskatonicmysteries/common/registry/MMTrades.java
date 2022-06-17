@@ -1,5 +1,7 @@
 package com.miskatonicmysteries.common.registry;
 
+import com.miskatonicmysteries.api.block.StatueBlock;
+
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 
 import net.minecraft.block.Blocks;
@@ -16,6 +18,7 @@ import net.minecraft.village.VillagerProfession;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static com.miskatonicmysteries.common.registry.MMStatusEffects.MANIA;
 import static com.miskatonicmysteries.common.registry.MMStatusEffects.TRANQUILIZED;
@@ -25,8 +28,8 @@ import javax.annotation.Nullable;
 
 public class MMTrades {
 
-	public static final Int2ObjectMap<TradeOffers.Factory[]> PSYCHONAUT_TRADES = new Int2ObjectArrayMap();
-	public static final Int2ObjectMap<TradeOffers.Factory[]> YELLOW_SERF_TRADE = new Int2ObjectArrayMap();
+	public static final Int2ObjectMap<TradeOffers.Factory[]> PSYCHONAUT_TRADES = new Int2ObjectArrayMap<>();
+	public static final Int2ObjectMap<TradeOffers.Factory[]> YELLOW_SERF_TRADE = new Int2ObjectArrayMap<>();
 	public static final List<StatusEffect> POSSIBLE_EFFECTS = Arrays
 		.asList(StatusEffects.NAUSEA, StatusEffects.ABSORPTION, StatusEffects.GLOWING, StatusEffects.HASTE, MANIA, TRANQUILIZED);
 	//Psychonaut Offers
@@ -99,44 +102,6 @@ public class MMTrades {
 	public static final TradeOffers.Factory ORB_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.THE_ORB), 10, 1, 20, 0.15F);
 	public static final TradeOffers.Factory FLESH_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.CIRRHOSUS_FLESH), 8, 1, 20, 0.15F);
 
-	public static final TradeOffers.Factory CTHULHU_STATUE_MOSSY_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.CTHULHU_STATUE_MOSSY), 8, 1,
-																								20, 0.15F);
-	public static final TradeOffers.Factory CTHULHU_STATUE_STONE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.CTHULHU_STATUE_STONE), 8, 1,
-																								20, 0.15F);
-	public static final TradeOffers.Factory CTHULHU_STATUE_PRISMARINE_OFFER = new EmeraldToItemOffer(
-		new ItemStack(MMObjects.CTHULHU_STATUE_PRISMARINE), 8, 1, 20, 0.15F);
-	public static final TradeOffers.Factory CTHULHU_STATUE_ELDERIAN_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.CTHULHU_STATUE_ELDERIAN),
-																								   8, 1, 20, 0.15F);
-
-	public static final TradeOffers.Factory HASTUR_STATUE_MOSSY_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.HASTUR_STATUE_MOSSY), 8, 1, 20,
-																							   0.15F);
-	public static final TradeOffers.Factory HASTUR_STATUE_STONE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.HASTUR_STATUE_STONE), 8, 1, 20,
-																							   0.15F);
-	public static final TradeOffers.Factory HASTUR_STATUE_TERRACOTTA_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.HASTUR_STATUE_TERRACOTTA),
-																									8, 1, 20, 0.15F);
-	public static final TradeOffers.Factory HASTUR_STATUE_ELDERIAN_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.HASTUR_STATUE_ELDERIAN), 8,
-																								  1, 20, 0.15F);
-
-	public static final TradeOffers.Factory SHUB_STATUE_MOSSY_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.SHUB_STATUE_MOSSY), 8, 1, 20,
-																							 0.15F);
-	public static final TradeOffers.Factory SHUB_STATUE_STONE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.SHUB_STATUE_STONE), 8, 1, 20,
-																							 0.15F);
-	public static final TradeOffers.Factory SHUB_STATUE_DEEPSLATE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.SHUB_STATUE_DEEPSLATE), 8, 1,
-																								 20, 0.15F);
-	public static final TradeOffers.Factory SHUB_STATUE_ELDERIAN_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.SHUB_STATUE_ELDERIAN), 8, 1,
-																								20, 0.15F);
-
-	public static final TradeOffers.Factory YOG_STATUE_MOSSY_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_MOSSY), 8, 1, 20,
-																							0.15F);
-	public static final TradeOffers.Factory YOG_STATUE_STONE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_STONE), 8, 1, 20,
-																							0.15F);
-	public static final TradeOffers.Factory YOG_STATUE_END_STONE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_END_STONE), 8, 1,
-																								20, 0.15F);
-	public static final TradeOffers.Factory YOG_STATUE_BLACKSTONE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_BLACKSTONE), 8, 1,
-																								 20, 0.15F);
-	public static final TradeOffers.Factory YOG_STATUE_ELDERIAN_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_ELDERIAN), 8, 1, 20,
-																							   0.15F);
-
 	static {
 		PSYCHONAUT_TRADES.put(1, new TradeOffers.Factory[]{SCIENCE_JOURNAL_OFFER, INFESTED_WHEAT_OFFER});
 		PSYCHONAUT_TRADES.put(2, new TradeOffers.Factory[]{POWER_CELL_OFFER, CHEMICAL_FUEL_OFFER, BLOTTER_OFFER});
@@ -155,66 +120,18 @@ public class MMTrades {
 	public static void init() {
 		TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(MMEntities.PSYCHONAUT, PSYCHONAUT_TRADES);
 
-		TradeOffers.Factory[] wanderingTraderOffers1 = TradeOffers.WANDERING_TRADER_TRADES.get(1);
-		TradeOffers.Factory[] wanderingTraderOffers2 = TradeOffers.WANDERING_TRADER_TRADES.get(2);
-		TradeOffers.Factory[] offers1 = Arrays.copyOf(wanderingTraderOffers1, wanderingTraderOffers1.length + 20);
-		TradeOffers.Factory[] offers2 = Arrays.copyOf(wanderingTraderOffers2, wanderingTraderOffers2.length + 2);
-		offers1[wanderingTraderOffers1.length] = NECRONOMICON_OFFER;
-		offers1[wanderingTraderOffers1.length + 1] = OCEANIC_GOLD_OFFER;
-		offers1[wanderingTraderOffers1.length + 2] = BLOTTER_OFFER;
-
-		offers1[wanderingTraderOffers1.length + 3] = CTHULHU_STATUE_MOSSY_OFFER;
-		offers1[wanderingTraderOffers1.length + 4] = CTHULHU_STATUE_STONE_OFFER;
-		offers1[wanderingTraderOffers1.length + 5] = CTHULHU_STATUE_PRISMARINE_OFFER;
-		offers1[wanderingTraderOffers1.length + 6] = CTHULHU_STATUE_ELDERIAN_OFFER;
-		offers1[wanderingTraderOffers1.length + 7] = HASTUR_STATUE_MOSSY_OFFER;
-		offers1[wanderingTraderOffers1.length + 8] = HASTUR_STATUE_STONE_OFFER;
-		offers1[wanderingTraderOffers1.length + 9] = HASTUR_STATUE_ELDERIAN_OFFER;
-		offers1[wanderingTraderOffers1.length + 10] = HASTUR_STATUE_TERRACOTTA_OFFER;
-		offers1[wanderingTraderOffers1.length + 11] = SHUB_STATUE_MOSSY_OFFER;
-		offers1[wanderingTraderOffers1.length + 12] = SHUB_STATUE_STONE_OFFER;
-		offers1[wanderingTraderOffers1.length + 13] = SHUB_STATUE_DEEPSLATE_OFFER;
-		offers1[wanderingTraderOffers1.length + 14] = SHUB_STATUE_ELDERIAN_OFFER;
-		offers1[wanderingTraderOffers1.length + 15] = YOG_STATUE_MOSSY_OFFER;
-		offers1[wanderingTraderOffers1.length + 16] = YOG_STATUE_STONE_OFFER;
-		offers1[wanderingTraderOffers1.length + 17] = YOG_STATUE_BLACKSTONE_OFFER;
-		offers1[wanderingTraderOffers1.length + 18] = YOG_STATUE_END_STONE_OFFER;
-		offers1[wanderingTraderOffers1.length + 19] = YOG_STATUE_ELDERIAN_OFFER;
-
-		offers2[wanderingTraderOffers2.length] = ORB_OFFER;
-		offers2[wanderingTraderOffers2.length + 1] = FLESH_OFFER;
-		TradeOffers.WANDERING_TRADER_TRADES.put(1, offers1);
-		TradeOffers.WANDERING_TRADER_TRADES.put(2, offers2);
-
+		TradeOfferHelper.registerWanderingTraderOffers(1, offers -> {
+			offers.add(NECRONOMICON_OFFER);
+			offers.add(OCEANIC_GOLD_OFFER);
+			offers.add(BLOTTER_OFFER);
+			offers.add(new RandomStatueOffer(8, 1, 20));
+		});
+		TradeOfferHelper.registerWanderingTraderOffers(2, offers -> {
+			offers.add(ORB_OFFER);
+			offers.add(FLESH_OFFER);
+		});
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.LIBRARIAN, 1, factories -> {
-			//factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.SHUB_STATUE_DEEPSLATE), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.SHUB_STATUE_DEEPSLATE), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.SHUB_STATUE_STONE), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.SHUB_STATUE_MOSSY), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.SHUB_STATUE_ELDERIAN), 8, 1, 20, 0.15F));
-
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.HASTUR_STATUE_TERRACOTTA), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.HASTUR_STATUE_STONE), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.HASTUR_STATUE_MOSSY), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.HASTUR_STATUE_ELDERIAN), 8, 1, 20, 0.15F));
-
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.CTHULHU_STATUE_PRISMARINE), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.CTHULHU_STATUE_STONE), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.CTHULHU_STATUE_MOSSY), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.CTHULHU_STATUE_ELDERIAN), 8, 1, 20, 0.15F));
-
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_END_STONE), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_STONE), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_MOSSY), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_ELDERIAN), 8, 1, 20, 0.15F));
-			factories.add(new EmeraldToItemOffer(new ItemStack(MMObjects.YOG_STATUE_BLACKSTONE), 8, 1, 20, 0.15F));
-			/*
-			for (int i = 0; i < Constants.Tags.IDOLS.values().size(); i++) {
-					Block block = Constants.Tags.IDOLS.values().get(i);
-					factories.add(new EmeraldToItemOffer(new ItemStack(block.asItem()), 8, 1, 20, 0.15F));
-			}
-
-			 */
+			factories.add(new RandomStatueOffer(8, 1, 20));
 		});
 	}
 
@@ -284,6 +201,29 @@ public class MMTrades {
 		public TradeOffer create(Entity entity, Random random) {
 			return new TradeOffer(new ItemStack(Items.EMERALD, this.price), secondBuy, sell, this.maxUses, this.experience,
 								  this.multiplier);
+		}
+	}
+
+	public static class RandomStatueOffer implements TradeOffers.Factory {
+
+		private final int price;
+		private final int maxUses;
+		private final int experience;
+		private final float multiplier;
+
+		public RandomStatueOffer(int price, int maxUses, int experience) {
+			this.price = price;
+			this.maxUses = maxUses;
+			this.experience = experience;
+			this.multiplier = 0.15F;
+		}
+
+		@Nullable
+		public TradeOffer create(Entity entity, Random random) {
+			StatueBlock block = StatueBlock.STATUES.stream().filter(statue -> !statue.isSupernatural()).collect(Collectors.toList())
+				.get(random.nextInt(StatueBlock.STATUES.size()));
+			return new TradeOffer(new ItemStack(Items.EMERALD, this.price), new ItemStack(block.asItem()),
+								  this.maxUses, this.experience, this.multiplier);
 		}
 	}
 }

@@ -5,13 +5,12 @@
 			"rolls": 1.0,
 			"entries": [
 				{
-					"type": "minecraft:tag",
-					"name": "miskatonicmysteries:mundane_idols",
-					"expand": true,
+					"type": "minecraft:item",
+					"name": "miskatonicmysteries:necronomicon",
 					"conditions": [
 						{
 							"condition": "minecraft:random_chance",
-							"chance": 0.6
+							"chance": 0.33
 						}
 					]
 				}

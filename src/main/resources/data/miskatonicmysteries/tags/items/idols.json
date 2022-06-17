@@ -1,0 +1,10 @@
+{
+	"replace": false,
+	"values": [
+		"miskatonicmysteries:cthulhu_statue_gold",
+		"miskatonicmysteries:shub_statue_gold",
+		"miskatonicmysteries:hastur_statue_gold",
+		"miskatonicmysteries:yog_statue_gold",
+		"#miskatonicmysteries:mundane_idols"
+	]
+}
