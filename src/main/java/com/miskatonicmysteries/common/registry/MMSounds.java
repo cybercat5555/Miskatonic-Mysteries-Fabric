@@ -18,6 +18,7 @@ public class MMSounds {
 	public static final SoundEvent ENTITY_HARROW_DEATH = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.death"));
 	public static final SoundEvent ENTITY_HARROW_HURT = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.hurt"));
 	public static final SoundEvent ENTITY_HARROW_CHARGE = new SoundEvent(new Identifier(Constants.MOD_ID, "entity.harrow.charge"));
+	public static final SoundEvent ITEM_BELL_USE = new SoundEvent(new Identifier(Constants.MOD_ID, "item.bell.use"));
 	public static final SoundEvent ITEM_GUN_GUN_SHOT = new SoundEvent(new Identifier(Constants.MOD_ID, "item.gun.gun_shot"));
 	public static final SoundEvent ITEM_INCANTATION_YOG_INCANTATION_BOUND = new SoundEvent(
 		new Identifier(Constants.MOD_ID, "item.incantation_yog.incantation_bound"));
@@ -37,6 +38,7 @@ public class MMSounds {
 		register(ENTITY_HARROW_DEATH);
 		register(ENTITY_HARROW_HURT);
 		register(ENTITY_HARROW_CHARGE);
+		register(ITEM_BELL_USE);
 		register(ITEM_GUN_GUN_SHOT);
 		register(ITEM_INCANTATION_YOG_INCANTATION_BOUND);
 		register(ITEM_INFESTED_WHEAT_USE);

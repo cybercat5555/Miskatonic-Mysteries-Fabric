@@ -114,8 +114,7 @@ import vazkii.patchouli.common.multiblock.StateMatcher;
 @Environment(EnvType.CLIENT)
 public class MiskatonicMysteriesClient implements ClientModInitializer {
 
-	public static final Identifier OBFUSCATED_FONT_ID = new Identifier(Constants.MOD_ID,
-																	   "obfuscated_font");
+	public static final Identifier OBFUSCATED_FONT_ID = new Identifier(Constants.MOD_ID, "obfuscated_font");
 
 	@Override
 	public void onInitializeClient() {

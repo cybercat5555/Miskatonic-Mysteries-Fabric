@@ -35,6 +35,12 @@
 		"sounds": [
 		]
 	},
+	"item.bell.use": {
+		"subtitle": "subtitles.miskatonicmysteries.item.bell.use",
+		"sounds": [
+			"random/orb"
+		]
+	},
 	"item.gun.gun_shot": {
 		"subtitle": "subtitles.miskatonicmysteries.item.gun.gun_shot",
 		"sounds": [
