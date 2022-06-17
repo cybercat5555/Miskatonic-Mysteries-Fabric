@@ -10,7 +10,18 @@
 		},
 		{
 			"type": "text",
-			"text": "Simulacra greatly affect their surroundings: this simulacrum will strengthen all who are aligned with the Yellow King. Those who do not stand with him will experience manic dreams and weakness instead. Foliage and grass appear in a golden color, the sky darken, water appears in a bright blue. Otherworldly creatures may appear. Additionally, $(marked)Villagers$() will offer better trades."
+			"title": "Appearance",
+			"text": "The Simulacrum of Carcosa will change its surroundings to better match its origins. Foliage and grass will appear in a golden color, the sky will darken and water will appear in a bright blue."
+		},
+		{
+			"type": "text",
+			"title": "Effects",
+			"text": "Simulacra greatly affect their surroundings: this simulacrum will strengthen all who are aligned with the Yellow King. Those who do not stand with him will experience manic dreams and weakness instead. Otherworldly creatures may appear. Additionally, $(marked)Villagers$() will offer better trades."
+		},
+		{
+			"type": "text",
+			"title": "Rite Interference",
+			"text": "One of the most notable effects: the simulacrum will cause massive interference in Octagrams not aligned with the Yellow King.$(br)In practice, their rite instability is greatly increased. On the other hand, Octagrams to the Yellow King are granted better stability."
 		},
 		{
 			"type": "text",

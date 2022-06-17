@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.client.gui.widget;
 
-import com.miskatonicmysteries.client.gui.HasturSudokuScreen;
+import com.miskatonicmysteries.client.gui.SudokuScreen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -16,9 +16,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 @Environment(EnvType.CLIENT)
 public class SudokuInfoWidget extends ClickableWidget {
 
-	private HasturSudokuScreen screen;
+	private SudokuScreen screen;
 
-	public SudokuInfoWidget(int x, int y, HasturSudokuScreen screen) {
+	public SudokuInfoWidget(int x, int y, SudokuScreen screen) {
 		super(x, y, 16, 16, NarratorManager.EMPTY);
 		this.screen = screen;
 	}
@@ -30,13 +30,13 @@ public class SudokuInfoWidget extends ClickableWidget {
 		RenderSystem.enableBlend();
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.enableDepthTest();
-		RenderSystem.setShaderTexture(0, HasturSudokuScreen.TEXTURE);
+		RenderSystem.setShaderTexture(0, screen.style);
 		matrices.push();
 		if (screen.finished) {
 			matrices.translate(0, -screen.finishingTicks, 0);
 		}
-		HasturSudokuScreen.drawTexture(matrices, this.x, this.y, width, height, 73, 0, 8, 8,
-									   128, 128);
+		SudokuScreen.drawTexture(matrices, this.x, this.y, width, height, 73, 0, 8, 8,
+								 128, 128);
 		matrices.pop();
 
 		this.renderBackground(matrices, minecraftClient, mouseX, mouseY);

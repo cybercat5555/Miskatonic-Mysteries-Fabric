@@ -1,12 +1,11 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
+import com.miskatonicmysteries.client.gui.SudokuScreen;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
-import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
-import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState.BiomeKnot;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
@@ -18,6 +17,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -28,19 +28,16 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class HasturBiomeRite extends BiomeConversionRite {
 
@@ -178,6 +175,12 @@ public class HasturBiomeRite extends BiomeConversionRite {
 			matrixStack.pop();
 			matrixStack.pop();
 		}
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	protected void openScreen() {
+		MinecraftClient.getInstance().setScreen(new SudokuScreen(SudokuScreen.HASTUR_TEXTURE));
 	}
 
 	@Override

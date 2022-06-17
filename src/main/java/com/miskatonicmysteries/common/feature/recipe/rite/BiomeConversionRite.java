@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
-import com.miskatonicmysteries.client.gui.HasturSudokuScreen;
+import com.miskatonicmysteries.client.gui.SudokuScreen;
 import com.miskatonicmysteries.client.vision.VisionHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
@@ -18,7 +18,6 @@ import com.miskatonicmysteries.common.util.Constants;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -45,9 +44,7 @@ import net.minecraft.world.biome.source.BiomeCoords;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
@@ -190,7 +187,7 @@ public abstract class BiomeConversionRite extends AscensionLockedRite {
 
 	@Environment(EnvType.CLIENT)
 	protected void openScreen() {
-		MinecraftClient.getInstance().setScreen(new HasturSudokuScreen());
+		MinecraftClient.getInstance().setScreen(new SudokuScreen(SudokuScreen.NORMAL_TEXTURE));
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMCriteria;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.registry.MMRites;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Constants.Tags;
 
@@ -181,9 +182,12 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	private void calculateInstability() {
 		if (!world.isClient) {
 			BiomeEffect biomeEffect = MiskatonicMysteriesAPI.getBiomeEffect(world, getPos());
-			float instability = biomeEffect != null ? (biomeEffect
-														   .getAffiliation(false) == getAffiliation(false) ? 0.1F : 0.8F)
-													: currentRite.getInstabilityBase(this);
+			float instabilityBase = currentRite.getInstabilityBase(this);
+			float instability = biomeEffect != null && currentRite != MMRites.BIOME_REVERSION_RITE
+								? (biomeEffect.getAffiliation(false) == getAffiliation(false)
+								   ? Math.min(instabilityBase, 0.1F)
+								   : Math.max(instabilityBase, 0.8F))
+								: instabilityBase;
 			int stabilizerCount = 0;
 			Set<Block> strongStabilizerCache = new HashSet<>();
 			for (BlockPos blockPos : BlockPos.iterateOutwards(getPos(), 5, 3, 5)) {
@@ -337,13 +341,13 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	}
 
 	@Override
-	public DefaultedList<ItemStack> getItems() {
-		return ITEMS;
+	public void clear() {
+		clear(true);
 	}
 
 	@Override
-	public void clear() {
-		clear(true);
+	public DefaultedList<ItemStack> getItems() {
+		return ITEMS;
 	}
 
 	public Vec3d getSummoningPos() {

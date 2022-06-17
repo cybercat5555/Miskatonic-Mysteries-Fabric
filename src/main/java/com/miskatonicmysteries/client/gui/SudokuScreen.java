@@ -28,9 +28,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import org.jetbrains.annotations.NotNull;
 
 @Environment(EnvType.CLIENT)
-public class HasturSudokuScreen extends Screen {
+public class SudokuScreen extends Screen {
 
-	public static final Identifier TEXTURE = new Identifier(Constants.MOD_ID, "textures/gui/hastur_puzzle.png");
+	public static final Identifier NORMAL_TEXTURE = new Identifier(Constants.MOD_ID, "textures/gui/puzzle/reversion_puzzle.png");
+	public static final Identifier HASTUR_TEXTURE = new Identifier(Constants.MOD_ID, "textures/gui/puzzle/hastur_puzzle.png");
+	public final Identifier style;
 	public int openTicks;
 	public float alpha;
 	public byte[][] tiles = new byte[4][4];
@@ -40,9 +42,10 @@ public class HasturSudokuScreen extends Screen {
 	public int finishingTicks;
 	private List<LiteralText> infoText;
 
-	public HasturSudokuScreen() {
+	public SudokuScreen(Identifier style) {
 		super(new TranslatableText(Constants.MOD_ID + ".gui.spell_select"));
 		fillTiles(tiles);
+		this.style = style;
 	}
 
 	private void fillTiles(byte[][] tiles) {
@@ -115,7 +118,7 @@ public class HasturSudokuScreen extends Screen {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha - 0.5F);
 		super.render(matrices, mouseX, mouseY, delta);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, finished ? 1 - (finishingTicks / 100F) : alpha);
-		RenderSystem.setShaderTexture(0, HasturSudokuScreen.TEXTURE);
+		RenderSystem.setShaderTexture(0, style);
 		matrices.push();
 		drawTexture(matrices, width / 2 - 72, height / 2 - 72, 144, 144, 0, 0, 72, 72, 128, 128);
 		matrices.pop();

@@ -11,6 +11,7 @@ import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState.Biom
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeReversionPacket;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.util.BiomeUtil;
@@ -50,10 +51,10 @@ import java.util.stream.Collectors;
 public class BiomeReversionRite extends BiomeConversionRite {
 
 	public BiomeReversionRite() {
-		super(new Identifier(Constants.MOD_ID, "revert_biome"), null,
+		super(new Identifier(Constants.MOD_ID, "revert_biome"), MMAffiliations.YOG,
 			  "", 0, null,
-			  Ingredient.ofItems(MMObjects.WARDING_MARK), Ingredient.ofItems(MMObjects.INCANTATION_YOG), Ingredient.ofItems(Items.IRON_INGOT),
-			  Ingredient.ofItems(Items.DIAMOND), Ingredient.ofItems(Items.ANCIENT_DEBRIS));
+			  Ingredient.ofItems(Items.NETHER_STAR), Ingredient.ofItems(MMObjects.WARDED_PAPER) , Ingredient.ofItems(MMObjects.INCANTATION_YOG),
+			  Ingredient.ofItems(Items.IRON_INGOT), Ingredient.ofItems(Items.AMETHYST_SHARD), Ingredient.ofItems(Items.ANCIENT_DEBRIS));
 	}
 
 	@Override
