@@ -38,6 +38,7 @@ import com.miskatonicmysteries.client.render.entity.BoltEntityRenderer;
 import com.miskatonicmysteries.client.render.entity.ByakheeEntityRenderer;
 import com.miskatonicmysteries.client.render.entity.FeasterEntityRenderer;
 import com.miskatonicmysteries.client.render.entity.GenericTentacleEntityRenderer;
+import com.miskatonicmysteries.client.render.entity.GuardDogEntityRenderer;
 import com.miskatonicmysteries.client.render.entity.HallucinationRenderer;
 import com.miskatonicmysteries.client.render.entity.HarrowEntityRenderer;
 import com.miskatonicmysteries.client.render.entity.HasturCultistEntityRender;
@@ -46,6 +47,7 @@ import com.miskatonicmysteries.client.render.entity.ProtagonistEntityRender;
 import com.miskatonicmysteries.client.render.entity.SpellProjectileEntityRenderer;
 import com.miskatonicmysteries.client.render.entity.TatteredPrinceRenderer;
 import com.miskatonicmysteries.client.render.entity.TindalosHoundEntityRenderer;
+import com.miskatonicmysteries.client.render.entity.painting.ManosPaintingEntityRenderer;
 import com.miskatonicmysteries.client.render.equipment.CultistRobesArmorRenderer;
 import com.miskatonicmysteries.client.render.equipment.MaskTrinketRenderer;
 import com.miskatonicmysteries.client.vision.VisionHandler;
@@ -60,6 +62,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.MobSpellPack
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ModifyBlessingPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.OpenSpellEditorPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SmokeEffectPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeReversionPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeSpreadPacket;
@@ -98,6 +101,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.GuardianEntityRenderer;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -169,6 +173,8 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		EntityRendererRegistry.register(MMEntities.HALLUCINATION, HallucinationRenderer::new);
 		EntityRendererRegistry.register(MMEntities.TINDALOS_HOUND, TindalosHoundEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.FEASTER, FeasterEntityRenderer::new);
+		EntityRendererRegistry.register(MMEntities.GUARDIAN_PAINTING, ManosPaintingEntityRenderer::new);
+		EntityRendererRegistry.register(MMEntities.GUARD_DOG, GuardDogEntityRenderer::new);
 	}
 
 	private void registerItemRenderers() {
@@ -213,6 +219,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(OpenSpellEditorPacket.ID, (client, networkHandler, packetByteBuf, sender) ->
 			client.execute(() -> client.setScreen(new EditSpellScreen((SpellCaster) client.player))));
 		ClientPlayNetworking.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SmokeEffectPacket.ID, SmokeEffectPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SyncBiomeReversionPacket.ID, SyncBiomeReversionPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SyncBiomeSpreadPacket.ID, SyncBiomeSpreadPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SyncBlessingsPacket.ID, SyncBlessingsPacket::handle);

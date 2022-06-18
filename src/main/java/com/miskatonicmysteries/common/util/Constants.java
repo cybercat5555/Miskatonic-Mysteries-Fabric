@@ -165,6 +165,8 @@ public class Constants {
 		public static final String KNOT_POS = "KnotPos";
 		public static final String IS_CORE = "IsCore";
 		public static final String SUMMONED = "Summoned";
+		public static final String PAINTING_STATUS = "PaintingStatus";
+		public static final String REST_TICKS = "RestTicks";
 	}
 
 	public static class DataTrackers {

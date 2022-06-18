@@ -14,6 +14,7 @@ import com.miskatonicmysteries.client.model.block.StatueModel;
 import com.miskatonicmysteries.client.model.block.YogsothothStatueModel;
 import com.miskatonicmysteries.client.model.entity.AscendedHasturCultistEntityModel;
 import com.miskatonicmysteries.client.model.entity.ByakheeEntityModel;
+import com.miskatonicmysteries.client.model.entity.GuardDogEntityModel;
 import com.miskatonicmysteries.client.model.entity.HarrowEntityModel;
 import com.miskatonicmysteries.client.model.entity.HasturCultistEntityModel;
 import com.miskatonicmysteries.client.model.entity.ProtagonistEntityModel;
@@ -23,7 +24,7 @@ import com.miskatonicmysteries.common.util.Constants;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -43,6 +44,7 @@ public class MMModels {
 	public static final EntityModelLayer ASCENDED_HASTUR_CULTIST = create("ascended_hastur_cultist");
 	public static final EntityModelLayer PROTAGONIST = create("protagonist");
 	public static final EntityModelLayer TATTERED_PRINCE_DUMMY = create("prince_dummy");
+	public static final EntityModelLayer GUARD_DOG = create("guard_dog");
 
 	public static final EntityModelLayer HASTUR_MASK = create("hastur_mask");
 	public static final EntityModelLayer SHUB_MASK = create("shub_mask");
@@ -66,11 +68,10 @@ public class MMModels {
 		EntityModelLayerRegistry.registerModelLayer(BYAKHEE, ByakheeEntityModel::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(HARROW, HarrowEntityModel::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(HASTUR_CULTIST, HasturCultistEntityModel::getTexturedModelData);
-		EntityModelLayerRegistry.registerModelLayer(ASCENDED_HASTUR_CULTIST,
-													AscendedHasturCultistEntityModel::getTexturedModelData);
+		EntityModelLayerRegistry.registerModelLayer(ASCENDED_HASTUR_CULTIST, AscendedHasturCultistEntityModel::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(PROTAGONIST, ProtagonistEntityModel::getTexturedModelData);
-		EntityModelLayerRegistry.registerModelLayer(TATTERED_PRINCE_DUMMY,
-													TatteredPrinceDummyModel::getTexturedModelData);
+		EntityModelLayerRegistry.registerModelLayer(TATTERED_PRINCE_DUMMY, TatteredPrinceDummyModel::getTexturedModelData);
+		EntityModelLayerRegistry.registerModelLayer(GUARD_DOG, GuardDogEntityModel::getTexturedModelData);
 
 		EntityModelLayerRegistry.registerModelLayer(HASTUR_MASK, HasturMaskModel::getTexturedModelData);
 		EntityModelLayerRegistry.registerModelLayer(SHUB_MASK, ShubMaskModel::getTexturedModelData);

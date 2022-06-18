@@ -6,6 +6,7 @@ import com.miskatonicmysteries.common.feature.entity.BoltEntity;
 import com.miskatonicmysteries.common.feature.entity.ByakheeEntity;
 import com.miskatonicmysteries.common.feature.entity.FeasterEntity;
 import com.miskatonicmysteries.common.feature.entity.GenericTentacleEntity;
+import com.miskatonicmysteries.common.feature.entity.GuardDogEntity;
 import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.feature.entity.HarrowEntity;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
@@ -14,6 +15,7 @@ import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.entity.SpellProjectileEntity;
 import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
 import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity;
+import com.miskatonicmysteries.common.feature.entity.painting.ManosPaintingEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import com.miskatonicmysteries.mixin.villagers.MemoryModuleTypeAccessor;
@@ -28,12 +30,14 @@ import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EntityType.EntityFactory;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnRestriction.Location;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.decoration.painting.PaintingMotive;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
@@ -84,6 +88,13 @@ public class MMEntities {
 		.trackRangeBlocks(16).build();
 	public static final EntityType<TindalosHoundEntity> TINDALOS_HOUND = FabricEntityTypeBuilder
 		.create(SpawnGroup.MONSTER, TindalosHoundEntity::new).dimensions(EntityDimensions.fixed(2F, 2F)).trackRangeBlocks(16).build();
+	public static final EntityType<ManosPaintingEntity> GUARDIAN_PAINTING = FabricEntityTypeBuilder
+		.create(SpawnGroup.MISC, (EntityFactory<ManosPaintingEntity>) ManosPaintingEntity::new)
+		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeBlocks(10)
+		.trackedUpdateRate(Integer.MAX_VALUE).build();
+	public static final EntityType<GuardDogEntity> GUARD_DOG = FabricEntityTypeBuilder
+		.create(SpawnGroup.CREATURE, (EntityFactory<GuardDogEntity>) GuardDogEntity::new)
+		.dimensions(EntityDimensions.fixed(1F, 1F)).disableSaving().trackRangeBlocks(16).build();
 
 	public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper
 		.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
@@ -211,6 +222,14 @@ public class MMEntities {
 		RegistryUtil.register(Registry.ENTITY_TYPE, "feaster", FEASTER);
 		FabricDefaultAttributeRegistry.register(FEASTER, FeasterEntity.createAttributes());
 
+		RegistryUtil.register(Registry.ENTITY_TYPE, "guard_dog", GUARD_DOG);
+		FabricDefaultAttributeRegistry.register(GUARD_DOG, MobEntity.createMobAttributes()
+			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f)
+			.add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0)
+			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0));
+
+		RegistryUtil.register(Registry.ENTITY_TYPE, "guardian_painting", GUARDIAN_PAINTING);
+
 		RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
 
 		DispenserBlock.registerBehavior(Items.YELLOW_CARPET, new FallibleItemDispenserBehavior() {
@@ -233,5 +252,16 @@ public class MMEntities {
 		});
 		SpawnRestrictionAccessor.callRegister(HARROW, Location.NO_RESTRICTIONS, Type.MOTION_BLOCKING_NO_LEAVES, HarrowEntity::canSpawn);
 		SpawnRestrictionAccessor.callRegister(GENERIC_TENTACLE, Location.ON_GROUND, Type.WORLD_SURFACE, GenericTentacleEntity::canSpawn);
+
+		PaintingMotives.init();
+	}
+
+	public static class PaintingMotives {
+
+		public static PaintingMotive GUARDIAN = new PaintingMotive(16, 16);
+
+		public static void init() {
+			RegistryUtil.register(Registry.PAINTING_MOTIVE, "guardian", GUARDIAN);
+		}
 	}
 }

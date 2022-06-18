@@ -29,6 +29,7 @@ import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEnt
 import com.miskatonicmysteries.common.feature.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.energy.PowerCellBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.energy.ResonatorBlockEntity;
+import com.miskatonicmysteries.common.feature.item.EnchantedCanvasItem;
 import com.miskatonicmysteries.common.feature.item.HasturBellItem;
 import com.miskatonicmysteries.common.feature.item.IncantationYogItem;
 import com.miskatonicmysteries.common.feature.item.InfestedWheatItem;
@@ -370,6 +371,7 @@ public class MMObjects {
 	public static final Item WARDED_PAPER = new WardingMarkItem();
 
 	public static final Item HASTUR_BELL = new HasturBellItem();
+	public static final Item ENCHANTED_CANVAS = new EnchantedCanvasItem();
 
 	public static void init() {
 		ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(MMObjects.INFESTED_WHEAT, 0.7F);
@@ -565,7 +567,7 @@ public class MMObjects {
 		RegistryUtil.register(Registry.ITEM, "cirrhosus_flesh", CIRRHOSUS_FLESH);
 		RegistryUtil.register(Registry.ITEM, "warded_paper", WARDED_PAPER);
 
-
 		RegistryUtil.register(Registry.ITEM, "hastur_bell", HASTUR_BELL);
+		RegistryUtil.register(Registry.ITEM, "enchanted_canvas", ENCHANTED_CANVAS);
 	}
 }

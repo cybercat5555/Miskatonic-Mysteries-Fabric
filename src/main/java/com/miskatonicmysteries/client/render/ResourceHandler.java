@@ -50,8 +50,8 @@ public class ResourceHandler {
 	public static final Map<StatueBlock, SpriteIdentifier> STATUE_SPRITES = new HashMap<>();
 	public static final Identifier ASCENSION_STAR_SPRITE = new Identifier(Constants.MOD_ID, "textures/gui/ascension_star.png");
 
-
 	public static void init() {
+
 		ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)
 			.register((spriteAtlasTexture, registry) -> {
 				registry.register(new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));

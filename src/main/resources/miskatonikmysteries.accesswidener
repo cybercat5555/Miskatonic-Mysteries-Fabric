@@ -1,2 +1,2 @@
 accessWidener v1 named
-accessible field net/minecraft/entity/mob/MobEntity moveControl Lnet/minecraft/entity/ai/control/MoveControl;
+accessible  field net/minecraft/entity/mob/MobEntity  moveControl Lnet/minecraft/entity/ai/control/MoveControl;
