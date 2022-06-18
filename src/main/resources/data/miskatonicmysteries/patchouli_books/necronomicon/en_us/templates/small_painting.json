@@ -1,0 +1,30 @@
+{
+	"processor": "com.miskatonicmysteries.client.gui.patchouli.PaintingProcessor",
+	"components": [
+		{
+			"type": "patchouli:image",
+			"image": "#path",
+			"x": 41,
+			"y": 25,
+			"u": 0,
+			"v": 0,
+			"texture_width": 16,
+			"texture_height": 16,
+			"width": 16,
+			"height": 16,
+			"scale": 2
+		},
+		{
+			"type": "patchouli:header",
+			"x": -1,
+			"y": 0,
+			"text": "#header"
+		},
+		{
+			"type": "patchouli:text",
+			"x": 0,
+			"y": 76,
+			"text": "#text"
+		}
+	]
+}

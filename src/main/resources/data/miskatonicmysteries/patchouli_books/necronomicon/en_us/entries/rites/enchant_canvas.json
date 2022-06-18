@@ -1,0 +1,23 @@
+{
+	"name": "Enchant Canvas",
+	"category": "miskatonicmysteries:rites",
+	"icon": "miskatonicmysteries:enchanted_canvas",
+	"advancement": "miskatonicmysteries:hastur/peace_and_love",
+	"pages": [
+		{
+			"type": "text",
+			"text": "This rite calls upon deeper powers of the $(ml:goo/hastur)Yellow King to infuse a $(item)Painting$() with his powers, transforming it into an $(item)Enchanted Canvas$().$(br2)An Enchanted Canvas is placed much like a normal painting; however, each motive comes with distinct powers.$(br)Note that all of the following motives can be placed cosmetically using a normal Painting."
+		},
+		{
+			"type": "miskatonicmysteries:rite",
+			"rite": "miskatonicmysteries:enchant_canvas",
+			"text": "Up to three Enchanted Canvases may be fabricated at the same time."
+		},
+		{
+			"header": "The Guardian",
+			"type": "miskatonicmysteries:small_painting",
+			"painting": "miskatonicmysteries:guardian",
+			"text": "This inconspicuous painting will sic a ferocious $(marked)Guard Dog$() on any unwanted intruder that crosses it."
+		}
+	]
+}

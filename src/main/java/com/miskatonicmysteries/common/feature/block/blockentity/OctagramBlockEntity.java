@@ -131,7 +131,9 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		permanentRiteActive = false;
 		setFlag(0, false);
 		setFlag(1, false);
-		clear(success);
+		if (!success) {
+			clear(false);
+		}
 		sync(world, pos);
 		markDirty();
 	}

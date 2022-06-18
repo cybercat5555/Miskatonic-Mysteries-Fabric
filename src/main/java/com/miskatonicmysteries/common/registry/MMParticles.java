@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.ParticleTextureSheet;
 import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
@@ -60,7 +61,8 @@ public class MMParticles {
 				RenderSystem.depthMask(false);
 				RenderSystem.enableBlend();
 				RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-				textureManager.bindTexture(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
+				RenderSystem.setShader(GameRenderer::getParticleShader);
+				RenderSystem.setShaderTexture(0, SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
 				AbstractTexture tex = textureManager.getTexture(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
 				tex.setFilter(true, false);
 				bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT);
@@ -68,8 +70,7 @@ public class MMParticles {
 
 			@Override
 			public void draw(Tessellator tessellator) {
-				AbstractTexture tex = MinecraftClient.getInstance().getTextureManager()
-					.getTexture(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
+				AbstractTexture tex = MinecraftClient.getInstance().getTextureManager().getTexture(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
 				tex.setFilter(false, false);
 				tessellator.draw();
 				RenderSystem.disableBlend();

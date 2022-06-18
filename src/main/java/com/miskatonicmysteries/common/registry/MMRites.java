@@ -10,6 +10,7 @@ import com.miskatonicmysteries.common.feature.recipe.instability_event.SpellEffe
 import com.miskatonicmysteries.common.feature.recipe.rite.BiomeReversionRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.BrokenVeilRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.BurnedVeilRite;
+import com.miskatonicmysteries.common.feature.recipe.rite.EnchantCanvasRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.GoldenFlockRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.HasturBiomeRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.HysteriaRite;
@@ -39,6 +40,7 @@ public class MMRites {
 	public static final Rite BIOME_REVERSION_RITE = new BiomeReversionRite();
 
 	public static final Rite MASTERPIECE_RITE = new MasterpieceRite();
+	public static final Rite ENCHANT_CANVAS = new EnchantCanvasRite();
 
 	public static void init() {
 		register(OPEN_WAY);
@@ -54,6 +56,7 @@ public class MMRites {
 
 		register(HASTUR_BIOME_RITE);
 		register(BIOME_REVERSION_RITE);
+		register(ENCHANT_CANVAS);
 
 		registerInstabilityEvent(new EntropyInstabilityEvent());
 		registerInstabilityEvent(new PotionInstabilityEvent());
@@ -70,7 +73,8 @@ public class MMRites {
 	}
 
 	public static Rite getRite(OctagramBlockEntity octagram) {
-		return MMRegistries.RITES.stream().filter(r -> InventoryUtil.areItemStackListsExactlyEqual(r.getIngredients(), octagram)
-			&& r.canCast(octagram)).findFirst().orElse(null);
+		return MMRegistries.RITES.stream()
+			.filter(r -> (!r.prioritiseRecipe() || InventoryUtil.areItemStackListsExactlyEqual(r.getIngredients(), octagram)) && r.canCast(octagram))
+			.findFirst().orElse(null);
 	}
 }

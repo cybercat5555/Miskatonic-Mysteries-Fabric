@@ -131,4 +131,8 @@ public abstract class Rite {
 	public float getInstabilityBase(OctagramBlockEntity blockEntity) {
 		return 0.25F;
 	}
+
+	public boolean prioritiseRecipe() {
+		return true;
+	}
 }

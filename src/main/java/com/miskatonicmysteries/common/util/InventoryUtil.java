@@ -6,10 +6,12 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class InventoryUtil {
 
@@ -51,5 +53,20 @@ public class InventoryUtil {
 			world.spawnEntity(
 				new ItemEntity(world, player.getX(), player.getY() + 0.5, player.getZ(), item)); //might spawn those more efficiently
 		}
+	}
+
+	public static boolean containsAllIngredients(List<Ingredient> ingredients, List<ItemStack> items) {
+		List<Integer> checkedIndexes = new ArrayList<>();
+		for (Ingredient ingredient : ingredients) {
+			for (int i = 0; i < items.size(); i++) {
+				if (!checkedIndexes.contains(i)) {
+					if (ingredient.test(items.get(i))) {
+						checkedIndexes.add(i);
+						break;
+					}
+				}
+			}
+		}
+		return checkedIndexes.size() == ingredients.size();
 	}
 }
