@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 /**
  * Adds loom pattern data fields to the banner block entity. The actual pattern parsing is done client side in the banner's client-only methods.
  */
-@Mixin(BannerBlockEntity.class)
+@Mixin(value = BannerBlockEntity.class, priority = 1001)
 public abstract class BannerBlockEntityMixin extends BlockEntity implements LoomPatternContainer.Internal {
 
 	@Unique
@@ -36,26 +36,64 @@ public abstract class BannerBlockEntityMixin extends BlockEntity implements Loom
 		super(null, BlockPos.ORIGIN, null);
 	}
 
-	/**
-	 * Add Banner++ patterns to the pattern count.
-	 */
-	@Inject(method = "getPatternCount", at = @At("RETURN"), cancellable = true)
-	private static void modifyPatternCount(ItemStack stack, CallbackInfoReturnable<Integer> info) {
-		NbtCompound beTag = stack.getSubNbt("BlockEntityTag");
+    @Override
+    public NbtList bannermm_getLoomPatternTag() {
+        return mmLoomPatternsTag;
+    }
 
-		if (beTag != null && beTag.contains(LoomPatternContainer.NBT_KEY)) {
-			int count = beTag.getList(LoomPatternContainer.NBT_KEY, 10).size();
-			info.setReturnValue(info.getReturnValueI() + count);
-		}
-	}
+    @Override
+    public void bannermm_setLoomPatternTag(NbtList tag) {
+        mmLoomPatternsTag = tag;
 
-	/**
-	 * Handles removing Banner++ loom patterns instead of vanilla loom patterns when a banner is cleaned in a cauldron. Yes, this is an
-	 * "inject-and-cancel" callback. Let me know if there are incompatibilities.
-	 */
-	@Inject(method = "loadFromItemStack", at = @At("HEAD"), cancellable = true)
-	private static void cleanBppLoomPattern(ItemStack stack, CallbackInfo info) {
-		NbtCompound beTag = stack.getSubNbt("BlockEntityTag");
+        if (mmLoomPatternsTag != null) {
+            // validate NBT data, removing and/or resetting invalid data
+            for (Iterator<NbtElement> itr = mmLoomPatternsTag.iterator(); itr.hasNext(); ) {
+                NbtCompound element = (NbtCompound) itr.next();
+                Identifier id = Identifier.tryParse(element.getString("Pattern"));
+                int colorId = element.getInt("Color");
+                int index = element.getInt("Index");
+
+                if (id == null || !LoomPatterns.REGISTRY.getIds().contains(id)) {
+                    itr.remove();
+                } else {
+                    int rtColorId = DyeColor.byId(colorId).getId();
+
+                    if (rtColorId != colorId) {
+                        element.putInt("Color", rtColorId);
+                    }
+
+                    if (index < 0) {
+                        element.putInt("Index", 0);
+                    }
+                }
+            }
+
+            // the Java API requires that this sort be stable
+            mmLoomPatternsTag.sort(comparingInt(t -> ((NbtCompound) t).getInt("Index")));
+        }
+    }
+
+    /**
+     * Add Banner++ patterns to the pattern count.
+     */
+    @Inject(method = "getPatternCount", at = @At("RETURN"), cancellable = true)
+    private static void mm$modifyPatternCount(ItemStack stack, CallbackInfoReturnable<Integer> info) {
+        NbtCompound beTag = stack.getSubNbt("BlockEntityTag");
+
+        if (beTag != null && beTag.contains(LoomPatternContainer.NBT_KEY)) {
+            int count = beTag.getList(LoomPatternContainer.NBT_KEY, 10).size();
+            info.setReturnValue(info.getReturnValueI() + count);
+        }
+    }
+
+    /**
+     * Handles removing Banner++ loom patterns instead of vanilla loom patterns
+     * when a banner is cleaned in a cauldron. Yes, this is an "inject-and-cancel"
+     * callback. Let me know if there are incompatibilities.
+     */
+    @Inject(method = "loadFromItemStack", at = @At("HEAD"), cancellable = true)
+    private static void mm$cleanLoomPattern(ItemStack stack, CallbackInfo info) {
+        NbtCompound beTag = stack.getSubNbt("BlockEntityTag");
 
 		if (beTag != null) {
 			NbtList loomPatterns = beTag.getList(LoomPatternContainer.NBT_KEY, 10);
@@ -90,58 +128,21 @@ public abstract class BannerBlockEntityMixin extends BlockEntity implements Loom
 		info.cancel();
 	}
 
-	@Override
-	public NbtList bannerpp_getLoomPatternTag() {
-		return mmLoomPatternsTag;
-	}
+    /**
+     * Write Banner++ data to tag.
+     */
+    @Inject(method = "writeNbt", at = @At("RETURN"))
+    private void mm$addPatternData(NbtCompound nbt, CallbackInfo ci) {
+        if (nbt != null) {
+            nbt.put(LoomPatternContainer.NBT_KEY, mmLoomPatternsTag);
+        }
+    }
 
-	@Override
-	public void bannerpp_setLoomPatternTag(NbtList tag) {
-		mmLoomPatternsTag = tag;
-
-		if (mmLoomPatternsTag != null) {
-			// validate NBT data, removing and/or resetting invalid data
-			for (Iterator<NbtElement> itr = mmLoomPatternsTag.iterator(); itr.hasNext(); ) {
-				NbtCompound element = (NbtCompound) itr.next();
-				Identifier id = Identifier.tryParse(element.getString("Pattern"));
-				int colorId = element.getInt("Color");
-				int index = element.getInt("Index");
-
-				if (id == null || !LoomPatterns.REGISTRY.getIds().contains(id)) {
-					itr.remove();
-				} else {
-					int rtColorId = DyeColor.byId(colorId).getId();
-
-					if (rtColorId != colorId) {
-						element.putInt("Color", rtColorId);
-					}
-
-					if (index < 0) {
-						element.putInt("Index", 0);
-					}
-				}
-			}
-
-			// the Java API requires that this sort be stable
-			mmLoomPatternsTag.sort(comparingInt(t -> ((NbtCompound) t).getInt("Index")));
-		}
-	}
-
-	/**
-	 * Write Banner++ data to tag.
-	 */
-	@Inject(method = "writeNbt", at = @At("RETURN"))
-	private void addBppPatternData(NbtCompound nbt, CallbackInfo ci) {
-		if (nbt != null) {
-			nbt.put(LoomPatternContainer.NBT_KEY, mmLoomPatternsTag);
-		}
-	}
-
-	/**
-	 * Read Banner++ data from tag.
-	 */
-	@Inject(method = "readNbt", at = @At("RETURN"))
-	private void readBppPatternData(NbtCompound tag, CallbackInfo info) {
-		bannerpp_setLoomPatternTag(tag.getList(LoomPatternContainer.NBT_KEY, 10));
-	}
+    /**
+     * Read Banner++ data from tag.
+     */
+    @Inject(method = "readNbt", at = @At("RETURN"))
+    private void mm$readPatternData(NbtCompound tag, CallbackInfo info) {
+        bannermm_setLoomPatternTag(tag.getList(LoomPatternContainer.NBT_KEY, 10));
+    }
 }

@@ -36,106 +36,104 @@ public abstract class BannerBlockEntityRendererMixin {
 	@Unique
 	private static int mmNextLoomPatternIndex;
 
-	@Inject(
-		method = "renderCanvas(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/util/SpriteIdentifier;ZLjava/util/List;Z)V",
-		at = @At("HEAD")
-	)
-	private static void bppResetLocalCtx(CallbackInfo info) {
-		mmNextLoomPatternIndex = 0;
-		mmLoomPatterns = LoomPatternRenderContext.getLoomPatterns();
-	}
+    /**
+     * Saves Banner++ loom pattens in a field for rendering.
+     */
+    @Inject(method = "render", at = @At("HEAD"))
+    private void mm$prePatternRender(
+    BannerBlockEntity banner,
+    float f1,
+    MatrixStack stack,
+    VertexConsumerProvider provider,
+    int i,
+    int j,
+    CallbackInfo info) {
+        LoomPatternRenderContext.setLoomPatterns(((LoomPatternContainer) banner).bannermm_getLoomPatterns());
+    }
 
-	/**
-	 * Renders Banner++ loom patterns in line with vanilla banner patterns.
-	 */
-	@Inject(
-		method = "renderCanvas(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/util/SpriteIdentifier;ZLjava/util/List;Z)V",
-		at = @At(
-			value = "INVOKE",
-			target = "Ljava/util/List;get(I)Ljava/lang/Object;",
-			ordinal = 0,
-			remap = false
-		),
-		locals = LocalCapture.CAPTURE_FAILHARD
-	)
-	private static void bppPatternRenderInline(
-		MatrixStack stack,
-		VertexConsumerProvider provider,
-		int light,
-		int overlay,
-		ModelPart canvas,
-		SpriteIdentifier baseSprite,
-		boolean isBanner,
-		List<Pair<BannerPattern, DyeColor>> patterns,
-		boolean glint,
-		CallbackInfo info,
-		int idx) {
-		while (mmNextLoomPatternIndex < mmLoomPatterns.size()) {
-			LoomPatternData data = mmLoomPatterns.get(mmNextLoomPatternIndex);
+    @Inject(
+    method = "renderCanvas(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/util/SpriteIdentifier;ZLjava/util/List;Z)V",
+    at = @At("HEAD")
+    )
+    private static void mm$resetLocalCtx(CallbackInfo info) {
+        mmNextLoomPatternIndex = 0;
+        mmLoomPatterns = LoomPatternRenderContext.getLoomPatterns();
+    }
 
-			if (data.index() == idx - 1) {
-				renderBppLoomPattern(data, stack, provider, canvas, light, overlay, isBanner);
-				mmNextLoomPatternIndex++;
-			} else {
-				break;
-			}
-		}
-	}
+    /**
+     * Renders Banner++ loom patterns in line with vanilla banner patterns.
+     */
+    @Inject(
+    method = "renderCanvas(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/util/SpriteIdentifier;ZLjava/util/List;Z)V",
+    at = @At(
+    value = "INVOKE",
+    target = "Ljava/util/List;get(I)Ljava/lang/Object;",
+    ordinal = 0,
+    remap = false
+    ),
+    locals = LocalCapture.CAPTURE_FAILHARD
+    )
+    private static void mm$patternRenderInline(
+    MatrixStack stack,
+    VertexConsumerProvider provider,
+    int light,
+    int overlay,
+    ModelPart canvas,
+    SpriteIdentifier baseSprite,
+    boolean isBanner,
+    List<Pair<BannerPattern, DyeColor>> patterns,
+    boolean glint,
+    CallbackInfo info,
+    int idx) {
+        while (mmNextLoomPatternIndex < mmLoomPatterns.size()) {
+            LoomPatternData data = mmLoomPatterns.get(mmNextLoomPatternIndex);
 
-	@Unique
-	private static void renderBppLoomPattern(
-		LoomPatternData data,
-		MatrixStack stack,
-		VertexConsumerProvider provider,
-		ModelPart canvas,
-		int light,
-		int overlay,
-		boolean notShield) {
-		Identifier spriteId = data.pattern().getSpriteId(notShield ? "banner" : "shield");
-		SpriteIdentifier realSpriteId = new SpriteIdentifier(
-			notShield ? TexturedRenderLayers.BANNER_PATTERNS_ATLAS_TEXTURE : TexturedRenderLayers.SHIELD_PATTERNS_ATLAS_TEXTURE, spriteId);
-		float[] color = data.color().getColorComponents();
-		canvas.render(stack, realSpriteId.getVertexConsumer(provider, RenderLayer::getEntityNoOutline), light, overlay, color[0], color[1], color[2],
-					  1.0f);
-	}
+            if (data.index() == idx - 1) {
+                mm$renderLoomPattern(data, stack, provider, canvas, light, overlay, isBanner);
+                mmNextLoomPatternIndex++;
+            } else {
+                break;
+            }
+        }
+    }
 
-	/**
-	 * Renders Banner++ loom patterns that occur after all vanilla banner patterns.
-	 */
-	@Inject(
-		method = "renderCanvas(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/util/SpriteIdentifier;ZLjava/util/List;Z)V",
-		at = @At("RETURN")
-	)
-	private static void bppPatternRenderPost(
-		MatrixStack stack,
-		VertexConsumerProvider provider,
-		int light,
-		int overlay,
-		ModelPart canvas,
-		SpriteIdentifier baseSprite,
-		boolean isBanner,
-		List<Pair<BannerPattern, DyeColor>> patterns,
-		boolean glint,
-		CallbackInfo info) {
-		for (int i = mmNextLoomPatternIndex; i < mmLoomPatterns.size(); i++) {
-			renderBppLoomPattern(mmLoomPatterns.get(i), stack, provider, canvas, light, overlay, isBanner);
-		}
+    /**
+     * Renders Banner++ loom patterns that occur after all vanilla banner patterns.
+     */
+    @Inject(
+    method = "renderCanvas(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/util/SpriteIdentifier;ZLjava/util/List;Z)V",
+    at = @At("RETURN")
+    )
+    private static void mm$patternRenderPost(
+    MatrixStack stack,
+    VertexConsumerProvider provider,
+    int light,
+    int overlay,
+    ModelPart canvas,
+    SpriteIdentifier baseSprite,
+    boolean isBanner,
+    List<Pair<BannerPattern, DyeColor>> patterns,
+    boolean glint,
+    CallbackInfo info) {
+        for (int i = mmNextLoomPatternIndex; i < mmLoomPatterns.size(); i++) {
+            mm$renderLoomPattern(mmLoomPatterns.get(i), stack, provider, canvas, light, overlay, isBanner);
+        }
 
-		mmLoomPatterns = Collections.emptyList();
-	}
+        mmLoomPatterns = Collections.emptyList();
+    }
 
-	/**
-	 * Saves Banner++ loom pattens in a field for rendering.
-	 */
-	@Inject(method = "render", at = @At("HEAD"))
-	private void preBppPatternRender(
-		BannerBlockEntity banner,
-		float f1,
-		MatrixStack stack,
-		VertexConsumerProvider provider,
-		int i,
-		int j,
-		CallbackInfo info) {
-		LoomPatternRenderContext.setLoomPatterns(((LoomPatternContainer) banner).bannerpp_getLoomPatterns());
-	}
+    @Unique
+    private static void mm$renderLoomPattern(
+    LoomPatternData data,
+    MatrixStack stack,
+    VertexConsumerProvider provider,
+    ModelPart canvas,
+    int light,
+    int overlay,
+    boolean notShield) {
+        Identifier spriteId = data.pattern().getSpriteId(notShield ? "banner" : "shield");
+        SpriteIdentifier realSpriteId = new SpriteIdentifier(notShield ? TexturedRenderLayers.BANNER_PATTERNS_ATLAS_TEXTURE : TexturedRenderLayers.SHIELD_PATTERNS_ATLAS_TEXTURE, spriteId);
+        float[] color = data.color().getColorComponents();
+        canvas.render(stack, realSpriteId.getVertexConsumer(provider, RenderLayer::getEntityNoOutline), light, overlay, color[0], color[1], color[2], 1.0f);
+    }
 }

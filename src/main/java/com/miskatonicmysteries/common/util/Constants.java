@@ -207,6 +207,8 @@ public class Constants {
 			}
 		}.setBypassesArmor();
 
+		public static final DamageSource FEASTER = new DamageSources("feaster").setBypassesArmor();
+
 		protected DamageSources(String name) {
 			super(Constants.MOD_ID + "." + name);
 		}

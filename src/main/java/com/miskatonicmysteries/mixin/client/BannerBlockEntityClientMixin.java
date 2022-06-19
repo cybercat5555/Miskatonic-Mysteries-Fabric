@@ -35,31 +35,31 @@ public abstract class BannerBlockEntityClientMixin extends BlockEntity implement
 		super(null, BlockPos.ORIGIN, null);
 	}
 
-	@Override
-	public List<LoomPatternData> bannerpp_getLoomPatterns() {
-		if (this.patterns == null) {
-			NbtList tag = ((LoomPatternContainer.Internal) this).bannerpp_getLoomPatternTag();
-			mmLoomPatterns = LoomPatternConversions.makeLoomPatternData(tag);
-		}
+    @Override
+    public List<LoomPatternData> bannermm_getLoomPatterns() {
+        if (this.patterns == null) {
+            NbtList tag = ((LoomPatternContainer.Internal) this).bannermm_getLoomPatternTag();
+            mmLoomPatterns = LoomPatternConversions.makeLoomPatternData(tag);
+        }
 
 		return Collections.unmodifiableList(mmLoomPatterns);
 	}
 
-	/**
-	 * Reads Banner++ loom pattern data from an item stack.
-	 */
-	@Inject(method = "readFrom", at = @At("RETURN"))
-	private void bppReadPatternFromItemStack(ItemStack stack, DyeColor color, CallbackInfo info) {
-		((Internal) this).bannerpp_setLoomPatternTag(LoomPatternConversions.getLoomPatternTag(stack));
-	}
+    /**
+     * Reads Banner++ loom pattern data from an item stack.
+     */
+    @Inject(method = "readFrom", at = @At("RETURN"))
+    private void mm$readPatternFromItemStack(ItemStack stack, DyeColor color, CallbackInfo info) {
+        ((Internal) this).bannermm_setLoomPatternTag(LoomPatternConversions.getLoomPatternTag(stack));
+    }
 
-	/**
-	 * Adds Banner++ loom pattern data to the pick block stack.
-	 */
-	@Inject(method = "getPickStack", at = @At("RETURN"))
-	private void putBppPatternsInPickStack(CallbackInfoReturnable<ItemStack> info) {
-		ItemStack stack = info.getReturnValue();
-		NbtList tag = ((Internal) this).bannerpp_getLoomPatternTag();
+    /**
+     * Adds Banner++ loom pattern data to the pick block stack.
+     */
+    @Inject(method = "getPickStack", at = @At("RETURN"))
+    private void mm$putPatternsInPickStack(CallbackInfoReturnable<ItemStack> info) {
+        ItemStack stack = info.getReturnValue();
+        NbtList tag = ((Internal) this).bannermm_getLoomPatternTag();
 
 		if (tag != null) {
 			stack.getOrCreateSubNbt("BlockEntityTag")
