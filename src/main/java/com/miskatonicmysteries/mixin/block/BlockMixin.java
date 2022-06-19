@@ -41,7 +41,7 @@ public abstract class BlockMixin extends AbstractBlock {
 			InsanityHandler.handleClientSideBlockChange(client.player, world, state, pos, random);
 		} else if ((state.getBlock() instanceof AbstractBannerBlock) && random.nextInt(5) == 0
 			&& world.getBlockEntity(pos) instanceof LoomPatternContainer.Internal internal
-			&& Util.isValidYellowSign(internal.bannerpp_getLoomPatternTag())) {
+			&& Util.isValidYellowSign(internal.bannermm_getLoomPatternTag())) {
 			Vec3d posTracked = client.player.raycast(100, client.getTickDelta(), false).getPos();
 			if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F) && !MiskatonicMysteriesAPI.isImmuneToYellowSign(client.player)) {
 				InvokeManiaPacket.send(1, 200 + random.nextInt(200));

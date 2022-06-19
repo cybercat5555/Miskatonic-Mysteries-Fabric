@@ -26,7 +26,7 @@ public class FeasterEntityRenderer extends GeoEntityRenderer<FeasterEntity> {
 
 	@Override
 	public boolean shouldRender(FeasterEntity entity, Frustum frustum, double x, double y, double z) {
-		return !entity.isInvisible() && super.shouldRender(entity, frustum, x, y, z);
+		return !entity.isInvisible();
 	}
 
 	@Override
