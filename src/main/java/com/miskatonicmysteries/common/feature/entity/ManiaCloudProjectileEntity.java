@@ -54,14 +54,11 @@ public class ManiaCloudProjectileEntity extends ExplosiveProjectileEntity {
         }
     }
 
-    public boolean collides() {
-        return false;
-    }
-
+    @Override
     public boolean damage(DamageSource source, float amount) {
         return false;
     }
-
+    @Override
     protected boolean isBurning() {
         return false;
     }

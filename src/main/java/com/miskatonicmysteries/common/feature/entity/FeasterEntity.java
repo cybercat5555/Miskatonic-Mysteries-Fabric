@@ -95,7 +95,8 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 100)
 			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.32F)
-			.add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6000000238418579D);
+			.add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6000000238418579D)
+			.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 1.0D);
 	}
 
 	@Override
