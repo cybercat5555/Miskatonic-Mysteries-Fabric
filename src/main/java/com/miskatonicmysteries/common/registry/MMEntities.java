@@ -213,6 +213,8 @@ public class MMEntities {
 		RegistryUtil.register(Registry.ENTITY_TYPE, "feaster", FEASTER);
 		FabricDefaultAttributeRegistry.register(FEASTER, FeasterEntity.createAttributes());
 
+		RegistryUtil.register(Registry.ENTITY_TYPE, "mania_projectile", MANIA_PROJECTILE);
+
 		RegistryUtil.register(Registry.ENTITY_TYPE, "guard_dog", GUARD_DOG);
 		FabricDefaultAttributeRegistry.register(GUARD_DOG, MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f)
