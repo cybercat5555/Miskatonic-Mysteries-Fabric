@@ -4,16 +4,15 @@ import com.miskatonicmysteries.common.feature.entity.navigation.FeasterLogic;
 import com.miskatonicmysteries.common.feature.entity.navigation.FeasterMoveController;
 import com.miskatonicmysteries.common.feature.entity.navigation.FeasterPathNodeMaker;
 
+import com.miskatonicmysteries.common.registry.MMStatusEffects;
+import com.miskatonicmysteries.common.util.Constants;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.FuzzyTargeting;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -21,16 +20,23 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.mob.GhastEntity;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
 import java.util.function.Predicate;
 
+import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -96,10 +102,12 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 	@Override
 	protected void initGoals() {
 		super.initGoals();
-		this.goalSelector.add(1, new FeasterMeleeAttackGoal());
+		this.goalSelector.add(1, new FeasterSwipeAttackGoal(this));
 		this.goalSelector.add(2, new FeasterWanderGoal(this));
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(7, new LookAroundGoal(this));
+		this.goalSelector.add(7, new FeasterManiaCloudAttackGoal(this));
+		this.goalSelector.add(7, new FeasterSwipeAttackGoal(this));
 		this.targetSelector.add(1, new RevengeGoal(this));
 		this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class,
 														  10, false, false, CAN_ATTACK_PREDICATE));
@@ -160,6 +168,32 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 			this.getFirstPassenger().stopRiding();
 		}
 		return super.damage(source, amount);
+	}
+
+	public boolean trySwipeAttack(Entity target) {
+		float f = (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+		float g = (float)this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_KNOCKBACK);
+
+		boolean randomAttack = this.getRandom().nextBoolean();
+		boolean bl;
+		if(randomAttack){
+			bl = target.damage(Constants.DamageSources.FEASTER, f);
+		}else{
+			bl = target.damage(DamageSource.mob(this), f);
+			((LivingEntity) target).addStatusEffect(new StatusEffectInstance(MMStatusEffects.BLEED, 20 * 2), this);
+		}
+		((LivingEntity) target).takeKnockback((g * 0.5F),  MathHelper.sin(this.getYaw() * 0.017453292F), (-MathHelper.cos(this.getYaw() * 0.017453292F)));
+		this.setVelocity(this.getVelocity().multiply(0.6D, 1.0D, 0.6D));
+		if(bl){
+			if (g > 0.0F) {
+				if (target instanceof PlayerEntity playerEntity) {
+					this.disablePlayerShield(playerEntity, this.getMainHandStack(), playerEntity.isUsingItem() ? playerEntity.getActiveItem() : ItemStack.EMPTY);
+				}
+			}
+			this.applyDamageEffects(this, target);
+			this.onAttacking(target);
+		}
+		return bl;
 	}
 
 	@Override
@@ -273,6 +307,94 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 		@Override
 		protected double getSquaredMaxAttackDistance(LivingEntity entity) {
 			return 6;
+		}
+	}
+
+	private static class FeasterManiaCloudAttackGoal extends Goal{
+		private final FeasterEntity feasterEntity;
+		public int cooldown;
+
+		public FeasterManiaCloudAttackGoal(FeasterEntity feasterEntity) {
+			this.feasterEntity = feasterEntity;
+		}
+
+		public boolean canStart() {
+			return this.feasterEntity.getTarget() != null;
+		}
+
+		public void start() {
+			this.cooldown = 0;
+		}
+
+		public boolean shouldRunEveryTick() {
+			return true;
+		}
+
+		public void tick() {
+			LivingEntity livingEntity = this.feasterEntity.getTarget();
+			if (livingEntity != null) {
+				double distance = 64D;
+				if (livingEntity.squaredDistanceTo(this.feasterEntity) < distance * distance && this.feasterEntity.canSee(livingEntity)) {
+					World world = this.feasterEntity.world;
+					++this.cooldown;
+					if (this.cooldown == 20) {
+						Vec3d vec3d = this.feasterEntity.getRotationVec(1.0F);
+						double f = livingEntity.getX() - (this.feasterEntity.getX() + vec3d.x * 2.0D);
+						double g = livingEntity.getBodyY(0.5D) - (0.5D + this.feasterEntity.getBodyY(0.5D));
+						double h = livingEntity.getZ() - (this.feasterEntity.getZ() + vec3d.z * 2.0D);
+
+						ManiaCloudProjectileEntity maniaCloudProjectileEntity = new ManiaCloudProjectileEntity(world, this.feasterEntity, f, g, h);
+						maniaCloudProjectileEntity.setPosition(this.feasterEntity.getX() + vec3d.x * 4.0D, this.feasterEntity.getBodyY(0.5D) + 0.5D, maniaCloudProjectileEntity.getZ() + vec3d.z * 4.0D);
+						world.spawnEntity(maniaCloudProjectileEntity);
+						this.cooldown = -40;
+					}
+				} else if (this.cooldown > 0) {
+					--this.cooldown;
+				}
+			}
+		}
+	}
+
+	private static class FeasterSwipeAttackGoal extends AttackGoal{
+		private final FeasterEntity feasterEntity;
+		private LivingEntity target;
+		private int cooldown;
+		public FeasterSwipeAttackGoal(FeasterEntity feasterEntity) {
+			super(feasterEntity);
+			this.feasterEntity = feasterEntity;
+			this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+		}
+		@Override
+		public boolean canStart() {
+			LivingEntity livingEntity = this.feasterEntity.getTarget();
+			if (livingEntity == null) {
+				return false;
+			} else {
+				this.target = livingEntity;
+				return true;
+			}
+		}
+
+		@Override
+		public void tick() {
+			this.feasterEntity.getLookControl().lookAt(this.target, 30.0F, 30.0F);
+			double d = (this.feasterEntity.getWidth() * 2.0F * this.feasterEntity.getWidth() * 2.0F);
+			double e = this.feasterEntity.squaredDistanceTo(this.target.getX(), this.target.getY(), this.target.getZ());
+			double f = 0.8D;
+			if (e > d && e < 16.0D) {
+				f = 1.33D;
+			} else if (e < 225.0D) {
+				f = 0.6D;
+			}
+
+			this.feasterEntity.getNavigation().startMovingTo(this.target, f);
+			this.cooldown = Math.max(this.cooldown - 1, 0);
+			if (!(e > d)) {
+				if (this.cooldown <= 0) {
+					this.cooldown = 20;
+					this.feasterEntity.trySwipeAttack(this.target);
+				}
+			}
 		}
 	}
 }
