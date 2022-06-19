@@ -42,7 +42,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
 
 	@Unique
-	private static final List<LoomPatternData> mmSingleBppPattern = new ArrayList<>();
+	private static final List<LoomPatternData> mmSinglePattern = new ArrayList<>();
 	@Shadow
 	private boolean hasTooManyPatterns;
 	@Shadow
@@ -170,7 +170,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     )
     )
     private NbtElement mm$proxyPutPatterns(NbtCompound nbt, String key, NbtElement patterns) {
-        mmSingleBppPattern.clear();
+        mmSinglePattern.clear();
 
 		if (mmLoomPatternIndex < 0) {
 			int loomPatternIdx = -mmLoomPatternIndex - (1 + BannerPattern.LOOM_APPLICABLE_COUNT);
@@ -186,10 +186,10 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
 			assert vanillaPatterns.size() == 2 : vanillaPatterns.size();
 			vanillaPatterns.remove(1);
 			nbt.put(LoomPatternContainer.NBT_KEY, loomPatterns);
-			mmSingleBppPattern.add(new LoomPatternData(pattern, DyeColor.WHITE, 1));
+			mmSinglePattern.add(new LoomPatternData(pattern, DyeColor.WHITE, 1));
 		}
 
-		LoomPatternRenderContext.setLoomPatterns(mmSingleBppPattern);
+		LoomPatternRenderContext.setLoomPatterns(mmSinglePattern);
 		return nbt.put(key, patterns);
 	}
 

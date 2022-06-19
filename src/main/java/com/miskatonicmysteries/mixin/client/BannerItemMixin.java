@@ -109,21 +109,4 @@ public abstract class BannerItemMixin extends WallStandingBlockItem {
 			}
 		}
 	}
-
-	/**
-	 * Add Banner++ loom patterns that occur after all regular banner patterns in the tooltip (this also covers the case where no vanilla banner
-	 * patterns are present).
-	 */
-	@Inject(method = "appendBannerTooltip", at = @At("RETURN"))
-	private static void appendBppLoomPatternsPost(ItemStack stack, List<Text> lines, CallbackInfo info) {
-		if (mmLoomPatterns != null) {
-			for (int i = mmNextLoomPatternIndex; i < mmLoomPatterns.size(); i++) {
-				NbtCompound data = mmLoomPatterns.getCompound(i);
-                mm$addLoomPatternLine(data, lines);
-			}
-
-			// allow NBT tag to be garbage collected
-			mmLoomPatterns = null;
-		}
-	}
 }

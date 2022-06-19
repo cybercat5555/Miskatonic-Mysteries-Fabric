@@ -49,7 +49,7 @@ public abstract class BannerBlockEntityClientMixin extends BlockEntity implement
      * Reads Banner++ loom pattern data from an item stack.
      */
     @Inject(method = "readFrom", at = @At("RETURN"))
-    private void mm$bppReadPatternFromItemStack(ItemStack stack, DyeColor color, CallbackInfo info) {
+    private void mm$readPatternFromItemStack(ItemStack stack, DyeColor color, CallbackInfo info) {
         ((Internal) this).bannermm_setLoomPatternTag(LoomPatternConversions.getLoomPatternTag(stack));
     }
 
@@ -57,7 +57,7 @@ public abstract class BannerBlockEntityClientMixin extends BlockEntity implement
      * Adds Banner++ loom pattern data to the pick block stack.
      */
     @Inject(method = "getPickStack", at = @At("RETURN"))
-    private void mm$putBppPatternsInPickStack(CallbackInfoReturnable<ItemStack> info) {
+    private void mm$putPatternsInPickStack(CallbackInfoReturnable<ItemStack> info) {
         ItemStack stack = info.getReturnValue();
         NbtList tag = ((Internal) this).bannermm_getLoomPatternTag();
 
