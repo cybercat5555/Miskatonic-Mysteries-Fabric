@@ -20,12 +20,7 @@ import com.miskatonicmysteries.client.model.armor.ShubAlternateMaskModel;
 import com.miskatonicmysteries.client.model.armor.ShubMaskModel;
 import com.miskatonicmysteries.client.model.entity.phantasma.AberrationModel;
 import com.miskatonicmysteries.client.model.entity.phantasma.PhantasmaModel;
-import com.miskatonicmysteries.client.particle.AmbientMagicParticle;
-import com.miskatonicmysteries.client.particle.CandleFlameParticle;
-import com.miskatonicmysteries.client.particle.LeakParticle;
-import com.miskatonicmysteries.client.particle.ResonatorCreatureParticle;
-import com.miskatonicmysteries.client.particle.ShrinkingMagicParticle;
-import com.miskatonicmysteries.client.particle.WeirdCubeParticle;
+import com.miskatonicmysteries.client.particle.*;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.client.render.ShaderHandler;
 import com.miskatonicmysteries.client.render.blockentity.AltarBlockRender;
@@ -41,25 +36,7 @@ import com.miskatonicmysteries.client.render.equipment.MaskTrinketRenderer;
 import com.miskatonicmysteries.client.vision.VisionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.BloodParticlePacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.ExpandSanityPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.InfestWheatPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.InsanityEventPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.MobSpellPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.ModifyBlessingPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.OpenSpellEditorPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SmokeEffectPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeReversionPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeSpreadPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBlessingsPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncHeldEntityPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncKnowledgePacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncRiteTargetPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.TeleportEffectPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.s2c.VisionPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.*;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.BlessingToastPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.KnowledgeToastPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.SpellEffectToastPacket;
@@ -89,7 +66,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.entity.GuardianEntityRenderer;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -163,7 +139,6 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		EntityRendererRegistry.register(MMEntities.FEASTER, FeasterEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.GUARDIAN_PAINTING, ManosPaintingEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.GUARD_DOG, GuardDogEntityRenderer::new);
-		EntityRendererRegistry.register(MMEntities.MANIA_PROJECTILE, ManiaProjectileEntityRenderer::new);
 	}
 
 	private void registerItemRenderers() {
@@ -201,6 +176,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		});
 		ClientPlayNetworking.registerGlobalReceiver(EffectParticlePacket.ID, EffectParticlePacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(BloodParticlePacket.ID, BloodParticlePacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(ManiaCloudPacket.ID, ManiaCloudPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, (client, networkHandler, packetByteBuf, sender) -> {
 			NbtCompound tag = packetByteBuf.readNbt();
 			client.execute(() -> SpellCaster.of(client.player).ifPresent(caster -> NbtUtil.readSpellData(caster, tag)));

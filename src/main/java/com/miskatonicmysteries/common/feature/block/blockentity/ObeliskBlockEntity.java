@@ -13,8 +13,6 @@ import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.BiomeUtil;
 import com.miskatonicmysteries.common.util.Constants.NBT;
 
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;

@@ -6,7 +6,7 @@ import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Rite;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.feature.item.IncantationYogItem;
 import com.miskatonicmysteries.common.feature.recipe.instability_event.InstabilityEvent;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
@@ -167,7 +167,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	}
 
 	private boolean handleInstabilityEvents() {
-		if (tickCount % MiskatonicMysteries.config.mechanics.modUpdateInterval == 0) {
+		if (tickCount % MMMidnightLibConfig.modUpdateInterval == 0) {
 			calculateInstability();
 		}
 		if (tickCount % 20 == 0 && world.random.nextFloat() * (currentRite.isPermanent(this) ? 10 : 4) < instability) {
@@ -205,7 +205,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 					if (block instanceof Affiliated a && a.getAffiliation(false) != MMAffiliations.NONE && a
 						.getAffiliation(false) != getAffiliation(false)) {
 						instability += strength * 2;
-					} else if (stabilizerCount < MiskatonicMysteries.config.mechanics.maxStabilizers) {
+					} else if (stabilizerCount < MMMidnightLibConfig.maxStabilizers) {
 						stabilizerCount++;
 						instability -= strength;
 					}
@@ -236,7 +236,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		PlayerEntity caster = getOriginalCaster();
 		if (caster != null && !world.isClient && world.random.nextFloat() < currentRite.getInvestigatorChance()) {
 			float subtlety = 0;
-			if (MiskatonicMysteries.config.entities.subtlety) {
+			if (MMMidnightLibConfig.subtlety) {
 				for (BlockPos blockPos : BlockPos.iterateOutwards(pos, 8, 8, 8)) {
 					BlockState state = world.getBlockState(blockPos);
 					if (state.isIn(Constants.Tags.SUBTLE_BLOCKS)) {

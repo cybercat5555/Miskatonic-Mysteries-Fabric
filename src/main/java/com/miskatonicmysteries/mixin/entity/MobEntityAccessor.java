@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.mixin.entity;
 
-import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.mob.MobEntity;
 

@@ -3,7 +3,7 @@ package com.miskatonicmysteries.client.gui.hud;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.client.gui.SpellClientHandler;
 import com.miskatonicmysteries.client.gui.widget.SelectSpellWidget;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -27,8 +27,8 @@ public class CurrentSpellHUD extends DrawableHelper {
 		if (SpellClientHandler.selectedSpell != null) {
 			SpellCaster.of(player).ifPresent(caster -> {
 				matrixStack.push();
-				matrixStack.translate(scaledWidth - MiskatonicMysteries.config.client.currentSpellHUD.marginX,
-									  scaledHeight - MiskatonicMysteries.config.client.currentSpellHUD.marginY, 0);
+				matrixStack.translate(scaledWidth - MMMidnightLibConfig.marginX,
+									  scaledHeight - MMMidnightLibConfig.marginY, 0);
 				RenderSystem.setShaderTexture(0, SelectSpellWidget.getTexture(SpellClientHandler.selectedSpell.intensity));
 				this.alpha = 1 - shiftTicks / 20F;
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);

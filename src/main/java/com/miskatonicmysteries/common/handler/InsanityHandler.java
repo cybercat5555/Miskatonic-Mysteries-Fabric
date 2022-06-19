@@ -2,7 +2,7 @@ package com.miskatonicmysteries.common.handler;
 
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.registry.InsanityEvent;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 
@@ -43,7 +43,7 @@ public class InsanityHandler {
 	private static InsanityEvent findInsanityEvent(PlayerEntity player, Sanity sanity, float insanityFactor) {
 		List<InsanityEvent> events = MMRegistries.INSANITY_EVENTS.stream().filter(event -> event.test(player, sanity, insanityFactor))
 			.collect(Collectors.toList());
-		for (int i = 0; i < MiskatonicMysteries.config.sanity.insanityEventAttempts; i++) {
+		for (int i = 0; i < MMMidnightLibConfig.insanityEventAttempts; i++) {
 			if (events.isEmpty()) {
 				return null;
 			}

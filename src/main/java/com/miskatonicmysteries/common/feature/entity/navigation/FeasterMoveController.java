@@ -10,7 +10,7 @@ import net.minecraft.util.math.Vec3d;
 public class FeasterMoveController {
 
 	private Vec3d flightTarget;
-	private FeasterEntity feasterEntity;
+	private final FeasterEntity feasterEntity;
 
 	public FeasterMoveController(FeasterEntity feasterEntity) {
 		this.feasterEntity = feasterEntity;
@@ -50,6 +50,7 @@ public class FeasterMoveController {
 		@Override
 		public void tick() {
 			if (this.state == MoveControl.State.MOVE_TO) {
+				this.state = MoveControl.State.WAIT;
 				feasterEntity.setNoGravity(true);
 				double deltaX = feasterEntity.feasterMoveController.getFlightTarget().x - this.feasterEntity.getX();
 				double deltaY = feasterEntity.feasterMoveController.getFlightTarget().y - this.feasterEntity.getY();
@@ -77,6 +78,8 @@ public class FeasterMoveController {
 				if (!feasterEntity.hasNoGravity()) {
 					this.feasterEntity.setNoGravity(false);
 				}
+				this.entity.setUpwardSpeed(0.0F);
+				this.entity.setForwardSpeed(0.0F);
 			}
 		}
 	}

@@ -2,7 +2,7 @@ package com.miskatonicmysteries.mixin.block;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.banner.impl.LoomPatternContainer;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
 import com.miskatonicmysteries.common.util.Util;
@@ -37,7 +37,7 @@ public abstract class BlockMixin extends AbstractBlock {
 	@Inject(method = "randomDisplayTick", at = @At("HEAD"))
 	public void randomDisplay(BlockState state, World world, BlockPos pos, Random random, CallbackInfo info) {
 		MinecraftClient client = MinecraftClient.getInstance();
-		if (client.player != null && client.player.age % MiskatonicMysteries.config.sanity.insanityInterval == 0 && random.nextFloat() < 0.1F) {
+		if (client.player != null && client.player.age % MMMidnightLibConfig.insanityInterval == 0 && random.nextFloat() < 0.1F) {
 			InsanityHandler.handleClientSideBlockChange(client.player, world, state, pos, random);
 		} else if ((state.getBlock() instanceof AbstractBannerBlock) && random.nextInt(5) == 0
 			&& world.getBlockEntity(pos) instanceof LoomPatternContainer.Internal internal

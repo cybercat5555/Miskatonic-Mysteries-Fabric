@@ -3,7 +3,6 @@ package com.miskatonicmysteries.api.registry;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.util.InventoryUtil;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

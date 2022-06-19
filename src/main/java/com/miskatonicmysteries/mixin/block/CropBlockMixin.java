@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.mixin.block;
 
-import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.registry.MMObjects;
 
 import net.minecraft.block.Block;
@@ -23,7 +23,7 @@ public abstract class CropBlockMixin extends Block {
 	@Inject(method = "withAge", at = @At("HEAD"), cancellable = true)
 	public void infestedWheatWithAge(int age, CallbackInfoReturnable<BlockState> cir) {
 		if (getDefaultState().getBlock() == Blocks.WHEAT && age == 6
-			&& Math.random() < MiskatonicMysteries.config.world.infestedWheatChance) {
+			&& Math.random() < MMMidnightLibConfig.infestedWheatChance) {
 			cir.setReturnValue(MMObjects.INFESTED_WHEAT_CROP.getDefaultState());
 		}
 	}
