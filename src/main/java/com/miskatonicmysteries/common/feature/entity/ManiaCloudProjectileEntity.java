@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.feature.entity;
 
+import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
@@ -9,7 +10,6 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class ManiaCloudProjectileEntity extends ExplosiveProjectileEntity {
@@ -19,7 +19,7 @@ public class ManiaCloudProjectileEntity extends ExplosiveProjectileEntity {
     }
 
     public ManiaCloudProjectileEntity(World world, LivingEntity owner, double directionX, double directionY, double directionZ) {
-        super(EntityType.DRAGON_FIREBALL, owner, directionX, directionY, directionZ, world);
+        super(MMEntities.MANIA_PROJECTILE, owner, directionX, directionY, directionZ, world);
     }
 
 
@@ -39,10 +39,7 @@ public class ManiaCloudProjectileEntity extends ExplosiveProjectileEntity {
                 areaEffectCloudEntity.setRadiusGrowth((7.0F - areaEffectCloudEntity.getRadius()) / (float)areaEffectCloudEntity.getDuration());
                 areaEffectCloudEntity.addEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 1, 1));
                 if (!list.isEmpty()) {
-                    Iterator var5 = list.iterator();
-
-                    while(var5.hasNext()) {
-                        LivingEntity livingEntity = (LivingEntity)var5.next();
+                    for (LivingEntity livingEntity : list) {
                         double d = this.squaredDistanceTo(livingEntity);
                         if (d < 16.0D) {
                             areaEffectCloudEntity.setPosition(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ());
