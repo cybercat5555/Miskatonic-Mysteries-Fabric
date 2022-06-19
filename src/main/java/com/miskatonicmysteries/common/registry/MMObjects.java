@@ -344,6 +344,8 @@ public class MMObjects {
 																 new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item TINDALOS_HOUND_SPAWN_EGG = new SpawnEggItem(MMEntities.TINDALOS_HOUND, 0x0b5c8c, 0x284b7f,
 																		 new Item.Settings().group(Constants.MM_GROUP));
+	public static final Item FEASTER_SPAWN_EGG = new SpawnEggItem(MMEntities.FEASTER, 0xB87F2A, 0x702659,
+			new Item.Settings().group(Constants.MM_GROUP));
 
 	public static final Item ELEGANT_MASK = new MaskTrinketItem(MMAffiliations.HASTUR, false,
 																new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
@@ -544,6 +546,7 @@ public class MMObjects {
 		RegistryUtil.register(Registry.ITEM, "tentacle_spawn_egg", TENTACLE_SPAWN_EGG);
 		RegistryUtil.register(Registry.ITEM, "harrow_spawn_egg", HARROW_SPAWN_EGG);
 		RegistryUtil.register(Registry.ITEM, "tindalos_hound_spawn_egg", TINDALOS_HOUND_SPAWN_EGG);
+		RegistryUtil.register(Registry.ITEM, "feaster_spawn_egg", FEASTER_SPAWN_EGG);
 
 		RegistryUtil.register(Registry.ITEM, "elegant_mask", ELEGANT_MASK);
 		RegistryUtil.register(Registry.ITEM, "feral_mask", FERAL_MASK);

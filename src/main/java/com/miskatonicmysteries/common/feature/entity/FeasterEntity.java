@@ -33,6 +33,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -90,7 +91,6 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 			this.navigation = createNavigation(world, FeasterPathNodeMaker.NavType.FLYING);
 			this.navigationType = 1;
 			this.setFlying(true);
-
 		}
 	}
 
@@ -185,6 +185,14 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 		}
 	}
 
+	@Override
+	public void setTarget(@Nullable LivingEntity target) {
+		super.setTarget(target);
+		if(target != null){
+			feasterMoveController.setFlightTarget(target.getPos());
+		}
+	}
+
 	public boolean isFlying() {
 		return this.dataTracker.get(IS_FLYING);
 	}
@@ -193,6 +201,10 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 		this.dataTracker.set(IS_FLYING, flying);
 	}
 
+	@Override
+	public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+		return false;
+	}
 
 	@Override
 	public boolean damage(DamageSource source, float amount) {
