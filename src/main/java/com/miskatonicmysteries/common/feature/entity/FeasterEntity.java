@@ -1,5 +1,9 @@
 package com.miskatonicmysteries.common.feature.entity;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
+import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.interfaces.Ascendant;
+import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.entity.ai.CastSpellGoal;
@@ -10,6 +14,7 @@ import com.miskatonicmysteries.common.feature.entity.navigation.FeasterPathNodeM
 import com.miskatonicmysteries.common.feature.entity.util.CastingMob;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
+import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
@@ -58,7 +63,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 	private static final TrackedData<Boolean> IS_RANGED = DataTracker.registerData(FeasterEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	private static final TrackedData<Integer> STORED_XP = DataTracker.registerData(FeasterEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	protected static final TrackedData<Integer> CASTING_TIME_LEFT = DataTracker.registerData(FeasterEntity.class, TrackedDataHandlerRegistry.INTEGER);
-	private static final Predicate<LivingEntity> CAN_ATTACK_PREDICATE = (entity) -> entity.getGroup() != EntityGroup.UNDEAD && entity.isMobOrPlayer();
+	private static final Predicate<LivingEntity> CAN_ATTACK_PREDICATE = (entity) -> !(entity instanceof Affiliated affiliated && affiliated.getAffiliation(false) == MMAffiliations.HASTUR);
 	public int navigationType;
 	public FeasterMoveController feasterMoveController;
 	public FeasterLogic feasterLogic;
