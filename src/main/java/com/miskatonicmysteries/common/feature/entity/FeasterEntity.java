@@ -1,9 +1,16 @@
 package com.miskatonicmysteries.common.feature.entity;
 
+import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.entity.navigation.FeasterLogic;
 import com.miskatonicmysteries.common.feature.entity.navigation.FeasterMoveController;
 import com.miskatonicmysteries.common.feature.entity.navigation.FeasterPathNodeMaker;
 
+import com.miskatonicmysteries.common.feature.entity.util.CastingMob;
+import com.miskatonicmysteries.common.feature.spell.Spell;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
+import com.miskatonicmysteries.common.registry.MMSpellEffects;
+import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.entity.MobEntityAccessor;
@@ -43,16 +50,19 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class FeasterEntity extends HostileEntity implements IAnimatable {
+public class FeasterEntity extends HostileEntity implements IAnimatable, CastingMob {
 
 	private static final TrackedData<Boolean> IS_FLYING = DataTracker.registerData(FeasterEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	private static final TrackedData<Boolean> IS_MELEE = DataTracker.registerData(FeasterEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	private static final TrackedData<Boolean> IS_RANGED = DataTracker.registerData(FeasterEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	private static final TrackedData<Integer> STORED_XP = DataTracker.registerData(FeasterEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	protected static final TrackedData<Integer> CASTING_TIME_LEFT = DataTracker.registerData(FeasterEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	private static final Predicate<LivingEntity> CAN_ATTACK_PREDICATE = (entity) -> entity.getGroup() != EntityGroup.UNDEAD && entity.isMobOrPlayer();
 	public int navigationType;
 	public FeasterMoveController feasterMoveController;
 	public FeasterLogic feasterLogic;
+	@Nullable
+	public Spell currentSpell;
 	AnimationFactory factory = new AnimationFactory(this);
 
 
@@ -125,12 +135,27 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 		this.dataTracker.startTracking(IS_MELEE, false);
 		this.dataTracker.startTracking(IS_RANGED, false);
 		this.dataTracker.startTracking(STORED_XP, 0);
+		dataTracker.startTracking(CASTING_TIME_LEFT, 0);
 	}
 
 	@Override
 	public void writeCustomDataToNbt(NbtCompound nbt) {
 		super.writeCustomDataToNbt(nbt);
 		nbt.putBoolean("Flying", this.isFlying());
+		nbt.putInt(Constants.NBT.CASTING, getCastTime());
+		if (currentSpell != null) {
+			NbtCompound spell = currentSpell.toTag(new NbtCompound());
+			nbt.put(Constants.NBT.SPELL, spell);
+		}
+	}
+
+	@Override
+	public void readCustomDataFromNbt(NbtCompound nbt) {
+		super.readCustomDataFromNbt(nbt);
+		if (nbt.contains(Constants.NBT.SPELL)) {
+			currentSpell = Spell.fromTag((NbtCompound) nbt.get(Constants.NBT.SPELL));
+		}
+		setCastTime(nbt.getInt(Constants.NBT.CASTING));
 	}
 
 	@Override
@@ -141,6 +166,14 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 				this.feasterLogic.updateLogic();
 				if (isFlying()) {
 					this.feasterMoveController.flyingTick();
+				}
+				if (isCasting()) {
+					if (currentSpell != null && !world.isClient) {
+						EffectParticlePacket.send(this);
+						if (getTarget() == null) {
+							setCastTime(0);
+						}
+					}
 				}
 			}
 		}
@@ -229,7 +262,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 			if (this.dataTracker.get(IS_MELEE)) {
 				builder.addAnimation("animation.feaster.attack_flight_melee", false);
 			} else if (this.dataTracker.get(IS_RANGED)) {
-				if (true) { //TODO ATTACK TYPE
+				if (getCastTime() > 0) {
 					builder.addAnimation("animation.feaster.attack_flight_ranged_lightening", false);
 				} else {
 					builder.addAnimation("animation.feaster.attack_flight_ranged_maina", false);
@@ -244,6 +277,38 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 	@Override
 	public AnimationFactory getFactory() {
 		return factory;
+	}
+
+	@Override
+	public int getCastTime() {
+		return dataTracker.get(CASTING_TIME_LEFT);
+	}
+
+	@Override
+	public void setCastTime(int castTime) {
+		dataTracker.set(CASTING_TIME_LEFT, castTime);
+	}
+
+	@Override
+	public boolean isCasting() {
+		return dataTracker.get(CASTING_TIME_LEFT) > 0;
+	}
+
+	@Override
+	public Spell getCurrentSpell() {
+		return currentSpell;
+	}
+
+	@Override
+	public void setCurrentSpell(Spell spell) {
+		this.currentSpell = currentSpell;
+	}
+
+	@Override
+	public Spell selectSpell() {
+		SpellMedium medium = random.nextBoolean() ? MMSpellMediums.BOLT : MMSpellMediums.PROJECTILE;
+		SpellEffect effect = MMSpellEffects.DAMAGE;
+		return new Spell(medium, effect, 2 + random.nextInt(3));
 	}
 
 	//AI
