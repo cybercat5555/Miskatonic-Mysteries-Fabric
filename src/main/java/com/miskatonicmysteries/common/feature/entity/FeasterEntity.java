@@ -107,7 +107,6 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.add(7, new LookAroundGoal(this));
 		this.goalSelector.add(7, new FeasterManiaCloudAttackGoal(this));
-		this.goalSelector.add(7, new FeasterSwipeAttackGoal(this));
 		this.targetSelector.add(1, new RevengeGoal(this));
 		this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class,
 														  10, false, false, CAN_ATTACK_PREDICATE));
