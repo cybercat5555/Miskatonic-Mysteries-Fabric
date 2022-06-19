@@ -54,7 +54,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 	public FeasterMoveController feasterMoveController;
 	public FeasterLogic feasterLogic;
 	AnimationFactory factory = new AnimationFactory(this);
-	private int ticksTillNextNavigationSwitch;
+
 
 	public FeasterEntity(EntityType<? extends HostileEntity> entityType, World world) {
 		super(entityType, world);
@@ -62,7 +62,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 		this.feasterMoveController = new FeasterMoveController(this);
 		this.feasterLogic = createFeasterLogic();
 		changeEntityNavigation(0);
-		this.ticksTillNextNavigationSwitch = 20 * 10;
+
 	}
 
 	public void changeEntityNavigation(int navType) {
@@ -139,18 +139,8 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 		if (!this.isDead()) {
 			if (!world.isClient()) {
 				this.feasterLogic.updateLogic();
-				if(--this.ticksTillNextNavigationSwitch < 0){
-					if(this.getTarget() == null){
-						this.ticksTillNextNavigationSwitch = 200 + this.random.nextInt(200);
-					}else if(this.getTarget() instanceof PlayerEntity player && this.squaredDistanceTo(player) > 16 && this.navigationType == 1){
-						this.ticksTillNextNavigationSwitch = this.random.nextInt(20 * 3);
-					}else{
-
-					}
-				}
 				if (isFlying()) {
 					this.feasterMoveController.flyingTick();
-
 				}
 			}
 		}
