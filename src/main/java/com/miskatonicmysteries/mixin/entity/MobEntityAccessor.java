@@ -20,5 +20,5 @@ public interface MobEntityAccessor {
 	GoalSelector getTargetSelector();
 
 	@Invoker("disablePlayerShield")
-	public void invokeDisablePlayerShield(PlayerEntity player, ItemStack mobStack, ItemStack playerStack);
+	void invokeDisablePlayerShield(PlayerEntity player, ItemStack mobStack, ItemStack playerStack);
 }

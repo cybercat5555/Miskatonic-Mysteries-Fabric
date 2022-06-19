@@ -7,12 +7,12 @@ import com.miskatonicmysteries.common.feature.entity.navigation.FeasterPathNodeM
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.entity.MobEntityAccessor;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.FuzzyTargeting;
+import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -22,11 +22,8 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.mob.GhastEntity;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
@@ -37,7 +34,6 @@ import net.minecraft.world.World;
 import java.util.EnumSet;
 import java.util.function.Predicate;
 
-import net.minecraft.world.WorldEvents;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -58,6 +54,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 	public FeasterMoveController feasterMoveController;
 	public FeasterLogic feasterLogic;
 	AnimationFactory factory = new AnimationFactory(this);
+	private int ticksTillNextNavigationSwitch;
 
 	public FeasterEntity(EntityType<? extends HostileEntity> entityType, World world) {
 		super(entityType, world);
@@ -65,6 +62,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 		this.feasterMoveController = new FeasterMoveController(this);
 		this.feasterLogic = createFeasterLogic();
 		changeEntityNavigation(0);
+		this.ticksTillNextNavigationSwitch = 20 * 10;
 	}
 
 	public void changeEntityNavigation(int navType) {
@@ -106,6 +104,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 		this.goalSelector.add(1, new FeasterSwipeAttackGoal(this));
 		this.goalSelector.add(2, new FeasterWanderGoal(this));
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+		this.goalSelector.add(7, new FeasterLookAtTargetGoal(this));
 		this.goalSelector.add(7, new LookAroundGoal(this));
 		this.goalSelector.add(7, new FeasterManiaCloudAttackGoal(this));
 		this.targetSelector.add(1, new RevengeGoal(this));
@@ -139,8 +138,18 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 		if (!this.isDead()) {
 			if (!world.isClient()) {
 				this.feasterLogic.updateLogic();
+				if(--this.ticksTillNextNavigationSwitch < 0){
+					if(this.getTarget() == null){
+						this.ticksTillNextNavigationSwitch = 200 + this.random.nextInt(200);
+					}else if(this.getTarget() instanceof PlayerEntity player && this.squaredDistanceTo(player) > 16 && this.navigationType == 1){
+						this.ticksTillNextNavigationSwitch = this.random.nextInt(20 * 3);
+					}else{
+
+					}
+				}
 				if (isFlying()) {
 					this.feasterMoveController.flyingTick();
+
 				}
 			}
 		}
@@ -259,7 +268,16 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 
 		@Override
 		public boolean canStart() {
-			return !feasterEntity.isFlying();
+			MoveControl moveControl = this.feasterEntity.getMoveControl();
+			if (!moveControl.isMoving()) {
+				return true;
+			} else {
+				double d = moveControl.getTargetX() - this.feasterEntity.getX();
+				double e = moveControl.getTargetY() - this.feasterEntity.getY();
+				double f = moveControl.getTargetZ() - this.feasterEntity.getZ();
+				double g = d * d + e * e + f * f;
+				return g < 1.0D || g > 3600.0D;
+			}
 		}
 
 		@Override
@@ -281,32 +299,38 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 		}
 	}
 
-	private class FeasterMeleeAttackGoal extends MeleeAttackGoal {
+	private static class FeasterLookAtTargetGoal extends Goal {
+		private final FeasterEntity feasterEntity;
 
-		public FeasterMeleeAttackGoal() {
-			super(FeasterEntity.this, 1.0F, false);
+		public FeasterLookAtTargetGoal(FeasterEntity feasterEntity) {
+			this.feasterEntity = feasterEntity;
+			this.setControls(EnumSet.of(Goal.Control.LOOK));
 		}
 
-		@Override
 		public boolean canStart() {
-			return super.canStart();
+			return true;
 		}
 
-		@Override
-		public void start() {
-			super.start();
-			dataTracker.set(IS_MELEE, true);
+		public boolean shouldRunEveryTick() {
+			return true;
 		}
 
-		@Override
-		public void stop() {
-			super.stop();
-			dataTracker.set(IS_MELEE, false);
-		}
+		public void tick() {
+			if (this.feasterEntity.getTarget() == null) {
+				Vec3d vec3d = this.feasterEntity.getVelocity();
+				this.feasterEntity.setYaw(-((float)MathHelper.atan2(vec3d.x, vec3d.z)) * 57.295776F);
+				this.feasterEntity.bodyYaw = this.feasterEntity.getYaw();
+			} else {
+				LivingEntity livingEntity = this.feasterEntity.getTarget();
+				double d = 64.0D;
+				if (livingEntity.squaredDistanceTo(this.feasterEntity) < 4096.0D) {
+					double e = livingEntity.getX() - this.feasterEntity.getX();
+					double f = livingEntity.getZ() - this.feasterEntity.getZ();
+					this.feasterEntity.setYaw(-((float)MathHelper.atan2(e, f)) * 57.295776F);
+					this.feasterEntity.bodyYaw = this.feasterEntity.getYaw();
+				}
+			}
 
-		@Override
-		protected double getSquaredMaxAttackDistance(LivingEntity entity) {
-			return 6;
 		}
 	}
 
