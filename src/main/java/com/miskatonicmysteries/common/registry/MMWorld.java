@@ -46,138 +46,53 @@ public class MMWorld {
 
 	public static final StructureProcessorType<PsychonautHouseProcessor> PSYCHONAUT_PROCESSOR =
 		StructureProcessorType.register(Constants.MOD_ID + ":psychonaut_house", PsychonautHouseProcessor.CODEC);
-	public static final RegistryEntry<StructureProcessorList> ZOMBIE_PROCESSOR = registerProcessorList("psychonaut_zombie",
-																									   new PsychonautHouseProcessor(10091940),
-																									   new RuleStructureProcessor(ImmutableList
-																																	  .of(new StructureProcessorRule(
-																																			  new RandomBlockMatchRuleTest(
-																																				  Blocks.COBBLESTONE,
-																																				  0.8F),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.MOSSY_COBBLESTONE
-																																				  .getDefaultState()),
-																																		  new StructureProcessorRule(
-																																			  new TagMatchRuleTest(
-																																				  BlockTags.DOORS),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.AIR
-																																				  .getDefaultState()),
-																																		  new StructureProcessorRule(
-																																			  new BlockMatchRuleTest(
-																																				  Blocks.TORCH),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.AIR
-																																				  .getDefaultState()),
-																																		  new StructureProcessorRule(
-																																			  new BlockMatchRuleTest(
-																																				  Blocks.WALL_TORCH),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.AIR
-																																				  .getDefaultState()),
-																																		  new StructureProcessorRule(
-																																			  new RandomBlockMatchRuleTest(
-																																				  Blocks.COBBLESTONE,
-																																				  0.07F),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.COBWEB
-																																				  .getDefaultState()),
-																																		  new StructureProcessorRule(
-																																			  new RandomBlockMatchRuleTest(
-																																				  Blocks.MOSSY_COBBLESTONE,
-																																				  0.07F),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.COBWEB
-																																				  .getDefaultState()),
-																																		  new StructureProcessorRule(
-																																			  new RandomBlockMatchRuleTest(
-																																				  Blocks.WHITE_TERRACOTTA,
-																																				  0.07F),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.COBWEB
-																																				  .getDefaultState()),
-																																		  new StructureProcessorRule(
-																																			  new RandomBlockMatchRuleTest(
-																																				  Blocks.OAK_LOG,
-																																				  0.05F),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.COBWEB
-																																				  .getDefaultState()),
-																																		  new StructureProcessorRule(
-																																			  new RandomBlockMatchRuleTest(
-																																				  Blocks.OAK_PLANKS,
-																																				  0.1F),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.COBWEB
-																																				  .getDefaultState()),
-																																		  new StructureProcessorRule(
-																																			  new RandomBlockMatchRuleTest(
-																																				  Blocks.OAK_STAIRS,
-																																				  0.1F),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.COBWEB
-																																				  .getDefaultState()),
-																																		  new StructureProcessorRule(
-																																			  new RandomBlockMatchRuleTest(
-																																				  Blocks.STRIPPED_OAK_LOG,
-																																				  0.02F),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.COBWEB
-																																				  .getDefaultState()),
-																																		  new StructureProcessorRule(
-																																			  new RandomBlockMatchRuleTest(
-																																				  Blocks.GLASS_PANE,
-																																				  0.5F),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.COBWEB
-																																				  .getDefaultState()),
-																																		  new StructureProcessorRule(
-																																			  new BlockStateMatchRuleTest(
-																																				  Blocks.GLASS_PANE
-																																					  .getDefaultState()
-																																					  .with(
-																																						  PaneBlock.NORTH,
-																																						  true)
-																																					  .with(
-																																						  PaneBlock.SOUTH,
-																																						  true)),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.BROWN_STAINED_GLASS_PANE
-																																				  .getDefaultState()
-																																				  .with(
-																																					  PaneBlock.NORTH,
-																																					  true)
-																																				  .with(
-																																					  PaneBlock.SOUTH,
-																																					  true)),
-																																		  new StructureProcessorRule(
-																																			  new BlockStateMatchRuleTest(
-																																				  Blocks.GLASS_PANE
-																																					  .getDefaultState()
-																																					  .with(
-																																						  PaneBlock.EAST,
-																																						  true)
-																																					  .with(
-																																						  PaneBlock.WEST,
-																																						  true)),
-																																			  AlwaysTrueRuleTest.INSTANCE,
-																																			  Blocks.BROWN_STAINED_GLASS_PANE
-																																				  .getDefaultState()
-																																				  .with(
-																																					  PaneBlock.EAST,
-																																					  true)
-																																				  .with(
-																																					  PaneBlock.WEST,
-																																					  true)))));
-	public static final RegistryEntry<StructureProcessorList> NORMAL_PROCESSOR = registerProcessorList("psychonaut_normal",
-																									   new PsychonautHouseProcessor(12081980),
-																									   new RuleStructureProcessor(ImmutableList
-																																	  .of(new StructureProcessorRule(
-																																		  new RandomBlockMatchRuleTest(
-																																			  Blocks.COBBLESTONE,
-																																			  0.1F),
-																																		  AlwaysTrueRuleTest.INSTANCE,
-																																		  Blocks.MOSSY_COBBLESTONE
-																																			  .getDefaultState()))));
+	public static final RegistryEntry<StructureProcessorList> ZOMBIE_PROCESSOR =
+		registerProcessorList("psychonaut_zombie", new PsychonautHouseProcessor(10091940),
+							  new RuleStructureProcessor(
+								  ImmutableList.of(new StructureProcessorRule(new RandomBlockMatchRuleTest(Blocks.COBBLESTONE, 0.8F),
+																			  AlwaysTrueRuleTest.INSTANCE,
+																			  Blocks.MOSSY_COBBLESTONE.getDefaultState()),
+												   new StructureProcessorRule(new TagMatchRuleTest(BlockTags.DOORS), AlwaysTrueRuleTest.INSTANCE,
+																			  Blocks.AIR.getDefaultState()),
+												   new StructureProcessorRule(new BlockMatchRuleTest(Blocks.TORCH), AlwaysTrueRuleTest.INSTANCE,
+																			  Blocks.AIR.getDefaultState()),
+												   new StructureProcessorRule(new BlockMatchRuleTest(Blocks.WALL_TORCH), AlwaysTrueRuleTest.INSTANCE,
+																			  Blocks.AIR.getDefaultState()),
+												   new StructureProcessorRule(new RandomBlockMatchRuleTest(Blocks.COBBLESTONE, 0.07F),
+																			  AlwaysTrueRuleTest.INSTANCE, Blocks.COBWEB.getDefaultState()),
+												   new StructureProcessorRule(new RandomBlockMatchRuleTest(Blocks.MOSSY_COBBLESTONE, 0.07F),
+																			  AlwaysTrueRuleTest.INSTANCE, Blocks.COBWEB.getDefaultState()),
+												   new StructureProcessorRule(new RandomBlockMatchRuleTest(Blocks.WHITE_TERRACOTTA, 0.07F),
+																			  AlwaysTrueRuleTest.INSTANCE, Blocks.COBWEB.getDefaultState()),
+												   new StructureProcessorRule(new RandomBlockMatchRuleTest(Blocks.OAK_LOG, 0.05F),
+																			  AlwaysTrueRuleTest.INSTANCE, Blocks.COBWEB.getDefaultState()),
+												   new StructureProcessorRule(new RandomBlockMatchRuleTest(Blocks.OAK_PLANKS, 0.1F),
+																			  AlwaysTrueRuleTest.INSTANCE, Blocks.COBWEB.getDefaultState()),
+												   new StructureProcessorRule(new RandomBlockMatchRuleTest(Blocks.OAK_STAIRS, 0.1F),
+																			  AlwaysTrueRuleTest.INSTANCE, Blocks.COBWEB.getDefaultState()),
+												   new StructureProcessorRule(new RandomBlockMatchRuleTest(Blocks.STRIPPED_OAK_LOG, 0.02F),
+																			  AlwaysTrueRuleTest.INSTANCE, Blocks.COBWEB.getDefaultState()),
+												   new StructureProcessorRule(new RandomBlockMatchRuleTest(Blocks.GLASS_PANE, 0.5F),
+																			  AlwaysTrueRuleTest.INSTANCE, Blocks.COBWEB.getDefaultState()),
+												   new StructureProcessorRule(new BlockStateMatchRuleTest(Blocks.GLASS_PANE.getDefaultState()
+																											  .with(PaneBlock.NORTH, true)
+																											  .with(PaneBlock.SOUTH, true)),
+																			  AlwaysTrueRuleTest.INSTANCE,
+																			  Blocks.BROWN_STAINED_GLASS_PANE.getDefaultState()
+																				  .with(PaneBlock.NORTH, true)
+																				  .with(PaneBlock.SOUTH, true)),
+												   new StructureProcessorRule(new BlockStateMatchRuleTest(Blocks.GLASS_PANE.getDefaultState()
+																											  .with(PaneBlock.EAST, true)
+																											  .with(PaneBlock.WEST, true)),
+																			  AlwaysTrueRuleTest.INSTANCE,
+																			  Blocks.BROWN_STAINED_GLASS_PANE.getDefaultState()
+																				  .with(PaneBlock.EAST, true)
+																				  .with(PaneBlock.WEST, true)))));
+	public static final RegistryEntry<StructureProcessorList> NORMAL_PROCESSOR =
+		registerProcessorList("psychonaut_normal", new PsychonautHouseProcessor(12081980),
+							  new RuleStructureProcessor(ImmutableList.of(new StructureProcessorRule(
+								  new RandomBlockMatchRuleTest(Blocks.COBBLESTONE, 0.1F), AlwaysTrueRuleTest.INSTANCE,
+								  Blocks.MOSSY_COBBLESTONE.getDefaultState()))));
 
 	public static final Biome HASTUR_BIOME = creatHasturBiome();
 	public static final BiomeEffect HASTUR_BIOME_EFFECT = new HasturBiomeEffect();
@@ -194,13 +109,12 @@ public class MMWorld {
 						 .build());
 		SpawnSettings.Builder spawnsBuilder = new Builder();
 		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnEntry(MMEntities.GENERIC_TENTACLE, 40, 1, 4));
-		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnEntry(MMEntities.HARROW, 30, 1, 3));
 		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.SKELETON, 80, 4, 4));
 		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnEntry(MMEntities.HARROW, 20, 1, 3));
 		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnEntry(EntityType.WITCH, 10, 1, 1));
 		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnEntry(EntityType.ENDERMAN, 20, 1, 4));
 		spawnsBuilder.spawn(SpawnGroup.MONSTER, new SpawnEntry(MMEntities.FEASTER, 1, 1, 1));
-		spawnsBuilder.spawnCost(MMEntities.HARROW, 0.7F, 0.15F);
+		spawnsBuilder.spawnCost(MMEntities.GENERIC_TENTACLE, 0.7F, 0.15F);
 		spawnsBuilder.spawnCost(MMEntities.HARROW, 2, 0.1F);
 		DefaultBiomeFeatures.addFarmAnimals(spawnsBuilder);
 		biomeBuilder.spawnSettings(spawnsBuilder.build());
