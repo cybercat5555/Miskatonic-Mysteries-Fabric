@@ -1,20 +1,7 @@
 package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
-import com.miskatonicmysteries.common.feature.entity.AberrationEntity;
-import com.miskatonicmysteries.common.feature.entity.BoltEntity;
-import com.miskatonicmysteries.common.feature.entity.ByakheeEntity;
-import com.miskatonicmysteries.common.feature.entity.FeasterEntity;
-import com.miskatonicmysteries.common.feature.entity.GenericTentacleEntity;
-import com.miskatonicmysteries.common.feature.entity.GuardDogEntity;
-import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
-import com.miskatonicmysteries.common.feature.entity.HarrowEntity;
-import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
-import com.miskatonicmysteries.common.feature.entity.PhantasmaEntity;
-import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
-import com.miskatonicmysteries.common.feature.entity.SpellProjectileEntity;
-import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
-import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity;
+import com.miskatonicmysteries.common.feature.entity.*;
 import com.miskatonicmysteries.common.feature.entity.painting.ManosPaintingEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
@@ -104,6 +91,10 @@ public class MMEntities {
 
 	public static final EntityType<FeasterEntity> FEASTER = FabricEntityTypeBuilder
 		.create(SpawnGroup.MONSTER, FeasterEntity::new).dimensions(EntityDimensions.fixed(2F, 3F)).trackRangeBlocks(64).build();
+
+	public static final EntityType<ManiaCloudProjectileEntity> MANIA_PROJECTILE = FabricEntityTypeBuilder
+			.<ManiaCloudProjectileEntity>create(SpawnGroup.MISC, ManiaCloudProjectileEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F))
+			.trackRangeBlocks(16).build();
 
 	public static final MemoryModuleType<GlobalPos> CONGREGATION_POINT = MemoryModuleTypeAccessor.invokeRegister(
 		Constants.MOD_ID + ":congregation_point",

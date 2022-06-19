@@ -34,19 +34,7 @@ import com.miskatonicmysteries.client.render.blockentity.MasterpieceStatueBlockR
 import com.miskatonicmysteries.client.render.blockentity.ObeliskBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
-import com.miskatonicmysteries.client.render.entity.BoltEntityRenderer;
-import com.miskatonicmysteries.client.render.entity.ByakheeEntityRenderer;
-import com.miskatonicmysteries.client.render.entity.FeasterEntityRenderer;
-import com.miskatonicmysteries.client.render.entity.GenericTentacleEntityRenderer;
-import com.miskatonicmysteries.client.render.entity.GuardDogEntityRenderer;
-import com.miskatonicmysteries.client.render.entity.HallucinationRenderer;
-import com.miskatonicmysteries.client.render.entity.HarrowEntityRenderer;
-import com.miskatonicmysteries.client.render.entity.HasturCultistEntityRender;
-import com.miskatonicmysteries.client.render.entity.PhantasmaEntityRenderer;
-import com.miskatonicmysteries.client.render.entity.ProtagonistEntityRender;
-import com.miskatonicmysteries.client.render.entity.SpellProjectileEntityRenderer;
-import com.miskatonicmysteries.client.render.entity.TatteredPrinceRenderer;
-import com.miskatonicmysteries.client.render.entity.TindalosHoundEntityRenderer;
+import com.miskatonicmysteries.client.render.entity.*;
 import com.miskatonicmysteries.client.render.entity.painting.ManosPaintingEntityRenderer;
 import com.miskatonicmysteries.client.render.equipment.CultistRobesArmorRenderer;
 import com.miskatonicmysteries.client.render.equipment.MaskTrinketRenderer;
@@ -175,6 +163,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		EntityRendererRegistry.register(MMEntities.FEASTER, FeasterEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.GUARDIAN_PAINTING, ManosPaintingEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.GUARD_DOG, GuardDogEntityRenderer::new);
+		EntityRendererRegistry.register(MMEntities.MANIA_PROJECTILE, ManiaProjectileEntityRenderer::new);
 	}
 
 	private void registerItemRenderers() {

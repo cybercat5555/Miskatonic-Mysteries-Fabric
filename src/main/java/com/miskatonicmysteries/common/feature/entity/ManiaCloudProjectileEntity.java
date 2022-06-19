@@ -4,7 +4,6 @@ import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.projectile.DragonFireballEntity;
 import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -15,13 +14,14 @@ import java.util.List;
 
 public class ManiaCloudProjectileEntity extends ExplosiveProjectileEntity {
 
-    public ManiaCloudProjectileEntity(EntityType<? extends DragonFireballEntity> entityType, World world) {
+    public ManiaCloudProjectileEntity(EntityType<? extends ManiaCloudProjectileEntity> entityType, World world) {
         super(entityType, world);
     }
 
     public ManiaCloudProjectileEntity(World world, LivingEntity owner, double directionX, double directionY, double directionZ) {
         super(EntityType.DRAGON_FIREBALL, owner, directionX, directionY, directionZ, world);
     }
+
 
     protected void onCollision(HitResult hitResult) {
         super.onCollision(hitResult);
