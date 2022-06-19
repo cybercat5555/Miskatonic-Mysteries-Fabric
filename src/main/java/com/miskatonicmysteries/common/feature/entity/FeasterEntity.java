@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.feature.entity;
 
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
+import com.miskatonicmysteries.common.feature.entity.ai.CastSpellGoal;
 import com.miskatonicmysteries.common.feature.entity.navigation.FeasterLogic;
 import com.miskatonicmysteries.common.feature.entity.navigation.FeasterMoveController;
 import com.miskatonicmysteries.common.feature.entity.navigation.FeasterPathNodeMaker;
@@ -115,6 +116,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 		this.goalSelector.add(1, new FeasterSwipeAttackGoal(this));
 		this.goalSelector.add(2, new FeasterWanderGoal(this));
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+		this.goalSelector.add(6, new CastSpellGoal<>(this));
 		this.goalSelector.add(7, new FeasterLookAtTargetGoal(this));
 		this.goalSelector.add(7, new LookAroundGoal(this));
 		this.goalSelector.add(7, new FeasterManiaCloudAttackGoal(this));
@@ -168,7 +170,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 					this.feasterMoveController.flyingTick();
 				}
 				if (isCasting()) {
-					if (currentSpell != null && !world.isClient) {
+					if (currentSpell != null) {
 						EffectParticlePacket.send(this);
 						if (getTarget() == null) {
 							setCastTime(0);
@@ -301,7 +303,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 
 	@Override
 	public void setCurrentSpell(Spell spell) {
-		this.currentSpell = currentSpell;
+		this.currentSpell = spell;
 	}
 
 	@Override
@@ -444,6 +446,13 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 			this.feasterEntity = feasterEntity;
 			this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
 		}
+
+		@Override
+		public void start() {
+			super.start();
+			this.feasterEntity.dataTracker.set(IS_MELEE, true);
+		}
+
 		@Override
 		public boolean canStart() {
 			LivingEntity livingEntity = this.feasterEntity.getTarget();
@@ -453,6 +462,12 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 				this.target = livingEntity;
 				return true;
 			}
+		}
+
+		@Override
+		public void stop() {
+			super.stop();
+			this.feasterEntity.dataTracker.set(IS_MELEE, false);
 		}
 
 		@Override
