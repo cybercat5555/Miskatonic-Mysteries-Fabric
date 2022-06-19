@@ -1,3 +1,2 @@
 accessWidener v1 named
 accessible  field net/minecraft/entity/mob/MobEntity  moveControl Lnet/minecraft/entity/ai/control/MoveControl;
-accessible method net/minecraft/entity/mob/MobEntity disablePlayerShield (Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)V

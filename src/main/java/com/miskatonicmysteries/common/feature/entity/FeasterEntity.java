@@ -6,6 +6,7 @@ import com.miskatonicmysteries.common.feature.entity.navigation.FeasterPathNodeM
 
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.mixin.entity.MobEntityAccessor;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
@@ -186,7 +187,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable {
 		if(bl){
 			if (g > 0.0F) {
 				if (target instanceof PlayerEntity playerEntity) {
-					this.disablePlayerShield(playerEntity, this.getMainHandStack(), playerEntity.isUsingItem() ? playerEntity.getActiveItem() : ItemStack.EMPTY);
+					((MobEntityAccessor)this).invokeDisablePlayerShield(playerEntity, this.getMainHandStack(), playerEntity.isUsingItem() ? playerEntity.getActiveItem() : ItemStack.EMPTY);
 				}
 			}
 			this.applyDamageEffects(this, target);
