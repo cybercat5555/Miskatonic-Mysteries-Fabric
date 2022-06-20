@@ -30,7 +30,7 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
-public abstract class MagicPaintingEntity extends PaintingEntity implements Affiliated { //extend painting entity for some logic
+public abstract class MagicPaintingEntity extends PaintingEntity implements Affiliated{ //extend painting entity for some logic
 
 	protected static final TrackedData<Optional<UUID>> OWNER_UUID = DataTracker
 		.registerData(TameableEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
@@ -45,7 +45,7 @@ public abstract class MagicPaintingEntity extends PaintingEntity implements Affi
 		this.motive = motive;
 		attachmentPos = pos;
 		setFacing(direction);
-		setPos(attachmentPos.getX() + 0.5F, attachmentPos.getY() + 0.5F, attachmentPos.getZ() + 0.5F);
+		setPos(attachmentPos.getX(), attachmentPos.getY(), attachmentPos.getZ());
 		setOwnerUuid(owner);
 	}
 
@@ -75,14 +75,6 @@ public abstract class MagicPaintingEntity extends PaintingEntity implements Affi
 	@Override
 	public boolean isSupernatural() {
 		return true;
-	}
-
-	@Override
-	public void onSpawnPacket(EntitySpawnS2CPacket packet) {
-		super.onSpawnPacket(packet);
-		setFacing(Direction.fromRotation(packet.getYaw() * 360 / 256.0f));
-		attachmentPos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
-		updateAttachmentPosition();
 	}
 
 	@Override
@@ -116,13 +108,27 @@ public abstract class MagicPaintingEntity extends PaintingEntity implements Affi
 	}
 
 	@Override
+	public void updateTrackedPositionAndAngles(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate) {
+		this.setPosition(x, y, z);
+		this.setRotation(yaw, pitch);
+	}
+
+	@Override
 	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(getId(), getUuid(), getX(), getY(), getZ(), 0F, getHorizontalFacing().asRotation(), getType(), 0,
+		return new EntitySpawnS2CPacket(getId(), getUuid(), attachmentPos.getX(), attachmentPos.getY(), attachmentPos.getZ(), 0F, getHorizontalFacing().asRotation(), getType(), 0,
 										getVelocity());
 	}
 
 	@Override
 	public ItemStack getPickBlockStack() {
 		return new ItemStack(MMObjects.ENCHANTED_CANVAS);
+	}
+
+	@Override
+	public void onSpawnPacket(EntitySpawnS2CPacket packet) {
+		super.onSpawnPacket(packet);
+		setFacing(Direction.fromRotation(packet.getYaw() * 360 / 256.0f));
+		attachmentPos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
+		updateAttachmentPosition();
 	}
 }

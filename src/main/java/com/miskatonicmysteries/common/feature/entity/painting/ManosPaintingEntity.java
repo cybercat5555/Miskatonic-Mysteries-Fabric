@@ -46,10 +46,6 @@ public class ManosPaintingEntity extends MagicPaintingEntity {
 		super(MMEntities.GUARDIAN_PAINTING, world, pos, direction, MMEntities.PaintingMotives.GUARDIAN, owner);
 	}
 
-	@Override
-	protected void setFacing(Direction facing) {
-		super.setFacing(facing);
-	}
 
 	@Override
 	protected void updateAttachmentPosition() {
@@ -103,7 +99,7 @@ public class ManosPaintingEntity extends MagicPaintingEntity {
 	}
 
 	public boolean canTarget(Entity entity) {
-		return (entity instanceof MobEntity && entity instanceof Monster) || (entity instanceof PlayerEntity p && !isOwner(p));
+		return (entity instanceof MobEntity && entity instanceof Monster) || (entity instanceof PlayerEntity p && !isOwner(p) && !p.isCreative());
 	}
 
 	public byte getPaintingStatus() {

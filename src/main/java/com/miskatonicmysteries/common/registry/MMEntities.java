@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.registry;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.common.feature.entity.*;
 import com.miskatonicmysteries.common.feature.entity.painting.ManosPaintingEntity;
+import com.miskatonicmysteries.common.feature.entity.painting.WallPaintingEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 import com.miskatonicmysteries.mixin.villagers.MemoryModuleTypeAccessor;
@@ -77,6 +78,10 @@ public class MMEntities {
 		.create(SpawnGroup.MONSTER, TindalosHoundEntity::new).dimensions(EntityDimensions.fixed(2F, 2F)).trackRangeBlocks(16).build();
 	public static final EntityType<ManosPaintingEntity> GUARDIAN_PAINTING = FabricEntityTypeBuilder
 		.create(SpawnGroup.MISC, (EntityFactory<ManosPaintingEntity>) ManosPaintingEntity::new)
+		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeBlocks(10)
+		.trackedUpdateRate(Integer.MAX_VALUE).build();
+	public static final EntityType<WallPaintingEntity> WALL_PAINTING = FabricEntityTypeBuilder
+		.create(SpawnGroup.MISC, (EntityFactory<WallPaintingEntity>) WallPaintingEntity::new)
 		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeBlocks(10)
 		.trackedUpdateRate(Integer.MAX_VALUE).build();
 	public static final EntityType<GuardDogEntity> GUARD_DOG = FabricEntityTypeBuilder
@@ -216,6 +221,7 @@ public class MMEntities {
 			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0));
 
 		RegistryUtil.register(Registry.ENTITY_TYPE, "guardian_painting", GUARDIAN_PAINTING);
+		RegistryUtil.register(Registry.ENTITY_TYPE, "wall_painting", WALL_PAINTING);
 
 		RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
 
@@ -246,9 +252,13 @@ public class MMEntities {
 	public static class PaintingMotives {
 
 		public static PaintingMotive GUARDIAN = new PaintingMotive(16, 16);
+		public static PaintingMotive BLACK_STAR = new PaintingMotive(32, 32);
+		public static PaintingMotive SHINING_GATES = new PaintingMotive(32, 32);
 
 		public static void init() {
 			RegistryUtil.register(Registry.PAINTING_MOTIVE, "guardian", GUARDIAN);
+			RegistryUtil.register(Registry.PAINTING_MOTIVE, "black_star", BLACK_STAR);
+			RegistryUtil.register(Registry.PAINTING_MOTIVE, "shining_gates", SHINING_GATES);
 		}
 	}
 }

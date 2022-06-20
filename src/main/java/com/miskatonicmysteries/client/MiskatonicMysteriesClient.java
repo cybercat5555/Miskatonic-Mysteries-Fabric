@@ -31,6 +31,7 @@ import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
 import com.miskatonicmysteries.client.render.entity.*;
 import com.miskatonicmysteries.client.render.entity.painting.ManosPaintingEntityRenderer;
+import com.miskatonicmysteries.client.render.entity.painting.WallPaintingRenderer;
 import com.miskatonicmysteries.client.render.equipment.CultistRobesArmorRenderer;
 import com.miskatonicmysteries.client.render.equipment.MaskTrinketRenderer;
 import com.miskatonicmysteries.client.vision.VisionHandler;
@@ -66,6 +67,9 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.GuardianEntityRenderer;
+import net.minecraft.client.render.entity.PaintingEntityRenderer;
+
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -139,6 +143,8 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		EntityRendererRegistry.register(MMEntities.FEASTER, FeasterEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.GUARDIAN_PAINTING, ManosPaintingEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.GUARD_DOG, GuardDogEntityRenderer::new);
+		EntityRendererRegistry.register(MMEntities.WALL_PAINTING, WallPaintingRenderer::new);
+		EntityRendererRegistry.register(MMEntities.MANIA_PROJECTILE, ManiaProjectileEntityRenderer::new);
 	}
 
 	private void registerItemRenderers() {

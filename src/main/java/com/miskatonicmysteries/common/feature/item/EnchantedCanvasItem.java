@@ -2,8 +2,11 @@ package com.miskatonicmysteries.common.feature.item;
 
 import com.miskatonicmysteries.common.feature.entity.painting.MagicPaintingEntity;
 import com.miskatonicmysteries.common.feature.entity.painting.ManosPaintingEntity;
+import com.miskatonicmysteries.common.feature.entity.painting.WallPaintingEntity;
+import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMEntities.PaintingMotives;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.RegistryUtil;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 
@@ -18,6 +21,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
@@ -33,6 +37,8 @@ public class EnchantedCanvasItem extends Item {
 	public EnchantedCanvasItem() {
 		super(new FabricItemSettings().rarity(Rarity.UNCOMMON).group(Constants.MM_GROUP));
 		motives.add(PaintingMotives.GUARDIAN);
+		motives.add(PaintingMotives.SHINING_GATES);
+		motives.add(PaintingMotives.BLACK_STAR);
 	}
 
 	@Override
@@ -73,8 +79,11 @@ public class EnchantedCanvasItem extends Item {
 	}
 
 	private MagicPaintingEntity getEntityFromMotive(World world, PaintingMotive motive, BlockPos pos, Direction direction, PlayerEntity player) {
-		MagicPaintingEntity entity = new ManosPaintingEntity(world, pos, direction, player.getUuid());
-		return entity;
+		if (motive == PaintingMotives.SHINING_GATES) {
+			return new WallPaintingEntity(world, pos, direction, player.getUuid());
+		}else {
+			return new ManosPaintingEntity(world, pos, direction, player.getUuid());
+		}
 	}
 
 	protected boolean canPlaceOn(PlayerEntity player, Direction side, ItemStack stack, BlockPos pos) {
