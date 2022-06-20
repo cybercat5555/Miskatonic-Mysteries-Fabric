@@ -2,7 +2,9 @@ package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.common.feature.entity.*;
+import com.miskatonicmysteries.common.feature.entity.painting.HomeyPaintingEntity;
 import com.miskatonicmysteries.common.feature.entity.painting.ManosPaintingEntity;
+import com.miskatonicmysteries.common.feature.entity.painting.PulsePaintingEntity;
 import com.miskatonicmysteries.common.feature.entity.painting.WallPaintingEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
@@ -84,6 +86,15 @@ public class MMEntities {
 		.create(SpawnGroup.MISC, (EntityFactory<WallPaintingEntity>) WallPaintingEntity::new)
 		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeBlocks(10)
 		.trackedUpdateRate(Integer.MAX_VALUE).build();
+	public static final EntityType<PulsePaintingEntity> PULSE_PAINTING = FabricEntityTypeBuilder
+		.create(SpawnGroup.MISC, (EntityFactory<PulsePaintingEntity>) PulsePaintingEntity::new)
+		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeBlocks(10)
+		.trackedUpdateRate(Integer.MAX_VALUE).build();
+	public static final EntityType<HomeyPaintingEntity> HOMEY_PAINTING = FabricEntityTypeBuilder
+		.create(SpawnGroup.MISC, (EntityFactory<HomeyPaintingEntity>) HomeyPaintingEntity::new)
+		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeBlocks(10)
+		.trackedUpdateRate(Integer.MAX_VALUE).build();
+
 	public static final EntityType<GuardDogEntity> GUARD_DOG = FabricEntityTypeBuilder
 		.create(SpawnGroup.CREATURE, (EntityFactory<GuardDogEntity>) GuardDogEntity::new)
 		.dimensions(EntityDimensions.fixed(1F, 1F)).disableSaving().trackRangeBlocks(16).build();
@@ -222,6 +233,8 @@ public class MMEntities {
 
 		RegistryUtil.register(Registry.ENTITY_TYPE, "guardian_painting", GUARDIAN_PAINTING);
 		RegistryUtil.register(Registry.ENTITY_TYPE, "wall_painting", WALL_PAINTING);
+		RegistryUtil.register(Registry.ENTITY_TYPE, "pulse_painting", PULSE_PAINTING);
+		RegistryUtil.register(Registry.ENTITY_TYPE, "homey_painting", HOMEY_PAINTING);
 
 		RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
 
@@ -254,11 +267,13 @@ public class MMEntities {
 		public static PaintingMotive GUARDIAN = new PaintingMotive(16, 16);
 		public static PaintingMotive BLACK_STAR = new PaintingMotive(32, 32);
 		public static PaintingMotive SHINING_GATES = new PaintingMotive(32, 32);
+		public static PaintingMotive SOUP_TIME = new PaintingMotive(32, 16);
 
 		public static void init() {
 			RegistryUtil.register(Registry.PAINTING_MOTIVE, "guardian", GUARDIAN);
 			RegistryUtil.register(Registry.PAINTING_MOTIVE, "black_star", BLACK_STAR);
 			RegistryUtil.register(Registry.PAINTING_MOTIVE, "shining_gates", SHINING_GATES);
+			RegistryUtil.register(Registry.PAINTING_MOTIVE, "soup_time", SOUP_TIME);
 		}
 	}
 }

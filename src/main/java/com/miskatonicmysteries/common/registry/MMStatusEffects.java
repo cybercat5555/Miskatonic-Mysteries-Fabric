@@ -5,6 +5,7 @@ import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.common.feature.effect.BleedStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.ClairvoyanceStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.ExoticCravingsStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.HomelyStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.ManiaStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.OthervibesStatusEffect;
@@ -34,6 +35,7 @@ public class MMStatusEffects {
 	public static final StatusEffect ULTRA_VIOLENCE = new UltraViolenceStatusEffect();
 	public static final StatusEffect CLAIRVOYANCE = new ClairvoyanceStatusEffect();
 	public static final StatusEffect OTHERVIBES = new OthervibesStatusEffect();
+	public static final StatusEffect HOMELY = new HomelyStatusEffect();
 
 	public static void init() {
 		RegistryUtil.register(Registry.STATUS_EFFECT, "mania", MANIA);
@@ -46,6 +48,7 @@ public class MMStatusEffects {
 		RegistryUtil.register(Registry.STATUS_EFFECT, "ultra_violence", ULTRA_VIOLENCE);
 		RegistryUtil.register(Registry.STATUS_EFFECT, "clairvoyance", CLAIRVOYANCE);
 		RegistryUtil.register(Registry.STATUS_EFFECT, "othervibes", OTHERVIBES);
+		RegistryUtil.register(Registry.STATUS_EFFECT, "homely", HOMELY);
 
 		RegistryUtil.register(Registry.POTION, "resonance", Potions.RESONANCE);
 		RegistryUtil.register(Registry.POTION, "resonance_long", Potions.LONG_RESONANCE);

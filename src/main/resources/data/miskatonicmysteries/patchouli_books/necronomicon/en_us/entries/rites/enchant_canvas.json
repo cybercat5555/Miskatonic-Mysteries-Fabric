@@ -20,16 +20,22 @@
 			"text": "This inconspicuous painting will sic a ferocious $(marked)Guard Dog$() on any unwanted intruder that crosses it."
 		},
 		{
+			"header": "Soup Time",
+			"type": "miskatonicmysteries:wide_painting",
+			"painting": "miskatonicmysteries:soup_time",
+			"text": "This cozy painting invokes a deep feeling of homeliness upon its owner, keeping them in good health and well-nourished."
+		},
+		{
 			"header": "Black Star",
 			"type": "miskatonicmysteries:big_painting",
 			"painting": "miskatonicmysteries:black_star",
-			"text": "big star push people away thru magic trust me bro"
+			"text": "This painting depicts a strange, surreal landscape, and will send a magic pulse out at those who look upon it. It will not affect its owner."
 		},
 		{
 			"header": "Shining Gates",
 			"type": "miskatonicmysteries:big_painting",
 			"painting": "miskatonicmysteries:shining_gates",
-			"text": "thou shalt not pass"
+			"text": "This austere painting bars intruders from entering the area uninvited."
 		}
 	]
 }

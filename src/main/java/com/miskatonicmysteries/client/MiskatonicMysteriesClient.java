@@ -97,12 +97,13 @@ import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.PaintingEntityRenderer;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -177,16 +178,15 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		EntityRendererRegistry.register(MMEntities.GUARDIAN_PAINTING, ManosPaintingEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.GUARD_DOG, GuardDogEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.WALL_PAINTING, WallPaintingRenderer::new);
+		EntityRendererRegistry.register(MMEntities.PULSE_PAINTING, PaintingEntityRenderer::new);
+		EntityRendererRegistry.register(MMEntities.HOMEY_PAINTING, PaintingEntityRenderer::new);
 	}
 
 	private void registerItemRenderers() {
-		FabricModelPredicateProviderRegistry
-			.register(MMObjects.RIFLE, new Identifier("loading"), (stack, world,
-																   entity, seed) -> GunItem
-																						.isLoading(stack) ? 1 : 0);
-		StatueBlock.STATUES
-			.forEach(statue -> BuiltinItemRendererRegistry.INSTANCE.register(statue.asItem(),
-																			 new StatueBlockRender.BuiltinItemStatueRenderer()));
+		ModelPredicateProviderRegistry.register(MMObjects.RIFLE, new Identifier("loading"), (stack, world, entity, seed) ->
+			GunItem.isLoading(stack) ? 1 : 0);
+		StatueBlock.STATUES.forEach(statue -> BuiltinItemRendererRegistry.INSTANCE.register(statue.asItem(),
+																							new StatueBlockRender.BuiltinItemStatueRenderer()));
 		BuiltinItemRendererRegistry.INSTANCE.register(MMObjects.MASTERPIECE_STATUE,
 													  new MasterpieceStatueBlockRender.BuiltinItemStatueRenderer());
 	}

@@ -33,7 +33,6 @@ public class WallPaintingEntity extends MagicPaintingEntity {
 	public void onPlayerCollision(PlayerEntity player) {
 		super.onPlayerCollision(player);
 		if (isOwner(player) && checkBoxIntersection(player)) {
-			System.out.println(world.isClient);
 			if (noCollisionTicks == 0 && world.isClient) {
 				Box bb = getBoundingBox();
 				for (int i = 0; i < 10; i++) {

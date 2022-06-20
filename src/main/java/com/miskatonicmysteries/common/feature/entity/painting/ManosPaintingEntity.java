@@ -111,14 +111,6 @@ public class ManosPaintingEntity extends MagicPaintingEntity {
 	}
 
 	@Override
-	public ActionResult interact(PlayerEntity player, Hand hand) {
-		if (!player.world.isClient && hand == Hand.MAIN_HAND) {
-			setPaintingStatus((byte) (getPaintingStatus() + (player.isSneaking() ? 1 : -1)));
-		}
-		return super.interact(player, hand);
-	}
-
-	@Override
 	protected void initDataTracker() {
 		super.initDataTracker();
 		this.dataTracker.startTracking(PAINTING_STATUS, (byte) 0);
@@ -127,7 +119,6 @@ public class ManosPaintingEntity extends MagicPaintingEntity {
 	@Override
 	public void onSpawnPacket(EntitySpawnS2CPacket packet) {
 		super.onSpawnPacket(packet);
-		this.motive = PaintingMotives.GUARDIAN;
 	}
 
 	@Override
