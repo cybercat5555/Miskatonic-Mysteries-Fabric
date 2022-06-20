@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.util;
 
-import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.mixin.biomes.ChunkSectionAccessor;
 
 import net.fabricmc.api.EnvType;
@@ -24,7 +24,7 @@ public class BiomeUtil {
 
 	@Environment(EnvType.CLIENT)
 	public static void syncBiomeClient(ClientWorld world, List<BlockPos> changedBlocks) {
-		if (MiskatonicMysteries.config.client.forceChunkColorUpdates) {
+		if (MMMidnightLibConfig.forceChunkColorUpdates) {
 			Set<ChunkPos> chunks = changedBlocks.stream().map(ChunkPos::new).collect(Collectors.toSet());
 			for (ChunkPos chunkPos : chunks) {
 				world.resetChunkColor(chunkPos);
@@ -36,7 +36,7 @@ public class BiomeUtil {
 	}
 
 	public static void updateBiomeColor(World world, List<BlockPos> changedBlocks) {
-		if (MiskatonicMysteries.config.client.forceChunkColorUpdates && world.isClient) {
+		if (MMMidnightLibConfig.forceChunkColorUpdates && world.isClient) {
 			ClientWorld clientWorld = (ClientWorld) world;
 			Set<ChunkPos> chunks = changedBlocks.stream().map(ChunkPos::new).collect(Collectors.toSet());
 			updateBiomeColor(clientWorld, chunks);

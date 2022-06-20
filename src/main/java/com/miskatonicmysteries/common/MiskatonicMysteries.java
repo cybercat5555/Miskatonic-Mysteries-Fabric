@@ -24,23 +24,23 @@ import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.registry.MMTrades;
 import com.miskatonicmysteries.common.registry.MMWorld;
 
+import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
-
 public class MiskatonicMysteries implements ModInitializer {
 
-	public static MMConfig config;
+	//public static MMConfig config;
 
 	static {
-		AutoConfig.register(MMConfig.class, JanksonConfigSerializer::new);
-		config = AutoConfig.getConfigHolder(MMConfig.class).getConfig();
+		//AutoConfig.register(MMConfig.class, JanksonConfigSerializer::new);
+		//config = AutoConfig.getConfigHolder(MMConfig.class).getConfig();
 	}
 
 	@Override
 	public void onInitialize() {
+		MMMidnightLibConfig.init(Constants.MOD_ID, MMMidnightLibConfig.class);
+
 		MMAffiliations.init();
 		MMBlessings.init();
 		MMObjects.init();

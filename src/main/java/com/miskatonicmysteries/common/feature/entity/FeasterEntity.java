@@ -1,9 +1,6 @@
 package com.miskatonicmysteries.common.feature.entity;
 
-import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
-import com.miskatonicmysteries.api.interfaces.Ascendant;
-import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.feature.entity.ai.CastSpellGoal;
@@ -14,6 +11,7 @@ import com.miskatonicmysteries.common.feature.entity.navigation.FeasterPathNodeM
 import com.miskatonicmysteries.common.feature.entity.util.CastingMob;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.ManiaCloudPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMSpellEffects;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
@@ -21,7 +19,6 @@ import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.mixin.entity.MobEntityAccessor;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.FuzzyTargeting;
@@ -36,10 +33,12 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -91,7 +90,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 			this.moveControl = new FeasterMoveController.FlightMoveControl(this);
 			this.navigation = createNavigation(world, FeasterPathNodeMaker.NavType.FLYING);
 			this.navigationType = 1;
-
+			this.setFlying(true);
 		}
 	}
 
@@ -186,6 +185,14 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 		}
 	}
 
+	@Override
+	public void setTarget(@Nullable LivingEntity target) {
+		super.setTarget(target);
+		if(target != null){
+			feasterMoveController.setFlightTarget(target.getPos());
+		}
+	}
+
 	public boolean isFlying() {
 		return this.dataTracker.get(IS_FLYING);
 	}
@@ -195,11 +202,8 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 	}
 
 	@Override
-	public void tickMovement() {
-		super.tickMovement();
-		if (this.isDead()) {
-			this.setFlying(false);
-		}
+	public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+		return false;
 	}
 
 	@Override
@@ -424,16 +428,17 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 				if (livingEntity.squaredDistanceTo(this.feasterEntity) < distance * distance && this.feasterEntity.canSee(livingEntity)) {
 					World world = this.feasterEntity.world;
 					++this.cooldown;
-					if (this.cooldown == 20) {
-						Vec3d vec3d = this.feasterEntity.getRotationVec(1.0F);
-						double f = livingEntity.getX() - (this.feasterEntity.getX() + vec3d.x * 2.0D);
-						double g = livingEntity.getBodyY(0.5D) - (0.5D + this.feasterEntity.getBodyY(0.5D));
-						double h = livingEntity.getZ() - (this.feasterEntity.getZ() + vec3d.z * 2.0D);
-
-						ManiaCloudProjectileEntity maniaCloudProjectileEntity = new ManiaCloudProjectileEntity(world, this.feasterEntity, f, g, h);
-						maniaCloudProjectileEntity.setPosition(this.feasterEntity.getX() + vec3d.x * 4.0D, this.feasterEntity.getBodyY(0.5D) + 0.5D, maniaCloudProjectileEntity.getZ() + vec3d.z * 4.0D);
-						world.spawnEntity(maniaCloudProjectileEntity);
-						this.cooldown = -40;
+					if (this.cooldown == 20 * 10) {
+						var playerList = world.getNonSpectatingEntities(PlayerEntity.class, new Box(this.feasterEntity.getBlockPos()).expand(24)).stream().limit(3).toList();
+						if(!playerList.isEmpty()){
+							for (PlayerEntity player : playerList){
+								player.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 20 * 30));
+								if(!world.isClient()){
+									ManiaCloudPacket.send(this.feasterEntity);
+								}
+							}
+						}
+						this.cooldown = - 20 * 10;
 					}
 				} else if (this.cooldown > 0) {
 					--this.cooldown;
@@ -451,13 +456,6 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 			this.feasterEntity = feasterEntity;
 			this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
 		}
-
-		@Override
-		public void start() {
-			super.start();
-			this.feasterEntity.dataTracker.set(IS_MELEE, true);
-		}
-
 		@Override
 		public boolean canStart() {
 			LivingEntity livingEntity = this.feasterEntity.getTarget();
@@ -468,6 +466,22 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 				return true;
 			}
 		}
+		@Override
+		public boolean shouldContinue() {
+			if (!this.target.isAlive()) {
+				return false;
+			} else if (this.feasterEntity.squaredDistanceTo(this.target) > 225.0D) {
+				return false;
+			} else {
+				return !this.feasterEntity.getNavigation().isIdle() || this.canStart();
+			}
+		}
+		@Override
+		public void start() {
+			super.start();
+			this.feasterEntity.dataTracker.set(IS_MELEE, true);
+		}
+
 
 		@Override
 		public void stop() {
@@ -477,22 +491,24 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Casting
 
 		@Override
 		public void tick() {
-			this.feasterEntity.getLookControl().lookAt(this.target, 30.0F, 30.0F);
-			double d = (this.feasterEntity.getWidth() * 2.0F * this.feasterEntity.getWidth() * 2.0F);
-			double e = this.feasterEntity.squaredDistanceTo(this.target.getX(), this.target.getY(), this.target.getZ());
-			double f = 0.8D;
-			if (e > d && e < 16.0D) {
-				f = 1.33D;
-			} else if (e < 225.0D) {
-				f = 0.6D;
-			}
+			if(this.target != null){
+				this.feasterEntity.getLookControl().lookAt(this.target, 30.0F, 30.0F);
+				double d = (this.feasterEntity.getWidth() * 2.0F * this.feasterEntity.getWidth() * 2.0F);
+				double e = this.feasterEntity.squaredDistanceTo(this.target.getX(), this.target.getY(), this.target.getZ());
+				double f = 0.8D;
+				if (e > d && e < 16.0D) {
+					f = 1.33D;
+				} else if (e < 225.0D) {
+					f = 0.6D;
+				}
 
-			this.feasterEntity.getNavigation().startMovingTo(this.target, f);
-			this.cooldown = Math.max(this.cooldown - 1, 0);
-			if (!(e > d)) {
-				if (this.cooldown <= 0) {
-					this.cooldown = 20;
-					this.feasterEntity.trySwipeAttack(this.target);
+				this.feasterEntity.getNavigation().startMovingTo(this.target, f);
+				this.cooldown = Math.max(this.cooldown - 1, 0);
+				if (!(e > d)) {
+					if (this.cooldown <= 0) {
+						this.cooldown = 20;
+						this.feasterEntity.trySwipeAttack(this.target);
+					}
 				}
 			}
 		}

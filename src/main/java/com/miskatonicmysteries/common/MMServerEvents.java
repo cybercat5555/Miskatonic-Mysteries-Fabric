@@ -132,7 +132,7 @@ public class MMServerEvents {
 			if (p instanceof BiomeAffected affected && affected.getCurrentBiomeEffect() == MMWorld.HASTUR_BIOME_EFFECT) {
 				HasturBiomeEffect.onWakeUp(p, sleepingPos);
 			}
-			if (world.random.nextFloat() < MiskatonicMysteries.config.entities.statueEffectChance) {
+			if (world.random.nextFloat() < MMMidnightLibConfig.statueEffectChance) {
 				Iterable<BlockPos> positions = BlockPos.iterateOutwards(entity.getBlockPos(), 10, 10, 10);
 				for (BlockPos position : positions) {
 					if (world.getBlockState(position).getBlock() instanceof StatueBlock) {

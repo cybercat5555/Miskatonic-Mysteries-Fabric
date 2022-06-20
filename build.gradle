@@ -50,6 +50,10 @@ repositories {
 	maven {
 		url = "https://jitpack.io"
 	}
+	maven {
+		name = "MidnightLib"
+		url = "https://www.cursemaven.com"
+	}
 }
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -106,6 +110,8 @@ dependencies {
 	//Trinkets
 	modImplementation("com.github.emilyalexandra:trinkets:${project.trinkets_version}")
 
+	//MidnightLib
+	modImplementation "curse.maven:midnightlib-488090:${project.midnightlib_version}"
 
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 }

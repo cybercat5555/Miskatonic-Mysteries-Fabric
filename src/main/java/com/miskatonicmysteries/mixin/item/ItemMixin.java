@@ -2,7 +2,7 @@ package com.miskatonicmysteries.mixin.item;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Sanity;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
@@ -49,7 +49,7 @@ public abstract class ItemMixin {
 	@Inject(method = "usageTick", at = @At("HEAD"))
 	public void tickShield(World world, LivingEntity user, ItemStack stack, int remainingUseTicks, CallbackInfo info) {
 		if (!world.isClient && stack.getItem() instanceof ShieldItem
-			&& user.getRandom().nextInt(MiskatonicMysteries.config.mechanics.modUpdateInterval) == 0) {
+			&& user.getRandom().nextInt(MMMidnightLibConfig.modUpdateInterval) == 0) {
 			if (stack.hasNbt() && stack.getNbt().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) != null) {
 				NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
 				if (compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) && Util

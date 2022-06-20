@@ -7,7 +7,6 @@ import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
-import com.miskatonicmysteries.common.util.Constants.Misc;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 

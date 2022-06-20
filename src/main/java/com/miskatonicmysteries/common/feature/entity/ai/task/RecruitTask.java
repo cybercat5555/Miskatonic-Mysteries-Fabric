@@ -1,6 +1,6 @@
 package com.miskatonicmysteries.common.feature.entity.ai.task;
 
-import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.registry.MMEntities;
 
@@ -18,7 +18,6 @@ import net.minecraft.village.VillagerData;
 import net.minecraft.village.VillagerProfession;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -33,34 +32,34 @@ public class RecruitTask extends Task<VillagerEntity> {
 	protected void run(ServerWorld world, VillagerEntity entity, long time) {
 		super.run(world, entity, time);
 		Brain<?> brain = entity.getBrain();
-		List<VillagerEntity> villagers = LookTargetUtil.streamSeenVillagers(entity, (villagerEntityx) -> !villagerEntityx.isBaby())
-			.collect(Collectors.toList());
+		List<VillagerEntity> villagers = LookTargetUtil.streamSeenVillagers(entity, (villagerEntityx) -> !villagerEntityx.isBaby()).toList();
 		int cultistCount = (int) villagers.stream().filter(v -> v instanceof HasturCultistEntity).count();
 		float actualPercentage = cultistCount / (float) villagers.size();
-		if (actualPercentage < MiskatonicMysteries.config.entities.yellowSerfPercentage && brain
-			.getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).get() instanceof VillagerEntity) {
+		if (actualPercentage < MMMidnightLibConfig.yellowSerfPercentage && brain
+				.getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).get() instanceof VillagerEntity recipient) {
 			if (entity instanceof HasturCultistEntity) {
 				((HasturCultistEntity) entity).setCastTime(60);
 			}
-			VillagerEntity recipient = (VillagerEntity) brain.getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).get();
 			HasturCultistEntity cultist = MMEntities.HASTUR_CULTIST.create(world);
-			cultist
-				.refreshPositionAndAngles(recipient.getX(), recipient.getY(), recipient.getZ(), recipient.getYaw(), recipient.getPitch());
-			cultist.initialize(world, world.getLocalDifficulty(cultist.getBlockPos()), SpawnReason.CONVERSION, null, null);
-			cultist.setAiDisabled(recipient.isAiDisabled());
-			if (recipient.hasCustomName()) {
-				cultist.setCustomName(recipient.getCustomName());
-				cultist.setCustomNameVisible(recipient.isCustomNameVisible());
+			if (cultist != null) {
+				cultist.refreshPositionAndAngles(recipient.getX(), recipient.getY(), recipient.getZ(), recipient.getYaw(), recipient.getPitch());
+				cultist.initialize(world, world.getLocalDifficulty(cultist.getBlockPos()), SpawnReason.CONVERSION, null, null);
+				cultist.setAiDisabled(recipient.isAiDisabled());
+				if (recipient.hasCustomName()) {
+					cultist.setCustomName(recipient.getCustomName());
+					cultist.setCustomNameVisible(recipient.isCustomNameVisible());
+				}
+				cultist.setPersistent();
+				world.spawnEntityAndPassengers(cultist);
+				recipient.releaseTicketFor(MemoryModuleType.HOME);
+				recipient.releaseTicketFor(MemoryModuleType.JOB_SITE);
+				recipient.releaseTicketFor(MemoryModuleType.POTENTIAL_JOB_SITE);
+				recipient.releaseTicketFor(MemoryModuleType.MEETING_POINT);
+				recipient.remove(Entity.RemovalReason.DISCARDED);
+				brain.forget(MemoryModuleType.INTERACTION_TARGET);
+				cultist.reinitializeBrain(world);
 			}
-			cultist.setPersistent();
-			world.spawnEntityAndPassengers(cultist);
-			recipient.releaseTicketFor(MemoryModuleType.HOME);
-			recipient.releaseTicketFor(MemoryModuleType.JOB_SITE);
-			recipient.releaseTicketFor(MemoryModuleType.POTENTIAL_JOB_SITE);
-			recipient.releaseTicketFor(MemoryModuleType.MEETING_POINT);
-			recipient.remove(Entity.RemovalReason.DISCARDED);
-			brain.forget(MemoryModuleType.INTERACTION_TARGET);
-			cultist.reinitializeBrain(world);
+
 		}
 
 	}

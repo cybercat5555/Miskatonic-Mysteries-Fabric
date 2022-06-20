@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.render;
 
 import com.miskatonicmysteries.api.interfaces.Resonating;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 
@@ -49,7 +49,7 @@ public class ShaderHandler {
 	}
 
 	private static void renderShaderEffects(float v) {
-		if (MiskatonicMysteries.config.client.useShaders && MinecraftClient.getInstance().player != null) {
+		if (MMMidnightLibConfig.useShaders && MinecraftClient.getInstance().player != null) {
 			ClientPlayerEntity player = MinecraftClient.getInstance().player;
 			if (player.hasStatusEffect(MMStatusEffects.MANIA)) {
 				MANIA.render(v);
@@ -66,7 +66,7 @@ public class ShaderHandler {
 	}
 
 	private static void onEndTick(MinecraftClient client) {
-		if (MiskatonicMysteries.config.client.useShaders && client.player != null) {
+		if (MMMidnightLibConfig.useShaders && client.player != null) {
 			if (client.player.hasStatusEffect(MMStatusEffects.MANIA)
 				&& client.player.getStatusEffect(MMStatusEffects.MANIA).getAmplifier() > 0) {
 				MANIA_PHOSPHOR.set(0.9F, 0.8F, 0.8F);

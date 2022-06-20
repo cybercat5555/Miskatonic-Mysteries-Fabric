@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.feature.entity;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.item.GunItem;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.feature.entity.ai.GunAttackGoal;
 import com.miskatonicmysteries.common.feature.entity.ai.MobBowAttackGoal;
 import com.miskatonicmysteries.common.feature.entity.ai.MobCrossbowAttackGoal;
@@ -151,7 +151,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 														  player -> (getTargetUUID().isPresent() && player.getUuid().equals(getTargetUUID().get()))
 															  || (Sanity.of(player).isPresent()
 															  && Sanity.of(player).get().getSanity()
-															  <= MiskatonicMysteries.config.entities.protagonistAggressionThreshold)));
+															  <= MMMidnightLibConfig.protagonistAggressionThreshold)));
 		this.targetSelector.add(3, new ActiveTargetGoal<>(this, HostileEntity.class, 5, true, true,
 														  mob -> !(mob instanceof ProtagonistEntity) && !(mob instanceof CreeperEntity)));
 		super.initGoals();

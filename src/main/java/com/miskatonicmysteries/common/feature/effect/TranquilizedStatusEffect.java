@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.feature.effect;
 
 import com.miskatonicmysteries.api.interfaces.Sanity;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 
@@ -30,9 +30,9 @@ public class TranquilizedStatusEffect extends StatusEffect {
 				entity.damage(Constants.DamageSources.SLEEP, 4000);
 			} else {
 				Sanity.of(entity).ifPresent(sanity -> {
-					sanity.setSanity((int) (sanity.getSanity() + MiskatonicMysteries.config.sanity.tranquilizedSanityBonus * Math
+					sanity.setSanity((int) (sanity.getSanity() + MMMidnightLibConfig.tranquilizedSanityBonus * Math
 						.min((amplifier + 2) / 2F, 3F)), true);
-					if (entity.getRandom().nextFloat() < MiskatonicMysteries.config.sanity.tranquilizedSanityCapRegainChance) {
+					if (entity.getRandom().nextFloat() < MMMidnightLibConfig.tranquilizedSanityCapRegainChance) {
 						for (String s : sanity.getSanityCapExpansions().keySet()) {
 							if (sanity.getSanityCapExpansions().get(s) < 0) {
 								int value = sanity.getSanityCapExpansions().get(s) + (amplifier * 5);

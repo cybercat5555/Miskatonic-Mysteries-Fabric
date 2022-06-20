@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.common.feature.effect;
 
 import com.miskatonicmysteries.api.interfaces.Sanity;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
@@ -40,11 +40,11 @@ public class ManiaStatusEffect extends StatusEffect {
 	}
 
 	private void insanityDeath(LivingEntity entity, Sanity sanity, int amplifier) {
-		if (sanity.getSanity() < MiskatonicMysteries.config.sanity.deadlyInsanityThreshold
+		if (sanity.getSanity() < MMMidnightLibConfig.deadlyInsanityThreshold
 			&& entity.age % Math.min(60 - amplifier * 3, 20) == 0 && entity.getRandom().nextFloat() > (sanity.getSanity()
-			/ (float) MiskatonicMysteries.config.sanity.deadlyInsanityThreshold)) {
+			/ (float) MMMidnightLibConfig.deadlyInsanityThreshold)) {
 			entity.damage(Constants.DamageSources.INSANITY, 666);
-			sanity.setSanity(MiskatonicMysteries.config.sanity.deadlyInsanityThreshold + 50, true);
+			sanity.setSanity(MMMidnightLibConfig.deadlyInsanityThreshold + 50, true);
 		}
 	}
 

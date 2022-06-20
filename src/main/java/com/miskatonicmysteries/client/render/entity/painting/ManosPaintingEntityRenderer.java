@@ -3,9 +3,6 @@ package com.miskatonicmysteries.client.render.entity.painting;
 import com.miskatonicmysteries.common.feature.entity.painting.ManosPaintingEntity;
 import com.miskatonicmysteries.common.util.Constants;
 
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
-
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -13,13 +10,8 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.PaintingEntityRenderer;
-import net.minecraft.client.texture.PaintingManager;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
-import net.minecraft.entity.decoration.painting.PaintingMotive;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;

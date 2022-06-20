@@ -12,8 +12,8 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.MMServerEvents;
-import com.miskatonicmysteries.common.MiskatonicMysteries;
 import com.miskatonicmysteries.common.component.AscendantComponent;
 import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity;
 import com.miskatonicmysteries.common.feature.spell.Spell;
@@ -102,7 +102,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 	@Inject(method = "wakeUp(ZZ)V", at = @At("HEAD"))
 	private void wakeUp(boolean bl, boolean updateSleepingPlayers, CallbackInfo ci) {
 		if (canResetTimeBySleeping() && !world.isClient
-			&& world.random.nextFloat() < MiskatonicMysteries.config.entities.statueEffectChance) {
+			&& world.random.nextFloat() < MMMidnightLibConfig.statueEffectChance) {
 			Iterable<BlockPos> positions = BlockPos.iterateOutwards(getBlockPos(), 10, 10, 10);
 			for (BlockPos position : positions) {
 				if (world.getBlockState(position).getBlock() instanceof StatueBlock) {
@@ -133,12 +133,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 		if (getSpellCooldown() > 0) {
 			setSpellCooldown(getSpellCooldown() - 1);
 		}
-		if (age % MiskatonicMysteries.config.mechanics.modUpdateInterval == 0) {
-			if (isShocked() && random.nextFloat() < MiskatonicMysteries.config.sanity.shockRemoveChance) {
+		if (age % MMMidnightLibConfig.modUpdateInterval == 0) {
+			if (isShocked() && random.nextFloat() < MMMidnightLibConfig.shockRemoveChance) {
 				setShocked(false);
 			}
 		}
-		if (!world.isClient && age > 100 && age % MiskatonicMysteries.config.sanity.insanityInterval == 0) {
+		if (!world.isClient && age > 100 && age % MMMidnightLibConfig.insanityInterval == 0) {
 			InsanityHandler.handleInsanityEvents((PlayerEntity) (Object) this);
 		}
 	}
@@ -418,7 +418,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 	@Environment(EnvType.CLIENT)
 	@Inject(method = "shouldRenderName", at = @At("HEAD"), cancellable = true)
 	private void shouldRenderName(CallbackInfoReturnable<Boolean> cir) {
-		if (MiskatonicMysteries.config.items.masksConcealNameplates && !MaskTrinketItem.getMask((PlayerEntity) (Object) this).isEmpty()) {
+		if (MMMidnightLibConfig.masksConcealNameplates && !MaskTrinketItem.getMask((PlayerEntity) (Object) this).isEmpty()) {
 			cir.setReturnValue(false);
 		}
 	}

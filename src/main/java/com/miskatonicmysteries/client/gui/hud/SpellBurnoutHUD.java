@@ -17,7 +17,6 @@ import net.minecraft.client.render.VertexFormats;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix4f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 

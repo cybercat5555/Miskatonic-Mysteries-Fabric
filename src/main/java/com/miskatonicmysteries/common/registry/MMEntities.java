@@ -97,10 +97,6 @@ public class MMEntities {
 	public static final EntityType<FeasterEntity> FEASTER = FabricEntityTypeBuilder
 		.create(SpawnGroup.MONSTER, FeasterEntity::new).dimensions(EntityDimensions.fixed(2F, 3F)).trackRangeBlocks(64).build();
 
-	public static final EntityType<ManiaCloudProjectileEntity> MANIA_PROJECTILE = FabricEntityTypeBuilder
-			.<ManiaCloudProjectileEntity>create(SpawnGroup.MISC, ManiaCloudProjectileEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F))
-			.trackRangeBlocks(16).build();
-
 	public static final MemoryModuleType<GlobalPos> CONGREGATION_POINT = MemoryModuleTypeAccessor.invokeRegister(
 		Constants.MOD_ID + ":congregation_point",
 		GlobalPos.CODEC
@@ -217,8 +213,6 @@ public class MMEntities {
 
 		RegistryUtil.register(Registry.ENTITY_TYPE, "feaster", FEASTER);
 		FabricDefaultAttributeRegistry.register(FEASTER, FeasterEntity.createAttributes());
-
-		RegistryUtil.register(Registry.ENTITY_TYPE, "mania_projectile", MANIA_PROJECTILE);
 
 		RegistryUtil.register(Registry.ENTITY_TYPE, "guard_dog", GUARD_DOG);
 		FabricDefaultAttributeRegistry.register(GUARD_DOG, MobEntity.createMobAttributes()
