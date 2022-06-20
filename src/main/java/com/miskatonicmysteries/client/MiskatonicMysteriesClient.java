@@ -93,8 +93,8 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
@@ -152,12 +152,12 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.YELLOW_SIGN, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(MMObjects.INFESTED_WHEAT_CROP, RenderLayer.getCutout());
 
-		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE, ChemistrySetBlockRender::new);
-		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.ALTAR_BLOCK_ENTITY_TYPE, AltarBlockRender::new);
-		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, OctagramBlockRender::new);
-		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.STATUE_BLOCK_ENTITY_TYPE, StatueBlockRender::new);
-		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE, MasterpieceStatueBlockRender::new);
-		BlockEntityRendererRegistry.INSTANCE.register(MMObjects.HASTUR_OBELISK_BLOCK_ENTITY_TYPE, ObeliskBlockRender::new);
+		BlockEntityRendererRegistry.register(MMObjects.CHEMISTRY_SET_BLOCK_ENTITY_TYPE, ChemistrySetBlockRender::new);
+		BlockEntityRendererRegistry.register(MMObjects.ALTAR_BLOCK_ENTITY_TYPE, AltarBlockRender::new);
+		BlockEntityRendererRegistry.register(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, OctagramBlockRender::new);
+		BlockEntityRendererRegistry.register(MMObjects.STATUE_BLOCK_ENTITY_TYPE, StatueBlockRender::new);
+		BlockEntityRendererRegistry.register(MMObjects.MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE, MasterpieceStatueBlockRender::new);
+		BlockEntityRendererRegistry.register(MMObjects.HASTUR_OBELISK_BLOCK_ENTITY_TYPE, ObeliskBlockRender::new);
 	}
 
 	private void registerEntityRenderers() {
