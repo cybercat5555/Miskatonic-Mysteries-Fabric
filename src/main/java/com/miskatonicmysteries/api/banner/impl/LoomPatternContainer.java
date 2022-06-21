@@ -1,11 +1,14 @@
 package com.miskatonicmysteries.api.banner.impl;
 
+import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.Constants.NBT;
+
 import net.minecraft.nbt.NbtList;
 
 import java.util.List;
 
 public interface LoomPatternContainer {
-    String NBT_KEY = "Bannermm_LoomPatterns";
+    String NBT_KEY = NBT.BANNER_PP_TAG;
 
     List<LoomPatternData> bannermm_getLoomPatterns();
 

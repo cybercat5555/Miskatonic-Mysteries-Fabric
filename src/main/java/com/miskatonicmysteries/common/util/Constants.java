@@ -119,7 +119,7 @@ public class Constants {
 		public static final String BANNER_BASE = "Base";
 		public static final String BANNER_PATTERN = "Pattern";
 		public static final String BANNER_COLOR = "Color";
-		public static final String BANNER_PP_TAG = "Bannerpp_LoomPatterns";
+		public static final String BANNER_PP_TAG = "Bannermm_LoomPatterns";
 		public static final String POWER_POOL = "MaxPower";
 		public static final String MAX_SPELLS = "MaxSpells";
 		public static final String SPELL_LIST = "SpellList";
@@ -167,6 +167,9 @@ public class Constants {
 		public static final String SUMMONED = "Summoned";
 		public static final String PAINTING_STATUS = "PaintingStatus";
 		public static final String REST_TICKS = "RestTicks";
+		public static final String TYPE = "Type";
+		public static final String PLAYERS = "Players";
+		public static final String NEGATED = "Negated";
 	}
 
 	public static class DataTrackers {
