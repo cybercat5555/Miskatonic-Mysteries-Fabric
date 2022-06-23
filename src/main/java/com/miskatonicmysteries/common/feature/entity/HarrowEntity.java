@@ -147,6 +147,7 @@ public class HarrowEntity extends PathAwareEntity {
 								 @Nullable EntityData entityData, @Nullable NbtCompound entityTag) {
 		if (spawnReason != SpawnReason.MOB_SUMMONED) {
 			summoned = false;
+			setLifeTicks(60);
 		}
 		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 	}
