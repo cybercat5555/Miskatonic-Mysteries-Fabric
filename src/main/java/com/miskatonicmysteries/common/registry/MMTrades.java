@@ -220,8 +220,8 @@ public class MMTrades {
 
 		@Nullable
 		public TradeOffer create(Entity entity, Random random) {
-			StatueBlock block = StatueBlock.STATUES.stream().filter(statue -> !statue.isSupernatural()).collect(Collectors.toList())
-				.get(random.nextInt(StatueBlock.STATUES.size()));
+			List<StatueBlock> blocks = StatueBlock.STATUES.stream().filter(statue -> !statue.isBuffed()).collect(Collectors.toList());
+			StatueBlock block = blocks.get(random.nextInt(blocks.size()));
 			return new TradeOffer(new ItemStack(Items.EMERALD, this.price), new ItemStack(block.asItem()),
 								  this.maxUses, this.experience, this.multiplier);
 		}
