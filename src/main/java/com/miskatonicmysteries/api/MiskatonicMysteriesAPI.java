@@ -13,6 +13,7 @@ import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.toast.KnowledgeToastPacket;
+import com.miskatonicmysteries.common.handler.predicate.ConfigurablePredicate;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMCriteria;
 import com.miskatonicmysteries.common.registry.MMRegistries;
@@ -23,6 +24,7 @@ import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -56,6 +58,21 @@ public class MiskatonicMysteriesAPI {
 			return affiliation;
 		}
 	};
+
+	public static final TrackedDataHandler<ConfigurablePredicate> CONFIG_TRACKER = new TrackedDataHandler<>() {
+		public void write(PacketByteBuf packetByteBuf, ConfigurablePredicate config) {
+			packetByteBuf.writeNbt(config.writeNbt(new NbtCompound()));
+		}
+
+		public ConfigurablePredicate read(PacketByteBuf packetByteBuf) {
+			return ConfigurablePredicate.fromNbt(packetByteBuf.readNbt());
+		}
+
+		public ConfigurablePredicate copy(ConfigurablePredicate config) {
+			return config.copy();
+		}
+	};
+
 	private static final Map<RegistryKey<Biome>, BiomeEffect> biomeEffects = new HashMap<>();
 
 	public static Affiliation getApparentAffiliationFromEquipment(@Nullable ItemStack exclude, LivingEntity entity) {
@@ -148,6 +165,14 @@ public class MiskatonicMysteriesAPI {
 
 	public static Affiliation getNonNullAffiliation(Object obj, boolean apparent) {
 		return Affiliated.of(obj).map(affiliated -> affiliated.getAffiliation(apparent)).orElse(MMAffiliations.NONE);
+	}
+
+	public static Affiliation getPracticallyApparentAffiliation(Object obj) {
+		Affiliation apparent = getNonNullAffiliation(obj, true);
+		if (apparent == MMAffiliations.NONE) {
+			return getNonNullAffiliation(obj, false);
+		}
+		return apparent;
 	}
 
 	public static int getAscensionStage(Object object) {

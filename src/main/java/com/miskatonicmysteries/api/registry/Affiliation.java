@@ -6,6 +6,8 @@ import com.miskatonicmysteries.common.util.Constants;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 import java.util.Arrays;
@@ -22,7 +24,7 @@ public class Affiliation {
 	protected float[] color;
 
 	public Affiliation(Identifier id, float[] color, Blessing... blessings) {
-		this(id, color, 0xFFFFFF, 0xFFFFFF, blessings);
+		this(id, color, 0xFFFFFFFF, 0xFFFFFF, blessings);
 	}
 
 	public Affiliation(Identifier id, float[] color, int textColor, int textColorSecondary, Blessing... blessings) {
@@ -71,6 +73,14 @@ public class Affiliation {
 	}
 
 	public Identifier getToastTextureLocation() {
-		return new Identifier(getId().getNamespace(), "textures/gui/toasts/toast_" + id.getPath() + ".png");
+		return new Identifier(getId().getNamespace(), String.format("textures/gui/toasts/toast_%s.png", id.getPath()));
+	}
+
+	public Text getLocalizedName() {
+		return new TranslatableText(String.format("affiliation.%s.%s", id.getNamespace(), id.getPath()));
+	}
+
+	public Identifier getIconTextureLocation() {
+		return new Identifier(getId().getNamespace(), String.format("textures/gui/icons/%s.png", id.getPath()));
 	}
 }

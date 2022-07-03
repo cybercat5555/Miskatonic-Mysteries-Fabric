@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
+import com.miskatonicmysteries.api.registry.ConfigurablePredicateType;
 import com.miskatonicmysteries.api.registry.InsanityEvent;
 import com.miskatonicmysteries.api.registry.InsanityInducer;
 import com.miskatonicmysteries.api.registry.Rite;
@@ -21,6 +22,8 @@ public class MMRegistries {
 		.createSimple(Affiliation.class, new Identifier(Constants.MOD_ID, "affiliations")).buildAndRegister();
 	public static final Registry<Blessing> BLESSINGS = FabricRegistryBuilder
 		.createSimple(Blessing.class, new Identifier(Constants.MOD_ID, "blessings")).buildAndRegister();
+	public static final Registry<ConfigurablePredicateType> CONFIGURABLE_PREDICATES = FabricRegistryBuilder
+		.createSimple(ConfigurablePredicateType.class, new Identifier(Constants.MOD_ID, "predicates")).buildAndRegister();
 	public static final Registry<InsanityEvent> INSANITY_EVENTS = FabricRegistryBuilder
 		.createSimple(InsanityEvent.class, new Identifier(Constants.MOD_ID, "insanity_events")).buildAndRegister();
 	public static final Registry<InsanityInducer> INSANITY_INDUCERS = FabricRegistryBuilder

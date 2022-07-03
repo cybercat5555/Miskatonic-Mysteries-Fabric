@@ -42,8 +42,7 @@ public class IncantationYogItem extends Item {
 		if (!stack.hasNbt() || !stack.getNbt().contains(Constants.NBT.DIMENSION)) {
 			return null;
 		}
-		return world.getServer().getWorld(RegistryKey
-											  .of(Registry.WORLD_KEY, new Identifier(stack.getNbt().getString(Constants.NBT.DIMENSION))));
+		return world.getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY, new Identifier(stack.getNbt().getString(Constants.NBT.DIMENSION))));
 	}
 
 	public static void clear(ItemStack stack) {

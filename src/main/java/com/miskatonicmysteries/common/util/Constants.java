@@ -170,6 +170,9 @@ public class Constants {
 		public static final String TYPE = "Type";
 		public static final String PLAYERS = "Players";
 		public static final String NEGATED = "Negated";
+		public static final String MODE = "Mode";
+		public static final String PREDICATE = "Predicate";
+		public static final String EXCLUDE_PLAYERS = "ExcludePlayers";
 	}
 
 	public static class DataTrackers {

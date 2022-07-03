@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.feature.entity.painting;
 
 import com.miskatonicmysteries.common.feature.entity.GuardDogEntity;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SmokeEffectPacket;
+import com.miskatonicmysteries.common.handler.predicate.ConfigurableTargetPredicate;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMEntities.PaintingMotives;
 import com.miskatonicmysteries.common.util.Constants.NBT;
@@ -42,10 +43,16 @@ public class ManosPaintingEntity extends MagicPaintingEntity {
 		this.motive = PaintingMotives.GUARDIAN;
 	}
 
-	public ManosPaintingEntity(World world, BlockPos pos, Direction direction, UUID owner) {
+	public ManosPaintingEntity(World world, BlockPos pos, Direction direction, PlayerEntity owner) {
 		super(MMEntities.GUARDIAN_PAINTING, world, pos, direction, MMEntities.PaintingMotives.GUARDIAN, owner);
 	}
 
+	@Override
+	protected ConfigurableTargetPredicate buildDefaultPredicate() {
+		ConfigurableTargetPredicate t = super.buildDefaultPredicate();
+		t.excludePlayers = true;
+		return t;
+	}
 
 	@Override
 	protected void updateAttachmentPosition() {
@@ -99,7 +106,7 @@ public class ManosPaintingEntity extends MagicPaintingEntity {
 	}
 
 	public boolean canTarget(Entity entity) {
-		return (entity instanceof MobEntity && entity instanceof Monster) || (entity instanceof PlayerEntity p && !isOwner(p) && !p.isCreative());
+		return getPredicate().test(entity);
 	}
 
 	public byte getPaintingStatus() {

@@ -43,7 +43,7 @@ public class SudokuScreen extends Screen {
 	private List<LiteralText> infoText;
 
 	public SudokuScreen(Identifier style) {
-		super(new TranslatableText(Constants.MOD_ID + ".gui.spell_select"));
+		super(new TranslatableText(Constants.MOD_ID + ".gui.sudoku"));
 		fillTiles(tiles);
 		this.style = style;
 	}

@@ -52,52 +52,52 @@ import java.util.List;
 public class MMEntities {
 
 	public static final EntityType<ProtagonistEntity> PROTAGONIST = FabricEntityTypeBuilder.create(SpawnGroup.MISC, ProtagonistEntity::new)
-		.spawnableFarFromPlayer().dimensions(EntityDimensions.fixed(0.6F, 1.95F)).trackRangeBlocks(48).build();
+		.spawnableFarFromPlayer().dimensions(EntityDimensions.fixed(0.6F, 1.95F)).trackRangeChunks(48).build();
 	public static final EntityType<HasturCultistEntity> HASTUR_CULTIST = FabricEntityTypeBuilder
 		.create(SpawnGroup.AMBIENT, HasturCultistEntity::new).spawnableFarFromPlayer().dimensions(EntityDimensions.fixed(0.6F, 1.95F))
-		.trackRangeBlocks(16).build();
+		.trackRangeChunks(16).build();
 	public static final EntityType<SpellProjectileEntity> SPELL_PROJECTILE = FabricEntityTypeBuilder
 		.<SpellProjectileEntity>create(SpawnGroup.MISC, SpellProjectileEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F))
-		.trackRangeBlocks(4).build();
+		.trackRangeChunks(4).build();
 	public static final EntityType<BoltEntity> BOLT = FabricEntityTypeBuilder.<BoltEntity>create(SpawnGroup.MISC, BoltEntity::new)
-		.disableSaving().dimensions(EntityDimensions.fixed(0.0F, 0.0F)).trackRangeBlocks(16).trackedUpdateRate(Integer.MAX_VALUE).build();
+		.disableSaving().dimensions(EntityDimensions.fixed(0.0F, 0.0F)).trackRangeChunks(16).trackedUpdateRate(Integer.MAX_VALUE).build();
 	public static final EntityType<PhantasmaEntity> PHANTASMA = FabricEntityTypeBuilder.create(SpawnGroup.AMBIENT, PhantasmaEntity::new)
-		.dimensions(EntityDimensions.fixed(0.6F, 0.6F)).trackRangeBlocks(12).build();
+		.dimensions(EntityDimensions.fixed(0.6F, 0.6F)).trackRangeChunks(12).build();
 	public static final EntityType<AberrationEntity> ABERRATION = FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, AberrationEntity::new)
-		.dimensions(EntityDimensions.fixed(0.7F, 0.7F)).trackRangeBlocks(16).build();
+		.dimensions(EntityDimensions.fixed(0.7F, 0.7F)).trackRangeChunks(16).build();
 	public static final EntityType<TatteredPrinceEntity> TATTERED_PRINCE = FabricEntityTypeBuilder
-		.create(SpawnGroup.MISC, TatteredPrinceEntity::new).dimensions(EntityDimensions.fixed(1.5F, 4)).trackRangeBlocks(48).build();
+		.create(SpawnGroup.MISC, TatteredPrinceEntity::new).dimensions(EntityDimensions.fixed(1.5F, 4)).trackRangeChunks(48).build();
 	public static final EntityType<GenericTentacleEntity> GENERIC_TENTACLE = FabricEntityTypeBuilder
-		.create(SpawnGroup.MONSTER, GenericTentacleEntity::new).dimensions(EntityDimensions.fixed(0.5F, 2)).trackRangeBlocks(16).build();
+		.create(SpawnGroup.MONSTER, GenericTentacleEntity::new).dimensions(EntityDimensions.fixed(0.5F, 2)).trackRangeChunks(16).build();
 	public static final EntityType<HarrowEntity> HARROW = FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, HarrowEntity::new)
-		.dimensions(EntityDimensions.fixed(0.35F, 0.35F)).trackRangeBlocks(16).build();
+		.dimensions(EntityDimensions.fixed(0.35F, 0.35F)).trackRangeChunks(16).build();
 	public static final EntityType<ByakheeEntity> BYAKHEE = FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, ByakheeEntity::new)
-		.dimensions(EntityDimensions.fixed(2, 2)).trackRangeBlocks(16).build();
+		.dimensions(EntityDimensions.fixed(2, 2)).trackRangeChunks(16).build();
 	public static final EntityType<HallucinationEntity> HALLUCINATION = FabricEntityTypeBuilder
 		.<HallucinationEntity>create(SpawnGroup.MISC, HallucinationEntity::new).dimensions(EntityDimensions.fixed(1, 1))
-		.trackRangeBlocks(16).build();
+		.trackRangeChunks(16).build();
 	public static final EntityType<TindalosHoundEntity> TINDALOS_HOUND = FabricEntityTypeBuilder
-		.create(SpawnGroup.MONSTER, TindalosHoundEntity::new).dimensions(EntityDimensions.fixed(2F, 2F)).trackRangeBlocks(16).build();
+		.create(SpawnGroup.MONSTER, TindalosHoundEntity::new).dimensions(EntityDimensions.fixed(2F, 2F)).trackRangeChunks(16).build();
 	public static final EntityType<ManosPaintingEntity> GUARDIAN_PAINTING = FabricEntityTypeBuilder
 		.create(SpawnGroup.MISC, (EntityFactory<ManosPaintingEntity>) ManosPaintingEntity::new)
-		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeBlocks(10)
+		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeChunks(10)
 		.trackedUpdateRate(Integer.MAX_VALUE).build();
 	public static final EntityType<WallPaintingEntity> WALL_PAINTING = FabricEntityTypeBuilder
 		.create(SpawnGroup.MISC, (EntityFactory<WallPaintingEntity>) WallPaintingEntity::new)
-		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeBlocks(10)
+		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeChunks(10)
 		.trackedUpdateRate(Integer.MAX_VALUE).build();
 	public static final EntityType<PulsePaintingEntity> PULSE_PAINTING = FabricEntityTypeBuilder
 		.create(SpawnGroup.MISC, (EntityFactory<PulsePaintingEntity>) PulsePaintingEntity::new)
-		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeBlocks(10)
+		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeChunks(10)
 		.trackedUpdateRate(Integer.MAX_VALUE).build();
 	public static final EntityType<HomeyPaintingEntity> HOMEY_PAINTING = FabricEntityTypeBuilder
 		.create(SpawnGroup.MISC, (EntityFactory<HomeyPaintingEntity>) HomeyPaintingEntity::new)
-		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeBlocks(10)
+		.dimensions(EntityDimensions.changing(0.5F, 0.5F)).trackRangeChunks(10)
 		.trackedUpdateRate(Integer.MAX_VALUE).build();
 
 	public static final EntityType<GuardDogEntity> GUARD_DOG = FabricEntityTypeBuilder
 		.create(SpawnGroup.CREATURE, (EntityFactory<GuardDogEntity>) GuardDogEntity::new)
-		.dimensions(EntityDimensions.fixed(1F, 1F)).disableSaving().trackRangeBlocks(16).build();
+		.dimensions(EntityDimensions.fixed(1F, 1F)).disableSaving().trackRangeChunks(16).build();
 
 	public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper
 		.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
@@ -106,7 +106,7 @@ public class MMEntities {
 		.build();
 
 	public static final EntityType<FeasterEntity> FEASTER = FabricEntityTypeBuilder
-		.create(SpawnGroup.MONSTER, FeasterEntity::new).dimensions(EntityDimensions.fixed(2F, 3F)).trackRangeBlocks(64).build();
+		.create(SpawnGroup.MONSTER, FeasterEntity::new).dimensions(EntityDimensions.fixed(2F, 3F)).trackRangeChunks(64).build();
 
 	public static final MemoryModuleType<GlobalPos> CONGREGATION_POINT = MemoryModuleTypeAccessor.invokeRegister(
 		Constants.MOD_ID + ":congregation_point",
@@ -137,6 +137,7 @@ public class MMEntities {
 
 	public static void init() {
 		TrackedDataHandlerRegistry.register(MiskatonicMysteriesAPI.AFFILIATION_TRACKER);
+		TrackedDataHandlerRegistry.register(MiskatonicMysteriesAPI.CONFIG_TRACKER);
 		TrackedDataHandlerRegistry.register(ENTITY_TYPE_TRACKER);
 		RegistryUtil.register(Registry.ENTITY_TYPE, "protagonist", PROTAGONIST);
 		FabricDefaultAttributeRegistry.register(PROTAGONIST, PathAwareEntity.createMobAttributes()

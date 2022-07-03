@@ -17,6 +17,7 @@
 		"client.ParticleManagerMixin",
 		"client.PlayerModelMixin",
 		"client.PlayerSkinTextureAccessor",
+		"client.SocialInteractionsManagerAccessor",
 		"client.WorldRendererAccessor",
 		"client.WorldRendererMixin"
 	],

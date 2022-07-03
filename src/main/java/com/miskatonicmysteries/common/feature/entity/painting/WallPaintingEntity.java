@@ -25,14 +25,14 @@ public class WallPaintingEntity extends MagicPaintingEntity {
 		this.motive = PaintingMotives.SHINING_GATES;
 	}
 
-	public WallPaintingEntity(World world, BlockPos pos, Direction direction, UUID owner) {
+	public WallPaintingEntity(World world, BlockPos pos, Direction direction, PlayerEntity owner) {
 		super(MMEntities.WALL_PAINTING, world, pos, direction, PaintingMotives.SHINING_GATES, owner);
 	}
 
 	@Override
 	public void onPlayerCollision(PlayerEntity player) {
 		super.onPlayerCollision(player);
-		if (isOwner(player) && checkBoxIntersection(player)) {
+		if (getPredicate().test(player) && checkBoxIntersection(player)) {
 			if (noCollisionTicks == 0 && world.isClient) {
 				Box bb = getBoundingBox();
 				for (int i = 0; i < 10; i++) {
@@ -55,7 +55,7 @@ public class WallPaintingEntity extends MagicPaintingEntity {
 
 	@Override
 	public boolean collidesWith(Entity other) {
-		return !(other instanceof PaintingEntity) && !(other instanceof PlayerEntity p && isOwner(p)) && noCollisionTicks == 0;
+		return !getPredicate().test(other) && noCollisionTicks == 0;
 	}
 
 	@Override

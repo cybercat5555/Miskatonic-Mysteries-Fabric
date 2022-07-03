@@ -59,6 +59,7 @@ public class EnchantedCanvasItem extends Item {
 				if (entity.canStayAttached()) {
 					choices.add(motive);
 				}
+				entity.discard();
 			}
 			if (!choices.isEmpty()) {
 				PaintingMotive motive = choices.get(player.getRandom().nextInt(choices.size()));
@@ -67,9 +68,9 @@ public class EnchantedCanvasItem extends Item {
 				if (nbtCompound != null) {
 					EntityType.loadFromEntityNbt(world, player, entity, nbtCompound);
 				}
-				entity.onPlace();
 				world.emitGameEvent(player, GameEvent.ENTITY_PLACE, blockPos);
 				world.spawnEntity(entity);
+				entity.onPlace();
 				itemStack.decrement(1);
 				return ActionResult.CONSUME;
 			}
@@ -80,13 +81,13 @@ public class EnchantedCanvasItem extends Item {
 
 	private MagicPaintingEntity getEntityFromMotive(World world, PaintingMotive motive, BlockPos pos, Direction direction, PlayerEntity player) {
 		if (motive == PaintingMotives.SOUP_TIME) {
-			return new HomeyPaintingEntity(world, pos, direction, player.getUuid());
+			return new HomeyPaintingEntity(world, pos, direction, player);
 		}else if (motive == PaintingMotives.BLACK_STAR) {
-			return new PulsePaintingEntity(world, pos, direction, player.getUuid());
+			return new PulsePaintingEntity(world, pos, direction, player);
 		}else if (motive == PaintingMotives.SHINING_GATES) {
-			return new WallPaintingEntity(world, pos, direction, player.getUuid());
+			return new WallPaintingEntity(world, pos, direction, player);
 		}else {
-			return new ManosPaintingEntity(world, pos, direction, player.getUuid());
+			return new ManosPaintingEntity(world, pos, direction, player);
 		}
 	}
 

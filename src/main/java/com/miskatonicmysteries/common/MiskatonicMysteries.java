@@ -4,6 +4,7 @@ import com.miskatonicmysteries.api.banner.MMBannerRegistry;
 import com.miskatonicmysteries.common.feature.ModCommand;
 import com.miskatonicmysteries.common.handler.SchedulingHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.c2s.SyncConfigurationPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.ClientRiteInputPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
@@ -69,5 +70,6 @@ public class MiskatonicMysteries implements ModInitializer {
 		ServerPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, SyncSpellCasterDataPacket::handleFromClient);
 		ServerPlayNetworking.registerGlobalReceiver(SpellPacket.ID, SpellPacket::handleFromClient);
 		ServerPlayNetworking.registerGlobalReceiver(ClientRiteInputPacket.ID, ClientRiteInputPacket::handle);
+		ServerPlayNetworking.registerGlobalReceiver(SyncConfigurationPacket.ID, SyncConfigurationPacket::handleFromClient);
 	}
 }

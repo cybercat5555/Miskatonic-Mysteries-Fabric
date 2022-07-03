@@ -31,7 +31,7 @@ public class HomeyPaintingEntity extends MagicPaintingEntity {
 		this.motive = PaintingMotives.SOUP_TIME;
 	}
 
-	public HomeyPaintingEntity(World world, BlockPos pos, Direction direction, UUID owner) {
+	public HomeyPaintingEntity(World world, BlockPos pos, Direction direction, PlayerEntity owner) {
 		super(MMEntities.HOMEY_PAINTING, world, pos, direction, PaintingMotives.SOUP_TIME, owner);
 	}
 
@@ -54,16 +54,12 @@ public class HomeyPaintingEntity extends MagicPaintingEntity {
 		super.tick();
 		if (!world.isClient) {
 			if (age % 60 == 0) {
-				List<LivingEntity> targets = world.getEntitiesByClass(LivingEntity.class, detectionBox, this::canTarget);
+				List<LivingEntity> targets = world.getEntitiesByClass(LivingEntity.class, detectionBox, getPredicate());
 				for (LivingEntity target : targets) {
 					target.addStatusEffect(new StatusEffectInstance(MMStatusEffects.HOMELY, 300, 0, false, false, true), this);
 				}
 			}
 		}
-	}
-
-	public boolean canTarget(Entity entity) {
-		return entity instanceof PlayerEntity p && isOwner(p);
 	}
 
 	@Override

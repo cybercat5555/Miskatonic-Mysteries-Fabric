@@ -1,11 +1,11 @@
 package com.miskatonicmysteries.common.feature.entity.painting;
 
+import com.miskatonicmysteries.common.handler.predicate.ConfigurableTargetPredicate;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMEntities.PaintingMotives;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MovementType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.hit.HitResult;
@@ -17,7 +17,6 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 import java.util.List;
-import java.util.UUID;
 
 public class PulsePaintingEntity extends MagicPaintingEntity {
 
@@ -28,10 +27,21 @@ public class PulsePaintingEntity extends MagicPaintingEntity {
 		this.motive = PaintingMotives.BLACK_STAR;
 	}
 
-	public PulsePaintingEntity(World world, BlockPos pos, Direction direction, UUID owner) {
+	public PulsePaintingEntity(World world, BlockPos pos, Direction direction, PlayerEntity owner) {
 		super(MMEntities.PULSE_PAINTING, world, pos, direction, PaintingMotives.BLACK_STAR, owner);
 	}
 
+	@Override
+	protected ConfigurableTargetPredicate buildDefaultPredicate() {
+		ConfigurableTargetPredicate t = super.buildDefaultPredicate();
+		t.excludePlayers = true;
+		return t;
+	}
+
+	@Override
+	public void onSpawnPacket(EntitySpawnS2CPacket packet) {
+		super.onSpawnPacket(packet);
+	}
 
 	@Override
 	protected void updateAttachmentPosition() {
@@ -59,7 +69,7 @@ public class PulsePaintingEntity extends MagicPaintingEntity {
 			if (age % 20 == 0) {
 				calculateDetectionBox();
 			}
-			List<Entity> targets = world.getOtherEntities(this, detectionBox, this::canTarget);
+			List<Entity> targets = world.getOtherEntities(this, detectionBox, getPredicate());
 			Vec3d direction = new Vec3d(getHorizontalFacing().getUnitVector()).multiply(0.1);
 			for (Entity target : targets) {
 				target.addVelocity(direction.getX(), direction.getY() + 0.1, direction.getZ());
@@ -67,14 +77,5 @@ public class PulsePaintingEntity extends MagicPaintingEntity {
 				target.velocityModified = true;
 			}
 		}
-	}
-
-	public boolean canTarget(Entity entity) {
-		return !(entity instanceof PulsePaintingEntity) && (!(entity instanceof PlayerEntity p) || isOwner(p) && !p.isCreative());
-	}
-
-	@Override
-	public void onSpawnPacket(EntitySpawnS2CPacket packet) {
-		super.onSpawnPacket(packet);
 	}
 }
