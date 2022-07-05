@@ -52,7 +52,7 @@ repositories {
 	}
 	maven {
 		name = "MidnightLib"
-		url = "https://www.cursemaven.com"
+		url = "https://api.modrinth.com/maven"
 	}
 }
 dependencies {
@@ -111,7 +111,8 @@ dependencies {
 	modImplementation("com.github.emilyalexandra:trinkets:${project.trinkets_version}")
 
 	//MidnightLib
-	modImplementation "curse.maven:midnightlib-488090:${project.midnightlib_version}"
+	modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}"
+	include "maven.modrinth:midnightlib:${project.midnightlib_version}"
 
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 }

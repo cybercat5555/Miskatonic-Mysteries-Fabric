@@ -54,8 +54,7 @@
 		"patchouli": ">=1.18.1-64-FABRIC",
 		"trinkets": ">=3.1.0",
 		"cloth-config2": "*",
-		"geckolib3": ">=3.0.30",
-		"mignightlib": "*"
+		"geckolib3": ">=3.0.30"
 	},
 	"custom": {
 		"cardinal-components": [
