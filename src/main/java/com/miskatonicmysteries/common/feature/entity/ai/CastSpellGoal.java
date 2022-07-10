@@ -21,6 +21,11 @@ public class CastSpellGoal<T extends PathAwareEntity & CastingMob> extends Goal 
 	}
 
 	@Override
+	public boolean shouldRunEveryTick() {
+		return true;
+	}
+
+	@Override
 	public boolean canStart() {
 		if (internalCooldown > 0) {
 			internalCooldown--;
@@ -30,7 +35,7 @@ public class CastSpellGoal<T extends PathAwareEntity & CastingMob> extends Goal 
 
 	@Override
 	public boolean shouldContinue() {
-		return canStart() && entity.getCurrentSpell() != null;
+		return entity.getTarget() != null && entity.getCurrentSpell() != null;
 	}
 
 	@Override

@@ -50,7 +50,7 @@ public class FeasterMoveController {
 
 		@Override
 		public void tick() {
-			if (this.state == MoveControl.State.MOVE_TO) {
+			/*if (this.state == MoveControl.State.MOVE_TO) {
 				this.state = MoveControl.State.WAIT;
 				feasterEntity.setNoGravity(true);
 				float deltaX = (float) (feasterEntity.feasterMoveController.getFlightTarget().x - this.feasterEntity.getX());
@@ -92,7 +92,7 @@ public class FeasterMoveController {
 				}
 				this.entity.setUpwardSpeed(0.0F);
 				this.entity.setForwardSpeed(0.0F);
-			}
+			}*/
 		}
 	}
 }

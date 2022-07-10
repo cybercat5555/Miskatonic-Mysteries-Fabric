@@ -157,6 +157,7 @@
 	"death.attack.miskatonicmysteries.protagonist.2": "%s was defeated by a Investigator and their reign of madness is over",
 	"death.attack.miskatonicmysteries.protagonist.3": "%s awakens from a fit of madness and delirium, with the help of violence",
 	"death.attack.miskatonicmysteries.sleep": "%s did not wake up",
+	"death.attack.miskatonicmysteries.feaster": "%s was feasted upon by %s",
 	"effect.miskatonicmysteries.bleed": "Bleeding",
 	"effect.miskatonicmysteries.clairvoyance": "Clairvoyance",
 	"effect.miskatonicmysteries.exotic_cravings": "Exotic Cravings",

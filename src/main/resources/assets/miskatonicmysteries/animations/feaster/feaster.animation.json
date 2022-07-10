@@ -7230,24 +7230,40 @@
 					"scale": {
 						"0.0": {
 							"vector": [
-								"math.abs(math.sin(query.anim_time * 100) * 0.04) + 1 ",
 								1,
-								"math.abs(math.sin(query.anim_time * 100) * 0.04) + 1 "
+								1,
+								1
 							]
+						},
+						"0.18": {
+							"vector": [
+								1.02,
+								0.95,
+								1.02
+							],
+							"easing": "easeInOutQuad"
 						},
 						"0.36": {
 							"vector": [
-								"math.abs(math.sin(query.anim_time * 100) * 0.04) + 1 ",
+								0.98,
 								0.9,
-								"math.abs(math.sin(query.anim_time * 100) * 0.04) + 1 "
+								0.98
 							],
-							"easing": "easeInOutBack"
+							"easing": "easeInOutQuad"
+						},
+						"0.54": {
+							"vector": [
+								1.02,
+								0.95,
+								1.02
+							],
+							"easing": "easeInOutQuad"
 						},
 						"0.72": {
 							"vector": [
-								"math.abs(math.sin(query.anim_time * 100) * 0.04) + 1 ",
 								1,
-								"math.abs(math.sin(query.anim_time * 100) * 0.04) + 1 "
+								1,
+								1
 							]
 						}
 					}

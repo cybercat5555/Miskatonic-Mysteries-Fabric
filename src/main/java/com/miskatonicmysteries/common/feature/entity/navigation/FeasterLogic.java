@@ -13,7 +13,7 @@ public class FeasterLogic {
 	}
 
 	public void updateLogic() {
-		if(feasterEntity.isFlying()){
+		/*if(feasterEntity.isFlying()){
 			flightTicks++;
 		}else{
 			if(shouldLand() && !feasterEntity.isOnGround()){
@@ -32,14 +32,14 @@ public class FeasterLogic {
 		if (!feasterEntity.isFlying() && feasterEntity.navigationType != 0) {
 			feasterEntity.changeEntityNavigation(0);
 		}
-		if (feasterEntity.isFlying()) {
+		if (feasterEntity.isFlying()) {*/
 			/*
 			if (feasterEntity.isOnGround()) {
 				feasterEntity.changeEntityNavigation(0);
 			}
 
 			 */
-		} else {
+		} /*else {
 			if (!feasterEntity.isOnGround()) {
 				feasterEntity.changeEntityNavigation(1);
 			}
@@ -58,7 +58,7 @@ public class FeasterLogic {
 
 			}
 		}
-	}
+	}*/
 
 	public boolean shouldLand() {
 		return flightTicks > 20 * 30;

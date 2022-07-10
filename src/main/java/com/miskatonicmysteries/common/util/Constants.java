@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.util;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.feature.block.PowerCellBlock;
+import com.miskatonicmysteries.common.feature.entity.FeasterEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -173,6 +174,9 @@ public class Constants {
 		public static final String MODE = "Mode";
 		public static final String PREDICATE = "Predicate";
 		public static final String EXCLUDE_PLAYERS = "ExcludePlayers";
+		public static final String SPECIAL_MOVE = "SpecialMove";
+		public static final String TRANSITION_TICKS = "TransitionTicks";
+		public static final String IS_FLYING = "IsFlying";
 	}
 
 	public static class DataTrackers {
@@ -213,7 +217,6 @@ public class Constants {
 			}
 		}.setBypassesArmor();
 
-		public static final DamageSource FEASTER = new DamageSources("feaster").setBypassesArmor();
 
 		protected DamageSources(String name) {
 			super(Constants.MOD_ID + "." + name);
@@ -230,6 +233,15 @@ public class Constants {
 				return new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(4)),
 											entity.getDisplayName());
 			}
+		}
+
+		public static class FeasterDamageSource extends EntityDamageSource {
+
+			public FeasterDamageSource(@Nullable Entity source) {
+				super(Constants.MOD_ID + ".feaster", source);
+				setBypassesArmor();
+			}
+
 		}
 	}
 

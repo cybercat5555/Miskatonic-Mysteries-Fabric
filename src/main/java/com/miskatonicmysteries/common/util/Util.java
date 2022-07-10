@@ -129,6 +129,15 @@ public class Util {
 		return originPos.add(x, y, z);
 	}
 
+	public static Vec3d getYawRelativePosRelatively(double distance, float yaw, float pitch) {
+		float yawRadians = yaw * 0.017453292F;
+		float pitchRadians = pitch * 0.017453292F;
+		double x = distance * (-MathHelper.sin(yawRadians) * MathHelper.cos(pitchRadians));
+		double y = distance * -MathHelper.sin(pitchRadians);
+		double z = distance * (MathHelper.cos(yawRadians) * MathHelper.cos(pitchRadians));
+		return new Vec3d(x, y, z);
+	}
+
 	public static int getSlotWithStack(Inventory inventory, ItemStack stack) {
 		for (int i = 0; i < inventory.size(); ++i) {
 			if (!inventory.getStack(i).isEmpty() && ItemStack.areItemsEqual(stack, inventory.getStack(i))) {
