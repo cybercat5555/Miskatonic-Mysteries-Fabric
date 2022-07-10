@@ -41,8 +41,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MobEntityMixin extends LivingEntity implements HiddenEntity, OthervibeEntity, OthervibeMobEntityAccessor {
 
 	@Unique
-	private static final Set<Potion> FORBIDDEN_POTIONS = ImmutableSet.of(Potions.WATER, Potions.EMPTY, Potions.MUNDANE
-		, Potions.AWKWARD, Potions.THICK);
+	private static final Set<Potion> FORBIDDEN_POTIONS = ImmutableSet
+		.of(Potions.WATER, Potions.EMPTY, Potions.MUNDANE, Potions.AWKWARD, Potions.THICK);
 
 	@Unique
 	private static final TrackedData<Boolean> HIDDEN = DataTracker.registerData(MobEntity.class,

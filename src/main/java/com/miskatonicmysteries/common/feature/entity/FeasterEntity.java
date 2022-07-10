@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.feature.entity;
 
 import com.miskatonicmysteries.api.interfaces.Affiliated;
+import com.miskatonicmysteries.api.interfaces.RenderTransformable;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
@@ -25,12 +26,13 @@ import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.MobNavigation;
+import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -42,6 +44,7 @@ import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
@@ -109,13 +112,12 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 	@Override
 	protected void initGoals() {
 		super.initGoals();
-		this.goalSelector.add(0, new SwimGoal(this));
 		this.goalSelector.add(1, new SwitchMovementModeGoal());
 		this.goalSelector.add(2, new FeasterWanderGoal());
 		this.goalSelector.add(3, new DrainTargetGoal());
 		this.goalSelector.add(4, new DragTargetIntoSkyGoal());
-		this.goalSelector.add(5, new FeasterSwipeGoal());
-		this.goalSelector.add(6, new CastSpellGoal<>(this) {
+		this.goalSelector.add(6, new FeasterSwipeGoal());
+		this.goalSelector.add(5, new CastSpellGoal<>(this) {
 			@Override
 			public boolean canStart() {
 				return getDistinctMoveTicks() == 0 && isFlying() && super.canStart() && distanceTo(getTarget()) > 2;
@@ -180,7 +182,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 				}
 			}
 			if (getTarget() != null && distinctMove != GRABBED && distinctMove != GRABBING) {
-				lookAtEntity(getTarget(), getMaxLookYawChange(), getMaxLookPitchChange());
+			//	lookAtEntity(getTarget(), getMaxLookYawChange(), getMaxLookPitchChange());
 				if (isCasting() && currentSpell != null) {
 					EffectParticlePacket.send(this);
 				}
@@ -201,7 +203,6 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 	public boolean tryAttack(Entity target) {
 		if (super.tryAttack(target)) {
 			if (target instanceof LivingEntity l) {
-				System.out.println(l);
 				switch (random.nextInt(4)) {
 					case 0:
 						l.addStatusEffect(new StatusEffectInstance(MMStatusEffects.BLEED, 200, 1, true, false, false));
@@ -250,6 +251,41 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		changeNavigation();
 	}
 
+	@Override
+	public boolean canBreatheInWater() {
+		return true;
+	}
+
+	@Override
+	public boolean damage(DamageSource source, float amount) {
+		if (super.damage(source, hasEntityGrabbed() ? Math.min(amount, 2) : amount)) {
+			if (!world.isClient && random.nextFloat() < 0.2F + amount / 20F) {
+				setGrabbedEntity(null);
+			}
+			return true;
+		}
+		return false;
+	}
+
+	private void setGrabbedEntity(LivingEntity entity) {
+		this.grabbedEntity = entity;
+		this.dataTracker.set(GRABBED_ENTITY_ID, grabbedEntity == null ? -1 : entity.getId());
+		setDistinctMoveId(entity == null ? NO_MOVE : GRABBED);
+	}
+
+	@Override
+	public void takeKnockback(double strength, double x, double z) {
+		if (grabbedEntity != null) {
+			return;
+		}
+		super.takeKnockback(strength, x, z);
+	}
+
+	@Override
+	public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+		return false;
+	}
+
 	private boolean isSpecialMoveBusy() {
 		return getDistinctMoveId() != NO_MOVE;
 	}
@@ -286,6 +322,9 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 				grabbedEntity.setPosition(Util.getYawRelativePos(getPos(), 2.5, getYaw() + 25, 55));
 			} else {
 				grabbedEntity.setPosition(Util.getYawRelativePos(getPos(), 2, getYaw(), 0));
+				if (world.isClient && grabbedEntity instanceof RenderTransformable t && t.getSquishTicks() <= 0) {
+					t.squish();
+				}
 			}
 		}
 	}
@@ -387,36 +426,6 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		}
 	}
 
-	@Override
-	public boolean damage(DamageSource source, float amount) {
-		if (super.damage(source, amount)) {
-			if (!world.isClient && random.nextFloat() < 0.25F) {
-				setGrabbedEntity(null);
-			}
-			return true;
-		}
-		return false;
-	}
-
-	private void setGrabbedEntity(LivingEntity entity) {
-		this.grabbedEntity = entity;
-		this.dataTracker.set(GRABBED_ENTITY_ID, grabbedEntity == null ? -1 : entity.getId());
-		setDistinctMoveId(entity == null ? NO_MOVE : GRABBED);
-	}
-
-	@Override
-	public void takeKnockback(double strength, double x, double z) {
-		if (grabbedEntity != null) {
-			return;
-		}
-		super.takeKnockback(strength, x, z);
-	}
-
-	@Override
-	public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
-		return false;
-	}
-
 	private void changeFlightMode() {
 		setDistinctMoveId(CHANGE_FLIGHT);
 		setDistinctMoveTicks(31); //animation durations
@@ -480,7 +489,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 
 		@Override
 		public boolean canStart() {
-			return !transitionsFlight() && super.canStart();
+			return getTarget() == null && !transitionsFlight() && super.canStart();
 		}
 
 		@Override
@@ -555,10 +564,15 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 	}
 
 	private class DragTargetIntoSkyGoal extends Goal {
+		private int cooldown;
+		public DragTargetIntoSkyGoal() {
+			super();
+			setControls(EnumSet.of(Control.MOVE));
+		}
 
 		@Override
 		public boolean canStart() {
-			return getTarget() != null && isFlying() && canGrab(getTarget());
+			return cooldown-- <= 0 && getTarget() != null && isFlying() && canGrab(getTarget());
 		}
 
 		private boolean canGrab(LivingEntity target) {
@@ -582,6 +596,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 			super.stop();
 			setDistinctMoveTicks(0);
 			setGrabbedEntity(null);
+			cooldown = 60;
 		}
 
 		@Override
@@ -611,7 +626,12 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 
 	private class DrainTargetGoal extends Goal {
 
-		int cooldown = 60;
+		private int cooldown = 60;
+
+		public DrainTargetGoal() {
+			super();
+			setControls(EnumSet.of(Control.MOVE));
+		}
 
 		@Override
 		public boolean canStart() {
@@ -665,6 +685,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 			} else if (distinctMove == GRABBED) {
 				if (grabbedEntity != null) {
 					if (age % 20 == 0) {
+						playSound(SoundEvents.ITEM_HONEY_BOTTLE_DRINK, 0.8F, 0.5F);
 						grabbedEntity.damage(new Constants.DamageSources.FeasterDamageSource(FeasterEntity.this), 2);
 					}
 				} else {
@@ -675,10 +696,25 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 	}
 
 	private class FeasterSwipeGoal extends Goal {
+		private Path path;
+		private int updateTicks;
+		private double targetX, targetY, targetZ;
+		public FeasterSwipeGoal() {
+			super();
+			this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+		}
 
 		@Override
 		public boolean canStart() {
-			return getTarget() != null && getDistinctMoveId() == NO_MOVE && getDistinctMoveTicks() == 0 && canHit(getTarget());
+			if (random.nextBoolean()) {
+				return false;
+			}
+			LivingEntity target = getTarget();
+			if (getTarget() != null) {
+				this.path = getNavigation().findPathTo(target, 32);
+				return path != null;
+			}
+			return false;
 		}
 
 		private boolean canHit(LivingEntity target) {
@@ -694,7 +730,14 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 
 		@Override
 		public boolean shouldContinue() {
-			return getTarget() != null && getDistinctMoveId() == ATTACK;
+			LivingEntity livingEntity = getTarget();
+			if (livingEntity == null) {
+				return false;
+			}
+			if (!livingEntity.isAlive()) {
+				return false;
+			}
+			return isInWalkTargetRange(livingEntity.getBlockPos());
 		}
 
 		@Override
@@ -708,6 +751,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		public void stop() {
 			super.stop();
 			setDistinctMoveTicks(0);
+			getNavigation().stop();
 		}
 
 		@Override
@@ -718,12 +762,38 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		@Override
 		public void tick() {
 			super.tick();
-			int progress = getDistinctMoveTicks();
-			if (progress == 4) {
-				List<Entity> entities = world
-					.getOtherEntities(FeasterEntity.this, getBoundingBox().expand(5, 5, 5), entity -> entity instanceof LivingEntity l && canHit(l));
-				for (Entity entity : entities) {
-					FeasterEntity.this.tryAttack(entity);
+			byte currentMove = getDistinctMoveId();
+			LivingEntity target = getTarget();
+			if (currentMove == NO_MOVE && getDistinctMoveTicks() == 0 && canHit(target)) {
+				setDistinctMoveId(ATTACK);
+				setDistinctMoveTicks(14);
+			}
+			double distance = squaredDistanceTo(target.getX(), target.getY(), target.getZ());
+			getLookControl().lookAt(target, 30.0f, 30.0f);
+			if ((getVisibilityCache().canSee(target)) && this.updateTicks <= 0 && (this.targetX == 0.0 && this.targetY == 0.0 && this.targetZ == 0.0 || target.squaredDistanceTo(this.targetX, this.targetY, this.targetZ) >= 1.0 || getRandom().nextFloat() < 0.05f)) {
+				this.targetX = target.getX();
+				this.targetY = target.getY();
+				this.targetZ = target.getZ();
+				this.updateTicks = 4 + getRandom().nextInt(7);
+				if (distance > 1024.0) {
+					this.updateTicks += 10;
+				} else if (distance > 256.0) {
+					this.updateTicks += 5;
+				}
+				if (!getNavigation().startMovingTo(targetX, targetY + (isFlying() ? 2 : 0), targetZ, isFlying() ? 1.2 : 1.0D)) {
+					this.updateTicks += 15;
+				}
+			}
+			updateTicks = Math.max(updateTicks - 1, 0);
+			if (currentMove == ATTACK) {
+				int progress = getDistinctMoveTicks();
+				if (progress == 4) {
+					List<Entity> entities = world
+						.getOtherEntities(FeasterEntity.this, getBoundingBox().expand(5, 5, 5),
+										  entity -> entity instanceof LivingEntity l && canHit(l));
+					for (Entity entity : entities) {
+						FeasterEntity.this.tryAttack(entity);
+					}
 				}
 			}
 		}

@@ -5,10 +5,14 @@ import com.miskatonicmysteries.api.interfaces.Appeasable;
 import com.miskatonicmysteries.api.interfaces.BiomeAffected;
 import com.miskatonicmysteries.api.interfaces.DropManipulator;
 import com.miskatonicmysteries.api.interfaces.HiddenEntity;
+import com.miskatonicmysteries.api.interfaces.RenderTransformable;
 import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -33,7 +37,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements DropManipulator, BiomeAffected {
+public abstract class LivingEntityMixin extends Entity implements DropManipulator, BiomeAffected, RenderTransformable {
+	@Unique @Environment(EnvType.CLIENT) int mm_squishTicks = 0;
 
 	@Unique
 	private boolean overrideDrops;
@@ -58,6 +63,10 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 
 			if (currentBiomeEffect != null) {
 				currentBiomeEffect.tickFor((LivingEntity) (Object) this);
+			}
+		} else {
+			if (getSquishTicks() > 0) {
+				mm_squishTicks--;
 			}
 		}
 	}
@@ -161,5 +170,17 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 			}
 			ci.cancel();
 		}
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public int getSquishTicks() {
+		return mm_squishTicks;
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	public void squish() {
+		this.mm_squishTicks = 20;
 	}
 }
