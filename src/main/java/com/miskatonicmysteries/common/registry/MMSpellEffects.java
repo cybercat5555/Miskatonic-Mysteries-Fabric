@@ -7,6 +7,7 @@ import com.miskatonicmysteries.common.feature.spell.effect.FireSpellEffect;
 import com.miskatonicmysteries.common.feature.spell.effect.HarrowSpellEffect;
 import com.miskatonicmysteries.common.feature.spell.effect.HealSpellEffect;
 import com.miskatonicmysteries.common.feature.spell.effect.KnockBackSpellEffect;
+import com.miskatonicmysteries.common.feature.spell.effect.ManiaCloudSpellEffect;
 import com.miskatonicmysteries.common.feature.spell.effect.ManiaSpellEffect;
 import com.miskatonicmysteries.common.feature.spell.effect.PulseSpellEffect;
 import com.miskatonicmysteries.common.feature.spell.effect.ResistanceSpellEffect;
@@ -26,7 +27,7 @@ public class MMSpellEffects {
 	public static final SpellEffect HARROWS = new HarrowSpellEffect();
 	public static final SpellEffect CLAIRVOYANCE = new ClairvoyanceSpellEffect();
 	public static final SpellEffect PULSE = new PulseSpellEffect();
-
+	public static final SpellEffect MANIA_CLOUD = new ManiaCloudSpellEffect();
 
 	public static void init() {
 		register(DAMAGE);
@@ -39,6 +40,7 @@ public class MMSpellEffects {
 		register(HARROWS);
 		register(CLAIRVOYANCE);
 		register(PULSE);
+		register(MANIA_CLOUD);
 	}
 
 	private static void register(SpellEffect effect) {

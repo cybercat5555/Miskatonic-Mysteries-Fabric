@@ -54,6 +54,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import javax.annotation.Nullable;
+import org.lwjgl.system.CallbackI.S;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -116,14 +117,20 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		this.goalSelector.add(2, new FeasterWanderGoal());
 		this.goalSelector.add(3, new DrainTargetGoal());
 		this.goalSelector.add(4, new DragTargetIntoSkyGoal());
-		this.goalSelector.add(6, new FeasterSwipeGoal());
-		this.goalSelector.add(5, new CastSpellGoal<>(this) {
+		this.goalSelector.add(5, new FeasterSwipeGoal());
+		this.goalSelector.add(6, new CastSpellGoal<>(this) {
 			@Override
 			public boolean canStart() {
-				return getDistinctMoveTicks() == 0 && isFlying() && super.canStart() && distanceTo(getTarget()) > 2;
+				return getDistinctMoveTicks() == 0 && isFlying() && super.canStart() && distanceTo(getTarget()) > 6 && distanceToGround() < 16 && random.nextBoolean();
+			}
+
+			@Override
+			public void stop() {
+				super.stop();
+				setDistinctMoveTicks(0);
 			}
 		});
-
+		this.goalSelector.add(7, new MoveUpToTargetGoal());
 		this.targetSelector.add(1, new RevengeGoal(this));
 		this.targetSelector.add(2, new ActiveTargetGoal<>(this, LivingEntity.class, 0, false, false, entity -> entity instanceof MobEntity));
 	}
@@ -360,7 +367,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		AnimationBuilder builder = new AnimationBuilder();
 		byte specialId = getDistinctMoveId();
 		boolean flying = isFlying();
-		if (specialId != NO_MOVE && specialId != GRABBED) {
+		if (specialId != NO_MOVE && specialId != GRABBED && specialId != PREPARING_SPELL) {
 			if (specialId == CHANGE_FLIGHT) {
 				if (flying) {
 					builder.addAnimation("animation.feaster.land", false);
@@ -474,7 +481,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		boolean bolt = random.nextBoolean() || getTarget() != null && getTarget().distanceTo(getTarget()) > 4 || getTarget()
 			.hasStatusEffect(MMStatusEffects.MANIA);
 		SpellMedium medium = bolt ? MMSpellMediums.BOLT : MMSpellMediums.PROJECTILE;
-		SpellEffect effect = bolt ? MMSpellEffects.DAMAGE : MMSpellEffects.MANIA;
+		SpellEffect effect = bolt ? MMSpellEffects.DAMAGE : MMSpellEffects.MANIA_CLOUD;
 		setDistinctMoveId(PREPARING_SPELL);
 		return new Spell(medium, effect, 1);
 	}
@@ -576,7 +583,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		}
 
 		private boolean canGrab(LivingEntity target) {
-			return target.getBoundingBox().intersects(getBoundingBox().expand(1, 2, 1).offset(0, -2, 0));
+			return target.getBoundingBox().intersects(getBoundingBox().expand(2, 2, 2).offset(0, -2, 0));
 		}
 
 		@Override
@@ -696,25 +703,14 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 	}
 
 	private class FeasterSwipeGoal extends Goal {
-		private Path path;
-		private int updateTicks;
-		private double targetX, targetY, targetZ;
 		public FeasterSwipeGoal() {
 			super();
-			this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+			setControls(EnumSet.of(Control.MOVE));
 		}
 
 		@Override
 		public boolean canStart() {
-			if (random.nextBoolean()) {
-				return false;
-			}
-			LivingEntity target = getTarget();
-			if (getTarget() != null) {
-				this.path = getNavigation().findPathTo(target, 32);
-				return path != null;
-			}
-			return false;
+			return getTarget() != null && canHit(getTarget());
 		}
 
 		private boolean canHit(LivingEntity target) {
@@ -734,10 +730,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 			if (livingEntity == null) {
 				return false;
 			}
-			if (!livingEntity.isAlive()) {
-				return false;
-			}
-			return isInWalkTargetRange(livingEntity.getBlockPos());
+			return livingEntity.isAlive() && getDistinctMoveId() == ATTACK;
 		}
 
 		@Override
@@ -751,7 +744,6 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		public void stop() {
 			super.stop();
 			setDistinctMoveTicks(0);
-			getNavigation().stop();
 		}
 
 		@Override
@@ -763,28 +755,6 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		public void tick() {
 			super.tick();
 			byte currentMove = getDistinctMoveId();
-			LivingEntity target = getTarget();
-			if (currentMove == NO_MOVE && getDistinctMoveTicks() == 0 && canHit(target)) {
-				setDistinctMoveId(ATTACK);
-				setDistinctMoveTicks(14);
-			}
-			double distance = squaredDistanceTo(target.getX(), target.getY(), target.getZ());
-			getLookControl().lookAt(target, 30.0f, 30.0f);
-			if ((getVisibilityCache().canSee(target)) && this.updateTicks <= 0 && (this.targetX == 0.0 && this.targetY == 0.0 && this.targetZ == 0.0 || target.squaredDistanceTo(this.targetX, this.targetY, this.targetZ) >= 1.0 || getRandom().nextFloat() < 0.05f)) {
-				this.targetX = target.getX();
-				this.targetY = target.getY();
-				this.targetZ = target.getZ();
-				this.updateTicks = 4 + getRandom().nextInt(7);
-				if (distance > 1024.0) {
-					this.updateTicks += 10;
-				} else if (distance > 256.0) {
-					this.updateTicks += 5;
-				}
-				if (!getNavigation().startMovingTo(targetX, targetY + (isFlying() ? 2 : 0), targetZ, isFlying() ? 1.2 : 1.0D)) {
-					this.updateTicks += 15;
-				}
-			}
-			updateTicks = Math.max(updateTicks - 1, 0);
 			if (currentMove == ATTACK) {
 				int progress = getDistinctMoveTicks();
 				if (progress == 4) {
@@ -796,6 +766,89 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 					}
 				}
 			}
+		}
+	}
+
+	private class MoveUpToTargetGoal extends Goal {
+		private final double speed = 1.0D;
+		private Path path;
+		private int updateCountdownTicks, cooldown;
+		private double targetX, targetY, targetZ;
+
+		public MoveUpToTargetGoal() {
+			super();
+			this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
+		}
+
+		@Override
+		public boolean canStart() {
+			LivingEntity target = getTarget();
+			if (getTarget() != null) {
+				this.path = getNavigation().findPathTo(target, 32);
+				return path != null;
+			}
+			return false;
+		}
+
+		@Override
+		public boolean shouldContinue() {
+			LivingEntity livingEntity = getTarget();
+			if (livingEntity == null) {
+				return false;
+			}
+			if (!livingEntity.isAlive()) {
+				return false;
+			}
+			return isInWalkTargetRange(livingEntity.getBlockPos()) && distanceTo(getTarget()) > 3;
+		}
+
+		@Override
+		public void start() {
+			super.start();
+			getNavigation().startMovingAlong(this.path, this.speed);
+			this.updateCountdownTicks = 0;
+			this.cooldown = 0;
+		}
+
+		@Override
+		public void stop() {
+			super.stop();
+			getNavigation().stop();
+		}
+
+		@Override
+		public boolean shouldRunEveryTick() {
+			return true;
+		}
+
+		@Override
+		public void tick() {
+			super.tick();
+			LivingEntity livingEntity = getTarget();
+			if (livingEntity == null) {
+				return;
+			}
+			getLookControl().lookAt(livingEntity, 30.0f, 30.0f);
+			double d = squaredDistanceTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ());
+			this.updateCountdownTicks = Math.max(this.updateCountdownTicks - 1, 0);
+			if (getVisibilityCache().canSee(livingEntity) && this.updateCountdownTicks <= 0 &&
+				(this.targetX == 0.0 && this.targetY == 0.0 && this.targetZ == 0.0 ||
+					livingEntity.squaredDistanceTo(this.targetX, this.targetY, this.targetZ) >= 1.0 || getRandom().nextFloat() < 0.05f)) {
+				this.targetX = livingEntity.getX();
+				this.targetY = livingEntity.getY();
+				this.targetZ = livingEntity.getZ();
+				this.updateCountdownTicks = 4 + getRandom().nextInt(7);
+				if (d > 1024.0) {
+					this.updateCountdownTicks += 10;
+				} else if (d > 256.0) {
+					this.updateCountdownTicks += 5;
+				}
+				if (!getNavigation().startMovingTo(livingEntity, this.speed)) {
+					this.updateCountdownTicks += 15;
+				}
+				this.updateCountdownTicks = this.getTickCount(this.updateCountdownTicks);
+			}
+			this.cooldown = Math.max(this.cooldown - 1, 0);
 		}
 	}
 }

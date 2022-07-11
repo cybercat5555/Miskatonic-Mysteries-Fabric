@@ -1,6 +1,9 @@
 package com.miskatonicmysteries.common.feature.entity;
 
 import com.miskatonicmysteries.api.registry.SpellEffect;
+import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.ProjectileSpellEffectPacket;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMSpellMediums;
@@ -81,9 +84,9 @@ public class SpellProjectileEntity extends ThrownEntity {
 				world.sendEntityStatus(l, (byte) 29);
 				return;
 			}
-			getSpell()
-				.effect(world, (LivingEntity) getOwner(), entityHitResult.getEntity(), entityHitResult.getPos(), MMSpellMediums.PROJECTILE,
+			getSpell().effect(world, (LivingEntity) getOwner(), entityHitResult.getEntity(), entityHitResult.getPos(), MMSpellMediums.PROJECTILE,
 						getIntensity(), this);
+			ProjectileSpellEffectPacket.send(this, entityHitResult.getEntity(), entityHitResult.getPos());
 		}
 	}
 
@@ -102,6 +105,7 @@ public class SpellProjectileEntity extends ThrownEntity {
 		if (getOwner() instanceof LivingEntity && getSpell() != null) {
 			getSpell()
 				.effect(world, (LivingEntity) getOwner(), null, blockHitResult.getPos(), MMSpellMediums.PROJECTILE, getIntensity(), this);
+			ProjectileSpellEffectPacket.send(this, null, blockHitResult.getPos());
 		}
 	}
 

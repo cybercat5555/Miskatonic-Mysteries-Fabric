@@ -63,6 +63,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.ManiaCloudPa
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.MobSpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ModifyBlessingPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.OpenSpellEditorPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.ProjectileSpellEffectPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SmokeEffectPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
@@ -237,6 +238,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(SpellMediumToastPacket.ID, SpellMediumToastPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(BlessingToastPacket.ID, BlessingToastPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(InfestWheatPacket.ID, InfestWheatPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(ProjectileSpellEffectPacket.ID, ProjectileSpellEffectPacket::handle);
 	}
 
 	private void registerArmorRenderers() {
