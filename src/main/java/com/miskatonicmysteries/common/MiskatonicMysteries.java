@@ -29,19 +29,17 @@ import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
+import me.shedaniel.autoconfig.example.ExampleInits;
+import software.bernie.example.GeckoLibMod;
+import software.bernie.example.client.renderer.entity.ExampleGeoRenderer;
+import software.bernie.geckolib3.GeckoLib;
+
 public class MiskatonicMysteries implements ModInitializer {
-
-	//public static MMConfig config;
-
-	static {
-		//AutoConfig.register(MMConfig.class, JanksonConfigSerializer::new);
-		//config = AutoConfig.getConfigHolder(MMConfig.class).getConfig();
-	}
 
 	@Override
 	public void onInitialize() {
 		MMMidnightLibConfig.init(Constants.MOD_ID, MMMidnightLibConfig.class);
-
+		GeckoLibMod.DISABLE_IN_DEV = true;
 		MMAffiliations.init();
 		MMBlessings.init();
 		MMObjects.init();

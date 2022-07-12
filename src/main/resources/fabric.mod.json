@@ -53,7 +53,6 @@
 		"minecraft": "1.18.x",
 		"patchouli": ">=1.18.1-64-FABRIC",
 		"trinkets": ">=3.1.0",
-		"cloth-config2": "*",
 		"geckolib3": "*"
 	},
 	"custom": {

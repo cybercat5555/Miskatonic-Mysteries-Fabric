@@ -9,17 +9,17 @@ public class MMMidnightLibConfig extends MidnightConfig {
 	public static int protagonistAggressionThreshold = 700;
 	@Entry(min = 0, max = 1)
 	public static float yellowSerfPercentage = 0.25F;
-	@Entry
-	public static boolean subtlety = true;
 	@Entry(min = 0, max = 1)
 	public static float statueEffectChance = 0.4F;
 
 	@Comment public static Comment mechanics;
+
+	@Entry
+	public static boolean subtlety = true;
 	@Entry
 	public static int modUpdateInterval = 20;
 	@Entry
 	public static int maxStabilizers = 12;
-
 
 
 	@Comment public static Comment items;
