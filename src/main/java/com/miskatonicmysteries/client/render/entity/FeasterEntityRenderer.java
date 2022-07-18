@@ -25,19 +25,9 @@ import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 @Environment(EnvType.CLIENT)
 public class FeasterEntityRenderer extends GeoEntityRenderer<FeasterEntity> {
-	private final EntityRenderDispatcher dispatcher;
 	public FeasterEntityRenderer(EntityRendererFactory.Context context) {
 		super(context, new FeasterModel());
 		this.shadowRadius = 1F;
-		dispatcher = context.getRenderDispatcher();
-	}
-
-	@Override
-	public void render(GeoModel model, FeasterEntity animatable, float partialTicks, RenderLayer type, MatrixStack matrixStackIn,
-					   VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn, int packedOverlayIn, float red,
-					   float green, float blue, float alpha) {
-		super.render(model, animatable, partialTicks, type, matrixStackIn, renderTypeBuffer, vertexBuilder, packedLightIn, packedOverlayIn,
-					 red, green, blue, alpha);
 	}
 
 	@Override
@@ -48,6 +38,6 @@ public class FeasterEntityRenderer extends GeoEntityRenderer<FeasterEntity> {
 
 	@Override
 	public boolean shouldRender(FeasterEntity entity, Frustum frustum, double x, double y, double z) {
-		return !entity.isInvisible();
+		return !entity.isInvisible() && super.shouldRender(entity, frustum, x, y, z);
 	}
 }

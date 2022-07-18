@@ -89,7 +89,6 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 	private final EntityNavigation groundNavigation;
 	@Nullable
 	public Spell currentSpell;
-	//store both moveControls here, switch accordingly
 	private AnimationFactory factory = new AnimationFactory(this);
 	private LivingEntity grabbedEntity;
 
@@ -202,7 +201,6 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 				}
 			}
 			if (getTarget() != null && distinctMove != GRABBED && distinctMove != GRABBING) {
-			//	lookAtEntity(getTarget(), getMaxLookYawChange(), getMaxLookPitchChange());
 				if (isCasting() && currentSpell != null) {
 					EffectParticlePacket.send(this);
 				}
@@ -262,7 +260,6 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		return dataTracker.get(IS_FLYING);
 	}
 
-	//the byte tracker is set to a byte depending on the distinct move: landing/takeoff, mania spell, lightning spell... always check the byte flag so animations don't overlap
 	public void setFlying(boolean flying) {
 		if (getDistinctMoveTicks() > 0) {
 			setDistinctMoveTicks(0);
