@@ -6,6 +6,9 @@ import com.miskatonicmysteries.api.interfaces.BiomeAffected;
 import com.miskatonicmysteries.api.interfaces.DropManipulator;
 import com.miskatonicmysteries.api.interfaces.HiddenEntity;
 import com.miskatonicmysteries.api.interfaces.RenderTransformable;
+import com.miskatonicmysteries.common.feature.effect.BleedStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.BrainDrainStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.ExoticCravingsStatusEffect;
 import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
@@ -20,6 +23,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
@@ -27,12 +31,16 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
+import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -44,6 +52,8 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 	private boolean overrideDrops;
 	@Unique
 	private BiomeEffect currentBiomeEffect;
+	@Unique
+	private DamageSource currentDamageSource;
 
 	public LivingEntityMixin(EntityType<?> type, World world) {
 		super(type, world);
@@ -80,16 +90,7 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 
 	@Inject(method = "eatFood", at = @At("HEAD"), cancellable = true)
 	private void eatFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
-		if (hasStatusEffect(MMStatusEffects.EXOTIC_CRAVINGS)) {
-			if (!stack.isIn(Constants.Tags.GROSS_FOOD)) {
-				damage(DamageSource.STARVE, 4);
-			} else {
-				StatusEffectInstance instance = getStatusEffect(MMStatusEffects.EXOTIC_CRAVINGS);
-				removeStatusEffect(MMStatusEffects.EXOTIC_CRAVINGS);
-				addStatusEffect(new StatusEffectInstance(instance.getEffectType(), instance
-					.getDuration() - (200 - instance.getAmplifier() * 40), instance.getAmplifier(), false, true));
-			}
-		}
+		ExoticCravingsStatusEffect.onFoodEaten((LivingEntity) (Object) this, stack);
 	}
 
 	@Shadow
@@ -116,10 +117,16 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 
 	@Inject(method = "heal", at = @At("HEAD"), cancellable = true)
 	private void preventHeal(float amount, CallbackInfo callbackInfo) {
-		if (hasStatusEffect(MMStatusEffects.BLEED) && getRandom()
-			.nextFloat() < 0.4 + 0.2 * getStatusEffect(MMStatusEffects.BLEED).getAmplifier()) {
-			callbackInfo.cancel();
-		}
+		BleedStatusEffect.onTryHeal((LivingEntity) (Object) this, callbackInfo);
+	}
+
+	@Inject(method = "damage", at = @At("HEAD"))
+	private void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+		currentDamageSource = source;
+	}
+	@ModifyVariable(method = "damage", at = @At(value = "HEAD", shift = Shift.BY, by = 1), argsOnly = true)
+	private float modifyDamage(float original) {
+		return BrainDrainStatusEffect.onDamage((LivingEntity) (Object) this, currentDamageSource, original);
 	}
 
 	@Shadow

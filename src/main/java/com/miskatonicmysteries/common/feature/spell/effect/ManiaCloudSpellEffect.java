@@ -31,13 +31,10 @@ public class ManiaCloudSpellEffect extends SpellEffect {
 	@Override
 	public boolean effect(World world, LivingEntity caster, @Nullable Entity target, @Nullable Vec3d pos, SpellMedium medium, int intensity,
 						  @Nullable Entity secondaryMedium) {
-
-		System.out.println(world.isClient);
 		if (pos != null) {
 			Box box = new Box(pos.add(-2, -2, -2), pos.add(2, 2, 2));
 			List<LivingEntity> entities = world.getEntitiesByClass(LivingEntity.class, box, entity -> entity != caster);
 			if (world.isClient) {
-				System.out.println("awawaw");
 				spawnParticles(world, caster, pos);
 			}
 			for (LivingEntity entity : entities) {

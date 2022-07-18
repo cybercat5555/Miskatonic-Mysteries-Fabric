@@ -1,8 +1,6 @@
 package com.miskatonicmysteries.common.feature.entity;
 
 import com.miskatonicmysteries.api.registry.SpellEffect;
-import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.ProjectileSpellEffectPacket;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMRegistries;

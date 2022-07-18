@@ -15,6 +15,7 @@ import com.miskatonicmysteries.api.registry.SpellMedium;
 import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.MMServerEvents;
 import com.miskatonicmysteries.common.component.AscendantComponent;
+import com.miskatonicmysteries.common.feature.effect.BrainDrainStatusEffect;
 import com.miskatonicmysteries.common.feature.entity.TindalosHoundEntity;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
@@ -72,6 +73,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -141,6 +143,11 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 		if (!world.isClient && age > 100 && age % MMMidnightLibConfig.insanityInterval == 0) {
 			InsanityHandler.handleInsanityEvents((PlayerEntity) (Object) this);
 		}
+	}
+
+	@ModifyVariable(method = "addExperience", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+	private int addExperience(int experience) {
+		return BrainDrainStatusEffect.onExperienceGained((PlayerEntity) (Object) this, experience);
 	}
 
 	@Shadow

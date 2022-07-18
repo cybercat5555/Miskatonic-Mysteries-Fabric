@@ -694,6 +694,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 					if (age % 20 == 0) {
 						playSound(SoundEvents.ITEM_HONEY_BOTTLE_DRINK, 0.8F, 0.5F);
 						grabbedEntity.damage(new Constants.DamageSources.FeasterDamageSource(FeasterEntity.this), 2);
+						grabbedEntity.addStatusEffect(new StatusEffectInstance(MMStatusEffects.BRAIN_DRAIN, 1200, 0, true, true));
 					}
 				} else {
 					stop();

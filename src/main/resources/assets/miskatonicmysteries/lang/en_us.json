@@ -159,6 +159,7 @@
 	"death.attack.miskatonicmysteries.sleep": "%s did not wake up",
 	"death.attack.miskatonicmysteries.feaster": "%s was feasted upon by %s",
 	"effect.miskatonicmysteries.bleed": "Bleeding",
+	"effect.miskatonicmysteries.brain_drain": "Brain Drain",
 	"effect.miskatonicmysteries.clairvoyance": "Clairvoyance",
 	"effect.miskatonicmysteries.exotic_cravings": "Exotic Cravings",
 	"effect.miskatonicmysteries.homely": "Homely",

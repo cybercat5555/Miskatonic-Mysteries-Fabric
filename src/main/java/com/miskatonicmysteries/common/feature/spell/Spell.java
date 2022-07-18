@@ -67,8 +67,7 @@ public class Spell {
 				cooldownMod -= (instance.getAmplifier() + 1) * 20;
 				intensityMod += Math.round(instance.getAmplifier() * 0.75F);
 			}
-			if (Ascendant.of(caster).isPresent() && MiskatonicMysteriesAPI
-				.hasBlessing(Ascendant.of(caster).get(), MMBlessings.MAGIC_BOOST)) {
+			if (Ascendant.of(caster).isPresent() && MiskatonicMysteriesAPI.hasBlessing(Ascendant.of(caster).get(), MMBlessings.MAGIC_BOOST)) {
 				intensityMod++;
 			}
 			if (spellCaster.isPresent() && !(caster instanceof PlayerEntity && ((PlayerEntity) caster).isCreative())) {
