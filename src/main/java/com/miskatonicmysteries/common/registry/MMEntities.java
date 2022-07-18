@@ -99,14 +99,14 @@ public class MMEntities {
 		.create(SpawnGroup.CREATURE, (EntityFactory<GuardDogEntity>) GuardDogEntity::new)
 		.dimensions(EntityDimensions.fixed(1F, 1F)).disableSaving().trackRangeChunks(16).build();
 
+	public static final EntityType<FeasterEntity> FEASTER = FabricEntityTypeBuilder
+		.create(SpawnGroup.MONSTER, FeasterEntity::new).dimensions(EntityDimensions.fixed(2F, 3F)).trackRangeChunks(12).build();
+
 	public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper
 		.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
 	public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create()
 		.id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW)
 		.build();
-
-	public static final EntityType<FeasterEntity> FEASTER = FabricEntityTypeBuilder
-		.create(SpawnGroup.MONSTER, FeasterEntity::new).dimensions(EntityDimensions.fixed(2F, 3F)).trackRangeChunks(64).build();
 
 	public static final MemoryModuleType<GlobalPos> CONGREGATION_POINT = MemoryModuleTypeAccessor.invokeRegister(
 		Constants.MOD_ID + ":congregation_point",

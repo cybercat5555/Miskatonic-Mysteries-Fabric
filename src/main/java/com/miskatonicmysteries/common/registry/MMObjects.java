@@ -345,7 +345,7 @@ public class MMObjects {
 	public static final Item TINDALOS_HOUND_SPAWN_EGG = new SpawnEggItem(MMEntities.TINDALOS_HOUND, 0x0b5c8c, 0x284b7f,
 																		 new Item.Settings().group(Constants.MM_GROUP));
 	public static final Item FEASTER_SPAWN_EGG = new SpawnEggItem(MMEntities.FEASTER, 0xB87F2A, 0x702659,
-			new Item.Settings().group(Constants.MM_GROUP));
+																  new Item.Settings().group(Constants.MM_GROUP));
 
 	public static final Item ELEGANT_MASK = new MaskTrinketItem(MMAffiliations.HASTUR, false,
 																new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
