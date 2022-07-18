@@ -16,6 +16,7 @@ import net.fabricmc.api.Environment;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -74,6 +75,14 @@ public abstract class MagicPaintingEntity extends PaintingEntity implements Affi
 			}
 		}
 		return p;
+	}
+
+	@Override
+	public boolean isInvulnerableTo(DamageSource damageSource) {
+		if (damageSource.getAttacker() == null || (damageSource.getAttacker() instanceof PlayerEntity p && !isOwner(p) && !p.isCreative())) {
+			return true;
+		}
+		return super.isInvulnerableTo(damageSource);
 	}
 
 	public @Nullable UUID getOwnerUuid() {

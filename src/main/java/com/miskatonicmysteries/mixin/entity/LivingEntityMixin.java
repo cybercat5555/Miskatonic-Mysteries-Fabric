@@ -124,7 +124,8 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 	private void onDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
 		currentDamageSource = source;
 	}
-	@ModifyVariable(method = "damage", at = @At(value = "HEAD", shift = Shift.BY, by = 1), argsOnly = true)
+
+	@ModifyVariable(method = "damage", at = @At("HEAD"), argsOnly = true)
 	private float modifyDamage(float original) {
 		return BrainDrainStatusEffect.onDamage((LivingEntity) (Object) this, currentDamageSource, original);
 	}

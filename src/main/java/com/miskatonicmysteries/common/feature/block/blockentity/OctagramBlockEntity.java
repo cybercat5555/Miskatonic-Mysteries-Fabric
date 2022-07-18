@@ -9,6 +9,7 @@ import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.feature.item.IncantationYogItem;
 import com.miskatonicmysteries.common.feature.recipe.instability_event.InstabilityEvent;
+import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
@@ -170,7 +171,8 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		if (tickCount % MMMidnightLibConfig.modUpdateInterval == 0) {
 			calculateInstability();
 		}
-		if (tickCount % 20 == 0 && world.random.nextFloat() * (currentRite.isPermanent(this) ? 10 : 4) < instability) {
+		if ((!(currentRite instanceof TriggeredRite) || triggered) && tickCount % 20 == 0 &&
+			world.random.nextFloat() * (currentRite.isPermanent(this) ? 10 : 4) < instability) {
 			List<InstabilityEvent> possibleEvents = MMRegistries.INSTABILITY_EVENTS.stream()
 				.filter(e -> e.shouldCast(this, instability)).collect(Collectors.toList());
 			if (possibleEvents.size() > 0) {

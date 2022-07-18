@@ -422,14 +422,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 		return knowledge;
 	}
 
-	@Environment(EnvType.CLIENT)
-	@Inject(method = "shouldRenderName", at = @At("HEAD"), cancellable = true)
-	private void shouldRenderName(CallbackInfoReturnable<Boolean> cir) {
-		if (MMMidnightLibConfig.masksConcealNameplates && !MaskTrinketItem.getMask((PlayerEntity) (Object) this).isEmpty()) {
-			cir.setReturnValue(false);
-		}
-	}
-
 	@Override
 	public void addBlessing(Blessing blessing) {
 		ascendantComponent.addBlessing(blessing);

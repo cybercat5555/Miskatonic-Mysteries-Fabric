@@ -17,6 +17,7 @@
 		"client.MobEntityRendererMixin",
 		"client.ParticleManagerMixin",
 		"client.PlayerModelMixin",
+		"client.PlayerEntityRendererMixin",
 		"client.PlayerSkinTextureAccessor",
 		"client.SocialInteractionsManagerAccessor",
 		"client.WorldRendererAccessor",

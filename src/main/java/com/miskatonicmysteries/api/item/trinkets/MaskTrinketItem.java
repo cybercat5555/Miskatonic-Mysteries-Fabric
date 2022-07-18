@@ -31,8 +31,7 @@ public class MaskTrinketItem extends TrinketItem implements Affiliated {
 
 	public static ItemStack getMask(PlayerEntity player) {
 		Optional<List<Pair<SlotReference, ItemStack>>> masks = TrinketsApi.getTrinketComponent(player)
-			.map(component ->
-					 component.getEquipped(stack -> stack.getItem() instanceof MaskTrinketItem));
+			.map(component -> component.getEquipped(stack -> stack.getItem() instanceof MaskTrinketItem));
 		if (masks.isPresent() && !masks.get().isEmpty()) {
 			return masks.get().get(0).getRight();
 		}
