@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.feature.entity;
 
+import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.interfaces.RenderTransformable;
 import com.miskatonicmysteries.api.registry.Affiliation;
@@ -41,8 +42,11 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.mob.IllagerEntity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -131,8 +135,17 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 			}
 		});
 		this.goalSelector.add(7, new MoveUpToTargetGoal());
-		this.targetSelector.add(1, new RevengeGoal(this));
-		this.targetSelector.add(2, new ActiveTargetGoal<>(this, LivingEntity.class, 0, false, false, entity -> entity instanceof MobEntity));
+		this.targetSelector.add(1, new RevengeGoal(this, FeasterEntity.class, HasturCultistEntity.class, TatteredPrinceEntity.class));
+		this.targetSelector.add(2, new ActiveTargetGoal<>(this, LivingEntity.class, 10, false, true, entity -> {
+			if (entity instanceof RaiderEntity) {
+				return true;
+			}
+			Affiliation affiliation = MiskatonicMysteriesAPI.getPracticallyApparentAffiliation(entity);
+			if (affiliation == MMAffiliations.HASTUR) {
+				return false;
+			}
+			return affiliation != MMAffiliations.NONE || entity instanceof PlayerEntity;
+		}));
 	}
 
 	@Override
