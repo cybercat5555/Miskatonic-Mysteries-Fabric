@@ -447,7 +447,7 @@
 	"miskatonicmysteries.midnightconfig.tranquilizedSanityBonus.tooltip": "The base-amount of sanity regenerated after sleeping while tranquilized",
 	"miskatonicmysteries.midnightconfig.tranquilizedSanityCapRegainChance": "Tranquilized: Regain Chance",
 	"miskatonicmysteries.midnightconfig.tranquilizedSanityCapRegainChance.tooltip": "The chance of regaining a bit of normally permanently lost sanity after sleeping while tranquilized",
-	"tmiskatonicmysteries.midnightconfig.world": "§n§lWorld",
+	"miskatonicmysteries.midnightconfig.world": "§n§lWorld",
 	"miskatonicmysteries.midnightconfig.hasturShrineWeight": "Hastur Shrine (Weight)",
 	"miskatonicmysteries.midnightconfig.hasturShrineWeight.tooltip": "The chance for Hastur Shrines to form the center of villages;\nthe higher the value, the likelier they are to appear",
 	"miskatonicmysteries.midnightconfig.infestedWheatChance": "Infested Wheat Chance",
