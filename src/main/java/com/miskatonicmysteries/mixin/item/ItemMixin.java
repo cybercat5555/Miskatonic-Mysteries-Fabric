@@ -3,6 +3,7 @@ package com.miskatonicmysteries.mixin.item;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.common.MMMidnightLibConfig;
+import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
@@ -52,8 +53,8 @@ public abstract class ItemMixin {
 			&& user.getRandom().nextInt(MMMidnightLibConfig.modUpdateInterval) == 0) {
 			if (stack.hasNbt() && stack.getNbt().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) != null) {
 				NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
-				if (compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) && Util
-					.isValidYellowSign(compoundTag.getList(Constants.NBT.BANNER_PP_TAG, 10))) {
+				if (compoundTag != null && compoundTag.contains(Constants.NBT.BANNER_PP_TAG, 9) &&
+					Util.isValidYellowSign(compoundTag.getList(Constants.NBT.BANNER_PP_TAG, 10))) {
 					int distance = 16 * 16;
 					Vec3d vec3d = user.getCameraPosVec(1);
 					Vec3d vec3d2 = user.getRotationVec(1);
@@ -65,7 +66,7 @@ public abstract class ItemMixin {
 					if (hit != null && hit.getEntity() instanceof LivingEntity && ((LivingEntity) hit.getEntity()).canSee(user)
 						&& !MiskatonicMysteriesAPI.isImmuneToYellowSign((LivingEntity) hit.getEntity())) {
 						LivingEntity target = (LivingEntity) hit.getEntity();
-						if (user instanceof MobEntity && target != ((MobEntity) user).getTarget()) {
+						if (user instanceof MobEntity m && target != m.getTarget()) {
 							return;
 						}
 						target.addStatusEffect(new StatusEffectInstance(MMStatusEffects.MANIA, 200, 1, false, true));

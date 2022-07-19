@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.common.feature.item;
 
-import com.miskatonicmysteries.api.banner.loom.LoomPatternItem;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Constants.Tags;
@@ -34,6 +33,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatternItem;
 import org.jetbrains.annotations.Nullable;
 
 public class YellowSignPatternItem extends LoomPatternItem {

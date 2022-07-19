@@ -194,6 +194,12 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 			.getOptionalMemory(MemoryModuleType.ATTACK_TARGET).get() : super.getAttacking();
 	}
 
+	@Nullable
+	@Override
+	public LivingEntity getTarget() {
+		return getAttacking();
+	}
+
 	@Override
 	protected Brain<?> deserializeBrain(Dynamic<?> dynamic) {
 		Brain<VillagerEntity> brain = this.createBrainProfile().deserialize(dynamic);

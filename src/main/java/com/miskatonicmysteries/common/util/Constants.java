@@ -120,7 +120,7 @@ public class Constants {
 		public static final String BANNER_BASE = "Base";
 		public static final String BANNER_PATTERN = "Pattern";
 		public static final String BANNER_COLOR = "Color";
-		public static final String BANNER_PP_TAG = "Bannermm_LoomPatterns";
+		public static final String BANNER_PP_TAG = "Bannerpp_LoomPatterns";
 		public static final String POWER_POOL = "MaxPower";
 		public static final String MAX_SPELLS = "MaxSpells";
 		public static final String SPELL_LIST = "SpellList";

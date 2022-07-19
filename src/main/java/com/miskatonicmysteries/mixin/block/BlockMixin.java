@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.mixin.block;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
-import com.miskatonicmysteries.api.banner.impl.LoomPatternContainer;
 import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.handler.InsanityHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
@@ -21,6 +20,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
+import io.github.fablabsmc.fablabs.impl.bannerpattern.iface.LoomPatternContainer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -41,7 +41,7 @@ public abstract class BlockMixin extends AbstractBlock {
 			InsanityHandler.handleClientSideBlockChange(client.player, world, state, pos, random);
 		} else if ((state.getBlock() instanceof AbstractBannerBlock) && random.nextInt(5) == 0
 			&& world.getBlockEntity(pos) instanceof LoomPatternContainer.Internal internal
-			&& Util.isValidYellowSign(internal.bannermm_getLoomPatternTag())) {
+			&& Util.isValidYellowSign(internal.bannerpp_getLoomPatternTag())) {
 			Vec3d posTracked = client.player.raycast(100, client.getTickDelta(), false).getPos();
 			if (posTracked != null && pos.isWithinDistance(posTracked, 1.5F) && !MiskatonicMysteriesAPI.isImmuneToYellowSign(client.player)) {
 				InvokeManiaPacket.send(1, 200 + random.nextInt(200));

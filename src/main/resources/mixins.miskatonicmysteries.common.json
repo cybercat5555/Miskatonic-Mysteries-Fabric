@@ -6,13 +6,10 @@
 	"mixins": [
 		"BrewingRecipeRegistryAccessor",
 		"biomes.ChunkSectionAccessor",
-		"block.BannerBlockEntityMixin",
 		"block.BlockMixin",
 		"block.ConduitBlockEntityMixin",
 		"block.CropBlockMixin",
 		"block.JukeboxBlockMixin",
-		"block.LoomContainerMixin",
-		"block.LoomContainerPatternSlotMixin",
 		"block.StonecutterScreenHandlerMixin",
 		"entity.ActiveTargetGoalMixin",
 		"entity.EntityMixin",

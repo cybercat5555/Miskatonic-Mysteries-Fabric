@@ -1,7 +1,5 @@
 package com.miskatonicmysteries.common.registry;
 
-import com.miskatonicmysteries.api.banner.loom.LoomPattern;
-import com.miskatonicmysteries.api.banner.loom.LoomPatterns;
 import com.miskatonicmysteries.api.block.AltarBlock;
 import com.miskatonicmysteries.api.block.ObeliskBlock;
 import com.miskatonicmysteries.api.block.OctagramBlock;
@@ -72,6 +70,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 
+import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPattern;
+import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatterns;
 import team.reborn.energy.api.EnergyStorage;
 
 public class MMObjects {

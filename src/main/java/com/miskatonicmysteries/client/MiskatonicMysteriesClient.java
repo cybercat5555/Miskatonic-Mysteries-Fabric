@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.client;
 
-import com.miskatonicmysteries.api.banner.MMBannerRegistry;
 import com.miskatonicmysteries.api.block.AltarBlock;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
@@ -140,7 +139,6 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		VisionHandler.init();
 		registerPackets();
 		MMClientEvents.init();
-		MMBannerRegistry.registerBannerClient();
 	}
 
 	private void registerBlockRenderers() {
