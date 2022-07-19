@@ -74,7 +74,6 @@ public class ModCommand {
 
 		LiteralArgumentBuilder<ServerCommandSource> sanity = CommandManager.literal("sanity");
 
-		builder.then(sanity);
 		sanity.then(CommandManager.literal("get")
 						.executes(context -> giveSanityFeedback(context, context.getSource().getPlayer()))
 						.then(queryPlayers().executes(context -> giveSanityFeedback(context, collectPlayers(context)))));
@@ -113,6 +112,7 @@ public class ModCommand {
 		sanityExpansion.then(CommandManager.literal("clear").executes(context -> clearSanityExpansions(context, context.getSource().getPlayer()))
 								 .then(queryPlayers().executes(context -> clearSanityExpansions(context, collectPlayers(context)))));
 		sanity.then(sanityExpansion);
+		builder.then(sanity);
 
 		LiteralArgumentBuilder<ServerCommandSource> blessingBuilder = CommandManager.literal("blessings");
 		LiteralArgumentBuilder<ServerCommandSource> addBlessingBuilder = CommandManager.literal("addBlessing");
@@ -126,6 +126,7 @@ public class ModCommand {
 										   .executes(context -> removeBlessing(context, blessingId, context.getSource().getPlayer()))
 										   .then(queryPlayer().executes(context -> removeBlessing(context, blessingId, collectPlayer(context)))));
 		}
+
 		blessingBuilder.then(addBlessingBuilder);
 		blessingBuilder.then(removeBlessingBuilder);
 		blessingBuilder.then(CommandManager.literal("get").executes(context -> giveBlessingFeedback(context, context.getSource().getPlayer()))
@@ -379,7 +380,7 @@ public class ModCommand {
 	}
 
 	private static ServerPlayerEntity collectPlayer(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-		return EntityArgumentType.getPlayer(context, "players");
+		return EntityArgumentType.getPlayer(context, "player");
 	}
 
 	private static int setSanity(CommandContext<ServerCommandSource> context, int value, ServerPlayerEntity player) throws CommandSyntaxException {
