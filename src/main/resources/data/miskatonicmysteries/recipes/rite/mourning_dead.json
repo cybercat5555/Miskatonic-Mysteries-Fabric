@@ -1,0 +1,21 @@
+{
+	"type": "miskatonicmysteries:rite_recipe",
+	"ingredients": [
+		{
+			"item": "minecraft:ghast_tear"
+		},
+		{
+			"item": "minecraft:snowball"
+		},
+		{
+			"item": "minecraft:blaze_powder"
+		},
+		{
+			"item": "minecraft:charcoal"
+		},
+		{
+			"item": "minecraft:phantom_membrane"
+		}
+	],
+	"rite": "miskatonicmysteries:mourning_dead"
+}

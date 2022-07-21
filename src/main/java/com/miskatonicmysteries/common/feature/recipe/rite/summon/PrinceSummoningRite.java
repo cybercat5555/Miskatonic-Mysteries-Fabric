@@ -4,10 +4,10 @@ import com.miskatonicmysteries.client.render.entity.TatteredPrinceRenderer;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMEntities;
-import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMSpellEffects;
@@ -16,9 +16,7 @@ import com.miskatonicmysteries.common.util.Constants;
 
 import net.minecraft.client.model.Model;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.TranslatableText;
@@ -32,16 +30,12 @@ public class PrinceSummoningRite extends SummoningRite<TatteredPrinceEntity> {
 
 	public PrinceSummoningRite() {
 		super(new Identifier(Constants.MOD_ID, "summon_prince"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.75F, 0,
-			  MMEntities.TATTERED_PRINCE,
-			  Ingredient.ofItems(MMObjects.INCANTATION_YOG), Ingredient.ofItems(MMObjects.YELLOW_SIGN_LOOM_PATTERN),
-			  Ingredient.ofItems(Items.ANCIENT_DEBRIS), Ingredient.fromTag(Constants.Tags.OCEANIC_GOLD_BLOCKS_ITEM),
-			  Ingredient.ofItems(Items.GOLDEN_HELMET), Ingredient.ofItems(Items.DIAMOND),
-			  Ingredient.fromTag(Constants.Tags.HASTUR_CULTIST_OFFERINGS), Ingredient.ofItems(MMObjects.ORNATE_DAGGER));
+			  MMEntities.TATTERED_PRINCE);
 	}
 
 	@Override
-	public boolean canCast(OctagramBlockEntity octagram) {
-		if (super.canCast(octagram) && octagram.getOriginalCaster() != null) {
+	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
+		if (super.canCast(octagram, baseRecipe) && octagram.getOriginalCaster() != null) {
 			World world = octagram.getWorld();
 			PlayerEntity originalCaster = octagram.getOriginalCaster();
 			if (originalCaster.isCreative()) {

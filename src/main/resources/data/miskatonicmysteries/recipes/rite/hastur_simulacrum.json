@@ -1,0 +1,30 @@
+{
+	"type": "miskatonicmysteries:rite_recipe",
+	"ingredients": [
+		{
+			"item": "minecraft:nether_star"
+		},
+		{
+			"item": "miskatonicmysteries:incantation_yog"
+		},
+		{
+			"tag": "miskatonicmysteries:hastur_statues"
+		},
+		{
+			"item": "minecraft:diamond"
+		},
+		{
+			"item": "minecraft:emerald"
+		},
+		{
+			"item": "miskatonicmysteries:yellow_sign_banner_pattern"
+		},
+		{
+			"tag": "miskatonicmysteries:oceanic_gold_blocks"
+		},
+		{
+			"item": "minecraft:ancient_debris"
+		}
+	],
+	"rite": "miskatonicmysteries:hastur_simulacrum"
+}

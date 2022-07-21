@@ -1,0 +1,18 @@
+{
+	"type": "miskatonicmysteries:rite_recipe",
+	"ingredients": [
+		{
+			"item": "miskatonicmysteries:iridescent_pearl"
+		},
+		{
+			"item": "minecraft:phantom_membrane"
+		},
+		{
+			"item": "minecraft:ender_pearl"
+		},
+		{
+			"item": "miskatonicmysteries:infested_wheat"
+		}
+	],
+	"rite": "miskatonicmysteries:broken_veil"
+}

@@ -5,6 +5,7 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.gui.SudokuScreen;
 import com.miskatonicmysteries.client.vision.VisionHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState.BiomeKnot;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
@@ -227,7 +228,7 @@ public abstract class BiomeConversionRite extends AscensionLockedRite {
 	}
 
 	@Override
-	public boolean canCast(OctagramBlockEntity octagram) {
+	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
 		PlayerEntity caster = octagram.getOriginalCaster();
 		if (octagram.getOriginalCaster() == null) {
 			return false;
@@ -248,7 +249,7 @@ public abstract class BiomeConversionRite extends AscensionLockedRite {
 			caster.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.pillars"), true);
 			return false;
 		}
-		return super.canCast(octagram);
+		return super.canCast(octagram, baseRecipe);
 	}
 
 	@Environment(EnvType.CLIENT)

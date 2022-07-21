@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.recipe.instability_event.EntropyInstabilityEvent;
 import com.miskatonicmysteries.common.feature.recipe.instability_event.InstabilityEvent;
 import com.miskatonicmysteries.common.feature.recipe.instability_event.MobsInstabilityEvent;
@@ -20,7 +21,6 @@ import com.miskatonicmysteries.common.feature.recipe.rite.SculptorRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.TeleportRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.summon.ByakheeSummoningRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.summon.PrinceSummoningRite;
-import com.miskatonicmysteries.common.util.InventoryUtil;
 
 import net.minecraft.util.registry.Registry;
 
@@ -73,8 +73,7 @@ public class MMRites {
 	}
 
 	public static Rite getRite(OctagramBlockEntity octagram) {
-		return MMRegistries.RITES.stream()
-			.filter(r -> (!r.prioritiseRecipe() || InventoryUtil.areItemStackListsExactlyEqual(r.getIngredients(), octagram)) && r.canCast(octagram))
-			.findFirst().orElse(null);
+		RiteRecipe recipe = MMRecipes.getRiteRecipe(octagram);
+		return recipe != null && recipe.rite.canCast(octagram, recipe) ? recipe.rite : null;
 	}
 }

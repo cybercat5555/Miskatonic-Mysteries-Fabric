@@ -1,0 +1,54 @@
+{
+	"type": "miskatonicmysteries:rite_recipe",
+	"ingredients": [
+		{
+			"item": "minecraft:clay"
+		},
+		{
+			"item": "minecraft:yellow_dye"
+		},
+		{
+			"item": "miskatonicmysteries:iridescent_pearl"
+		},
+		[
+			{
+				"tag": "minecraft:terracotta"
+			},
+			{
+				"item": "minecraft:stone"
+			},
+			{
+				"tag": "miskatonicmysteries:elderian_blocks"
+			}
+		],
+		[
+			{
+				"tag": "minecraft:terracotta"
+			},
+			{
+				"item": "minecraft:stone"
+			},
+			{
+				"tag": "miskatonicmysteries:elderian_blocks"
+			}
+		],
+		[
+			{
+				"tag": "minecraft:terracotta"
+			},
+			{
+				"item": "minecraft:stone"
+			},
+			{
+				"tag": "miskatonicmysteries:elderian_blocks"
+			}
+		],
+		{
+			"item": "miskatonicmysteries:iridescent_pearl"
+		},
+		{
+			"item": "miskatonicmysteries:oceanic_gold"
+		}
+	],
+	"rite": "miskatonicmysteries:sculptor_rite"
+}

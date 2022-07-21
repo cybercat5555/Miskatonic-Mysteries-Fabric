@@ -17,9 +17,7 @@ public class BurnedVeilRite extends SpawnerTrapRite {
 
 	public BurnedVeilRite() {
 		super(new Identifier(Constants.MOD_ID, "burned_veil"), null,
-			  (type) -> type.isIn(Constants.Tags.BURNED_VEIL_MOBS), ParticleTypes.FLAME, new float[]{1, 0.25F, 0},
-			  Ingredient.ofItems(MMObjects.IRIDESCENT_PEARL), Ingredient.ofItems(Items.CRIMSON_FUNGUS), Ingredient.ofItems(Items.ENDER_PEARL),
-			  Ingredient.ofItems(Items.BLAZE_POWDER));
+			  (type) -> type.isIn(Constants.Tags.BURNED_VEIL_MOBS), ParticleTypes.FLAME, new float[]{1, 0.25F, 0});
 	}
 
 	@Override

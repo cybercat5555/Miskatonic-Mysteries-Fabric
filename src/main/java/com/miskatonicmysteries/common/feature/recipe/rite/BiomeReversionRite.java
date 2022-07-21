@@ -6,13 +6,13 @@ import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEnt
 import com.miskatonicmysteries.common.feature.entity.HarrowEntity;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.brain.HasturCultistBrain;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState.BiomeKnot;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeReversionPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.util.BiomeUtil;
 import com.miskatonicmysteries.common.util.Constants;
@@ -30,8 +30,6 @@ import net.minecraft.command.argument.EntityAnchorArgumentType.EntityAnchor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
@@ -52,9 +50,7 @@ public class BiomeReversionRite extends BiomeConversionRite {
 
 	public BiomeReversionRite() {
 		super(new Identifier(Constants.MOD_ID, "revert_biome"), MMAffiliations.YOG,
-			  "", 0, null,
-			  Ingredient.ofItems(Items.NETHER_STAR), Ingredient.ofItems(MMObjects.WARDED_PAPER) , Ingredient.ofItems(MMObjects.INCANTATION_YOG),
-			  Ingredient.ofItems(Items.IRON_INGOT), Ingredient.ofItems(Items.AMETHYST_SHARD), Ingredient.ofItems(Items.ANCIENT_DEBRIS));
+			  "", 0, null);
 	}
 
 	@Override
@@ -192,8 +188,8 @@ public class BiomeReversionRite extends BiomeConversionRite {
 	}
 
 	@Override
-	public boolean canCast(OctagramBlockEntity octagram) {
-		if (super.canCast(octagram)) {
+	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
+		if (super.canCast(octagram, baseRecipe)) {
 			PlayerEntity caster = octagram.getOriginalCaster();
 			List<BiomeKnot> knots = MMDimensionalWorldState.get((ServerWorld) octagram.getWorld()).getNearbyKnots(octagram.getPos(), 0).stream()
 				.filter(knot -> knot.isCore() && !knot.isActive()) //only inactive cores can be cleared

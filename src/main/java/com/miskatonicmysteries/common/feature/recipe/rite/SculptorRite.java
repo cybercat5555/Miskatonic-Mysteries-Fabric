@@ -7,6 +7,7 @@ import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
@@ -17,7 +18,6 @@ import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -31,9 +31,9 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.ItemTags;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
@@ -49,11 +49,7 @@ public class SculptorRite extends Rite {
 	private final String knowledge;
 
 	public SculptorRite() {
-		super(new Identifier(Constants.MOD_ID, "sculptor_rite"), MMAffiliations.HASTUR, 0.2F,
-			  Ingredient.ofItems(Blocks.CLAY), Ingredient.ofItems(Items.YELLOW_DYE), Ingredient.ofItems(MMObjects.IRIDESCENT_PEARL),
-			  Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(Items.TERRACOTTA, Items.STONE),
-			  Ingredient.ofItems(Items.TERRACOTTA, Items.STONE), Ingredient.ofItems(MMObjects.IRIDESCENT_PEARL),
-			  Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
+		super(new Identifier(Constants.MOD_ID, "sculptor_rite"), MMAffiliations.HASTUR, 0.2F);
 		this.knowledge = MMAffiliations.HASTUR.getId().getPath();
 	}
 
@@ -120,11 +116,13 @@ public class SculptorRite extends Rite {
 		for (ItemStack item : octagram.getItems()) {
 			if (item.getItem() == Items.STONE) {
 				return MMObjects.HASTUR_STATUE_STONE;
-			} else if (item.getItem() == Items.TERRACOTTA) {
+			} else if (item.isIn(ItemTags.TERRACOTTA)) {
 				return MMObjects.HASTUR_STATUE_TERRACOTTA;
+			} else if (item.isIn(Constants.Tags.ELDERIAN_BLOCKS_ITEM)) {
+				return MMObjects.HASTUR_STATUE_ELDERIAN;
 			}
 		}
-		return MMObjects.HASTUR_STATUE_STONE;
+		return MMObjects.HASTUR_STATUE_MOSSY;
 	}
 
 	@Override
@@ -133,8 +131,8 @@ public class SculptorRite extends Rite {
 	}
 
 	@Override
-	public boolean canCast(OctagramBlockEntity octagram) {
-		if (super.canCast(octagram)) {
+	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
+		if (super.canCast(octagram, baseRecipe)) {
 			if (!octagram.doesCasterHaveKnowledge(knowledge)) {
 				if (octagram.getOriginalCaster() != null) {
 					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.knowledge"), true);

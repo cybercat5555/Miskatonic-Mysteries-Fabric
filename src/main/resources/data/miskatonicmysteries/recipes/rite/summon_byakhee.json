@@ -1,0 +1,30 @@
+{
+	"type": "miskatonicmysteries:rite_recipe",
+	"ingredients": [
+		{
+			"item": "miskatonicmysteries:incantation_yog"
+		},
+		{
+			"item": "minecraft:phantom_membrane"
+		},
+		{
+			"item": "minecraft:phantom_membrane"
+		},
+		{
+			"item": "minecraft:phantom_membrane"
+		},
+		{
+			"tag": "miskatonicmysteries:oceanic_gold_blocks"
+		},
+		{
+			"item": "minecraft:diamond"
+		},
+		{
+			"item": "minecraft:emerald"
+		},
+		{
+			"item": "minecraft:ender_eye"
+		}
+	],
+	"rite": "miskatonicmysteries:summon_byakhee"
+}

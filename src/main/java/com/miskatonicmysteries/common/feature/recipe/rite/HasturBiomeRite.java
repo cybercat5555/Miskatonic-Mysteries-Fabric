@@ -6,12 +6,11 @@ import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMWorld;
 import com.miskatonicmysteries.common.util.Constants;
-import com.miskatonicmysteries.common.util.Constants.Tags;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -25,8 +24,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -43,16 +40,12 @@ public class HasturBiomeRite extends BiomeConversionRite {
 
 	public HasturBiomeRite() {
 		super(new Identifier(Constants.MOD_ID, "hastur_simulacrum"), MMAffiliations.HASTUR,
-			  MMAffiliations.HASTUR.getId().getPath(), 3, MMAffiliations.HASTUR,
-			  Ingredient.ofItems(Items.NETHER_STAR), Ingredient.ofItems(MMObjects.INCANTATION_YOG),
-			  Ingredient.fromTag(Constants.Tags.HASTUR_STATUES), Ingredient.ofItems(Items.DIAMOND),
-			  Ingredient.ofItems(Items.EMERALD), Ingredient.ofItems(MMObjects.YELLOW_SIGN_LOOM_PATTERN),
-			  Ingredient.fromTag(Tags.OCEANIC_GOLD_BLOCKS_ITEM), Ingredient.ofItems(Items.ANCIENT_DEBRIS));
+			  MMAffiliations.HASTUR.getId().getPath(), 3, MMAffiliations.HASTUR);
 	}
 
 	@Override
-	public boolean canCast(OctagramBlockEntity octagram) {
-		boolean canCast = super.canCast(octagram);
+	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
+		boolean canCast = super.canCast(octagram, baseRecipe);
 		if (canCast && !octagram.getOriginalCaster().isCreative()) {
 			PlayerEntity caster = octagram.getOriginalCaster();
 			World world = octagram.getWorld();

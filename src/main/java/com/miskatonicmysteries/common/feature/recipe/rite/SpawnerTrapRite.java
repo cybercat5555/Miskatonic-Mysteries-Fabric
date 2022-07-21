@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.feature.recipe.rite;
 import com.miskatonicmysteries.api.interfaces.DropManipulator;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 
@@ -143,8 +144,8 @@ public class SpawnerTrapRite extends TriggeredRite {
 	}
 
 	@Override
-	public boolean canCast(OctagramBlockEntity octagram) {
-		if (super.canCast(octagram)) {
+	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
+		if (super.canCast(octagram, baseRecipe)) {
 			if (octagram.getWorld().isClient) {
 				return true;
 			}

@@ -3,6 +3,7 @@ package com.miskatonicmysteries.client.compat.rei.category;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.compat.rei.MMREICompat;
 import com.miskatonicmysteries.client.render.ResourceHandler;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
@@ -120,10 +121,10 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
 		private final List<EntryIngredient> output;
 		private final Rite rite;
 
-		public OctagramDisplay(Rite recipe) {
-			input = EntryIngredients.ofIngredients(recipe.getIngredients());
+		public OctagramDisplay(RiteRecipe recipe) {
+			input = EntryIngredients.ofIngredients(recipe.ingredients);
 			output = new ArrayList<>();
-			rite = recipe;
+			rite = recipe.rite;
 		}
 
 		public Rite getRite() {

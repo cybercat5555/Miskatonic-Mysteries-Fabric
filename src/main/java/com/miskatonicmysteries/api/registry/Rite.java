@@ -3,6 +3,7 @@ package com.miskatonicmysteries.api.registry;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -13,7 +14,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.World;
@@ -25,7 +25,6 @@ import javax.annotation.Nullable;
 
 public abstract class Rite {
 
-	private final List<Ingredient> ingredients = DefaultedList.ofSize(8, Ingredient.EMPTY);
 	private final Identifier id;
 	private final Affiliation octagramAffiliation;
 	private final float investigatorChance;
@@ -34,7 +33,7 @@ public abstract class Rite {
 		this.id = id;
 		this.investigatorChance = investigatorChance;
 		for (int i = 0; i < ingredients.length; i++) {
-			this.ingredients.set(i, ingredients[i]);
+		//	this.ingredients.set(i, ingredients[i]);
 		}
 		this.octagramAffiliation = octagram;
 	}
@@ -53,7 +52,7 @@ public abstract class Rite {
 	}
 
 	public List<Ingredient> getIngredients() {
-		return ingredients;
+		return List.of();
 	}
 
 	public Identifier getId() {
@@ -93,7 +92,7 @@ public abstract class Rite {
 		return true;
 	}
 
-	public boolean canCast(OctagramBlockEntity octagram) {
+	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
 		return (octagramAffiliation == null || octagramAffiliation.equals(octagram.getAffiliation(false)));
 	}
 

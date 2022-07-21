@@ -1,0 +1,24 @@
+{
+	"type": "miskatonicmysteries:rite_recipe",
+	"ingredients": [
+		{
+			"item": "minecraft:nether_star"
+		},
+		{
+			"item": "miskatonicmysteries:warded_paper"
+		},
+		{
+			"item": "miskatonicmysteries:incantation_yog"
+		},
+		{
+			"item": "minecraft:iron_ingot"
+		},
+		{
+			"item": "minecraft:amethyst_shard"
+		},
+		{
+			"item": "minecraft:ancient_debris"
+		}
+	],
+	"rite": "miskatonicmysteries:revert_biome"
+}

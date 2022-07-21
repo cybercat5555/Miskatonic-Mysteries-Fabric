@@ -1,0 +1,25 @@
+{
+	"type": "miskatonicmysteries:rite_recipe",
+	"ingredients": [
+		{
+			"item": "minecraft:yellow_dye"
+		},
+		{
+			"item": "minecraft:red_dye"
+		},
+		{
+			"item": "minecraft:blue_dye"
+		},
+		{
+			"item": "miskatonicmysteries:iridescent_pearl"
+		},
+		{
+			"item": "minecraft:phantom_membrane"
+		},
+		{
+			"item": "minecraft:painting"
+		}
+	],
+	"rite": "miskatonicmysteries:enchant_canvas",
+	"match_exactly": false
+}

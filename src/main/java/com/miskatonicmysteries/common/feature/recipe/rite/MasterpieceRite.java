@@ -5,6 +5,7 @@ import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.common.feature.block.MasterpieceStatueBlock;
 import com.miskatonicmysteries.common.feature.block.blockentity.MasterpieceStatueBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.handler.SchedulingHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncRiteTargetPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
@@ -22,8 +23,6 @@ import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -36,11 +35,7 @@ import net.minecraft.world.event.GameEvent;
 public class MasterpieceRite extends TriggeredRite {
 
 	public MasterpieceRite() {
-		super(new Identifier(Constants.MOD_ID, "masterpiece"), MMAffiliations.HASTUR, 0.5F, 60,
-			  Ingredient.ofItems(Items.STONE), Ingredient.ofItems(Items.STONE), Ingredient.ofItems(Items.DEEPSLATE),
-			  Ingredient.ofItems(Items.DEEPSLATE), Ingredient.ofItems(Items.BLACKSTONE),
-			  Ingredient.ofItems(Items.BLACKSTONE), Ingredient.ofItems(Items.DIAMOND),
-			  Ingredient.ofItems(Items.IRON_INGOT));
+		super(new Identifier(Constants.MOD_ID, "masterpiece"), MMAffiliations.HASTUR, 0.5F, 60);
 	}
 
 	@Override
@@ -103,8 +98,8 @@ public class MasterpieceRite extends TriggeredRite {
 	}
 
 	@Override
-	public boolean canCast(OctagramBlockEntity octagram) {
-		if (super.canCast(octagram)) {
+	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
+		if (super.canCast(octagram, baseRecipe)) {
 			if (!octagram.doesCasterHaveKnowledge(MMAffiliations.HASTUR.getId().getPath())) {
 				if (octagram.getOriginalCaster() != null) {
 					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.knowledge"), true);

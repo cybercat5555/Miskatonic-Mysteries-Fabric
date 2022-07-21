@@ -18,9 +18,7 @@ import net.minecraft.util.math.Vec3d;
 public class HysteriaRite extends TriggeredRite {
 
 	public HysteriaRite() {
-		super(new Identifier(Constants.MOD_ID, "hysteria"), null, 0.05F, 60, Ingredient
-			.ofItems(MMObjects.BLOTTER), Ingredient.ofItems(Items.RED_MUSHROOM), Ingredient
-				  .ofItems(Items.REDSTONE), Ingredient.ofItems(Items.GLOWSTONE_DUST));
+		super(new Identifier(Constants.MOD_ID, "hysteria"), null, 0.05F, 60);
 	}
 
 	@Override

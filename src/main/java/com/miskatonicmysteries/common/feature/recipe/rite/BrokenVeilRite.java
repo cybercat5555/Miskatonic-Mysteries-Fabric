@@ -19,9 +19,7 @@ public class BrokenVeilRite extends SpawnerTrapRite {
 
 	public BrokenVeilRite() {
 		super(new Identifier(Constants.MOD_ID, "broken_veil"), null,
-			  (type) -> type.isIn(Constants.Tags.BROKEN_VEIL_MOBS), ParticleTypes.PORTAL, new float[]{0.65F, 0, 1},
-			  Ingredient.ofItems(MMObjects.IRIDESCENT_PEARL), Ingredient.ofItems(Items.PHANTOM_MEMBRANE),
-			  Ingredient.ofItems(Items.ENDER_PEARL), Ingredient.ofItems(MMObjects.INFESTED_WHEAT));
+			  (type) -> type.isIn(Constants.Tags.BROKEN_VEIL_MOBS), ParticleTypes.PORTAL, new float[]{0.65F, 0, 1});
 	}
 
 	@Override

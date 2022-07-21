@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.feature.recipe.rite;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.item.IncantationYogItem;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 
@@ -15,8 +16,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -27,8 +26,7 @@ public class TeleportRite extends Rite {
 	private final int ticksNeeded;
 
 	public TeleportRite() {
-		super(new Identifier(Constants.MOD_ID, "teleport"), null, 0, Ingredient.ofItems(MMObjects.INCANTATION_YOG),
-			  Ingredient.ofItems(Items.ENDER_PEARL), Ingredient.ofItems(Items.ENDER_EYE), Ingredient.ofItems(MMObjects.OCEANIC_GOLD));
+		super(new Identifier(Constants.MOD_ID, "teleport"), null, 0);
 		ticksNeeded = 60;
 	}
 
@@ -107,8 +105,8 @@ public class TeleportRite extends Rite {
 	}
 
 	@Override
-	public boolean canCast(OctagramBlockEntity octagram) {
-		if (super.canCast(octagram)) {
+	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
+		if (super.canCast(octagram, baseRecipe)) {
 			if (octagram.getWorld().isClient) {
 				return true;
 			}

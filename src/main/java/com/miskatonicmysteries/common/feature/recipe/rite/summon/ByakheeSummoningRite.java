@@ -26,11 +26,7 @@ public class ByakheeSummoningRite extends SummoningRite {
 
 	public ByakheeSummoningRite() {
 		super(new Identifier(Constants.MOD_ID, "summon_byakhee"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.25F, 1,
-			  MMEntities.BYAKHEE,
-			  Ingredient.ofItems(MMObjects.INCANTATION_YOG), Ingredient.ofItems(Items.PHANTOM_MEMBRANE),
-			  Ingredient.ofItems(Items.PHANTOM_MEMBRANE), Ingredient.ofItems(Items.PHANTOM_MEMBRANE),
-			  Ingredient.fromTag(Constants.Tags.OCEANIC_GOLD_BLOCKS_ITEM), Ingredient.ofItems(Items.DIAMOND),
-			  Ingredient.ofItems(Items.EMERALD), Ingredient.ofItems(Items.ENDER_EYE));
+			  MMEntities.BYAKHEE);
 	}
 
 	@Override

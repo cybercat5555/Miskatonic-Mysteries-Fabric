@@ -1,5 +1,6 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
+import com.miskatonicmysteries.api.interfaces.RenderTransformable;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.registry.MMParticles;
@@ -26,9 +27,7 @@ import java.util.Arrays;
 public class MourningDeadRite extends Rite {
 
 	public MourningDeadRite() {
-		super(new Identifier(Constants.MOD_ID, "mourning_dead"), null, 0.1F, Ingredient.ofItems(Items.GHAST_TEAR),
-			  Ingredient.ofStacks(Arrays.stream(new ItemStack[]{PotionUtil.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)})),
-			  Ingredient.ofItems(Items.BLAZE_POWDER), Ingredient.ofItems(Items.CHARCOAL), Ingredient.ofItems(Items.PHANTOM_MEMBRANE));
+		super(new Identifier(Constants.MOD_ID, "mourning_dead"), null, 0.1F);
 	}
 
 	@Override
@@ -38,13 +37,20 @@ public class MourningDeadRite extends Rite {
 				.add(octagram.getWorld().random.nextGaussian() * 5, -0.25 + octagram.getWorld().random.nextFloat() * 5,
 					 octagram.getWorld().random.nextGaussian() * 5);
 			octagram.getWorld().addParticle(MMParticles.AMBIENT, position.x, position.y, position.z, 1F, 1F, 1F);
+			octagram.getWorld()
+				.getEntitiesByClass(MobEntity.class, octagram.getSelectionBox().expand(10, 10, 10), mob -> mob.getGroup() == EntityGroup.UNDEAD)
+				.forEach(mob -> {
+					if (mob instanceof RenderTransformable r && r.getSquishTicks() == 0) {
+						r.squish();
+					}
+				});
 		}
 		super.tick(octagram);
 	}
 
 	@Override
 	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.tickCount > 80;
+		return octagram.tickCount > 200;
 	}
 
 	@Override

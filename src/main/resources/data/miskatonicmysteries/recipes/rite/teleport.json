@@ -1,0 +1,18 @@
+{
+	"type": "miskatonicmysteries:rite_recipe",
+	"ingredients": [
+		{
+			"item": "miskatonicmysteries:incantation_yog"
+		},
+		{
+			"item": "miskatonicmysteries:oceanic_gold"
+		},
+		{
+			"item": "minecraft:ender_pearl"
+		},
+		{
+			"item": "minecraft:ender_eye"
+		}
+	],
+	"rite": "miskatonicmysteries:teleport"
+}

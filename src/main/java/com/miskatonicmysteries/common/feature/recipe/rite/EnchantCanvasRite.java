@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
@@ -21,6 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -28,28 +30,31 @@ import java.util.stream.Collectors;
 public class EnchantCanvasRite extends AscensionLockedRite {
 
 	public EnchantCanvasRite() {
-		super(new Identifier(Constants.MOD_ID, "enchant_canvas"), MMAffiliations.HASTUR, "", 0.05F, 2,
-			  Ingredient.ofItems(Items.YELLOW_DYE), Ingredient.ofItems(Items.RED_DYE), Ingredient.ofItems(Items.BLUE_DYE),
-			  Ingredient.ofItems(MMObjects.IRIDESCENT_PEARL), Ingredient.ofItems(Items.PHANTOM_MEMBRANE), Ingredient.ofItems(Items.PAINTING));
+		super(new Identifier(Constants.MOD_ID, "enchant_canvas"), MMAffiliations.HASTUR, "", 0.05F, 2);
 	}
 
 	@Override
-	public boolean canCast(OctagramBlockEntity octagram) {
-		if (InventoryUtil.containsAllIngredients(
-			getIngredients().stream().filter(ingredient -> !ingredient.isEmpty()).collect(Collectors.toList()), octagram.getItems())
-			&& super.canCast(octagram)) {
-			List<Ingredient> ingredients = new ArrayList<>(getIngredients());
-			if (InventoryUtil.areItemStackListsExactlyEqual(ingredients, octagram)) {
-				return true;
-			}
-			for (int i = 0; i < 2; i++) {
-				ingredients.set(6 + i, Ingredient.ofItems(Items.PAINTING));
-				if (InventoryUtil.areItemStackListsExactlyEqual(ingredients, octagram)) {
-					return true;
+	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
+		List<Ingredient> checkList = baseRecipe.ingredients.stream().filter(i -> !i.test(new ItemStack(Items.PAINTING))).collect(Collectors.toList());
+		List<ItemStack> checkItems = new ArrayList<>(octagram.getItems());
+		for (Ingredient ingredient : checkList) {
+			for (ItemStack item : List.copyOf(checkItems)) {
+				if (ingredient.test(item)) {
+					checkItems.remove(item);
+					break;
 				}
 			}
 		}
-		return false;
+		if (checkItems.isEmpty()) {
+			return false;
+		} else {
+			for (ItemStack item : checkItems) {
+				if (item.getItem() != Items.PAINTING) {
+					return false;
+				}
+			}
+		}
+		return super.canCast(octagram, baseRecipe);
 	}
 
 	@Override
@@ -104,10 +109,5 @@ public class EnchantCanvasRite extends AscensionLockedRite {
 			}
 		}
 		octagram.markDirty();
-	}
-
-	@Override
-	public boolean prioritiseRecipe() {
-		return false;
 	}
 }

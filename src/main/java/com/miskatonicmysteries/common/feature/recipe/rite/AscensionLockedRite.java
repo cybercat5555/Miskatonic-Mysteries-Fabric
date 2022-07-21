@@ -5,6 +5,7 @@ import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.text.TranslatableText;
@@ -27,8 +28,8 @@ public abstract class AscensionLockedRite extends Rite {
 	}
 
 	@Override
-	public boolean canCast(OctagramBlockEntity octagram) {
-		if (super.canCast(octagram)) {
+	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
+		if (super.canCast(octagram, baseRecipe)) {
 			if (!octagram.doesCasterHaveKnowledge(knowledge)) {
 				if (octagram.getOriginalCaster() != null) {
 					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.knowledge"), true);

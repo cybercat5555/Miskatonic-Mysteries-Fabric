@@ -1,0 +1,18 @@
+{
+	"type": "miskatonicmysteries:rite_recipe",
+	"ingredients": [
+		{
+			"item": "miskatonicmysteries:blotter"
+		},
+		{
+			"item": "minecraft:red_mushroom"
+		},
+		{
+			"item": "minecraft:redstone"
+		},
+		{
+			"item": "minecraft:glowstone_dust"
+		}
+	],
+	"rite": "miskatonicmysteries:hysteria"
+}

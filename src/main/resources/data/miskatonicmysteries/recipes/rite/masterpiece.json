@@ -1,0 +1,30 @@
+{
+	"type": "miskatonicmysteries:rite_recipe",
+	"ingredients": [
+		{
+			"item": "minecraft:stone"
+		},
+		{
+			"item": "minecraft:stone"
+		},
+		{
+			"item": "minecraft:deepslate"
+		},
+		{
+			"item": "minecraft:deepslate"
+		},
+		{
+			"item": "minecraft:blackstone"
+		},
+		{
+			"item": "minecraft:blackstone"
+		},
+		{
+			"item": "minecraft:diamond"
+		},
+		{
+			"item": "minecraft:iron_ingot"
+		}
+	],
+	"rite": "miskatonicmysteries:masterpiece"
+}

@@ -1,0 +1,21 @@
+{
+	"type": "miskatonicmysteries:rite_recipe",
+	"ingredients": [
+		{
+			"item": "miskatonicmysteries:oceanic_gold"
+		},
+		{
+			"item": "minecraft:yellow_wool"
+		},
+		{
+			"item": "minecraft:yellow_wool"
+		},
+		{
+			"item": "minecraft:yellow_wool"
+		},
+		{
+			"item": "miskatonicmysteries:ornate_dagger"
+		}
+	],
+	"rite": "miskatonicmysteries:golden_flock"
+}
