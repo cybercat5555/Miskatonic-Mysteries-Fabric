@@ -69,8 +69,11 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	public Entity targetedEntity = null;
 	private float instability;
 	/**
-	 * Octagram flags may be used by Rites Reserved flags: 0 - Bloody (has something been sacrificed nearby?) 1 - Client Input (has a
-	 * ClientRiteInputPacket been sent?)
+	 * Octagram flags may be used by Rites Reserved flags:
+	 * 0 - Bloody (has something been sacrificed nearby?)
+	 * 1 - Client Input (has a ClientRiteInputPacket been sent?)
+	 * 2 - Triggered
+	 * 3 - Permanent Rite Active
 	 */
 	private byte octagramFlags;
 

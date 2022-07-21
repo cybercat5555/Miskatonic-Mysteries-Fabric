@@ -19,9 +19,8 @@ public abstract class AscensionLockedRite extends Rite {
 	private final Affiliation ascensionAffiliation;
 	private final String knowledge;
 
-	public AscensionLockedRite(Identifier id, @Nullable Affiliation octagram, String knowledge, float investigatorChance, int stage,
-							   Ingredient... ingredients) {
-		super(id, octagram, investigatorChance, ingredients);
+	public AscensionLockedRite(Identifier id, @Nullable Affiliation octagram, String knowledge, float investigatorChance, int stage) {
+		super(id, octagram, investigatorChance);
 		this.stage = stage;
 		this.ascensionAffiliation = octagram;
 		this.knowledge = knowledge;

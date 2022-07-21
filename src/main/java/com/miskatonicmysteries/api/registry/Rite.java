@@ -29,12 +29,9 @@ public abstract class Rite {
 	private final Affiliation octagramAffiliation;
 	private final float investigatorChance;
 
-	public Rite(Identifier id, @Nullable Affiliation octagram, float investigatorChance, Ingredient... ingredients) {
+	public Rite(Identifier id, @Nullable Affiliation octagram, float investigatorChance) {
 		this.id = id;
 		this.investigatorChance = investigatorChance;
-		for (int i = 0; i < ingredients.length; i++) {
-		//	this.ingredients.set(i, ingredients[i]);
-		}
 		this.octagramAffiliation = octagram;
 	}
 

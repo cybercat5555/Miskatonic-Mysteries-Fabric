@@ -30,9 +30,8 @@ public class SpellGivingRite extends AscensionLockedRite {
 
 	private final SpellEffect grantedEffect;
 
-	public SpellGivingRite(SpellEffect effect, String knowledge, Identifier id, @Nullable Affiliation octagram, int stage,
-						   Ingredient... ingredients) {
-		super(id, octagram, knowledge, 0.25F, stage, ingredients);
+	public SpellGivingRite(SpellEffect effect, String knowledge, Identifier id, @Nullable Affiliation octagram, int stage) {
+		super(id, octagram, knowledge, 0.25F, stage);
 		this.grantedEffect = effect;
 	}
 

@@ -22,9 +22,8 @@ public abstract class TriggeredRite extends Rite {
 
 	public final int ticksNeeded;
 
-	public TriggeredRite(Identifier id, @Nullable Affiliation octagram, float investigatorChance, int tickCount,
-						 Ingredient... ingredients) {
-		super(id, octagram, investigatorChance, ingredients);
+	public TriggeredRite(Identifier id, @Nullable Affiliation octagram, float investigatorChance, int tickCount) {
+		super(id, octagram, investigatorChance);
 		ticksNeeded = tickCount;
 	}
 

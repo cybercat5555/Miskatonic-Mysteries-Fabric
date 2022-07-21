@@ -47,9 +47,9 @@ public class SpawnerTrapRite extends TriggeredRite {
 	private final ParticleEffect spawnParticles;
 	private final float[] color;
 
-	public SpawnerTrapRite(Identifier id, @Nullable Affiliation octagram, Predicate<EntityType<?>> spawnPredicate,
-						   ParticleEffect spawnParticles, float[] color, Ingredient... ingredients) {
-		super(id, octagram, 0.01F, 90, ingredients);
+	public SpawnerTrapRite(Identifier id, @Nullable Affiliation octagram, Predicate<EntityType<?>> spawnPredicate, ParticleEffect spawnParticles,
+						   float[] color) {
+		super(id, octagram, 0.01F, 90);
 		this.spawnPredicate = spawnPredicate;
 		this.spawnParticles = spawnParticles;
 		this.color = color;

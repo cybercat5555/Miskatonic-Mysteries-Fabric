@@ -39,9 +39,8 @@ public abstract class SummoningRite<T extends Entity> extends AscensionLockedRit
 	protected @Nullable
 	EntityData data;
 
-	public SummoningRite(Identifier id, @Nullable Affiliation octagram, String knowledge, float investigatorChance, int stage,
-						 EntityType<T> summon, Ingredient... ingredients) {
-		super(id, octagram, knowledge, investigatorChance, stage, ingredients);
+	public SummoningRite(Identifier id, @Nullable Affiliation octagram, String knowledge, float investigatorChance, int stage, EntityType<T> summon) {
+		super(id, octagram, knowledge, investigatorChance, stage);
 		this.summon = summon;
 		tickCount = 200;
 	}

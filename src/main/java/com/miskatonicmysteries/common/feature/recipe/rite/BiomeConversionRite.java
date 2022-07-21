@@ -54,9 +54,8 @@ public abstract class BiomeConversionRite extends AscensionLockedRite {
 	private static final int RANGE = 16;
 	protected @Nullable Affiliation knotAffiliation;
 
-	public BiomeConversionRite(Identifier id, @Nullable Affiliation octagram, String knowledge, int stage, @Nullable Affiliation knotAffiliation,
-							   Ingredient... ingredients) {
-		super(id, octagram, knowledge, 0, stage, ingredients);
+	public BiomeConversionRite(Identifier id, @Nullable Affiliation octagram, String knowledge, int stage, @Nullable Affiliation knotAffiliation) {
+		super(id, octagram, knowledge, 0, stage);
 		this.knotAffiliation = knotAffiliation;
 	}
 
