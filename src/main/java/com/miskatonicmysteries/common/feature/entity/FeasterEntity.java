@@ -27,7 +27,6 @@ import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
@@ -42,9 +41,6 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.IllagerEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.raid.RaiderEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -58,7 +54,6 @@ import java.util.EnumSet;
 import java.util.List;
 
 import javax.annotation.Nullable;
-import org.lwjgl.system.CallbackI.S;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
@@ -124,7 +119,8 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		this.goalSelector.add(6, new CastSpellGoal<>(this) {
 			@Override
 			public boolean canStart() {
-				return getDistinctMoveTicks() == 0 && isFlying() && super.canStart() && distanceTo(getTarget()) > 6 && distanceToGround() < 16 && random.nextBoolean();
+				return getDistinctMoveTicks() == 0 && isFlying() && super.canStart() && distanceTo(getTarget()) > 6 && distanceToGround() < 16
+					&& random.nextBoolean();
 			}
 
 			@Override
@@ -268,6 +264,15 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		changeNavigation();
 	}
 
+	private int distanceToGround() {
+		for (int i = 0; i < 24; i++) {
+			if (world.isTopSolid(getBlockPos().add(0, -i, 0), FeasterEntity.this)) {
+				return i;
+			}
+		}
+		return 24;
+	}
+
 	@Override
 	public boolean canBreatheInWater() {
 		return true;
@@ -301,6 +306,15 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 	@Override
 	public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
 		return false;
+	}
+
+	@Override
+	public boolean canFreeze() {
+		return false;
+	}
+
+	public boolean hasEntityGrabbed() {
+		return getDistinctMoveId() == GRABBED;
 	}
 
 	private boolean isSpecialMoveBusy() {
@@ -346,25 +360,12 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 		}
 	}
 
-	public boolean hasEntityGrabbed() {
-		return getDistinctMoveId() == GRABBED;
-	}
-
 	private int getDropDownHeight() {
 		return 24;
 	}
 
 	public int getGrabbedEntityId() {
 		return dataTracker.get(GRABBED_ENTITY_ID);
-	}
-
-	private int distanceToGround() {
-		for (int i = 0; i < 24; i++) {
-			if (world.isTopSolid(getBlockPos().add(0, -i, 0), FeasterEntity.this)) {
-				return i;
-			}
-		}
-		return 24;
 	}
 
 	@Override
@@ -581,7 +582,9 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 	}
 
 	private class DragTargetIntoSkyGoal extends Goal {
+
 		private int cooldown;
+
 		public DragTargetIntoSkyGoal() {
 			super();
 			setControls(EnumSet.of(Control.MOVE));
@@ -714,6 +717,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 	}
 
 	private class FeasterSwipeGoal extends Goal {
+
 		public FeasterSwipeGoal() {
 			super();
 			setControls(EnumSet.of(Control.MOVE));
@@ -781,6 +785,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 	}
 
 	private class MoveUpToTargetGoal extends Goal {
+
 		private final double speed = 1.0D;
 		private Path path;
 		private int updateCountdownTicks, cooldown;
