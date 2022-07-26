@@ -28,7 +28,8 @@ public class PotentialItem {
 	public static PotentialItem fromJson(JsonObject jsonElement) {
 		JsonObject in = JsonHelper.getObject(jsonElement, "in");
 		JsonObject out = JsonHelper.getObject(jsonElement, "out");
-		return new PotentialItem(new ItemStack(ShapedRecipe.getItem(in)), new ItemStack(ShapedRecipe.getItem(out)));
+		int count = JsonHelper.getInt(out, "count", 1);
+		return new PotentialItem(new ItemStack(ShapedRecipe.getItem(in)), new ItemStack(ShapedRecipe.getItem(out), count));
 	}
 
 	public static PotentialItem fromTag(NbtCompound tag) {
