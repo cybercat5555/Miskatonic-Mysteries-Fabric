@@ -62,6 +62,7 @@ public class ResourceHandler {
 				registry.register(HASTUR_SIGIL_CENTER.getTextureId());
 				registry.register(HASTUR_SIGIL_INNER.getTextureId());
 				registry.register(HASTUR_SIGIL_OUTER.getTextureId());
+				registry.register(TOTAL_DARK.getTextureId());
 				MasterpieceStatueBlockRender.TEXTURE_CACHE
 					.forEach((gameProfile, stoneTexture) -> stoneTexture.needsUpdate = true);
 				registry.register(new Identifier(Constants.MOD_ID, "block/obelisk/hastur_obelisk"));

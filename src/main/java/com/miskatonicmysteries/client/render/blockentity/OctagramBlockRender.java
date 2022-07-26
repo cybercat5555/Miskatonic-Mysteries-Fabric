@@ -3,6 +3,7 @@ package com.miskatonicmysteries.client.render.blockentity;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.registry.MMRites;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -47,6 +48,7 @@ public class OctagramBlockRender implements BlockEntityRenderer<OctagramBlockEnt
 		if ((overrideRender & 1) == 1) {
 			RenderHelper.renderTexturedPlane(3, sprite, matrixStack, buffer, light, overlay, new float[]{1, 1, 1, 1});
 		}
+
 		if (entity.currentRite != null) {
 			entity.currentRite.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
 		}

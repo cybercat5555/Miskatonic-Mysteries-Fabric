@@ -4,6 +4,7 @@ import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.RiteCondition;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -19,6 +20,7 @@ import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -28,11 +30,15 @@ public abstract class Rite {
 	private final Identifier id;
 	private final Affiliation octagramAffiliation;
 	private final float investigatorChance;
+	private final RiteCondition[] startConditions;
+	private final RiteCondition[] runningConditions;
 
-	public Rite(Identifier id, @Nullable Affiliation octagram, float investigatorChance) {
+	public Rite(Identifier id, @Nullable Affiliation octagram, float investigatorChance, RiteCondition... startConditions) {
 		this.id = id;
 		this.investigatorChance = investigatorChance;
 		this.octagramAffiliation = octagram;
+		this.startConditions = startConditions;
+		this.runningConditions = Arrays.stream(startConditions).filter(RiteCondition::shouldCheckWhileRunning).toArray(RiteCondition[]::new);
 	}
 
 	@Environment(EnvType.CLIENT)
@@ -86,11 +92,24 @@ public abstract class Rite {
 	}
 
 	public boolean shouldContinue(OctagramBlockEntity octagram) {
+		for (RiteCondition condition : runningConditions) {
+			if (!condition.checkWhileRunning(octagram)) {
+				return false;
+			}
+		}
 		return true;
 	}
 
 	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
-		return (octagramAffiliation == null || octagramAffiliation.equals(octagram.getAffiliation(false)));
+		if (octagramAffiliation == null || octagramAffiliation.equals(octagram.getAffiliation(false))) {
+			for (RiteCondition condition : startConditions) {
+				if (!condition.checkStartCondition(octagram)) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
 	@Environment(EnvType.CLIENT)

@@ -2,9 +2,9 @@ package com.miskatonicmysteries.common.feature.recipe.rite.summon;
 
 import com.miskatonicmysteries.client.render.entity.ByakheeEntityRenderer;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.entity.ByakheeEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMEntities;
-import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.util.Constants;
@@ -13,16 +13,14 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import net.minecraft.client.model.Model;
-import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class ByakheeSummoningRite extends SummoningRite {
+public class ByakheeSummoningRite extends SummoningRite<ByakheeEntity> {
 
 	public ByakheeSummoningRite() {
 		super(new Identifier(Constants.MOD_ID, "summon_byakhee"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.25F, 1,
