@@ -30,18 +30,4 @@ public class SyncBiomeSpreadPacket {
 		data.writeInt(radius);
 		PlayerLookup.tracking(world, root).forEach(player -> ServerPlayNetworking.send(player, ID, data));
 	}
-
-	@Environment(EnvType.CLIENT)
-	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf, PacketSender sender) {
-		if (client.world != null) {
-			BlockPos root = packetByteBuf.readBlockPos();
-			int biomeId = packetByteBuf.readInt();
-			int radius = packetByteBuf.readInt();
-			client.world.getRegistryManager().get(Registry.BIOME_KEY).getEntry(biomeId).ifPresent(entry -> {
-				client.execute(() -> {
-					BiomeConversionRite.spreadBiome(client.world, root, radius, entry);
-				});
-			});
-		}
-	}
 }

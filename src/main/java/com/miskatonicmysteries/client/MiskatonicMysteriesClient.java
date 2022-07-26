@@ -51,6 +51,7 @@ import com.miskatonicmysteries.client.render.entity.painting.WallPaintingRendere
 import com.miskatonicmysteries.client.render.equipment.CultistRobesArmorRenderer;
 import com.miskatonicmysteries.client.render.equipment.MaskTrinketRenderer;
 import com.miskatonicmysteries.client.vision.VisionHandler;
+import com.miskatonicmysteries.common.feature.recipe.rite.BiomeConversionRite;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.BloodParticlePacket;
@@ -111,6 +112,8 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import vazkii.patchouli.api.PatchouliAPI;
@@ -223,7 +226,18 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(TeleportEffectPacket.ID, TeleportEffectPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SmokeEffectPacket.ID, SmokeEffectPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SyncBiomeReversionPacket.ID, SyncBiomeReversionPacket::handle);
-		ClientPlayNetworking.registerGlobalReceiver(SyncBiomeSpreadPacket.ID, SyncBiomeSpreadPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SyncBiomeSpreadPacket.ID, (client, networkHandler, packetByteBuf, sender) -> {
+			if (client.world != null) {
+				BlockPos root = packetByteBuf.readBlockPos();
+				int biomeId = packetByteBuf.readInt();
+				int radius = packetByteBuf.readInt();
+				client.world.getRegistryManager().get(Registry.BIOME_KEY).getEntry(biomeId).ifPresent(entry -> {
+					client.execute(() -> {
+						BiomeConversionRite.spreadBiome(client.world, root, radius, entry);
+					});
+				});
+			}
+		});
 		ClientPlayNetworking.registerGlobalReceiver(SyncBlessingsPacket.ID, SyncBlessingsPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SyncKnowledgePacket.ID, SyncKnowledgePacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(ModifyBlessingPacket.ID, ModifyBlessingPacket::handle);
