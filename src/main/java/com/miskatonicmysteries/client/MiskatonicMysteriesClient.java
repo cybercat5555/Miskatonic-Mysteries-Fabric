@@ -110,6 +110,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -333,11 +334,10 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 				"_____",
 				"B___B"
 			},
-		}, 'B', StateMatcher.fromPredicate(Blocks.STONE_BRICKS, state -> state.isIn(Tags.PILLAR_BOTTOM)),
-																											  'M', StateMatcher.fromPredicate(
+		}, 'B', StateMatcher.fromPredicate(Blocks.STONE_BRICKS, state -> state.isIn(Tags.PILLAR_BOTTOM)), 'M', StateMatcher.fromPredicate(
 			MMObjects.STONE_HASTUR_MURAL, state -> state.isIn(Tags.PILLAR_MIDDLE)),
 																											  'S', StateMatcher.fromPredicate(
-			MMObjects.HASTUR_STATUE_STONE, state -> state.isIn(Tags.PILLAR_TOP)),
+			MMObjects.HASTUR_STATUE_STONE, state -> state.isIn(Tags.PILLAR_TOP) && !state.get(Properties.WATERLOGGED)),
 																											  '0', MMObjects.HASTUR_OCTAGRAM));
 	}
 

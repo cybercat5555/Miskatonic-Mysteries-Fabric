@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "miskatonicmysteries:rite",
-			"rite": "miskatonicmysteries:mourning_dead",
+			"rite": "miskatonicmysteries:rite/mourning_dead",
 			"text": ""
 		}
 	]

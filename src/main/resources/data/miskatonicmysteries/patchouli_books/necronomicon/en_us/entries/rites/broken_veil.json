@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "miskatonicmysteries:rite",
-			"rite": "miskatonicmysteries:broken_veil",
+			"rite": "miskatonicmysteries:rite/broken_veil",
 			"text": "Pretty nasty."
 		}
 	]

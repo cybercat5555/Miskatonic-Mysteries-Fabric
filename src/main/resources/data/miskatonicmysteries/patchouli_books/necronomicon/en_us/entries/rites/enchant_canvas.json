@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "miskatonicmysteries:rite",
-			"rite": "miskatonicmysteries:enchant_canvas",
+			"rite": "miskatonicmysteries:rite/enchant_canvas",
 			"text": "Up to three Enchanted Canvases may be fabricated at the same time."
 		},
 		{

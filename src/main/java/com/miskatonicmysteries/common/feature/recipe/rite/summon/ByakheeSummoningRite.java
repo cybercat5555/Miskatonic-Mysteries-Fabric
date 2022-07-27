@@ -3,6 +3,9 @@ package com.miskatonicmysteries.common.feature.recipe.rite.summon;
 import com.miskatonicmysteries.client.render.entity.ByakheeEntityRenderer;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.entity.ByakheeEntity;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.AscensionStageCondition;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.KnowledgeCondition;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.RiteCondition;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMParticles;
@@ -23,8 +26,8 @@ import net.minecraft.world.World;
 public class ByakheeSummoningRite extends SummoningRite<ByakheeEntity> {
 
 	public ByakheeSummoningRite() {
-		super(new Identifier(Constants.MOD_ID, "summon_byakhee"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.25F, 1,
-			  MMEntities.BYAKHEE);
+		super(new Identifier(Constants.MOD_ID, "summon_byakhee"), MMAffiliations.HASTUR,0.25F, MMEntities.BYAKHEE,
+			  new AscensionStageCondition(MMAffiliations.HASTUR, 1), new KnowledgeCondition(MMAffiliations.HASTUR.getId().getPath()));
 	}
 
 	@Override

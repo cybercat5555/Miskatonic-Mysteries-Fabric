@@ -7,6 +7,12 @@ import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEnt
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
 import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.AscensionStageCondition;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.EntityCondition;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.HasturCultistCondition;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.KnotCondition;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.PillarsCondition;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.TatteredPrinceCondition;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMWorld;
@@ -39,62 +45,35 @@ import java.util.Random;
 public class HasturBiomeRite extends BiomeConversionRite {
 
 	public HasturBiomeRite() {
-		super(new Identifier(Constants.MOD_ID, "hastur_simulacrum"), MMAffiliations.HASTUR,
-			  MMAffiliations.HASTUR.getId().getPath(), 3, MMAffiliations.HASTUR);
-	}
-
-	@Override
-	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
-		boolean canCast = super.canCast(octagram, baseRecipe);
-		if (canCast && !octagram.getOriginalCaster().isCreative()) {
-			PlayerEntity caster = octagram.getOriginalCaster();
-			World world = octagram.getWorld();
-			List<HasturCultistEntity> cultists = world.getEntitiesByClass(HasturCultistEntity.class,
-																		  octagram.getSelectionBox().expand(15, 5, 15), entity -> true);
-			if (cultists.size() < 3) {
-				caster.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.serfs"), true);
-				return false;
-			}
-
-			List<TatteredPrinceEntity> princes = world.getEntitiesByClass(TatteredPrinceEntity.class,
-																		  octagram.getSelectionBox().expand(8, 5, 8), entity -> true);
-			if (princes.size() < 1) {
-				caster.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.prince"), true);
-				return false;
-			}
-			return true;
-		}
-		return octagram.getOriginalCaster().isCreative();
+		super(new Identifier(Constants.MOD_ID, "hastur_simulacrum"), MMAffiliations.HASTUR, MMAffiliations.HASTUR,
+			  new AscensionStageCondition(MMAffiliations.HASTUR, 3), new KnotCondition(),
+			  new PillarsCondition(MMAffiliations.HASTUR), new HasturCultistCondition(3), new TatteredPrinceCondition());
 	}
 
 	@Override
 	public void tick(OctagramBlockEntity octagram) {
 		super.tick(octagram);
 		if (octagram.tickCount < 320) {
-			Vec3d pos = octagram.getSummoningPos();
-			List<HasturCultistEntity> cultists = octagram.getWorld().getEntitiesByClass(HasturCultistEntity.class,
-																						octagram.getSelectionBox().expand(15, 5, 15), cultist -> !cultist.isAttacking());
-			for (HasturCultistEntity cultist : cultists) {
-				cultist.getNavigation().startMovingTo(pos.x, pos.y, pos.z, 0.8F);
-				if (cultist.getPos().distanceTo(pos) < 5) {
-					cultist.getNavigation().stop();
-					cultist.currentSpell = null;
-					cultist.setCastTime(20);
-				}
-			}
-			List<TatteredPrinceEntity> princes = octagram.getWorld().getEntitiesByClass(TatteredPrinceEntity.class,
-																						octagram.getSelectionBox().expand(8, 5, 8), prince -> !prince.isAttacking());
-			for (TatteredPrinceEntity prince : princes) {
-				prince.getNavigation().startMovingTo(pos.x, pos.y, pos.z, 0.8F);
-				prince.lookAtEntity(octagram.getOriginalCaster(), 180, 45);
-				if (octagram.tickCount < 20) {
-					prince.startBlessing();
-				}
-				if (prince.getPos().distanceTo(pos) < 5) {
-					prince.getNavigation().stop();
-				}
-			}
+			HasturCultistCondition.moveCultists(octagram);
+			TatteredPrinceCondition.movePrince(octagram);
 		}
+	}
+
+	@Override
+	protected int getRawBiomeId() {
+		return BuiltinRegistries.BIOME.getRawId(MMWorld.HASTUR_BIOME);
+	}
+
+	@Override
+	protected void onCast(OctagramBlockEntity blockEntity, PlayerEntity caster) {
+		super.onCast(blockEntity, caster);
+		HasturAscensionHandler.levelSimulacrum((ServerPlayerEntity) caster);
+	}
+
+	@Override
+	@Environment(EnvType.CLIENT)
+	protected void openScreen() {
+		MinecraftClient.getInstance().setScreen(new SudokuScreen(SudokuScreen.HASTUR_TEXTURE));
 	}
 
 	@Override
@@ -102,6 +81,7 @@ public class HasturBiomeRite extends BiomeConversionRite {
 	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
 						   int light, int overlay, BlockEntityRendererFactory.Context context) {
 		long time = entity.getWorld().getTime();
+		matrixStack.push();
 		if (entity.tickCount < 120) {
 			Random random = new Random(42069);
 			PlayerEntity player = entity.getOriginalCaster();
@@ -110,7 +90,6 @@ public class HasturBiomeRite extends BiomeConversionRite {
 				direction = new Vec3f((float) (player.getX() - entity.getSummoningPos().x),
 									  (float) (player.getEyeY() - entity.getSummoningPos().y), (float) (player.getZ() - entity.getSummoningPos().z));
 			}
-			matrixStack.push();
 			matrixStack.translate(1.5F, 0, 1.5F);
 			matrixStack.multiply(Vec3f.POSITIVE_Y
 									 .getDegreesQuaternion(
@@ -129,13 +108,11 @@ public class HasturBiomeRite extends BiomeConversionRite {
 			matrixStack.translate(-2, 0, 0);
 			direction.add(0, 0, 1.5F);
 			drawLightCone(matrixStack, vertices, entity.tickCount, 80, time, tickDelta, random, rgb);
-			matrixStack.pop();
 		} else {
 			int progressTick = entity.tickCount - 120;
 			Sprite centerSprite = ResourceHandler.HASTUR_SIGIL_CENTER.getSprite();
 			Sprite innerSprite = ResourceHandler.HASTUR_SIGIL_INNER.getSprite();
 			Sprite outerSprite = ResourceHandler.HASTUR_SIGIL_OUTER.getSprite();
-			matrixStack.push();
 			float scale = progressTick < 200 ? (progressTick + tickDelta) / 200F : 1;
 			float rotationProgress = (time % 200 + tickDelta) / 200F * 360;
 			float translationProgress = MathHelper.sin((time + tickDelta) / 20F);
@@ -166,29 +143,7 @@ public class HasturBiomeRite extends BiomeConversionRite {
 													 15728880, overlay,
 													 new float[]{1, 1, 1, 1}, true);
 			matrixStack.pop();
-			matrixStack.pop();
 		}
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
-	protected void openScreen() {
-		MinecraftClient.getInstance().setScreen(new SudokuScreen(SudokuScreen.HASTUR_TEXTURE));
-	}
-
-	@Override
-	protected int getRawBiomeId() {
-		return BuiltinRegistries.BIOME.getRawId(MMWorld.HASTUR_BIOME);
-	}
-
-	@Override
-	protected void onCast(OctagramBlockEntity blockEntity, PlayerEntity caster) {
-		super.onCast(blockEntity, caster);
-		HasturAscensionHandler.levelSimulacrum((ServerPlayerEntity) caster);
-	}
-
-	@Override
-	public void onCancelled(OctagramBlockEntity octagram) {
-		super.onCancelled(octagram);
+		matrixStack.pop();
 	}
 }

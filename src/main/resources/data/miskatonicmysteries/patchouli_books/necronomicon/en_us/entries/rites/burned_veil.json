@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "miskatonicmysteries:rite",
-			"rite": "miskatonicmysteries:burned_veil",
+			"rite": "miskatonicmysteries:rite/burned_veil",
 			"text": ""
 		}
 	]

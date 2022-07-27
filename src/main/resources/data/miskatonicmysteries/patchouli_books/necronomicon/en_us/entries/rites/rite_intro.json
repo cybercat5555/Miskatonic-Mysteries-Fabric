@@ -30,7 +30,7 @@
 			"type": "text",
 			"title": "Triggered Rites",
 			"anchor": "triggered_rites",
-			"text": "Lastly, one last thing to note: rites are, in theory, very versatile.$(br)For example, some rites may be cast as a $(marked)triggered rite$(). They are not truly active until something steps on them. A rite that allows this may be cast as such by $(marked)sneaking$() while starting it, otherwise it will activate normally."
+			"text": "Lastly, one last thing to note: rites are, in theory, very versatile.$(br)For example, some rites are $(marked)triggered rites$(). They are not truly active until anything steps on them."
 		}
 	]
 }

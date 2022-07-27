@@ -5,6 +5,9 @@ import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEnt
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
 import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.AscensionStageCondition;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.HasturCultistCondition;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.KnowledgeCondition;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMEntities;
@@ -29,28 +32,9 @@ import java.util.List;
 public class PrinceSummoningRite extends SummoningRite<TatteredPrinceEntity> {
 
 	public PrinceSummoningRite() {
-		super(new Identifier(Constants.MOD_ID, "summon_prince"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.75F, 0,
-			  MMEntities.TATTERED_PRINCE);
-	}
-
-	@Override
-	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
-		if (super.canCast(octagram, baseRecipe) && octagram.getOriginalCaster() != null) {
-			World world = octagram.getWorld();
-			PlayerEntity originalCaster = octagram.getOriginalCaster();
-			if (originalCaster.isCreative()) {
-				return true;
-			}
-			List<HasturCultistEntity> serfs = world.getEntitiesByClass(HasturCultistEntity.class, octagram.getSelectionBox().expand(10, 10, 10),
-																	   cultist -> cultist.isLoyalTo(originalCaster));
-			if (serfs.size() < 4) {
-				originalCaster
-					.sendMessage(new TranslatableText("message.miskatonicmysteries.summon_prince_fail.cultists", serfs.size()), true);
-				return false;
-			}
-			return true;
-		}
-		return false;
+		super(new Identifier(Constants.MOD_ID, "summon_prince"), MMAffiliations.HASTUR, 0.75F, MMEntities.TATTERED_PRINCE,
+			  new AscensionStageCondition(MMAffiliations.HASTUR, 0), new KnowledgeCondition(MMAffiliations.HASTUR.getId().getPath()),
+			  new HasturCultistCondition(4));
 	}
 
 	@Override

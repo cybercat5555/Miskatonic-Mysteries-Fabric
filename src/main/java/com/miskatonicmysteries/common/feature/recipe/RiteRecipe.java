@@ -22,7 +22,7 @@ import com.google.gson.JsonObject;
 
 public class RiteRecipe implements LazySerializable {
 
-	public final List<Ingredient> ingredients = DefaultedList.ofSize(8, Ingredient.EMPTY);
+	public final DefaultedList<Ingredient> ingredients = DefaultedList.ofSize(8, Ingredient.EMPTY);
 	public final boolean matchExactly;
 	public final Rite rite;
 	public final Identifier id;
@@ -49,6 +49,11 @@ public class RiteRecipe implements LazySerializable {
 	@Override
 	public RecipeType<?> getType() {
 		return MMRecipes.RITE_RECIPE;
+	}
+
+	@Override
+	public DefaultedList<Ingredient> getIngredients() {
+		return ingredients;
 	}
 
 	public static class Serializer implements RecipeSerializer<RiteRecipe> {

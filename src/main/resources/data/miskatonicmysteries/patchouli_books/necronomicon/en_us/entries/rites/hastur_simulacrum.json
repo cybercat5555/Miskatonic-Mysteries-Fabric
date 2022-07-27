@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "miskatonicmysteries:rite",
-			"rite": "miskatonicmysteries:hastur_simulacrum",
+			"rite": "miskatonicmysteries:rite/hastur_simulacrum",
 			"text": "It will convert the biome around the ritual area, so be sure to cast it correctly..."
 		},
 		{

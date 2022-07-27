@@ -5,6 +5,7 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.rite.TeleportRite;
+import com.miskatonicmysteries.common.feature.recipe.rite.Triggerable;
 import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.TeleportEffectPacket;
 import com.miskatonicmysteries.common.registry.MMObjects;
@@ -138,7 +139,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 			octagram.sync(world, pos);
 			Rite rite = MMRites.getRite(octagram);
 			if (rite != null) {
-				octagram.triggered = !player.isSneaking();
+				octagram.triggered = rite.shouldTriggerFromStart(octagram, player);
 				octagram.currentRite = rite;
 				rite.onStart(octagram);
 				octagram.markDirty();
@@ -336,9 +337,8 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 		public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 			if (!world.isClient && getOctagram(world, pos, world.getBlockState(pos)) != null) {
 				OctagramBlockEntity octagram = getOctagram(world, pos, world.getBlockState(pos));
-				if (octagram.currentRite instanceof TriggeredRite && !octagram.triggered
-					&& octagram.tickCount >= ((TriggeredRite) octagram.currentRite).ticksNeeded) {
-					((TriggeredRite) octagram.currentRite).trigger(octagram, entity);
+				if (octagram.currentRite instanceof Triggerable t && t.isReadyToTrigger(octagram)) {
+					t.trigger(octagram, entity);
 					octagram.markDirty();
 					octagram.sync(world, pos);
 				}

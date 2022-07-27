@@ -13,6 +13,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -52,10 +53,6 @@ public abstract class Rite {
 		matrixStack.translate(0, 0.001F, 0);
 		RenderHelper.renderPortalLayer(mask, matrix4f, vertexConsumers, 3F, 3F, light, overlay, colors);
 		matrixStack.pop();
-	}
-
-	public List<Ingredient> getIngredients() {
-		return List.of();
 	}
 
 	public Identifier getId() {
@@ -100,6 +97,9 @@ public abstract class Rite {
 		return true;
 	}
 
+	/**
+	 * Server-side check on if the Rite can start
+	 */
 	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
 		if (octagramAffiliation == null || octagramAffiliation.equals(octagram.getAffiliation(false))) {
 			for (RiteCondition condition : startConditions) {
@@ -147,6 +147,10 @@ public abstract class Rite {
 	}
 
 	public boolean prioritiseRecipe() {
+		return true;
+	}
+
+	public boolean shouldTriggerFromStart(OctagramBlockEntity octagram, PlayerEntity player) {
 		return true;
 	}
 }

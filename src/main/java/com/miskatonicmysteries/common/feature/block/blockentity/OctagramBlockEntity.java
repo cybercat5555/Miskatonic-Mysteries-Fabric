@@ -23,6 +23,7 @@ import com.miskatonicmysteries.common.util.Constants.Tags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CandleBlock;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
@@ -420,17 +421,29 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 				return false;
 			}
 			BlockState middleBlock = world.getBlockState(pillar.up(1));
-			if (!middleBlock.isIn(Tags.PILLAR_MIDDLE) && middleBlock.getBlock() instanceof Affiliated a
-				&& a.getAffiliation(false) != affiliation) {
+			if (!middleBlock.isIn(Tags.PILLAR_MIDDLE) ||
+				(middleBlock.getBlock() instanceof Affiliated a && a.getAffiliation(false) != affiliation)) {
 				return false;
 			}
 
 			BlockState topBlock = world.getBlockState(pillar.up(2));
-			if (!topBlock.isIn(Tags.PILLAR_TOP) && topBlock.getBlock() instanceof Affiliated a
-				&& a.getAffiliation(false) != affiliation) {
+			if (!topBlock.isIn(Tags.PILLAR_TOP) ||
+				(topBlock.getBlock() instanceof Affiliated a && a.getAffiliation(false) != affiliation)) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	public @Nullable OctagramBlockEntity getBoundOctagram() {
+		BlockPos octagramPos = getBoundPos();
+		ServerWorld boundWorld = getBoundDimension();
+		if (octagramPos != null && boundWorld != null) {
+			BlockEntity be = boundWorld.getBlockEntity(octagramPos);
+			if (be instanceof OctagramBlockEntity) {
+				return (OctagramBlockEntity) be;
+			}
+		}
+		return null;
 	}
 }

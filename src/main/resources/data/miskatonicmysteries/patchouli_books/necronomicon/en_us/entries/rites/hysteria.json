@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "miskatonicmysteries:rite",
-			"rite": "miskatonicmysteries:hysteria",
+			"rite": "miskatonicmysteries:rite/hysteria",
 			"text": "Definitely make sure to cast this while sneaking, so as to not accidentally start it normally."
 		}
 	]

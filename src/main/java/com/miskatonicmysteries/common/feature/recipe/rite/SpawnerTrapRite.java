@@ -4,6 +4,7 @@ import com.miskatonicmysteries.api.interfaces.DropManipulator;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.SpaceCondition;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 
@@ -23,7 +24,6 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.TranslatableText;
@@ -49,7 +49,7 @@ public class SpawnerTrapRite extends TriggeredRite {
 
 	public SpawnerTrapRite(Identifier id, @Nullable Affiliation octagram, Predicate<EntityType<?>> spawnPredicate, ParticleEffect spawnParticles,
 						   float[] color) {
-		super(id, octagram, 0.01F, 90);
+		super(id, octagram, 0.01F, 90, new SpaceCondition(1));
 		this.spawnPredicate = spawnPredicate;
 		this.spawnParticles = spawnParticles;
 		this.color = color;
@@ -57,7 +57,7 @@ public class SpawnerTrapRite extends TriggeredRite {
 
 	@Override
 	public void tick(OctagramBlockEntity octagram) {
-		if (octagram.triggered && octagram.tickCount > ticksNeeded && octagram.tickCount % 200 == 0) {
+		if (octagram.triggered && octagram.tickCount > ticksTillTriggerable && octagram.tickCount % 200 == 0) {
 			World world = octagram.getWorld();
 			int amount = 1 + world.random.nextInt(2);
 			octagram.getWorld().playSound(null, octagram.getPos(), MMSounds.RITE_VEIL_SPAWN, SoundCategory.AMBIENT, 1.0F,
@@ -101,14 +101,14 @@ public class SpawnerTrapRite extends TriggeredRite {
 					octagram.getWorld().addParticle(spawnParticles, position.x, position.y, position.z, 0, 0, 0);
 				}
 			}
-		} else if (octagram.getWorld().isClient && (octagram.tickCount < ticksNeeded || octagram.triggered)
+		} else if (octagram.getWorld().isClient && (octagram.tickCount < ticksTillTriggerable || octagram.triggered)
 			&& octagram.getWorld().random.nextFloat() < 0.25F) {
 			Vec3d position = octagram.getSummoningPos()
 				.add(octagram.getWorld().random.nextGaussian(), -0.5 + octagram.getWorld().random.nextFloat(),
 					 octagram.getWorld().random.nextGaussian() * 0.5F);
 			octagram.getWorld().addParticle(MMParticles.AMBIENT, position.x, position.y, position.z, color[0], color[1], color[2]);
 		}
-		if (octagram.triggered || octagram.tickCount < ticksNeeded) {
+		if (octagram.triggered || octagram.tickCount < ticksTillTriggerable) {
 			super.tick(octagram);
 		}
 	}
@@ -122,8 +122,8 @@ public class SpawnerTrapRite extends TriggeredRite {
 	@Environment(EnvType.CLIENT)
 	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
 						   int light, int overlay, BlockEntityRendererFactory.Context context) {
-		if (entity.triggered && entity.tickCount > ticksNeeded) {
-			float alpha = (entity.tickCount - ticksNeeded) > ticksNeeded ? 1 : (entity.tickCount - ticksNeeded) / (float) ticksNeeded;
+		if (entity.triggered && entity.tickCount > ticksTillTriggerable) {
+			float alpha = (entity.tickCount - ticksTillTriggerable) > ticksTillTriggerable ? 1 : (entity.tickCount - ticksTillTriggerable) / (float) ticksTillTriggerable;
 			renderPortalOctagram(alpha, color, entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
 		} else {
 			super.renderRite(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
@@ -146,9 +146,6 @@ public class SpawnerTrapRite extends TriggeredRite {
 	@Override
 	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
 		if (super.canCast(octagram, baseRecipe)) {
-			if (octagram.getWorld().isClient) {
-				return true;
-			}
 			for (BlockPos iterateOutward : BlockPos.iterateOutwards(octagram.getPos().add(0, 1, 0), 1, 1, 1)) {
 				if (octagram.getWorld().getBlockState(iterateOutward).isSolidBlock(octagram.getWorld(), iterateOutward)) {
 					if (octagram.getOriginalCaster() != null) {

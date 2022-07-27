@@ -2,10 +2,11 @@ package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.gui.SudokuScreen;
 import com.miskatonicmysteries.client.vision.VisionHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.RiteCondition;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState.BiomeKnot;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
@@ -25,11 +26,9 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -50,19 +49,18 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
-public abstract class BiomeConversionRite extends AscensionLockedRite {
+public abstract class BiomeConversionRite extends Rite {
 	private static final int RANGE = 16;
 	protected @Nullable Affiliation knotAffiliation;
 
-	public BiomeConversionRite(Identifier id, @Nullable Affiliation octagram, String knowledge, int stage, @Nullable Affiliation knotAffiliation) {
-		super(id, octagram, knowledge, 0, stage);
+	public BiomeConversionRite(Identifier id, @Nullable Affiliation octagram, @Nullable Affiliation knotAffiliation, RiteCondition... conditions) {
+		super(id, octagram, 0, conditions);
 		this.knotAffiliation = knotAffiliation;
 	}
 
 	@Override
 	public void onStart(OctagramBlockEntity octagram) {
 		octagram.permanentRiteActive = true;
-		octagram.clear();
 		octagram.markDirty();
 	}
 
@@ -104,6 +102,8 @@ public abstract class BiomeConversionRite extends AscensionLockedRite {
 			} else {
 				octagram.tickCount++;
 				if (octagram.tickCount == 120) {
+					octagram.clear();
+					octagram.markDirty();
 					if (octagram.getWorld() instanceof ServerWorld serverWorld) {
 						onCast(octagram, caster);
 						MMDimensionalWorldState worldState = MMDimensionalWorldState.get(serverWorld);
@@ -210,9 +210,6 @@ public abstract class BiomeConversionRite extends AscensionLockedRite {
 
 	@Override
 	public boolean shouldContinue(OctagramBlockEntity octagram) {
-		if (octagram.getWorld().getTime() % 60 == 0 && !checkPillars(octagram)) {
-			return false;
-		}
 		if (octagram.tickCount < 120) {
 			PlayerEntity caster = octagram.getOriginalCaster();
 			if (caster == null || caster.getPos().distanceTo(octagram.getSummoningPos()) > 16 || caster.isDead()) {
@@ -220,35 +217,6 @@ public abstract class BiomeConversionRite extends AscensionLockedRite {
 			}
 		}
 		return super.shouldContinue(octagram);
-	}
-
-	protected boolean checkPillars(OctagramBlockEntity octagram) {
-		return octagram.checkPillars(knotAffiliation);
-	}
-
-	@Override
-	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
-		PlayerEntity caster = octagram.getOriginalCaster();
-		if (octagram.getOriginalCaster() == null) {
-			return false;
-		}
-		if (caster.isCreative()) {
-			return true;
-		}
-		World world = octagram.getWorld();
-		if (knotAffiliation != null) {
-			List<BiomeKnot> nearbyKnots = MMDimensionalWorldState.get((ServerWorld) world).getNearbyKnots(octagram.getPos(), 64)
-				.stream().filter(knot -> knot.isActive() && knot.isCore()).collect(Collectors.toList());
-			if (!nearbyKnots.isEmpty()) {
-				caster.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.knots"), true);
-				return false;
-			}
-		}
-		if (!checkPillars(octagram)) {
-			caster.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.pillars"), true);
-			return false;
-		}
-		return super.canCast(octagram, baseRecipe);
 	}
 
 	@Environment(EnvType.CLIENT)

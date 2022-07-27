@@ -7,6 +7,7 @@ import com.miskatonicmysteries.common.feature.entity.HarrowEntity;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.brain.HasturCultistBrain;
 import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.ReverseBiomeCondition;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState.BiomeKnot;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
@@ -49,8 +50,7 @@ import java.util.stream.Collectors;
 public class BiomeReversionRite extends BiomeConversionRite {
 
 	public BiomeReversionRite() {
-		super(new Identifier(Constants.MOD_ID, "revert_biome"), MMAffiliations.YOG,
-			  "", 0, null);
+		super(new Identifier(Constants.MOD_ID, "revert_biome"), MMAffiliations.YOG, null, new ReverseBiomeCondition());
 	}
 
 	@Override
@@ -179,38 +179,6 @@ public class BiomeReversionRite extends BiomeConversionRite {
 
 	@Override
 	public boolean isPermanent(OctagramBlockEntity octagram) {
-		return false;
-	}
-
-	@Override
-	protected boolean checkPillars(OctagramBlockEntity octagram) {
-		return true;
-	}
-
-	@Override
-	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
-		if (super.canCast(octagram, baseRecipe)) {
-			PlayerEntity caster = octagram.getOriginalCaster();
-			List<BiomeKnot> knots = MMDimensionalWorldState.get((ServerWorld) octagram.getWorld()).getNearbyKnots(octagram.getPos(), 0).stream()
-				.filter(knot -> knot.isCore() && !knot.isActive()) //only inactive cores can be cleared
-				.sorted(Comparator.comparingDouble(knot -> knot.getPos().getSquaredDistance(octagram.getSummoningPos())))
-				.collect(Collectors.toList());
-			if (knots.isEmpty()) {
-				caster.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.no_knots"), true);
-				return false;
-			}
-			BiomeKnot knot = knots.get(0);
-			if (!knot.getPos().isWithinDistance(octagram.getSummoningPos(), 24)) {
-				caster.lookAt(EntityAnchor.EYES, new Vec3d(knot.getPos().getX(), knot.getPos().getY(), knot.getPos().getZ()));
-				caster.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.distance"), true);
-				return false;
-			}
-			if (knot.isActive()) {
-				caster.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.deactivate"), true);
-				return false;
-			}
-			return true;
-		}
 		return false;
 	}
 }

@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "miskatonicmysteries:rite",
-			"rite": "miskatonicmysteries:summon_prince",
+			"rite": "miskatonicmysteries:rite/summon_prince",
 			"text": "We recommend using a Sheep or a Pig rather than a Villager, as Serfs are not very enthusiastic about manslaughter."
 		}
 	]

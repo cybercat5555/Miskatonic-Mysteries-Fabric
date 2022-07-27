@@ -13,7 +13,7 @@
 		},
 		{
 			"type": "miskatonicmysteries:rite",
-			"rite": "miskatonicmysteries:masterpiece",
+			"rite": "miskatonicmysteries:rite/masterpiece",
 			"text": "$(obfs:miskatonicmysteries:hastur;2)Both villagers and normal players are suitable for this rite$()."
 		}
 	]

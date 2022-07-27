@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "miskatonicmysteries:rite",
-			"rite": "miskatonicmysteries:golden_flock",
+			"rite": "miskatonicmysteries:rite/golden_flock",
 			"text": "The converted Villager must be under the effect of $(marked)mania$(), best achieved with the $(ml:rites/hysteria)Hysteria$() rite."
 		}
 	]

@@ -1,11 +1,10 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
-import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
-import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.common.feature.block.MasterpieceStatueBlock;
 import com.miskatonicmysteries.common.feature.block.blockentity.MasterpieceStatueBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.AscensionStageCondition;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.KnowledgeCondition;
 import com.miskatonicmysteries.common.handler.SchedulingHandler;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncRiteTargetPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
@@ -24,7 +23,6 @@ import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -35,15 +33,16 @@ import net.minecraft.world.event.GameEvent;
 public class MasterpieceRite extends TriggeredRite {
 
 	public MasterpieceRite() {
-		super(new Identifier(Constants.MOD_ID, "masterpiece"), MMAffiliations.HASTUR, 0.5F, 60);
+		super(new Identifier(Constants.MOD_ID, "masterpiece"), MMAffiliations.HASTUR, 0.5F, 60,
+			  new AscensionStageCondition(MMAffiliations.HASTUR, 2), new KnowledgeCondition(MMAffiliations.HASTUR.getId().getPath()));
 	}
 
 	@Override
 	public void tick(OctagramBlockEntity octagram) {
-		if (octagram.tickCount < ticksNeeded || octagram.triggered) {
+		if (octagram.tickCount < ticksTillTriggerable || octagram.triggered) {
 			super.tick(octagram);
 		}
-		if (octagram.tickCount > ticksNeeded) {
+		if (octagram.tickCount > ticksTillTriggerable) {
 			Vec3d pos = octagram.getSummoningPos();
 			if (!octagram.getWorld().isClient && (octagram.targetedEntity == null || (
 				octagram.targetedEntity == octagram.getOriginalCaster() && octagram.targetedEntity.isSneaking()))) {
@@ -94,33 +93,7 @@ public class MasterpieceRite extends TriggeredRite {
 
 	@Override
 	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.triggered && octagram.tickCount >= 600 + ticksNeeded;
-	}
-
-	@Override
-	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
-		if (super.canCast(octagram, baseRecipe)) {
-			if (!octagram.doesCasterHaveKnowledge(MMAffiliations.HASTUR.getId().getPath())) {
-				if (octagram.getOriginalCaster() != null) {
-					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.knowledge"), true);
-				}
-				return false;
-			}
-			if (Ascendant.of(octagram.getOriginalCaster()).isPresent()) {
-				Ascendant ascendant = Ascendant.of(octagram.getOriginalCaster()).get();
-				if (!MMAffiliations.HASTUR.equals(MiskatonicMysteriesAPI.getNonNullAffiliation(octagram.getOriginalCaster(), false))) {
-					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.ascension_path"), true);
-					return false;
-				}
-				if (ascendant.getAscensionStage() < 2) {
-					octagram.getOriginalCaster()
-						.sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.ascension_stage"), true);
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
+		return octagram.triggered && octagram.tickCount >= 600 + ticksTillTriggerable;
 	}
 
 	@Override

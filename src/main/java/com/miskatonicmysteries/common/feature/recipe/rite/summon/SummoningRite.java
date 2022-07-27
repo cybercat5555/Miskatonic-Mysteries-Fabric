@@ -1,10 +1,11 @@
 package com.miskatonicmysteries.common.feature.recipe.rite.summon;
 
 import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.feature.recipe.rite.AscensionLockedRite;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.RiteCondition;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -20,7 +21,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -30,7 +30,7 @@ import net.minecraft.util.math.Vec3f;
 import com.mojang.blaze3d.systems.RenderSystem;
 import javax.annotation.Nullable;
 
-public abstract class SummoningRite<T extends Entity> extends AscensionLockedRite {
+public abstract class SummoningRite<T extends Entity> extends Rite {
 
 	protected int tickCount;
 	protected EntityType<T> summon;
@@ -39,8 +39,8 @@ public abstract class SummoningRite<T extends Entity> extends AscensionLockedRit
 	protected @Nullable
 	EntityData data;
 
-	public SummoningRite(Identifier id, @Nullable Affiliation octagram, String knowledge, float investigatorChance, int stage, EntityType<T> summon) {
-		super(id, octagram, knowledge, investigatorChance, stage);
+	public SummoningRite(Identifier id, @Nullable Affiliation octagram, float investigatorChance, EntityType<T> summon, RiteCondition... conditions) {
+		super(id, octagram, investigatorChance, conditions);
 		this.summon = summon;
 		tickCount = 200;
 	}

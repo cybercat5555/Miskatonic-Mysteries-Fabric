@@ -20,7 +20,7 @@ import com.google.gson.JsonObject;
 
 public class ChemistryRecipe implements LazySerializable {
 
-	public final List<Ingredient> ingredients = DefaultedList.ofSize(6, Ingredient.EMPTY);
+	public final DefaultedList<Ingredient> ingredients = DefaultedList.ofSize(6, Ingredient.EMPTY);
 	public final int color;
 	public final List<PotentialItem> output = DefaultedList.ofSize(3, PotentialItem.EMPTY);
 	public final Identifier id;
@@ -49,6 +49,11 @@ public class ChemistryRecipe implements LazySerializable {
 	@Override
 	public RecipeType<?> getType() {
 		return MMRecipes.CHEMISTRY_RECIPE;
+	}
+
+	@Override
+	public DefaultedList<Ingredient> getIngredients() {
+		return ingredients;
 	}
 
 	public static class Serializer implements RecipeSerializer<ChemistryRecipe> {

@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "miskatonicmysteries:rite",
-			"rite": "miskatonicmysteries:teleport",
+			"rite": "miskatonicmysteries:rite/teleport",
 			"text": "The Rite must be performed $(l)only on the other Octagram.$()"
 		}
 	]

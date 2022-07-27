@@ -18,7 +18,7 @@
 		},
 		{
 			"type": "miskatonicmysteries:rite",
-			"rite": "miskatonicmysteries:revert_biome",
+			"rite": "miskatonicmysteries:rite/revert_biome",
 			"text": "$(o)Goodb ye$()"
 		}
 	]

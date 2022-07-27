@@ -1,11 +1,13 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
+import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.AscensionStageCondition;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.KnowledgeCondition;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncRiteTargetPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMEntities;
-import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
@@ -16,9 +18,7 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -30,10 +30,11 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Random;
 
-public class GoldenFlockRite extends AscensionLockedRite {
+public class GoldenFlockRite extends Rite {
 
 	public GoldenFlockRite() {
-		super(new Identifier(Constants.MOD_ID, "golden_flock"), MMAffiliations.HASTUR, MMAffiliations.HASTUR.getId().getPath(), 0.5F, 1);
+		super(new Identifier(Constants.MOD_ID, "golden_flock"), MMAffiliations.HASTUR, 0.5F,
+			  new AscensionStageCondition(MMAffiliations.HASTUR, 1), new KnowledgeCondition(MMAffiliations.HASTUR.getId().getPath()));
 	}
 
 	@Override

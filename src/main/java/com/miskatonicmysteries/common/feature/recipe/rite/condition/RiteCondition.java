@@ -14,8 +14,8 @@ import net.minecraft.util.Identifier;
 import java.util.function.Predicate;
 
 public abstract class RiteCondition implements Predicate<OctagramBlockEntity> {
-	private final Identifier iconLocation;
-	private final Text message;
+	protected final Identifier iconLocation;
+	protected final Text message;
 	protected boolean checkWhileRunning;
 	public RiteCondition(Identifier id) {
 		this.iconLocation = new Identifier(id.getNamespace(), String.format("textures/gui/rite_conditions/%s.png", id.getPath()));

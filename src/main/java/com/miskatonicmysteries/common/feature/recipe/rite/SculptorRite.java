@@ -8,6 +8,7 @@ import com.miskatonicmysteries.client.render.blockentity.StatueBlockRender;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.KnowledgeCondition;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
@@ -29,6 +30,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
@@ -45,12 +47,9 @@ import java.util.Random;
 
 public class SculptorRite extends Rite {
 
-	private final int ticksNeeded = 140;
-	private final String knowledge;
-
 	public SculptorRite() {
-		super(new Identifier(Constants.MOD_ID, "sculptor_rite"), MMAffiliations.HASTUR, 0.2F);
-		this.knowledge = MMAffiliations.HASTUR.getId().getPath();
+		super(new Identifier(Constants.MOD_ID, "sculptor_rite"), MMAffiliations.HASTUR, 0.2F,
+			  new KnowledgeCondition(MMAffiliations.HASTUR.getId().getPath()));
 	}
 
 	@Override
@@ -88,7 +87,7 @@ public class SculptorRite extends Rite {
 
 	@Override
 	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.triggered && octagram.tickCount >= ticksNeeded;
+		return octagram.tickCount >= 140;
 	}
 
 	@Override
@@ -128,20 +127,6 @@ public class SculptorRite extends Rite {
 	@Override
 	public boolean shouldContinue(OctagramBlockEntity octagram) {
 		return octagram.getOriginalCaster() != null && !octagram.getOriginalCaster().isDead();
-	}
-
-	@Override
-	public boolean canCast(OctagramBlockEntity octagram, RiteRecipe baseRecipe) {
-		if (super.canCast(octagram, baseRecipe)) {
-			if (!octagram.doesCasterHaveKnowledge(knowledge)) {
-				if (octagram.getOriginalCaster() != null) {
-					octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.rite_fail.knowledge"), true);
-				}
-				return false;
-			}
-			return true;
-		}
-		return false;
 	}
 
 	@Override

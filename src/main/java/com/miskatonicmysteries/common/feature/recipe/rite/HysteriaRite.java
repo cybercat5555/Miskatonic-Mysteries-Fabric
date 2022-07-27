@@ -1,7 +1,6 @@
 package com.miskatonicmysteries.common.feature.recipe.rite;
 
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.registry.MMSounds;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
@@ -9,8 +8,6 @@ import com.miskatonicmysteries.common.util.Constants;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
@@ -23,7 +20,7 @@ public class HysteriaRite extends TriggeredRite {
 
 	@Override
 	public void tick(OctagramBlockEntity octagram) {
-		if (octagram.tickCount < ticksNeeded && octagram.getWorld().isClient) {
+		if (octagram.tickCount < ticksTillTriggerable && octagram.getWorld().isClient) {
 			Vec3d position = octagram.getSummoningPos()
 				.add(octagram.getWorld().random.nextGaussian() * 5, -0.25 + octagram.getWorld().random
 					.nextFloat() * 5, octagram.getWorld().random.nextGaussian() * 5);
@@ -57,6 +54,6 @@ public class HysteriaRite extends TriggeredRite {
 
 	@Override
 	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.triggered && octagram.tickCount >= ticksNeeded;
+		return octagram.triggered && octagram.tickCount >= ticksTillTriggerable;
 	}
 }

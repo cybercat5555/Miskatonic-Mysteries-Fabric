@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "miskatonicmysteries:rite",
-			"rite": "miskatonicmysteries:summon_byakhee",
+			"rite": "miskatonicmysteries:rite/summon_byakhee",
 			"text": "$(obfs:miskatonicmysteries:hastur;2)The creature will spawn untamed$()."
 		}
 	]

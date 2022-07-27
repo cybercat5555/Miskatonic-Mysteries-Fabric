@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.client.gui.patchouli;
 
-import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.common.registry.MMRegistries;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.item.ItemStack;
@@ -15,28 +15,30 @@ import vazkii.patchouli.api.IVariableProvider;
 
 public class RiteProcessor implements IComponentProcessor {
 
-	protected Rite rite;
+	protected RiteRecipe recipe;
 
 	@Override
 	public void setup(IVariableProvider variables) {
-		this.rite = MMRegistries.RITES.get(new Identifier(variables.get("rite").asString()));
+		this.recipe = (RiteRecipe) MinecraftClient.getInstance().world.getRecipeManager().get(new Identifier(variables.get("rite").asString()))
+			.orElseThrow(IllegalArgumentException::new);
+		System.out.println(recipe.id);
 	}
 
 	@Override
 	public IVariable process(String key) {
 		switch (key) {
 			case "octagram": {
-				SpriteIdentifier sprite = ResourceHandler.getMatchingOctagramTexture(rite.getOctagramAffiliation());
+				SpriteIdentifier sprite = ResourceHandler.getMatchingOctagramTexture(recipe.rite.getOctagramAffiliation());
 				return IVariable.wrap(
 					new Identifier(sprite.getTextureId().getNamespace(), "textures/" + sprite.getTextureId().getPath() + ".png")
 						.toString());
 			}
 			case "rite_name":
-				return IVariable.wrap(I18n.translate(rite.getTranslationString()));
+				return IVariable.wrap(I18n.translate(recipe.rite.getTranslationString()));
 			default: {
-				for (int i = 0; i < rite.getIngredients().size(); i++) {
+				for (int i = 0; i < recipe.getIngredients().size(); i++) {
 					if (key.equals("ingredient" + (i + 1))) {
-						ItemStack[] stacks = rite.getIngredients().get(i).getMatchingStacks();
+						ItemStack[] stacks = recipe.getIngredients().get(i).getMatchingStacks();
 						return IVariable.from(stacks);
 					}
 				}
