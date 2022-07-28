@@ -2,11 +2,16 @@ package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.common.util.Constants;
 
+import net.fabricmc.fabric.api.loot.v1.FabricLootPool;
+import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 
+import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
+import net.minecraft.loot.context.LootContextTypes;
+import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -18,6 +23,7 @@ public class MMLootTables {
 
 	protected static final Identifier TRANQ_TABLE = new Identifier(Constants.MOD_ID, "injects/tranquilizer");
 	protected static final Identifier OCEANIC_GOLD_TABLE = new Identifier(Constants.MOD_ID, "injects/oceanic_gold");
+	protected static final Identifier MM_FISHING_TABLE = new Identifier(Constants.MOD_ID, "injects/mm_fishing");
 	protected static final Identifier INCANTATION_TABLE = new Identifier(Constants.MOD_ID, "injects/incantation");
 	protected static final Identifier IDOL_TABLE = new Identifier(Constants.MOD_ID, "injects/idol");
 	protected static final Identifier BOOK_TABLE = new Identifier(Constants.MOD_ID, "injects/necronomicon");
@@ -37,7 +43,9 @@ public class MMLootTables {
 		LOOT_TABLE_INJECTS.put(LootTables.STRONGHOLD_LIBRARY_CHEST, List.of(INCANTATION_TABLE, IDOL_TABLE, BOOK_TABLE));
 		LOOT_TABLE_INJECTS.put(LootTables.SIMPLE_DUNGEON_CHEST, List.of(INCANTATION_TABLE, BOOK_TABLE, OCEANIC_GOLD_TABLE));
 		LOOT_TABLE_INJECTS.put(LootTables.IGLOO_CHEST_CHEST, List.of(INCANTATION_TABLE));
-
+		/*LOOT_TABLE_INJECTS.put(LootTables.FISHING_TREASURE_GAMEPLAY, List.of(MM_FISHING_TABLE, MM_FISHING_TABLE, MM_FISHING_TABLE, MM_FISHING_TABLE,
+																			 MM_FISHING_TABLE));
+*/
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, identifier, builder, lootTableSetter) -> {
 			if (LOOT_TABLE_INJECTS.containsKey(identifier)) {
 				List<FabricLootSupplier> tables = LOOT_TABLE_INJECTS.get(identifier).stream().map(id -> (FabricLootSupplier) FabricLootSupplierBuilder
@@ -46,6 +54,20 @@ public class MMLootTables {
 					builder.withPools(table.getPools());
 				}
 				lootTableSetter.set(builder.build());
+			}
+			if (identifier.equals(LootTables.FISHING_TREASURE_GAMEPLAY)){
+				LootPool pool = ((FabricLootSupplier) lootManager.getTable(identifier)).getPools().get(0);
+				FabricLootPool mmPool = (FabricLootPool) ((FabricLootSupplier) lootManager.getTable(MM_FISHING_TABLE)).getPools().get(0);
+				FabricLootSupplierBuilder newBuilder = FabricLootSupplierBuilder.builder();
+				if (pool != null && mmPool != null) {
+					FabricLootPoolBuilder poolBuilder = FabricLootPoolBuilder.builder().copyFrom(pool);
+					for (LootPoolEntry entry : mmPool.getEntries()) {
+						poolBuilder.withEntry(entry);
+					}
+					newBuilder.withPool(poolBuilder.build());
+					newBuilder.type(LootContextTypes.FISHING);
+					lootTableSetter.set(newBuilder.build());
+				}
 			}
 		});
 

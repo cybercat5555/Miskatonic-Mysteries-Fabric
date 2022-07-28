@@ -28,6 +28,8 @@ import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
+import net.minecraft.item.FishingRodItem;
+
 import me.shedaniel.autoconfig.example.ExampleInits;
 import software.bernie.example.GeckoLibMod;
 import software.bernie.example.client.renderer.entity.ExampleGeoRenderer;

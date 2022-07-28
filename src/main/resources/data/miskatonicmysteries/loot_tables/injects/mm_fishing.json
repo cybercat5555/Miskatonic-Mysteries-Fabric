@@ -11,16 +11,23 @@
 						{
 							"function": "minecraft:set_count",
 							"count": {
-								"min": 0.0,
-								"max": 6.0,
+								"min": 1.0,
+								"max": 3.0,
 								"type": "minecraft:uniform"
 							}
 						}
-					],
-					"conditions": [
+					]
+				},{
+					"type": "minecraft:item",
+					"name": "miskatonicmysteries:oceanic_gold",
+					"functions": [
 						{
-							"condition": "minecraft:random_chance",
-							"chance": 0.75
+							"function": "minecraft:set_count",
+							"count": {
+								"min": 1.0,
+								"max": 3.0,
+								"type": "minecraft:uniform"
+							}
 						}
 					]
 				}
