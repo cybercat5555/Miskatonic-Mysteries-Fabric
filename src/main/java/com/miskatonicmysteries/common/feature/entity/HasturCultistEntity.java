@@ -35,7 +35,6 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.Angerable;
-import net.minecraft.entity.mob.WitchEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -66,7 +65,6 @@ import java.util.UUID;
 import com.mojang.serialization.Dynamic;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import javax.annotation.Nullable;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class HasturCultistEntity extends VillagerEntity implements Angerable, Affiliated, CastingMob {
 
@@ -275,12 +273,25 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 	protected void fillRecipes() {
 		if (isAscended()) {
 			VillagerData villagerData = this.getVillagerData();
-			Int2ObjectMap<TradeOffers.Factory[]> trades = MMTrades.YELLOW_SERF_TRADE;
-			if (!trades.isEmpty()) {
-				TradeOffers.Factory[] tradeFactories = trades.get(villagerData.getLevel());
-				if (tradeFactories != null) {
-					TradeOfferList tradeOfferList = this.getOffers();
-					this.fillRecipesFromPool(tradeOfferList, tradeFactories, 2);
+			TradeOfferList tradeOfferList = this.getOffers();
+			switch (villagerData.getLevel()) {
+				case 1 -> tradeOfferList.add(MMTrades.NECRONOMICON_OFFER.create(this, getRandom()));
+				case 2 -> tradeOfferList.add(MMTrades.MASK_OFFER.create(this, getRandom()));
+				case 3 -> {
+					tradeOfferList.add(MMTrades.ORNATE_DAGGER_OFFER.create(this, getRandom()));
+					tradeOfferList.add(MMTrades.YELLOW_HOOD_OFFER.create(this, getRandom()));
+				}
+				case 4 -> {
+					tradeOfferList.add(MMTrades.YELLOW_ROBE_OFFER.create(this, getRandom()));
+					tradeOfferList.add(MMTrades.YELLOW_SKIRT_OFFER.create(this, getRandom()));
+					tradeOfferList.add(MMTrades.YELLOW_SIGN_OFFER.create(this, getRandom()));
+				}
+			}
+			Int2ObjectMap<TradeOffers.Factory[]> extraTrades = MMTrades.YELLOW_SERF_EXTRA_TRADES;
+			if (!extraTrades.isEmpty()) {
+				TradeOffers.Factory[] tradeFactories = extraTrades.get(villagerData.getLevel());
+				if (tradeFactories != null && tradeFactories.length > 0) {
+					this.fillRecipesFromPool(tradeOfferList, tradeFactories, 1);
 				}
 			}
 		}
