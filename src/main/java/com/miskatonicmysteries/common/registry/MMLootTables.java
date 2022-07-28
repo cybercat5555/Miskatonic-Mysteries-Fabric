@@ -43,9 +43,7 @@ public class MMLootTables {
 		LOOT_TABLE_INJECTS.put(LootTables.STRONGHOLD_LIBRARY_CHEST, List.of(INCANTATION_TABLE, IDOL_TABLE, BOOK_TABLE));
 		LOOT_TABLE_INJECTS.put(LootTables.SIMPLE_DUNGEON_CHEST, List.of(INCANTATION_TABLE, BOOK_TABLE, OCEANIC_GOLD_TABLE));
 		LOOT_TABLE_INJECTS.put(LootTables.IGLOO_CHEST_CHEST, List.of(INCANTATION_TABLE));
-		/*LOOT_TABLE_INJECTS.put(LootTables.FISHING_TREASURE_GAMEPLAY, List.of(MM_FISHING_TABLE, MM_FISHING_TABLE, MM_FISHING_TABLE, MM_FISHING_TABLE,
-																			 MM_FISHING_TABLE));
-*/
+
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, identifier, builder, lootTableSetter) -> {
 			if (LOOT_TABLE_INJECTS.containsKey(identifier)) {
 				List<FabricLootSupplier> tables = LOOT_TABLE_INJECTS.get(identifier).stream().map(id -> (FabricLootSupplier) FabricLootSupplierBuilder
