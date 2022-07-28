@@ -89,7 +89,6 @@ public class HasturCultistBrain {
 		brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
 		brain.setDefaultActivity(Activity.IDLE);
 		brain.resetPossibleActivities();
-		//can't attack if there's a congregation point nearby, too busy with it?
 	}
 
 
@@ -199,7 +198,6 @@ public class HasturCultistBrain {
 			new ForgetAngryAtTargetTask<>(),
 			new WakeUpTask(),
 			new StartRaidTask(),
-			new CrownAscendedCultistTask(),
 			new WanderAroundTask(),
 			new MeetVillagerTask(),
 			new HealthCareTask(),
@@ -215,7 +213,8 @@ public class HasturCultistBrain {
 				Pair.of(new GoToIfNearbyTask(MemoryModuleType.MEETING_POINT, 0.4F, 40), 2),
 				Pair.of(new GoToIfNearbyTask(MMEntities.CONGREGATION_POINT, 0.4F, 80), 2),
 				Pair.of(new MeetVillagerTask(), 2),
-				Pair.of(new RecruitTask(), 3)))),
+				Pair.of(new RecruitTask(), 4),
+				Pair.of(new CrownAscendedCultistTask(), 4)))),
 			Pair.of(2, new MeetVillagerTask()),
 			Pair.of(2, new VillagerWalkTowardsTask(MemoryModuleType.MEETING_POINT, f, 6, 100, 200)),
 			Pair.of(3, new ForgetCompletedPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT)),

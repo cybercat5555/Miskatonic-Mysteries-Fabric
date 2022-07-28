@@ -29,6 +29,7 @@
 		"villagers.VillagerEntityMixin",
 		"world.OceanMonumentMixin",
 		"world.StructurePoolAccessor",
+		"world.StructurePoolMixin",
 		"world.StructurePoolRegistryMixin"
 	],
 	"injectors": {

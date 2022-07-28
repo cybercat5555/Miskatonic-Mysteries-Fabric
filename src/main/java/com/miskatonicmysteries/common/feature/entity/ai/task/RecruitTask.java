@@ -59,17 +59,13 @@ public class RecruitTask extends Task<VillagerEntity> {
 				brain.forget(MemoryModuleType.INTERACTION_TARGET);
 				cultist.reinitializeBrain(world);
 			}
-
 		}
-
 	}
 
 	@Override
 	protected boolean shouldRun(ServerWorld world, VillagerEntity entity) {
-		return entity instanceof HasturCultistEntity && ((HasturCultistEntity) entity).isAscended()
-			&& world.getDimension().getMoonPhase(world.getTime()) == 0 && isRecipientQualified(entity,
-																							   entity.getBrain().getOptionalMemory(
-																								   MemoryModuleType.INTERACTION_TARGET).get());
+		return entity instanceof HasturCultistEntity && ((HasturCultistEntity) entity).isAscended() && world.getMoonPhase() == 0
+			&& isRecipientQualified(entity, entity.getBrain().getOptionalMemory(MemoryModuleType.INTERACTION_TARGET).get());
 	}
 
 	private boolean isRecipientQualified(VillagerEntity entity, LivingEntity recipient) {

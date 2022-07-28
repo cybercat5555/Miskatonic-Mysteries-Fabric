@@ -2,12 +2,15 @@ package com.miskatonicmysteries.common.feature.entity.ai.task;
 
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;
 import net.minecraft.server.world.ServerWorld;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -26,9 +29,9 @@ public class CrownAscendedCultistTask extends Task<LivingEntity> {
 	protected void run(ServerWorld world, LivingEntity entity, long time) {
 		super.run(world, entity, time);
 		if (entity instanceof HasturCultistEntity hasturCultistEntity) {
-			List<HasturCultistEntity> cultistEntities = getCultists(hasturCultistEntity, false);
+			List<HasturCultistEntity> cultistEntities = getCultists(hasturCultistEntity).stream()
+				.sorted(Comparator.comparingInt(Entity::getId)).collect(Collectors.toList());
 			if (!cultistEntities.isEmpty()) {
-				cultistEntities.get(0).ascend();
 				for (HasturCultistEntity hasturCultist : cultistEntities) {
 					hasturCultist.setCastTime(60);
 				}
@@ -37,19 +40,46 @@ public class CrownAscendedCultistTask extends Task<LivingEntity> {
 	}
 
 	@Override
-	protected boolean shouldRun(ServerWorld world, LivingEntity entity) {
-		if (entity.age < 600 && ((HasturCultistEntity) entity).isAscended()) {
-			return false;
+	protected void finishRunning(ServerWorld world, LivingEntity entity, long time) {
+		super.finishRunning(world, entity, time);
+
+		if (entity instanceof HasturCultistEntity hasturCultistEntity) {
+			List<HasturCultistEntity> cultistEntities = getCultists(hasturCultistEntity).stream().sorted(Comparator.comparingInt(Entity::getId))
+				.collect(Collectors.toList());
+			if (!cultistEntities.isEmpty()) {
+				HasturCultistEntity target = cultistEntities.get(0);
+				target.ascend();
+				for (HasturCultistEntity hasturCultist : cultistEntities) {
+					hasturCultist.setCastTime(60);
+				}
+				//target.initialize(world, world.getLocalDifficulty(target.getBlockPos()), SpawnReason.CONVERSION, null, )
+			}
 		}
-		List<HasturCultistEntity> cultistEntities = getCultists(entity, true);
-		int cultistCount = (int) cultistEntities.stream().filter(Objects::nonNull).count();
-		return cultistCount < 1;
 	}
 
-	public static List<HasturCultistEntity> getCultists(LivingEntity cultist, boolean ascended) {
+	@Override
+	protected boolean shouldKeepRunning(ServerWorld world, LivingEntity entity, long time) {
+		return ((HasturCultistEntity) entity).isCasting();
+	}
+
+	@Override
+	protected boolean shouldRun(ServerWorld world, LivingEntity entity) {
+		if (entity.age < 0 || ((HasturCultistEntity) entity).isAscended() || world.getMoonPhase() != 4) {
+			return false;
+		}
+		if (((HasturCultistEntity) entity).isCasting()) {
+			return false;
+		}
+		List<HasturCultistEntity> cultistEntities = getCultists(entity);
+		int cultistCount = cultistEntities.size();
+		int vassalCount = (int) cultistEntities.stream().filter(HasturCultistEntity::isAscended).count();
+		return cultistCount > 1 && vassalCount < 1;
+	}
+
+	public static List<HasturCultistEntity> getCultists(LivingEntity cultist) {
 		return cultist.getBrain().getOptionalMemory(MemoryModuleType.MOBS).map((list) -> list
 			.stream()
-			.filter((entity) -> entity instanceof HasturCultistEntity && (!ascended || ((HasturCultistEntity) entity).isAscended()))
+			.filter((entity) -> entity instanceof HasturCultistEntity)
 			.map((livingEntity) -> (HasturCultistEntity) livingEntity)
 			.filter(LivingEntity::isAlive)).orElseGet(Stream::empty).collect(Collectors.toList());
 	}

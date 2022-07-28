@@ -34,12 +34,10 @@ public class HasturBiomeEffect extends BiomeEffect {
 			if (offer.getOriginalFirstBuyItem().getCount() > 1) {
 				int reduction = (int) Math.floor(
 					(MiskatonicMysteriesAPI
-						 .getNonNullAffiliation(player, false) == MMAffiliations.HASTUR ? MathHelper
-						 .clamp(MiskatonicMysteriesAPI
-									.getAscensionStage(player) * 0.2, 0.2, 0.8) : (MiskatonicMysteriesAPI
-																					   .getNonNullAffiliation(player, true) == MMAffiliations.HASTUR
-																				   ? 0.2 : 0.1)) *
-						(double) offer.getOriginalFirstBuyItem().getCount());
+						 .getNonNullAffiliation(player, false) == MMAffiliations.HASTUR ?
+					 MathHelper.clamp(MiskatonicMysteriesAPI.getAscensionStage(player) * 0.2, 0.2, 0.8) :
+					 (MiskatonicMysteriesAPI.getNonNullAffiliation(player, true) == MMAffiliations.HASTUR ? 0.2 : 0.1))
+						* (double) offer.getOriginalFirstBuyItem().getCount());
 				offer.increaseSpecialPrice(-reduction);
 			}
 		}

@@ -5,6 +5,8 @@ import com.miskatonicmysteries.api.interfaces.Ascendant;
 import com.miskatonicmysteries.api.interfaces.BiomeAffected;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.VillagerPartyDrug;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
+import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.world.biome.HasturBiomeEffect;
 import com.miskatonicmysteries.common.feature.world.party.MMPartyState;
 import com.miskatonicmysteries.common.feature.world.party.Party;
@@ -15,6 +17,7 @@ import com.miskatonicmysteries.common.registry.MMWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityInteraction;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -75,7 +78,7 @@ public abstract class VillagerEntityMixin extends MerchantEntity {
 
 	@Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
 	private void playerInteract(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-		if (InsanityHandler.calculateSanityFactor(Sanity.of(player)) < 0.4F) {
+		if (InsanityHandler.calculateSanityFactor(Sanity.of(player)) < MMMidnightLibConfig.villagerStopTradingPercentage) {
 			sayNo();
 			cir.setReturnValue(ActionResult.success(player.world.isClient));
 		}
@@ -101,8 +104,19 @@ public abstract class VillagerEntityMixin extends MerchantEntity {
 		}
 	}
 
+	@Inject(method = "onStruckByLightning", at = @At("HEAD"), cancellable = true)
+	private void onStruckByLightning(ServerWorld world, LightningEntity lightning, CallbackInfo ci) {
+		if(HasturCultistEntity.onVillagerStruckByLightning((VillagerEntity) (Object) this, world)) {
+			releaseAllTickets();
+			discard();
+			ci.cancel();
+		}
+	}
+
 	@Shadow
 	protected abstract void sayNo();
+
+	@Shadow protected abstract void releaseAllTickets();
 
 	@Inject(method = "prepareOffersFor", at = @At("TAIL"))
 	private void prepareOffersFor(PlayerEntity player, CallbackInfo ci) {

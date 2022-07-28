@@ -5,6 +5,7 @@ import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.api.registry.SpellMedium;
+import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.feature.entity.brain.HasturCultistBrain;
 import com.miskatonicmysteries.common.feature.entity.util.CastingMob;
 import com.miskatonicmysteries.common.feature.spell.Spell;
@@ -34,6 +35,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.Angerable;
+import net.minecraft.entity.mob.WitchEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -64,6 +66,7 @@ import java.util.UUID;
 import com.mojang.serialization.Dynamic;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import javax.annotation.Nullable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class HasturCultistEntity extends VillagerEntity implements Angerable, Affiliated, CastingMob {
 
@@ -85,10 +88,27 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 		this.getNavigation().setCanSwim(true);
 	}
 
+	public static boolean onVillagerStruckByLightning(VillagerEntity villager, ServerWorld world) {
+		if (world.getRandom().nextFloat() < MMMidnightLibConfig.lightningVassalChance) {
+			HasturCultistEntity cultist = MMEntities.HASTUR_CULTIST.create(world);
+			cultist.refreshPositionAndAngles(villager.getX(), villager.getY(), villager.getZ(), villager.getYaw(), villager.getPitch());
+			cultist.initialize(world, world.getLocalDifficulty(cultist.getBlockPos()), SpawnReason.CONVERSION, null, null);
+			cultist.dataTracker.set(VARIANT, 2);
+			cultist.setAiDisabled(villager.isAiDisabled());
+			if (villager.hasCustomName()) {
+				cultist.setCustomName(villager.getCustomName());
+				cultist.setCustomNameVisible(villager.isCustomNameVisible());
+			}
+			cultist.setPersistent();
+			world.spawnEntityAndPassengers(cultist);
+			return true;
+		}
+		return false;
+	}
+
 	@Override
 	public void trade(TradeOffer offer) {
-		if (!world.isClient && random.nextInt(10) < getReputation(getCustomer()) && MiskatonicMysteriesAPI
-			.addKnowledge(MMAffiliations.HASTUR.getId().getPath(), getCustomer())) {
+		if (!world.isClient && MiskatonicMysteriesAPI.addKnowledge(MMAffiliations.HASTUR.getId().getPath(), getCustomer())) {
 			world.spawnEntity(new ExperienceOrbEntity(world, getX(), getY(), getZ(), 5));
 		}
 		super.trade(offer);
@@ -281,6 +301,9 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 		if (age % 100 == 0) {
 			heal(1);
 		}
+		if (age % 48000 == 0) {
+			restock();
+		}
 		super.tick();
 	}
 
@@ -329,6 +352,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 				if (getAttacker() != null) {
 					tentacle.setSpecificTarget(getAttacker());
 				}
+				tentacle.setOwner(this);
 				tentacle.refreshPositionAndAngles(getX() + random.nextGaussian(), getY(), getZ() + random.nextGaussian(), 0.0F, 0.0F);
 				tentacle.setHeadYaw(random.nextInt(360));
 				tentacle.initialize((ServerWorld) world, world.getLocalDifficulty(getBlockPos()), SpawnReason.MOB_SUMMONED, null, null);
