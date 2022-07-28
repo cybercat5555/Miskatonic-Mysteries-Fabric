@@ -21,7 +21,6 @@ public class RiteProcessor implements IComponentProcessor {
 	public void setup(IVariableProvider variables) {
 		this.recipe = (RiteRecipe) MinecraftClient.getInstance().world.getRecipeManager().get(new Identifier(variables.get("rite").asString()))
 			.orElseThrow(IllegalArgumentException::new);
-		System.out.println(recipe.id);
 	}
 
 	@Override
