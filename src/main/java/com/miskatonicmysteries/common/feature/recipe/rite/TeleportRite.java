@@ -33,7 +33,7 @@ public class TeleportRite extends Rite {
 
 	@Override
 	public void tick(OctagramBlockEntity octagram) {
-		if (!isFinished(octagram) && !octagram.permanentRiteActive) {
+		if (!isFinished(octagram) && !octagram.isPermanentRiteActive()) {
 			super.tick(octagram);
 		}
 	}
@@ -56,7 +56,7 @@ public class TeleportRite extends Rite {
 					octagram.bind(boundWorld, octagramPos);
 					OctagramBlockEntity otherOctagram = (OctagramBlockEntity) boundWorld.getBlockEntity(octagramPos);
 					otherOctagram.bind(world, octagram.getPos());
-					otherOctagram.permanentRiteActive = true;
+					otherOctagram.setPermanentRiteActive(true);
 					otherOctagram.currentRite = this;
 					otherOctagram.tickCount = 0;
 					otherOctagram.markDirty();
@@ -71,7 +71,7 @@ public class TeleportRite extends Rite {
 	public void onCancelled(OctagramBlockEntity octagram) {
 		OctagramBlockEntity otherOctagram = octagram.getBoundOctagram();
 		if (otherOctagram != null && !otherOctagram.getWorld().isClient) {
-			otherOctagram.permanentRiteActive = false;
+			otherOctagram.setPermanentRiteActive(false);
 			otherOctagram.currentRite = null;
 			otherOctagram.tickCount = 0;
 			octagram.boundPos = null;
@@ -92,7 +92,7 @@ public class TeleportRite extends Rite {
 	@Environment(EnvType.CLIENT)
 	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
 						   int light, int overlay, BlockEntityRendererFactory.Context context) {
-		float alpha = entity.permanentRiteActive ? 1 : entity.tickCount / (float) ticksNeeded;
+		float alpha = entity.isPermanentRiteActive() ? 1 : entity.tickCount / (float) ticksNeeded;
 		renderPortalOctagram(alpha, entity.getAffiliation(true).getColor(), entity, tickDelta, matrixStack, vertexConsumers, light, overlay,
 							 context);
 	}

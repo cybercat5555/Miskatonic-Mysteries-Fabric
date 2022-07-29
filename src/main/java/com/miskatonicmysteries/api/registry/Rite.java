@@ -31,8 +31,8 @@ public abstract class Rite {
 	private final Identifier id;
 	private final Affiliation octagramAffiliation;
 	private final float investigatorChance;
-	private final RiteCondition[] startConditions;
-	private final RiteCondition[] runningConditions;
+	public final RiteCondition[] startConditions;
+	public final RiteCondition[] runningConditions;
 
 	public Rite(Identifier id, @Nullable Affiliation octagram, float investigatorChance, RiteCondition... startConditions) {
 		this.id = id;

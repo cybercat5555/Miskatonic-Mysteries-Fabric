@@ -39,7 +39,7 @@ public class MasterpieceRite extends TriggeredRite {
 
 	@Override
 	public void tick(OctagramBlockEntity octagram) {
-		if (octagram.tickCount < ticksTillTriggerable || octagram.triggered) {
+		if (octagram.tickCount < ticksTillTriggerable || octagram.isTriggered()) {
 			super.tick(octagram);
 		}
 		if (octagram.tickCount > ticksTillTriggerable) {
@@ -93,7 +93,7 @@ public class MasterpieceRite extends TriggeredRite {
 
 	@Override
 	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.triggered && octagram.tickCount >= 600 + ticksTillTriggerable;
+		return octagram.isTriggered() && octagram.tickCount >= 600 + ticksTillTriggerable;
 	}
 
 	@Override

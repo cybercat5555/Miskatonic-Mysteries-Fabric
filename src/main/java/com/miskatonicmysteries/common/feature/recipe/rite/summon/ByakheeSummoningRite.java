@@ -5,7 +5,6 @@ import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEnt
 import com.miskatonicmysteries.common.feature.entity.ByakheeEntity;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.AscensionStageCondition;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.KnowledgeCondition;
-import com.miskatonicmysteries.common.feature.recipe.rite.condition.RiteCondition;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMEntities;
 import com.miskatonicmysteries.common.registry.MMParticles;
@@ -34,7 +33,7 @@ public class ByakheeSummoningRite extends SummoningRite<ByakheeEntity> {
 	public void tick(OctagramBlockEntity octagram) {
 		World world = octagram.getWorld();
 		Vec3d pos = octagram.getSummoningPos();
-		if (!octagram.getFlag(0)) {
+		if (!octagram.requiresBlood()) {
 			if (world.isClient) {
 				world.addParticle(MMParticles.DRIPPING_BLOOD, pos.x + world.random.nextGaussian(),
 								  pos.y - 0.25F + world.random.nextFloat() * 2, pos.z + world.random.nextGaussian(), 0, 0.1F, 0);

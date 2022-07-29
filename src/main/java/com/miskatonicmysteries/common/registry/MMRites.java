@@ -71,9 +71,4 @@ public class MMRites {
 	private static void registerInstabilityEvent(InstabilityEvent event) {
 		Registry.register(MMRegistries.INSTABILITY_EVENTS, event.getId(), event);
 	}
-
-	public static Rite getRite(OctagramBlockEntity octagram) {
-		RiteRecipe recipe = MMRecipes.getRiteRecipe(octagram);
-		return recipe != null && recipe.rite.canCast(octagram, recipe) ? recipe.rite : null;
-	}
 }

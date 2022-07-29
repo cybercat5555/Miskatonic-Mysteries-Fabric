@@ -60,7 +60,7 @@ public abstract class BiomeConversionRite extends Rite {
 
 	@Override
 	public void onStart(OctagramBlockEntity octagram) {
-		octagram.permanentRiteActive = true;
+		octagram.setPermanentRiteActive(true);
 		octagram.markDirty();
 	}
 
@@ -76,7 +76,7 @@ public abstract class BiomeConversionRite extends Rite {
 			}
 			if (octagram.tickCount < 100) {
 				octagram.tickCount++;
-			} else if (!octagram.getFlag(1)) {
+			} else if (!octagram.hasClientInput()) {
 				if (world.isClient) {
 					handleParticles(world, random, pos);
 				}

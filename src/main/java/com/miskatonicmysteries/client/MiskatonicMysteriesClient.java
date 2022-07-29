@@ -72,6 +72,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeSpr
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBlessingsPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncHeldEntityPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncKnowledgePacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncRiteConditionsPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncRiteTargetPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.TeleportEffectPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.VisionPacket;
@@ -252,6 +253,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(BlessingToastPacket.ID, BlessingToastPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(InfestWheatPacket.ID, InfestWheatPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(ProjectileSpellEffectPacket.ID, ProjectileSpellEffectPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SyncRiteConditionsPacket.ID, SyncRiteConditionsPacket::handle);
 	}
 
 	private void registerArmorRenderers() {

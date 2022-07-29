@@ -4,6 +4,7 @@ import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.StatueBlock;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.client.render.blockentity.MasterpieceStatueBlockRender;
+import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.StatueBlockEntity;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
@@ -63,41 +64,33 @@ public class ResourceHandler {
 				registry.register(HASTUR_SIGIL_INNER.getTextureId());
 				registry.register(HASTUR_SIGIL_OUTER.getTextureId());
 				registry.register(TOTAL_DARK.getTextureId());
-				MasterpieceStatueBlockRender.TEXTURE_CACHE
-					.forEach((gameProfile, stoneTexture) -> stoneTexture.needsUpdate = true);
+				MasterpieceStatueBlockRender.TEXTURE_CACHE.forEach((gameProfile, stoneTexture) -> stoneTexture.needsUpdate = true);
 				registry.register(new Identifier(Constants.MOD_ID, "block/obelisk/hastur_obelisk"));
+				OctagramBlockRender.ICON_CACHE.clear();
 			});
 
-		ResourceHandler
-			.addBookTextureFor(MMObjects.NECRONOMICON, new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
+		ResourceHandler.addBookTextureFor(MMObjects.NECRONOMICON, new Identifier(Constants.MOD_ID, "misc/book_necronomicon"));
 
-		ResourceHandler
-			.addOctagramTextureFor(MMObjects.CTHULHU_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/cthulhu_octagram"),
+		ResourceHandler.addOctagramTextureFor(MMObjects.CTHULHU_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/cthulhu_octagram"),
 								   new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/cthulhu_octagram_mask.png"));
-		ResourceHandler
-			.addOctagramTextureFor(MMObjects.HASTUR_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/hastur_octagram"),
+		ResourceHandler.addOctagramTextureFor(MMObjects.HASTUR_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/hastur_octagram"),
 								   new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/hastur_octagram_mask.png"));
-		ResourceHandler
-			.addOctagramTextureFor(MMObjects.SHUB_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/shub_octagram"),
+		ResourceHandler.addOctagramTextureFor(MMObjects.SHUB_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/shub_octagram"),
 								   new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/shub_octagram_mask.png"));
-		ResourceHandler
-			.addOctagramTextureFor(MMObjects.YOG_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/yog_octagram"),
+		ResourceHandler.addOctagramTextureFor(MMObjects.YOG_OCTAGRAM, new Identifier(Constants.MOD_ID, "block/octagram/yog_octagram"),
 								   new Identifier(Constants.MOD_ID, "textures/block/octagram/mask/yog_octagram_mask.png"));
 
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_gold"));
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_mossy"));
-		addStatueTextureFor(MMObjects.CTHULHU_STATUE_PRISMARINE,
-							new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_prismarine"));
+		addStatueTextureFor(MMObjects.CTHULHU_STATUE_PRISMARINE, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_prismarine"));
 		addStatueTextureFor(MMObjects.CTHULHU_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_stone"));
-		addStatueTextureFor(MMObjects.CTHULHU_STATUE_ELDERIAN,
-							new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_elderian_stone"));
+		addStatueTextureFor(MMObjects.CTHULHU_STATUE_ELDERIAN, new Identifier(Constants.MOD_ID, "block/statue/cthulhu_statue_elderian_stone"));
 
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_gold"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_mossy"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_TERRACOTTA, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_terracotta"));
 		addStatueTextureFor(MMObjects.HASTUR_STATUE_STONE, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_stone"));
-		addStatueTextureFor(MMObjects.HASTUR_STATUE_ELDERIAN,
-							new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_elderian_stone"));
+		addStatueTextureFor(MMObjects.HASTUR_STATUE_ELDERIAN, new Identifier(Constants.MOD_ID, "block/statue/hastur_statue_elderian_stone"));
 
 		addStatueTextureFor(MMObjects.SHUB_STATUE_GOLD, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_gold"));
 		addStatueTextureFor(MMObjects.SHUB_STATUE_MOSSY, new Identifier(Constants.MOD_ID, "block/statue/shub_statue_mossy"));

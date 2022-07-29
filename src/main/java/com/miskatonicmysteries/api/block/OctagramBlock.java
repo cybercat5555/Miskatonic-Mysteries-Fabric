@@ -4,11 +4,13 @@ import com.miskatonicmysteries.api.interfaces.Affiliated;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.recipe.rite.TeleportRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.Triggerable;
 import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.TeleportEffectPacket;
 import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMRecipes;
 import com.miskatonicmysteries.common.registry.MMRites;
 import com.miskatonicmysteries.common.util.InventoryUtil;
 import com.miskatonicmysteries.common.util.Util;
@@ -137,13 +139,19 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 			}
 			octagram.setOriginalCaster(player);
 			octagram.sync(world, pos);
-			Rite rite = MMRites.getRite(octagram);
-			if (rite != null) {
-				octagram.triggered = rite.shouldTriggerFromStart(octagram, player);
-				octagram.currentRite = rite;
-				rite.onStart(octagram);
-				octagram.markDirty();
-				octagram.sync(world, pos);
+			RiteRecipe riteRecipe = MMRecipes.getRiteRecipe(octagram);
+			if (riteRecipe != null) {
+				if (!player.isSneaking() && riteRecipe.rite.canCast(octagram, riteRecipe)) {
+					Rite rite = riteRecipe.rite;
+					octagram.setTriggered(rite.shouldTriggerFromStart(octagram, player));
+					octagram.currentRite = rite;
+					rite.onStart(octagram);
+					octagram.markDirty();
+					octagram.sync(world, pos);
+					octagram.sendClientInfo(player, riteRecipe, true);
+				} else {
+					octagram.sendClientInfo(player, riteRecipe, false);
+				}
 				return ActionResult.CONSUME;
 			}
 		}
@@ -180,7 +188,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		if (!world.isClient && entity.age % 5 == 0 && !entity.isSneaking() && world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
 			OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(pos);
-			if (octagram.currentRite instanceof TeleportRite && octagram.permanentRiteActive && octagram.tickCount == 0
+			if (octagram.currentRite instanceof TeleportRite && octagram.isPermanentRiteActive() && octagram.tickCount == 0
 				&& octagram.boundPos != null) {
 				Direction direction = getEffectiveDirection(octagram.getBoundDimension().getBlockState(octagram.getBoundPos()),
 															state.get(FACING), entity.getMovementDirection());
@@ -263,15 +271,16 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 			if (octagram == null) {
 				world.breakBlock(pos, false);
 				return ActionResult.FAIL;
-			} else if (octagram.currentRite == null || octagram.permanentRiteActive) {
+			} else if (octagram.currentRite == null || octagram.isPermanentRiteActive()) {
 				ItemStack stack = player.getStackInHand(hand);
 				if (!stack.isEmpty() && octagram.isValid(state.get(NUMBER), stack) && octagram.getStack(state.get(NUMBER)).isEmpty()
-					&& !octagram.permanentRiteActive) {
+					&& !octagram.isPermanentRiteActive()) {
 					octagram.setStack(state.get(NUMBER), stack);
 					octagram.markDirty();
 					player.swingHand(hand);
 					if (!world.isClient) {
 						octagram.sync(world, pos);
+						octagram.onItemAddedBy(player);
 					}
 					return ActionResult.CONSUME;
 				} else if (stack.isEmpty() && !octagram.getItems().isEmpty() && !octagram.getItems().get(state.get(NUMBER)).isEmpty()) {

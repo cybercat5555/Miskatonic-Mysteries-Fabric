@@ -38,7 +38,7 @@ public class ClientRiteInputPacket {
 		server.execute(() -> {
 			BlockEntity blockEntity = player.getWorld().getBlockEntity(pos);
 			if (blockEntity instanceof OctagramBlockEntity octagramBlockEntity) {
-				octagramBlockEntity.setFlag(1, true);
+				octagramBlockEntity.giveClientInput(true);
 				octagramBlockEntity.sync(player.world, pos);
 			}
 		});

@@ -8,17 +8,24 @@ import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.MMMidnightLibConfig;
 import com.miskatonicmysteries.common.feature.item.IncantationYogItem;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.recipe.instability_event.InstabilityEvent;
 import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.RiteCondition;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
 import com.miskatonicmysteries.common.handler.ProtagonistHandler;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncRiteConditionsPacket;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMCriteria;
 import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMRecipes;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMRites;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Constants.Tags;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -45,7 +52,9 @@ import net.minecraft.world.event.PositionSource;
 import net.minecraft.world.event.PositionSourceType;
 import net.minecraft.world.event.listener.GameEventListener;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -61,12 +70,11 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	private final DefaultedList<ItemStack> ITEMS = DefaultedList.ofSize(8, ItemStack.EMPTY);
 	private final PositionSource positionSource;
 	public int tickCount;
-	public boolean permanentRiteActive;
 	public Rite currentRite = null;
 	public UUID originalCaster = null;
+
 	//misc values which may be used by rites
 	public Pair<Identifier, BlockPos> boundPos = null;
-	public boolean triggered;
 	public Entity targetedEntity = null;
 	private float instability;
 	/**
@@ -77,6 +85,9 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	 * 3 - Permanent Rite Active
 	 */
 	private byte octagramFlags;
+
+	@Environment(EnvType.CLIENT)
+	public LinkedHashMap<RiteCondition, Boolean> clientConditions = new LinkedHashMap<>();
 
 	public OctagramBlockEntity(BlockPos pos, BlockState state) {
 		super(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, pos, state);
@@ -108,10 +119,10 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 													 blockEntity.currentRite);
 					}
 					blockEntity.handleInvestigators();
-					blockEntity.permanentRiteActive = blockEntity.currentRite.isPermanent(blockEntity);
+					blockEntity.setPermanentRiteActive(blockEntity.currentRite.isPermanent(blockEntity));
 					blockEntity.currentRite.onFinished(blockEntity);
 					if (!blockEntity.world.isClient) {
-						if (!blockEntity.permanentRiteActive) {
+						if (!blockEntity.isPermanentRiteActive()) {
 							blockEntity.closeRite(true);
 						} else {
 							blockEntity.sync(blockEntity.world, blockEntity.pos);
@@ -133,9 +144,9 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		tickCount = 0;
 		currentRite = null;
 		targetedEntity = null;
-		permanentRiteActive = false;
-		setFlag(0, false);
-		setFlag(1, false);
+		setPermanentRiteActive(false);
+		setBloody(false);
+		giveClientInput(false);
 		if (!success) {
 			clear(false);
 		}
@@ -175,7 +186,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		if (tickCount % MMMidnightLibConfig.modUpdateInterval == 0) {
 			calculateInstability();
 		}
-		if ((!(currentRite instanceof TriggeredRite) || triggered) && tickCount % 20 == 0 &&
+		if ((!(currentRite instanceof TriggeredRite) || isTriggered()) && tickCount % 20 == 0 &&
 			world.random.nextFloat() * (currentRite.isPermanent(this) ? 10 : 4) < instability) {
 			List<InstabilityEvent> possibleEvents = MMRegistries.INSTABILITY_EVENTS.stream()
 				.filter(e -> e.shouldCast(this, instability)).collect(Collectors.toList());
@@ -295,7 +306,6 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		} else {
 			currentRite = null;
 		}
-		permanentRiteActive = tag.getBoolean(Constants.NBT.PERMANENT_RITE);
 		if (tag.contains(Constants.NBT.PLAYER_UUID)) {
 			originalCaster = tag.getUuid(Constants.NBT.PLAYER_UUID);
 		} else {
@@ -307,7 +317,6 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		} else {
 			boundPos = null;
 		}
-		triggered = tag.getBoolean(Constants.NBT.TRIGGERED);
 		octagramFlags = tag.getByte(Constants.NBT.FLAGS);
 		this.instability = tag.getFloat(Constants.NBT.INSTABILITY);
 		super.readNbt(tag);
@@ -320,7 +329,6 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		if (currentRite != null) {
 			tag.putString(Constants.NBT.RITE, currentRite.getId().toString());
 		}
-		tag.putBoolean(Constants.NBT.PERMANENT_RITE, permanentRiteActive);
 		if (originalCaster != null) {
 			tag.putUuid(Constants.NBT.PLAYER_UUID, originalCaster);
 		}
@@ -328,7 +336,6 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 			tag.putString(Constants.NBT.DIMENSION, boundPos.getFirst().toString());
 			tag.putLong(Constants.NBT.POSITION, boundPos.getSecond().asLong());
 		}
-		tag.putBoolean(Constants.NBT.TRIGGERED, triggered);
 		tag.putByte(Constants.NBT.FLAGS, octagramFlags);
 		tag.putFloat(Constants.NBT.INSTABILITY, instability);
 	}
@@ -336,7 +343,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	@Override
 	public void markDirty() {
 		super.markDirty();
-		if (currentRite != null && !permanentRiteActive && !currentRite.shouldContinue(this)) {
+		if (currentRite != null && !isPermanentRiteActive() && !currentRite.shouldContinue(this)) {
 			currentRite.onCancelled(this);
 			tickCount = 0;
 			currentRite = null;
@@ -402,7 +409,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 			if (!currentRite.listen(this, world, event, entity, pos)) {
 				if (!world.isClient && event == GameEvent.ENTITY_KILLED && entity != null && entity.getType()
 					.isIn(Constants.Tags.VALID_SACRIFICES)) {
-					setFlag(0, true);
+					setBloody(true);
 					markDirty();
 					sync(world, pos);
 					return true;
@@ -445,5 +452,54 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 			}
 		}
 		return null;
+	}
+
+	public boolean requiresBlood() {
+		return getFlag(0);
+	}
+
+	public void setBloody(boolean bloody) {
+		setFlag(0, bloody);
+	}
+
+	public boolean hasClientInput() {
+		return getFlag(1);
+	}
+
+	public void giveClientInput(boolean input) {
+		setFlag(1, input);
+	}
+
+	public boolean isTriggered() {
+		return getFlag(2);
+	}
+
+	public void setTriggered(boolean triggered) {
+		setFlag(2, triggered);
+	}
+
+	public boolean isPermanentRiteActive() {
+		return getFlag(3);
+	}
+
+	public void setPermanentRiteActive(boolean active) {
+		setFlag(3, active);
+	}
+
+	public void sendClientInfo(PlayerEntity player, RiteRecipe recipe, boolean clear) {
+		List<Integer> conditions = new ArrayList<>();
+		for (int i = 0; i < recipe.rite.startConditions.length; i++) {
+			if (!recipe.rite.startConditions[i].test(this)) {
+				conditions.add(i);
+			}
+		}
+		SyncRiteConditionsPacket.send(player, clear, getPos(), conditions, recipe.rite);
+	}
+
+	public void onItemAddedBy(PlayerEntity player) {
+		RiteRecipe recipe = MMRecipes.getRiteRecipe(this);
+		if (recipe != null) {
+			sendClientInfo(player, recipe, false);
+		}
 	}
 }

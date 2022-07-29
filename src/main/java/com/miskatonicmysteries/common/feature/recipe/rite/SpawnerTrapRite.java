@@ -57,7 +57,7 @@ public class SpawnerTrapRite extends TriggeredRite {
 
 	@Override
 	public void tick(OctagramBlockEntity octagram) {
-		if (octagram.triggered && octagram.tickCount > ticksTillTriggerable && octagram.tickCount % 200 == 0) {
+		if (octagram.isTriggered() && octagram.tickCount > ticksTillTriggerable && octagram.tickCount % 200 == 0) {
 			World world = octagram.getWorld();
 			int amount = 1 + world.random.nextInt(2);
 			octagram.getWorld().playSound(null, octagram.getPos(), MMSounds.RITE_VEIL_SPAWN, SoundCategory.AMBIENT, 1.0F,
@@ -101,14 +101,14 @@ public class SpawnerTrapRite extends TriggeredRite {
 					octagram.getWorld().addParticle(spawnParticles, position.x, position.y, position.z, 0, 0, 0);
 				}
 			}
-		} else if (octagram.getWorld().isClient && (octagram.tickCount < ticksTillTriggerable || octagram.triggered)
+		} else if (octagram.getWorld().isClient && (octagram.tickCount < ticksTillTriggerable || octagram.isTriggered())
 			&& octagram.getWorld().random.nextFloat() < 0.25F) {
 			Vec3d position = octagram.getSummoningPos()
 				.add(octagram.getWorld().random.nextGaussian(), -0.5 + octagram.getWorld().random.nextFloat(),
 					 octagram.getWorld().random.nextGaussian() * 0.5F);
 			octagram.getWorld().addParticle(MMParticles.AMBIENT, position.x, position.y, position.z, color[0], color[1], color[2]);
 		}
-		if (octagram.triggered || octagram.tickCount < ticksTillTriggerable) {
+		if (octagram.isTriggered() || octagram.tickCount < ticksTillTriggerable) {
 			super.tick(octagram);
 		}
 	}
@@ -122,7 +122,7 @@ public class SpawnerTrapRite extends TriggeredRite {
 	@Environment(EnvType.CLIENT)
 	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
 						   int light, int overlay, BlockEntityRendererFactory.Context context) {
-		if (entity.triggered && entity.tickCount > ticksTillTriggerable) {
+		if (entity.isTriggered() && entity.tickCount > ticksTillTriggerable) {
 			float alpha = (entity.tickCount - ticksTillTriggerable) > ticksTillTriggerable ? 1 : (entity.tickCount - ticksTillTriggerable) / (float) ticksTillTriggerable;
 			renderPortalOctagram(alpha, color, entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
 		} else {
@@ -140,7 +140,7 @@ public class SpawnerTrapRite extends TriggeredRite {
 
 	@Override
 	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.triggered && octagram.tickCount >= 1200;
+		return octagram.isTriggered() && octagram.tickCount >= 1200;
 	}
 
 	@Override

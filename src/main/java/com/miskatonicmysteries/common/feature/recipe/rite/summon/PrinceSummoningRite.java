@@ -4,7 +4,6 @@ import com.miskatonicmysteries.client.render.entity.TatteredPrinceRenderer;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
-import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.AscensionStageCondition;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.HasturCultistCondition;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.KnowledgeCondition;
@@ -18,11 +17,9 @@ import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
 
 import net.minecraft.client.model.Model;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -41,7 +38,7 @@ public class PrinceSummoningRite extends SummoningRite<TatteredPrinceEntity> {
 	public void tick(OctagramBlockEntity octagram) {
 		World world = octagram.getWorld();
 		Vec3d pos = octagram.getSummoningPos();
-		if (!octagram.getFlag(0)) {
+		if (!octagram.requiresBlood()) {
 			if (world.isClient) {
 				world.addParticle(MMParticles.DRIPPING_BLOOD, pos.x + world.random.nextGaussian(),
 								  pos.y - 0.25F + world.random.nextFloat() * 2, pos.z + world.random.nextGaussian(), 0, 0.1F, 0);

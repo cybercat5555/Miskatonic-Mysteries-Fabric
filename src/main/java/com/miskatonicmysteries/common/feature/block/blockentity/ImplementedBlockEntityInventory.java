@@ -35,7 +35,9 @@ public interface ImplementedBlockEntityInventory extends Inventory {
 			}
 		}
 		return ItemStack.EMPTY;
-	}	@Override
+	}
+
+	@Override
 	default int size() {
 		return getItems().size();
 	}
@@ -94,13 +96,8 @@ public interface ImplementedBlockEntityInventory extends Inventory {
 		markDirty();
 	}
 
-
-
 	@Override
 	default boolean canPlayerUse(PlayerEntity player) {
 		return true;
 	}
-
-
-
 }

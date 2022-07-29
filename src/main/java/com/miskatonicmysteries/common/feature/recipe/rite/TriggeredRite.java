@@ -32,7 +32,7 @@ public abstract class TriggeredRite extends Rite implements Triggerable{
 	public void tick(OctagramBlockEntity octagram) {
 		super.tick(octagram);
 		if (octagram.tickCount == ticksTillTriggerable) {
-			octagram.permanentRiteActive = true;
+			octagram.setPermanentRiteActive(true);
 			octagram.clear();
 			octagram.markDirty();
 		}
@@ -41,7 +41,7 @@ public abstract class TriggeredRite extends Rite implements Triggerable{
 	@Override
 	public void onFinished(OctagramBlockEntity octagram) {
 		super.onFinished(octagram);
-		octagram.permanentRiteActive = false;
+		octagram.setPermanentRiteActive(false);
 		octagram.currentRite = null;
 		octagram.tickCount = 0;
 	}
@@ -55,7 +55,7 @@ public abstract class TriggeredRite extends Rite implements Triggerable{
 	@Environment(EnvType.CLIENT)
 	public void renderRite(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
 						   int light, int overlay, BlockEntityRendererFactory.Context context) {
-		if (!entity.triggered) {
+		if (!entity.isTriggered()) {
 			float alpha = entity.tickCount >= ticksTillTriggerable ? 1 : entity.tickCount / (float) ticksTillTriggerable;
 			matrixStack.translate(0, 0.001F, 0);
 			RenderHelper.renderTexturedPlane(3, ResourceHandler.getOctagramTextureFor(entity).getSprite(), matrixStack,
@@ -68,12 +68,12 @@ public abstract class TriggeredRite extends Rite implements Triggerable{
 	@Environment(EnvType.CLIENT)
 	public byte beforeRender(OctagramBlockEntity entity, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers,
 							 int light, int overlay, BlockEntityRendererFactory.Context context) {
-		return !entity.triggered ? 2 : super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
+		return !entity.isTriggered() ? 2 : super.beforeRender(entity, tickDelta, matrixStack, vertexConsumers, light, overlay, context);
 	}
 
 	@Override
 	public void trigger(OctagramBlockEntity octagram, Entity triggeringEntity) {
-		octagram.triggered = true;
+		octagram.setTriggered(true);
 		octagram.tickCount = ticksTillTriggerable;
 	}
 
@@ -84,6 +84,6 @@ public abstract class TriggeredRite extends Rite implements Triggerable{
 
 	@Override
 	public boolean isReadyToTrigger(OctagramBlockEntity octagram) {
-		return !octagram.triggered && octagram.tickCount >= ticksTillTriggerable;
+		return !octagram.isTriggered() && octagram.tickCount >= ticksTillTriggerable;
 	}
 }

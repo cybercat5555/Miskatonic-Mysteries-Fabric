@@ -54,6 +54,6 @@ public class HysteriaRite extends TriggeredRite {
 
 	@Override
 	public boolean isFinished(OctagramBlockEntity octagram) {
-		return octagram.triggered && octagram.tickCount >= ticksTillTriggerable;
+		return octagram.isTriggered() && octagram.tickCount >= ticksTillTriggerable;
 	}
 }
