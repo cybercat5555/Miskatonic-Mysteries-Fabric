@@ -3,6 +3,7 @@ package com.miskatonicmysteries.client.gui;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
 import com.miskatonicmysteries.client.gui.hud.CurrentSpellHUD;
 import com.miskatonicmysteries.client.gui.hud.SpellBurnoutHUD;
+import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.util.Constants;
@@ -66,6 +67,7 @@ public class SpellClientHandler {
 			currentSpellHUD
 				.render(client, matrixStack, tickDelta, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight(),
 						client.player);
+			OctagramBlockRender.handleDisplay(client, matrixStack, tickDelta);
 		});
 	}
 }

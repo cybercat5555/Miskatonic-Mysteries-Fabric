@@ -7,11 +7,9 @@ import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEnt
 import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.recipe.rite.TeleportRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.Triggerable;
-import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.TeleportEffectPacket;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRecipes;
-import com.miskatonicmysteries.common.registry.MMRites;
 import com.miskatonicmysteries.common.util.InventoryUtil;
 import com.miskatonicmysteries.common.util.Util;
 
@@ -148,9 +146,9 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 					rite.onStart(octagram);
 					octagram.markDirty();
 					octagram.sync(world, pos);
-					octagram.sendClientInfo(player, riteRecipe, true);
+					octagram.sendClientInfo(riteRecipe, true);
 				} else {
-					octagram.sendClientInfo(player, riteRecipe, false);
+					octagram.sendClientInfo(riteRecipe, false);
 				}
 				return ActionResult.CONSUME;
 			}
@@ -280,7 +278,6 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 					player.swingHand(hand);
 					if (!world.isClient) {
 						octagram.sync(world, pos);
-						octagram.onItemAddedBy(player);
 					}
 					return ActionResult.CONSUME;
 				} else if (stack.isEmpty() && !octagram.getItems().isEmpty() && !octagram.getItems().get(state.get(NUMBER)).isEmpty()) {

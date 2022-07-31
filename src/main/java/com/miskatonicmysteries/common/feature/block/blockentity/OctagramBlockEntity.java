@@ -26,6 +26,7 @@ import com.miskatonicmysteries.common.util.Constants.Tags;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -88,6 +89,8 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 
 	@Environment(EnvType.CLIENT)
 	public LinkedHashMap<RiteCondition, Boolean> clientConditions = new LinkedHashMap<>();
+	@Environment(EnvType.CLIENT)
+	public Rite preparedRite;
 
 	public OctagramBlockEntity(BlockPos pos, BlockState state) {
 		super(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, pos, state);
@@ -246,6 +249,12 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	public void sync(World world, BlockPos pos) {
 		if (world != null && !world.isClient) {
 			world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
+			RiteRecipe recipe = MMRecipes.getRiteRecipe(this);
+			if (recipe != null) {
+				sendClientInfo(recipe, false);
+			} else {
+				sendClientInfo(null, true);
+			}
 		}
 	}
 
@@ -486,20 +495,18 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		setFlag(3, active);
 	}
 
-	public void sendClientInfo(PlayerEntity player, RiteRecipe recipe, boolean clear) {
+
+	public void sendClientInfo(RiteRecipe recipe, boolean clear) {
 		List<Integer> conditions = new ArrayList<>();
-		for (int i = 0; i < recipe.rite.startConditions.length; i++) {
-			if (!recipe.rite.startConditions[i].test(this)) {
-				conditions.add(i);
+		if (!clear) {
+			for (int i = 0; i < recipe.rite.startConditions.length; i++) {
+				if (!recipe.rite.startConditions[i].test(this)) {
+					conditions.add(i);
+				}
 			}
 		}
-		SyncRiteConditionsPacket.send(player, clear, getPos(), conditions, recipe.rite);
-	}
-
-	public void onItemAddedBy(PlayerEntity player) {
-		RiteRecipe recipe = MMRecipes.getRiteRecipe(this);
-		if (recipe != null) {
-			sendClientInfo(player, recipe, false);
+		for (ServerPlayerEntity player : PlayerLookup.tracking(this)) {
+			SyncRiteConditionsPacket.send(player, clear, getPos(), conditions, recipe);
 		}
 	}
 }

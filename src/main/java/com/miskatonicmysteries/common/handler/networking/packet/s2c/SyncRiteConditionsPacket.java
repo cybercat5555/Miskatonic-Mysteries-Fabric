@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.RiteCondition;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
@@ -32,14 +33,16 @@ public class SyncRiteConditionsPacket {
 
 	public static final Identifier ID = new Identifier(Constants.MOD_ID, "sync_rite_cond");
 
-	public static void send(PlayerEntity player, boolean clear, BlockPos octagramPos, List<Integer> conditionIndexes, Rite rite) {
+	public static void send(PlayerEntity player, boolean clear, BlockPos octagramPos, List<Integer> conditionIndexes, RiteRecipe rite) {
 		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
 		data.writeBoolean(clear);
 		data.writeBlockPos(octagramPos);
-		data.writeIdentifier(rite.getId());
-		data.writeInt(conditionIndexes.size());
-		for (Integer index : conditionIndexes) {
-			data.writeInt(index);
+		if (!clear) {
+			data.writeIdentifier(rite.rite.getId());
+			data.writeInt(conditionIndexes.size());
+			for (Integer index : conditionIndexes) {
+				data.writeInt(index);
+			}
 		}
 		ServerPlayNetworking.send((ServerPlayerEntity) player, ID, data);
 	}
@@ -50,9 +53,9 @@ public class SyncRiteConditionsPacket {
 		boolean clear = packetByteBuf.readBoolean();
 		BlockPos pos = packetByteBuf.readBlockPos();
 		if (client.world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
-			Rite rite = MMRegistries.RITES.get(packetByteBuf.readIdentifier());
-			LinkedHashMap<RiteCondition, Boolean> conditionMap = new LinkedHashMap<>();
 			if (!clear) {
+				Rite rite = MMRegistries.RITES.get(packetByteBuf.readIdentifier());
+				LinkedHashMap<RiteCondition, Boolean> conditionMap = new LinkedHashMap<>();
 				int size = packetByteBuf.readInt();
 				List<Integer> badConditions = new ArrayList<>();
 				for (int i = 0; i < size; i++) {
@@ -61,8 +64,18 @@ public class SyncRiteConditionsPacket {
 				for (int i = 0; i < rite.startConditions.length; i++) {
 					conditionMap.put(rite.startConditions[i], badConditions.contains(i));
 				}
+				client.execute(() -> {
+					OctagramBlockEntity blockEntity = (OctagramBlockEntity) client.world.getBlockEntity(pos);
+					blockEntity.clientConditions = conditionMap;
+					blockEntity.preparedRite = rite;
+				});
+			} else {
+				client.execute(() -> {
+					OctagramBlockEntity blockEntity = (OctagramBlockEntity) client.world.getBlockEntity(pos);
+					blockEntity.clientConditions = new LinkedHashMap<>();
+					blockEntity.preparedRite = null;
+				});
 			}
-			client.execute(() -> ((OctagramBlockEntity) client.world.getBlockEntity(pos)).clientConditions = conditionMap);
 		}
 	}
 }
