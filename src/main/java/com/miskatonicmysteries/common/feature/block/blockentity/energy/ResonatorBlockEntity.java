@@ -67,7 +67,9 @@ public class ResonatorBlockEntity extends BaseBlockEntity {
 		boolean powered = blockEntity.isPowered();
 		if (powered) {
 			blockEntity.radius = MAX_RADIUS * blockEntity.intensity;
-			blockEntity.ticksRan++;
+			if(blockEntity.ticksRan < MAX_EFFECTIVE_RUNTIME) {
+				blockEntity.ticksRan++;
+			}
 			if (blockEntity.energyStorage.amount < 40) {
 				blockEntity.world.setBlockState(blockEntity.pos, blockEntity.getCachedState().with(Properties.POWERED,
 																								   false));
@@ -156,7 +158,7 @@ public class ResonatorBlockEntity extends BaseBlockEntity {
 		double distance = Math.sqrt(affectedEntity.squaredDistanceTo(pos.getX() + 0.5F, pos.getY() + 0.75F,
 																	 pos.getZ() + 0.5F));
 		float densityFactor = ticksRan > MAX_EFFECTIVE_RUNTIME ? 1 :
-							  (float) Math.min(distance / (ticksRan / MAX_EFFECTIVE_RUNTIME), 1);
+							  (float) Math.min(distance / ((float) ticksRan / MAX_EFFECTIVE_RUNTIME), 1);
 		return 1 - (intensity * (densityFactor / radius));
 	}
 
