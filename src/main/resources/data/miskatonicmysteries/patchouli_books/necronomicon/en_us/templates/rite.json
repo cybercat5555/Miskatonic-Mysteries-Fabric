@@ -13,6 +13,12 @@
 			"width": 48,
 			"height": 48,
 			"scale": 1.5
+		},{
+			"type": "patchouli:custom",
+			"class": "com.miskatonicmysteries.client.gui.patchouli.RiteConditionsComponent",
+			"rite": "#rite_id",
+			"x": 21,
+			"y": 93
 		},
 		{
 			"type": "patchouli:item",

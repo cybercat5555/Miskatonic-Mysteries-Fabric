@@ -3,13 +3,19 @@ package com.miskatonicmysteries.client.compat.rei.category;
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.compat.rei.MMREICompat;
 import com.miskatonicmysteries.client.render.ResourceHandler;
+import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
+import com.miskatonicmysteries.common.feature.recipe.rite.condition.RiteCondition;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
+import com.miskatonicmysteries.common.util.Util;
 
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -20,9 +26,13 @@ import java.util.List;
 
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
+import me.shedaniel.rei.api.client.REIRuntime;
+import me.shedaniel.rei.api.client.gui.DrawableConsumer;
 import me.shedaniel.rei.api.client.gui.Renderer;
 import me.shedaniel.rei.api.client.gui.widgets.Label;
+import me.shedaniel.rei.api.client.gui.widgets.Tooltip;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
+import me.shedaniel.rei.api.client.gui.widgets.WidgetWithBounds;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
@@ -32,6 +42,7 @@ import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategory.OctagramDisplay> {
 
@@ -99,15 +110,22 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
 			.createLabel(new Point(startPoint.x + 32, startPoint.y - 32), new TranslatableText(recipeDisplay.rite.getTranslationString()))
 			.color(0xFF404040, 0xFFBBBBBB).noShadow().centered();
 		if (recipeDisplay.getRite() instanceof TriggeredRite) {
-			label.tooltipLine(I18n.translate("rei." + Constants.MOD_ID + ".tooltip.primable"));
+			label.tooltip(I18n.translate("rei." + Constants.MOD_ID + ".tooltip.primable"));
 		}
 		widgets.add(label);
+
+		int currentX = startPoint.x + 37 - recipeDisplay.rite.startConditions.length * 6;
+		int currentY = startPoint.y + 46;
+		for (RiteCondition condition : recipeDisplay.rite.startConditions) {
+			widgets.add(new RiteConditionWidget(currentX, currentY, condition));
+			currentX += 12;
+		}
 		return widgets;
 	}
 
 	@Override
 	public int getDisplayHeight() {
-		return 88;
+		return 96;
 	}
 
 	@Override
@@ -144,6 +162,43 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
 		@Override
 		public CategoryIdentifier<?> getCategoryIdentifier() {
 			return MMREICompat.OCTAGRAM_RITE;
+		}
+	}
+
+	public static class RiteConditionWidget extends WidgetWithBounds {
+		private final int x, y;
+		private final Rectangle bounds;
+		private final Tooltip tooltip;
+		private final RiteCondition condition;
+
+		public RiteConditionWidget(int x, int y, RiteCondition condition) {
+			this.x = x;
+			this.y = y;
+			this.bounds = new Rectangle(x - 4, y - 4, 8, 8);
+			this.condition = condition;
+			this.tooltip = Tooltip.create(new Point(x - 4, y - 4), Util.trimText(condition.getDescription().getString()));
+		}
+
+		@Override
+		public Rectangle getBounds() {
+			return bounds;
+		}
+
+		@Override
+		public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+			matrices.push();
+			matrices.translate(x + 0.5, y, 0);
+			OctagramBlockRender.drawIcon(matrices, false, condition.getIconLocation());
+			matrices.pop();
+			if (isMouseOver(mouseX, mouseY)) {
+				tooltip.queue();
+			}
+		}
+
+
+		@Override
+		public List<? extends Element> children() {
+			return List.of();
 		}
 	}
 }

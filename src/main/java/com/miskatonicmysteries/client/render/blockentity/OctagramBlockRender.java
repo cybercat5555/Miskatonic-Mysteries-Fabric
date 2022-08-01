@@ -131,7 +131,7 @@ public class OctagramBlockRender extends DrawableHelper implements BlockEntityRe
 		matrixStack.pop();
 	}
 
-	private static void drawIcon(MatrixStack matrixStack, boolean checked, Identifier texture) {
+	public static void drawIcon(MatrixStack matrixStack, boolean checked, Identifier texture) {
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		BufferBuilder bufferBuilder =  MinecraftClient.getInstance().getBufferBuilders().getBlockBufferBuilders().get(RenderLayer.getCutoutMipped());

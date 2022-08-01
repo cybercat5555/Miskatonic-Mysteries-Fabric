@@ -14,6 +14,11 @@
 		},
 		{
 			"type": "text",
+			"title": "Rite Conditions",
+			"text": "Many rites require one or more conditions to be met; wearing a $(item)Mask$() reveals these conditions as tiny icons. Starting conditions are also listed in the rite's entry page."
+		},
+		{
+			"type": "text",
 			"title": "Instability",
 			"text": "Since they fiddle with cosmic powers, rites have a decent potential to go haywire when not set up properly. This usually results in collateral damage, or the rite failing.$(br)A rite's stability may be helped with $(marked)lit candles$(), $(marked)skulls$(), or $(marked)decorations matching the addressed Great Old One$(). Keep in mind that these decorations may as well increase instability when used improperly, such as when a statue to the Black Goat"
 		},

@@ -22,6 +22,9 @@ public class AscensionStageCondition extends MultiRiteCondition {
 			  new TranslatableText("message.miskatonicmysteries.rite_fail.ascension_stage.path"));
 		this.ascensionAffiliation = affiliation;
 		this.stage = stage;
+		this.description = new TranslatableText("desc.miskatonicmysteries.rite_fail.ascension_stage",
+												affiliation == null ? new TranslatableText("affiliation.miskatonicmysteries.null")
+																	: affiliation.getLocalizedName(), stage);
 	}
 
 	@Override

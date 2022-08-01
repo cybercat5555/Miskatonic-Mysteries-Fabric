@@ -15,6 +15,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
@@ -24,9 +25,14 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.SpawnHelper;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 public class Util {
 
@@ -145,5 +151,26 @@ public class Util {
 			}
 		}
 		return -1;
+	}
+
+
+	public static final Pattern STANDARD_TRIMMING_REGEX = Pattern.compile("(.{1,32}(?:\\s|$))|(.{0,32})", Pattern.DOTALL);
+
+	@NotNull
+	public static List<Text> trimText(String text, Pattern regex) {
+		List<Text> matchList = new ArrayList<>();
+		Matcher regexMatcher = regex.matcher(text);
+		while (regexMatcher.find()) {
+			String group = regexMatcher.group();
+			if (!group.isBlank()) {
+				matchList.add(Text.of(group));
+			}
+		}
+		return matchList;
+	}
+
+	@NotNull
+	public static List<Text> trimText(String text) {
+		return trimText(text, STANDARD_TRIMMING_REGEX);
 	}
 }

@@ -51,6 +51,5 @@ public class MMREICompat implements REIClientPlugin {
 	public void registerDisplays(DisplayRegistry registry) {
 		registry.registerFiller(ChemistryRecipe.class, ChemistrySetCategory.ChemistryDisplay::new);
 		registry.registerFiller(RiteRecipe.class, OctagramRiteCategory.OctagramDisplay::new);
-		//MMRegistries.RITES.stream().forEach(rite -> registry.add(new OctagramRiteCategory.OctagramDisplay(rite)));
 	}
 }

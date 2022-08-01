@@ -4,6 +4,7 @@ import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEnt
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.util.Constants;
 
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 
@@ -13,6 +14,8 @@ public class HasturCultistCondition extends EntityCondition<HasturCultistEntity>
 
 	public HasturCultistCondition(int amount) {
 		super(new Identifier(Constants.MOD_ID, "hastur_cultists"), HasturCultistEntity.class, amount, cultist -> true);
+		this.description = new TranslatableText(amount > 1 ? "desc.miskatonicmysteries.rite_fail.hastur_cultists"
+														   : "desc.miskatonicmysteries.rite_fail.hastur_cultists", amount);
 	}
 
 	public static void moveCultists(OctagramBlockEntity octagram) {

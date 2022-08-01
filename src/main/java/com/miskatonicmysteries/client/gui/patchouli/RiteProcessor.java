@@ -34,6 +34,8 @@ public class RiteProcessor implements IComponentProcessor {
 			}
 			case "rite_name":
 				return IVariable.wrap(I18n.translate(recipe.rite.getTranslationString()));
+			case "rite_id":
+				return IVariable.wrap(recipe.rite.getId().toString());
 			default: {
 				for (int i = 0; i < recipe.getIngredients().size(); i++) {
 					if (key.equals("ingredient" + (i + 1))) {

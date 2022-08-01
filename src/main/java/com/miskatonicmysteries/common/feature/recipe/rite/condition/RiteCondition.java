@@ -15,11 +15,12 @@ import java.util.function.Predicate;
 
 public abstract class RiteCondition implements Predicate<OctagramBlockEntity> {
 	protected final Identifier iconLocation;
-	protected final Text message;
+	protected Text message, description;
 	protected boolean checkWhileRunning;
 	public RiteCondition(Identifier id) {
 		this.iconLocation = new Identifier(id.getNamespace(), String.format("textures/gui/rite_conditions/%s.png", id.getPath()));
 		this.message = new TranslatableText(String.format("message.%s.rite_fail.%s", id.getNamespace(), id.getPath()));
+		this.description = new TranslatableText(String.format("desc.%s.rite_fail.%s", id.getNamespace(), id.getPath()));
 		this.checkWhileRunning = false;
 	}
 
@@ -50,5 +51,9 @@ public abstract class RiteCondition implements Predicate<OctagramBlockEntity> {
 	@Environment(EnvType.CLIENT)
 	public void renderIcon(MatrixStack matrixStack, int x, int y) {
 
+	}
+
+	public Text getDescription() {
+		return description;
 	}
 }
