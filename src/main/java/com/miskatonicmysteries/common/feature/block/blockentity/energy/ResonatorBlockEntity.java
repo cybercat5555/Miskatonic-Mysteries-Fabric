@@ -99,8 +99,8 @@ public class ResonatorBlockEntity extends BaseBlockEntity {
 				blockEntity.markDirty();
 			}
 		} else if (blockEntity.intensity > 0 || blockEntity.ticksRan > 0) {
-			blockEntity.ticksRan--;
-			blockEntity.intensity -= 0.001F;
+			blockEntity.ticksRan = Math.max(blockEntity.ticksRan - 1, 0);
+			blockEntity.intensity = Math.max(blockEntity.ticksRan - 0.001F, 0);
 			blockEntity.markDirty();
 		}
 	}
