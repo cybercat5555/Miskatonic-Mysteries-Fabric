@@ -46,7 +46,7 @@ public class HudHandler {
 		if (client.targetedEntity != null && client.player != null) {
 			if (client.player.isHolding(MMObjects.NECRONOMICON) && client.targetedEntity.getType().isIn(Tags.VALID_SACRIFICES)) {
 				matrixStack.push();
-				matrixStack.translate(client.getWindow().getScaledWidth() / 2.0, client.getWindow().getScaledHeight() / 2.0, 0);
+				matrixStack.translate(client.getWindow().getScaledWidth() / 2.0 - 1, client.getWindow().getScaledHeight() / 2.0 + 12, 0);
 				drawIcon(matrixStack, true, VALID_SACRIFICE);
 				matrixStack.pop();
 			}

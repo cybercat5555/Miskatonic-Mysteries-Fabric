@@ -8,6 +8,9 @@
 		"minecraft:mooshroom",
 		"minecraft:villager",
 		"minecraft:player",
-		"minecraft:horse"
+		"minecraft:horse",
+		"miskatonicmysteries:hastur_cultist",
+		"miskatonicmysteries:protagonist",
+		"miskatonicmysteries:byakhee"
 	]
 }
