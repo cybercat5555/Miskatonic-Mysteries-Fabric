@@ -27,13 +27,9 @@ public class SpellClientHandler {
 
 	public static KeyBinding spellSelectionKey;
 	public static KeyBinding castKey;
-	public static SpellBurnoutHUD burnoutHUD;
-	public static CurrentSpellHUD currentSpellHUD;
 	public static Spell selectedSpell; //reset upon logging in
 
 	public static void init() {
-		burnoutHUD = new SpellBurnoutHUD();
-		currentSpellHUD = new CurrentSpellHUD();
 		spellSelectionKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 			"key." + Constants.MOD_ID + ".select_spell",
 			InputUtil.Type.KEYSYM,
@@ -59,15 +55,6 @@ public class SpellClientHandler {
 					selectedSpell = null;
 				}
 			}
-		});
-
-		HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
-			MinecraftClient client = MinecraftClient.getInstance();
-			burnoutHUD.render(client, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight(), client.player);
-			currentSpellHUD
-				.render(client, matrixStack, tickDelta, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight(),
-						client.player);
-			OctagramBlockRender.handleDisplay(client, matrixStack, tickDelta);
 		});
 	}
 }

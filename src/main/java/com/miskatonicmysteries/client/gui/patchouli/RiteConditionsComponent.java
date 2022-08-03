@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.gui.patchouli;
 
 import com.miskatonicmysteries.api.registry.Rite;
-import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
+import com.miskatonicmysteries.client.gui.HudHandler;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.RiteCondition;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 
@@ -9,14 +9,10 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.miskatonicmysteries.common.util.Util.trimText;
-import org.jetbrains.annotations.NotNull;
 import vazkii.patchouli.api.IComponentRenderContext;
 import vazkii.patchouli.api.ICustomComponent;
 import vazkii.patchouli.api.IVariable;
@@ -38,7 +34,7 @@ public class RiteConditionsComponent implements ICustomComponent {
 		int currentY = y;
 		ms.translate(currentX, currentY, 0);
 		for (RiteCondition condition : rite.startConditions) {
-			OctagramBlockRender.drawIcon(ms, false, condition.getIconLocation());
+			HudHandler.drawIcon(ms, false, condition.getIconLocation());
 			if (context.isAreaHovered(mouseX, mouseY, currentX - 5, currentY - 5, 8, 8)) {
 				List<Text> matchList = trimText(condition.getDescription().getString());
 				context.setHoverTooltipComponents(matchList);

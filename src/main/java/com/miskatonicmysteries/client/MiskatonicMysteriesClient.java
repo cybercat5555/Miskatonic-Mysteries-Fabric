@@ -12,6 +12,7 @@ import com.miskatonicmysteries.api.item.GunItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.client.gui.EditSpellScreen;
+import com.miskatonicmysteries.client.gui.HudHandler;
 import com.miskatonicmysteries.client.gui.SpellClientHandler;
 import com.miskatonicmysteries.client.model.MMModels;
 import com.miskatonicmysteries.client.model.armor.HasturMaskModel;
@@ -141,6 +142,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		ResourceHandler.init();
 		registerItemRenderers();
 		SpellClientHandler.init();
+		HudHandler.init();
 		VisionHandler.init();
 		registerPackets();
 		MMClientEvents.init();

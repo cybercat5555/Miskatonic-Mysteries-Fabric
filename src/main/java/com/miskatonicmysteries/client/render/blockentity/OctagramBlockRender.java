@@ -1,36 +1,27 @@
 package com.miskatonicmysteries.client.render.blockentity;
 
-import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.block.OctagramBlock;
 import com.miskatonicmysteries.api.block.OctagramBlock.BlockOuterOctagram;
 import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.api.registry.Rite;
+import com.miskatonicmysteries.client.gui.HudHandler;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.RiteCondition;
-import com.miskatonicmysteries.common.feature.recipe.rite.condition.TatteredPrinceCondition;
-import com.miskatonicmysteries.common.registry.MMSpellMediums;
 import com.miskatonicmysteries.common.util.Constants;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.model.json.ModelTransformation;
@@ -41,9 +32,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 
 import java.util.HashMap;
@@ -51,14 +39,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-
 @Environment(EnvType.CLIENT)
 public class OctagramBlockRender extends DrawableHelper implements BlockEntityRenderer<OctagramBlockEntity> {
 
 	public static final Map<Identifier, Sprite> ICON_CACHE = new HashMap<>();
-	private static final Identifier CHECKMARK = new Identifier(Constants.MOD_ID, "textures/gui/check.png");
 	private final BlockEntityRendererFactory.Context context;
 
 	public OctagramBlockRender(BlockEntityRendererFactory.Context context) {
@@ -92,7 +76,7 @@ public class OctagramBlockRender extends DrawableHelper implements BlockEntityRe
 		centerY += 10;
 		matrixStack.translate(startX, centerY, 0);
 		for (Entry<RiteCondition, Boolean> entry : conditions.entrySet()) {
-			drawIcon(matrixStack, !entry.getValue(), entry.getKey().getIconLocation());
+			HudHandler.drawIcon(matrixStack, !entry.getValue(), entry.getKey().getIconLocation());
 			matrixStack.translate(12, 0, 0);
 		}
 		matrixStack.pop();
@@ -131,31 +115,6 @@ public class OctagramBlockRender extends DrawableHelper implements BlockEntityRe
 		matrixStack.pop();
 	}
 
-	public static void drawIcon(MatrixStack matrixStack, boolean checked, Identifier texture) {
-		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		BufferBuilder bufferBuilder =  MinecraftClient.getInstance().getBufferBuilders().getBlockBufferBuilders().get(RenderLayer.getCutoutMipped());
-		RenderSystem.depthMask(true);
-		RenderSystem.enableDepthTest();
-		RenderSystem.setShaderTexture(0, texture);
-		bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-		bufferBuilder.vertex(matrix, -4, 4, 0).texture(0, 1).next();
-		bufferBuilder.vertex(matrix, 4, 4, 0).texture(1, 1).next();
-		bufferBuilder.vertex(matrix, 4, -4, 0).texture(1, 0).next();
-		bufferBuilder.vertex(matrix, -4, -4, 0).texture(0, 0).next();
-		bufferBuilder.end();
-		BufferRenderer.draw(bufferBuilder);
-		if (checked) {
-			RenderSystem.setShaderTexture(0, CHECKMARK);
-			bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-			bufferBuilder.vertex(matrix, -2, 6, 0).texture(0, 1).next();
-			bufferBuilder.vertex(matrix, 6, 6, 0).texture(1, 1).next();
-			bufferBuilder.vertex(matrix, 6, -2, 0).texture(1, 0).next();
-			bufferBuilder.vertex(matrix, -2, -2, 0).texture(0, 0).next();
-			bufferBuilder.end();
-			BufferRenderer.draw(bufferBuilder);
-		}
-	}
 	public static void renderItems(OctagramBlockEntity entity, VertexConsumerProvider vertexConsumers, MatrixStack matrixStack, int light) {
 		int seed = (int) entity.getPos().asLong();
 		for (int i = 0; i < entity.size(); i++) {

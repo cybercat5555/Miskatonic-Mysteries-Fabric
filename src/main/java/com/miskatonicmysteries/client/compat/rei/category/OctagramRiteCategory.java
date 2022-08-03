@@ -2,8 +2,8 @@ package com.miskatonicmysteries.client.compat.rei.category;
 
 import com.miskatonicmysteries.api.registry.Rite;
 import com.miskatonicmysteries.client.compat.rei.MMREICompat;
+import com.miskatonicmysteries.client.gui.HudHandler;
 import com.miskatonicmysteries.client.render.ResourceHandler;
-import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.recipe.rite.TriggeredRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.RiteCondition;
@@ -11,7 +11,6 @@ import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.Util;
 
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.SpriteIdentifier;
@@ -26,8 +25,6 @@ import java.util.List;
 
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
-import me.shedaniel.rei.api.client.REIRuntime;
-import me.shedaniel.rei.api.client.gui.DrawableConsumer;
 import me.shedaniel.rei.api.client.gui.Renderer;
 import me.shedaniel.rei.api.client.gui.widgets.Label;
 import me.shedaniel.rei.api.client.gui.widgets.Tooltip;
@@ -42,7 +39,6 @@ import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategory.OctagramDisplay> {
 
@@ -188,7 +184,7 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
 		public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 			matrices.push();
 			matrices.translate(x + 0.5, y, 0);
-			OctagramBlockRender.drawIcon(matrices, false, condition.getIconLocation());
+			HudHandler.drawIcon(matrices, false, condition.getIconLocation());
 			matrices.pop();
 			if (isMouseOver(mouseX, mouseY)) {
 				tooltip.queue();
