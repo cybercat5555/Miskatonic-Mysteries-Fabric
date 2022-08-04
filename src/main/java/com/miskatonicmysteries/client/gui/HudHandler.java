@@ -24,7 +24,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 public class HudHandler {
 	private static final Identifier CHECKMARK = new Identifier(Constants.MOD_ID, "textures/gui/check.png");
-	private static final Identifier VALID_SACRIFICE = new Identifier(Constants.MOD_ID, "textures/gui/icons/rite_conditions/sacrifice.png");
+	private static final Identifier VALID_SACRIFICE = new Identifier(Constants.MOD_ID, "textures/gui/rite_conditions/sacrifice.png");
 	public static SpellBurnoutHUD burnoutHUD;
 	public static CurrentSpellHUD currentSpellHUD;
 
