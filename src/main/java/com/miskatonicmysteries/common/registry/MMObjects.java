@@ -38,6 +38,7 @@ import com.miskatonicmysteries.common.feature.item.WardingMarkItem;
 import com.miskatonicmysteries.common.feature.item.YellowSignPatternItem;
 import com.miskatonicmysteries.common.feature.item.armor.HasturCultistArmor;
 import com.miskatonicmysteries.common.feature.item.armor.ShubCultistArmor;
+import com.miskatonicmysteries.common.feature.item.consumable.AbsintheItem;
 import com.miskatonicmysteries.common.feature.item.consumable.BlotterItem;
 import com.miskatonicmysteries.common.feature.item.consumable.ChemicalFuelItem;
 import com.miskatonicmysteries.common.feature.item.consumable.CirrhosusFleshItem;
@@ -375,6 +376,8 @@ public class MMObjects {
 	public static final Item HASTUR_BELL = new HasturBellItem();
 	public static final Item ENCHANTED_CANVAS = new EnchantedCanvasItem();
 
+	public static final Item ABSINTHE = new AbsintheItem();
+
 	public static void init() {
 		ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(MMObjects.INFESTED_WHEAT, 0.7F);
 
@@ -572,5 +575,7 @@ public class MMObjects {
 
 		RegistryUtil.register(Registry.ITEM, "hastur_bell", HASTUR_BELL);
 		RegistryUtil.register(Registry.ITEM, "enchanted_canvas", ENCHANTED_CANVAS);
+
+		RegistryUtil.register(Registry.ITEM, "absinthe", ABSINTHE);
 	}
 }

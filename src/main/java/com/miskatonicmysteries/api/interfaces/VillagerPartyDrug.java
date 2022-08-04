@@ -6,7 +6,7 @@ import net.minecraft.entity.passive.VillagerEntity;
 public interface VillagerPartyDrug {
 
 	default boolean canDrug(VillagerEntity villager) {
-		return !villager.hasStatusEffect(getStatusEffect(villager).getEffectType());
+		return !villager.hasStatusEffect(getStatusEffect(villager).getEffectType()) && !villager.isBaby();
 	}
 
 	StatusEffectInstance getStatusEffect(VillagerEntity villager);

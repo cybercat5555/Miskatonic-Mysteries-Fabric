@@ -39,6 +39,7 @@ public class MMTrades {
 																						  2, 0.1F);
 	public static final TradeOffers.Factory BLOTTER_OFFER = new ProcessItemOffer(new ItemStack(Items.PAPER), 3,
 																				 new ItemStack(MMObjects.BLOTTER, 3), 16, 5);
+	public static final TradeOffers.Factory ABSINTHE_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.ABSINTHE), 12, 3,16, 0.2F);
 	public static final TradeOffers.Factory POWER_CELL_OFFER = new ProcessItemOffer(new ItemStack(Items.IRON_INGOT, 8), 12,
 																					new ItemStack(MMObjects.POWER_CELL), 1, 20);
 	public static final TradeOffers.Factory CHEMICAL_FUEL_OFFER = new EmeraldToItemOffer(new ItemStack(MMObjects.CHEMICAL_FUEL), 5, 4, 10,
@@ -103,7 +104,7 @@ public class MMTrades {
 
 	static {
 		PSYCHONAUT_TRADES.put(1, new TradeOffers.Factory[]{SCIENCE_JOURNAL_OFFER, INFESTED_WHEAT_OFFER});
-		PSYCHONAUT_TRADES.put(2, new TradeOffers.Factory[]{POWER_CELL_OFFER, CHEMICAL_FUEL_OFFER, BLOTTER_OFFER});
+		PSYCHONAUT_TRADES.put(2, new TradeOffers.Factory[]{POWER_CELL_OFFER, CHEMICAL_FUEL_OFFER, ABSINTHE_OFFER});
 		PSYCHONAUT_TRADES.put(3, new TradeOffers.Factory[]{WARDED_PAPER_OFFER, LAUDANUM_OFFER, SUSPICIOUS_OFFER});
 		PSYCHONAUT_TRADES.put(4, new TradeOffers.Factory[]{RESONATOR_OFFER, TRANQ_OFFER});
 		PSYCHONAUT_TRADES.put(5, new TradeOffers.Factory[]{RE_AGENT_OFFER, REVOLVER_OFFER});

@@ -6,6 +6,7 @@ import com.miskatonicmysteries.common.feature.effect.BleedStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.BrainDrainStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.ClairvoyanceStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.ExoticCravingsStatusEffect;
+import com.miskatonicmysteries.common.feature.effect.GreenFairyStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.HomelyStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.LazarusStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.ManiaStatusEffect;
@@ -38,6 +39,7 @@ public class MMStatusEffects {
 	public static final StatusEffect OTHERVIBES = new OthervibesStatusEffect();
 	public static final StatusEffect HOMELY = new HomelyStatusEffect();
 	public static final StatusEffect BRAIN_DRAIN = new BrainDrainStatusEffect();
+	public static final StatusEffect GREEN_FAIRY = new GreenFairyStatusEffect();
 
 	public static void init() {
 		RegistryUtil.register(Registry.STATUS_EFFECT, "mania", MANIA);
@@ -52,6 +54,7 @@ public class MMStatusEffects {
 		RegistryUtil.register(Registry.STATUS_EFFECT, "othervibes", OTHERVIBES);
 		RegistryUtil.register(Registry.STATUS_EFFECT, "homely", HOMELY);
 		RegistryUtil.register(Registry.STATUS_EFFECT, "brain_drain", BRAIN_DRAIN);
+		RegistryUtil.register(Registry.STATUS_EFFECT, "green_fairy", GREEN_FAIRY);
 		RegistryUtil.register(Registry.POTION, "resonance", Potions.RESONANCE);
 		RegistryUtil.register(Registry.POTION, "resonance_long", Potions.LONG_RESONANCE);
 		RegistryUtil.register(Registry.POTION, "resonance_strong", Potions.STRONG_RESONANCE);
