@@ -79,6 +79,8 @@ public class MMTrades {
 	//Lvl. 4
 	public static final TradeOffers.Factory YELLOW_SIGN_OFFER = new ProcessItemOffer(new ItemStack(Items.PAPER, 4), 12,
 																					 new ItemStack(MMObjects.YELLOW_SIGN_LOOM_PATTERN), 1, 50);
+	public static final TradeOffers.Factory BELL_OFFER = new ProcessItemOffer(new ItemStack(Items.GOLD_INGOT, 2), 4,
+																					 new ItemStack(MMObjects.HASTUR_BELL), 1, 30);
 
 	//Extra-offers for Hastur Cultists
 	public static final TradeOffers.Factory REVERSE_OCEANIC_GOLD_OFFER = new ItemToEmeraldOffer(new ItemStack(MMObjects.OCEANIC_GOLD, 3), 2,
