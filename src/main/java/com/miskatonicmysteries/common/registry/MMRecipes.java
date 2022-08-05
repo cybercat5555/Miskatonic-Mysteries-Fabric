@@ -2,6 +2,7 @@ package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.common.feature.block.blockentity.ChemistrySetBlockEntity;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
+import com.miskatonicmysteries.common.feature.recipe.AscensionLockedRecipe;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.util.InventoryUtil;
@@ -23,11 +24,16 @@ public class MMRecipes {
 	public static final DummyRecipeType<RiteRecipe> RITE_RECIPE = new DummyRecipeType<>();
 	public static final RecipeSerializer<RiteRecipe> RITE_SERIALIZER = new RiteRecipe.Serializer();
 
+	public static final DummyRecipeType<AscensionLockedRecipe> ASCENSION_RECIPE = new DummyRecipeType<>();
+	public static final RecipeSerializer<AscensionLockedRecipe> ASCENSION_SERIALIZER = new AscensionLockedRecipe.Serializer();
+
 	public static void init() {
 		RegistryUtil.register(Registry.RECIPE_TYPE, "chemistry_recipe", CHEMISTRY_RECIPE);
 		RegistryUtil.register(Registry.RECIPE_SERIALIZER, "chemistry_recipe", CHEMISTRY_SERIALIZER);
 		RegistryUtil.register(Registry.RECIPE_TYPE, "rite_recipe", RITE_RECIPE);
 		RegistryUtil.register(Registry.RECIPE_SERIALIZER, "rite_recipe", RITE_SERIALIZER);
+		RegistryUtil.register(Registry.RECIPE_TYPE, "ascension_locked_recipe", ASCENSION_RECIPE);
+		RegistryUtil.register(Registry.RECIPE_SERIALIZER, "ascension_locked_recipe", ASCENSION_SERIALIZER);
 	}
 
 	public static ChemistryRecipe getChemistryRecipe(ChemistrySetBlockEntity chemSet) {

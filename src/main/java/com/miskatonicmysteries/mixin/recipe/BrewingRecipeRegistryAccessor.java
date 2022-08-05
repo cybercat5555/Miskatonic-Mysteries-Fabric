@@ -1,4 +1,4 @@
-package com.miskatonicmysteries.mixin;
+package com.miskatonicmysteries.mixin.recipe;
 
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;

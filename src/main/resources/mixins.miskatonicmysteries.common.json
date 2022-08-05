@@ -4,7 +4,6 @@
 	"package": "com.miskatonicmysteries.mixin",
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
-		"BrewingRecipeRegistryAccessor",
 		"biomes.ChunkSectionAccessor",
 		"block.BlockMixin",
 		"block.ConduitBlockEntityMixin",
@@ -23,6 +22,10 @@
 		"item.FireworkItemMixin",
 		"item.ItemMixin",
 		"item.MilkBucketItemMixin",
+		"recipe.BrewingRecipeRegistryAccessor",
+		"recipe.CraftingInventoryMixin",
+		"recipe.CraftingScreenHandlerMixin",
+		"recipe.ShapedRecipeAccessor",
 		"villagers.ActivityAccessor",
 		"villagers.MemoryModuleTypeAccessor",
 		"villagers.VillagerEntityAccessor",

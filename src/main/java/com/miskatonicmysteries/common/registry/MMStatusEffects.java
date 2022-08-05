@@ -16,7 +16,7 @@ import com.miskatonicmysteries.common.feature.effect.ResonanceStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.TranquilizedStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.UltraViolenceStatusEffect;
 import com.miskatonicmysteries.common.util.RegistryUtil;
-import com.miskatonicmysteries.mixin.BrewingRecipeRegistryAccessor;
+import com.miskatonicmysteries.mixin.recipe.BrewingRecipeRegistryAccessor;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
