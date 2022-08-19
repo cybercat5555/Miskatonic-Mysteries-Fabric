@@ -67,68 +67,70 @@ public abstract class BiomeConversionRite extends Rite {
 	@Override
 	public void tick(OctagramBlockEntity octagram) {
 		World world = octagram.getWorld();
-		Random random = octagram.getWorld().getRandom();
-		if (octagram.tickCount < 320) {
-			PlayerEntity caster = octagram.getOriginalCaster();
-			Vec3d pos = octagram.getSummoningPos();
-			if (octagram.tickCount > 0 && octagram.tickCount < 100 && octagram.tickCount % 20 == 0) {
-				world.playSound(pos.getX(), pos.getY(), pos.getZ(), MMSounds.RITE_SPOTLIGHT, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
-			}
-			if (octagram.tickCount < 100) {
-				octagram.tickCount++;
-			} else if (!octagram.hasClientInput()) {
-				if (world.isClient) {
-					handleParticles(world, random, pos);
+		if(world != null){
+			Random random = octagram.getWorld().getRandom();
+			if (octagram.tickCount < 320) {
+				PlayerEntity caster = octagram.getOriginalCaster();
+				Vec3d pos = octagram.getSummoningPos();
+				if (octagram.tickCount > 0 && octagram.tickCount < 100 && octagram.tickCount % 20 == 0) {
+					world.playSound(pos.getX(), pos.getY(), pos.getZ(), MMSounds.RITE_SPOTLIGHT, SoundCategory.BLOCKS, 1.0f, 1.0f, false);
 				}
-				if (caster.getPos().distanceTo(pos) < 1) {
-					octagram.tickCount = MathHelper.clamp(octagram.tickCount + 1, 100, 119);
-					Vec3d motionVec = new Vec3d(pos.x - caster.getX(), pos.y - caster.getY(), pos.z - caster.getZ());
-					motionVec = motionVec.multiply(0.25F);
-					caster.setVelocity(motionVec);
-					caster.velocityModified = true;
+				if (octagram.tickCount < 100) {
+					octagram.tickCount++;
+				} else if (!octagram.hasClientInput()) {
 					if (world.isClient) {
-						if (octagram.tickCount == 101) {
-							VisionHandler.setVisionSequence((ClientPlayerEntity) caster,
-															VisionHandler.getSequence(new Identifier(Constants.MOD_ID, "fade_to_black")));
-						} else if (octagram.tickCount == 110) {
-							openScreen();
+						handleParticles(world, random, pos);
+					}
+					if (caster.getPos().distanceTo(pos) < 1) {
+						octagram.tickCount = MathHelper.clamp(octagram.tickCount + 1, 100, 119);
+						Vec3d motionVec = new Vec3d(pos.x - caster.getX(), pos.y - caster.getY(), pos.z - caster.getZ());
+						motionVec = motionVec.multiply(0.25F);
+						caster.setVelocity(motionVec);
+						caster.velocityModified = true;
+						if (world.isClient) {
+							if (octagram.tickCount == 101) {
+								VisionHandler.setVisionSequence((ClientPlayerEntity) caster,
+										VisionHandler.getSequence(new Identifier(Constants.MOD_ID, "fade_to_black")));
+							} else if (octagram.tickCount == 110) {
+								openScreen();
+							}
+						} else {
+							handleSaboteurs(octagram, (ServerPlayerEntity) caster);
 						}
 					} else {
-						handleSaboteurs(octagram, (ServerPlayerEntity) caster);
+						octagram.tickCount = 100;
 					}
 				} else {
-					octagram.tickCount = 100;
-				}
-			} else {
-				octagram.tickCount++;
-				if (octagram.tickCount == 120) {
-					octagram.clear();
-					octagram.markDirty();
-					if (octagram.getWorld() instanceof ServerWorld serverWorld) {
-						onCast(octagram, caster);
-						MMDimensionalWorldState worldState = MMDimensionalWorldState.get(serverWorld);
-						List<BiomeKnot> knots = worldState.getNearbyKnots(octagram.getPos(), RANGE * 2)
-							.stream().filter(biomeKnot -> biomeKnot.isCore() && !biomeKnot.isActive())
-							.sorted(Comparator.comparingDouble(a -> a.getPos().getSquaredDistance(pos))).collect(Collectors.toList());
-						boolean knotChanged = false;
-						if (knotAffiliation != null) {
-							for (BiomeKnot knot : knots) {
-								BiomeEffect effect = MiskatonicMysteriesAPI.getBiomeEffect(world, knot.getPos());
-								if (effect != null && effect.getAffiliation(false) == MMAffiliations.HASTUR) {
-									worldState.setBiomeKnot(knot.getPos(), 64, true, true, knotAffiliation);
-									knotChanged = true;
-									break;
+					octagram.tickCount++;
+					if (octagram.tickCount == 120) {
+						octagram.clear();
+						octagram.markDirty();
+						if (octagram.getWorld() instanceof ServerWorld serverWorld) {
+							onCast(octagram, caster);
+							MMDimensionalWorldState worldState = MMDimensionalWorldState.get(serverWorld);
+							List<BiomeKnot> knots = worldState.getNearbyKnots(octagram.getPos(), RANGE * 2)
+									.stream().filter(biomeKnot -> biomeKnot.isCore() && !biomeKnot.isActive())
+									.sorted(Comparator.comparingDouble(a -> a.getPos().getSquaredDistance(pos))).toList();
+							boolean knotChanged = false;
+							if (knotAffiliation != null) {
+								for (BiomeKnot knot : knots) {
+									BiomeEffect effect = MiskatonicMysteriesAPI.getBiomeEffect(serverWorld, knot.getPos());
+									if (effect != null && effect.getAffiliation(false) == MMAffiliations.HASTUR) {
+										worldState.setBiomeKnot(knot.getPos(), 64, true, true, knotAffiliation);
+										knotChanged = true;
+										break;
+									}
 								}
 							}
-						}
-						if (!knotChanged) {
-							spread((ServerWorld) world, octagram, worldState, caster);
+							if (!knotChanged) {
+								spread(serverWorld, octagram, worldState, caster);
+							}
 						}
 					}
 				}
+			} else {
+				octagram.tickCount = 320;
 			}
-		} else {
-			octagram.tickCount = 320;
 		}
 	}
 
