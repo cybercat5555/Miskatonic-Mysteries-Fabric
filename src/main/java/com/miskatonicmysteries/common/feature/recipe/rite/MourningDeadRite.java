@@ -13,16 +13,9 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.potion.PotionUtil;
-import net.minecraft.potion.Potions;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
-
-import java.util.Arrays;
 
 public class MourningDeadRite extends Rite {
 
@@ -40,8 +33,8 @@ public class MourningDeadRite extends Rite {
 			octagram.getWorld()
 				.getEntitiesByClass(MobEntity.class, octagram.getSelectionBox().expand(10, 10, 10), mob -> mob.getGroup() == EntityGroup.UNDEAD)
 				.forEach(mob -> {
-					if (mob instanceof RenderTransformable r && r.getSquishTicks() == 0) {
-						r.squish();
+					if (mob instanceof RenderTransformable r && r.mm_getSquishTicks() == 0) {
+						r.mm_squish();
 					}
 				});
 		}

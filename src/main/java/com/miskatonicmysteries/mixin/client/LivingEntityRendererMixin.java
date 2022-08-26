@@ -20,8 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class LivingEntityRendererMixin {
 	@Inject(method = "setupTransforms", at = @At("HEAD"))
 	private void applyTransformations(LivingEntity entity, MatrixStack matrices, float animationProgress, float bodyYaw, float tickDelta, CallbackInfo ci) {
-		if (entity instanceof RenderTransformable r && r.getSquishTicks() > 0) {
-			float scale = 1F - 0.2F * MathHelper.sin((r.getSquishTicks() - tickDelta) / 19F * MathHelper.PI);
+		if (entity instanceof RenderTransformable r && r.mm_getSquishTicks() > 0) {
+			float scale = 1F - 0.2F * MathHelper.sin((r.mm_getSquishTicks() - tickDelta) / 19F * MathHelper.PI);
 			matrices.scale(scale, 1, scale);
 		}
 	}

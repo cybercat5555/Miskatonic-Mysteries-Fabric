@@ -11,7 +11,6 @@ import com.miskatonicmysteries.common.feature.effect.BrainDrainStatusEffect;
 import com.miskatonicmysteries.common.feature.effect.ExoticCravingsStatusEffect;
 import com.miskatonicmysteries.common.feature.entity.HallucinationEntity;
 import com.miskatonicmysteries.common.feature.world.biome.BiomeEffect;
-import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 
 import net.fabricmc.api.EnvType;
@@ -23,7 +22,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
@@ -31,15 +29,12 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -75,7 +70,7 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 				currentBiomeEffect.tickFor((LivingEntity) (Object) this);
 			}
 		} else {
-			if (getSquishTicks() > 0) {
+			if (mm_getSquishTicks() > 0) {
 				mm_squishTicks--;
 			}
 		}
@@ -182,13 +177,13 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public int getSquishTicks() {
+	public int mm_getSquishTicks() {
 		return mm_squishTicks;
 	}
 
 	@Override
 	@Environment(EnvType.CLIENT)
-	public void squish() {
+	public void mm_squish() {
 		this.mm_squishTicks = 20;
 	}
 }

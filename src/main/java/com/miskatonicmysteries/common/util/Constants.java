@@ -2,9 +2,11 @@ package com.miskatonicmysteries.common.util;
 
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
+import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.common.feature.block.PowerCellBlock;
 import com.miskatonicmysteries.common.feature.entity.FeasterEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
+import com.miskatonicmysteries.common.registry.MMRegistries;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 
@@ -19,6 +21,7 @@ import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -82,6 +85,10 @@ public class Constants {
 		public static final TagKey<EntityType<?>> BURNED_VEIL_MOBS = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "burned_veil_mobs"));
 		public static final TagKey<EntityType<?>> BROKEN_VEIL_MOBS = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "broken_veil_mobs"));
 		public static final TagKey<EntityType<?>> VALID_SACRIFICES = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "valid_sacrifices"));
+
+		public static final TagKey<SpellEffect> RIFT_SPELLS = TagKey.of(MMRegistries.SPELL_EFFECTS.getKey(), new Identifier(MOD_ID, "rift_spells"));
+		public static final TagKey<StatusEffect> RIFT_EFFECTS = TagKey.of(Registry.MOB_EFFECT_KEY, new Identifier(MOD_ID, "rift_effects"));
+		public static final TagKey<EntityType<?>> RIFT_ENTITIES = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "rift_entities"));
 	}
 
 	public static class NBT {
@@ -178,6 +185,7 @@ public class Constants {
 		public static final String SPECIAL_MOVE = "SpecialMove";
 		public static final String TRANSITION_TICKS = "TransitionTicks";
 		public static final String IS_FLYING = "IsFlying";
+		public static final String RIFT_TYPE = "RiftType";
 	}
 
 	public static class DataTrackers {

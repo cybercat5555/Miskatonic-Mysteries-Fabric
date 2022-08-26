@@ -353,8 +353,8 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 				grabbedEntity.setPosition(Util.getYawRelativePos(getPos(), 2.5, getYaw() + 25, 55));
 			} else {
 				grabbedEntity.setPosition(Util.getYawRelativePos(getPos(), 2, getYaw(), 0));
-				if (world.isClient && grabbedEntity instanceof RenderTransformable t && t.getSquishTicks() <= 0) {
-					t.squish();
+				if (world.isClient && grabbedEntity instanceof RenderTransformable t && t.mm_getSquishTicks() <= 0) {
+					t.mm_squish();
 				}
 			}
 		}

@@ -96,9 +96,8 @@ public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
 								 float endX, float red, float green, float blue, float alpha, float firstOffset, float secondOffset,
 								 boolean negativeOffset,
 								 boolean bl2, boolean bl3, boolean bl4, float segmentLength, float segmentLengthAdded) {
-		vertexConsumer
-			.vertex(matrix4f, startX + (bl2 ? secondOffset : -secondOffset), startY + (negativeOffset ? secondOffset : -secondOffset),
-					(segmentIndex * segmentLength)).color(red, green, blue, alpha).next();
+		vertexConsumer.vertex(matrix4f, startX + (bl2 ? secondOffset : -secondOffset), startY + (negativeOffset ? secondOffset : -secondOffset),
+							  (segmentIndex * segmentLength)).color(red, green, blue, alpha).next();
 		vertexConsumer.vertex(matrix4f, endX + (bl2 ? firstOffset : -firstOffset), endY + (negativeOffset ? firstOffset : -firstOffset),
 							  (segmentIndex) * segmentLength + segmentLengthAdded).color(red, green, blue, alpha).next();
 		vertexConsumer.vertex(matrix4f, endX + (bl4 ? firstOffset : -firstOffset), endY + (bl3 ? firstOffset : -firstOffset),

@@ -102,6 +102,10 @@ public class MMEntities {
 	public static final EntityType<FeasterEntity> FEASTER = FabricEntityTypeBuilder
 		.create(SpawnGroup.MONSTER, FeasterEntity::new).dimensions(EntityDimensions.fixed(2F, 3F)).trackRangeChunks(12).build();
 
+	public static final EntityType<RiftEntity> RIFT = FabricEntityTypeBuilder
+		.create(SpawnGroup.MISC, RiftEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F))
+		.trackRangeChunks(4).build();
+
 	public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper
 		.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
 	public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create()
@@ -236,6 +240,8 @@ public class MMEntities {
 		RegistryUtil.register(Registry.ENTITY_TYPE, "wall_painting", WALL_PAINTING);
 		RegistryUtil.register(Registry.ENTITY_TYPE, "pulse_painting", PULSE_PAINTING);
 		RegistryUtil.register(Registry.ENTITY_TYPE, "homey_painting", HOMEY_PAINTING);
+
+		RegistryUtil.register(Registry.ENTITY_TYPE, "rift", RIFT);
 
 		RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
 

@@ -23,25 +23,12 @@ import ladysnake.satin.api.util.RenderLayerHelper;
 @Environment(EnvType.CLIENT)
 public class RenderHelper extends RenderLayer {
 
-	protected static final Function<Identifier, RenderLayer> PORTAL_LAYER = Util.memoize((texture) ->
-																							 ShaderHandler.PORTAL_CORE
-																								 .getRenderLayer(RenderLayerHelper
-																													 .copy(
-																														 RenderLayer.getTranslucent(),
-																														 "miskatonicmysteries:portal",
-																														 (builder) -> builder
-																															 .texture(
-																																 RenderPhase.Textures
-																																	 .create()
-																																	 .add(texture,
-																																		  false,
-																																		  false)
-																																	 .add(
-																																		 EndPortalBlockEntityRenderer.PORTAL_TEXTURE,
-																																		 false, false)
-																																	 .build()))));
+	protected static final Function<Identifier, RenderLayer> PORTAL_LAYER = Util.memoize((texture) -> ShaderHandler.PORTAL_CORE
+		.getRenderLayer(RenderLayerHelper.copy(RenderLayer.getTranslucent(), "miskatonicmysteries:portal", (builder) -> builder
+			.texture(RenderPhase.Textures.create().add(texture, false, false)
+						 .add(EndPortalBlockEntityRenderer.PORTAL_TEXTURE, false, false).build()))));
 
-	protected static final RenderLayer STANDARD_PORTAL = PORTAL_LAYER
+	public static final RenderLayer STANDARD_PORTAL = PORTAL_LAYER
 		.apply(EndPortalBlockEntityRenderer.SKY_TEXTURE);
 
 	public RenderHelper(String name, VertexFormat vertexFormat, VertexFormat.DrawMode drawMode, int expectedBufferSize,

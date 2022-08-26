@@ -44,6 +44,7 @@ import com.miskatonicmysteries.client.render.entity.HarrowEntityRenderer;
 import com.miskatonicmysteries.client.render.entity.HasturCultistEntityRender;
 import com.miskatonicmysteries.client.render.entity.PhantasmaEntityRenderer;
 import com.miskatonicmysteries.client.render.entity.ProtagonistEntityRender;
+import com.miskatonicmysteries.client.render.entity.RiftEntityRenderer;
 import com.miskatonicmysteries.client.render.entity.SpellProjectileEntityRenderer;
 import com.miskatonicmysteries.client.render.entity.TatteredPrinceRenderer;
 import com.miskatonicmysteries.client.render.entity.TindalosHoundEntityRenderer;
@@ -68,6 +69,7 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.ProjectileSp
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.RemoveExpansionPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SmokeEffectPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SoundPacket;
+import com.miskatonicmysteries.common.handler.networking.packet.s2c.SpawnCubesPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeReversionPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBiomeSpreadPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.SyncBlessingsPacket;
@@ -186,6 +188,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		EntityRendererRegistry.register(MMEntities.WALL_PAINTING, WallPaintingRenderer::new);
 		EntityRendererRegistry.register(MMEntities.PULSE_PAINTING, PaintingEntityRenderer::new);
 		EntityRendererRegistry.register(MMEntities.HOMEY_PAINTING, PaintingEntityRenderer::new);
+		EntityRendererRegistry.register(MMEntities.RIFT, RiftEntityRenderer::new);
 	}
 
 	private void registerItemRenderers() {
@@ -256,6 +259,7 @@ public class MiskatonicMysteriesClient implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(InfestWheatPacket.ID, InfestWheatPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(ProjectileSpellEffectPacket.ID, ProjectileSpellEffectPacket::handle);
 		ClientPlayNetworking.registerGlobalReceiver(SyncRiteConditionsPacket.ID, SyncRiteConditionsPacket::handle);
+		ClientPlayNetworking.registerGlobalReceiver(SpawnCubesPacket.ID, SpawnCubesPacket::handle);
 	}
 
 	private void registerArmorRenderers() {

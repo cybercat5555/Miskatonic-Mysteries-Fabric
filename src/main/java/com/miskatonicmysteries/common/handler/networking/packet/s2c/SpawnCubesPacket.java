@@ -1,6 +1,7 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
 import com.miskatonicmysteries.common.feature.entity.util.CastingMob;
+import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.util.Constants;
 
 import net.fabricmc.api.EnvType;
@@ -21,29 +22,15 @@ import net.minecraft.util.math.Vec3d;
 
 import io.netty.buffer.Unpooled;
 
-public class EffectParticlePacket {
+public class SpawnCubesPacket {
 
-	public static final Identifier ID = new Identifier(Constants.MOD_ID, "effect_packet");
+	public static final Identifier ID = new Identifier(Constants.MOD_ID, "cubes_effect_packet");
 
-	public static <T extends PathAwareEntity & CastingMob> void send(T castingMob) {
-		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
-		data.writeDouble((castingMob.getX()));
-		data.writeDouble(castingMob.getY() + 2.3F);
-		data.writeDouble(castingMob.getZ());
-		data.writeInt(castingMob.getCurrentSpell().effect.getColor(castingMob));
-		data.writeInt(1);
-		if (castingMob.world instanceof ServerWorld) {
-			PlayerLookup.tracking(castingMob).forEach(p -> ServerPlayNetworking.send(p, ID, data));
-		}
-	}
-
-	public static void send(Entity entity, int color, int amount) {
+	public static void send(Entity entity) {
 		PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
 		data.writeDouble((entity.getX()));
 		data.writeDouble(entity.getY());
 		data.writeDouble(entity.getZ());
-		data.writeInt(color);
-		data.writeInt(amount);
 		if (entity.world instanceof ServerWorld) {
 			PlayerLookup.tracking(entity).forEach(p -> ServerPlayNetworking.send(p, ID, data));
 		}
@@ -53,13 +40,12 @@ public class EffectParticlePacket {
 	public static void handle(MinecraftClient client, ClientPlayNetworkHandler networkHandler, PacketByteBuf packetByteBuf,
 							  PacketSender sender) {
 		Vec3d pos = new Vec3d(packetByteBuf.readDouble(), packetByteBuf.readDouble(), packetByteBuf.readDouble());
-		Vec3d rgb = Vec3d.unpackRgb(packetByteBuf.readInt());
-		int amount = packetByteBuf.readInt();
 		client.execute(() -> {
-			for (int i = 0; i < amount; i++) {
-				client.world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.x + client.world.random.nextGaussian() * 0.75F,
-										 pos.y + client.world.random.nextGaussian(), pos.z + client.world.random.nextGaussian() * 0.75F, rgb.x, rgb.y,
-										 rgb.z);
+			for (int i = 0; i < 5; i++) {
+				client.world.addParticle(MMParticles.WEIRD_CUBE, pos.x, pos.y, pos.z,
+										 client.world.random.nextGaussian() * 0.1,
+										 client.world.random.nextGaussian() * 0.1,
+										 client.world.random.nextGaussian() * 0.1);
 			}
 		});
 	}

@@ -5,7 +5,7 @@ import net.fabricmc.api.Environment;
 
 public interface RenderTransformable {
 
-	@Environment(EnvType.CLIENT) int getSquishTicks();
+	@Environment(EnvType.CLIENT) int mm_getSquishTicks();
 
-	@Environment(EnvType.CLIENT) void squish();
+	@Environment(EnvType.CLIENT) void mm_squish();
 }
