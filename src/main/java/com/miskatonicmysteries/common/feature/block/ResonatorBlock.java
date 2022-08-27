@@ -112,10 +112,8 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
 			}
 			world.playSound(null, pos, SoundEvents.BLOCK_LEVER_CLICK, SoundCategory.BLOCKS, 0.2F, state.get(POWERED) ? 0.6F : 0.5F);
 			if (state.get(POWERED)) {
-				if (player.isSneaking()) {
-					world.setBlockState(pos, state.with(POWERED, false));
-					blockEntity.markDirty();
-				}
+				world.setBlockState(pos, state.with(POWERED, false));
+				blockEntity.markDirty();
 			} else if (blockEntity instanceof ResonatorBlockEntity resonator && resonator.energyStorage.amount > 0) {
 				world.setBlockState(pos, state.with(POWERED, true));
 				blockEntity.markDirty();

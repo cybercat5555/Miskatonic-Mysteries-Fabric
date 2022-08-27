@@ -13,6 +13,7 @@ import com.miskatonicmysteries.common.registry.MMRecipes;
 import com.miskatonicmysteries.common.util.InventoryUtil;
 import com.miskatonicmysteries.common.util.Util;
 
+import net.minecraft.block.AbstractButtonBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
@@ -130,31 +131,33 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 
 	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (!world.isClient && world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
-			OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(pos);
+		if (world.getBlockEntity(pos) instanceof OctagramBlockEntity octagram) {
 			if (octagram.currentRite != null) {
 				return ActionResult.PASS;
 			}
-			octagram.setOriginalCaster(player);
-			octagram.sync(world, pos);
-			RiteRecipe riteRecipe = MMRecipes.getRiteRecipe(octagram);
-			if (riteRecipe != null) {
-				if (!player.isSneaking() && riteRecipe.rite.canCast(octagram, riteRecipe)) {
-					Rite rite = riteRecipe.rite;
-					octagram.setTriggered(rite.shouldTriggerFromStart(octagram, player));
-					octagram.currentRite = rite;
-					rite.onStart(octagram);
-					octagram.markDirty();
-					octagram.sync(world, pos);
-					octagram.sendClientInfo(riteRecipe, true);
-				} else {
-					octagram.sendClientInfo(riteRecipe, false);
+			if (!world.isClient) {
+				octagram.setOriginalCaster(player);
+				octagram.sync(world, pos);
+				RiteRecipe riteRecipe = MMRecipes.getRiteRecipe(octagram);
+				if (riteRecipe != null) {
+					if (!player.isSneaking() && riteRecipe.rite.canCast(octagram, riteRecipe)) {
+						Rite rite = riteRecipe.rite;
+						octagram.setTriggered(rite.shouldTriggerFromStart(octagram, player));
+						octagram.currentRite = rite;
+						rite.onStart(octagram);
+						octagram.markDirty();
+						octagram.sync(world, pos);
+						octagram.sendClientInfo(riteRecipe, true);
+					} else {
+						octagram.sendClientInfo(riteRecipe, false);
+					}
+					return ActionResult.CONSUME;
 				}
-				return ActionResult.CONSUME;
 			}
+			return ActionResult.success(world.isClient);
 		}
 
-		return super.onUse(state, world, pos, player, hand, hit);
+		return ActionResult.PASS;
 	}
 
 	@Override

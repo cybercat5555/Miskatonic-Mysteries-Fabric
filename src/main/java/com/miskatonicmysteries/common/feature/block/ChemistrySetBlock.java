@@ -129,39 +129,39 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
 		ChemistrySetBlockEntity blockEntity = (ChemistrySetBlockEntity) world.getBlockEntity(pos);
 		if (stack.getItem() instanceof FlintAndSteelItem && !state.get(LIT) && !state.get(WATERLOGGED)) {
 			stack.damage(1, player, (p) -> p.sendToolBreakStatus(hand));
-			world.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F,
+			world.playSound(player, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 0.8F,
 							world.random.nextFloat() * 0.4F + 0.8F);
 			world.setBlockState(pos, state.with(LIT, blockEntity.canBeLit(player)));
 			return ActionResult.SUCCESS;
 		} else if (!stack.isEmpty()) {
-			if (blockEntity.containsPotentialItems()) {
-				blockEntity.markDirty();
-				if (!world.isClient) {
-					blockEntity.sync(world, pos);
-				}
-				if (blockEntity.convertPotentialItem(player, hand)) {
-					return ActionResult.SUCCESS;
-				}
-			}
-			for (int i = 0; i < blockEntity.size(); i++) {
-				if (blockEntity.getStack(i).isEmpty() && blockEntity.isValid(i, stack) && blockEntity.canPlayerUse(player)) {
-					blockEntity.setStack(i, stack.split(1));
+			if (!world.isClient) {
+				if (blockEntity.containsPotentialItems()) {
 					blockEntity.markDirty();
-					if (!world.isClient) {
-						blockEntity.sync(world, pos);
+					blockEntity.sync(world, pos);
+					if (blockEntity.convertPotentialItem(player, hand)) {
+						return ActionResult.SUCCESS;
 					}
-					return ActionResult.CONSUME;
+				}
+				for (int i = 0; i < blockEntity.size(); i++) {
+					if (blockEntity.getStack(i).isEmpty() && blockEntity.isValid(i, stack) && blockEntity.canPlayerUse(player)) {
+						blockEntity.setStack(i, stack.split(1));
+						blockEntity.markDirty();
+						blockEntity.sync(world, pos);
+						return ActionResult.SUCCESS;
+					}
 				}
 			}
+			return ActionResult.CONSUME;
 		} else {
 			for (int i = 5; i >= 0; i--) {
 				if (!blockEntity.getStack(i).isEmpty() && blockEntity.canPlayerUse(player)) {
-					InventoryUtil.giveItem(world, player, blockEntity.removeStack(i));
-					blockEntity.markDirty();
 					if (!world.isClient) {
+						InventoryUtil.giveItem(world, player, blockEntity.removeStack(i));
+						blockEntity.markDirty();
 						blockEntity.sync(world, pos);
+						return ActionResult.SUCCESS;
 					}
-					return ActionResult.SUCCESS;
+					return ActionResult.CONSUME;
 				}
 			}
 		}
