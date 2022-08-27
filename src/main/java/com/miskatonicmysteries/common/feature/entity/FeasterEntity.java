@@ -112,11 +112,9 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 	protected void initGoals() {
 		super.initGoals();
 		this.goalSelector.add(1, new SwitchMovementModeGoal());
-		this.goalSelector.add(2, new FeasterWanderGoal());
-		this.goalSelector.add(3, new DrainTargetGoal());
-		this.goalSelector.add(4, new DragTargetIntoSkyGoal());
-		this.goalSelector.add(5, new FeasterSwipeGoal());
-		this.goalSelector.add(6, new CastSpellGoal<>(this) {
+		this.goalSelector.add(2, new DrainTargetGoal());
+		this.goalSelector.add(3, new DragTargetIntoSkyGoal());
+		this.goalSelector.add(4, new CastSpellGoal<>(this) {
 			@Override
 			public boolean canStart() {
 				return getDistinctMoveTicks() == 0 && isFlying() && super.canStart() && distanceTo(getTarget()) > 6 && distanceToGround() < 16
@@ -129,7 +127,9 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 				setDistinctMoveTicks(0);
 			}
 		});
-		this.goalSelector.add(7, new MoveUpToTargetGoal());
+		this.goalSelector.add(5, new MoveUpToTargetGoal());
+		this.goalSelector.add(6, new FeasterSwipeGoal());
+		this.goalSelector.add(7, new FeasterWanderGoal());
 		this.targetSelector.add(1, new RevengeGoal(this, FeasterEntity.class, HasturCultistEntity.class, TatteredPrinceEntity.class));
 		this.targetSelector.add(2, new ActiveTargetGoal<>(this, LivingEntity.class, 10, false, true, entity -> {
 			if (entity instanceof RaiderEntity) {
