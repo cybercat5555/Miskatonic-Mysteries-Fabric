@@ -225,8 +225,8 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 
 	@Override
 	protected ActionResult interactMob(PlayerEntity player, Hand hand) {
-		if (!player.world.isClient && getBlessingTicks() <= 0 && MiskatonicMysteriesAPI
-			.canLevelUp(Ascendant.of(player).get(), Affiliated.of(player).get(), 2, getAffiliation(false))) {
+		if (!player.world.isClient && getBlessingTicks() <= 0 && MiskatonicMysteriesAPI.canLevelUp(
+			Ascendant.of(player).get(), Affiliated.of(player).get(), 2, getAffiliation(false))) {
 			Vec3d pos = Util.getYawRelativePos(getPos().add(0, 2, 0), 2.5, getYaw(), 0);
 			Vec3d motionVec = new Vec3d(pos.x - player.getX(), pos.y - player.getY(), pos.z - player.getZ());
 			if (motionVec.length() < 4) {
@@ -235,7 +235,7 @@ public class TatteredPrinceEntity extends PathAwareEntity implements IAnimatable
 				return ActionResult.SUCCESS;
 			}
 		}
-		return super.interactMob(player, hand);
+		return ActionResult.CONSUME;
 	}
 
 	@Override
