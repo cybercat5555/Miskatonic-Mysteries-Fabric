@@ -49,9 +49,8 @@ public class TeleportRite extends Rite {
 			if (!incantation.isEmpty()) {
 				BlockPos octagramPos = IncantationYogItem.getPosition(incantation);
 				ServerWorld boundWorld = IncantationYogItem.getWorld(world, incantation);
-				if (boundWorld.getBlockEntity(octagramPos) instanceof OctagramBlockEntity) {
+				if (boundWorld.getBlockEntity(octagramPos) instanceof OctagramBlockEntity otherOctagram) {
 					octagram.bind(boundWorld, octagramPos);
-					OctagramBlockEntity otherOctagram = (OctagramBlockEntity) boundWorld.getBlockEntity(octagramPos);
 					otherOctagram.bind(world, octagram.getPos());
 					otherOctagram.setPermanentRiteActive(true);
 					otherOctagram.currentRite = this;

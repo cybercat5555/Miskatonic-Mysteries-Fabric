@@ -198,3 +198,5 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
 		}
 	}
 }
+
+

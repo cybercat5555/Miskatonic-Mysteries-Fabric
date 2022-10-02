@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -87,6 +88,8 @@ public class Constants {
 		public static final TagKey<SpellEffect> RIFT_SPELLS = TagKey.of(MMRegistries.SPELL_EFFECTS.getKey(), new Identifier(MOD_ID, "rift_spells"));
 		public static final TagKey<StatusEffect> RIFT_EFFECTS = TagKey.of(Registry.MOB_EFFECT_KEY, new Identifier(MOD_ID, "rift_effects"));
 		public static final TagKey<EntityType<?>> RIFT_ENTITIES = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "rift_entities"));
+
+		public static final TagKey<BannerPattern> YELLOW_SIGN_PATTERN_ITEM = TagKey.of(Registry.BANNER_PATTERN_KEY, new Identifier(MOD_ID, "pattern_item/yellow_sign"));
 	}
 
 	public static class NBT {

@@ -107,7 +107,7 @@ public class MMEntities {
 		.create(SpawnGroup.MISC, RiftEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F))
 		.trackRangeChunks(4).build();
 
-	public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
+	//public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
 
 	public static final RegistryKey<PointOfInterestType> PSYCHONAUT_POI_KEY = RegistryKey.of(Registry.POINT_OF_INTEREST_TYPE_KEY, new Identifier(Constants.MOD_ID, "psychonaut"));
 
@@ -119,11 +119,14 @@ public class MMEntities {
 		Constants.MOD_ID + ":congregation_point",
 		GlobalPos.CODEC
 	);
+	/*
 	public static final PointOfInterestType HASTUR_POI = PointOfInterestHelper
 		.register(new Identifier(Constants.MOD_ID, "hastur_poi"), 0, 1,
 				  MMObjects.HASTUR_OCTAGRAM, MMObjects.HASTUR_STATUE_STONE, MMObjects.HASTUR_STATUE_TERRACOTTA, MMObjects.HASTUR_STATUE_GOLD,
 				  MMObjects.HASTUR_STATUE_MOSSY, MMObjects.MOSSY_HASTUR_MURAL, MMObjects.STONE_HASTUR_MURAL, MMObjects.TERRACOTTA_HASTUR_MURAL,
 				  MMObjects.YELLOW_TERRACOTTA_HASTUR_MURAL);
+
+	 */
 
 	public static final TrackedDataHandler<EntityType<?>> ENTITY_TYPE_TRACKER = new TrackedDataHandler<>() {
 		@Override

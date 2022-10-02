@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.feature.world.party.Party;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.JukeboxBlock;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -20,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class JukeboxBlockMixin {
 
 	@Inject(method = "setRecord", at = @At("HEAD"))
-	private void onRecordSet(WorldAccess world, BlockPos pos, BlockState state, ItemStack stack, CallbackInfo ci) {
+	private void onRecordSet(Entity user, WorldAccess world, BlockPos pos, BlockState state, ItemStack stack, CallbackInfo ci) {
 		if (world instanceof ServerWorld s) {
 			Party party = MMPartyState.get(s).getParty(pos);
 			if (party != null) {

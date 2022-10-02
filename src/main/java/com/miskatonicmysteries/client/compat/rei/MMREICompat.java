@@ -49,3 +49,5 @@ public class MMREICompat implements REIClientPlugin {
 		registry.registerFiller(RiteRecipe.class, OctagramRiteCategory.OctagramDisplay::new);
 	}
 }
+
+

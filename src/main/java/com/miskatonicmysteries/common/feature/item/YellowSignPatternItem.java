@@ -11,17 +11,16 @@ import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -32,16 +31,19 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatternItem;
 import org.jetbrains.annotations.Nullable;
 
-public class YellowSignPatternItem extends LoomPatternItem {
+public class YellowSignPatternItem extends BannerPatternItem {
 
 	public YellowSignPatternItem() {
-		super(MMObjects.YELLOW_SIGN_BANNER, new Settings().group(Constants.MM_GROUP).maxCount(1)
+		super(Tags.YELLOW_SIGN_PATTERN_ITEM, new Settings().group(Constants.MM_GROUP).maxCount(1)
 			.rarity(Rarity.UNCOMMON));
 	}
 
+	@Override
+	public TagKey<BannerPattern> getPattern() {
+		return Tags.YELLOW_SIGN_PATTERN_ITEM;
+	}
 
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
