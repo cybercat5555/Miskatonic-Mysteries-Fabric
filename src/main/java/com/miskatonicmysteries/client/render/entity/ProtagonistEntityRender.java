@@ -21,7 +21,7 @@ public class ProtagonistEntityRender extends MobEntityRenderer<ProtagonistEntity
 
 	public ProtagonistEntityRender(EntityRendererFactory.Context context) {
 		super(context, new ProtagonistEntityModel(context.getPart(MMModels.PROTAGONIST)), 0.5F);
-		this.addFeature(new HeldItemFeatureRenderer<>(this));
+		this.addFeature(new HeldItemFeatureRenderer<>(this, context.getHeldItemRenderer()));
 		this.addFeature(new ArmorFeatureRenderer<>(this, new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_INNER_ARMOR)),
 												   new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_OUTER_ARMOR))));
 	}

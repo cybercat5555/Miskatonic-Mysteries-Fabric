@@ -1,6 +1,5 @@
 package com.miskatonicmysteries.common.handler.networking.packet.s2c;
 
-import com.miskatonicmysteries.common.feature.entity.util.CastingMob;
 import com.miskatonicmysteries.common.registry.MMParticles;
 import com.miskatonicmysteries.common.util.Constants;
 
@@ -13,9 +12,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;

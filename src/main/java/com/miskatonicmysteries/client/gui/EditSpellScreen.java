@@ -22,7 +22,7 @@ import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -94,9 +94,9 @@ public class EditSpellScreen extends Screen {
 		RenderSystem.setShaderColor(1, 1, 1, powerPercentage);
 		drawTexture(matrices, (this.width - 192) / 4 + 134 + 31, 36 + 2 * 32, 208, 204, 34, 34, 512, 256);
 		matrices.pop();
-		drawCenteredText(textRenderer, matrices, new TranslatableText(Constants.MOD_ID + ".gui.spell_effects"), (this.width - 192) / 4 + 58,
+		drawCenteredText(textRenderer, matrices, Text.translatable(Constants.MOD_ID + ".gui.spell_effects"), (this.width - 192) / 4 + 58,
 						 48, 0x111111);
-		drawCenteredText(textRenderer, matrices, new TranslatableText(Constants.MOD_ID + ".gui.spell_mediums"),
+		drawCenteredText(textRenderer, matrices, Text.translatable(Constants.MOD_ID + ".gui.spell_mediums"),
 						 (this.width - 192) / 4 + 184, 48, 0x111111);
 		RenderSystem.defaultBlendFunc();
 		RenderSystem.disableBlend();

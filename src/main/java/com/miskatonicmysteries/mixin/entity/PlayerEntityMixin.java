@@ -7,7 +7,6 @@ import com.miskatonicmysteries.api.interfaces.MalleableAffiliated;
 import com.miskatonicmysteries.api.interfaces.Resonating;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
-import com.miskatonicmysteries.api.item.trinkets.MaskTrinketItem;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.Blessing;
 import com.miskatonicmysteries.api.registry.SpellEffect;
@@ -32,9 +31,6 @@ import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.NbtUtil;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -45,6 +41,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
+import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -96,8 +93,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 		super(entityType, world);
 	}
 
+
 	@Inject(method = "<init>", at = @At("TAIL"))
-	private void init(World world, BlockPos pos, float yaw, GameProfile profile, CallbackInfo ci) {
+	private void init(World world, BlockPos pos, float yaw, GameProfile gameProfile, PlayerPublicKey publicKey, CallbackInfo ci) {
 		ascendantComponent = MMComponents.ASCENDANT_COMPONENT.get(this);
 	}
 

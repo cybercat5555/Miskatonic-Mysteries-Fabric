@@ -22,17 +22,17 @@ public class TentacleModel extends AnimatedGeoModel<TentacleEntity> {
 	}
 
 	@Override
-	public Identifier getModelLocation(TentacleEntity entity) {
+	public Identifier getModelResource(TentacleEntity entity) {
 		return MODEL;
 	}
 
 	@Override
-	public Identifier getTextureLocation(TentacleEntity entity) {
+	public Identifier getTextureResource(TentacleEntity entity) {
 		return texture;
 	}
 
 	@Override
-	public Identifier getAnimationFileLocation(TentacleEntity entity) {
+	public Identifier getAnimationResource(TentacleEntity entity) {
 		return ANIMATION;
 	}
 }

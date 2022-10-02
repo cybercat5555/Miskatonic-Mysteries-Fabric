@@ -28,7 +28,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Formatting;
@@ -67,7 +67,7 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 		NbtCompound blockEntityTag = stack.getNbt().contains(Constants.NBT.BLOCK_ENTITY_TAG) ?
 									 stack.getNbt().getCompound(Constants.NBT.BLOCK_ENTITY_TAG) : new NbtCompound();
 		if (creator != null) {
-			blockEntityTag.putString(Constants.NBT.PLAYER_NAME, creator.getName().asString());
+			blockEntityTag.putString(Constants.NBT.PLAYER_NAME, creator.getName().getString());
 			blockEntityTag.putUuid(Constants.NBT.PLAYER_UUID, creator.getUuid());
 		}
 		if (target != null) {
@@ -109,7 +109,7 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 		if (stack.hasNbt() && stack.getNbt().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
 			NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
 			if (compoundTag != null && compoundTag.contains(Constants.NBT.PLAYER_NAME)) {
-				tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.created_by",
+				tooltip.add(Text.translatable("tooltip.miskatonicmysteries.created_by",
 												 compoundTag.getString(Constants.NBT.PLAYER_NAME)).formatted(Formatting.GRAY));
 			}
 		}
@@ -184,7 +184,7 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 				NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
 				if (compoundTag != null && compoundTag.contains(Constants.NBT.STATUE_OWNER)) {
 					GameProfile profile = NbtHelper.toGameProfile(compoundTag.getCompound(Constants.NBT.STATUE_OWNER));
-					return new TranslatableText(getTranslationKey() + ".named", profile.getName());
+					return Text.translatable(getTranslationKey() + ".named", profile.getName());
 				}
 			}
 			return super.getName(stack);

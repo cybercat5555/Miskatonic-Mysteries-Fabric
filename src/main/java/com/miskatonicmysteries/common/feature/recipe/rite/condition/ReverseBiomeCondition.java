@@ -5,12 +5,10 @@ import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState.BiomeKnot;
 import com.miskatonicmysteries.common.util.Constants;
 
-import net.minecraft.command.argument.EntityAnchorArgumentType.EntityAnchor;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.TranslatableText;
+
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
 
 import java.util.Comparator;
 import java.util.List;
@@ -20,9 +18,9 @@ public class ReverseBiomeCondition extends MultiRiteCondition {
 
 	public ReverseBiomeCondition() {
 		super(new Identifier(Constants.MOD_ID, "reverse_biome"),
-			  new TranslatableText("message.miskatonicmysteries.rite_fail.reverse_biome.no_knots"),
-			  new TranslatableText("message.miskatonicmysteries.rite_fail.reverse_biome.distance"),
-			  new TranslatableText("message.miskatonicmysteries.rite_fail.reverse_biome.deactivate"));
+			  Text.translatable("message.miskatonicmysteries.rite_fail.reverse_biome.no_knots"),
+			  Text.translatable("message.miskatonicmysteries.rite_fail.reverse_biome.distance"),
+			  Text.translatable("message.miskatonicmysteries.rite_fail.reverse_biome.deactivate"));
 	}
 
 	@Override

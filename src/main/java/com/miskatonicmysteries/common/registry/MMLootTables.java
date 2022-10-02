@@ -2,22 +2,13 @@ package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.common.util.Constants;
 
-import net.fabricmc.fabric.api.loot.v1.FabricLootPool;
-import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
-import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
-import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
-import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 
-import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
-import net.minecraft.loot.context.LootContextTypes;
-import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MMLootTables {
 
@@ -44,7 +35,8 @@ public class MMLootTables {
 		LOOT_TABLE_INJECTS.put(LootTables.SIMPLE_DUNGEON_CHEST, List.of(INCANTATION_TABLE, BOOK_TABLE, OCEANIC_GOLD_TABLE));
 		LOOT_TABLE_INJECTS.put(LootTables.IGLOO_CHEST_CHEST, List.of(INCANTATION_TABLE));
 
-		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, identifier, builder, lootTableSetter) -> {
+		/*TODO
+		LootTableEvents.MODIFY.register((resourceManager, lootManager, identifier, builder, lootTableSetter) -> {
 			if (LOOT_TABLE_INJECTS.containsKey(identifier)) {
 				List<FabricLootSupplier> tables = LOOT_TABLE_INJECTS.get(identifier).stream().map(id -> (FabricLootSupplier) FabricLootSupplierBuilder
 					.of(lootManager.getTable(id)).build()).collect(Collectors.toList());
@@ -68,6 +60,8 @@ public class MMLootTables {
 				}
 			}
 		});
+
+		 */
 
 	}
 }

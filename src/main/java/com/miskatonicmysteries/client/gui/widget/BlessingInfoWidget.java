@@ -16,14 +16,14 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
 @Environment(EnvType.CLIENT)
 public class BlessingInfoWidget extends TexturedButtonWidget {
 
-	private static final Text TITLE = new TranslatableText("miskatonicmysteries.gui.blessings");
+	private static final Text TITLE = Text.translatable("miskatonicmysteries.gui.blessings");
 	private boolean expanded = false;
 	private float expandTicks;
 
@@ -75,7 +75,7 @@ public class BlessingInfoWidget extends TexturedButtonWidget {
 				Ascendant.of(MinecraftClient.getInstance().player).ifPresent(ascendant -> {
 					for (Blessing blessing : ascendant.getBlessings()) {
 						matrices.translate(0, 15, 0);
-						drawCenteredText(matrices, textRenderer, new TranslatableText(blessing.getTranslationString()), 0, 0, 0xFFFFFF);
+						drawCenteredText(matrices, textRenderer, Text.translatable(blessing.getTranslationString()), 0, 0, 0xFFFFFF);
 					}
 				});
 			}

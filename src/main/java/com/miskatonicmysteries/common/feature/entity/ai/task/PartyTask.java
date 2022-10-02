@@ -18,7 +18,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;

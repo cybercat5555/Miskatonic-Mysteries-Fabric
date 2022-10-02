@@ -1,16 +1,14 @@
 package com.miskatonicmysteries.client.gui.widget;
 
 import com.miskatonicmysteries.client.gui.ConfigurePredicateScreen;
-import com.miskatonicmysteries.common.handler.predicate.ConfigurablePredicate;
 import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.util.Constants;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 
 import java.util.function.Consumer;
 

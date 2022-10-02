@@ -14,7 +14,7 @@ import net.minecraft.client.toast.Toast;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 @Environment(EnvType.CLIENT)
 public class BlessingToast implements Toast {
 
-	private static final Text TITLE = new TranslatableText("blessing.miskatonicmysteries.toast.title");
+	private static final Text TITLE = Text.translatable("blessing.miskatonicmysteries.toast.title");
 	private static final Identifier ICON = ResourceHandler.ASCENSION_STAR_SPRITE;
 	private final List<Blessing> blessings = new ArrayList<>();
 	private long startTime;
@@ -66,7 +66,7 @@ public class BlessingToast implements Toast {
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		manager.drawTexture(matrices, 0, 0, 0, 0, this.getWidth(), this.getHeight());
 		manager.getClient().textRenderer.draw(matrices, getTitle(), 30.0F, 7.0F, flavor.textColor);
-		manager.getClient().textRenderer.draw(matrices, new TranslatableText(blessing.getTranslationString()), 30.0F,
+		manager.getClient().textRenderer.draw(matrices, Text.translatable(blessing.getTranslationString()), 30.0F,
 											  18.0F, flavor.textColorSecondary);
 		RenderSystem.applyModelViewMatrix();
 		RenderSystem.setShaderTexture(0, ICON);

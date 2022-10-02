@@ -66,10 +66,6 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	//Banners
-	//modImplementation "io.github.fablabsmc:bannerpp:${project.bannerpp_version}" //TODO BANNER
-	//include "io.github.fablabsmc:bannerpp:${project.bannerpp_version}"
-
 	//CaCo
 	modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cardinal_components_version}")
 	modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cardinal_components_version}")

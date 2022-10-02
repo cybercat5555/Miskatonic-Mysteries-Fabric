@@ -14,6 +14,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,8 +27,9 @@ public class ResonatorSound extends MovingSoundInstance implements TickableSound
 	private final ClientWorld world;
 	private final BlockPos pos;
 
+
 	protected ResonatorSound(BlockPos pos) {
-		super(MMSounds.BLOCK_RESONATOR_AMBIENT, SoundCategory.BLOCKS);
+		super(MMSounds.BLOCK_RESONATOR_AMBIENT, SoundCategory.BLOCKS, Random.create());
 		this.player = MinecraftClient.getInstance().player;
 		this.world = MinecraftClient.getInstance().world;
 		this.pos = pos;
@@ -39,6 +41,8 @@ public class ResonatorSound extends MovingSoundInstance implements TickableSound
 		this.relative = true;
 		this.repeat = true;
 	}
+
+
 
 	public static void createSound(BlockPos pos) {
 		if (soundInstances.containsKey(pos)) {

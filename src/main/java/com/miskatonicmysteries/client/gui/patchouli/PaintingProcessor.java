@@ -1,7 +1,7 @@
 package com.miskatonicmysteries.client.gui.patchouli;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.decoration.painting.PaintingMotive;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -11,12 +11,12 @@ import vazkii.patchouli.api.IVariableProvider;
 
 public class PaintingProcessor implements IComponentProcessor {
 
-	protected PaintingMotive motive;
+	protected PaintingVariant motive;
 	protected String path;
 
 	@Override
 	public void setup(IVariableProvider variables) {
-		this.motive = Registry.PAINTING_MOTIVE.get(new Identifier(variables.get("painting").asString()));
+		this.motive = Registry.PAINTING_VARIANT.get(new Identifier(variables.get("painting").asString()));
 		Identifier id = MinecraftClient.getInstance().getPaintingManager().getPaintingSprite(motive).getId();
 		this.path = String.format("%s:textures/%s.png", id.getNamespace(), id.getPath());
 	}

@@ -9,7 +9,6 @@ import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.RiteCondition;
-import com.miskatonicmysteries.common.util.Constants;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -27,7 +26,8 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
+
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -71,7 +71,7 @@ public class OctagramBlockRender extends DrawableHelper implements BlockEntityRe
 		int centerY = client.getWindow().getScaledHeight() / 2;
 		matrixStack.push();
 		matrixStack.translate(client.getWindow().getScaledWidth() % 2 != 0 ? 0.5 : 0, client.getWindow().getScaledHeight() % 2 != 0 ? 0.5 : 0, 0);
-		drawCenteredText(matrixStack, client.textRenderer, new TranslatableText(rite.getTranslationString()), startX, centerY - 14, 0xFFFFFFFF);
+		drawCenteredText(matrixStack, client.textRenderer, Text.translatable(rite.getTranslationString()), startX, centerY - 14, 0xFFFFFFFF);
 		startX -= conditions.size() / 2 * 12;
 		centerY += 10;
 		matrixStack.translate(startX, centerY, 0);

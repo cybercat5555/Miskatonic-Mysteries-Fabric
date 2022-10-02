@@ -17,6 +17,8 @@
 		"entity.MobEntityAccessor",
 		"entity.MobEntityMixin",
 		"entity.PlayerEntityMixin",
+		"entity.PointOfInterestTypesAccessor",
+		"entity.SpawnRestrictionAccessor",
 		"entity.WitchEntityMixin",
 		"entity.ZombieVillagerAccessor",
 		"item.FireworkItemMixin",

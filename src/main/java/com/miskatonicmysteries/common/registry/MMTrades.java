@@ -17,7 +17,7 @@ import net.minecraft.village.VillagerProfession;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 import java.util.stream.Collectors;
 
 import static com.miskatonicmysteries.common.registry.MMStatusEffects.MANIA;

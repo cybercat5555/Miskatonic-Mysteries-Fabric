@@ -5,7 +5,6 @@ import com.miskatonicmysteries.common.registry.MMEntities.PaintingMotives;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -13,8 +12,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-
-import java.util.UUID;
 
 public class WallPaintingEntity extends MagicPaintingEntity {
 

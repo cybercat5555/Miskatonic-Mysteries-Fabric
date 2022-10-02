@@ -19,10 +19,10 @@ import com.miskatonicmysteries.common.handler.networking.packet.s2c.VisionPacket
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
 
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 
+import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.EntitySelector;
-import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.IdentifierArgumentType;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
@@ -34,10 +34,9 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.HoverEvent;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
@@ -60,8 +59,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 public class ModCommand {
 
 	public static void setup() {
-		ArgumentTypes.register("insanity_event", ModCommand.InsanityEventArgumentType.class,
-							   new ConstantArgumentSerializer(IdentifierArgumentType::identifier));
+		ArgumentTypeRegistry.registerArgumentType(new Identifier(Constants.MOD_ID, "insanity_event"), ModCommand.InsanityEventArgumentType.class, ConstantArgumentSerializer.of(IdentifierArgumentType::identifier));
 		LiteralArgumentBuilder<ServerCommandSource> builder = CommandManager.literal("miskmyst")
 			.requires(source -> source.hasPermissionLevel(2));
 
@@ -231,13 +229,13 @@ public class ModCommand {
 																					  collectPlayers(context)))));
 		builder.then(visionBuilder);
 
-		CommandRegistrationCallback.EVENT.register((displatcher, b) -> displatcher.register(builder));
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(builder));
 	}
 
 	private static int giveStatFeedback(CommandContext<ServerCommandSource> context, ServerPlayerEntity player)
 		throws CommandSyntaxException {
 		context.getSource().sendFeedback(
-			new TranslatableText("miskatonicmysteries.command.stats", player.getDisplayName()).setStyle(Style.EMPTY.withBold(true)), false);
+				Text.translatable("miskatonicmysteries.command.stats", player.getDisplayName()).setStyle(Style.EMPTY.withBold(true)), false);
 		giveSanityFeedback(context, player);
 		giveMaxSanityFeedback(context, player);
 		giveBlessingFeedback(context, player);
@@ -258,20 +256,20 @@ public class ModCommand {
 				Sanity sanity = Sanity.of(player).get();
 				int value = sanity.getMaxSanity();
 				MutableText expansionText = sanity.getSanityCapExpansions().isEmpty()
-											? new TranslatableText("miskatonicmysteries.command.get_max_sanity.no_expansions")
-											: new TranslatableText("miskatonicmysteries.command.get_max_sanity.expansions");
+											? Text.translatable("miskatonicmysteries.command.get_max_sanity.no_expansions")
+											: Text.translatable("miskatonicmysteries.command.get_max_sanity.expansions");
 				sanity.getSanityCapExpansions().forEach((s, i) -> {
 					expansionText.append("\n");
-					expansionText.append(new LiteralText(s + ": ").append(new LiteralText(Integer.toString(i))
+					expansionText.append(Text.literal(s + ": ").append(Text.literal(Integer.toString(i))
 																			  .formatted(i <= 0 ? Formatting.RED : Formatting.GREEN)));
 				});
 				HoverEvent hoverInfo = new HoverEvent(HoverEvent.Action.SHOW_TEXT, expansionText);
 				if (player.equals(context.getSource().getPlayer())) {
-					context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_max_sanity.self", value)
+					context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.get_max_sanity.self", value)
 														 .setStyle(Style.EMPTY.withHoverEvent(hoverInfo)), false);
 				} else {
 					context.getSource().sendFeedback(
-						new TranslatableText("miskatonicmysteries.command.get_max_sanity", player.getDisplayName(), value)
+							Text.translatable("miskatonicmysteries.command.get_max_sanity", player.getDisplayName(), value)
 							.setStyle(Style.EMPTY.withHoverEvent(hoverInfo)), false);
 				}
 				if (value < returnValue) {
@@ -294,18 +292,18 @@ public class ModCommand {
 			if (Ascendant.of(player).isPresent()) {
 				Ascendant ascendant = Ascendant.of(player).get();
 				int value = ascendant.getBlessings().size();
-				MutableText blessingText = new TranslatableText("miskatonicmysteries.command.get_blessings.blessings");
+				MutableText blessingText = Text.translatable("miskatonicmysteries.command.get_blessings.blessings");
 				ascendant.getBlessings().forEach(blessing -> {
 					blessingText.append("\n");
-					blessingText.append(new LiteralText("-").append(new TranslatableText(blessing.getTranslationString())));
+					blessingText.append(Text.literal("-").append(Text.translatable(blessing.getTranslationString())));
 				});
 				HoverEvent hoverInfo = new HoverEvent(HoverEvent.Action.SHOW_TEXT, blessingText);
 				if (player.equals(context.getSource().getPlayer())) {
-					context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_blessings.self", value)
+					context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.get_blessings.self", value)
 														 .setStyle(Style.EMPTY.withHoverEvent(hoverInfo)), false);
 				} else {
 					context.getSource().sendFeedback(
-						new TranslatableText("miskatonicmysteries.command.get_blessings", player.getDisplayName(), value)
+						Text.translatable("miskatonicmysteries.command.get_blessings", player.getDisplayName(), value)
 							.setStyle(Style.EMPTY.withHoverEvent(hoverInfo)), false);
 				}
 			}
@@ -328,16 +326,16 @@ public class ModCommand {
 				Affiliation apparentAffiliation = Affiliated.of(player).get().getAffiliation(true);
 				int stage = Ascendant.of(player).get().getAscensionStage();
 				if (player.equals(context.getSource().getPlayer())) {
-					context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_ascension.self"), false);
+					context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.get_ascension.self"), false);
 				} else {
 					context.getSource()
-						.sendFeedback(new TranslatableText("miskatonicmysteries.command.get_ascension", player.getDisplayName()), false);
+						.sendFeedback(Text.translatable("miskatonicmysteries.command.get_ascension", player.getDisplayName()), false);
 				}
 				context.getSource().sendFeedback(
-					new TranslatableText("miskatonicmysteries.command.get_ascension.apparent_path", apparentAffiliation.getId()), false);
+					Text.translatable("miskatonicmysteries.command.get_ascension.apparent_path", apparentAffiliation.getId()), false);
 				context.getSource()
-					.sendFeedback(new TranslatableText("miskatonicmysteries.command.get_ascension.path", affiliation.getId()), false);
-				context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_ascension.stage", stage), false);
+					.sendFeedback(Text.translatable("miskatonicmysteries.command.get_ascension.path", affiliation.getId()), false);
+				context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.get_ascension.stage", stage), false);
 			}
 
 		}
@@ -355,10 +353,10 @@ public class ModCommand {
 		for (ServerPlayerEntity player : players) {
 			int value = Sanity.of(player).isPresent() ? Sanity.of(player).get().getSanity() : 0;
 			if (player.equals(context.getSource().getPlayer())) {
-				context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.get_sanity.self", value), false);
+				context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.get_sanity.self", value), false);
 			} else {
 				context.getSource()
-					.sendFeedback(new TranslatableText("miskatonicmysteries.command.get_sanity", player.getDisplayName(), value), false);
+					.sendFeedback(Text.translatable("miskatonicmysteries.command.get_sanity", player.getDisplayName(), value), false);
 			}
 			if (value > returnValue) {
 				returnValue = value;
@@ -394,10 +392,10 @@ public class ModCommand {
 				Sanity sanity = Sanity.of(player).get();
 				sanity.setSanity(value, true);
 				if (player.equals(context.getSource().getPlayer())) {
-					context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.set_sanity.self", value), true);
+					context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.set_sanity.self", value), true);
 				} else {
 					context.getSource()
-						.sendFeedback(new TranslatableText("miskatonicmysteries.command.set_sanity", player.getDisplayName(), value),
+						.sendFeedback(Text.translatable("miskatonicmysteries.command.set_sanity", player.getDisplayName(), value),
 									  true);
 				}
 			}
@@ -414,13 +412,13 @@ public class ModCommand {
 		if (event != null) {
 			for (ServerPlayerEntity player : players) {
 				context.getSource()
-					.sendFeedback(new TranslatableText("miskatonicmysteries.command.execute_insanity_event", id.toString()), false);
+					.sendFeedback(Text.translatable("miskatonicmysteries.command.execute_insanity_event", id.toString()), false);
 				Sanity.of(player).ifPresent(sanity -> event.execute(player, sanity));
 			}
 			return 10;
 		} else {
 			context.getSource()
-				.sendError(new TranslatableText("miskatonicmysteries.command.execute_insanity_event.failure", id.toString()));
+				.sendError(Text.translatable("miskatonicmysteries.command.execute_insanity_event.failure", id.toString()));
 		}
 		return 0;
 	}
@@ -436,12 +434,12 @@ public class ModCommand {
 				boolean contains = sanity.getSanityCapExpansions().containsKey(name);
 				if (contains) {
 					context.getSource().sendError(
-						new TranslatableText("miskatonicmysteries.command.add_sanity_expansion.contains_failure", name,
+						Text.translatable("miskatonicmysteries.command.add_sanity_expansion.contains_failure", name,
 											 player.getDisplayName()));
 				} else {
 					((Sanity) player).addSanityCapExpansion(name, value);
 					context.getSource().sendFeedback(
-						new TranslatableText("miskatonicmysteries.command.add_sanity_expansion", name, value, player.getDisplayName()),
+						Text.translatable("miskatonicmysteries.command.add_sanity_expansion", name, value, player.getDisplayName()),
 						true);
 				}
 			});
@@ -460,11 +458,11 @@ public class ModCommand {
 				boolean contains = sanity.getSanityCapExpansions().containsKey(name);
 				if (!contains) {
 					context.getSource().sendError(
-						new TranslatableText("miskatonicmysteries.command.remove_sanity_expansion.failure", name, player.getDisplayName()));
+						Text.translatable("miskatonicmysteries.command.remove_sanity_expansion.failure", name, player.getDisplayName()));
 				} else {
 					sanity.removeSanityCapExpansion(name);
 					context.getSource().sendFeedback(
-						new TranslatableText("miskatonicmysteries.command.remove_sanity_expansion", name, player.getDisplayName()), true);
+						Text.translatable("miskatonicmysteries.command.remove_sanity_expansion", name, player.getDisplayName()), true);
 				}
 			});
 
@@ -481,7 +479,7 @@ public class ModCommand {
 			Sanity.of(player).ifPresent(sanity -> {
 				if (sanity.getSanityCapExpansions().isEmpty()) {
 					context.getSource().sendError(
-						new TranslatableText("miskatonicmysteries.command.clear_expansions.none_failure", player.getDisplayName()));
+						Text.translatable("miskatonicmysteries.command.clear_expansions.none_failure", player.getDisplayName()));
 				} else {
 					sanity.getSanityCapExpansions().forEach((s, i) -> removeSanityExpansion(context, s, player));
 				}
@@ -505,16 +503,16 @@ public class ModCommand {
 					ascendant.addBlessing(blessing);
 					ModifyBlessingPacket.send(player, blessing, true);
 					if (player.equals(context.getSource().getPlayer())) {
-						context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.add_blessing.self",
-																			  new TranslatableText(blessing.getTranslationString())), true);
+						context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.add_blessing.self",
+																			  Text.translatable(blessing.getTranslationString())), true);
 					} else {
 						context.getSource().sendFeedback(
-							new TranslatableText("miskatonicmysteries.command.add_blessing", player.getDisplayName(),
-												 new TranslatableText(blessing.getTranslationString())), true);
+							Text.translatable("miskatonicmysteries.command.add_blessing", player.getDisplayName(),
+												 Text.translatable(blessing.getTranslationString())), true);
 					}
 				} else {
 					context.getSource()
-						.sendError(new TranslatableText("miskatonicmysteries.command.add_blessing.failure", player.getDisplayName()));
+						.sendError(Text.translatable("miskatonicmysteries.command.add_blessing.failure", player.getDisplayName()));
 				}
 			}
 		}
@@ -535,12 +533,12 @@ public class ModCommand {
 				ascendant.removeBlessing(blessing);
 				ModifyBlessingPacket.send(player, blessing, false);
 				if (player.equals(context.getSource().getPlayer())) {
-					context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.remove_blessing.self",
-																		  new TranslatableText(blessing.getTranslationString())), true);
+					context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.remove_blessing.self",
+																		  Text.translatable(blessing.getTranslationString())), true);
 				} else {
 					context.getSource().sendFeedback(
-						new TranslatableText("miskatonicmysteries.command.remove_blessing", player.getDisplayName(),
-											 new TranslatableText(blessing.getTranslationString())), true);
+						Text.translatable("miskatonicmysteries.command.remove_blessing", player.getDisplayName(),
+											 Text.translatable(blessing.getTranslationString())), true);
 				}
 			}
 		}
@@ -575,10 +573,10 @@ public class ModCommand {
 				Ascendant.of(player).get().setAscensionStage(stage);
 				if (player.equals(context.getSource().getPlayer())) {
 					context.getSource()
-						.sendFeedback(new TranslatableText("miskatonicmysteries.command.set_ascension.self", affiliation, stage), false);
+						.sendFeedback(Text.translatable("miskatonicmysteries.command.set_ascension.self", affiliation, stage), false);
 				} else {
 					context.getSource().sendFeedback(
-						new TranslatableText("miskatonicmysteries.command.set_ascension", player.getDisplayName(), affiliation, stage),
+						Text.translatable("miskatonicmysteries.command.set_ascension", player.getDisplayName(), affiliation, stage),
 						false);
 				}
 			}
@@ -599,10 +597,10 @@ public class ModCommand {
 				SpellCaster caster = SpellCaster.of(player).get();
 				caster.setMaxSpells(value);
 				if (player.equals(context.getSource().getPlayer())) {
-					context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.set_max_spells.self", value), true);
+					context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.set_max_spells.self", value), true);
 				} else {
 					context.getSource()
-						.sendFeedback(new TranslatableText("miskatonicmysteries.command.set_max_spells", player.getDisplayName(), value),
+						.sendFeedback(Text.translatable("miskatonicmysteries.command.set_max_spells", player.getDisplayName(), value),
 									  true);
 				}
 			}
@@ -621,10 +619,10 @@ public class ModCommand {
 				SpellCaster caster = SpellCaster.of(player).get();
 				caster.setPowerPool(value);
 				if (player.equals(context.getSource().getPlayer())) {
-					context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.set_power_pool.self", value), true);
+					context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.set_power_pool.self", value), true);
 				} else {
 					context.getSource()
-						.sendFeedback(new TranslatableText("miskatonicmysteries.command.set_power_pool", player.getDisplayName(), value),
+						.sendFeedback(Text.translatable("miskatonicmysteries.command.set_power_pool", player.getDisplayName(), value),
 									  true);
 				}
 			}
@@ -646,12 +644,12 @@ public class ModCommand {
 				caster.learnEffect(spellEffect);
 				caster.syncSpellData();
 				if (player.equals(context.getSource().getPlayer())) {
-					context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_spell.self",
-																		  new TranslatableText(spellEffect.getTranslationString())), true);
+					context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.learn_spell.self",
+																		  Text.translatable(spellEffect.getTranslationString())), true);
 				} else {
 					context.getSource().sendFeedback(
-						new TranslatableText("miskatonicmysteries.command.learn_spell", player.getDisplayName(),
-											 new TranslatableText(spellEffect.getTranslationString())), true);
+						Text.translatable("miskatonicmysteries.command.learn_spell", player.getDisplayName(),
+											 Text.translatable(spellEffect.getTranslationString())), true);
 				}
 			}
 		}
@@ -672,12 +670,12 @@ public class ModCommand {
 				caster.getLearnedEffects().remove(spellEffect);
 				caster.syncSpellData();
 				if (player.equals(context.getSource().getPlayer())) {
-					context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.removed_spell.self",
-																		  new TranslatableText(spellEffect.getTranslationString())), true);
+					context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.removed_spell.self",
+																		  Text.translatable(spellEffect.getTranslationString())), true);
 				} else {
 					context.getSource().sendFeedback(
-						new TranslatableText("miskatonicmysteries.command.removed_spell", player.getDisplayName(),
-											 new TranslatableText(spellEffect.getTranslationString())), true);
+						Text.translatable("miskatonicmysteries.command.removed_spell", player.getDisplayName(),
+											 Text.translatable(spellEffect.getTranslationString())), true);
 				}
 			}
 		}
@@ -698,12 +696,12 @@ public class ModCommand {
 				caster.learnMedium(spellMedium);
 				caster.syncSpellData();
 				if (player.equals(context.getSource().getPlayer())) {
-					context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.learn_medium.self",
-																		  new TranslatableText(spellMedium.getTranslationString())), true);
+					context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.learn_medium.self",
+																		  Text.translatable(spellMedium.getTranslationString())), true);
 				} else {
 					context.getSource().sendFeedback(
-						new TranslatableText("miskatonicmysteries.command.learn_medium", player.getDisplayName(),
-											 new TranslatableText(spellMedium.getTranslationString())), true);
+						Text.translatable("miskatonicmysteries.command.learn_medium", player.getDisplayName(),
+											 Text.translatable(spellMedium.getTranslationString())), true);
 				}
 			}
 		}
@@ -724,12 +722,12 @@ public class ModCommand {
 				caster.getLearnedMediums().remove(spellMedium);
 				caster.syncSpellData();
 				if (player.equals(context.getSource().getPlayer())) {
-					context.getSource().sendFeedback(new TranslatableText("miskatonicmysteries.command.remove_medium.self",
-																		  new TranslatableText(spellMedium.getTranslationString())), true);
+					context.getSource().sendFeedback(Text.translatable("miskatonicmysteries.command.remove_medium.self",
+																		  Text.translatable(spellMedium.getTranslationString())), true);
 				} else {
 					context.getSource().sendFeedback(
-						new TranslatableText("miskatonicmysteries.command.remove_medium", player.getDisplayName(),
-											 new TranslatableText(spellMedium.getTranslationString())), true);
+						Text.translatable("miskatonicmysteries.command.remove_medium", player.getDisplayName(),
+											 Text.translatable(spellMedium.getTranslationString())), true);
 				}
 			}
 		}
@@ -740,9 +738,9 @@ public class ModCommand {
 		boolean spawned = ProtagonistHandler.spawnProtagonist(context.getSource().getWorld(), player);
 		if (spawned) {
 			context.getSource()
-				.sendFeedback(new TranslatableText("miskatonicmysteries.command.summon_investigator", player.getDisplayName()), true);
+				.sendFeedback(Text.translatable("miskatonicmysteries.command.summon_investigator", player.getDisplayName()), true);
 		} else {
-			context.getSource().sendError(new TranslatableText("miskatonicmysteries.command.summon_investigator.failure"));
+			context.getSource().sendError(Text.translatable("miskatonicmysteries.command.summon_investigator.failure"));
 		}
 		return spawned ? 15 : 0;
 	}
@@ -762,7 +760,7 @@ public class ModCommand {
 		for (ServerPlayerEntity player : players) {
 			VisionPacket.send(player, visionId);
 			context.getSource().sendFeedback(
-				new TranslatableText("miskatonicmysteries.command.display_vision", visionId.toString(), player.getDisplayName()), true);
+				Text.translatable("miskatonicmysteries.command.display_vision", visionId.toString(), player.getDisplayName()), true);
 		}
 		return players.size() > 0 ? 15 : 0;
 	}

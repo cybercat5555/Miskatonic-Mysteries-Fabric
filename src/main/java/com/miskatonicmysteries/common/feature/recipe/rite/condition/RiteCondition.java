@@ -8,7 +8,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 import java.util.function.Predicate;
@@ -19,8 +18,8 @@ public abstract class RiteCondition implements Predicate<OctagramBlockEntity> {
 	protected boolean checkWhileRunning;
 	public RiteCondition(Identifier id) {
 		this.iconLocation = new Identifier(id.getNamespace(), String.format("textures/gui/rite_conditions/%s.png", id.getPath()));
-		this.message = new TranslatableText(String.format("message.%s.rite_fail.%s", id.getNamespace(), id.getPath()));
-		this.description = new TranslatableText(String.format("desc.%s.rite_fail.%s", id.getNamespace(), id.getPath()));
+		this.message = Text.translatable(String.format("message.%s.rite_fail.%s", id.getNamespace(), id.getPath()));
+		this.description = Text.translatable(String.format("desc.%s.rite_fail.%s", id.getNamespace(), id.getPath()));
 		this.checkWhileRunning = false;
 	}
 

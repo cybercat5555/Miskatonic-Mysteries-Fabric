@@ -9,7 +9,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.world.PersistentState;
 import net.minecraft.world.World;
 
@@ -114,7 +113,7 @@ public class MMWorldState extends PersistentState {
 	public Text clear() {
 		protagonistMap.clear();
 		markDirty();
-		return new TranslatableText("miskatonicmysteries.command.clear_data");
+		return Text.translatable("miskatonicmysteries.command.clear_data");
 	}
 
 	public boolean getHoundState(UUID uuid) {

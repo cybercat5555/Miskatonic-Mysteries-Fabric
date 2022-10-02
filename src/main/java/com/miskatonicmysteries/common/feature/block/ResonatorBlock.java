@@ -26,7 +26,8 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
-import net.minecraft.text.TranslatableText;
+
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -38,7 +39,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.explosion.Explosion;
 
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 import static net.minecraft.state.property.Properties.LIT;
 import static net.minecraft.state.property.Properties.POWERED;
@@ -118,7 +119,7 @@ public class ResonatorBlock extends HorizontalFacingBlock implements BlockEntity
 				world.setBlockState(pos, state.with(POWERED, true));
 				blockEntity.markDirty();
 			} else {
-				player.sendMessage(new TranslatableText("message.miskatonicmysteries.resonator_needs_energy"), true);
+				player.sendMessage(Text.translatable("message.miskatonicmysteries.resonator_needs_energy"), true);
 				return ActionResult.FAIL;
 			}
 			return ActionResult.SUCCESS;

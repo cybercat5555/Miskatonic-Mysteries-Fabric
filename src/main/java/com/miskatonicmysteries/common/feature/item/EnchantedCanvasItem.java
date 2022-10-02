@@ -11,7 +11,7 @@ import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.decoration.painting.PaintingMotive;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -31,7 +31,7 @@ import com.google.common.collect.Lists;
 
 public class EnchantedCanvasItem extends Item {
 
-	private final List<PaintingMotive> motives = new ArrayList<>();
+	private final List<PaintingVariant> motives = new ArrayList<>();
 
 	public EnchantedCanvasItem() {
 		super(new FabricItemSettings().rarity(Rarity.UNCOMMON).group(Constants.MM_GROUP));
@@ -53,8 +53,8 @@ public class EnchantedCanvasItem extends Item {
 			return ActionResult.FAIL;
 		}
 		if (!world.isClient) {
-			ArrayList<PaintingMotive> choices = Lists.newArrayList();
-			for (PaintingMotive motive : motives) {
+			ArrayList<PaintingVariant> choices = Lists.newArrayList();
+			for (PaintingVariant motive : motives) {
 				MagicPaintingEntity entity = getEntityFromMotive(world, motive, attachmentPos, direction, player);
 				if (entity.canStayAttached()) {
 					choices.add(motive);
@@ -62,7 +62,7 @@ public class EnchantedCanvasItem extends Item {
 				entity.discard();
 			}
 			if (!choices.isEmpty()) {
-				PaintingMotive motive = choices.get(player.getRandom().nextInt(choices.size()));
+				PaintingVariant motive = choices.get(player.getRandom().nextInt(choices.size()));
 				MagicPaintingEntity entity = getEntityFromMotive(world, motive, attachmentPos, direction, player);
 				NbtCompound nbtCompound = itemStack.getNbt();
 				if (nbtCompound != null) {
@@ -79,7 +79,7 @@ public class EnchantedCanvasItem extends Item {
 		return ActionResult.CONSUME;
 	}
 
-	private MagicPaintingEntity getEntityFromMotive(World world, PaintingMotive motive, BlockPos pos, Direction direction, PlayerEntity player) {
+	private MagicPaintingEntity getEntityFromMotive(World world, PaintingVariant motive, BlockPos pos, Direction direction, PlayerEntity player) {
 		if (motive == PaintingMotives.SOUP_TIME) {
 			return new HomeyPaintingEntity(world, pos, direction, player);
 		}else if (motive == PaintingMotives.BLACK_STAR) {

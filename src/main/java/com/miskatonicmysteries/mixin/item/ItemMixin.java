@@ -3,7 +3,6 @@ package com.miskatonicmysteries.mixin.item;
 import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.interfaces.Sanity;
 import com.miskatonicmysteries.common.MMMidnightLibConfig;
-import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.registry.MMStatusEffects;
 import com.miskatonicmysteries.common.util.Constants;
@@ -62,7 +61,7 @@ public abstract class ItemMixin {
 					EntityHitResult hit = ProjectileUtil.getEntityCollision(world, user, vec3d, vec3d3,
 																			user.getBoundingBox().stretch(vec3d2.multiply(distance))
 																				.expand(1.0D, 1.0D, 1.0D),
-																			(target) -> !target.isSpectator() && target.collides());
+																			(target) -> !target.isSpectator() && target.isCollidable());
 					if (hit != null && hit.getEntity() instanceof LivingEntity && ((LivingEntity) hit.getEntity()).canSee(user)
 						&& !MiskatonicMysteriesAPI.isImmuneToYellowSign((LivingEntity) hit.getEntity())) {
 						LivingEntity target = (LivingEntity) hit.getEntity();

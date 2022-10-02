@@ -60,6 +60,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -246,8 +247,8 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 	}
 
 	@Override
-	protected void initEquipment(LocalDifficulty difficulty) {
-		super.initEquipment(difficulty);
+	protected void initEquipment(Random random, LocalDifficulty difficulty) {
+		super.initEquipment(random, difficulty);
 		ARMOR_MAP.keySet().stream().filter(e -> getStage() >= ARMOR_MAP.get(e)).sorted(Comparator.comparingInt(ARMOR_MAP::get).reversed())
 			.forEachOrdered(entry -> {
 				if (!hasStackEquipped(entry.getKey()) && random.nextFloat() < 0.75F) {
@@ -281,7 +282,7 @@ public class ProtagonistEntity extends PathAwareEntity implements RangedAttackMo
 			dataTracker.set(VARIANT, random.nextInt(4));
 			dataTracker.set(STAGE, random.nextInt(4));
 		}
-		initEquipment(difficulty);
+		initEquipment(random, difficulty);
 		return super.initialize(world, difficulty, spawnReason, entityData, entityTag);
 	}
 

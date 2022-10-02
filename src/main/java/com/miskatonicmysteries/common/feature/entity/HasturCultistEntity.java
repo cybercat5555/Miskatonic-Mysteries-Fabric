@@ -44,12 +44,12 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TimeHelper;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOfferList;
 import net.minecraft.village.TradeOffers;
@@ -131,14 +131,15 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 	}
 
 	@Override
-	protected void initEquipment(LocalDifficulty difficulty) {
-		super.initEquipment(difficulty);
+	protected void initEquipment(Random random, LocalDifficulty localDifficulty) {
+		super.initEquipment(random, localDifficulty);
 
 		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(world.random.nextBoolean() ? Items.IRON_SWORD : MMObjects.ORNATE_DAGGER));
 		if (!isAscended()) {
 			this.equipStack(EquipmentSlot.OFFHAND, createYellowSignShield());
 		}
 	}
+
 
 	public static ItemStack createYellowSignShield() {
 		ItemStack stack = new ItemStack(Items.SHIELD);
@@ -386,7 +387,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 			dataTracker.set(VARIANT, 2);
 		}
 		setLeftHanded(random.nextBoolean()); //more left-handedness
-		initEquipment(difficulty);
+		initEquipment(random, difficulty);
 		setVillagerData(getVillagerData().withProfession(VillagerProfession.NITWIT));
 		if (this.world instanceof ServerWorld) {
 			this.reinitializeBrain((ServerWorld) this.world);
@@ -487,8 +488,8 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 
 	@Override
 	protected Text getDefaultName() {
-		return isAscended() ? new TranslatableText("entity.miskatonicmysteries.hastur_cultist_ascended")
-							: new TranslatableText("entity.miskatonicmysteries.hastur_cultist");
+		return isAscended() ? Text.translatable("entity.miskatonicmysteries.hastur_cultist_ascended")
+							: Text.translatable("entity.miskatonicmysteries.hastur_cultist");
 	}
 
 	public boolean isLoyalTo(PlayerEntity player) {

@@ -23,7 +23,6 @@ import net.minecraft.stat.Stats;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -48,7 +47,7 @@ public abstract class GunItem extends Item {
 		ItemStack stack = user.getStackInHand(hand);
 		if (!canUse(user)) {
 			if (world.isClient) {
-				user.sendMessage(new TranslatableText("message." + Constants.MOD_ID + ".heavy_gun.needs_offhand"), true);
+				user.sendMessage(Text.translatable("message." + Constants.MOD_ID + ".heavy_gun.needs_offhand"), true);
 			}
 			return TypedActionResult.fail(stack);
 		}
@@ -145,10 +144,10 @@ public abstract class GunItem extends Item {
 	@Environment(EnvType.CLIENT)
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		tooltip.add(
-			new TranslatableText(isLoaded(stack) ? "tooltip.miskatonicmysteries.gun_loaded" : "tooltip.miskatonicmysteries.gun_not_loaded",
+				Text.translatable(isLoaded(stack) ? "tooltip.miskatonicmysteries.gun_loaded" : "tooltip.miskatonicmysteries.gun_not_loaded",
 								 stack.getNbt().getInt(Constants.NBT.SHOTS), getMaxShots())
 				.setStyle(Style.EMPTY.withColor(isLoaded(stack) ? TextColor.fromRgb(0x00FF00) : TextColor.fromRgb(0xFF0000))));
-		tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.gun_tip_load")
+		tooltip.add(Text.translatable("tooltip.miskatonicmysteries.gun_tip_load")
 						.setStyle(Style.EMPTY.withItalic(true).withColor(Formatting.GRAY)));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
@@ -170,7 +169,7 @@ public abstract class GunItem extends Item {
 		double distance = Math.pow(getMaxDistance(), 2);
 		EntityHitResult hit = ProjectileUtil.getEntityCollision(world, player, vec3d, vec3d3,
 																player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
-																(target) -> !target.isSpectator() && target.collides());
+																(target) -> !target.isSpectator() && target.isCollidable());
 		BlockPos blockPos = new BlockPos(blockHit.getPos());
 		if (world.getBlockState(blockPos).getBlock() instanceof Shootable) {
 			((Shootable) world.getBlockState(blockPos).getBlock()).onShot(world, blockPos, player);

@@ -11,7 +11,7 @@ import net.minecraft.client.toast.Toast;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 @Environment(EnvType.CLIENT)
 public class KnowledgeToast implements Toast {
 
-	private static final Text TITLE = new TranslatableText("knowledge.miskatonicmysteries.toast.title");
+	private static final Text TITLE = Text.translatable("knowledge.miskatonicmysteries.toast.title");
 	private final List<String> knowledge = new ArrayList<>();
 	private long startTime;
 	private boolean justUpdated;
@@ -57,7 +57,7 @@ public class KnowledgeToast implements Toast {
 		manager.getClient().textRenderer.draw(matrices, getTitle(), 30.0F, 7.0F, MMAffiliations.NONE.textColor);
 		String string =
 			this.knowledge.get((int) (startTime / Math.max(1L, 5000L / (long) this.knowledge.size()) % (long) this.knowledge.size()));
-		manager.getClient().textRenderer.draw(matrices, new TranslatableText("knowledge.miskatonicmysteries." + string),
+		manager.getClient().textRenderer.draw(matrices, Text.translatable("knowledge.miskatonicmysteries." + string),
 											  30.0F, 18.0F, MMAffiliations.NONE.textColorSecondary);
 		RenderSystem.applyModelViewMatrix();
 		manager.getClient().getItemRenderer().renderInGui(MMObjects.NECRONOMICON.getDefaultStack(), 8, 8);

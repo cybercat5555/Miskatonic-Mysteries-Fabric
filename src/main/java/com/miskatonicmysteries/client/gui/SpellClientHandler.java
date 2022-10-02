@@ -1,9 +1,6 @@
 package com.miskatonicmysteries.client.gui;
 
 import com.miskatonicmysteries.api.interfaces.SpellCaster;
-import com.miskatonicmysteries.client.gui.hud.CurrentSpellHUD;
-import com.miskatonicmysteries.client.gui.hud.SpellBurnoutHUD;
-import com.miskatonicmysteries.client.render.blockentity.OctagramBlockRender;
 import com.miskatonicmysteries.common.feature.spell.Spell;
 import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
 import com.miskatonicmysteries.common.util.Constants;
@@ -13,9 +10,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.nbt.NbtCompound;

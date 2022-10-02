@@ -3,7 +3,7 @@ package com.miskatonicmysteries.common.feature.recipe.rite.condition;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
 import com.miskatonicmysteries.common.util.Constants;
 
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 

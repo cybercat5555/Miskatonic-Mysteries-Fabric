@@ -27,7 +27,6 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -97,7 +96,7 @@ public class ConfigurableTargetPredicate extends ConfigurablePredicate {
 			screen.addWidgetExternally(new PlayerSelectWidget(screen, this, list));
 			screen.addWidgetExternally(list);
 			screen.addWidgetExternally(new NegationCheckboxWidget(screen.width / 2 + 36, 40, excludePlayers,
-																  new TranslatableText(Constants.MOD_ID + ".gui.exclude_players_query"),
+																  Text.translatable(Constants.MOD_ID + ".gui.exclude_players_query"),
 																  b -> excludePlayers = b));
 		} else if (currentCategory == AFFILIATION_CATEGORY) {
 			screen.addWidgetExternally(new AffiliationSelectWidget(screen.width / 2 - 45, screen.height / 2, affiliation, (a) -> affiliation = a));
@@ -143,9 +142,9 @@ public class ConfigurableTargetPredicate extends ConfigurablePredicate {
 	}
 
 	enum SelectionMode {
-		PLAYERS_ONLY(new TranslatableText(Constants.MOD_ID + ".gui.config_mode.players"), entity -> entity instanceof PlayerEntity),
-		MOBS_ONLY(new TranslatableText(Constants.MOD_ID + ".gui.config_mode.mobs"), entity -> entity instanceof MobEntity),
-		ALL_MOBS(new TranslatableText(Constants.MOD_ID + ".gui.config_mode.all"), entity -> entity instanceof LivingEntity);
+		PLAYERS_ONLY(Text.translatable(Constants.MOD_ID + ".gui.config_mode.players"), entity -> entity instanceof PlayerEntity),
+		MOBS_ONLY(Text.translatable(Constants.MOD_ID + ".gui.config_mode.mobs"), entity -> entity instanceof MobEntity),
+		ALL_MOBS(Text.translatable(Constants.MOD_ID + ".gui.config_mode.all"), entity -> entity instanceof LivingEntity);
 
 		public final Text displayText;
 		public final Predicate<Entity> predicate;

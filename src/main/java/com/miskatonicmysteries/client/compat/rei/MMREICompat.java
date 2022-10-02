@@ -3,10 +3,8 @@ package com.miskatonicmysteries.client.compat.rei;
 import com.miskatonicmysteries.api.item.ChalkItem;
 import com.miskatonicmysteries.client.compat.rei.category.ChemistrySetCategory;
 import com.miskatonicmysteries.client.compat.rei.category.OctagramRiteCategory;
-import com.miskatonicmysteries.client.compat.rei.category.OctagramRiteCategory.OctagramDisplay;
 import com.miskatonicmysteries.common.feature.recipe.ChemistryRecipe;
 import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
-import com.miskatonicmysteries.common.registry.MMRegistries;
 import com.miskatonicmysteries.common.util.Constants;
 
 import net.minecraft.item.ItemStack;
@@ -35,7 +33,6 @@ public class MMREICompat implements REIClientPlugin {
 	public void registerCategories(CategoryRegistry registry) {
 		registry.add(new ChemistrySetCategory());
 		registry.addWorkstations(CHEMISTRY, ChemistrySetCategory.ICON);
-		registry.removePlusButton(CHEMISTRY);
 		registry.add(new OctagramRiteCategory());
 		List<EntryStack<ItemStack>> validChalks = new ArrayList<>();
 		Registry.ITEM.forEach(item -> {
@@ -44,7 +41,6 @@ public class MMREICompat implements REIClientPlugin {
 			}
 		});
 		registry.addWorkstations(OCTAGRAM_RITE, validChalks.toArray(new EntryStack[0]));
-		registry.removePlusButton(OCTAGRAM_RITE);
 	}
 
 	@Override

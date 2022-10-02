@@ -10,7 +10,7 @@ import net.minecraft.client.toast.Toast;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public abstract class SimpleIconToast implements Toast {
 	protected abstract Text getTitle();
 
 	protected Text getDescription(long startTime) {
-		return new TranslatableText(this.translationStrings.get((int) (startTime / Math.max(1L,
+		return Text.translatable(this.translationStrings.get((int) (startTime / Math.max(1L,
 																							5000L / (long) this.translationStrings.size())
 			% (long) this.translationStrings.size())));
 	}

@@ -1,8 +1,6 @@
 package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.api.registry.Rite;
-import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.recipe.instability_event.EntropyInstabilityEvent;
 import com.miskatonicmysteries.common.feature.recipe.instability_event.InstabilityEvent;
 import com.miskatonicmysteries.common.feature.recipe.instability_event.MobsInstabilityEvent;

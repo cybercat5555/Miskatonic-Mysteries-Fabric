@@ -27,7 +27,7 @@ public class VisionSpellMedium extends SpellMedium {
 		double distance = Math.pow(getMaxDistance(), 2);
 		EntityHitResult hit = ProjectileUtil.getEntityCollision(world, caster, vec3d, vec3d3,
 																caster.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
-																(target) -> !target.isSpectator() && target.collides());
+																(target) -> !target.isSpectator() && target.isCollidable());
 		if (hit != null && caster.canSee(hit.getEntity())) {
 			return effect.effect(world, caster, hit.getEntity(), hit.getPos(), this, intensity, caster);
 		} else {

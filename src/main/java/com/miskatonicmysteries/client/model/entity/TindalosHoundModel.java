@@ -18,17 +18,17 @@ public class TindalosHoundModel extends AnimatedGeoModel<TindalosHoundEntity> {
 	private static final Identifier ANIMATION = new Identifier(Constants.MOD_ID, "animations/tindalos_hound/tindalos_hound.animation.json");
 
 	@Override
-	public Identifier getModelLocation(TindalosHoundEntity hound) {
+	public Identifier getModelResource(TindalosHoundEntity hound) {
 		return MODEL;
 	}
 
 	@Override
-	public Identifier getTextureLocation(TindalosHoundEntity hound) {
+	public Identifier getTextureResource(TindalosHoundEntity hound) {
 		return TEXTURE;
 	}
 
 	@Override
-	public Identifier getAnimationFileLocation(TindalosHoundEntity hound) {
+	public Identifier getAnimationResource(TindalosHoundEntity hound) {
 		return ANIMATION;
 	}
 }

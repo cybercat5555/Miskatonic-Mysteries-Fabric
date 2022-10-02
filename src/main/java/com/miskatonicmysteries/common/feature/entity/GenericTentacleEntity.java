@@ -6,10 +6,10 @@ import com.miskatonicmysteries.common.registry.MMAffiliations;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
-import java.util.Random;
 
 public class GenericTentacleEntity extends TentacleEntity {
 

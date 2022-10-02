@@ -4,7 +4,6 @@ import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.common.feature.block.PowerCellBlock;
-import com.miskatonicmysteries.common.feature.entity.FeasterEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 
@@ -29,7 +28,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tag.TagKey;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -221,7 +219,7 @@ public class Constants {
 		public static final DamageSource INSANITY = new DamageSources("insanity") {
 			@Override
 			public Text getDeathMessage(LivingEntity entity) {
-				return new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(3)),
+				return Text.translatable(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(3)),
 											entity.getDisplayName());
 			}
 		}.setBypassesArmor();
@@ -239,7 +237,7 @@ public class Constants {
 
 			@Override
 			public Text getDeathMessage(LivingEntity entity) {
-				return new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(4)),
+				return Text.translatable(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(4)),
 											entity.getDisplayName());
 			}
 		}

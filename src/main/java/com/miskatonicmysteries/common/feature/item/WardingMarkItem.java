@@ -23,7 +23,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Rarity;
@@ -113,9 +112,9 @@ public class WardingMarkItem extends Item {
 	@Environment(EnvType.CLIENT)
 	public void appendTooltip(ItemStack stack, World world, List<Text> lines, TooltipContext ctx) {
 		super.appendTooltip(stack, world, lines, ctx);
-		lines.add(new TranslatableText("item.%s.%s.tooltip".formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath()))
+		lines.add(Text.translatable("item.%s.%s.tooltip".formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath()))
 					  .formatted(Formatting.GRAY));
-		lines.add(new TranslatableText("tooltip.%s.place_instruction".formatted(Constants.MOD_ID),
+		lines.add(Text.translatable("tooltip.%s.place_instruction".formatted(Constants.MOD_ID),
 									   "§b" + I18n.translate(Items.GLOW_INK_SAC.getTranslationKey()) + "§8").formatted(Formatting.GRAY));
 	}
 }

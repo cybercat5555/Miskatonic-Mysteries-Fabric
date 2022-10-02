@@ -13,7 +13,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
+
 
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +27,7 @@ public class SpellSelectionScreen extends Screen {
 	public int openTicks;//used to calculate "blending in" alpha
 
 	protected SpellSelectionScreen() {
-		super(new TranslatableText(Constants.MOD_ID + ".gui.spell_select"));
+		super(Text.translatable(Constants.MOD_ID + ".gui.spell_select"));
 		this.passEvents = true;
 	}
 

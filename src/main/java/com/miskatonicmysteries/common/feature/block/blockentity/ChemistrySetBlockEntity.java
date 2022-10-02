@@ -17,7 +17,8 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.TranslatableText;
+
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -136,10 +137,10 @@ public class ChemistrySetBlockEntity extends BaseBlockEntity implements Implemen
 
 	public boolean canBeLit(PlayerEntity playerEntity) {
 		if (containsPotentialItems()) {
-			playerEntity.sendMessage(new TranslatableText("message.miskatonicmysteries.chemistry_set.contains_items"), true);
+			playerEntity.sendMessage(Text.translatable("message.miskatonicmysteries.chemistry_set.contains_items"), true);
 			return false;
 		} else if (!canWork()) {
-			playerEntity.sendMessage(new TranslatableText("message.miskatonicmysteries.chemistry_set.invalid_recipe"), true);
+			playerEntity.sendMessage(Text.translatable("message.miskatonicmysteries.chemistry_set.invalid_recipe"), true);
 			return false;
 		}
 		return true;

@@ -1,42 +1,26 @@
 package com.miskatonicmysteries.client.render.entity;
 
-import com.miskatonicmysteries.client.gui.HudHandler;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.common.feature.entity.RiftEntity;
-import com.miskatonicmysteries.common.feature.entity.SpellProjectileEntity;
-import com.miskatonicmysteries.common.registry.MMParticles;
-import com.miskatonicmysteries.common.registry.MMSpellMediums;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Overlay;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormat.DrawMode;
-import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 
-import java.util.Random;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-import software.bernie.shadowed.eliotlash.mclib.math.functions.limit.Min;
+import net.minecraft.util.math.random.Random;
 
 @Environment(EnvType.CLIENT)
 public class RiftEntityRenderer extends EntityRenderer<RiftEntity> {
@@ -51,7 +35,7 @@ public class RiftEntityRenderer extends EntityRenderer<RiftEntity> {
 		super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
 		matrices.push();
 		VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderHelper.STANDARD_PORTAL);
-		Random random = new Random(entity.getBlockPos().asLong());
+		Random random = Random.create(entity.getBlockPos().asLong());
 		float riftSize = MathHelper.clamp((entity.age + tickDelta) / 60F, 0, 1) * (1 + random.nextFloat() * 2);
 		matrices.scale(riftSize, riftSize, riftSize);
 		matrices.translate(0, 0.125, 0);

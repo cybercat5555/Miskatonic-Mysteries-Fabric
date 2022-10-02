@@ -7,7 +7,6 @@ import com.miskatonicmysteries.common.util.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 import java.util.Arrays;
@@ -77,7 +76,7 @@ public class Affiliation {
 	}
 
 	public Text getLocalizedName() {
-		return new TranslatableText(String.format("affiliation.%s.%s", id.getNamespace(), id.getPath()));
+		return Text.translatable(String.format("affiliation.%s.%s", id.getNamespace(), id.getPath()));
 	}
 
 	public Identifier getIconTextureLocation() {

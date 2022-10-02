@@ -10,9 +10,7 @@ import com.miskatonicmysteries.common.feature.entity.ai.task.HealthCareTask;
 import com.miskatonicmysteries.common.feature.entity.ai.task.RecruitTask;
 import com.miskatonicmysteries.common.feature.entity.ai.task.TacticalApproachTask;
 import com.miskatonicmysteries.common.handler.networking.packet.s2c.EffectParticlePacket;
-import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.registry.MMBlessings;
-import com.miskatonicmysteries.common.registry.MMEntities;
+import com.miskatonicmysteries.common.registry.*;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.Activity;
@@ -22,34 +20,12 @@ import net.minecraft.entity.ai.brain.MemoryModuleState;
 import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.entity.ai.brain.task.ConditionalTask;
-import net.minecraft.entity.ai.brain.task.FindPointOfInterestTask;
-import net.minecraft.entity.ai.brain.task.ForgetAngryAtTargetTask;
-import net.minecraft.entity.ai.brain.task.ForgetAttackTargetTask;
-import net.minecraft.entity.ai.brain.task.ForgetCompletedPointOfInterestTask;
-import net.minecraft.entity.ai.brain.task.GoToIfNearbyTask;
-import net.minecraft.entity.ai.brain.task.LookAroundTask;
-import net.minecraft.entity.ai.brain.task.LookTargetUtil;
-import net.minecraft.entity.ai.brain.task.MeetVillagerTask;
-import net.minecraft.entity.ai.brain.task.MeleeAttackTask;
-import net.minecraft.entity.ai.brain.task.OpenDoorsTask;
-import net.minecraft.entity.ai.brain.task.RandomTask;
-import net.minecraft.entity.ai.brain.task.ScheduleActivityTask;
-import net.minecraft.entity.ai.brain.task.StartRaidTask;
-import net.minecraft.entity.ai.brain.task.StayAboveWaterTask;
-import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.ai.brain.task.UpdateAttackTargetTask;
-import net.minecraft.entity.ai.brain.task.VillagerTaskListProvider;
-import net.minecraft.entity.ai.brain.task.VillagerWalkTowardsTask;
-import net.minecraft.entity.ai.brain.task.WakeUpTask;
-import net.minecraft.entity.ai.brain.task.WalkToNearestVisibleWantedItemTask;
-import net.minecraft.entity.ai.brain.task.WanderAroundTask;
+import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +33,7 @@ import java.util.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.world.poi.PointOfInterestTypes;
 
 public class HasturCultistBrain {
 
@@ -192,7 +169,8 @@ public class HasturCultistBrain {
 
 	public static ImmutableList<Task<? super VillagerEntity>> createCoreTasks(HasturCultistEntity cultist, float f) {
 		return ImmutableList.of(
-			new StayAboveWaterTask(0.8F), new OpenDoorsTask(),
+			new StayAboveWaterTask(0.8F),
+			new OpenDoorsTask(),
 			new LookAroundTask(45, 90),
 			new UpdateAttackTargetTask<>(HasturCultistBrain::getBestTarget),
 			new ForgetAngryAtTargetTask<>(),
@@ -202,10 +180,13 @@ public class HasturCultistBrain {
 			new MeetVillagerTask(),
 			new HealthCareTask(),
 			new WalkToNearestVisibleWantedItemTask<>(f, false, 4),
-			new FindPointOfInterestTask(MMEntities.HASTUR_POI, MMEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true, Optional.empty()),
-			new FindPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT, true, Optional.of((byte) 14)),
-			new ForgetAttackTargetTask<>((livingEntity) -> !isPreferredAttackTarget(cultist, livingEntity)));
+			new FindPointOfInterestTask((registryEntry) -> registryEntry.matchesKey(MMPoi.HASTUR), MMEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true, Optional.empty()),
+			new FindPointOfInterestTask((registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.HOME)  , MemoryModuleType.HOME, false, Optional.of((byte)14)),
+
+		new FindPointOfInterestTask((registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.MEETING), MemoryModuleType.MEETING_POINT, true, Optional.of((byte)14)),
+		new ForgetAttackTargetTask<>((livingEntity) -> !isPreferredAttackTarget(cultist, livingEntity)));
 	}
+
 
 	public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> createMeetTasks(float f) {
 		return ImmutableList.of(
@@ -217,7 +198,7 @@ public class HasturCultistBrain {
 				Pair.of(new CrownAscendedCultistTask(), 4)))),
 			Pair.of(2, new MeetVillagerTask()),
 			Pair.of(2, new VillagerWalkTowardsTask(MemoryModuleType.MEETING_POINT, f, 6, 100, 200)),
-			Pair.of(3, new ForgetCompletedPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT)),
+			Pair.of(3, new ForgetCompletedPointOfInterestTask((registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.MEETING), MemoryModuleType.MEETING_POINT)),
 			Pair.of(99, new ScheduleActivityTask()));
 	}
 

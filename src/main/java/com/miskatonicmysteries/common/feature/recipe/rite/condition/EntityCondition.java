@@ -4,7 +4,8 @@ import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEnt
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.TranslatableText;
+
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -34,6 +35,6 @@ public class EntityCondition<T extends Entity> extends RiteCondition{
 
 	@Override
 	protected void sendFailMessage(PlayerEntity caster) {
-		caster.sendMessage(new TranslatableText(String.format("message.%s.rite_fail.%s", id.getNamespace(), id.getPath()), amount, checkedAmount), true);
+		caster.sendMessage(Text.translatable(String.format("message.%s.rite_fail.%s", id.getNamespace(), id.getPath()), amount, checkedAmount), true);
 	}
 }

@@ -42,7 +42,7 @@ public class SpellBurnoutHUD extends DrawableHelper {
 				bufferBuilder.vertex(scaledWidth, 0.0D, -90.0D).texture(1.0F, 0.0F).color(1F, 1F, 1F, burnout).next();
 				bufferBuilder.vertex(0.0D, 0.0D, -90.0D).texture(0.0F, 0.0F).color(1F, 1F, 1F, burnout).next();
 				bufferBuilder.end();
-				BufferRenderer.draw(bufferBuilder);
+				BufferRenderer.drawWithShader(bufferBuilder.end());
 				RenderSystem.disableBlend();
 			/*
 				RenderSystem.enableBlend();

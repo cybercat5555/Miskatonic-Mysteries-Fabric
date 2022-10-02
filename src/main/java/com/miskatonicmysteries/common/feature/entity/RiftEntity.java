@@ -25,12 +25,12 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 import java.util.List;
-import java.util.Random;
 import java.util.function.Predicate;
 
 public class RiftEntity extends Entity {
