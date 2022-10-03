@@ -13,7 +13,6 @@ import com.miskatonicmysteries.common.registry.MMRecipes;
 import com.miskatonicmysteries.common.util.InventoryUtil;
 import com.miskatonicmysteries.common.util.Util;
 
-import net.minecraft.block.AbstractButtonBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
@@ -226,11 +225,13 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 		return (world1, pos, state1, blockEntity) -> OctagramBlockEntity.tick((OctagramBlockEntity) blockEntity);
 	}
 
-	@Nullable
+	@org.jetbrains.annotations.Nullable
 	@Override
-	public <T extends BlockEntity> GameEventListener getGameEventListener(World world, T blockEntity) {
+	public <T extends BlockEntity> GameEventListener getGameEventListener(ServerWorld world, T blockEntity) {
 		return (OctagramBlockEntity) blockEntity;
 	}
+
+
 
 	@Override
 	public Affiliation getAffiliation(boolean apparent) {

@@ -85,7 +85,7 @@ public class PlayerListWidget extends EntryListWidget<PlayerEntry> {
 						   float tickDelta) {
 			boolean xHovered = hovered && xHovered(entryHeight, x, y, mouseX, mouseY);
 			this.xHovered = xHovered;
-			Text xText = Text.of("X").shallowCopy().fillStyle(Style.EMPTY.withFormatting(xHovered ? Formatting.BOLD : Formatting.RESET));
+			Text xText = Text.of("X").copy().fillStyle(Style.EMPTY.withFormatting(xHovered ? Formatting.BOLD : Formatting.RESET));
 			drawTextWithShadow(matrices, client.textRenderer, xText, x + 66, y, MMAffiliations.NONE.textColor);
 			drawTextWithShadow(matrices, client.textRenderer, Text.of(profile.getName()), x + 76, y, MMAffiliations.NONE.textColor);
 		}

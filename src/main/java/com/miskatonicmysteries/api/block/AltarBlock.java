@@ -38,7 +38,7 @@ import net.minecraft.world.WorldAccess;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 import javax.annotation.Nullable;
 import static net.minecraft.state.property.Properties.WATERLOGGED;

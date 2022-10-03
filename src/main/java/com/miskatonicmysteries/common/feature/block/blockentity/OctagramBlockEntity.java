@@ -96,8 +96,8 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 		super(MMObjects.OCTAGRAM_BLOCK_ENTITY_TYPE, pos, state);
 		positionSource = new PositionSource() {
 			@Override
-			public Optional<BlockPos> getPos(World world) {
-				return Optional.of(pos);
+			public Optional<Vec3d> getPos(World world) {
+				return Optional.of(new Vec3d(pos.getX(), pos.getY(), pos.getZ()));
 			}
 
 			@Override
@@ -413,11 +413,12 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	}
 
 	@Override
-	public boolean listen(World world, GameEvent event, @Nullable Entity entity, BlockPos pos) {
+	public boolean listen(ServerWorld world, GameEvent.Message event) {
 		if (currentRite != null) {
-			if (!currentRite.listen(this, world, event, entity, pos)) {
-				if (!world.isClient && event == GameEvent.ENTITY_KILLED && entity != null && entity.getType()
-					.isIn(Constants.Tags.VALID_SACRIFICES)) {
+			Entity entity = event.getEmitter().sourceEntity();
+			if (!currentRite.listen(this, world, event.getEvent(), entity, pos)) {
+				if (!world.isClient && event.getEvent() == GameEvent.ENTITY_DIE && entity != null && entity.getType()
+						.isIn(Constants.Tags.VALID_SACRIFICES)) {
 					setBloody(true);
 					markDirty();
 					sync(world, pos);

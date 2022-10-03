@@ -7,18 +7,19 @@ import com.miskatonicmysteries.common.util.Constants;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.TranslatableText;
+
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
 public class OctagramGateCondition extends MultiRiteCondition {
 	public OctagramGateCondition() {
 		super(new Identifier(Constants.MOD_ID, "gate_condition"),
-			new TranslatableText("message.miskatonicmysteries.rite_fail.gate_condition.incantation"),
-			new TranslatableText("message.miskatonicmysteries.rite_fail.gate_condition.not_present"),
-			new TranslatableText("message.miskatonicmysteries.rite_fail.gate_condition.self_reference"),
-			new TranslatableText("message.miskatonicmysteries.rite_fail.gate_condition.bad_affiliation"),
-			new TranslatableText("message.miskatonicmysteries.rite_fail.gate_condition.already_bound"));
+			Text.translatable("message.miskatonicmysteries.rite_fail.gate_condition.incantation"),
+			Text.translatable("message.miskatonicmysteries.rite_fail.gate_condition.not_present"),
+			Text.translatable("message.miskatonicmysteries.rite_fail.gate_condition.self_reference"),
+			Text.translatable("message.miskatonicmysteries.rite_fail.gate_condition.bad_affiliation"),
+			Text.translatable("message.miskatonicmysteries.rite_fail.gate_condition.already_bound"));
 	}
 
 	@Override

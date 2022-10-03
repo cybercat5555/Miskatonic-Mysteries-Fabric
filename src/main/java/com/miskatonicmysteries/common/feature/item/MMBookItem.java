@@ -23,7 +23,6 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -96,8 +95,8 @@ public class MMBookItem extends Item implements Affiliated {
 			tooltip.add(book.getSubtitle().formatted(Formatting.GRAY));
 		}
 		if (stack.getNbt() != null && stack.getNbt().contains(Constants.NBT.KNOWLEDGE)) {
-			tooltip.add(new TranslatableText("knowledge.contains").formatted(Formatting.GRAY, Formatting.ITALIC));
-			stack.getNbt().getList(Constants.NBT.KNOWLEDGE, 8).forEach(s -> tooltip.add(new TranslatableText("knowledge." + s.asString())));
+			tooltip.add(Text.translatable("knowledge.contains").formatted(Formatting.GRAY, Formatting.ITALIC));
+			stack.getNbt().getList(Constants.NBT.KNOWLEDGE, 8).forEach(s -> tooltip.add(Text.translatable("knowledge." + s.asString())));
 		}
 	}
 

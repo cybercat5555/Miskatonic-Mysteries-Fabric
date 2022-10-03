@@ -32,13 +32,13 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 import java.util.EnumSet;
-import java.util.Random;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -93,7 +93,7 @@ public class HarrowEntity extends PathAwareEntity {
 	}
 
 	@Override
-	protected int getXpToDrop(PlayerEntity player) {
+	public int getXpToDrop() {
 		return owner instanceof PlayerEntity ? 0 : experiencePoints;
 	}
 

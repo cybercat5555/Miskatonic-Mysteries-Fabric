@@ -2,16 +2,14 @@ package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.common.util.Constants;
 
-import net.fabricmc.fabric.api.loot.v1.FabricLootPool;
-import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
-import net.fabricmc.fabric.api.loot.v1.FabricLootSupplier;
-import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
-import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 
+import net.fabricmc.fabric.api.loot.v2.FabricLootPoolBuilder;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.loot.entry.LootPoolEntry;
+import net.minecraft.loot.entry.LootTableEntry;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -44,12 +42,27 @@ public class MMLootTables {
 		LOOT_TABLE_INJECTS.put(LootTables.SIMPLE_DUNGEON_CHEST, List.of(INCANTATION_TABLE, BOOK_TABLE, OCEANIC_GOLD_TABLE));
 		LOOT_TABLE_INJECTS.put(LootTables.IGLOO_CHEST_CHEST, List.of(INCANTATION_TABLE));
 
-		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, identifier, builder, lootTableSetter) -> {
+
+
+		LootTableEvents.MODIFY.register((resourceManager, lootManager, identifier, tableBuilder, source) -> {
 			if (LOOT_TABLE_INJECTS.containsKey(identifier)) {
-				List<FabricLootSupplier> tables = LOOT_TABLE_INJECTS.get(identifier).stream().map(id -> (FabricLootSupplier) FabricLootSupplierBuilder
-					.of(lootManager.getTable(id)).build()).collect(Collectors.toList());
+				LOOT_TABLE_INJECTS.get(identifier).forEach(loot -> {
+					tableBuilder.pool(LootPool.builder().with(LootTableEntry.builder(loot)));
+				});
+
+			}
+			if (identifier.equals(LootTables.FISHING_TREASURE_GAMEPLAY)){
+
+				LootPool fishPool = LootPool.builder().with(LootTableEntry.builder(MM_FISHING_TABLE)).build();
+				tableBuilder.pool(fishPool);
+			}
+		});
+		/*
+		LootTableEvents.MODIFY.register((resourceManager, lootManager, identifier, builder, lootTableSetter) -> {
+			if (LOOT_TABLE_INJECTS.containsKey(identifier)) {
+				var tables = LOOT_TABLE_INJECTS.get(identifier).stream().map(id -> (FabricLootSupplier) FabricLootSupplierBuilder.of(lootManager.getTable(id)).build()).toList();
 				for (FabricLootSupplier table : tables) {
-					builder.withPools(table.getPools());
+					builder.pool(table.getPools());
 				}
 				lootTableSetter.set(builder.build());
 			}
@@ -68,6 +81,10 @@ public class MMLootTables {
 				}
 			}
 		});
+
+
+
+		 */
 
 	}
 }

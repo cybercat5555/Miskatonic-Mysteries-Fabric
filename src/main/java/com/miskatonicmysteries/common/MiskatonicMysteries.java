@@ -7,33 +7,13 @@ import com.miskatonicmysteries.common.handler.networking.packet.c2s.SyncConfigur
 import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.ClientRiteInputPacket;
 import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
-import com.miskatonicmysteries.common.registry.MMAffiliations;
-import com.miskatonicmysteries.common.registry.MMBlessings;
-import com.miskatonicmysteries.common.registry.MMCriteria;
-import com.miskatonicmysteries.common.registry.MMEntities;
-import com.miskatonicmysteries.common.registry.MMInsanity;
-import com.miskatonicmysteries.common.registry.MMLootTables;
-import com.miskatonicmysteries.common.registry.MMObjects;
-import com.miskatonicmysteries.common.registry.MMParticles;
-import com.miskatonicmysteries.common.registry.MMRecipes;
-import com.miskatonicmysteries.common.registry.MMRites;
-import com.miskatonicmysteries.common.registry.MMSounds;
-import com.miskatonicmysteries.common.registry.MMSpellEffects;
-import com.miskatonicmysteries.common.registry.MMSpellMediums;
-import com.miskatonicmysteries.common.registry.MMStatusEffects;
-import com.miskatonicmysteries.common.registry.MMTrades;
-import com.miskatonicmysteries.common.registry.MMWorld;
+import com.miskatonicmysteries.common.registry.*;
 
 import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
-import net.minecraft.item.FishingRodItem;
-
-import me.shedaniel.autoconfig.example.ExampleInits;
 import software.bernie.example.GeckoLibMod;
-import software.bernie.example.client.renderer.entity.ExampleGeoRenderer;
-import software.bernie.geckolib3.GeckoLib;
 
 public class MiskatonicMysteries implements ModInitializer {
 
@@ -61,6 +41,7 @@ public class MiskatonicMysteries implements ModInitializer {
 		registerPackets();
 		SchedulingHandler.init();
 		MMServerEvents.init();
+		MMPoi.init();
 	}
 
 	private void registerPackets() {

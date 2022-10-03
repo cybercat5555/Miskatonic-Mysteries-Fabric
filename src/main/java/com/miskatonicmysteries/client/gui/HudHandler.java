@@ -66,7 +66,7 @@ public class HudHandler {
 		bufferBuilder.vertex(matrix, 4, -4, 0).texture(1, 0).next();
 		bufferBuilder.vertex(matrix, -4, -4, 0).texture(0, 0).next();
 		bufferBuilder.end();
-		BufferRenderer.draw(bufferBuilder);
+		BufferRenderer.drawWithShader(bufferBuilder.end());
 		if (checked) {
 			RenderSystem.setShaderTexture(0, CHECKMARK);
 			bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
@@ -75,7 +75,7 @@ public class HudHandler {
 			bufferBuilder.vertex(matrix, 6, -2, 0).texture(1, 0).next();
 			bufferBuilder.vertex(matrix, -2, -2, 0).texture(0, 0).next();
 			bufferBuilder.end();
-			BufferRenderer.draw(bufferBuilder);
+			BufferRenderer.drawWithShader(bufferBuilder.end());
 		}
 	}
 }

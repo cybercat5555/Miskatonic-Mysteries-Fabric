@@ -6,7 +6,8 @@ import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEnt
 import com.miskatonicmysteries.common.util.Constants;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.TranslatableText;
+
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import org.jetbrains.annotations.Nullable;
@@ -18,12 +19,12 @@ public class AscensionStageCondition extends MultiRiteCondition {
 
 	public AscensionStageCondition(@Nullable Affiliation affiliation, int stage) {
 		super(new Identifier(Constants.MOD_ID, "ascension_stage"),
-			  new TranslatableText("message.miskatonicmysteries.rite_fail.ascension_stage.stage"),
-			  new TranslatableText("message.miskatonicmysteries.rite_fail.ascension_stage.path"));
+			  Text.translatable("message.miskatonicmysteries.rite_fail.ascension_stage.stage"),
+			  Text.translatable("message.miskatonicmysteries.rite_fail.ascension_stage.path"));
 		this.ascensionAffiliation = affiliation;
 		this.stage = stage;
-		this.description = new TranslatableText("desc.miskatonicmysteries.rite_fail.ascension_stage",
-												affiliation == null ? new TranslatableText("affiliation.miskatonicmysteries.null")
+		this.description = Text.translatable("desc.miskatonicmysteries.rite_fail.ascension_stage",
+												affiliation == null ? Text.translatable("affiliation.miskatonicmysteries.null")
 																	: affiliation.getLocalizedName(), stage);
 	}
 

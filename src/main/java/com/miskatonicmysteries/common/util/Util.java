@@ -14,7 +14,7 @@ import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.LiteralText;
+
 import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
@@ -101,11 +101,11 @@ public class Util {
 		}
 	}
 
-	public static LiteralText createPowerPercentageText(double power, double maxPower) {
+	public static Text createPowerPercentageText(double power, double maxPower) {
 		StringBuilder output = new StringBuilder("||||||||||||||||||||");
 		int grayChar = (int) Math.round(20 * (power / maxPower));
 		output.insert(grayChar, Formatting.DARK_GRAY);
-		return new LiteralText((Formatting.BLUE + output.toString()));
+		return Text.literal((Formatting.BLUE + output.toString()));
 	}
 
 	@Nullable

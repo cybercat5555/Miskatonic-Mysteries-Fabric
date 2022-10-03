@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
@@ -65,7 +65,7 @@ public class BlessedSwordItem extends SwordItem implements Affiliated {
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		tooltip.add(new TranslatableText(getTranslationKey() + ".tooltip").formatted(Formatting.ITALIC));
+		tooltip.add(Text.translatable(getTranslationKey() + ".tooltip").formatted(Formatting.ITALIC));
 		super.appendTooltip(stack, world, tooltip, context);
 	}
 }

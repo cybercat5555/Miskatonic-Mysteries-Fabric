@@ -8,7 +8,7 @@ import com.miskatonicmysteries.common.util.Constants;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChemistrySetCategory implements DisplayCategory<ChemistrySetCategory.ChemistryDisplay> {
 
-	public static final TranslatableText TITLE = new TranslatableText("rei.miskatonicmysteries.chemistry_recipe");
+	public static final Text TITLE = Text.translatable("rei.miskatonicmysteries.chemistry_recipe");
 	public static final Identifier ID = new Identifier(Constants.MOD_ID, "chemistry_recipe");
 	public static final EntryStack<ItemStack> ICON = EntryStacks.of(MMObjects.CHEMISTRY_SET);
 
@@ -136,4 +136,6 @@ public class ChemistrySetCategory implements DisplayCategory<ChemistrySetCategor
 			return outputMatches;
 		}
 	}
-}
+	}
+
+

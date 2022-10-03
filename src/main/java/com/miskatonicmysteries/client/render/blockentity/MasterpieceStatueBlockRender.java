@@ -208,7 +208,7 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 						return defaultTexture;
 					}
 				} else {
-					return new StoneTexture(DefaultSkinHelper.getTexture(PlayerEntity.getUuidFromProfile(profile)),
+					return new StoneTexture(DefaultSkinHelper.getTexture(profile.getId()),
 											false);
 				}
 			} else {
@@ -287,12 +287,12 @@ public class MasterpieceStatueBlockRender implements BlockEntityRenderer<Masterp
 				try {
 					NativeImage inputImage;
 					if (!playerSkin) {
-						inputImage = NativeImage.read(resourceManager.getResource(base).getInputStream());
+						inputImage = NativeImage.read(resourceManager.getResource(base).get().getInputStream());
 					} else {
 						inputImage = getPlayerSkin(base);
 					}
 					NativeImage stoneImage =
-						NativeImage.read(resourceManager.getResource(stoneTexture).getInputStream());
+						NativeImage.read(resourceManager.getResource(stoneTexture).get().getInputStream());
 					IntList skinPalette = ColorUtil.getPaletteFromImage(inputImage);
 					Int2IntMap colorMap = ColorUtil.associateGrayscale(skinPalette);
 					int height = Math.min(texture.getImage().getHeight(), inputImage.getHeight());

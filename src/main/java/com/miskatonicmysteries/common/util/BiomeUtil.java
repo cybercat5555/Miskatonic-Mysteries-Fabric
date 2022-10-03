@@ -1,8 +1,8 @@
 package com.miskatonicmysteries.common.util;
 
 import com.miskatonicmysteries.common.MMMidnightLibConfig;
-import com.miskatonicmysteries.mixin.biomes.ChunkSectionAccessor;
 
+import com.miskatonicmysteries.mixin.biomes.ChunkSectionAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -67,7 +67,7 @@ public class BiomeUtil {
 		int sectionX = biomeX & 3;
 		int sectionY = biomeY & 3;
 		int sectionZ = biomeZ & 3;
-		((ChunkSectionAccessor) section).getBiomeContainer().swap(sectionX, sectionY, sectionZ, biome);
+		//TODO biome ((ChunkSectionAccessor) section).getBiomeContainer().swap(sectionX, sectionY, sectionZ, biome);
 		chunk.setNeedsSaving(true);
 	}
 

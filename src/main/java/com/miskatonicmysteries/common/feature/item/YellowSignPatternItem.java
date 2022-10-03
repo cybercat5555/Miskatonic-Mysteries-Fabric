@@ -11,19 +11,17 @@ import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.tag.TagKey;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Rarity;
@@ -33,16 +31,19 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatternItem;
 import org.jetbrains.annotations.Nullable;
 
-public class YellowSignPatternItem extends LoomPatternItem {
+public class YellowSignPatternItem extends BannerPatternItem {
 
 	public YellowSignPatternItem() {
-		super(MMObjects.YELLOW_SIGN_BANNER, new Settings().group(Constants.MM_GROUP).maxCount(1)
+		super(Tags.YELLOW_SIGN_PATTERN_ITEM, new Settings().group(Constants.MM_GROUP).maxCount(1)
 			.rarity(Rarity.UNCOMMON));
 	}
 
+	@Override
+	public TagKey<BannerPattern> getPattern() {
+		return Tags.YELLOW_SIGN_PATTERN_ITEM;
+	}
 
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
@@ -118,9 +119,9 @@ public class YellowSignPatternItem extends LoomPatternItem {
 	@Environment(EnvType.CLIENT)
 	public void appendTooltip(ItemStack stack, World world, List<Text> lines, TooltipContext ctx) {
 		super.appendTooltip(stack, world, lines, ctx);
-		lines.add(new TranslatableText("item.%s.%s.tooltip"
+		lines.add(Text.translatable("item.%s.%s.tooltip"
 										   .formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath())).formatted(Formatting.GRAY));
-		lines.add(new TranslatableText("tooltip.%s.place_instruction".formatted(Constants.MOD_ID), "§e" + I18n
+		lines.add(Text.translatable("tooltip.%s.place_instruction".formatted(Constants.MOD_ID), "§e" + I18n
 			.translate(Items.YELLOW_DYE.getTranslationKey()) + "§8").formatted(Formatting.GRAY));
 
 	}

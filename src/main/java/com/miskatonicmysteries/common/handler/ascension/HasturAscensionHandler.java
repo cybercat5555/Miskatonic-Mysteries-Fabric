@@ -18,7 +18,8 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
+
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -68,19 +69,19 @@ public class HasturAscensionHandler {
 	public static boolean canPlayerStartGathering(PlayerEntity player, World world) {
 		if (player.hasStatusEffect(StatusEffects.HERO_OF_THE_VILLAGE)) {
 			if (MiskatonicMysteriesAPI.getAscensionStage(player) < GATHERING_STAGE) {
-				player.sendMessage(new TranslatableText("message.miskatonicmysteries.need_level"), true);
+				player.sendMessage(Text.translatable("message.miskatonicmysteries.need_level"), true);
 				return false;
 			}
 			int cultistAmount = world.getEntitiesByClass(HasturCultistEntity.class, player.getBoundingBox().expand(40), (cultist) -> true)
 				.size();
 			if (cultistAmount < 2) {
-				player.sendMessage(new TranslatableText("message.miskatonicmysteries.need_serfs"), true);
+				player.sendMessage(Text.translatable("message.miskatonicmysteries.need_serfs"), true);
 				return false;
 			}
 			if (world.getClosestEntity(TatteredPrinceEntity.class,
 									   TargetPredicate.createNonAttackable().setBaseMaxDistance(40).ignoreVisibility(), player, player.getX(),
 									   player.getY(), player.getZ(), player.getBoundingBox().expand(40)) == null) {
-				player.sendMessage(new TranslatableText("message.miskatonicmysteries.need_prince"), true);
+				player.sendMessage(Text.translatable("message.miskatonicmysteries.need_prince"), true);
 				return false;
 			}
 			return true;

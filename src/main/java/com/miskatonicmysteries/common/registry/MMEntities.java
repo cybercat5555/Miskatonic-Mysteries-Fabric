@@ -8,13 +8,13 @@ import com.miskatonicmysteries.common.feature.entity.painting.PulsePaintingEntit
 import com.miskatonicmysteries.common.feature.entity.painting.WallPaintingEntity;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
+import com.miskatonicmysteries.mixin.entity.SpawnRestrictionAccessor;
 import com.miskatonicmysteries.mixin.villagers.MemoryModuleTypeAccessor;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerProfessionBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
-import net.fabricmc.fabric.mixin.object.builder.SpawnRestrictionAccessor;
 
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
@@ -27,7 +27,7 @@ import net.minecraft.entity.ai.brain.MemoryModuleType;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.decoration.painting.PaintingMotive;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
@@ -38,11 +38,12 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.dynamic.GlobalPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.Heightmap.Type;
 import net.minecraft.world.poi.PointOfInterestType;
@@ -106,21 +107,26 @@ public class MMEntities {
 		.create(SpawnGroup.MISC, RiftEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F))
 		.trackRangeChunks(4).build();
 
-	public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper
-		.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
+	//public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
+
+	public static final RegistryKey<PointOfInterestType> PSYCHONAUT_POI_KEY = RegistryKey.of(Registry.POINT_OF_INTEREST_TYPE_KEY, new Identifier(Constants.MOD_ID, "psychonaut"));
+
 	public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create()
-		.id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW)
+		.id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI_KEY).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW)
 		.build();
 
 	public static final MemoryModuleType<GlobalPos> CONGREGATION_POINT = MemoryModuleTypeAccessor.invokeRegister(
 		Constants.MOD_ID + ":congregation_point",
 		GlobalPos.CODEC
 	);
+	/*
 	public static final PointOfInterestType HASTUR_POI = PointOfInterestHelper
 		.register(new Identifier(Constants.MOD_ID, "hastur_poi"), 0, 1,
 				  MMObjects.HASTUR_OCTAGRAM, MMObjects.HASTUR_STATUE_STONE, MMObjects.HASTUR_STATUE_TERRACOTTA, MMObjects.HASTUR_STATUE_GOLD,
 				  MMObjects.HASTUR_STATUE_MOSSY, MMObjects.MOSSY_HASTUR_MURAL, MMObjects.STONE_HASTUR_MURAL, MMObjects.TERRACOTTA_HASTUR_MURAL,
 				  MMObjects.YELLOW_TERRACOTTA_HASTUR_MURAL);
+
+	 */
 
 	public static final TrackedDataHandler<EntityType<?>> ENTITY_TYPE_TRACKER = new TrackedDataHandler<>() {
 		@Override
@@ -271,16 +277,16 @@ public class MMEntities {
 
 	public static class PaintingMotives {
 
-		public static PaintingMotive GUARDIAN = new PaintingMotive(16, 16);
-		public static PaintingMotive BLACK_STAR = new PaintingMotive(32, 32);
-		public static PaintingMotive SHINING_GATES = new PaintingMotive(32, 32);
-		public static PaintingMotive SOUP_TIME = new PaintingMotive(32, 16);
+		public static PaintingVariant GUARDIAN = new PaintingVariant(16, 16);
+		public static PaintingVariant BLACK_STAR = new PaintingVariant(32, 32);
+		public static PaintingVariant SHINING_GATES = new PaintingVariant(32, 32);
+		public static PaintingVariant SOUP_TIME = new PaintingVariant(32, 16);
 
 		public static void init() {
-			RegistryUtil.register(Registry.PAINTING_MOTIVE, "guardian", GUARDIAN);
-			RegistryUtil.register(Registry.PAINTING_MOTIVE, "black_star", BLACK_STAR);
-			RegistryUtil.register(Registry.PAINTING_MOTIVE, "shining_gates", SHINING_GATES);
-			RegistryUtil.register(Registry.PAINTING_MOTIVE, "soup_time", SOUP_TIME);
+			RegistryUtil.register(Registry.PAINTING_VARIANT, "guardian", GUARDIAN);
+			RegistryUtil.register(Registry.PAINTING_VARIANT, "black_star", BLACK_STAR);
+			RegistryUtil.register(Registry.PAINTING_VARIANT, "shining_gates", SHINING_GATES);
+			RegistryUtil.register(Registry.PAINTING_VARIANT, "soup_time", SOUP_TIME);
 		}
 	}
 }

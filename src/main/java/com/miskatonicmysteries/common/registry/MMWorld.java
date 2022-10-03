@@ -98,7 +98,7 @@ public class MMWorld {
 	public static final BiomeEffect HASTUR_BIOME_EFFECT = new HasturBiomeEffect();
 
 	private static Biome creatHasturBiome() {
-		Biome.Builder biomeBuilder = new Biome.Builder().category(Biome.Category.NONE);
+		Biome.Builder biomeBuilder = new Biome.Builder();
 		biomeBuilder.temperature(0.75F).precipitation(Biome.Precipitation.RAIN).downfall(0.3F)
 			.generationSettings(new GenerationSettings.Builder()
 									.build())

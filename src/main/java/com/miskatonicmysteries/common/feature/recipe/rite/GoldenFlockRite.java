@@ -28,7 +28,7 @@ import net.minecraft.village.VillageGossipType;
 import net.minecraft.world.World;
 
 import java.util.List;
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 public class GoldenFlockRite extends Rite {
 

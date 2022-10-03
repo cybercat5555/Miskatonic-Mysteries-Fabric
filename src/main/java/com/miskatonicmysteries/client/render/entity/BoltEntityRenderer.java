@@ -17,7 +17,7 @@ import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 @Environment(EnvType.CLIENT)
 public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
@@ -31,7 +31,7 @@ public class BoltEntityRenderer extends EntityRenderer<BoltEntity> {
 					   int light) {
 		int divisionAngle = 50;
 		int segmentNumber = 7;
-		Random random = new Random(entity.seed);
+		Random random = Random.create(entity.seed);
 		float sizeMod = Math.min((entity.age + tickDelta) / 2, 1);
 		float currentLength = entity.getLength() * sizeMod;
 		float maxDistancePerSegment = entity.getLength() / (float) segmentNumber;

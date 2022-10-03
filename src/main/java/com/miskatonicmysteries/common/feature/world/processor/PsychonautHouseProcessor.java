@@ -6,18 +6,17 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CandleBlock;
 import net.minecraft.block.CarpetBlock;
-import net.minecraft.structure.Structure;
 import net.minecraft.structure.StructurePlacementData;
+import net.minecraft.structure.StructureTemplate;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldView;
 
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import javax.annotation.Nullable;
 
 public class PsychonautHouseProcessor extends StructureProcessor {
 
@@ -31,23 +30,23 @@ public class PsychonautHouseProcessor extends StructureProcessor {
 
 	public PsychonautHouseProcessor(long seed) {
 		this.seed = seed;
-		this.random = new Random(seed);
+		this.random = Random.create(seed);
 	}
 
-	@Nullable
+
+
+	@org.jetbrains.annotations.Nullable
 	@Override
-	public Structure.StructureBlockInfo process(WorldView worldView, BlockPos pos, BlockPos blockPos,
-												Structure.StructureBlockInfo structureBlockInfo, Structure.StructureBlockInfo structureBlockInfo2,
-												StructurePlacementData structurePlacementData) {
-		if (structureBlockInfo2.state.getBlock() instanceof CarpetBlock) {
-			return new Structure.StructureBlockInfo(structureBlockInfo2.pos, CARPETS[random.nextInt(CARPETS.length)].getDefaultState(),
-													structureBlockInfo2.nbt);
-		} else if (structureBlockInfo2.state.getBlock() instanceof CandleBlock) {
-			return new Structure.StructureBlockInfo(structureBlockInfo2.pos,
-													structureBlockInfo2.state.with(CandleBlock.CANDLES, 1 + random.nextInt(4)),
-													structureBlockInfo2.nbt);
+	public StructureTemplate.StructureBlockInfo process(WorldView world, BlockPos pos, BlockPos pivot, StructureTemplate.StructureBlockInfo originalBlockInfo, StructureTemplate.StructureBlockInfo currentBlockInfo, StructurePlacementData data) {
+		if (currentBlockInfo.state.getBlock() instanceof CarpetBlock) {
+			return new StructureTemplate.StructureBlockInfo(currentBlockInfo.pos, CARPETS[random.nextInt(CARPETS.length)].getDefaultState(),
+					currentBlockInfo.nbt);
+		} else if (currentBlockInfo.state.getBlock() instanceof CandleBlock) {
+			return new StructureTemplate.StructureBlockInfo(currentBlockInfo.pos,
+					currentBlockInfo.state.with(CandleBlock.CANDLES, 1 + random.nextInt(4)),
+					currentBlockInfo.nbt);
 		}
-		return structureBlockInfo2;
+		return currentBlockInfo;
 	}
 
 	@Override

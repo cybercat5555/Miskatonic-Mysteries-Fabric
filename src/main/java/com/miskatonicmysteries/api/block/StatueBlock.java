@@ -31,7 +31,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Formatting;
@@ -94,7 +94,7 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 			stack.setNbt(new NbtCompound());
 		}
 		NbtCompound blockEntityTag = new NbtCompound();
-		blockEntityTag.putString(Constants.NBT.PLAYER_NAME, player.getName().asString());
+		blockEntityTag.putString(Constants.NBT.PLAYER_NAME, player.getName().toString());
 		blockEntityTag.putUuid(Constants.NBT.PLAYER_UUID, player.getUuid());
 		stack.getNbt().put(Constants.NBT.BLOCK_ENTITY_TAG, blockEntityTag);
 		return stack;
@@ -164,7 +164,7 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 		if (stack.hasNbt() && stack.getNbt().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
 			NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
 			if (compoundTag != null && compoundTag.contains(Constants.NBT.PLAYER_NAME)) {
-				tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.created_by", compoundTag.getString(Constants.NBT.PLAYER_NAME))
+				tooltip.add(Text.translatable("tooltip.miskatonicmysteries.created_by", compoundTag.getString(Constants.NBT.PLAYER_NAME))
 								.formatted(Formatting.GRAY));
 			}
 		}

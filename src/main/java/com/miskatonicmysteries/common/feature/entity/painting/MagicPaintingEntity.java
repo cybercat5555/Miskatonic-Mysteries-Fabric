@@ -21,15 +21,12 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
-import net.minecraft.entity.decoration.painting.PaintingMotive;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -49,16 +46,17 @@ public abstract class MagicPaintingEntity extends PaintingEntity implements Affi
 		.registerData(MagicPaintingEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
 	protected static final TrackedData<ConfigurablePredicate> CONFIG_DATA = DataTracker
 		.registerData(MagicPaintingEntity.class, MiskatonicMysteriesAPI.CONFIG_TRACKER);
+	public PaintingVariant motive;
 
 	public MagicPaintingEntity(EntityType<? extends MagicPaintingEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
 	public MagicPaintingEntity(EntityType<? extends MagicPaintingEntity> entityType, World world, BlockPos pos, Direction direction,
-							   PaintingMotive motive, PlayerEntity owner) {
+							   PaintingVariant motive, PlayerEntity owner) {
 		this(entityType, world);
-		this.motive = motive;
 		this.attachmentPos = pos;
+		this.motive = motive;
 		setFacing(direction);
 		setPos(attachmentPos.getX(), attachmentPos.getY(), attachmentPos.getZ());
 		setOwnerUuid(owner.getUuid());
@@ -164,9 +162,7 @@ public abstract class MagicPaintingEntity extends PaintingEntity implements Affi
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-		return new EntitySpawnS2CPacket(getId(), getUuid(), attachmentPos.getX(), attachmentPos.getY(), attachmentPos.getZ(), 0F,
-										getHorizontalFacing().asRotation(), getType(), 0,
-										getVelocity());
+		return new EntitySpawnS2CPacket(this, this.facing.getId(), this.getDecorationBlockPos());
 	}
 
 	@Override

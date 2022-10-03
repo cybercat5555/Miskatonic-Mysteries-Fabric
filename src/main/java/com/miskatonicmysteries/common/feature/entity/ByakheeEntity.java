@@ -90,10 +90,12 @@ public class ByakheeEntity extends TameableEntity implements Saddleable, InputAw
 		return 10;
 	}
 
-	@Override
+
 	public boolean canBeControlledByRider() {
 		return getPrimaryPassenger() instanceof LivingEntity && isOwner((LivingEntity) getPrimaryPassenger());
 	}
+
+
 
 	@Override
 	public boolean tryAttack(Entity target) {

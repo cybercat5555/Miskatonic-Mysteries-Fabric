@@ -22,7 +22,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
@@ -43,13 +42,13 @@ public class HasturBellItem extends Item {
 
 	@Override
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		MutableText text = new TranslatableText("item.%s.%s.tooltip".formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath()));
+		MutableText text = Text.translatable("item.%s.%s.tooltip".formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath()));
 		text.formatted(Formatting.GRAY);
 		if (world != null && world.isClient) {
 			ClientPlayerEntity player = MinecraftClient.getInstance().player;
 			if (MiskatonicMysteriesAPI.getNonNullAffiliation(player, false) != MMAffiliations.HASTUR
 			|| MiskatonicMysteriesAPI.getAscensionStage(player) < 1) {
-				text = new TranslatableText("item.%s.%s.tooltip.alternate".formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath()));
+				text = Text.translatable("item.%s.%s.tooltip.alternate".formatted(Constants.MOD_ID, Registry.ITEM.getId(this).getPath()));
 				text.fillStyle(Style.EMPTY.withFont(MiskatonicMysteriesClient.OBFUSCATED_FONT_ID));
 				text.formatted(Formatting.YELLOW);
 			}

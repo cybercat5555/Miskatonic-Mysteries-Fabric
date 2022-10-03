@@ -17,7 +17,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
@@ -100,7 +99,7 @@ public class IncantationYogItem extends Item {
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
 		BlockPos boundPos = getPosition(stack);
 		if (boundPos != null) {
-			tooltip.add(new TranslatableText("tooltip.miskatonicmysteries.bound_to", boundPos.getX(), boundPos
+			tooltip.add(Text.translatable("tooltip.miskatonicmysteries.bound_to", boundPos.getX(), boundPos
 				.getY(), boundPos.getZ()));
 		}
 		super.appendTooltip(stack, world, tooltip, context);

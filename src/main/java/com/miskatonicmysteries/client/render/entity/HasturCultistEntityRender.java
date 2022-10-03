@@ -27,7 +27,7 @@ public class HasturCultistEntityRender extends MobEntityRenderer<HasturCultistEn
 
 	public HasturCultistEntityRender(EntityRendererFactory.Context context) {
 		super(context, new HasturCultistEntityModel(context.getPart(MMModels.HASTUR_CULTIST)), 0.5F);
-		this.addFeature(new HeldItemFeatureRenderer<>(this));
+		this.addFeature(new HeldItemFeatureRenderer<>(this, context.getHeldItemRenderer()));
 		this.addFeature(new ArmorFeatureRenderer<>(this, new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_INNER_ARMOR)),
 												   new ZombieEntityModel(context.getPart(EntityModelLayers.ZOMBIE_OUTER_ARMOR))));
 		this.normalModel = model;

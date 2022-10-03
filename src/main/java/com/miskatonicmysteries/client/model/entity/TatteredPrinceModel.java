@@ -22,17 +22,17 @@ public class TatteredPrinceModel extends AnimatedGeoModel<TatteredPrinceEntity> 
 															   "animations/tattered_prince/tattered_prince.animation.json");
 
 	@Override
-	public Identifier getModelLocation(TatteredPrinceEntity entity) {
+	public Identifier getModelResource(TatteredPrinceEntity entity) {
 		return MODEL;
 	}
 
 	@Override
-	public Identifier getTextureLocation(TatteredPrinceEntity entity) {
+	public Identifier getTextureResource(TatteredPrinceEntity entity) {
 		return TEXTURE;
 	}
 
 	@Override
-	public Identifier getAnimationFileLocation(TatteredPrinceEntity entity) {
+	public Identifier getAnimationResource(TatteredPrinceEntity entity) {
 		return ANIMATION;
 	}
 

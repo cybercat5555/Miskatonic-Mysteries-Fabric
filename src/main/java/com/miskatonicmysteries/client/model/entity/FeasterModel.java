@@ -18,17 +18,19 @@ public class FeasterModel extends AnimatedGeoModel<FeasterEntity> {
 	private static final Identifier ANIMATION = new Identifier(Constants.MOD_ID, "animations/feaster/feaster.animation.json");
 
 	@Override
-	public Identifier getModelLocation(FeasterEntity hound) {
+	public Identifier getModelResource(FeasterEntity hound) {
 		return MODEL;
 	}
 
 	@Override
-	public Identifier getTextureLocation(FeasterEntity hound) {
+	public Identifier getTextureResource(FeasterEntity hound) {
 		return TEXTURE;
 	}
 
 	@Override
-	public Identifier getAnimationFileLocation(FeasterEntity hound) {
+	public Identifier getAnimationResource(FeasterEntity hound) {
 		return ANIMATION;
 	}
+
+
 }

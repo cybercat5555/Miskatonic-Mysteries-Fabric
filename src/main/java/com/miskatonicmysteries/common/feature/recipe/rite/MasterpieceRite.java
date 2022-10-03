@@ -98,7 +98,7 @@ public class MasterpieceRite extends TriggeredRite {
 
 	@Override
 	public boolean listen(OctagramBlockEntity blockEntity, World world, GameEvent event, Entity entity, BlockPos pos) {
-		if (!world.isClient && event == GameEvent.ENTITY_KILLED && entity == blockEntity.targetedEntity) {
+		if (!world.isClient && event == GameEvent.ENTITY_DIE && entity == blockEntity.targetedEntity) {
 			ItemStack statueStack = new ItemStack(MMObjects.MASTERPIECE_STATUE);
 			if (entity instanceof PlayerEntity player) {
 				MasterpieceStatueBlock.setSculptureData(statueStack, blockEntity.getOriginalCaster(), player,

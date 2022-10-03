@@ -24,17 +24,17 @@ public class PhantasmaModel extends AnimatedGeoModel<PhantasmaEntity> {
 		new Identifier(Constants.MOD_ID, "animations/phantasma/phantasma_2.animation.json")};
 
 	@Override
-	public Identifier getModelLocation(PhantasmaEntity phantasmEntity) {
+	public Identifier getModelResource(PhantasmaEntity phantasmEntity) {
 		return MODEL[phantasmEntity.getVariation()];
 	}
 
 	@Override
-	public Identifier getTextureLocation(PhantasmaEntity phantasmEntity) {
+	public Identifier getTextureResource(PhantasmaEntity phantasmEntity) {
 		return TEXTURE[phantasmEntity.getVariation()];
 	}
 
 	@Override
-	public Identifier getAnimationFileLocation(PhantasmaEntity phantasmEntity) {
+	public Identifier getAnimationResource(PhantasmaEntity phantasmEntity) {
 		return ANIMATION[phantasmEntity.getVariation()];
 	}
 }

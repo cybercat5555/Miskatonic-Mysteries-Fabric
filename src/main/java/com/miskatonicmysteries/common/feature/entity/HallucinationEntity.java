@@ -28,7 +28,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
@@ -195,7 +194,7 @@ public class HallucinationEntity extends HostileEntity {
 	}
 
 	@Override
-	public void emitGameEvent(GameEvent event, @Nullable Entity entity, BlockPos pos) {
+	public void emitGameEvent(GameEvent event, @org.jetbrains.annotations.Nullable Entity entity) {
 		//nuh-uh
 	}
 

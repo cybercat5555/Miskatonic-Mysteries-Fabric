@@ -17,7 +17,7 @@ import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategory.OctagramDisplay> {
 
-	public static final TranslatableText TITLE = new TranslatableText("rei.miskatonicmysteries.octagram_rite");
+	public static final Text TITLE = Text.translatable("rei.miskatonicmysteries.octagram_rite");
 	public static final Identifier ID = new Identifier(Constants.MOD_ID, "octagram_rite");
 	public static final EntryStack<ItemStack> ICON = EntryStacks.of(MMObjects.SHUB_CHALK);
 
@@ -103,10 +103,10 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
 		}
 
 		Label label = Widgets
-			.createLabel(new Point(startPoint.x + 32, startPoint.y - 32), new TranslatableText(recipeDisplay.rite.getTranslationString()))
+			.createLabel(new Point(startPoint.x + 32, startPoint.y - 32), Text.translatable(recipeDisplay.rite.getTranslationString()))
 			.color(0xFF404040, 0xFFBBBBBB).noShadow().centered();
 		if (recipeDisplay.getRite() instanceof TriggeredRite) {
-			label.tooltip(I18n.translate("rei." + Constants.MOD_ID + ".tooltip.primable"));
+			label.tooltip(Text.of(I18n.translate("rei." + Constants.MOD_ID + ".tooltip.primable")));
 		}
 		widgets.add(label);
 
@@ -198,3 +198,5 @@ public class OctagramRiteCategory implements DisplayCategory<OctagramRiteCategor
 		}
 	}
 }
+
+

@@ -13,8 +13,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+
+
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import org.jetbrains.annotations.NotNull;
@@ -40,10 +41,10 @@ public class SudokuScreen extends Screen {
 	public int infoTicks = 0;
 	public boolean finished;
 	public int finishingTicks;
-	private List<LiteralText> infoText;
+	private List<Text> infoText;
 
 	public SudokuScreen(Identifier style) {
-		super(new TranslatableText(Constants.MOD_ID + ".gui.sudoku"));
+		super(Text.translatable(Constants.MOD_ID + ".gui.sudoku"));
 		fillTiles(tiles);
 		this.style = style;
 	}
@@ -55,7 +56,7 @@ public class SudokuScreen extends Screen {
 			fillRandomy(2, tiles);
 			fillRandomy(3, tiles);
 		} while (!isSolved());
-		Random random = new Random();
+		Random random = Random.create();
 		int removedTiles = 0;
 		while (removedTiles < 8) {
 			int index = random.nextInt(16);
@@ -132,7 +133,7 @@ public class SudokuScreen extends Screen {
 			matrices.push();
 			matrices.translate(0, infoText.size() * 16 * (1 - infoAppearance), 0);
 			for (int y = 0; y < infoText.size(); y++) {
-				LiteralText orderedText = infoText.get(y);
+				Text orderedText = infoText.get(y);
 				drawCenteredText(matrices, client.textRenderer, orderedText,
 								 width - 80, height - infoText.size() * 16 + y * 16, 0xFFFFFFFF);
 			}
@@ -155,7 +156,7 @@ public class SudokuScreen extends Screen {
 			}
 		}
 		addDrawableChild(new SudokuInfoWidget(width - 18, 2, this));
-		infoText = splitText(new TranslatableText("text.miskatonicmysteries.sudoku_info"));
+		infoText = splitText(Text.translatable("text.miskatonicmysteries.sudoku_info"));
 	}
 
 	@Override
@@ -182,21 +183,21 @@ public class SudokuScreen extends Screen {
 	}
 
 	@NotNull
-	private List<LiteralText> splitText(TranslatableText text) {
-		List<LiteralText> list = new ArrayList<>();
+	private List<Text> splitText(Text text) {
+		List<Text> list = new ArrayList<>();
 		StringBuilder builder = new StringBuilder();
 		int length = 0;
 		for (String s : text.getString().split(" ")) {
 			length += s.length();
 			if (length > 16 || s.startsWith("<br>")) {
-				list.add(new LiteralText(builder.toString()));
+				list.add(Text.literal(builder.toString()));
 				builder = new StringBuilder();
 				length = 0;
 			}
 			builder.append(s.replace("<br>", ""));
 			builder.append(" ");
 		}
-		list.add(new LiteralText(builder.toString()));
+		list.add(Text.literal(builder.toString()));
 		return list;
 	}
 

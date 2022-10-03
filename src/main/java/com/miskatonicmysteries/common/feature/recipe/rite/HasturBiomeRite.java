@@ -4,11 +4,7 @@ import com.miskatonicmysteries.client.gui.SudokuScreen;
 import com.miskatonicmysteries.client.render.RenderHelper;
 import com.miskatonicmysteries.client.render.ResourceHandler;
 import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEntity;
-import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
-import com.miskatonicmysteries.common.feature.entity.TatteredPrinceEntity;
-import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.AscensionStageCondition;
-import com.miskatonicmysteries.common.feature.recipe.rite.condition.EntityCondition;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.HasturCultistCondition;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.KnotCondition;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.PillarsCondition;
@@ -31,16 +27,13 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.util.registry.BuiltinRegistries;
-import net.minecraft.world.World;
 
-import java.util.List;
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 public class HasturBiomeRite extends BiomeConversionRite {
 
@@ -83,7 +76,7 @@ public class HasturBiomeRite extends BiomeConversionRite {
 		long time = entity.getWorld().getTime();
 		matrixStack.push();
 		if (entity.tickCount < 120) {
-			Random random = new Random(42069);
+			Random random = Random.create(42069);
 			PlayerEntity player = entity.getOriginalCaster();
 			Vec3f direction = new Vec3f(0, 10000, 0);
 			if (player != null && entity.tickCount > 100) {

@@ -6,7 +6,6 @@ import com.miskatonicmysteries.common.feature.block.blockentity.OctagramBlockEnt
 import com.miskatonicmysteries.common.feature.entity.HarrowEntity;
 import com.miskatonicmysteries.common.feature.entity.HasturCultistEntity;
 import com.miskatonicmysteries.common.feature.entity.brain.HasturCultistBrain;
-import com.miskatonicmysteries.common.feature.recipe.RiteRecipe;
 import com.miskatonicmysteries.common.feature.recipe.rite.condition.ReverseBiomeCondition;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState.BiomeKnot;
@@ -27,13 +26,12 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.command.argument.EntityAnchorArgumentType.EntityAnchor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -44,7 +42,7 @@ import net.minecraft.world.biome.source.BiomeCoords;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 import java.util.stream.Collectors;
 
 public class BiomeReversionRite extends BiomeConversionRite {
@@ -59,7 +57,7 @@ public class BiomeReversionRite extends BiomeConversionRite {
 						   int light, int overlay, BlockEntityRendererFactory.Context context) {
 		long time = entity.getWorld().getTime();
 		if (entity.tickCount < 120) {
-			Random random = new Random(42069);
+			Random random = Random.create(42069);
 			PlayerEntity player = entity.getOriginalCaster();
 			Vec3f direction = new Vec3f(0, 10000, 0);
 			if (player != null && entity.tickCount > 100) {

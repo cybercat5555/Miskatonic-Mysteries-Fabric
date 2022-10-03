@@ -2,7 +2,6 @@ package com.miskatonicmysteries.common.feature.recipe;
 
 import com.miskatonicmysteries.api.interfaces.LazySerializable;
 import com.miskatonicmysteries.api.registry.Rite;
-import com.miskatonicmysteries.common.feature.PotentialItem;
 import com.miskatonicmysteries.common.registry.MMRecipes;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 

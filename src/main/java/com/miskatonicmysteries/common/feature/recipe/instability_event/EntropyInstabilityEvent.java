@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 public class EntropyInstabilityEvent extends InstabilityEvent {
 

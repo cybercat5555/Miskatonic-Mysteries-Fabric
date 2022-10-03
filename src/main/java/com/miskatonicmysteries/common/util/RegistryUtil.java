@@ -3,6 +3,7 @@ package com.miskatonicmysteries.common.util;
 import com.miskatonicmysteries.mixin.world.StructurePoolAccessor;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.structure.pool.StructurePool;
@@ -25,6 +26,11 @@ public class RegistryUtil {
 
 	public static <T> T register(Registry<? super T> registry, String name, T entry) {
 		return Registry.register(registry, new Identifier(Constants.MOD_ID, name), entry);
+	}
+
+	public static RegistryEntry<BannerPattern> registerPattern(String id, String shortId) {
+		BannerPattern pattern = Registry.register(Registry.BANNER_PATTERN, new Identifier(Constants.MOD_ID, id), new BannerPattern(Constants.MOD_ID + "_" + shortId));
+		return Registry.BANNER_PATTERN.getEntry(Registry.BANNER_PATTERN.getKey(pattern).get()).get();
 	}
 
 	public static void tryAddElementToPool(Identifier targetPool, StructurePool pool, String elementId, StructurePool.Projection projection,

@@ -5,13 +5,13 @@ import net.fabricmc.api.Environment;
 
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class SpellMediumToast extends SimpleIconToast {
 
-	private static final Text TITLE = new TranslatableText("spell_medium.miskatonicmysteries.toast.title");
+	private static final Text TITLE = Text.translatable("spell_medium.miskatonicmysteries.toast.title");
 
 	public SpellMediumToast(Identifier icon, String translation) {
 		super(icon, translation);

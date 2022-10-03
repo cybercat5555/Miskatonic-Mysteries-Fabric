@@ -15,7 +15,7 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import org.lwjgl.glfw.GLFW;
@@ -31,7 +31,7 @@ public class ConfigurePredicateScreen extends Screen {
 	private Identifier currentCategory;
 
 	public ConfigurePredicateScreen(HasConfigurablePredicate source, ConfigurablePredicate predicate, ConfigurablePredicateType type) {
-		super(new TranslatableText(Constants.MOD_ID + ".gui.configure_predicates"));
+		super(Text.translatable(Constants.MOD_ID + ".gui.configure_predicates"));
 		this.source = source;
 		this.currentPredicate = predicate.copy();
 		this.type = type;

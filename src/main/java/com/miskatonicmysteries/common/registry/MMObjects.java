@@ -59,6 +59,7 @@ import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.WallBlock;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -71,8 +72,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
 
-import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPattern;
-import io.github.fablabsmc.fablabs.api.bannerpattern.v1.LoomPatterns;
+import net.minecraft.util.registry.RegistryEntry;
 import team.reborn.energy.api.EnergyStorage;
 
 public class MMObjects {
@@ -278,7 +278,8 @@ public class MMObjects {
 																								 ? MapColor.PALE_YELLOW : MapColor.WHITE)
 															  .strength(2.0F).sounds(BlockSoundGroup.WOOD));
 
-	public static final LoomPattern YELLOW_SIGN_BANNER = new LoomPattern(true);
+	public static RegistryEntry<BannerPattern> YELLOW_SIGN_BANNER;
+
 	public static final Item YELLOW_SIGN_LOOM_PATTERN = new YellowSignPatternItem();
 
 
@@ -513,7 +514,8 @@ public class MMObjects {
 		EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage.getSideStorage(direction),
 												   POWER_CELL_BLOCK_ENTITY_TYPE);
 
-		RegistryUtil.register(LoomPatterns.REGISTRY, "yellow_sign", YELLOW_SIGN_BANNER);
+		YELLOW_SIGN_BANNER = RegistryUtil.registerPattern("yellow_sign", "ys");
+
 
 		RegistryUtil.register(Registry.ITEM, "yellow_sign_banner_pattern", YELLOW_SIGN_LOOM_PATTERN);
 

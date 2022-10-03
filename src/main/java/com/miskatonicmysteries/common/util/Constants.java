@@ -4,7 +4,6 @@ import com.miskatonicmysteries.api.MiskatonicMysteriesAPI;
 import com.miskatonicmysteries.api.registry.Affiliation;
 import com.miskatonicmysteries.api.registry.SpellEffect;
 import com.miskatonicmysteries.common.feature.block.PowerCellBlock;
-import com.miskatonicmysteries.common.feature.entity.FeasterEntity;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 
@@ -13,6 +12,7 @@ import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
+import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -29,7 +29,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tag.TagKey;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -89,6 +88,8 @@ public class Constants {
 		public static final TagKey<SpellEffect> RIFT_SPELLS = TagKey.of(MMRegistries.SPELL_EFFECTS.getKey(), new Identifier(MOD_ID, "rift_spells"));
 		public static final TagKey<StatusEffect> RIFT_EFFECTS = TagKey.of(Registry.MOB_EFFECT_KEY, new Identifier(MOD_ID, "rift_effects"));
 		public static final TagKey<EntityType<?>> RIFT_ENTITIES = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "rift_entities"));
+
+		public static final TagKey<BannerPattern> YELLOW_SIGN_PATTERN_ITEM = TagKey.of(Registry.BANNER_PATTERN_KEY, new Identifier(MOD_ID, "pattern_item/yellow_sign"));
 	}
 
 	public static class NBT {
@@ -221,7 +222,7 @@ public class Constants {
 		public static final DamageSource INSANITY = new DamageSources("insanity") {
 			@Override
 			public Text getDeathMessage(LivingEntity entity) {
-				return new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(3)),
+				return Text.translatable(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(3)),
 											entity.getDisplayName());
 			}
 		}.setBypassesArmor();
@@ -239,7 +240,7 @@ public class Constants {
 
 			@Override
 			public Text getDeathMessage(LivingEntity entity) {
-				return new TranslatableText(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(4)),
+				return Text.translatable(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(4)),
 											entity.getDisplayName());
 			}
 		}

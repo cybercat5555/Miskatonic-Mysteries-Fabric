@@ -37,12 +37,10 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.VillageGossipType;
 import net.minecraft.village.VillagerProfession;
-import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.HashSet;
 import java.util.List;
@@ -54,15 +52,16 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.world.poi.PointOfInterestTypes;
 
 public class Party {
 
 	public static final int FIREWORK_BONUS = 40;
 	public static final int DRUGS_BONUS = 10;
-	public static final Text EVENT_TEXT = new TranslatableText("event.miskatonicmysteries.hastur_party");
-	public static final Text EVENT_TEXT_CONCLUDED = new TranslatableText("event.miskatonicmysteries.hastur_party" +
+	public static final Text EVENT_TEXT = Text.translatable("event.miskatonicmysteries.hastur_party");
+	public static final Text EVENT_TEXT_CONCLUDED = Text.translatable("event.miskatonicmysteries.hastur_party" +
 																			 ".finish");
-	public static final Text EVENT_TEXT_WAITING = new TranslatableText("event.miskatonicmysteries.hastur_party" +
+	public static final Text EVENT_TEXT_WAITING = Text.translatable("event.miskatonicmysteries.hastur_party" +
 																		   ".waiting");
 	public static final int PARTY_POWER_MAX = 1000;
 	private final ServerWorld world;
@@ -152,7 +151,7 @@ public class Party {
 																																			  12, 100,
 																																			  200)),
 								Pair.of(3,
-										new ForgetCompletedPointOfInterestTask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT)),
+										new ForgetCompletedPointOfInterestTask(pointOfInterestTypeRegistryEntry -> pointOfInterestTypeRegistryEntry.matchesKey(PointOfInterestTypes.MEETING) , MemoryModuleType.MEETING_POINT)),
 								Pair.of(99, new ScheduleActivityTask()));
 	}
 

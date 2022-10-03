@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 import io.netty.buffer.Unpooled;
 

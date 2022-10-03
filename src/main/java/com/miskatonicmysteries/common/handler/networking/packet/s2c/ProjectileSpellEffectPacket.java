@@ -19,7 +19,6 @@ import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
 
 import io.netty.buffer.Unpooled;

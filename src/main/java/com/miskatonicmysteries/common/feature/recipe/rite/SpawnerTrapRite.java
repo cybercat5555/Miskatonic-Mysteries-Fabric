@@ -26,7 +26,8 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.TranslatableText;
+
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -35,7 +36,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -149,7 +150,7 @@ public class SpawnerTrapRite extends TriggeredRite {
 			for (BlockPos iterateOutward : BlockPos.iterateOutwards(octagram.getPos().add(0, 1, 0), 1, 1, 1)) {
 				if (octagram.getWorld().getBlockState(iterateOutward).isSolidBlock(octagram.getWorld(), iterateOutward)) {
 					if (octagram.getOriginalCaster() != null) {
-						octagram.getOriginalCaster().sendMessage(new TranslatableText("message.miskatonicmysteries.needs_space"), true);
+						octagram.getOriginalCaster().sendMessage(Text.translatable("message.miskatonicmysteries.needs_space"), true);
 					}
 					return false;
 				}

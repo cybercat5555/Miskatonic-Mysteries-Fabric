@@ -18,7 +18,7 @@ import net.minecraft.util.StringHelper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 import java.util.UUID;
 
 import com.mojang.authlib.GameProfile;
@@ -94,7 +94,7 @@ public class MasterpieceStatueBlockEntity extends BaseBlockEntity implements Aff
 
 	public void setCreator(@Nullable PlayerEntity player) {
 		this.creator = player == null ? null : player.getUuid();
-		this.creatorName = player == null ? "" : player.getDisplayName().asString();
+		this.creatorName = player == null ? "" : player.getDisplayName().getString();
 	}
 
 	public GameProfile getStatueProfile() {
