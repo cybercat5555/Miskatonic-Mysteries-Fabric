@@ -403,7 +403,7 @@ public class FeasterEntity extends HostileEntity implements IAnimatable, Affilia
 				}
 			}
 		} else if (animationController.getAnimationState() != AnimationState.Running ||
-			(animationController.getCurrentAnimation() != null && animationController.getCurrentAnimation().loop)) {
+			(animationController.getCurrentAnimation() != null)) {
 			if (flying) {
 				if (specialId == GRABBED) {
 					builder.addAnimation("animation.feaster.hold_flight", true);

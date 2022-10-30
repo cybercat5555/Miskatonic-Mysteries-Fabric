@@ -49,7 +49,7 @@ public class SyncRiteConditionsPacket {
 							  PacketSender sender) {
 		boolean clear = packetByteBuf.readBoolean();
 		BlockPos pos = packetByteBuf.readBlockPos();
-		if (client.world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
+		if (client.world != null && client.world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
 			if (!clear) {
 				Rite rite = MMRegistries.RITES.get(packetByteBuf.readIdentifier());
 				LinkedHashMap<RiteCondition, Boolean> conditionMap = new LinkedHashMap<>();
@@ -58,19 +58,26 @@ public class SyncRiteConditionsPacket {
 				for (int i = 0; i < size; i++) {
 					badConditions.add(packetByteBuf.readInt());
 				}
-				for (int i = 0; i < rite.startConditions.length; i++) {
-					conditionMap.put(rite.startConditions[i], badConditions.contains(i));
+				if (rite != null) {
+					for (int i = 0; i < rite.startConditions.length; i++) {
+						conditionMap.put(rite.startConditions[i], badConditions.contains(i));
+					}
 				}
 				client.execute(() -> {
 					OctagramBlockEntity blockEntity = (OctagramBlockEntity) client.world.getBlockEntity(pos);
-					blockEntity.clientConditions = conditionMap;
-					blockEntity.preparedRite = rite;
+					if (blockEntity != null) {
+						blockEntity.clientConditions = conditionMap;
+						blockEntity.preparedRite = rite;
+					}
+
 				});
 			} else {
 				client.execute(() -> {
 					OctagramBlockEntity blockEntity = (OctagramBlockEntity) client.world.getBlockEntity(pos);
-					blockEntity.clientConditions = new LinkedHashMap<>();
-					blockEntity.preparedRite = null;
+					if (blockEntity != null) {
+						blockEntity.clientConditions = new LinkedHashMap<>();
+						blockEntity.preparedRite = null;
+					}
 				});
 			}
 		}
