@@ -10,12 +10,7 @@ import com.miskatonicmysteries.common.util.Constants.Tags;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix4f;
@@ -55,8 +50,9 @@ public class HudHandler {
 
 	public static void drawIcon(MatrixStack matrixStack, boolean checked, Identifier texture) {
 		Matrix4f matrix = matrixStack.peek().getPositionMatrix();
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		BufferBuilder bufferBuilder =  MinecraftClient.getInstance().getBufferBuilders().getBlockBufferBuilders().get(RenderLayer.getCutoutMipped());
 		RenderSystem.depthMask(true);
 		RenderSystem.enableDepthTest();
 		RenderSystem.setShaderTexture(0, texture);
@@ -65,8 +61,7 @@ public class HudHandler {
 		bufferBuilder.vertex(matrix, 4, 4, 0).texture(1, 1).next();
 		bufferBuilder.vertex(matrix, 4, -4, 0).texture(1, 0).next();
 		bufferBuilder.vertex(matrix, -4, -4, 0).texture(0, 0).next();
-		bufferBuilder.end();
-		BufferRenderer.drawWithShader(bufferBuilder.end());
+		tessellator.draw();
 		if (checked) {
 			RenderSystem.setShaderTexture(0, CHECKMARK);
 			bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
@@ -74,8 +69,7 @@ public class HudHandler {
 			bufferBuilder.vertex(matrix, 6, 6, 0).texture(1, 1).next();
 			bufferBuilder.vertex(matrix, 6, -2, 0).texture(1, 0).next();
 			bufferBuilder.vertex(matrix, -2, -2, 0).texture(0, 0).next();
-			bufferBuilder.end();
-			BufferRenderer.drawWithShader(bufferBuilder.end());
+			tessellator.draw();
 		}
 	}
 }

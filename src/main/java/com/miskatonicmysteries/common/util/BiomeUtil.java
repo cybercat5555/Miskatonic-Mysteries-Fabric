@@ -67,7 +67,7 @@ public class BiomeUtil {
 		int sectionX = biomeX & 3;
 		int sectionY = biomeY & 3;
 		int sectionZ = biomeZ & 3;
-		//TODO biome ((ChunkSectionAccessor) section).getBiomeContainer().swap(sectionX, sectionY, sectionZ, biome);
+		//TODO ((ChunkSectionAccessor) section).getBiomeContainer().swap(sectionX, sectionY, sectionZ, biome);
 		chunk.setNeedsSaving(true);
 	}
 
