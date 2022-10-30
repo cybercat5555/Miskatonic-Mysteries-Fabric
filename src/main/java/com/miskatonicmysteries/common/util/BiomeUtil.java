@@ -15,6 +15,8 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
+import net.minecraft.world.chunk.PalettedContainer;
+import net.minecraft.world.chunk.ReadableContainer;
 
 import java.util.List;
 import java.util.Set;
@@ -67,7 +69,11 @@ public class BiomeUtil {
 		int sectionX = biomeX & 3;
 		int sectionY = biomeY & 3;
 		int sectionZ = biomeZ & 3;
-		//TODO biome ((ChunkSectionAccessor) section).getBiomeContainer().swap(sectionX, sectionY, sectionZ, biome);
+
+		if (section.getBiomeContainer() instanceof PalettedContainer<RegistryEntry<Biome>> container){
+			container.swapUnsafe(sectionX, sectionY, sectionZ, biome);
+		}
+
 		chunk.setNeedsSaving(true);
 	}
 

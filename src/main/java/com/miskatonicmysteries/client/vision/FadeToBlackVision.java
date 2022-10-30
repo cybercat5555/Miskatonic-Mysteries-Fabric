@@ -35,7 +35,6 @@ public class FadeToBlackVision extends VisionSequence {
 		bufferBuilder.vertex(width, height, 0.0D).color(0, 0, 0, backgroundProgress).next();
 		bufferBuilder.vertex(width, 0.0D, -90.0D).color(0, 0, 0, backgroundProgress).next();
 		bufferBuilder.vertex(0.0D, 0.0D, -90.0D).color(0, 0, 0, backgroundProgress).next();
-		bufferBuilder.end();
 		BufferRenderer.drawWithShader(bufferBuilder.end());
 
 		if (ticks >= 100) {
