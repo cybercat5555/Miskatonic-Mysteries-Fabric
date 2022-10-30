@@ -13,6 +13,7 @@ import net.minecraft.entity.ai.goal.PounceAtTargetGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 
 import java.util.EnumSet;
@@ -63,7 +64,9 @@ public class GuardDogEntity extends PathAwareEntity {
 	}
 	@Override
 	public void remove(RemovalReason reason) {
-		SmokeEffectPacket.send(this);
+		if(!this.world.isClient()){
+			SmokeEffectPacket.send(this);
+		}
 		ManosPaintingEntity painting = getPainting();
 		if (painting != null) {
 			if (reason == RemovalReason.KILLED) {
