@@ -97,7 +97,6 @@ public class HasturBlessingVision extends VisionSequence {
 		bufferBuilder.vertex(width, height, 0.0D).color(colorProgress * 0.5F, colorProgress * 0.5F, 0, backgroundProgress).next();
 		bufferBuilder.vertex(width, 0.0D, -90.0D).color(0, 0, 0, backgroundProgress).next();
 		bufferBuilder.vertex(0.0D, 0.0D, -90.0D).color(0, 0, 0, backgroundProgress).next();
-		bufferBuilder.end();
 		BufferRenderer.drawWithShader(bufferBuilder.end());
 	}
 }
