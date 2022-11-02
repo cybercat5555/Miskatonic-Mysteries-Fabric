@@ -1,0 +1,10 @@
+{
+	"components": [
+		{
+			"type": "patchouli:custom",
+			"class": "com.miskatonicmysteries.client.gui.patchouli.InkblotComponent",
+			"x": -15,
+			"y": -18
+		}
+	]
+}
