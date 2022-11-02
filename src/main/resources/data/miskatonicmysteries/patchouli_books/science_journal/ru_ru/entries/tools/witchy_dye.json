@@ -1,0 +1,26 @@
+{
+  "category": "bewitchment:tools",
+  "name": "Ведьмин Краситель",
+  "icon": "besmirchment:witchy_dye{Color:15479455}",
+  "entry_color": "C15600",
+  "flag": "bsm_witchy_dye",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Просто смешав немного $(l:bewitchment:brewing/elemental_oils)Аква Мази$() с $(item)Красителем$(), можно получить удобный, пригодный для броска краситель.$(br)Этот Ведьмин краситель используется в основном для окрашивания изношенного снаряжения, но ее также можно использовать для окраски $(l:bewitchment:creatures/werewolf)Оборотней$()."
+    },
+    {
+      "type": "bewitchment:oil",
+      "recipe": "besmirchment:oil_crafting/witchy_bleach",
+      "text": "Чтобы создать Ведьмин краситель, сначала сварите Ведьмин отбеливатель в своем $(l:bewitchment:tools/witch_cauldron)Котле$().$(br)Вы можете добавить в него красители, комбинируя его с любым красителем, в противном случае он будет действовать как отбеливатель для удаления цвета."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Следующий $(l:bewitchment:rituals/rituals)Ритуал$() случайным образом окрасит любой добавленный в него Ведьмин отбеливатель.$(br)Обратите внимание, что отбеливатель для окрашивания необходимо добавить после начала Ритуала."
+    },{
+      "type": "bewitchment:ritual",
+      "recipe": "besmirchment:rituals/color_typhoon",
+      "text": "Идеально"
+    }
+  ]
+}

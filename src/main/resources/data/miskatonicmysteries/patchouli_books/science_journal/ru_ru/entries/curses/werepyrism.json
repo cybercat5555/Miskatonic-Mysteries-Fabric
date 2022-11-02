@@ -1,0 +1,18 @@
+{
+  "category": "bewitchment:curses",
+  "name": "Боборотнизм",
+  "icon": "bewitchment:garlic_bread",
+  "entry_color": "C15600",
+  "advancement": "bewitchment:hidden_unlocks/demon_heart",
+  "flag": "bsm_werepyrism",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Оборотнизм - это гибридное $(l:bewitchment:curses/conducting_curses)Проклятие$(), образованное сочетанием $(l:bewitchment:curses/lycanthropy)Ликантропии$() с $(l:bewitchment:curses/vampirism)Вампиризмом$().$(br)$(l:besmirchment:creatures/werepyre)Вампоротни$() страдают теми же способностями, что их прародителино они не могут летать в своей звериной форме. Вместо этого они способны быстро махать крыльями. Поскольку их духовная оболочка - это облочка оборотня, а не вампира, солнце не сожжет их в человеческом облике, хотя и ослабит."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Есть два способа стать $(l:besmirchment:creatures/werepyre)Вампоротнем$():$(li)Заразиться от Оборотня $(l:bewitchment:curses/lycanthropy)Ликтронтропией$() будучи кровосом, или$(li1)заразиться от $(l:bewitchment:creatures/vampire)Вампира$() $(l:bewitchment:curses/vampirism)Вампризмом$() будучи Оборотнем.$(br2)Тебе, наверное, должно быть стыдно за то, что ты хочешь это проклятие."
+    }
+  ]
+}

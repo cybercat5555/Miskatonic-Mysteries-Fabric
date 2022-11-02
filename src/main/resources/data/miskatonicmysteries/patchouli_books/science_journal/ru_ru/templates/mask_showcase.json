@@ -1,0 +1,32 @@
+{
+	"components": [
+		{
+			"type": "patchouli:text",
+			"text": "#text",
+			"y": -4
+		},
+		{
+			"type": "patchouli:item",
+			"item": "miskatonicmysteries:elegant_mask",
+			"x": 25,
+			"y": 82
+		},
+		{
+			"type": "patchouli:item",
+			"item": "miskatonicmysteries:wild_mask",
+			"x": 50,
+			"y": 82
+		},
+		{
+			"type": "patchouli:item",
+			"item": "miskatonicmysteries:feral_mask",
+			"x": 75,
+			"y": 82
+		},
+		{
+			"type": "patchouli:text",
+			"text": "#text2",
+			"y": 102
+		}
+	]
+}

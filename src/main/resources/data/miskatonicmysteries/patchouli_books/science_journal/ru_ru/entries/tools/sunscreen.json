@@ -1,0 +1,19 @@
+{
+  "category": "bewitchment:tools",
+  "name": "Вампирский крем",
+  "icon": "besmirchment:vampire_sunscreen",
+  "entry_color": "C15600",
+  "flag": "bsm_sunscreen",
+  "advancement": "bewitchment:hidden_unlocks/demon_heart",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Как выясняется, жгучий гнев солнца - ужасное неудобство для $(l:bewitchment:creatures/vampire)Вампиров$(). К счастью, для этого есть решение.$(br)Вампирский солнцезащитный крем, при нанесении, будет отражать все солнечные лучи от вампиров, заставляя их мягко искриться вместо этого.$(br)Тем не менее, это резко ослабит его."
+    },
+    {
+      "type": "bewitchment:oil",
+      "recipe": "besmirchment:oil_crafting/sunscreen",
+      "text": "Солнцезащитный крем для вампиров изготавливается с использованием $(l:bewitchment:tools/witch_cauldron)Ведьминого котла$(). Одна доза длится около трех минут."
+    }
+  ]
+}
