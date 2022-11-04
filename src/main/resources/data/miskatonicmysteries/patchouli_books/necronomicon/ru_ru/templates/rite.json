@@ -1,0 +1,84 @@
+{
+	"processor": "com.miskatonicmysteries.client.gui.patchouli.RiteProcessor",
+	"components": [
+		{
+			"type": "patchouli:image",
+			"image": "#octagram",
+			"x": 21,
+			"y": 15,
+			"u": 0,
+			"v": 0,
+			"texture_width": 48,
+			"texture_height": 48,
+			"width": 48,
+			"height": 48,
+			"scale": 1.5
+		},{
+			"type": "patchouli:custom",
+			"class": "com.miskatonicmysteries.client.gui.patchouli.RiteConditionsComponent",
+			"rite": "#rite_id",
+			"x": 21,
+			"y": 93
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient1",
+			"x": 49,
+			"y": 15
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient2",
+			"x": 49,
+			"y": 71
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient3",
+			"x": 20,
+			"y": 42
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient4",
+			"x": 78,
+			"y": 42
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient5",
+			"x": 30,
+			"y": 25
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient6",
+			"x": 68,
+			"y": 62
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient7",
+			"x": 30,
+			"y": 62
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient8",
+			"x": 68,
+			"y": 25
+		},
+		{
+			"type": "patchouli:header",
+			"x": -1,
+			"y": 0,
+			"text": "#rite_name"
+		},
+		{
+			"type": "patchouli:text",
+			"x": 0,
+			"y": 100,
+			"text": "#text"
+		}
+	]
+}
