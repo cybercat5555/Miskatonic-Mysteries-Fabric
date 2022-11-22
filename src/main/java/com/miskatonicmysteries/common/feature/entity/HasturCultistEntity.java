@@ -134,7 +134,7 @@ public class HasturCultistEntity extends VillagerEntity implements Angerable, Af
 	protected void initEquipment(Random random, LocalDifficulty localDifficulty) {
 		super.initEquipment(random, localDifficulty);
 
-		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(world.random.nextBoolean() ? Items.IRON_SWORD : MMObjects.ORNATE_DAGGER));
+		this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(random.nextBoolean() ? Items.IRON_SWORD : MMObjects.ORNATE_DAGGER));
 		if (!isAscended()) {
 			this.equipStack(EquipmentSlot.OFFHAND, createYellowSignShield());
 		}
