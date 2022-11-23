@@ -2,7 +2,6 @@ package com.miskatonicmysteries.common.util;
 
 import com.miskatonicmysteries.common.MMMidnightLibConfig;
 
-import com.miskatonicmysteries.mixin.biomes.ChunkSectionAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -16,7 +15,6 @@ import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkSection;
 import net.minecraft.world.chunk.PalettedContainer;
-import net.minecraft.world.chunk.ReadableContainer;
 
 import java.util.List;
 import java.util.Set;
