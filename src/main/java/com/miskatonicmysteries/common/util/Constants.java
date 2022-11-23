@@ -37,6 +37,9 @@ import javax.annotation.Nullable;
 public class Constants {
 
 	public static final String MOD_ID = "miskatonicmysteries";
+	public static Identifier id(String id){
+		return new Identifier(MOD_ID + id);
+	}
 	public static final ItemGroup MM_GROUP = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "group"))
 		.icon(() -> new ItemStack(MMObjects.NECRONOMICON)).appendItems(list -> {
 			for (Item item : Registry.ITEM) {
