@@ -26,7 +26,6 @@ public class MMVillagerProfessions {
             RegistryKey.of(Registry.POINT_OF_INTEREST_TYPE_KEY, new Identifier(Constants.MOD_ID, "psycho_poi")), SoundEvents.BLOCK_BREWING_STAND_BREW);
 
     public static void init() {
-        MiskatonicMysteries.LOGGER.debug("Registering Villagers for " + Constants.MOD_ID);
         PointOfInterestTypesAccessor.callRegister(Registry.POINT_OF_INTEREST_TYPE,
                 HASTUR,
                 HASTUR_POI,
