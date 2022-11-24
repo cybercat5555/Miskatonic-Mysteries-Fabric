@@ -116,7 +116,7 @@ public class MMTrades {
 	}
 
 	public static void init() {
-		TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(MMVillagerProfessions.PSYCHONAUT, PSYCHONAUT_TRADES);
+		TradeOffers.PROFESSION_TO_LEVELED_TRADE.put(MMEntities.PSYCHONAUT, PSYCHONAUT_TRADES);
 
 		TradeOfferHelper.registerWanderingTraderOffers(1, offers -> {
 			offers.add(NECRONOMICON_OFFER);
