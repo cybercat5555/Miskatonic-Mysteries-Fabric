@@ -180,7 +180,7 @@ public class HasturCultistBrain {
 			new MeetVillagerTask(),
 			new HealthCareTask(),
 			new WalkToNearestVisibleWantedItemTask<>(f, false, 4),
-			new FindPointOfInterestTask((registryEntry) -> registryEntry.matchesKey(MMVillagerProfessions.HASTUR), MMEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true, Optional.empty()),
+			new FindPointOfInterestTask((registryEntry) -> registryEntry.matchesKey(MMPoi.HASTUR), MMEntities.CONGREGATION_POINT, MemoryModuleType.HOME, true, Optional.empty()),
 			new FindPointOfInterestTask((registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.HOME)  , MemoryModuleType.HOME, false, Optional.of((byte)14)),
 
 		new FindPointOfInterestTask((registryEntry) -> registryEntry.matchesKey(PointOfInterestTypes.MEETING), MemoryModuleType.MEETING_POINT, true, Optional.of((byte)14)),

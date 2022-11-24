@@ -14,11 +14,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 import software.bernie.example.GeckoLibMod;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class MiskatonicMysteries implements ModInitializer {
-	public static final Logger LOGGER = LogManager.getLogger(Constants.MOD_ID);
 
 	@Override
 	public void onInitialize() {
@@ -44,7 +41,7 @@ public class MiskatonicMysteries implements ModInitializer {
 		registerPackets();
 		SchedulingHandler.init();
 		MMServerEvents.init();
-		MMVillagerProfessions.init();
+		MMPoi.init();
 	}
 
 	private void registerPackets() {

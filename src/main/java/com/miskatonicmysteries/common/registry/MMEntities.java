@@ -13,6 +13,8 @@ import com.miskatonicmysteries.mixin.villagers.MemoryModuleTypeAccessor;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerProfessionBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
@@ -35,12 +37,16 @@ import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.Heightmap.Type;
+import net.minecraft.world.poi.PointOfInterestType;
 
 import java.util.List;
 
@@ -101,10 +107,26 @@ public class MMEntities {
 		.create(SpawnGroup.MISC, RiftEntity::new).dimensions(EntityDimensions.fixed(0.5F, 0.5F))
 		.trackRangeChunks(4).build();
 
+	//public static final PointOfInterestType PSYCHONAUT_POI = PointOfInterestHelper.register(new Identifier(Constants.MOD_ID, "psychonaut"), 1, 1, MMObjects.CHEMISTRY_SET);
+
+	public static final RegistryKey<PointOfInterestType> PSYCHONAUT_POI_KEY = RegistryKey.of(Registry.POINT_OF_INTEREST_TYPE_KEY, new Identifier(Constants.MOD_ID, "psychonaut"));
+
+	public static final VillagerProfession PSYCHONAUT = VillagerProfessionBuilder.create()
+		.id(new Identifier(Constants.MOD_ID, "psychonaut")).workstation(PSYCHONAUT_POI_KEY).workSound(SoundEvents.BLOCK_BREWING_STAND_BREW)
+		.build();
+
 	public static final MemoryModuleType<GlobalPos> CONGREGATION_POINT = MemoryModuleTypeAccessor.invokeRegister(
 		Constants.MOD_ID + ":congregation_point",
 		GlobalPos.CODEC
 	);
+	/*
+	public static final PointOfInterestType HASTUR_POI = PointOfInterestHelper
+		.register(new Identifier(Constants.MOD_ID, "hastur_poi"), 0, 1,
+				  MMObjects.HASTUR_OCTAGRAM, MMObjects.HASTUR_STATUE_STONE, MMObjects.HASTUR_STATUE_TERRACOTTA, MMObjects.HASTUR_STATUE_GOLD,
+				  MMObjects.HASTUR_STATUE_MOSSY, MMObjects.MOSSY_HASTUR_MURAL, MMObjects.STONE_HASTUR_MURAL, MMObjects.TERRACOTTA_HASTUR_MURAL,
+				  MMObjects.YELLOW_TERRACOTTA_HASTUR_MURAL);
+
+	 */
 
 	public static final TrackedDataHandler<EntityType<?>> ENTITY_TYPE_TRACKER = new TrackedDataHandler<>() {
 		@Override
@@ -227,7 +249,7 @@ public class MMEntities {
 
 		RegistryUtil.register(Registry.ENTITY_TYPE, "rift", RIFT);
 
-		//RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
+		RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
 
 		DispenserBlock.registerBehavior(Items.YELLOW_CARPET, new FallibleItemDispenserBehavior() {
 			public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
