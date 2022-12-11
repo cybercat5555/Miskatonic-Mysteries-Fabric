@@ -40,8 +40,9 @@ public class BoltSpellMedium extends SpellMedium {
 		HitResult blockHit = world
 			.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, caster));
 		EntityHitResult hit = ProjectileUtil.getEntityCollision(world, caster, vec3d, vec3d3,
-																caster.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
-																(target) -> !target.isSpectator() && target.isCollidable());
+				caster.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
+				(target) -> !target.isSpectator()  && caster.isAttackable() && caster.canSee(target));
+
 		if (!world.isClient && blockHit.getPos() != null) {
 			BoltEntity bolt = new BoltEntity(caster,
 											 hit != null && hit.getEntity() != null ? hit.getEntity().distanceTo(caster)
