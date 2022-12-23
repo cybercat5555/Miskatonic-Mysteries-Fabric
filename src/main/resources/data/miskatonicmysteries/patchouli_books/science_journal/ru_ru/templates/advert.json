@@ -1,0 +1,23 @@
+{
+	"components": [
+		{
+			"type": "patchouli:text",
+			"x": 0,
+			"y": -4,
+			"text": "#text"
+		},
+		{
+			"type": "patchouli:image",
+			"image": "#advert",
+			"x": 6,
+			"y": 42,
+			"u": 0,
+			"v": 0,
+			"texture_width": 128,
+			"texture_height": 128,
+			"width": 128,
+			"height": 128,
+			"scale": 0.8
+		}
+	]
+}

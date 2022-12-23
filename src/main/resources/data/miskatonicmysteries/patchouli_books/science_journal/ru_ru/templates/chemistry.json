@@ -1,0 +1,128 @@
+{
+	"processor": "com.miskatonicmysteries.client.gui.patchouli.ChemistryProcessor",
+	"components": [
+		{
+			"type": "patchouli:image",
+			"image": "miskatonicmysteries:textures/gui/science_journal_chemical_recipe.png",
+			"x": 10,
+			"y": 15,
+			"u": 0,
+			"v": 0,
+			"texture_width": 128,
+			"texture_height": 128,
+			"width": 128,
+			"height": 128,
+			"scale": 1
+		},
+		{
+			"type": "patchouli:image",
+			"image": "miskatonicmysteries:textures/gui/science_journal_chemical_recipe.png",
+			"x": 54,
+			"y": 12,
+			"u": 44,
+			"v": 16,
+			"texture_width": 128,
+			"texture_height": 128,
+			"width": 56,
+			"height": 24,
+			"scale": 1
+		},
+		{
+			"type": "patchouli:image",
+			"image": "miskatonicmysteries:textures/gui/science_journal_chemical_recipe.png",
+			"x": 54,
+			"y": 50,
+			"u": 44,
+			"v": 16,
+			"texture_width": 128,
+			"texture_height": 128,
+			"width": 56,
+			"height": 24,
+			"scale": 1
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient1",
+			"x": 12,
+			"y": 17
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient2",
+			"x": 12,
+			"y": 37
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient3",
+			"x": 12,
+			"y": 57
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient4",
+			"x": 32,
+			"y": 17
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient5",
+			"x": 32,
+			"y": 37
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#ingredient6",
+			"x": 32,
+			"y": 57
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#output_in2",
+			"x": 57,
+			"y": 18
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#output_in1",
+			"x": 57,
+			"y": 37
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#output_in3",
+			"x": 57,
+			"y": 56
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#output_out2",
+			"x": 91,
+			"y": 18
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#output_out1",
+			"x": 91,
+			"y": 37
+		},
+		{
+			"type": "patchouli:item",
+			"item": "#output_out3",
+			"x": 91,
+			"y": 56
+		},
+		{
+			"type": "patchouli:header",
+			"x": -1,
+			"y": 0,
+			"text": "#header"
+		},
+		{
+			"type": "patchouli:text",
+			"x": 0,
+			"y": 76,
+			"text": "#text"
+		}
+	]
+}
