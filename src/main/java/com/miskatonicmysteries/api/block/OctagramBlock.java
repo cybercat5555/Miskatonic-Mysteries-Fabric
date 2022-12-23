@@ -188,8 +188,9 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		if (!world.isClient && entity.age % 5 == 0 && !entity.isSneaking() && world.getBlockEntity(pos) instanceof OctagramBlockEntity) {
 			OctagramBlockEntity octagram = (OctagramBlockEntity) world.getBlockEntity(pos);
-			if (octagram.currentRite instanceof TeleportRite && octagram.isPermanentRiteActive() && octagram.tickCount == 0
-				&& octagram.boundPos != null) {
+			if (octagram != null && octagram.currentRite instanceof TeleportRite && octagram.isPermanentRiteActive() && octagram.tickCount == 0
+				&& octagram.getBoundDimension() != null)
+			{
 				Direction direction = getEffectiveDirection(octagram.getBoundDimension().getBlockState(octagram.getBoundPos()),
 															state.get(FACING), entity.getMovementDirection());
 				BlockPos boundPos = octagram.getBoundPos().offset(direction);
