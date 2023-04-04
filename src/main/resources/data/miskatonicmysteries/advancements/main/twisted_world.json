@@ -19,9 +19,17 @@
 		"hastur": {
 			"trigger": "minecraft:location",
 			"conditions": {
-				"location": {
-					"biome": "miskatonicmysteries:hastur"
-				}
+				"player": [
+					{
+						"condition": "minecraft:entity_properties",
+						"entity": "this",
+						"predicate": {
+							"location": {
+								"biome": "miskatonicmysteries:hastur"
+							}
+						}
+					}
+				]
 			}
 		}
 	},

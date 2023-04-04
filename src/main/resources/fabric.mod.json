@@ -30,7 +30,7 @@
 		"modmenu": [
 			"com.miskatonicmysteries.client.compat.MMModMenu"
 		],
-		"rei_plugins": [
+		"rei_client": [
 			"com.miskatonicmysteries.client.compat.rei.MMREICompat"
 		],
 		"cardinal-components-entity": [

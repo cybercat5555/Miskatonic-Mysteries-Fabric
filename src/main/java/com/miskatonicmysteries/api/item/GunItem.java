@@ -160,22 +160,23 @@ public abstract class GunItem extends Item {
 
 	public abstract boolean isHeavy();
 
-	public void shoot(World world, LivingEntity player, ItemStack stack) {
-		Vec3d vec3d = player.getCameraPosVec(1);
-		Vec3d vec3d2 = player.getRotationVec(1);
+	public void shoot(World world, LivingEntity attacker, ItemStack stack) {
+		Vec3d vec3d = attacker.getCameraPosVec(1);
+		Vec3d vec3d2 = attacker.getRotationVec(1);
 		Vec3d vec3d3 = vec3d.add(vec3d2.x * getMaxDistance(), vec3d2.y * getMaxDistance(), vec3d2.z * getMaxDistance());
 		HitResult blockHit = world
-			.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, player));
+			.raycast(new RaycastContext(vec3d, vec3d3, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, attacker));
 		double distance = Math.pow(getMaxDistance(), 2);
-		EntityHitResult hit = ProjectileUtil.getEntityCollision(world, player, vec3d, vec3d3,
-																player.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
-																(target) -> !target.isSpectator() && target.isCollidable());
+		EntityHitResult hit = ProjectileUtil.getEntityCollision(world, attacker, vec3d, vec3d3,
+																attacker.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
+																(target) -> !target.isSpectator()  && attacker.isAttackable() && attacker.canSee(target));
+
 		BlockPos blockPos = new BlockPos(blockHit.getPos());
 		if (world.getBlockState(blockPos).getBlock() instanceof Shootable) {
-			((Shootable) world.getBlockState(blockPos).getBlock()).onShot(world, blockPos, player);
+			((Shootable) world.getBlockState(blockPos).getBlock()).onShot(world, blockPos, attacker);
 		}
-		if (hit != null && hit.getEntity() != null && (blockHit.squaredDistanceTo(player) > hit.getEntity().squaredDistanceTo(player))) {
-			hit.getEntity().damage(new EntityDamageSource(Constants.MOD_ID + ".gun", player), getDamage());
+		if (hit != null && hit.getEntity() != null && (blockHit.squaredDistanceTo(attacker) > hit.getEntity().squaredDistanceTo(attacker))) {
+			hit.getEntity().damage(new EntityDamageSource(Constants.MOD_ID + ".gun", attacker), getDamage());
 			if (world.isClient) {
 				for (int i = 0; i < 4; i++) {
 					world.addParticle(ParticleTypes.SMOKE, hit.getPos().x + world.random.nextGaussian() / 20F,
@@ -187,12 +188,12 @@ public abstract class GunItem extends Item {
 
 		setLoading(stack, false);
 		stack.getNbt().putInt(Constants.NBT.SHOTS, stack.getNbt().getInt(Constants.NBT.SHOTS) - 1);
-		world.playSound(null, player.getX(), player.getY(), player.getZ(), MMSounds.ITEM_GUN_GUN_SHOT, SoundCategory.PLAYERS, 0.6F,
+		world.playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), MMSounds.ITEM_GUN_GUN_SHOT, SoundCategory.PLAYERS, 0.6F,
 						1.0F / (world.random.nextFloat() * 0.2F + (isHeavy() ? 1F : 0.5F)));
 
-		if (player instanceof PlayerEntity) {
-			((PlayerEntity) player).getItemCooldownManager().set(this, getCooldown());
-			((PlayerEntity) player).incrementStat(Stats.USED.getOrCreateStat(this));
+		if (attacker instanceof PlayerEntity) {
+			((PlayerEntity) attacker).getItemCooldownManager().set(this, getCooldown());
+			((PlayerEntity) attacker).incrementStat(Stats.USED.getOrCreateStat(this));
 		}
 	}
 

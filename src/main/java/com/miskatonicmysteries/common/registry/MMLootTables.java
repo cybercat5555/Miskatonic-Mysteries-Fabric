@@ -3,19 +3,15 @@ package com.miskatonicmysteries.common.registry;
 import com.miskatonicmysteries.common.util.Constants;
 
 
-import net.fabricmc.fabric.api.loot.v2.FabricLootPoolBuilder;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
-import net.minecraft.loot.context.LootContextTypes;
-import net.minecraft.loot.entry.LootPoolEntry;
 import net.minecraft.loot.entry.LootTableEntry;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MMLootTables {
 

@@ -7,7 +7,6 @@ import net.fabricmc.api.Environment;
 
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 
 import net.minecraft.world.dimension.DimensionType;
 import org.spongepowered.asm.mixin.Mixin;
