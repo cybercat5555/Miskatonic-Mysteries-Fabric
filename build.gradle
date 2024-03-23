@@ -37,7 +37,7 @@ repositories {
 	}
 	maven {
 		name = "Ladysnake Mods (& Trinkets)"
-		url = "https://ladysnake.jfrog.io/artifactory/mods"
+		url = "https://maven.ladysnake.org/releases"
 	}
 	maven {
 		name = "Mod Menu"
