@@ -40,7 +40,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements DropManipulator, BiomeAffected, RenderTransformable {
-	@Unique @Environment(EnvType.CLIENT) int mm_squishTicks = 0;
+	@Unique int mm_squishTicks = 0;
 
 	@Unique
 	private boolean overrideDrops;
@@ -175,13 +175,11 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
 	public int mm_getSquishTicks() {
 		return mm_squishTicks;
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
 	public void mm_squish() {
 		this.mm_squishTicks = 20;
 	}
