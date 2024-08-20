@@ -24,31 +24,31 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(StonecutterScreenHandler.class)
 public class StonecutterScreenHandlerMixin {
-
-	@Shadow
-	private List<StonecuttingRecipe> availableRecipes;
-	@Unique
-	private PlayerEntity mm_cachedPlayer;
-
-	@Inject(method = "<init>(ILnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/screen/ScreenHandlerContext;)V", at = @At("RETURN"))
-	private void init(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context, CallbackInfo ci) {
-		this.mm_cachedPlayer = playerInventory.player;
-	}
-
-	@Inject(method = "updateInput", at = @At("TAIL"))
-	private void updateInput(Inventory input, ItemStack stack, CallbackInfo ci) {
-		if (mm_cachedPlayer != null) {
-			for (StonecuttingRecipe recipe : List.copyOf(availableRecipes)) {
-				Item outputItem = recipe.getOutput().getItem();
-				if (outputItem instanceof Affiliated || (outputItem instanceof BlockItem b && b.getBlock() instanceof Affiliated)) {
-					Affiliated affiliated = outputItem instanceof Affiliated
-											? (Affiliated) outputItem
-											: (Affiliated) ((BlockItem) outputItem).getBlock();
-					if (affiliated.getAffiliation(true) != MiskatonicMysteriesAPI.getNonNullAffiliation(mm_cachedPlayer, false)) {
-						availableRecipes.remove(recipe);
-					}
-				}
-			}
-		}
-	}
+//
+//	@Shadow
+//	private List<StonecuttingRecipe> availableRecipes;
+//	@Unique
+//	private PlayerEntity mm_cachedPlayer;
+//
+//	@Inject(method = "<init>(ILnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/screen/ScreenHandlerContext;)V", at = @At("RETURN"))
+//	private void init(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context, CallbackInfo ci) {
+//		this.mm_cachedPlayer = playerInventory.player;
+//	}
+//
+//	@Inject(method = "updateInput", at = @At("TAIL"))
+//	private void updateInput(Inventory input, ItemStack stack, CallbackInfo ci) {
+//		if (mm_cachedPlayer != null) {
+//			for (StonecuttingRecipe recipe : List.copyOf(availableRecipes)) {
+//				Item outputItem = recipe.getOutput().getItem();
+//				if (outputItem instanceof Affiliated || (outputItem instanceof BlockItem b && b.getBlock() instanceof Affiliated)) {
+//					Affiliated affiliated = outputItem instanceof Affiliated
+//											? (Affiliated) outputItem
+//											: (Affiliated) ((BlockItem) outputItem).getBlock();
+//					if (affiliated.getAffiliation(true) != MiskatonicMysteriesAPI.getNonNullAffiliation(mm_cachedPlayer, false)) {
+//						availableRecipes.remove(recipe);
+//					}
+//				}
+//			}
+//		}
+//	}
 }

@@ -87,9 +87,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	 */
 	private byte octagramFlags;
 
-	@Environment(EnvType.CLIENT)
 	public LinkedHashMap<RiteCondition, Boolean> clientConditions = new LinkedHashMap<>();
-	@Environment(EnvType.CLIENT)
 	public Rite preparedRite;
 
 	public OctagramBlockEntity(BlockPos pos, BlockState state) {
