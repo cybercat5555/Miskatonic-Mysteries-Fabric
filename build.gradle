@@ -1,162 +1,65 @@
 plugins {
-	id "fabric-loom" version "1.0-SNAPSHOT"
-	id "maven-publish"
+	id 'fabric-loom' version '1.6-SNAPSHOT'
+	id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
-loom {
-	accessWidenerPath = file("src/main/resources/miskatonikmysteries.accesswidener")
+base {
+	archivesName = project.archives_base_name
 }
 
 repositories {
-	maven {
-		name = "Banner++"
-		url = "https://server.bbkr.space/artifactory/libs-release/"
-	}
-	maven {
-		name = "REI"
-		url = "https://maven.shedaniel.me/"
-	}
-	maven {
-		name = "Energy"
-		url = "https://raw.githubusercontent.com/Technici4n/Technici4n-maven/master/"
-		content {
-			includeGroup "net.fabricmc.fabric-api" // until fabric-api-lookup-api-v1 is merged
-			includeGroup "dev.technici4n"
-		}
-	}
-	maven {
-		name = "geckolib"
-		url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
-	}
-	maven {
-		name = "Ladysnake Mods (& Trinkets)"
-		url = "https://ladysnake.jfrog.io/artifactory/mods"
-	}
-	maven {
-		name = "Mod Menu"
-		url =  "https://maven.terraformersmc.com/releases"
-	}
-	maven {
-		name =  "Patchouli"
-		url = "https://maven.blamejared.com"
-	}
-	maven {
-		url = "https://jitpack.io"
-	}
-	maven {
-		name = "MidnightLib"
-		url = "https://api.modrinth.com/maven"
-	}
-	maven {
-		name = "banner++"
-		url "https://maven.theepicblock.nl"
-	}
+	mavenCentral()
+	// GeckoLib
+	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+	// Trinkets & Cardinal Components (Ladysnake)
+	maven { url 'https://maven.ladysnake.org/releases' }
+	// Patchouli
+	maven { url 'https://maven.blamejared.com' }
 }
+
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	// Fabric API
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	//CaCo
-	modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cardinal_components_version}")
-	modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cardinal_components_version}")
+	// GeckoLib 4 (Breaking changes from v3)
+	modImplementation "software.bernie.geckolib:geckolib-fabric-${project.minecraft_version}:${project.geckolib_version}"
 
-	//Cloth
-	/*
-	modApi("me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"){
-		transitive = false
-	}
-	include("me.shedaniel.cloth.api:cloth-client-events-v0:${project.cloth_client_events_version}"){
-		transitive = false
-	}
+	// Trinkets
+	modImplementation "dev.emi:trinkets:${project.trinkets_version}"
 
+	// Patchouli
+	modImplementation "vazkii.patchouli:Patchouli:${project.patchouli_version}"
 
-	 */
-	//Energy
-	modApi include("teamreborn:energy:${project.energy_version}")
-
-	//Geckolib
-	modImplementation("software.bernie.geckolib:${project.geckolib_version}") {
-		exclude(group: "com.terraformersmc.modmenu")
-		exclude(group: "io.github.prospector")
-		exclude(group: "me.shedaniel")
-		exclude(group: "net.fabricmc")
-	}
-
-	//ModMenu
-	modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
-
-	//Patchouli
-	modImplementation("vazkii.patchouli:Patchouli:${project.patchouli_version}")
-
-	//REI
-	modLocalRuntime "dev.architectury:architectury-fabric:6.2.46"
-	modImplementation("me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}")
-	modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}")
-
-
-	//Satin
-	modImplementation("io.github.ladysnake:satin:${project.satin_version}")
-	include("io.github.ladysnake:satin:${project.satin_version}")
-
-	//Trinkets
-	modImplementation("com.github.emilyalexandra:trinkets:${project.trinkets_version}")
-
-	//MidnightLib
-	modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}"
-	include "maven.modrinth:midnightlib:${project.midnightlib_version}"
-
-	//modImplementation include("io.github.fablabsmc:bannerpp:${project.bannerpp_version}")
-	//compileOnly "com.google.code.findbugs:jsr305:3.0.2"
+	// Cardinal Components
+	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
 }
 
 processResources {
 	inputs.property "version", project.version
-
 	filesMatching("fabric.mod.json") {
 		expand "version": project.version
 	}
 }
 
-tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
+// CRITICAL FOR CONNECTOR: Ensure a refmap is generated
+mixin {
+    defaultRefmapName = "miskatonicmysteries-refmap.json"
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
-	from sourceSets.main.allSource
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 17
 }
 
-jar {
-	from "LICENSE"
-}
-
-// configure the maven publication
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			// add all the jars that should be included when publishing to maven
-			artifact(remapJar) {
-				builtBy remapJar
-			}
-			artifact(sourcesJar) {
-				builtBy remapSourcesJar
-			}
-		}
-	}
-
-	// select the repositories you want to publish to
-	repositories {
-		// uncomment to publish to the local maven
-		// mavenLocal()
-	}
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 }

@@ -1,57 +1,42 @@
-package com.miskatonicmysteries.common;
+package net.miskatonicmysteries;
 
-import com.miskatonicmysteries.common.feature.ModCommand;
-import com.miskatonicmysteries.common.handler.SchedulingHandler;
-import com.miskatonicmysteries.common.handler.networking.packet.SpellPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.c2s.SyncConfigurationPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.SyncSpellCasterDataPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.c2s.ClientRiteInputPacket;
-import com.miskatonicmysteries.common.handler.networking.packet.c2s.InvokeManiaPacket;
-import com.miskatonicmysteries.common.registry.*;
-
-import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-
-import software.bernie.example.GeckoLibMod;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import net.miskatonicmysteries.registry.ModItems; // Assuming this exists
 
 public class MiskatonicMysteries implements ModInitializer {
-	public static final Logger LOGGER = LogManager.getLogger(Constants.MOD_ID);
+    public static final String MOD_ID = "miskatonicmysteries";
 
-	@Override
-	public void onInitialize() {
-		MMMidnightLibConfig.init(Constants.MOD_ID, MMMidnightLibConfig.class);
-		GeckoLibMod.DISABLE_IN_DEV = true;
-		MMAffiliations.init();
-		MMBlessings.init();
-		MMObjects.init();
-		MMEntities.init();
-		MMSpellMediums.init();
-		MMSpellEffects.init();
-		MMRites.init();
-		MMSounds.init();
-		MMStatusEffects.init();
-		MMLootTables.init();
-		MMTrades.init();
-		MMCriteria.init();
-		MMRecipes.init();
-		MMInsanity.init();
-		MMParticles.init();
-		ModCommand.setup();
-		MMWorld.init();
-		registerPackets();
-		SchedulingHandler.init();
-		MMServerEvents.init();
-		MMVillagerProfessions.init();
-	}
+    // NEW 1.20.1: Register the Item Group Key
+    public static final RegistryKey<ItemGroup> MM_GROUP_KEY = RegistryKey.of(
+        RegistryKeys.ITEM_GROUP, 
+        new Identifier(MOD_ID, "general")
+    );
 
-	private void registerPackets() {
-		ServerPlayNetworking.registerGlobalReceiver(InvokeManiaPacket.ID, InvokeManiaPacket::handle);
-		ServerPlayNetworking.registerGlobalReceiver(SyncSpellCasterDataPacket.ID, SyncSpellCasterDataPacket::handleFromClient);
-		ServerPlayNetworking.registerGlobalReceiver(SpellPacket.ID, SpellPacket::handleFromClient);
-		ServerPlayNetworking.registerGlobalReceiver(ClientRiteInputPacket.ID, ClientRiteInputPacket::handle);
-		ServerPlayNetworking.registerGlobalReceiver(SyncConfigurationPacket.ID, SyncConfigurationPacket::handleFromClient);
-	}
+    // Register the ItemGroup itself
+    public static final ItemGroup MM_GROUP = Registry.register(
+        Registries.ITEM_GROUP, 
+        MM_GROUP_KEY,
+        FabricItemGroup.builder()
+            .icon(() -> new ItemStack(ModItems.NECRONOMICON)) // Replace with your icon item
+            .displayName(Text.translatable("itemGroup.miskatonicmysteries.general"))
+            .build()
+    );
+
+    @Override
+    public void onInitialize() {
+        // Register Items and Blocks
+        ModItems.registerModItems();
+        
+        // Initialize GeckoLib (Required for v4)
+        software.bernie.geckolib.GeckoLib.initialize();
+    }
 }
